@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.nub;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -130,7 +131,7 @@ public class NubProposalList {
                     ids.add(right.getOwnerId());
                 }
             }
-            _partners = _accountFacade.getAccountsForIds(ids);
+            _partners = ids.isEmpty() ? Collections.EMPTY_LIST :_accountFacade.getAccountsForIds(ids);
         }
         return _partners;
     }
