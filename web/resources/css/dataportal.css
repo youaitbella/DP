@@ -407,6 +407,10 @@ select:active, select:focus{
     width: 50%;
 }
 
+.floating {
+    float: left;
+}
+
 .inputright {
     margin-left: 50%;
 }

@@ -11,6 +11,14 @@
         <h2>#{msg.headNubCompany}</h2>
    
     <div class="inputPart">
+        <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
+        <br />
+        <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}">
+            <f:ajax event="blur" render="@this :logout:remaining"/>
+        </h:inputText>
+    </div>
+        
+    <div class="inputPart">
         <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
         <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
         <br/>
@@ -134,8 +142,10 @@
                 <f:ajax event="blur" render="@this :logout:remaining msgStreet"/>
             </h:inputText>
         </div>
-
-        <div class="inputPart">
+        
+        <div>
+            
+            <div class="inputPart floating">
             <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
             <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
             <br/>
@@ -148,49 +158,55 @@
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
             </h:inputText>
+            </div>
+
+            <div class="inputPart floating marginLeft">
+                <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
+                <h:message id="msgTown" for="town" styleClass="errorMessage"/>
+                <br/>
+                <h:inputText styleClass="inputmedium" id="town" value="#{editNubProposal.nubProposal.town}" 
+                             required="true" 
+                             readonly="#{editNubProposal.readOnly}"
+                             requiredMessage="#{msg.msgValueNeeded}" 
+                             maxlength="50">
+                    <f:validator validatorId="RequiredValidator"/>
+                    <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
+                </h:inputText>
+            </div>
+            
+        </div>
+        
+        <div class="defloat">
+
+            <div class="inputPart floating">
+                <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
+                <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
+                <br/>
+                <h:inputText styleClass="inputmedium" id="phone" value="#{editNubProposal.nubProposal.phone}" 
+                             required="true" 
+                             readonly="#{editNubProposal.readOnly}"
+                             requiredMessage="#{msg.msgValueNeeded}" 
+                             maxlength="50">
+                    <f:validator validatorId="RequiredValidator"/>
+                    <f:ajax event="blur" render="@this :logout:remaining msgPhone"/>
+                </h:inputText>
+            </div>
+
+            <div class="inputPart floating marginLeft">
+                <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
+                <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
+                <br/>
+                <h:inputText styleClass="inputmedium" id="fax" value="#{editNubProposal.nubProposal.fax}" 
+                             required="false" 
+                             readonly="#{editNubProposal.readOnly}"
+                             maxlength="50">
+                    <f:ajax event="blur" render="@this :logout:remaining msgFax"/>
+                </h:inputText>
+            </div>
+            
         </div>
 
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
-            <h:message id="msgTown" for="town" styleClass="errorMessage"/>
-            <br/>
-            <h:inputText styleClass="input" id="town" value="#{editNubProposal.nubProposal.town}" 
-                         required="true" 
-                         readonly="#{editNubProposal.readOnly}"
-                         requiredMessage="#{msg.msgValueNeeded}" 
-                         maxlength="50">
-                <f:validator validatorId="RequiredValidator"/>
-                <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
-            </h:inputText>
-        </div>
-
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
-            <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
-            <br/>
-            <h:inputText styleClass="input" id="phone" value="#{editNubProposal.nubProposal.phone}" 
-                         required="true" 
-                         readonly="#{editNubProposal.readOnly}"
-                         requiredMessage="#{msg.msgValueNeeded}" 
-                         maxlength="50">
-                <f:validator validatorId="RequiredValidator"/>
-                <f:ajax event="blur" render="@this :logout:remaining msgPhone"/>
-            </h:inputText>
-        </div>
-
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
-            <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
-            <br/>
-            <h:inputText styleClass="input" id="fax" value="#{editNubProposal.nubProposal.fax}" 
-                         required="false" 
-                         readonly="#{editNubProposal.readOnly}"
-                         maxlength="50">
-                <f:ajax event="blur" render="@this :logout:remaining msgFax"/>
-            </h:inputText>
-        </div>
-
-        <div class="inputPart">
+        <div class="defloat inputPart">
             <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
             <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
             <br/>
@@ -224,5 +240,14 @@
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="userComment" value="#{msg.lblUserComment}:" />
+            <br />
+            <h:inputTextarea id="userComment" styleClass="areaWideHigh" value="#{editNubProposal.nubProposal.userComment}">
+                <f:ajax event="blur" render="@this :logout:remaining"/>
+            </h:inputTextarea>
+        </div>
+        
     </ui:define>
 </ui:composition>
