@@ -44,7 +44,7 @@ public class PeppProposalList {
         Utils.getFlash().put("ppId", proposalId);
         PeppProposal proposal =_peppProposalFacade.find(proposalId);
         if(_sessionController.isMyAccount(proposal.getAccountId())) {
-            String script = "if (confirm ('" + proposal.getName() + "\\r\\n" + Utils.getMessage("confirmDelete") + "')) {document.getElementById('form:deletePeppProposal').click();}";
+            String script = "if (confirm ('" + proposal.getName() + "\\r\\n" + Utils.getMessage("msgConfirmDelete") + "')) {document.getElementById('form:deletePeppProposal').click();}";
             _sessionController.setScript(script);
         }
         return null;

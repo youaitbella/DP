@@ -242,13 +242,13 @@ public class NubProposal implements Serializable {
     private boolean _byEmail;
     
     @Column(name = "nubCreatedBy")
-    private Integer _createdBy;
+    private int _createdBy;
     
     @Column(name = "nubLastChangedBy")
-    private Integer _lastChangedBy;
+    private int _lastChangedBy;
     
     @Column(name = "nubSealedBy")
-    private Integer _sealedBy;
+    private int _sealedBy;
     
     @Column(name = "nubDisplayName")
     private String _displayName = "";
@@ -710,27 +710,27 @@ public class NubProposal implements Serializable {
         this._byEmail = byMail;
     }
 
-    public Integer getCreatedBy() {
+    public int getCreatedBy() {
         return _createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(int createdBy) {
         this._createdBy = createdBy;
     }
 
-    public Integer getLastChangedBy() {
+    public int getLastChangedBy() {
         return _lastChangedBy;
     }
 
-    public void setLastChangedBy(Integer lastChangedBy) {
+    public void setLastChangedBy(int lastChangedBy) {
         this._lastChangedBy = lastChangedBy;
     }
 
-    public Integer getSealedBy() {
+    public int getSealedBy() {
         return _sealedBy;
     }
 
-    public void setSealedBy(Integer sealedBy) {
+    public void setSealedBy(int sealedBy) {
         this._sealedBy = sealedBy;
     }
 

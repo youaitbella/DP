@@ -15,7 +15,6 @@ import org.inek.dataportal.helper.Topics;
  */
 public class RequestController extends AbstractFeatureController {
 
-    private static final long serialVersionUID = 1L;
     private List<RequestDocument> _documents;
 
     public RequestController(SessionController sessionController) {

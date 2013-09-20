@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.DropBox;
@@ -26,8 +25,6 @@ import org.inek.dataportal.utils.PropertyManager;
  */
 public class DropBoxController extends AbstractFeatureController {
 
-    private static final long serialVersionUID = 1L;
-    private static final Logger _logger = Logger.getLogger(DropBoxController.class.getName());
     private DropBox _currentDropBox;
 
     public DropBoxController(SessionController sessionController) {

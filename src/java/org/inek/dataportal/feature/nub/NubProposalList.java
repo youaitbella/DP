@@ -84,7 +84,7 @@ public class NubProposalList {
         Utils.getFlash().put("nubId", proposalId);
         NubProposal proposal = _nubProposalFacade.find(proposalId);
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
-            String msg = proposal.getStatus().getValue() <= 9 ? Utils.getMessage("confirmDelete") : Utils.getMessage("confirmRetire");
+            String msg = proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
             String script = "if (confirm ('" + proposal.getName().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('form:deleteNubProposal').click();}";
             _sessionController.setScript(script);
         }

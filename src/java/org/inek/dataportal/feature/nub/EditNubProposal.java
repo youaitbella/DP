@@ -11,7 +11,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -57,6 +56,7 @@ public class EditNubProposal extends AbstractEditController {
     @Inject private SessionController _sessionController;
     @Inject private NubProposalFacade _nubProposalFacade;
     @Inject private CustomerFacade _customerFacade;
+    @Inject NubSessionTools _nubSessionTools;
     private String _conversationId;
     private NubProposal _nubProposal;
 
@@ -349,7 +349,7 @@ public class EditNubProposal extends AbstractEditController {
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
-        String script = "if (confirm ('" + Utils.getMessage("confirmSeal") + "')) {document.getElementById('form:seal').click();}";
+        String script = "if (confirm ('" + Utils.getMessage("msgConfirmSeal") + "')) {document.getElementById('form:seal').click();}";
         _sessionController.setScript(script);
         return null;
     }
@@ -380,6 +380,54 @@ public class EditNubProposal extends AbstractEditController {
         return null;
     }
 
+    public String requestApproval() {
+        if (!check4validSession()) {
+            return Pages.InvalidConversation.URL();
+        }
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
+        }
+        String script = "if (confirm ('" + Utils.getMessage("msgRequestApproval") + "')) {document.getElementById('form:confirmApprovalRequest').click();}";
+        _sessionController.setScript(script);
+        return null;
+    }
+
+    public String confirmApprovalRequest() {
+        if (!check4validSession() || !requestIsComplete()) {
+            return Pages.Error.URL();
+        }
+        if (_nubProposal.getStatus().getValue() >= 10){return Pages.Error.URL();}
+
+        _nubProposal.setStatus(NubStatus.ApprovalRequested);
+        _nubProposal.setLastChangedBy(_sessionController.getAccount().getAccountId());
+        _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
+
+        return "";
+    }
+
+    public boolean isSealEnabled(){
+        boolean enabled;
+        if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
+            enabled = _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
+        }else{
+        //todo: or foreign nub, which I may or shall seal
+            enabled=false;
+        }
+            
+        return !isReadOnly() && enabled;
+    }
+    
+    public boolean isApprovalRequestEnabled(){
+        boolean enabled=false;
+        if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
+            enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
+                    && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested);
+        }
+            
+        return !isReadOnly() && enabled;
+    }
+    
+    
     /**
      * checks, whether the session is still valid
      *

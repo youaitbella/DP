@@ -9,112 +9,112 @@
     <ui:define name="editContent">
 
         <h2>#{msg.headNubCompany}</h2>
-   
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
-        <br />
-        <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}">
-            <f:ajax event="blur" render="@this :logout:remaining"/>
-        </h:inputText>
-    </div>
-        
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
-        <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
-        <br/>
-        <h:selectOneMenu
-                    styleClass="inputmedium" 
-                    id="ikMulti"
-                    title="#{msg.titleAppellation}"
-                    required="true"
-                    requiredMessage="#{msg.msgValueNeeded}"
-                    value="#{editNubProposal.nubProposal.ik}"
-                    readonly="#{editNubProposal.readOnly}">
-            <f:selectItems value="#{editNubProposal.multiIks}"/>
-            <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-            <f:ajax event="change" listener="#{editNubProposal.changedIk}" render="@this :logout:remaining msgMultiIk khName"/>
-        </h:selectOneMenu>
-        &nbsp;
-        <h:outputLink id="addIkHint"
-                      value="..#{editNubProposal.userMaintenancePage}"
-                      rendered="false">
-            <h:outputText value="#{msg.lblNubHintMoreIks}" />
-        </h:outputLink>
-    </div>
-        
-    <div class="inputPart">
-        <h:outputLabel id="nubKhName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
-        <h:message for="khName" id="msgNubKhName" styleClass="errorMessage"/>
-        <br />
-        <h:inputText styleClass="input" readonly="#{editNubProposal.readOnly}" maxlength="100" id="khName" value="#{editNubProposal.nubProposal.ikName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
-            <f:ajax event="blur" render="@this :logout:remaining msgNubKhName"/>
-        </h:inputText>
-    </div>
-    
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" value="#{msg.lblContact}"/>
-        <br/>
-        <h:panelGrid columns="2" width="90%">
-            <h:panelGroup styleClass="inputmedium">
-                <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
-                <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
-                <br/>
-                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editNubProposal.nubProposal.gender}"
-                                 required="true"
-                                 readonly="#{editNubProposal.readOnly}"
-                                 requiredMessage="#{msg.msgChooseEntryShort}">
-                    <f:selectItems value="#{sessionTools.genderItems}"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgGender"/>
-                </h:selectOneMenu>
-            </h:panelGroup>
-            <h:panelGroup>
-                <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
-                <br/>
-                <h:inputText styleClass="inputmedium" id="title" value="#{editNubProposal.nubProposal.title}" 
-                             required="false" maxlength="50" readonly="#{editNubProposal.readOnly}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                </h:inputText>
-            </h:panelGroup>
-        </h:panelGrid>
-    </div>
-    
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
-        <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
-        <br/>
-        <h:inputText styleClass="input" id="firstname" value="#{editNubProposal.nubProposal.firstName}"
-                     required="true"
-                     readonly="#{editNubProposal.readOnly}"
-                     requiredMessage="#{msg.msgValueNeeded}" 
-                     maxlength="50">
-            <f:ajax event="blur" render="@this :logout:remaining msgFirstname"/>
-        </h:inputText>
-    </div>
-    
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
-        <h:message id="msgLastname" for="lastname" styleClass="errorMessage"/>
-        <br/>
-        <h:inputText styleClass="input" id="lastname" value="#{editNubProposal.nubProposal.lastName}" 
-                     required="true" 
-                     readonly="#{editNubProposal.readOnly}"
-                     requiredMessage="#{msg.msgValueNeeded}" 
-                     maxlength="50">
-            <f:ajax event="blur" render="@this :logout:remaining msgLastname"/>
-        </h:inputText>
-    </div>
-    
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:"/>
-        <h:message id="msgDivision" for="division" styleClass="errorMessage"/>
-        <br/>
-        <h:inputText styleClass="input" id="division" value="#{editNubProposal.nubProposal.division}" 
-                     required="false" 
-                     readonly="#{editNubProposal.readOnly}"
-                     maxlength="50">
-            <f:ajax event="blur" render="@this :logout:remaining msgDivision"/>
-        </h:inputText>
-    </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
+            <br />
+            <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}">
+                <f:ajax event="blur" render="@this :logout:remaining"/>
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+            <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+            <br/>
+            <h:selectOneMenu
+                styleClass="inputmedium" 
+                id="ikMulti"
+                title="#{msg.titleAppellation}"
+                required="true"
+                requiredMessage="#{msg.msgValueNeeded}"
+                value="#{editNubProposal.nubProposal.ik}"
+                readonly="#{editNubProposal.readOnly}">
+                <f:selectItems value="#{editNubProposal.multiIks}"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+                <f:ajax event="change" listener="#{editNubProposal.changedIk}" render="@this :logout:remaining msgMultiIk khName"/>
+            </h:selectOneMenu>
+            &nbsp;
+            <h:outputLink id="addIkHint"
+                          value="..#{editNubProposal.userMaintenancePage}"
+                          rendered="false">
+                <h:outputText value="#{msg.lblNubHintMoreIks}" />
+            </h:outputLink>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel id="nubKhName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
+            <h:message for="khName" id="msgNubKhName" styleClass="errorMessage"/>
+            <br />
+            <h:inputText styleClass="input" readonly="#{editNubProposal.readOnly}" maxlength="100" id="khName" value="#{editNubProposal.nubProposal.ikName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:ajax event="blur" render="@this :logout:remaining msgNubKhName"/>
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{msg.lblContact}"/>
+            <br/>
+            <h:panelGrid columns="2" width="90%">
+                <h:panelGroup styleClass="inputmedium">
+                    <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
+                    <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
+                    <br/>
+                    <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editNubProposal.nubProposal.gender}"
+                                     required="true"
+                                     readonly="#{editNubProposal.readOnly}"
+                                     requiredMessage="#{msg.msgChooseEntryShort}">
+                        <f:selectItems value="#{sessionTools.genderItems}"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgGender"/>
+                    </h:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
+                    <br/>
+                    <h:inputText styleClass="inputmedium" id="title" value="#{editNubProposal.nubProposal.title}" 
+                                 required="false" maxlength="50" readonly="#{editNubProposal.readOnly}">
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                    </h:inputText>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
+            <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
+            <br/>
+            <h:inputText styleClass="input" id="firstname" value="#{editNubProposal.nubProposal.firstName}"
+                         required="true"
+                         readonly="#{editNubProposal.readOnly}"
+                         requiredMessage="#{msg.msgValueNeeded}" 
+                         maxlength="50">
+                <f:ajax event="blur" render="@this :logout:remaining msgFirstname"/>
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
+            <h:message id="msgLastname" for="lastname" styleClass="errorMessage"/>
+            <br/>
+            <h:inputText styleClass="input" id="lastname" value="#{editNubProposal.nubProposal.lastName}" 
+                         required="true" 
+                         readonly="#{editNubProposal.readOnly}"
+                         requiredMessage="#{msg.msgValueNeeded}" 
+                         maxlength="50">
+                <f:ajax event="blur" render="@this :logout:remaining msgLastname"/>
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:"/>
+            <h:message id="msgDivision" for="division" styleClass="errorMessage"/>
+            <br/>
+            <h:inputText styleClass="input" id="division" value="#{editNubProposal.nubProposal.division}" 
+                         required="false" 
+                         readonly="#{editNubProposal.readOnly}"
+                         maxlength="50">
+                <f:ajax event="blur" render="@this :logout:remaining msgDivision"/>
+            </h:inputText>
+        </div>
 
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:"/>
@@ -142,25 +142,25 @@
                 <f:ajax event="blur" render="@this :logout:remaining msgStreet"/>
             </h:inputText>
         </div>
-        
-        <div>
-            
-            <div class="inputPart floating">
-            <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
-            <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
-            <br/>
-            <h:inputText styleClass="inputshort" id="zip" value="#{editNubProposal.nubProposal.postalCode}" 
-                         required="true" 
-                         readonly="#{editNubProposal.readOnly}"
-                         requiredMessage="#{msg.msgValueNeeded}"
-                         validator="#{editNubProposal.checkPostalCode}"
-                         maxlength="5">
-                <f:validator validatorId="RequiredValidator"/>
-                <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
-            </h:inputText>
-            </div>
 
-            <div class="inputPart floating marginLeft">
+        <h:panelGrid columns="2" width="90%">
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
+                <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
+                <br/>
+                <h:inputText styleClass="inputshort" id="zip" value="#{editNubProposal.nubProposal.postalCode}" 
+                             required="true" 
+                             readonly="#{editNubProposal.readOnly}"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             validator="#{editNubProposal.checkPostalCode}"
+                             maxlength="5">
+                    <f:validator validatorId="RequiredValidator"/>
+                    <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
+                </h:inputText>
+            </h:panelGroup>
+
+            <h:panelGroup>
+
                 <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
                 <h:message id="msgTown" for="town" styleClass="errorMessage"/>
                 <br/>
@@ -172,13 +172,11 @@
                     <f:validator validatorId="RequiredValidator"/>
                     <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
                 </h:inputText>
-            </div>
-            
-        </div>
-        
-        <div class="defloat">
+            </h:panelGroup>
 
-            <div class="inputPart floating">
+        </h:panelGrid>
+        <h:panelGrid columns="2" width="90%">
+            <h:panelGroup>
                 <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
                 <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
                 <br/>
@@ -190,9 +188,9 @@
                     <f:validator validatorId="RequiredValidator"/>
                     <f:ajax event="blur" render="@this :logout:remaining msgPhone"/>
                 </h:inputText>
-            </div>
+            </h:panelGroup>
 
-            <div class="inputPart floating marginLeft">
+            <h:panelGroup>
                 <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
                 <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
                 <br/>
@@ -202,11 +200,11 @@
                              maxlength="50">
                     <f:ajax event="blur" render="@this :logout:remaining msgFax"/>
                 </h:inputText>
-            </div>
-            
-        </div>
+            </h:panelGroup>
 
-        <div class="defloat inputPart">
+        </h:panelGrid>
+
+        <div class="inputPart">
             <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
             <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
             <br/>
@@ -240,14 +238,14 @@
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
-        
+
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="userComment" value="#{msg.lblUserComment}:" />
             <br />
-            <h:inputTextarea id="userComment" styleClass="areaWideHigh" value="#{editNubProposal.nubProposal.userComment}">
+            <h:inputTextarea id="userComment" styleClass="areaWideLow" value="#{editNubProposal.nubProposal.userComment}">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
-        
+
     </ui:define>
 </ui:composition>

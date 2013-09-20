@@ -17,7 +17,6 @@ import org.inek.dataportal.helper.Topics;
 @SessionScoped
 public class PeppProposalController extends AbstractFeatureController {
 
-    private static final long serialVersionUID = 1L;
     private List<PeppProposalDocument> _documents;
 
     public PeppProposalController(SessionController sessionController) {

@@ -16,8 +16,6 @@ import org.inek.dataportal.helper.Topics;
  */
 public class CooperationController extends AbstractFeatureController {
 
-    private static final long serialVersionUID = 1L;
-
     public CooperationController(SessionController sessionController) {
         super(sessionController);
     }

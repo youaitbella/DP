@@ -45,10 +45,16 @@
                 <div class="toolBar  floatContainer">
                     <h:commandLink styleClass="button" action="#{editNubProposal.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editNubProposal.readOnly}"/>
+
                     <h:commandLink styleClass="button" action="#{editNubProposal.requestSeal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.nubProposalDisabled}" rendered="#{!editNubProposal.readOnly}" title="#{msg.infoSaveAndClose}"/>
-                    <h:commandLink id="btnTemplate" styleClass="button" action="#{editNubProposal.downloadTemplate()}" value="#{msg.btnDownloadTemplate}" immediate="true" disabled="#{editNubProposal.nubProposal.name.length() == 0}"/>
+                                   disabled="#{sessionTools.nubProposalDisabled}" rendered="#{editNubProposal.sealEnabled}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
+
+                    <h:commandLink styleClass="button" action="#{editNubProposal.requestApproval()}" value="#{msg.btnRequestApproval}"
+                                   disabled="#{sessionTools.nubProposalDisabled}" rendered="#{editNubProposal.approvalRequestEnabled}" title="#{msg.infoSaveAndClose}"/>
+                    <h:commandLink id="confirmApprovalRequest" style="display: none" action="#{editNubProposal.confirmApprovalRequest()}" value="confirmApprovalRequest"/>
+
+                    <h:commandLink id="btnTemplate" styleClass="button" action="#{editNubProposal.downloadTemplate()}" value="#{msg.btnDownloadTemplate}" immediate="true" disabled="#{editNubProposal.nubProposal.name.length() == 0}"/>
                 </div>
             </div>
 

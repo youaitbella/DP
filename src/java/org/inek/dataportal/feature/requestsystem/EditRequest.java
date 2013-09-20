@@ -238,7 +238,7 @@ public class EditRequest extends AbstractEditController {
         if (!requestIsComplete()) {
             return null;
         }
-        _script = "if (confirm ('" + Utils.getMessage("confirmSeal") + "')) {document.getElementById('form:seal').click();}";
+        _script = "if (confirm ('" + Utils.getMessage("msgConfirmSeal") + "')) {document.getElementById('form:seal').click();}";
         return null;
     }
 
