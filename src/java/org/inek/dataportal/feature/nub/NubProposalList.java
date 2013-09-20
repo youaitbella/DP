@@ -131,7 +131,7 @@ public class NubProposalList {
                     ids.add(right.getOwnerId());
                 }
             }
-            _partners = ids.isEmpty() ? Collections.EMPTY_LIST :_accountFacade.getAccountsForIds(ids);
+            _partners = ids.isEmpty() ? new ArrayList<Account>() :_accountFacade.getAccountsForIds(ids);
         }
         return _partners;
     }

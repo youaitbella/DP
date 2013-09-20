@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.nub;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
@@ -23,6 +24,10 @@ import org.inek.dataportal.helper.Utils;
 public class NubController extends AbstractFeatureController {
 
     private static final long serialVersionUID = 1L;
+    // Seal own NUB is a marker, whether a NUB may be sealed by the owner (true)
+    // or by a supervisor only (false)
+    // It is used in coopearative environment 
+    private Map<Integer, Boolean> _sealOwnNub;      
 
     public NubController(SessionController sessionController) {
         super(sessionController);

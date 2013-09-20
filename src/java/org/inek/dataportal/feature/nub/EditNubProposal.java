@@ -59,10 +59,6 @@ public class EditNubProposal extends AbstractEditController {
     @Inject private CustomerFacade _customerFacade;
     private String _conversationId;
     private NubProposal _nubProposal;
-    // Seal own NUB is a marker, whether a NUB may be sealed by the owner (true)
-    // or by a supervisor only (false)
-    // It is used in coopearative environment 
-    private Map<Integer, Boolean> _sealOwnNub;      
 
     @Override
     protected void addTopics() {
