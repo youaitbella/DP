@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Konfiguration</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Konfiguration</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf dieser Seite des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> können Sie Ihren Account konfigurieren. Bestimmte Konfigurationspunkte sind nur einstellbar, wenn Sie das dazugehörige Feature aktiviert haben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Config.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Konfiguration</text></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">&quot;</text><text styleclass="Normal" style="font-style:italic;" translate="true">Formale NUB Annahme per E-Mail bestätigen</text><text styleclass="Normal" translate="true">&quot;: Sie erhalten eine Bestätigungs-E-Mail sobald Ihr NUB-Antrag vom InEK angenommen wurde.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">&quot;</text><text styleclass="Normal" style="font-weight:normal; font-style:italic;" translate="true">Interne Nachrichten als Kopie per E-Mail</text><text styleclass="Normal" translate="true">&quot;: Nachrichten, die innerhalb des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true">s an Sie versendet werden, werden auch per E-Mail an Sie übermittelt.</text></para>
+    <para styleclass="Image Caption"></para>
+    <list id="24" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Bullet Text" translate="true"> speichert die aktuellen Daten in der Datenbank.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Button" translate="true">[ Änderungen verwerfen ]</text><text styleclass="Bullet Text" translate="true"> stellt den ursprünglichen Zustand wieder her.</text></li>
+    </list>
+  </body>
+</topic>

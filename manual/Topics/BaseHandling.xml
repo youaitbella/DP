@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Allgemeine Bedienung</title>
+  <keywords>
+    <keyword translate="true">Dialogbedienung</keyword>
+    <keyword translate="true">Navigation</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Allgemeine Bedienung</text></para>
+    </header>
+    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Einteilung der Dialoge</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Dialogseiten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> bestehen im Wesentlichen aus drei Bereichen:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Oben: Der Kopfbereich mit Links zur Hompage des InEK, zum Impressum und, sofern Sie eingeloggt sind, zur Abmeldung.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Links: Hier finden Sie nach erfolgreichem Login die Navigation zu den verfügbaren Funktionen.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Rechts: In diesem größten Teil des Dialogs werden die Informationen dargestellt bzw. erfolgen Ihre Eingaben.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="GeneralHandling.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Einteilung der Dialoge in Kopfbereich (rot markiert), Navigation (grün) und Info- bzw. Eingabeteil (blau)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der linke Navigationsbereich zeigt die Ihnen zur Verfügung stehenden Funktionen an. Im Wesentlichen bestimmen Sie selber (in der Stammdatenpflege) um welche Funktionen es sich dabei handelt. Nur bei bestimmten Funktionen (derzeit nur DropBox-Verfahren) behält sich das InEK eine separate Freischaltung vor. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Über diesen Navigationsbereich können Sie jederzeit zur gewünschten Funktion wechseln. Bitte achten Sie darauf, eventuelle Eingaben vorher zu speichern.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Überblick Dialogbedienung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anhand der Stammdatenpflege wird im Folgenden exemplarisch die Bedienung von Eingabemasken dargestellt:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="GeneralHandling2.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Beispielhafte Eingabemaske. Die roten Nummern markieren Teile, die im Text besonders erläutert sind</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie wahrscheinlich aus vielen Anwendungen bekannt, gibt es in einem Erfassungsdialog Pflichtfelder sowie optionale Felder. Im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> sind Pflichtfelder durch ein Sternchen (*) neben dem Titel gekennzeichnet. Zusätzlich sind sie in der Regel pastell-farbig hervorgehoben (1). Optionale Felder &#160;haben einen einfachen weißen Hintergrund und sind nicht durch ein Sternchen gekennzeichnet (2).</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unabhängig hiervon wird das jeweils aktuelle Eingabefeld (also das in dem Ihre Eingabe erfolgt) farbig hervorgehoben (3). Sobald Sie ein Eingabefeld, für das bestimmte Regeln gelten, verlassen, prüft das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> Ihre Eingabe und meldet ggf. Problemen (4). Die Art der Meldung ist vom jeweiligen Feld abhängig. So meldet das System &#160;bei leerem Pflichtfeld beispielsweise &quot;Eingabe erforderlich&quot;.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ansonsten können die Dialoge viele Elemente, wie sie aus anderen Programmen bekannt sein dürften, enthalten. Beispiele hierfür sind ausklappbare Auswahllisten (&quot;Komboboxen&quot;) (5), Schaltflächen, Ankreuzfelder und vieles mehr. Insbesondere macht das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> auch Gebrauch von Registerkarten (6), über die Sie einen Teil des Dialogs umschalten können. Daneben existieren aber auch Browser-typische Elemente wie Links (7). </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Bedienung der einzelnen Elemente entspricht ihrer Nutzung in anderen Programmen. Da dies heute weitgehend standardisiert ist, erfolgt hier keine detaillierte Beschreibung einzelner Elemente, soweit das Verhalten nicht vom den üblichen Standards abweicht. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Beim </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> handelt es sich um eine Anwendung, die auf einem Server läuft. Der Status dieser Anwendung variiert mit Ihren Eingaben. Daher können Informationen sich ändern. Ihr Browser bietet Ihnen zwar eine Funktion, zurückzublättern. Diese versucht, die vorherige Seite aufzurufen. Bei statischen Webseiten funktioniert dies in der Regel problemlos. Bei einer Anwendung wie dem </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> kann durch den veränderten Status die Seite oft jedoch nicht mehr aufgerufen werden. Soweit der Status ungültig ist, kommt es zu Fehlermeldungen. Verzichten Sie bei Web-Applikationen wie dem </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> daher auf die Blätterfunktion des Browsers und nutzen Sie ausschließlich die von der Applikation bereitgestellte Navigation.</text></para>
+  </body>
+</topic>

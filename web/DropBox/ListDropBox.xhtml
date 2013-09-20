@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:dataTable rendered="#{dropBoxList.dropBoxes.size() > 0}"  headerClass="list-header" id="tblDropBoxes" 
+                 value="#{dropBoxList.dropBoxes}" var="p" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIK, colValue">
+        <h:column id="colIcon">
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:graphicImage alt="empty Box symbol" name="box_open.png" library="Icon/small" rendered="#{!dropBoxList.containsFiles(p)}"/>
+            <h:graphicImage alt="filled Box symbol" name="box_full.png" library="Icon/small" rendered="#{dropBoxList.containsFiles(p)}"/>
+        </h:column>
+        <h:column id="colIK">
+            <f:facet name="header">
+                <h:outputText value="#{msg.lblIK}"/>
+            </f:facet>
+            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.IK}" immediate="true"/>
+        </h:column>
+        <h:column id="colDescription">
+            <f:facet name="header">
+                <h:outputText value="#{msg.lblDescription}"/>
+            </f:facet>
+            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.description}" immediate="true"/>
+        </h:column>
+        <h:column id="colType">
+            <f:facet name="header">
+                <h:outputText value="#{msg.lblType}"/>
+            </f:facet>
+            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.dropboxType.name}" immediate="true"/>
+        </h:column>
+        <h:column id="colValidUntil">
+            <f:facet name="header">
+                <h:outputText value="#{msg.lblValidUntil}"/>
+            </f:facet>
+            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{dropBoxList.validUntil(p)}" immediate="true"/>
+        </h:column>
+
+    </h:dataTable>
+</ui:composition>

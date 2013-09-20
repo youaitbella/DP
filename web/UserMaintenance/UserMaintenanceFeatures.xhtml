@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="UserMaintenance.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="maintenanceContent">
+    <c:forEach items="#{editUserMaintenance.features}" var="feature">
+        <div class="feature">
+            <h:selectBooleanCheckbox value="#{feature.value}" id="feature#{feature.name}" disabled="#{!feature.editable}"/>
+            <h:outputLabel for="feature#{feature.name}" value="#{feature.shortText}"/>
+            <h:commandLink styleClass="smallButton" value="#{msg.btnUp}" action="#{editUserMaintenance.up(feature.name)}"/>
+            <h:commandLink styleClass="smallButton" value="#{msg.btnDown}" action="#{editUserMaintenance.down(feature.name)}"/>
+            <br/>
+            <h:outputLabel value="#{feature.description}"/>
+        </div>
+    </c:forEach>
+        
+    <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
+    <div class="toolBar">
+        <h:commandLink styleClass="button" action="#{editUserMaintenance.saveFeatures}" value="#{msg.btnSave}" immediate="false" />
+        <h:commandLink styleClass="button" action="#{editUserMaintenance.discardChanges}" value="#{msg.btnDiscard}" immediate="true" />
+    </div>
+    
+    </ui:define>
+</ui:composition>
+

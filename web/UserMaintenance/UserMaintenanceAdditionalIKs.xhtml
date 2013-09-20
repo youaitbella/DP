@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="UserMaintenance.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="maintenanceContent">
+        <h:dataTable  headerClass="list-header" id="tblAdditionalIKs" 
+                      value="#{editUserMaintenance.additionalIKs}" var="ik" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIk, colValue">
+            <h:column id="colDeleteId">
+                <f:facet name="header">
+                    <h:outputText value=""/>
+                </f:facet>
+                <h:commandLink action="#{editUserMaintenance.removeAdditionalIK(ik.value2)}" >
+                    <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                    <f:ajax event="blur" render="tblAdditionalIKs"/>
+                </h:commandLink>
+            </h:column>
+            <h:column id="colIK">
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblIkShort}"/>
+                </f:facet>
+                <h:inputText id="ik#{ik.value2}" value="#{ik.value1}" valueChangeListener="#{editUserMaintenance.ikChanged}">
+                    <!-- no message will be displayed for this validator! f:validator validatorId="IkValidator"/-->
+                    <f:ajax render="@form"/>
+                </h:inputText>
+            </h:column>
+            <h:column id="colDescription">
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblDescription}"/>
+                </f:facet>
+                <h:outputText value="#{ik.value3}"/>
+            </h:column>
+
+        </h:dataTable>
+        
+        <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
+        <div class="toolBar">
+            <h:commandLink styleClass="button" action="#{editUserMaintenance.saveIks}" value="#{msg.btnSave}" immediate="false" />
+            <h:commandLink styleClass="button" action="#{editUserMaintenance.discardChanges}" value="#{msg.btnDiscard}" immediate="true" />
+        </div>
+        
+    </ui:define>
+</ui:composition>

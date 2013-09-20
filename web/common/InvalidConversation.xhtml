@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    
+    <ui:define name="navItems">
+        <li>
+            <h:link value="#{msg.lblSummary}"  outcome="/common/MainApp"/>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        #{sessionController.forceConversationEnd}
+        <h1>Ungültige Konversation</h1>
+        <br/>
+        <br/>
+        <br/>
+        <p>
+        Bei der Verarbeitung ist ein Fehler aufgetreten.
+        </p>
+        <br/>
+        <p>
+        Mögliche Ursachen:
+        <ul>
+            <li>Mehrfache Browserfenster der laufenden Sitzung</li>
+            <li>Zeitüberschreitung der laufenden Sitzung</li>
+        </ul>
+        </p>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="navItems">
+    </ui:define>
+
+    <ui:define name="content">
+        <noscript>			
+            <h2>#{msg.msgEnableScript}</h2>
+        </noscript>  
+        <h:form id="Login">
+            #{sessionController.forceConversationEnd}
+            <p>
+                <h:outputLabel styleClass="label" for="email" value="#{msg.lblEmailOrUser}:"/>
+                <br/>
+                <h:inputText styleClass="input" id="email" value="#{login.emailOrUser}" 
+                             title="#{msg.titleEmailOrUser}"
+                             required="true" requiredMessage="#{msg.msgValueNeeded}"/>
+                <h:message for="email" errorClass="errorMessage"/>
+            </p>
+            <p>
+                <h:outputLabel styleClass="label" for="password" value="#{msg.lblPassword}:"/>
+                <br/>
+                <h:inputSecret styleClass="input" id="password" value="#{login.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"/>
+                <h:message for="password" errorClass="errorMessage"/>
+            </p>
+            Kennwort vergessen? Als registrierter Anwender können Sie dies <a href="/DataPortal/login/RequestPassword.xhtml" title="Neues Kennwort anfordern (nur für registrierte Anwender)">hier anfordern</a>.
+            <br/>
+            <h:outputText styleClass="errorMessage" value="#{login.loginMessage}"/>
+            <p>
+                <h:commandLink styleClass="button" action="#{login.login}" immediate="false" value="#{msg.btnLogin}">
+                </h:commandLink>
+            </p>
+            <br/>
+            <br/>
+            <p>
+                <h:outputLabel styleClass="label" value="#{msg.lblNotRegistered}"/>
+                <br/>
+                <h:commandLink styleClass="button" action="Register" immediate="true" value="#{msg.btnRegister}"/>
+            </p>
+            <br/>
+            <br/>
+            <p>
+                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet? 
+                <br/>
+                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a> 
+                und lesen Sie das <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf">Anwenderhandbuch</a>.
+            </p>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+

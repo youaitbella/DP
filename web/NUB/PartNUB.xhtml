@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition>
+        <h2>
+            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.NubSummary)}" value="#{msg.lblNUB}" immediate="true"/>
+        </h2>
+        <div class="paddingElement">
+            <ui:include src="#{sessionTools.pages.ListNub}"/>
+            <p>
+                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposal}" 
+                               immediate="true" value="#{msg.btnNewProposal}" disabled="#{!nubProposalList.nubEnabled}"/>
+                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposalFromTemplate}" disabled="#{!nubProposalList.nubEnabled}"
+                               immediate="true" value="#{msg.lblNewFromTemplate}"/>
+                <h:outputText rendered="#{!nubProposalList.nubEnabled}" value="#{msg.msgNoNubCreatable}"/>
+            </p>
+            <br/>
+            <h:outputLabel styleClass="label" rendered ="#{nubProposalList.sealedNubProposals.size() > 0}" value="sowie #{nubProposalList.sealedNubProposals.size()} bereitgestellte NUBs"/>
+        </div>
+    </ui:composition>
+</html>
+

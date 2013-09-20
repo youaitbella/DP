@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                >
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="problem" value="#{msg.lblProblemDescription}:"/>
+        <h:message for="problem" id="msgProblem" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaHuge" id="problem" value="#{editPeppProposal.peppProposal.problem}"
+                          readonly="#{editPeppProposal.readOnly}"
+                          required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}">
+            <f:ajax event="blur" render="@this :logout:remaining msgProblem"/>
+        </h:inputTextarea>
+    </div>
+
+</ui:composition>
+

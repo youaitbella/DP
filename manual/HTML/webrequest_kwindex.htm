@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html><head>
+   <title>InEK Datenportal</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+   <!-- This line includes the general project style sheet (not required) -->
+   <link type="text/css" href="default.css" rel="stylesheet" />
+
+   <script type="text/javascript">isIE=false</script>
+   <!--[if IE]>
+   <script type="text/javascript">isIE=true</script>
+   <![endif]-->
+
+      
+          
+   <style type="text/css">
+       body {  }
+       #idx          { margin: 0; padding: 0; }     /* div tag that wraps the keyword index */
+       #idx a        { font-color: #000; text-decoration: none; }  /* all links in index appear as text */
+
+       #idx p             { margin: 2px; }       /* keywords and secondary keywords */
+       #idx p.idxkeyword2 { margin-left: 20px }  /* indentation for secondary keywords */
+
+       table.idxtable { background: #F4F4F4;
+                        border: 1px solid #000000;
+                        border-collapse: collapse;
+                        -moz-box-shadow: 2px 2px 2px #B0B0B0;
+                        -webkit-box-shadow: 2px 2px 2px #B0B0B0;
+                        box-shadow: 2px 2px 2px #B0B0B0;
+                        filter: progid:DXImageTransform.Microsoft.Shadow(color=B0B0B0, Direction=135, Strength=4); }
+       td.idxtable    { background: #F4F4F4; }
+
+       /* font definitions for keyword section, keywords and popup links */
+       .idxsection  { font-family: Arial,Helvetica; font-weight: bold; font-size: 14pt; color: #000000; text-decoration: none;
+                      margin-top: 15px; margin-bottom: 15px; }
+       .idxkeyword  { font-family: Arial,Helvetica; font-weight: normal; font-size: 10pt; color: #000000; text-decoration: none; }
+       .idxkeyword2 { font-family: Arial,Helvetica; font-weight: normal; font-size: 10pt; color: #000000; text-decoration: none; }
+       .idxlink     { font-family: Arial,Helvetica; font-weight: normal; font-size: 9pt; color: #000000; text-decoration: none; }
+
+   </style>
+      
+
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+</head>
+<body>
+   
+   
+  <script type="text/javascript">
+
+  function hmInitHideLinks(cssCode) {
+  	var styleElement = document.createElement("style");
+  	styleElement.type = "text/css";
+  	if (styleElement.styleSheet) {
+    	styleElement.styleSheet.cssText = cssCode;
+  	}
+  	else {
+    	styleElement.appendChild(document.createTextNode(cssCode));
+  	}
+  	document.getElementsByTagName("head")[0].appendChild(styleElement);
+  }
+
+  hmInitHideLinks("#idx div { display: none }");
+
+  var currentdiv = null;
+  var canhidelinks = true;
+
+  function hmshowLinks(divID) {
+    var thisdiv = document.getElementById(divID);
+    canhidelinks = true;
+    hmhideLinks();
+    if (thisdiv) {
+      currentdiv = thisdiv;
+      $(currentdiv).show();
+      $(currentdiv).mouseover(hmdivMouseOver).mouseout(hmdivMouseOut);
+      $(document).mouseup(hmhideLinks);
+    }
+  }
+  function hmdivMouseOver() { canhidelinks = false; };
+  function hmdivMouseOut() { canhidelinks = true; };
+  function hmhideLinks() {
+    if (canhidelinks) {
+      if (currentdiv) {
+        $(currentdiv).hide();
+        $(currentdiv).unbind("onmouseover", "onmouseout");
+      }
+      currentdiv = null;
+      $(document).unbind("onmouseup");
+    }
+  }
+</script>
+<div id="idx" style="margin:0;padding:0;border:none">
+<a name="B" id="B"></a><p class="idxsection">- B -</p>
+<p class="idxkeyword"><a href="usage.htm" target="hmcontent"><span class="idxkeyword">Bedienung</span></a></p>
+<p class="idxkeyword"><a href="notes.htm" target="hmcontent"><span class="idxkeyword">Betriebssystem</span></a></p>
+<a name="D" id="D"></a><p class="idxsection">- D -</p>
+<p class="idxkeyword"><a href="introduction.htm" target="hmcontent"><span class="idxkeyword">Datenlieferung</span></a></p>
+<p class="idxkeyword"><a href="introduction.htm" target="hmcontent"><span class="idxkeyword">Datenportal</span></a></p>
+<p class="idxkeyword"><a href="basehandling.htm" target="hmcontent"><span class="idxkeyword">Dialogbedienung</span></a></p>
+<p class="idxkeyword"><a href="documents.htm" target="hmcontent"><span class="idxkeyword">Dokumente</span></a></p>
+<p class="idxkeyword"><a href="dropbox.htm" target="hmcontent"><span class="idxkeyword">DropBox</span></a></p>
+<a name="E" id="E"></a><p class="idxsection">- E -</p>
+<p class="idxkeyword"><a href="introduction.htm" target="hmcontent"><span class="idxkeyword">Einführung</span></a></p>
+<a name="G" id="G"></a><p class="idxsection">- G -</p>
+<p class="idxkeyword"><a href="termsofuse.htm" target="hmcontent"><span class="idxkeyword">Gewährleistung</span></a></p>
+<a name="H" id="H"></a><p class="idxsection">- H -</p>
+<p class="idxkeyword"><a href="termsofuse.htm" target="hmcontent"><span class="idxkeyword">Haftung</span></a></p>
+<p class="idxkeyword"><a href="notes.htm" target="hmcontent"><span class="idxkeyword">Hinweise</span></a></p>
+<a name="I" id="I"></a><p class="idxsection">- I -</p>
+<p class="idxkeyword"><a href="introduction.htm" target="hmcontent"><span class="idxkeyword">InEK-Datenportal</span></a></p>
+<a name="J" id="J"></a><p class="idxsection">- J -</p>
+<p class="idxkeyword"><a href="preconditions.htm" target="hmcontent"><span class="idxkeyword">Java</span></a></p>
+<p class="idxkeyword"><a href="preconditions.htm" target="hmcontent"><span class="idxkeyword">JavaScript</span></a></p>
+<a name="K" id="K"></a><p class="idxsection">- K -</p>
+<p class="idxkeyword"><a href="requestpassword.htm" target="hmcontent"><span class="idxkeyword">Kennwort anfordern</span></a></p>
+<a name="L" id="L"></a><p class="idxsection">- L -</p>
+<p class="idxkeyword"><a href="login.htm" target="hmcontent"><span class="idxkeyword">Login</span></a></p>
+<a name="N" id="N"></a><p class="idxsection">- N -</p>
+<p class="idxkeyword"><a href="basehandling.htm" target="hmcontent"><span class="idxkeyword">Navigation</span></a></p>
+<p class="idxkeyword"><a href="termsofuse.htm" target="hmcontent"><span class="idxkeyword">Nutzungsbedingungen</span></a></p>
+<a name="P" id="P"></a><p class="idxsection">- P -</p>
+<p class="idxkeyword"><a href="peppproposal.htm" target="hmcontent"><span class="idxkeyword">PEPP-Vorschlagsverfahren</span></a></p>
+<a name="R" id="R"></a><p class="idxsection">- R -</p>
+<p class="idxkeyword"><a href="javascript:void(0)" onclick="return hmshowLinks('k20')"><span class="idxkeyword">Registrierung</span></a></p>
+<div id="k20" style="position:relative;margin:0 0 0 20px;top:-3px">
+<table class="idxtable" style="padding:4px"><tr><td class="idxtable"><table style="border:none;padding:0"><tr style="vertical-align:baseline"><td><img src="ciconidx.gif" style="border:none" alt="Icon"></td><td><a href="introduction.htm" target="hmcontent"><span class="idxlink">Einführung</span></a></td></tr><tr style="vertical-align:baseline"><td><img src="ciconidx.gif" style="border:none" alt="Icon"></td><td><a href="register.htm" target="hmcontent"><span class="idxlink">Registrierung</span></a></td></tr></table></td></tr></table></div>
+<a name="S" id="S"></a><p class="idxsection">- S -</p>
+<p class="idxkeyword"><a href="notes.htm" target="hmcontent"><span class="idxkeyword">Schaltflächen</span></a></p>
+<p class="idxkeyword"><a href="preconditions.htm" target="hmcontent"><span class="idxkeyword">Schreibrechte</span></a></p>
+<p class="idxkeyword"><a href="notes.htm" target="hmcontent"><span class="idxkeyword">Screenschots</span></a></p>
+<p class="idxkeyword"><a href="usermaintenance.htm" target="hmcontent"><span class="idxkeyword">Stammdaten</span></a></p>
+<p class="idxkeyword"><a href="userinformation.htm" target="hmcontent"><span class="idxkeyword">Stammformblatt</span></a></p>
+<p class="idxkeyword"><a href="search.htm" target="hmcontent"><span class="idxkeyword">Suche</span></a></p>
+<p class="idxkeyword"><a href="preconditions.htm" target="hmcontent"><span class="idxkeyword">Systemvoraussetzung</span></a></p>
+<a name="U" id="U"></a><p class="idxsection">- U -</p>
+<p class="idxkeyword"><a href="overview.htm" target="hmcontent"><span class="idxkeyword">Übersicht</span></a></p>
+<p class="idxkeyword"><a href="termsofuse.htm" target="hmcontent"><span class="idxkeyword">Urheberrechtsschutz</span></a></p>
+<a name="V" id="V"></a><p class="idxsection">- V -</p>
+<p class="idxkeyword"><a href="userinformation.htm" target="hmcontent"><span class="idxkeyword">Verfahrensbeschreibung</span></a></p>
+</div>
+
+   
+</body>
+</html>

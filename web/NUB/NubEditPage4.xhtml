@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="NubEdit.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="editContent">    
+
+        <h2>#{msg.tabNubPage4}</h2>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubAddCost" value="#{msg.lblNubAddCosts}"/>
+            <h:message for="nubAddCost" id="msgNubAddCost" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideHigh" id="nubAddCost" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.addCosts}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubAddCost"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubDrgs" value="#{msg.lblNubDrgs}"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaNarrowLow" id="nubDrgs" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.drgs}" required="false">
+                <f:ajax event="blur" render="@this :logout:remaining msgNubNotRepresented"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubNotRepresented" value="#{msg.lblNubNotRepresented}"/>
+            <h:message for="nubNotRepresented" id="msgNubNotRepresented" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideHigh" id="nubNotRepresented" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.whyNotRepresented}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubNotRepresented"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{msg.lblNubAlreadySended}"/>
+            <br/>
+            <div class="inputPart" style="margin-left: 28px;">
+                <h:selectBooleanCheckbox id="byYourHospital" value="#{editNubProposal.nubProposal.isRequestedEarlierSelf}" readonly="#{editNubProposal.readOnly}">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:selectBooleanCheckbox>&nbsp;
+                <h:outputLabel id="byYourHospitalLabel" value="#{msg.lblByYourHospital}"/>
+                <br/>
+                <h:selectBooleanCheckbox id="byOtherHospital" value="#{editNubProposal.nubProposal.requestedEarlierOther}" readonly="#{editNubProposal.readOnly}">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:selectBooleanCheckbox>
+                &nbsp;
+                <h:outputLabel id="byOtherHospitalLabel" value="#{msg.lblByOtherHospital}"/>
+            </div>
+        </div>
+
+        <br/>
+    </ui:define>
+</ui:composition>

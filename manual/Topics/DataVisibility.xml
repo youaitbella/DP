@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Sichtbarkeit der Daten</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Sichtbarkeit der Daten</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sämtliche Daten, die Sie erfassen, sind an Ihr Benutzerkonto gebunden. Standardmäßig haben Sie also nur Zugriff auf die von Ihnen eingegebenen Daten und nicht auf die anderer Benutzer. Umgekehrt können andere Anwender des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> Ihre Daten nicht sehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können dieses Verhalten jedoch ändern, indem Sie kooperativ mit anderen Teilnehmern, z.B. Kollegen, zusammenarbeiten. Dabei können Sie bestimmte Datenbereiche für andere Teilnehmer freigeben, wahlweise nur zur Ansicht, wahlweise zur gemeinsamen Bearbeitung. Diesen Freigabe können Sie bei Bedarf wieder zurücknehmen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um mit anderen Anwendern zusammenzuarbeiten, ist das Einverständnis beider Partner erforderlich. Die Zusammenarbeit kann durch einen der Anwender mittels Einladung initiiert werden. Zur Einladung ist die E-Mail-Adresse oder Nutzername des Partners anzugeben. Diese ist vorher beim künftigen Partner zu erfragen. Anders als in sozialen Netzwerken ist Ihr Anwenderprofil standardmäßig nicht öffentlich, sondern geschützt. Entsprechend ist auch keine Teilnehmersuche möglich.</text></para>
+  </body>
+</topic>

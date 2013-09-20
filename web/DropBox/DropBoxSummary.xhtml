@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="navItems">
+        <li>
+            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{msg.lblDropBoxSystem}</h1>
+        <h:form>
+            <div class="paddingElement">
+                <ui:include src="#{sessionTools.pages.ListDropBox}"/>
+                <p>
+                    <h:link styleClass="button" outcome="#{sessionTools.pages.DropBoxCreate}" value="#{msg.btnNewDropBox}"/>
+                </p>
+
+                <h:panelGroup rendered="#{dropBoxList.sealedDropBoxes.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="Bereits abgeschlossene DropBoxen"/>
+
+                    <h:dataTable  headerClass="list-header" id="tblCompletedDropBoxes" value="#{dropBoxList.sealedDropBoxes}" var="p" width="100%" rowClasses="row1, row2" columnClasses="colIK, colValue">
+                        <h:column id="colIK">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblIK}"/>
+                            </f:facet>
+                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.IK}" immediate="true"/>
+                        </h:column>
+                        <h:column id="colDescription">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblDescription}"/>
+                            </f:facet>
+                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.description}" immediate="true"/>
+                        </h:column>
+                        <h:column id="colType">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblType}"/>
+                            </f:facet>
+                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.dropboxType.name}" immediate="true"/>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

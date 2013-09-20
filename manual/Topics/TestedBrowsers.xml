@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Getestete Browser</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Getestete Browser</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wurde und wird vom InEK mit diversen Browsern auf den InEK-Systemen getestet. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte beachten Sie: Weder ist das InEK in der Lage, noch ist es dessen Aufgabe, sämtliche verfügbaren Browser unter allen Betriebssystemen zu testen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Browser werden von den jeweiligen Herstellern entwickelt. Insofern kann das InEK keinerlei Gewähr dafür übernehmen, dass das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in Ihrem Browser jederzeit funktioniert. Die folgende Liste gibt daher lediglich Aufschluss über das Verhalten der angeführten Browser im Test beim InEK. Da die Hersteller zunehmend die Implementierung der Standards umsetzen, ist zu erwarten, dass jüngere Versionen der Browser genauso gut oder besser funktionieren.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die getesteten Browser sind in alphabetischer Reihenfolge aufgeführt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine optimale Darstellung erhalten Sie mit</text></para>
+    <para styleclass="Normal"></para>
+    <list id="32" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="margin-left:24px; font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Google Chrome (Windows, Version 16.0 bis 29.0)</text></li>
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Mozilla Firefox (Linux, Mac OS, Windows, Version 4 bis 23) </text></li>
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Opera (Windows, Version 11.60)</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Regel ist die Darstellung in neueren Version ebenfalls optimal.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Funktional gleich, mit leichten optischen Einschränkungen</text></para>
+    <para styleclass="Normal"></para>
+    <list id="32" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="margin-left:24px; font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Internet Explorer (Windows, Version 8, 9, 10 jeweils nicht im Kompatibilitätsmodus)</text></li>
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Mozilla Firefox (Windows, Version 3.x)</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Funktional entsprechend, aber mit stärkeren optischen Einschränkungen</text></para>
+    <para styleclass="Normal"></para>
+    <list id="32" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="margin-left:24px; font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Internet Explorer (Windows, Version 6, 7 sowie 9 und 10 im Kompatibilitätsmodus)</text></li>
+    </list>
+    <para styleclass="Normal" style="margin-left:24px;"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Optisch sehr schön, derzeit aber nicht bei Funktionen, die eine Bestätigung erfordern (Bereitstellung, Löschung) nutzbar</text></para>
+    <para styleclass="Normal" style="margin-left:24px;"></para>
+    <list id="32" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="margin-left:24px; font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Safari (Windows, Version 5.1.2)</text></li>
+      <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Safari (Mac OS, Version 6)</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Beim Hochladen von Dateien wird im Fehlerfall eine entsprechende Meldung ausgegeben. Alle getesteten Versionen des Internet Explorers zeigen jedoch falsch positive Fehlermeldungen, auch wenn die jeweilige Datei korrekt hochgeladen wurde. Bitte prüfen Sie bei Verwendung des Internet Explorers nach dem Upload in den jeweiligen Listen, ob die Datei korrekt geladen wurde. Bei anderern Browsern ist ein solches Problem nicht bekannt.</text></para>
+  </body>
+</topic>

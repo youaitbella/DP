@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Kooperation</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wurde entwickelt, damit Die auf komfortable Art und Weise Ihre Daten, Anfragen etc. an das InEK übermitteln können. Dabei hat jeder Anwender des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> standardmäßig Zugriff nur auf die eigenen Daten. In manchen Situationen kann es sinnvoll oder erforderlich sein, Daten vor oder nach der Übermittlung an das InEK mit mehreren Personen zu sichten oder zu bearbeiten. Hier setzt die Funktion der Kooperation an. Sie bestimmen dabei, welche andere Anwende des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> die von Ihnen erfassten Daten sichten oder bearbeiten dürfen. Auch können Sie das System - für jeden Bereich individuell - so einrichten, dass Ihre Daten erst nach Freigebe durch eine andere Person dem InEK zur Bearbeitung bereitgestellt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
