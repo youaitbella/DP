@@ -240,6 +240,21 @@ public class NubProposal implements Serializable {
     
     @Column(name = "nubByEmail")
     private boolean _byEmail;
+    
+    @Column(name = "nubCreatedBy")
+    private Integer _createdBy;
+    
+    @Column(name = "nubLastChangedBy")
+    private Integer _lastChangedBy;
+    
+    @Column(name = "nubSealedBy")
+    private Integer _sealedBy;
+    
+    @Column(name = "nubDisplayName")
+    private String _displayName = "";
+    
+    @Column(name = "nubUserComment")
+    private String _userComment = "";
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getNubId() {
@@ -693,6 +708,46 @@ public class NubProposal implements Serializable {
 
     public void setByEmail(boolean byMail) {
         this._byEmail = byMail;
+    }
+
+    public Integer getCreatedBy() {
+        return _createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this._createdBy = createdBy;
+    }
+
+    public Integer getLastChangedBy() {
+        return _lastChangedBy;
+    }
+
+    public void setLastChangedBy(Integer lastChangedBy) {
+        this._lastChangedBy = lastChangedBy;
+    }
+
+    public Integer getSealedBy() {
+        return _sealedBy;
+    }
+
+    public void setSealedBy(Integer sealedBy) {
+        this._sealedBy = sealedBy;
+    }
+
+    public String getDisplayName() {
+        return _displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this._displayName = displayName;
+    }
+
+    public String getUserComment() {
+        return _userComment;
+    }
+
+    public void setUserComment(String userComment) {
+        this._userComment = userComment;
     }
 
     // </editor-fold>
