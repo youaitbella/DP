@@ -13,7 +13,8 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
             <br />
-            <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}">
+            <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}"
+                         readonly="#{editNubProposal.readOnly}">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputText>
         </div>
@@ -24,16 +25,18 @@
             <br/>
             <h:selectOneMenu
                 styleClass="inputmedium" 
+                rendered="#{editNubProposal.ownNub}"
                 id="ikMulti"
                 title="#{msg.titleAppellation}"
                 required="true"
                 requiredMessage="#{msg.msgValueNeeded}"
                 value="#{editNubProposal.nubProposal.ik}"
-                readonly="#{editNubProposal.readOnly}">
+                readonly="#{editNubProposal.readOnly or !editNubProposal.ownNub}">
                 <f:selectItems value="#{editNubProposal.multiIks}"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
                 <f:ajax event="change" listener="#{editNubProposal.changedIk}" render="@this :logout:remaining msgMultiIk khName"/>
             </h:selectOneMenu>
+            <h:inputText styleClass="input" readonly="true" value="#{editNubProposal.nubProposal.ik}" rendered="#{!editNubProposal.ownNub}"/>
             &nbsp;
             <h:outputLink id="addIkHint"
                           value="..#{editNubProposal.userMaintenancePage}"

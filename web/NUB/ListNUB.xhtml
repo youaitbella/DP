@@ -12,12 +12,12 @@
     </f:metadata>
 
     <h:dataTable rendered="#{nubProposalList.openListEnabled}"  headerClass="list-header" id="tblNubProposals" 
-                 value="#{nubProposalList.nubProposals}" var="p" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue">
+                 value="#{nubProposalList.nubProposals}" var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
         <h:column id="colPrintId" >
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.printNubProposal(p.value1)}" immediate="true" >
+            <h:commandLink action="#{nubProposalList.printNubProposal(nub.value1)}" immediate="true" >
                 <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
             </h:commandLink>
         </h:column>
@@ -25,21 +25,29 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(p.value1)}" immediate="true" >
+            <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.value1)}" immediate="true" >
                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+            </h:commandLink>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" immediate="true" >
+                <h:graphicImage alt="Status" name="#{nub.value3.icon}" library="Icon/small" title="#{nub.value3.value == 1 ? nubProposalList.getRejectReason(nub.value1): nub.value3.description}" value=""  rendered="#{nub.value3.icon.length() gt 0}"/>
             </h:commandLink>
         </h:column>
         <h:column id="colName">
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.editNubProposal(p.value1)}" value="#{p.value2.equals('') ? msg.txtEmpty : p.value2}" immediate="true"/>
+            <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2.equals('') ? msg.txtEmpty : nub.value2}" immediate="true"/>
         </h:column>
     </h:dataTable>
 
     <h:commandLink id="deleteNubProposal" style="display: none"
                    action="#{nubProposalList.deleteNubProposal(flash.nubId)}"
-                   value="delete #{flash.nubId}">
+                   value="delete #{flash.nubId}" immediate="true">
     </h:commandLink>
 
 </ui:composition>

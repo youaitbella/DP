@@ -11,6 +11,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Account;
 import org.inek.dataportal.entities.CooperationRight;
+import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.CooperationRightFacade;
@@ -21,8 +22,8 @@ public class NubSessionTools implements Serializable {
     protected static final Logger _logger = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
 
-    @Inject CooperationRightFacade _cooperationRightFacade;
-    @Inject SessionController _sessionController;
+    @Inject private CooperationRightFacade _cooperationRightFacade;
+    @Inject private SessionController _sessionController;
 
     // Seal own NUB is a marker, whether a NUB may be sealed by the owner (true)
     // or by a supervisor only (false)
@@ -35,13 +36,12 @@ public class NubSessionTools implements Serializable {
     }
 
     /**
-     * clears cache of sealOwnNub
-     * e.g. to ensure update after changing rights.
+     * clears cache of sealOwnNub e.g. to ensure update after changing rights.
      */
     public void clearSealOwnNubCache() {
-        _sealOwnNub=null;
+        _sealOwnNub = null;
     }
-    
+
     private void ensureSealOwnNub() {
         if (_sealOwnNub != null) {
             return;
@@ -59,6 +59,14 @@ public class NubSessionTools implements Serializable {
                 _sealOwnNub.put(right.getIk(), Boolean.FALSE);
             }
         }
+    }
+
+    public CooperativeRight getCooperativeRight(NubProposal nubProposal) {
+        return _cooperationRightFacade.getAchievedCooperativeRight(
+                nubProposal.getAccountId(), 
+                _sessionController.getAccount().getAccountId(), 
+                Feature.NUB, 
+                nubProposal.getIk());
     }
 
 }

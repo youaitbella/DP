@@ -29,6 +29,7 @@ import org.inek.dataportal.entities.AccountAdditionalIK;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.CodeType;
+import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.NubStatus;
@@ -59,6 +60,7 @@ public class EditNubProposal extends AbstractEditController {
     @Inject NubSessionTools _nubSessionTools;
     private String _conversationId;
     private NubProposal _nubProposal;
+    private CooperativeRight _cooperativeRight;
 
     @Override
     protected void addTopics() {
@@ -158,13 +160,29 @@ public class EditNubProposal extends AbstractEditController {
             int id = Integer.parseInt("" + ppId);
             NubProposal nubProposal = _nubProposalFacade.find(id);
             
-            if (_sessionController.isMyAccount(nubProposal.getAccountId())) { //todo: allow, if nub from partner and sufficient rights.
+            if (hasSufficientRights(nubProposal)) { 
                 return nubProposal;
             }
         } catch (NumberFormatException ex) {
             _logger.info(ex.getMessage());
         }
         return newNubProposal();
+    }
+
+    private boolean hasSufficientRights(NubProposal nubProposal) {
+        if (isOwnNub(nubProposal)){return true;}
+        ensureCooperativeRight(nubProposal);
+        return !_cooperativeRight.equals(CooperativeRight.None);
+    }
+
+    private boolean isOwnNub(NubProposal nubProposal) {
+        return _sessionController.isMyAccount(nubProposal.getAccountId());
+    }
+
+    private void ensureCooperativeRight(NubProposal nubProposal){
+        if (_cooperativeRight == null){
+            _cooperativeRight = _nubSessionTools.getCooperativeRight(nubProposal);
+        }
     }
 
     private NubProposal newNubProposal() {
@@ -327,14 +345,44 @@ public class EditNubProposal extends AbstractEditController {
         return id != null && id >= 0;
     }
 
+    public boolean isOwnNub() {
+        return isOwnNub(_nubProposal);
+    }
+
     public boolean isReadOnly() {
-        return _nubProposal.getStatus().getValue() >= 10  || !_nubProposal.getAccountId().equals(_sessionController.getAccount().getAccountId());
+        return _nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue()
+                || isOwnNub() && _nubProposal.getStatus().getValue() >= NubStatus.ApprovalRequested.getValue()
+                || !isOwnNub() && (_cooperativeRight == CooperativeRight.ReadOnly || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor) ;
+                
     }
 
     public boolean isRejectedNub() {
         return NubStatus.Rejected.getValue() == _nubProposal.getStatus().getValue();
     }
 
+    public boolean isSealEnabled(){
+        boolean enabled;
+        if (isOwnNub()){
+            enabled = _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
+        }else{
+        //todo: or foreign nub, which I may or shall seal
+            enabled= _cooperativeRight == CooperativeRight.ReadWriteSeal 
+                    || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor
+                    || _cooperativeRight == CooperativeRight.ReadWriteCompletedSealSupervisor;
+        }
+            
+        return !isReadOnly() && enabled;
+    }
+    
+    public boolean isApprovalRequestEnabled(){
+        boolean enabled=false;
+        if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
+            enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
+                    && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested);
+        }
+        return !isReadOnly() && enabled;
+    }
+    
     /**
      * requests sealing of a formal request if the form is completely full
      * filled, this function displays a confirmation dialog confirming with "ok"
@@ -404,29 +452,6 @@ public class EditNubProposal extends AbstractEditController {
 
         return "";
     }
-
-    public boolean isSealEnabled(){
-        boolean enabled;
-        if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
-            enabled = _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
-        }else{
-        //todo: or foreign nub, which I may or shall seal
-            enabled=false;
-        }
-            
-        return !isReadOnly() && enabled;
-    }
-    
-    public boolean isApprovalRequestEnabled(){
-        boolean enabled=false;
-        if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
-            enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
-                    && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested);
-        }
-            
-        return !isReadOnly() && enabled;
-    }
-    
     
     /**
      * checks, whether the session is still valid

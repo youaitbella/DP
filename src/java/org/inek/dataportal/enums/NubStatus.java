@@ -14,7 +14,7 @@ public enum NubStatus {
     Unknown(-1, "Unbekannt", ""),
     New(0, "Neu", ""),
     Rejected(1, "Abgelehnt (Fehler)", "error.png"),
-    ApprovalRequested(5, "Freigabe erforderlich", "arrow-expand-icon.png"),
+    ApprovalRequested(5, "Freigabe erforderlich", "timed.png"),
     Provided(10, "Bereitgestellt", "timed.png"),
     ReProvided(11, "Bereitgestellt (korrigiert)", "timed.png"),
     Accepted(20, "Angenommen", "accept.png"),

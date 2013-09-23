@@ -2,7 +2,6 @@ package org.inek.dataportal.feature.nub;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +22,7 @@ import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.Pair;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.helper.structures.Triple;
 
@@ -114,40 +114,47 @@ public class NubProposalList {
         return Pages.PrintView.URL();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Cooperation">
     @Inject AccountFacade _accountFacade;
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
     private List<CooperationRight> _cooperationRights;
     private List<Account> _partners;
 
-    public List<Account> getPartners() {
+    public List<Account> getPartnersForEdit() {
         if (_partners == null) {
             ensureAchievedCooperationRights();
             Set<Integer> ids = new HashSet<>();
             for (CooperationRight right : _cooperationRights) {
                 if (right.getCooperativeRight() == CooperativeRight.ReadOnly
                         || right.getCooperativeRight() == CooperativeRight.ReadWrite
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal) {
+                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal
+                        || right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor) {
                     ids.add(right.getOwnerId());
                 }
             }
-            _partners = ids.isEmpty() ? new ArrayList<Account>() :_accountFacade.getAccountsForIds(ids);
+            _partners = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
         }
         return _partners;
     }
 
-    public List<Triple> getNubProposalsFromPartner(int partnerId) {
+    public List<Triple> getNubProposalsForEditFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
-        List<Integer> iks = new ArrayList<>();
+        List<Triple> nubs = new ArrayList<>();
+
         for (CooperationRight right : _cooperationRights) {
             if (right.getOwnerId() == partnerId
-                    && (right.getCooperativeRight() == CooperativeRight.ReadOnly
-                    || right.getCooperativeRight() == CooperativeRight.ReadWrite
-                    || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal)) {
-                iks.add(right.getIk());
+                    && right.getCooperativeRight() != CooperativeRight.None
+                    && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
+                int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
+                        ? NubStatus.ApprovalRequested.getValue()
+                        : 0;
+                nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
             }
         }
-        return _nubProposalFacade.findForAccountAndIks(partnerId, iks);
+        return nubs;
     }
 
     private void ensureAchievedCooperationRights() {
@@ -155,4 +162,5 @@ public class NubProposalList {
             _cooperationRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccount().getAccountId(), Feature.NUB);
         }
     }
+// </editor-fold>
 }

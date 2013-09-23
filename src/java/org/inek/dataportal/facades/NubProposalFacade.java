@@ -15,8 +15,9 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.helper.structures.Pair;
+import org.inek.dataportal.enums.NubStatus;
 import org.inek.dataportal.helper.structures.Triple;
 
 /**
@@ -39,20 +40,20 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubProposal> cq = cb.createQuery(NubProposal.class);
         Root request = cq.from(NubProposal.class);
-        Predicate sealed;
+        Predicate status;
         Order order;
         if (dataSet == DataSet.OPEN) {
-            sealed = cb.lessThan(request.get("_status"), 1);
+            status = cb.lessThan(request.get("_status"), 10);
             order = cb.asc(request.get("_nubId"));
         } else {
-            sealed = cb.greaterThanOrEqualTo(request.get("_status"), 1);
+            status = cb.greaterThanOrEqualTo(request.get("_status"), 10);
             order = cb.desc(request.get("_nubId"));
         }
         if (dataSet == DataSet.ALLSEALED) {
-            cq.select(request).where(sealed).orderBy(order);
+            cq.select(request).where(status).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
-            cq.select(request).where(cb.and(isAccount, sealed)).orderBy(order);
+            cq.select(request).where(cb.and(isAccount, status)).orderBy(order);
         }
         return getEntityManager().createQuery(cq).getResultList();
     }
@@ -80,24 +81,40 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return merge(nubProposal);
     }
 
+    /**
+     * A list of NUB infos for display usage, e.g. lists
+     * @param accountId
+     * @param dataSet
+     * @return 
+     */
     public List<Triple> getNubProposalInfos(int accountId, DataSet dataSet) {
         List<NubProposal> proposals = findAll(accountId, dataSet);
         List<Triple> proposalInfos = new ArrayList<>(); 
         for (NubProposal proposal : proposals){
-            proposalInfos.add(new Triple(proposal.getNubId(), proposal.getName(), proposal.getStatus()));
+            String displayName = proposal.getDisplayName().trim().length() == 0 
+                    ? proposal.getName() 
+                    : proposal.getDisplayName();
+            proposalInfos.add(new Triple(proposal.getNubId(), displayName, proposal.getStatus()));
         }
         return proposalInfos;
     }
    
-    public List<Triple> findForAccountAndIks(int accountId, List<Integer> iks) {
-        String sql = "SELECT p FROM NubProposal p WHERE p._accountId = :accountId and p._ik in :iks ORDER BY p._nubId DESC";
+    public List<Triple> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus) {
+        String sql = "SELECT p FROM NubProposal p "
+                + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
+                + "ORDER BY p._nubId DESC";
         Query query = getEntityManager().createQuery(sql, NubProposal.class);
         query.setParameter("accountId", accountId);
-        query.setParameter("iks", iks);
+        query.setParameter("ik", ik);
+        query.setParameter("minStatus", minStatus);
+        query.setParameter("maxStatus", maxStatus);
         List<NubProposal> proposals = query.getResultList();
         List<Triple> proposalInfos = new ArrayList<>(); 
         for (NubProposal proposal : proposals){
-            proposalInfos.add(new Triple(proposal.getNubId(), proposal.getName(), proposal.getStatus()));
+            String displayName = proposal.getDisplayName().trim().length() == 0 
+                    ? proposal.getName() 
+                    : proposal.getDisplayName();
+            proposalInfos.add(new Triple(proposal.getNubId(), displayName, proposal.getStatus()));
         }
         return proposalInfos;
     }
