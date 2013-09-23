@@ -119,10 +119,11 @@ public class NubProposalList {
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
     private List<CooperationRight> _cooperationRights;
-    private List<Account> _partners;
+    private List<Account> _partners4Edit;
+    private List<Account> _partners4List;
 
     public List<Account> getPartnersForEdit() {
-        if (_partners == null) {
+        if (_partners4Edit == null) {
             ensureAchievedCooperationRights();
             Set<Integer> ids = new HashSet<>();
             for (CooperationRight right : _cooperationRights) {
@@ -134,9 +135,9 @@ public class NubProposalList {
                     ids.add(right.getOwnerId());
                 }
             }
-            _partners = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
+            _partners4Edit = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
         }
-        return _partners;
+        return _partners4Edit;
     }
 
     public List<Triple> getNubProposalsForEditFromPartner(int partnerId) {
@@ -152,6 +153,33 @@ public class NubProposalList {
                         ? NubStatus.ApprovalRequested.getValue()
                         : 0;
                 nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
+            }
+        }
+        return nubs;
+    }
+
+    public List<Account> getPartnersForList() {
+        if (_partners4List == null) {
+            ensureAchievedCooperationRights();
+            Set<Integer> ids = new HashSet<>();
+            for (CooperationRight right : _cooperationRights) {
+                if (right.getCooperativeRight() != CooperativeRight.None) {
+                    ids.add(right.getOwnerId());
+                }
+            }
+            _partners4List = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
+        }
+        return _partners4List;
+    }
+
+    public List<Triple> getNubProposalsForListFromPartner(int partnerId) {
+        ensureAchievedCooperationRights();
+        List<Triple> nubs = new ArrayList<>();
+
+        for (CooperationRight right : _cooperationRights) {
+            if (right.getOwnerId() == partnerId
+                    && right.getCooperativeRight() != CooperativeRight.None) {
+                nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999));
             }
         }
         return nubs;

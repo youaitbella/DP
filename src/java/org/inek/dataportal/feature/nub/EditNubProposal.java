@@ -330,6 +330,7 @@ public class EditNubProposal extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
+        _nubProposal.setLastChangedBy(_sessionController.getAccount().getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         if (isValidId(_nubProposal.getNubId())) {
