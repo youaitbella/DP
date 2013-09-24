@@ -44,10 +44,10 @@
             <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2.equals('') ? msg.txtEmpty : nub.value2}" immediate="true"/>
         </h:column>
     </h:dataTable>
-
+    
     <h:commandLink id="deleteNubProposal" style="display: none"
                    action="#{nubProposalList.deleteNubProposal(flash.nubId)}"
-                   value="delete #{flash.nubId}" immediate="true">
+                   value="delete #{flash.nubId}">
     </h:commandLink>
-
+    
 </ui:composition>

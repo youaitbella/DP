@@ -31,7 +31,7 @@ public class NubProposalList {
 
     @Inject NubProposalFacade _nubProposalFacade;
     @Inject SessionController _sessionController;
-
+    
     public List<Triple> getNubProposals() {
         return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccount().getAccountId(), DataSet.OPEN);
     }
@@ -87,7 +87,7 @@ public class NubProposalList {
             String script = "if (confirm ('" + proposal.getName().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('form:deleteNubProposal').click();}";
             _sessionController.setScript(script);
         }
-        return null;
+        return "";
     }
 
     public String deleteNubProposal(int proposalId) {
@@ -190,4 +190,5 @@ public class NubProposalList {
         }
     }
 // </editor-fold>
+
 }
