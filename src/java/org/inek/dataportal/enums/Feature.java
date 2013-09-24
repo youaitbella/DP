@@ -24,5 +24,6 @@ public enum Feature {
     OPAN,
     PEPP_PROPOSAL,
     ADMIN,
-    COOPERATION;
+    COOPERATION,
+    MODEL_INTENTION;
 }

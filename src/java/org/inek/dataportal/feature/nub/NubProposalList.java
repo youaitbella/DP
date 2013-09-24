@@ -92,7 +92,7 @@ public class NubProposalList {
 
     public String deleteNubProposal(int proposalId) {
         NubProposal proposal = _nubProposalFacade.find(proposalId);
-        if (proposal == null) {
+        if (proposal == null) { 
             return "";
         }
         if (_sessionController.isMyAccount(proposal.getAccountId())) {

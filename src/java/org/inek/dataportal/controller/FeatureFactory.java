@@ -14,6 +14,7 @@ import static org.inek.dataportal.enums.Feature.USER_MAINTENANCE;
 import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
+import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.requestsystem.RequestController;
@@ -39,6 +40,8 @@ public class FeatureFactory {
                 return new DropBoxController(sessionController);
             case COOPERATION:
                 return new CooperationController(sessionController);
+            case MODEL_INTENTION:
+                return new ModelIntentionController(sessionController);
         }
         throw new IllegalArgumentException("no such controller");
     }

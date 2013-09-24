@@ -73,6 +73,9 @@ public enum Pages {
     CooperationEditPartner("/Cooperation/CooperationEditPartner"),
     CooperationEditNub("/Cooperation/CooperationEditNub"),
     //
+    PartModelIntention("/ModelIntention/PartModelIntention"),
+    ModelIntentionSummary("/ModelIntention/ModelIntentionSummary"),
+    //
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),
     Error("/common/Error"),
