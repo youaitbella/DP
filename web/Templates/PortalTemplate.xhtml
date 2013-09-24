@@ -12,7 +12,7 @@
     </f:metadata>
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link type="text/css" rel="stylesheet" href="/DataPortal/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{sessionController.version}" />
+        <link type="text/css" rel="stylesheet" href="/DataPortal/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{applicationTools.version}" />
         <!--h:outputStylesheet name="dataportal.css" library="css" /-->
         <h:outputScript name="clientutils.js" library="script"/>
     </h:head>
@@ -54,7 +54,8 @@
                         InEK Datenportal
                     </div>
                     <div class="highlight">
-                        InEK – Institut für das Entgeltsystem im Krankenhaus
+                        InEK – Institut für das Entgeltsystem im Krankenhaus 
+                        <span class="small">v. #{applicationTools.version}</span>
                     </div>
                 </div>
             </div>

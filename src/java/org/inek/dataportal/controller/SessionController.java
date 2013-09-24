@@ -1,5 +1,8 @@
 package org.inek.dataportal.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
@@ -347,7 +350,4 @@ public class SessionController implements Serializable {
         return new AccountFeature();
     }
 
-    public String getVersion (){
-        return "2013.09.24.0";
-    }
 }

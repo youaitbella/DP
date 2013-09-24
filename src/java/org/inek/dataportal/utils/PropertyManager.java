@@ -87,7 +87,7 @@ public enum PropertyManager {
      * returns property as int if the value cannot be converted to int, an
      * unchecked NumberFormatException is thrown
      *
-     * @param name
+     * @param propKey
      * @return
      */
     public int getPropertyAsInt(PropertyKey propKey) {

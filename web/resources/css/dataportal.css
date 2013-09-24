@@ -153,6 +153,16 @@ div#wrapper {
         height: 20px;
     }
 
+    .small{
+        font-size: 0.8em;
+        font-weight: normal;
+        display: inline-block;
+        float: right;
+        margin-right: 1em;
+        padding: 0.2em;
+        color: #606670;
+    }
+    
     #footer {
         margin-left: 320px;
     }
