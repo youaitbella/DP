@@ -18,7 +18,7 @@
     <para styleclass="Image Caption"><image src="NubSummary.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich Neue Untersuchungs- und Behandlungsmethoden</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die obige Abbildung zeigt zwei Listen von NUB-Anfragen: Oberhalb der Schaltflächen </text><text styleclass="Button" translate="true">[ Neue NUB ]</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Button" translate="true">[ Neu aus Vorlage ]</text><text styleclass="Normal" translate="true"> befinden sich die neuen Anfragen. Unterhalb dieser Liste befinden sich die Anfragen, die Sie dem InEK zur Bearbeitung bereitgestellt haben. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die obige Abbildung zeigt zwei Listen von NUB-Anfragen: Oberhalb der Schaltflächen </text><text styleclass="Button" translate="true">[ Neue NUB ]</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Button" translate="true">[ Neu aus Vorlage ]</text><text styleclass="Normal" translate="true"> befinden sich die neuen Anfragen, sowie solche, die Sie zwar dem InEK bereitgestellt haben, die aber formal zurückgewiesen wurden. Diese können Sie zwecks Korrektur erneut bearbeiten. Unterhalb dieser Liste befinden sich die Anfragen, die Sie dem InEK zur Bearbeitung bereitgestellt haben. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereitgestellten Anfragen wird eine Verfahrensnummer zugewiesen. Diese wird in der Liste vor der Anfrage aufgeführt. Bei der Kommunikation mit dem InEK über NUB-Anfragen beziehen Sie sich bitte immer auf diese Nummer.</text></para>
     <para styleclass="Normal"></para>
@@ -57,6 +57,8 @@
         </td>
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereitgestellt. Diese NUB-Anfrage wartet auf Annahme durch das InEK. Die entsprechende Prüfung erfolgt in der Regel zeitnah.</text></para>
+          <para styleclass="Normal"></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Falle von Kooperation wird dieses Symbol auch in der Liste der nicht bereitgestellten NUB-Anfragen genutzt und kennzeichnet solche Anfragen, die Sie fertig bearbeitet haben, die aber auf die Bereitstellung (Freischaltung) durch einen Kooperationspartner warten.</text></para>
         </td>
       </tr>
       <tr style="vertical-align:top">
@@ -96,5 +98,8 @@
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Neu aus Vorlage ]</text><text styleclass="Normal" translate="true"> ruft den Dialog zur Auswahl von Vorlagen auf. Sie können dort Vorlagen hochladen, aus denen Anfragen erstellt werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Kooperation</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">Kooperation</text><text styleclass="Normal" translate="true"> nutzen, können die beiden genannten Listen zusätzlich NUB-Anfragen Ihrer Kooperationspartner beinhalten. Diese werden je Partner unterhalb Ihrer eigenen NUB-Anfragen gelistet. Details zur Kooperation entnehmen Sie bitte dem Kapitel </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">.</text></para>
   </body>
 </topic>

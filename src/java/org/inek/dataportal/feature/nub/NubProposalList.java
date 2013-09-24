@@ -22,7 +22,6 @@ import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.structures.Pair;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.helper.structures.Triple;
 

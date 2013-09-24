@@ -351,9 +351,12 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
+        return isReadOnly(false);
+    }
+    public boolean isReadOnly(boolean laxCheck) {
         return _nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue()
                 || isOwnNub() && _nubProposal.getStatus().getValue() >= NubStatus.ApprovalRequested.getValue()
-                || !isOwnNub() && (_cooperativeRight == CooperativeRight.ReadOnly || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor) ;
+                || !isOwnNub() && (_cooperativeRight == CooperativeRight.ReadOnly || !laxCheck && _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor) ;
                 
     }
 
@@ -364,21 +367,21 @@ public class EditNubProposal extends AbstractEditController {
     public boolean isSealEnabled(){
         boolean enabled;
         if (isOwnNub()){
-            enabled = _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
+            enabled = _nubProposal.getIk() != null && _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
         }else{
-        //todo: or foreign nub, which I may or shall seal
             enabled= _cooperativeRight == CooperativeRight.ReadWriteSeal 
                     || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor
                     || _cooperativeRight == CooperativeRight.ReadWriteCompletedSealSupervisor;
         }
             
-        return !isReadOnly() && enabled;
+        return !isReadOnly(true) && enabled;
     }
     
     public boolean isApprovalRequestEnabled(){
         boolean enabled=false;
         if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
-            enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
+            enabled = _nubProposal.getIk() != null 
+                    && !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
                     && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested);
         }
         return !isReadOnly() && enabled;

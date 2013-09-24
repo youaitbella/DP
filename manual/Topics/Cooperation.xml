@@ -2,6 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Kooperation</title>
+  <keywords>
+    <keyword translate="true">Kooperation</keyword>
+  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation</text></para>
@@ -14,7 +17,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können ihrem Partner diese Rechte gewähren:</text></para>
     <para styleclass="Normal"></para>
-    <list id="48" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Nur Anzeige Ihrer Daten (z. B. NUB-Anfrage)</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeigen und Bearbeiten Ihrer Daten</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeigen, Bearbeitung und Bereitstellung Ihrer Daten für das InEK</text></li>
