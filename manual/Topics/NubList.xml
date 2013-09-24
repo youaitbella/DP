@@ -41,6 +41,7 @@
         </td>
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Löschen. Klicken Sie auf dieses Symbol, um die dahinter angezeigte Anfrage zu löschen. Vor der Löschung müssen Sie dieses Vorhaben in einem kleinen Dialog bestätigen. Eine gelöschte Anfrage wird aus der Liste entfernt.</text></para>
+          <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Je nach Systemkonstellation kann es vorkommen, dass in der &quot;Übersicht&quot; Ihre NUB-Anfrage trotz Bestätigung nicht gelöscht wird. Sollte dies bei Ihnen der Fall sein, wechseln Sie in den Bereich &quot;Neue Untersuchungs- und Behandlungsmethoden&quot; und wiederholen dort den Löschvorgang.</text></para>
         </td>
       </tr>
       <tr style="vertical-align:top">

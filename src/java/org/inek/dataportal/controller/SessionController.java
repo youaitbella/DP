@@ -347,4 +347,7 @@ public class SessionController implements Serializable {
         return new AccountFeature();
     }
 
+    public String getVersion (){
+        return "2013.09.24.0";
+    }
 }

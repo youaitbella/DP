@@ -425,7 +425,7 @@ select:active, select:focus{
 }
 
 .inputmedium {
-    width: 120px;
+    width: 40%;
 }
 
 .inputlong {

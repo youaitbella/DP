@@ -18,7 +18,7 @@ import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.servicehandler.FeatureRequestHandler;
+import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.utils.Crypt;
 import org.inek.dataportal.utils.ObjectUtil;
 import org.inek.dataportal.utils.StringUtil;
