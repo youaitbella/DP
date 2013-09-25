@@ -6,7 +6,6 @@ colors
 */
 
 root {
-
 }
 
 html {
@@ -122,9 +121,10 @@ div#wrapper {
 
     .hint,
     .warning{
+        box-sizing: border-box;
         margin-top: 1em;
         display: inline-block;
-        width: 22.5em;
+        width: 270px;
         border-style: ridge;
         border-width: 5px;
         border-radius: 0.5em;
