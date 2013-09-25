@@ -59,6 +59,7 @@ public class NubController extends AbstractFeatureController {
         appendLine(sb, NubFieldKey.Name, nubProposal.getName());
         appendLine(sb, NubFieldKey.AltName, nubProposal.getAltName());
         appendLine(sb, NubFieldKey.Description, nubProposal.getDescription());
+        appendLine(sb, NubFieldKey.ProcCodes, nubProposal.getProcs());
         appendLine(sb, NubFieldKey.Procedures, nubProposal.getProcedures());
         appendLine(sb, NubFieldKey.Indication, nubProposal.getIndication());
         appendLine(sb, NubFieldKey.Replacement, nubProposal.getReplacement());
@@ -128,6 +129,9 @@ public class NubController extends AbstractFeatureController {
                     break;
                 case Description:
                     proposal.setDescription(restoreBreaks(content));
+                    break;
+                case ProcCodes:
+                    proposal.setProcs(restoreBreaks(content));
                     break;
                 case Procedures:
                     proposal.setProcedures(restoreBreaks(content));

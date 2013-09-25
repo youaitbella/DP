@@ -122,17 +122,25 @@ div#wrapper {
         padding-left: 15px;
     }
 
-    .hint{
+    .hint,
+    .warning{
         margin-top: 1em;
         display: inline-block;
-        width: 250px;
+        width: 22.5em;
         border-style: ridge;
         border-width: 5px;
         border-radius: 0.5em;
         padding: 5px;
-        border-color: red;
     }
     
+    .warning{
+        border-color: red;
+    }
+
+    .hint{
+        border-color: #7F9BAF;
+    }
+
     .right {
         margin-left: 300px;
     }

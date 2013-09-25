@@ -22,6 +22,9 @@ public class Announcement implements Serializable {
     @Column(name = "anActive")
     private boolean _isActive;
     
+    @Column(name = "anWarning")
+    private boolean _isWarning;
+
     @Column(name = "anText")
     private String _text;
 
@@ -34,12 +37,20 @@ public class Announcement implements Serializable {
         _id = id;
     }
 
-    public boolean isIsActive() {
+    public boolean isActive() {
         return _isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setActive(boolean isActive) {
         _isActive = isActive;
+    }
+
+    public boolean isWarning() {
+        return _isWarning;
+    }
+
+    public void setWarning(boolean isWarning) {
+        this._isWarning = isWarning;
     }
 
     public String getText() {

@@ -82,7 +82,17 @@
                         </ul>
                     </h:form>
 
-                    <h:outputText styleClass="hint" value="#{sessionController.announcement}" rendered="#{sessionController.announcement.length() > 0}"/>
+                    <h:dataTable value="#{sessionController.warnings}" var="a" styleClass="warning" rendered="#{sessionController.warnings.size() > 0}">
+                        <h:column>
+                            <h:outputText value="#{a.text}"/>
+                        </h:column>
+                    </h:dataTable>
+
+                    <h:dataTable value="#{sessionController.announcements}" var="a" styleClass="hint" rendered="#{sessionController.announcements.size() > 0}">
+                        <h:column>
+                            <h:outputText value="#{a.text}"/>
+                        </h:column>
+                    </h:dataTable>
                 </div>
 
 

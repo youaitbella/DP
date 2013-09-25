@@ -16,6 +16,7 @@ public enum NubFieldKey {
     Name,
     AltName,
     Description,
+    ProcCodes,
     Procedures,
     Indication,
     Replacement,

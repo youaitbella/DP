@@ -304,12 +304,12 @@ public class SessionController implements Serializable {
         return false;
     }
 
-    public String getAnnouncement() {
-        String msg = "";
-        for (Announcement announcement : _announcementFacade.findAllActive()) {
-            msg += (msg.length() > 0 ? "\r\n" : "") + announcement.getText();
-        }
-        return msg;
+    public List<Announcement> getWarnings() {
+        return _announcementFacade.findActiveWarnings(true);
+    }
+
+    public List<Announcement> getAnnouncements() {
+        return _announcementFacade.findActiveWarnings(false);
     }
 
     public String getScript() {

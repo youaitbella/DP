@@ -420,8 +420,8 @@ public class EditNubProposal extends AbstractEditController {
         if (_nubProposal.getStatus().getValue() >= 10){return Pages.Error.URL();}
 
         _nubProposal.setStatus(10 + _nubProposal.getStatus().getValue());
+        _nubProposal.setSealedBy(_sessionController.getAccount().getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
-
         if (isValidId(_nubProposal.getNubId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());

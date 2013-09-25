@@ -1,6 +1,5 @@
 package org.inek.dataportal.facades;
 
-import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,11 +14,13 @@ public class AnnouncementFacade extends AbstractFacade<Announcement> {
         super(Announcement.class);
     }
     
-    public List<Announcement> findAllActive() {
+    public List<Announcement> findActiveWarnings(boolean warning) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Announcement> cq = cb.createQuery(Announcement.class);
         Root request = cq.from(Announcement.class);
-        cq.select(request).where(cb.isTrue(request.get("_isActive")));
+        cq.select(request)
+                .where(cb.and(cb.isTrue(request.get("_isActive")), warning? cb.isTrue(request.get("_isWarning")) : cb.isFalse(request.get("_isWarning"))))
+                .orderBy(cb.asc(request.get("_id")));
         return getEntityManager().createQuery(cq).getResultList();
     }
     
