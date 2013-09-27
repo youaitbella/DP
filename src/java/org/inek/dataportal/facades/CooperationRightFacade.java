@@ -101,6 +101,13 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public boolean isSupervisor(Feature feature, int ik, int accountId) {
+        CooperativeRight right = getSupervisorRight(feature, ik, accountId);
+        return right.equals(CooperativeRight.ReadCompletedSealSupervisor)
+                || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor);
+
+    }
+
+    public CooperativeRight getSupervisorRight(Feature feature, int ik, int accountId) {
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = -1 "
@@ -113,27 +120,26 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                     .setParameter("ik", ik)
                     .setParameter("feature", feature)
                     .getSingleResult().getCooperativeRight();
-            return right.equals(CooperativeRight.ReadCompletedSealSupervisor)
-                    || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor);
+            return right;
         } catch (Exception e) {
             // there might be no entry
-            return false;
+            return CooperativeRight.None;
         }
     }
 
     public Set<Integer> isSupervisorFor(Feature feature, Set<Integer> iks) {
         String inIk = "";
-        for (int ik : iks){
+        for (int ik : iks) {
             inIk += (inIk.length() > 0 ? ", " : "") + ik;
         }
         String query = "select acId from dbo.account "
                 + "join accountFeature on acId = afaccountId and afFeature = ?1 "
-                + "where acIk in (" + inIk + ") "  // did not work :( "where acIk in ?2 ";
+                + "where acIk in (" + inIk + ") " // did not work :( "where acIk in ?2 ";
                 + "union "
                 + "select aaiAccountId from dbo.AccountAdditionalIK "
                 + "join accountFeature on aaiAccountId = afaccountId and afFeature = ?1 "
                 + "where aaiAccountId is not null and aaiIk in (" + inIk + ")";
-        
+
         return new HashSet<>(getEntityManager()
                 .createNativeQuery(query)
                 .setParameter(1, feature.name())

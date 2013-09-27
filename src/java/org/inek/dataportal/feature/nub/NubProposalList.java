@@ -2,8 +2,11 @@ package org.inek.dataportal.feature.nub;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -31,7 +34,7 @@ public class NubProposalList {
 
     @Inject NubProposalFacade _nubProposalFacade;
     @Inject SessionController _sessionController;
-    
+
     public List<Triple> getNubProposals() {
         return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccount().getAccountId(), DataSet.OPEN);
     }
@@ -92,7 +95,7 @@ public class NubProposalList {
 
     public String deleteNubProposal(int proposalId) {
         NubProposal proposal = _nubProposalFacade.find(proposalId);
-        if (proposal == null) { 
+        if (proposal == null) {
             return "";
         }
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
@@ -144,7 +147,7 @@ public class NubProposalList {
     public List<Triple> getNubProposalsForEditFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
         List<Triple> nubs = new ArrayList<>();
-
+        Map<Integer, Integer> iks = new HashMap<>();
         for (CooperationRight right : _cooperationRights) {
             if (right.getOwnerId() == partnerId
                     && right.getCooperativeRight() != CooperativeRight.None
@@ -153,9 +156,24 @@ public class NubProposalList {
                         || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
                         ? NubStatus.ApprovalRequested.getValue()
                         : 0;
-                nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
+                //        nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
+                iks.put(right.getIk(), minStatus);
             }
         }
+
+        // add managed iks
+        for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
+            if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccount().getAccountId())) {
+                if (!iks.containsKey(ik)) {
+                    iks.put(ik, NubStatus.ApprovalRequested.getValue());
+                }
+            }
+        }
+
+        for (Entry<Integer, Integer> ikInfo : iks.entrySet()) {
+            nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, ikInfo.getKey(), ikInfo.getValue(), 9));
+        }
+
         return nubs;
     }
 
