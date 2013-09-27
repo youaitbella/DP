@@ -71,15 +71,29 @@ public class EditNubProposal extends AbstractEditController {
         addTopic(NubProposalTabs.tabNubPage4.name(), Pages.NubEditPage4.URL());
     }
 
-    private void initMenuMultiIK() {
+    private void initMenuMultiIK(Object ppId) {
+        Account acc = _sessionController.getAccount();
         List<AccountAdditionalIK> addIks = _sessionController.getAccount().getAdditionalIKs();
             ArrayList<SelectItem> items = new ArrayList<>();
             for (AccountAdditionalIK addIk : addIks) {
                 items.add(new SelectItem(addIk.getIK()));
             }
         
-        if(_sessionController.getAccount().getIK() != null) {
+        if(acc.getIK() != null) {
             items.add(0, new SelectItem(_sessionController.getAccount().getIK()));
+        }
+        if(ppId != null) {
+            _nubProposal = loadNubProposal(ppId);
+            if(acc.getIK().intValue() != _nubProposal.getIk().intValue()) {
+                boolean containsIk = false;
+                for(AccountAdditionalIK addIk : addIks) {
+                    if(addIk.getIK() == _nubProposal.getIk()) {
+                        containsIk = true;
+                    }
+                }
+                if(!containsIk)
+                    items.add(0, new SelectItem(""));
+            }
         }
         _multiIks = items.toArray(_multiIks);
     }
@@ -146,7 +160,7 @@ public class EditNubProposal extends AbstractEditController {
     private void init() {
         _conversationId = (String) Utils.getFlash().get("conversationId");
         Object ppId = Utils.getFlash().get("nubId");
-        initMenuMultiIK();
+        initMenuMultiIK(ppId);
         if (ppId == null) {
             _nubProposal = newNubProposal();
         } else {

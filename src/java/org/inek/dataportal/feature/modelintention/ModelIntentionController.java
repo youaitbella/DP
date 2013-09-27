@@ -43,7 +43,6 @@ public class ModelIntentionController extends AbstractFeatureController {
      * @return
      */
     public ModelIntention createModelIntention() {
-        Account account = getSessionController().getAccount();
         ModelIntention modelIntention = new ModelIntention();
         return modelIntention;
     }

@@ -8,13 +8,10 @@
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.modelIntentionSummary)}" value="#{msg.lblModelIntention}" immediate="true"/>
         </h2>
         <div class="paddingElement">
-            <ui:include src="#{sessionTools.pages.ListNub}"/>
+            <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
             <p>
                 <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposal}" 
                                immediate="true" value="#{msg.btnNewProposal}" disabled="#{!nubProposalList.nubEnabled}"/>
-                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposalFromTemplate}" disabled="#{!nubProposalList.nubEnabled}"
-                               immediate="true" value="#{msg.lblNewFromTemplate}"/>
-                <h:outputText rendered="#{!nubProposalList.nubEnabled}" value="#{msg.msgNoNubCreatable}"/>
             </p>
             <br/>
             <h:outputLabel styleClass="label" rendered ="#{nubProposalList.sealedNubProposals.size() > 0}" value="sowie #{nubProposalList.sealedNubProposals.size()} bereitgestellte NUBs"/>
