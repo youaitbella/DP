@@ -50,7 +50,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, int ik) {
         try {
             String query = "SELECT cor FROM CooperationRight cor "
-                    + "WHERE cor._ownerId = :ownerId "
+                    + "WHERE (cor._ownerId = :ownerId "
                     + "and cor._partnerId = :partnerId "
                     + "and cor._ik = :ik "
                     + "and cor._feature = :feature";
@@ -66,6 +66,10 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         }
     }
 
+    public boolean hasSupervisor (Feature feature, int ik){
+        return false;
+    }
+    
     public CooperationRight save(CooperationRight right) {
         if (right.getId() == null) {
             persist(right);

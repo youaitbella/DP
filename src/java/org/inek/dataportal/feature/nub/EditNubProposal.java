@@ -367,7 +367,9 @@ public class EditNubProposal extends AbstractEditController {
     public boolean isSealEnabled(){
         boolean enabled;
         if (isOwnNub()){
-            enabled = _nubProposal.getIk() != null && _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
+            if (_nubProposal.getIk() == null){return false;}
+            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null){return false;}
+            enabled =  _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
         }else{
             enabled= _cooperativeRight == CooperativeRight.ReadWriteSeal 
                     || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor
@@ -380,8 +382,9 @@ public class EditNubProposal extends AbstractEditController {
     public boolean isApprovalRequestEnabled(){
         boolean enabled=false;
         if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
-            enabled = _nubProposal.getIk() != null 
-                    && !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
+            if (_nubProposal.getIk() == null){return false;}
+            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null){return false;}
+            enabled =  !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
                     && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested);
         }
         return !isReadOnly() && enabled;

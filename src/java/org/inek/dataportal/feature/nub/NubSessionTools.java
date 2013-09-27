@@ -49,7 +49,7 @@ public class NubSessionTools implements Serializable {
         _sealOwnNub = new HashMap<>();
         Account account = _sessionController.getAccount();
         for (int ik : account.getFullIkList()) {
-            _sealOwnNub.put(ik, Boolean.TRUE);
+            _sealOwnNub.put(ik, !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
         }
         List<CooperationRight> rights = _cooperationRightFacade
                 .getGrantedCooperationRights(account.getAccountId(), Feature.NUB);
