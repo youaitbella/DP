@@ -4,20 +4,19 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <f:metadata>
-        <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
+        <f:viewParam name="modelId" id="modelId" value="#{flash.modelId}" />
     </f:metadata>
 
-    <h:dataTable rendered="#{nubProposalList.openListEnabled}"  headerClass="list-header" id="tblNubProposals" 
-                 value="#{nubProposalList.nubProposals}" var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
+    <h:dataTable rendered="#{modelIntentionList.modelIntentions.size() > 0}"  headerClass="list-header" id="tblModelIntentions" 
+                 value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
         <h:column id="colPrintId" >
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.printNubProposal(nub.value1)}" immediate="true" >
+            <h:commandLink action="#{modelIntentionList.printModelIntention(model.value1)}" immediate="true" >
                 <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
             </h:commandLink>
         </h:column>
@@ -25,7 +24,7 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.value1)}" immediate="true" >
+            <h:commandLink action="#{modelIntentionList.requestDeleteModelIntention(model.value1)}" immediate="true" >
                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
             </h:commandLink>
         </h:column>
@@ -33,21 +32,21 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" immediate="true" >
-                <h:graphicImage alt="Status" name="#{nub.value3.icon}" library="Icon/small" title="#{nub.value3.value == 1 ? nubProposalList.getRejectReason(nub.value1): nub.value3.description}" value=""  rendered="#{nub.value3.icon.length() gt 0}"/>
+            <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" immediate="true" >
+                <h:graphicImage alt="Status" name="#{model.value3.icon}" library="Icon/small" title="#{model.value3.description}" value=""  rendered="#{model.value3.icon.length() gt 0}"/>
             </h:commandLink>
         </h:column>
         <h:column id="colName">
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2.equals('') ? msg.txtEmpty : nub.value2}" immediate="true"/>
+            <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="#{model.value2.equals('') ? msg.txtEmpty : model.value2}" immediate="true"/>
         </h:column>
     </h:dataTable>
     
-    <h:commandLink id="deleteNubProposal" style="display: none"
-                   action="#{nubProposalList.deleteNubProposal(flash.nubId)}"
-                   value="delete #{flash.nubId}">
+    <h:commandLink id="deleteModelIntention" style="display: none"
+                   action="#{modelIntentionList.deleteModelIntention(flash.modelId)}"
+                   value="delete #{flash.modelId}">
     </h:commandLink>
     
 </ui:composition>

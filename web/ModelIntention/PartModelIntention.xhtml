@@ -10,11 +10,11 @@
         <div class="paddingElement">
             <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
             <p>
-                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposal}" 
-                               immediate="true" value="#{msg.btnNewProposal}" disabled="#{!nubProposalList.nubEnabled}"/>
+                <h:commandLink styleClass="button" action="#{modelIntentionList.newModelIntention}" 
+                               immediate="true" value="#{msg.btnNewModelIntention}"/>
             </p>
             <br/>
-            <h:outputLabel styleClass="label" rendered ="#{nubProposalList.sealedNubProposals.size() > 0}" value="sowie #{nubProposalList.sealedNubProposals.size()} bereitgestellte NUBs"/>
+            <h:outputLabel styleClass="label" rendered ="#{modelIntentionList.sealedModelIntentions.size() > 0}" value="sowie #{modelIntentionList.sealedModelIntentions.size()} bereitgestellte Modellvorhaben"/>
         </div>
     </ui:composition>
 </html>

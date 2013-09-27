@@ -80,7 +80,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     }
 
     /**
-     * A list of NUB infos for display usage, e.g. lists
+     * A list of ModelIntentions infos for display usage, e.g. lists
      * @param accountId
      * @param dataSet
      * @return 

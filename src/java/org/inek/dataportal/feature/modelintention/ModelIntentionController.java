@@ -6,7 +6,6 @@ package org.inek.dataportal.feature.modelintention;
 
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Account;
 import org.inek.dataportal.entities.ModelIntention;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -38,7 +37,7 @@ public class ModelIntentionController extends AbstractFeatureController {
     }
     
     /**
-     * creates a new NubProposal pre-populated with master data
+     * creates a new ModelIntention pre-populated with master data
      *
      * @return
      */

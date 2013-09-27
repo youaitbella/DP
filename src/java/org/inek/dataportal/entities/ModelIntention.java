@@ -40,8 +40,8 @@ public class ModelIntention implements Serializable {
     @Column(name = "miSex")
     private String _sex;
     
-    @Column(name = "miMiscPatients")
-    private String _miscPatients;
+    @Column(name = "miMiscPatient")
+    private String _miscPatient;
     
     @Column(name = "miRegion")
     private String _region;
@@ -226,12 +226,12 @@ public class ModelIntention implements Serializable {
         this._sex = sex;
     }
 
-    public String getMiscPatients() {
-        return _miscPatients;
+    public String getMiscPatient() {
+        return _miscPatient;
     }
 
-    public void setMiscPatients(String miscPatients) {
-        this._miscPatients = miscPatients;
+    public void setMiscPatient(String miscPatient) {
+        this._miscPatient = miscPatient;
     }
 
     public String getRegion() {
@@ -622,11 +622,11 @@ public class ModelIntention implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof NubProposal)) {
+        if (!(object instanceof ModelIntention)) {
             return false;
         }
-        NubProposal other = (NubProposal) object;
-        if ((_miId == null && other.getNubId() != null) || (_miId != null && !_miId.equals(other.getNubId()))) {
+        ModelIntention other = (ModelIntention) object;
+        if ((_miId == null && other.getMiId()!= null) || (_miId != null && !_miId.equals(other.getMiId()))) {
             return false;
         }
         return true;
@@ -634,7 +634,7 @@ public class ModelIntention implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.NubProposal[id=" + _miId + "]";
+        return "org.inek.entities.ModelIntention[id=" + _miId + "]";
     }
 
     // </editor-fold>

@@ -160,4 +160,8 @@ public class SessionTools implements Serializable {
     public boolean isNubProposalDisabled(){
         return false;
     }
+    
+    public boolean isModelIntentionDisabled() {
+        return false;
+    }
 }

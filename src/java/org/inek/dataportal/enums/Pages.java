@@ -76,6 +76,11 @@ public enum Pages {
     PartModelIntention("/ModelIntention/PartModelIntention"),
     ListModelIntention("/ModelIntention/ListModelIntention"),
     ModelIntentionSummary("/ModelIntention/ModelIntentionSummary"),
+    ModelIntentionTypeAndNumPat("/ModelIntention/ModelIntentionTypeAndNumPat"),
+    ModelIntentionGoals("/ModelIntention/ModelIntentionGoals"),
+    ModelIntentionTreatAreaAndCosts("/ModelIntention/ModelIntentionTreatAreaAndCosts"),
+    ModelIntentionStructure("ModelIntention/ModelIntentionStructure"),
+    ModelIntentionQuality("ModelIntention/ModelIntentionQuality"),
     //
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),

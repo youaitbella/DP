@@ -64,7 +64,7 @@ public class FeatureRequestHandler {
         body += "Telefon: " + account.getPhone() + "\r\n";
         body += "Firma: " + account.getCompany() + "\r\n";
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
-        body += "IK:    " + account.getIK() + (cust != null ? " (im ICMT bekannt)" : "")+ "\r\n";
+        body += "IK:    " + account.getIK() + (cust.getIK() != null ? " (im ICMT bekannt)" : "")+ "\r\n";
         String subject = Utils.getMessage("headerFeatureApproval") + " " + account.getEmail();
         try {
             Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ManagerEmail), subject, body);

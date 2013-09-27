@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.nub;
+package org.inek.dataportal.feature.modelintention;
 
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -7,14 +7,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.ModelIntention;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -30,18 +27,16 @@ public class EditModelIntention extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
-    @Inject private CustomerFacade _customerFacade;
     private String _conversationId;
     private ModelIntention _modelIntention;
-    private CooperativeRight _cooperativeRight;
 
     @Override
     protected void addTopics() {
-        addTopic(ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients.name(), Pages.NubEditAddress.URL());
-        addTopic(ModelIntentionTabs.tabModelIntGoals.name(), Pages.NubEditPage1.URL());
-        addTopic(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), Pages.NubEditPage2.URL());
-        addTopic(ModelIntentionTabs.tabModelIntStructures.name(), Pages.NubEditPage3.URL());
-        addTopic(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), Pages.NubEditPage4.URL());
+        addTopic(ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients.name(), Pages.ModelIntentionTypeAndNumPat.URL());
+        addTopic(ModelIntentionTabs.tabModelIntGoals.name(), Pages.ModelIntentionGoals.URL());
+        addTopic(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), Pages.ModelIntentionTreatAreaAndCosts.URL());
+        addTopic(ModelIntentionTabs.tabModelIntStructures.name(), Pages.ModelIntentionStructure.URL());
+        addTopic(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), Pages.ModelIntentionQuality.URL());
     }
 
     enum ModelIntentionTabs {
@@ -57,7 +52,7 @@ public class EditModelIntention extends AbstractEditController {
     // </editor-fold>
 
     public EditModelIntention() {
-        //System.out.println("EditNubProposal");
+        //System.out.println("EditModelIntention");
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -95,6 +90,7 @@ public class EditModelIntention extends AbstractEditController {
 
     private ModelIntention newModelIntention() {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
+        modelIntention.setAccountId(_sessionController.getAccount().getAccountId());
         return modelIntention;
     }
 
@@ -123,13 +119,13 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return isReadOnly(false);
+        return false;
     }
     public boolean isReadOnly(boolean laxCheck) {
-        return _modelIntention.getStatus().intValue() >= ModelIntentionStatus.Provided.getValue();
+        return false;
     }
 
-    public boolean isRejectedNub() {
+    public boolean isRejectedModelIntention() {
         return ModelIntentionStatus.Rejected.getValue() == _modelIntention.getStatus().intValue();
     }
     
