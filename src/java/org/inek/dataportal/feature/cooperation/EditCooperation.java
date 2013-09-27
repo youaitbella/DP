@@ -6,6 +6,7 @@ package org.inek.dataportal.feature.cooperation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
@@ -151,19 +152,20 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void EnsureCooperationRights() {
-        List<Integer> iks = _sessionController.getAccount().getFullIkList();
+        Set<Integer> iks = _sessionController.getAccount().getFullIkList();
         _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccount().getAccountId(), Feature.NUB);
         for (CooperationRight right : _cooperationRights) {
+            // remove those iks from list, which still have rights
             iks.remove((Integer)right.getIk());
         }
         for (int ik : iks) {
+            // for the memaining Iks add new rights to create a full list
             CooperationRight right = new CooperationRight(
                     _sessionController.getAccount().getAccountId(),
                     getPartnerAccount().getAccountId(),
                     ik,
                     Feature.NUB
             );
-
             _cooperationRights.add(right);
         }
     }

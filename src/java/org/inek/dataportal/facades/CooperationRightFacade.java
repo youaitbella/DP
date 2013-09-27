@@ -1,6 +1,9 @@
 package org.inek.dataportal.facades;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -39,7 +42,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @return
      */
     public List<CooperationRight> getAchievedCooperationRights(int accountId, Feature feature) {
-        String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
+        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId > 0 and cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
                 .setParameter("accountId", accountId)
@@ -116,6 +119,26 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
             // there might be no entry
             return false;
         }
+    }
+
+    public Set<Integer> isSupervisorFor(Feature feature, Set<Integer> iks) {
+        String inIk = "";
+        for (int ik : iks){
+            inIk += (inIk.length() > 0 ? ", " : "") + ik;
+        }
+        String query = "select acId from dbo.account "
+                + "join accountFeature on acId = afaccountId and afFeature = ?1 "
+                + "where acIk in (" + inIk + ") "  // did not work :( "where acIk in ?2 ";
+                + "union "
+                + "select aaiAccountId from dbo.AccountAdditionalIK "
+                + "join accountFeature on aaiAccountId = afaccountId and afFeature = ?1 "
+                + "where aaiAccountId is not null and aaiIk in (" + inIk + ")";
+        
+        return new HashSet<>(getEntityManager()
+                .createNativeQuery(query)
+                .setParameter(1, feature.name())
+                //.setParameter(2, iks) did not work :(
+                .getResultList());
     }
 
     public CooperationRight save(CooperationRight right) {

@@ -117,6 +117,7 @@ public class NubProposalList {
     @Inject AccountFacade _accountFacade;
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
+    @Inject NubSessionTools _nubSessionTools;
     private List<CooperationRight> _cooperationRights;
     private List<Account> _partners4Edit;
     private List<Account> _partners4List;
@@ -134,6 +135,7 @@ public class NubProposalList {
                     ids.add(right.getOwnerId());
                 }
             }
+            ids.addAll(_nubSessionTools.getManagedAccounts());
             _partners4Edit = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
         }
         return _partners4Edit;
@@ -157,7 +159,7 @@ public class NubProposalList {
         return nubs;
     }
 
-    public List<Account> getPartnersForList() {
+    public List<Account> getPartnersForDisplay() {
         if (_partners4List == null) {
             ensureAchievedCooperationRights();
             Set<Integer> ids = new HashSet<>();
@@ -166,12 +168,13 @@ public class NubProposalList {
                     ids.add(right.getOwnerId());
                 }
             }
+            ids.addAll(_nubSessionTools.getManagedAccounts());
             _partners4List = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
         }
         return _partners4List;
     }
 
-    public List<Triple> getNubProposalsForListFromPartner(int partnerId) {
+    public List<Triple> getNubProposalsForDisplayFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
         List<Triple> nubs = new ArrayList<>();
 

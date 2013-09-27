@@ -7,8 +7,11 @@ package org.inek.dataportal.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -292,8 +295,8 @@ public class Account implements Serializable {
 
     // </editor-fold>
     
-    public List<Integer> getFullIkList() {
-        List<Integer> iks = new ArrayList<>();
+    public Set<Integer> getFullIkList() {
+        Set<Integer> iks = new HashSet<>();
         iks.add(_ik);
         for (AccountAdditionalIK addIk : getAdditionalIKs()) {
             iks.add(addIk.getIK());

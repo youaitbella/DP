@@ -127,16 +127,16 @@
                 </h:dataTable>
             </h:panelGroup>
             
-            <h:panelGroup rendered="#{nubProposalList.partnersForEdit.size() > 0}">
+            <h:panelGroup rendered="#{nubProposalList.partnersForDisplay.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
-                <c:forEach items="#{nubProposalList.partnersForEdit}" var="partner" rendered="#{nubProposalList.partnersForList.size() > 0}">
+                <c:forEach items="#{nubProposalList.partnersForDisplay}" var="partner" rendered="#{nubProposalList.partnersForDisplay.size() > 0}">
                     <p>
                         <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
                         <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
                         <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
                     </p>
-                    <h:dataTable   headerClass="list-header" value="#{nubProposalList.getNubProposalsForListFromPartner(partner.accountId)}"
+                    <h:dataTable   headerClass="list-header" value="#{nubProposalList.getNubProposalsForDisplayFromPartner(partner.accountId)}"
                                    var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
                         <h:column>
                             <f:facet name="header">

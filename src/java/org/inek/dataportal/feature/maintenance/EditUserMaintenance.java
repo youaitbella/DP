@@ -31,6 +31,7 @@ import org.inek.dataportal.facades.AccountFacade;
 import org.inek.dataportal.facades.AccountPwdFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 import org.inek.dataportal.helper.faceletvalidators.IkValidator;
@@ -54,18 +55,13 @@ public class EditUserMaintenance extends AbstractEditController {
         tabUMOther,
         tabUMConfig;
     }
-    @Inject
-    private SessionTools _sessionTools;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private AccountFacade _accountFacade;
-    @Inject
-    private AccountPwdFacade _accountPwdFacade;
-    @Inject
-    private CustomerFacade _customerFacade;
-    @Inject
-    private AccountChangeMailFacade _accountChangeMailFacade;
+    @Inject private SessionTools _sessionTools;
+    @Inject private NubSessionTools _nubSessionTools;
+    @Inject private SessionController _sessionController;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private AccountPwdFacade _accountPwdFacade;
+    @Inject private CustomerFacade _customerFacade;
+    @Inject private AccountChangeMailFacade _accountChangeMailFacade;
     private String _myConversationId;
     private String _user;
     private String _email;
@@ -384,6 +380,7 @@ public class EditUserMaintenance extends AbstractEditController {
         if (isMasterdataChanged()) {
             mergeMasterData();
             _sessionController.saveAccount();
+            _nubSessionTools.clearCache();
         }
         return "";
     }
@@ -391,6 +388,7 @@ public class EditUserMaintenance extends AbstractEditController {
     public String saveIks() {
         if (mergeIKListIfModified()) {
             _sessionController.saveAccount();
+            _nubSessionTools.clearCache();
         }
         Utils.getFlash().put("activeTopic", UserMaintenaceTabs.tabUMAdditionalIKs.name());
         return "";

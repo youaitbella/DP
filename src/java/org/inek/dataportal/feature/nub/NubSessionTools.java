@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -29,17 +30,24 @@ public class NubSessionTools implements Serializable {
     // or by a supervisor only (false)
     // It is used in coopearative environment 
     private Map<Integer, Boolean> _sealOwnNub;
-
+    private Set<Integer> _managedAccounts;
+    
     public Map<Integer, Boolean> getSealOwnNub() {
         ensureSealOwnNub();
         return _sealOwnNub;
     }
 
+    public Set<Integer> getManagedAccounts(){
+        ensureManagedAcounts();
+        return _managedAccounts;
+    }
+    
     /**
      * clears cache of sealOwnNub e.g. to ensure update after changing rights.
      */
-    public void clearSealOwnNubCache() {
+    public void clearCache() {
         _sealOwnNub = null;
+        _managedAccounts = null;
     }
 
     private void ensureSealOwnNub() {
@@ -61,6 +69,13 @@ public class NubSessionTools implements Serializable {
         }
     }
 
+    private void ensureManagedAcounts(){
+        if (_managedAccounts != null){return;}
+        Account account = _sessionController.getAccount();
+        _managedAccounts = _cooperationRightFacade.isSupervisorFor(Feature.NUB, account.getFullIkList());
+        
+    }
+    
     public CooperativeRight getCooperativeRight(NubProposal nubProposal) {
         return _cooperationRightFacade.getAchievedCooperativeRight(
                 nubProposal.getAccountId(), 
