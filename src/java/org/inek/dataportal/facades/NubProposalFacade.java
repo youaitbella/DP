@@ -15,9 +15,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.NubProposal;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.NubStatus;
 import org.inek.dataportal.helper.structures.Triple;
 
 /**
