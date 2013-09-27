@@ -50,7 +50,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, int ik) {
         try {
             String query = "SELECT cor FROM CooperationRight cor "
-                    + "WHERE (cor._ownerId = :ownerId "
+                    + "WHERE cor._ownerId = :ownerId "
                     + "and cor._partnerId = :partnerId "
                     + "and cor._ik = :ik "
                     + "and cor._feature = :feature";
@@ -66,10 +66,58 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         }
     }
 
-    public boolean hasSupervisor (Feature feature, int ik){
+    /**
+     * Checks, whether a declared supervisor exists for given feature and ik A
+     * declared supervisor cannot be establish herself by cooperation feature A
+     * declared supervisor will be created by system admin: ownerId = -1,
+     * partnerId = supervisor thus supervisor will be forced to be partner of
+     * all others
+     *
+     * @param feature
+     * @param ik
+     * @return
+     */
+    public boolean hasSupervisor(Feature feature, int ik) {
+        String query = "SELECT cor FROM CooperationRight cor "
+                + "WHERE cor._ownerId = -1 "
+                + "and cor._ik = :ik "
+                + "and cor._feature = :feature";
+        List<CooperationRight> cooperationRights = getEntityManager()
+                .createQuery(query, CooperationRight.class)
+                .setParameter("ik", ik)
+                .setParameter("feature", feature)
+                .getResultList();
+        for (CooperationRight cooperationRight : cooperationRights) {
+            CooperativeRight right = cooperationRight.getCooperativeRight();
+            if (right.equals(CooperativeRight.ReadCompletedSealSupervisor)
+                    || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor)) {
+                return true;
+            }
+        }
         return false;
     }
-    
+
+    public boolean isSupervisor(Feature feature, int ik, int accountId) {
+        try {
+            String query = "SELECT cor FROM CooperationRight cor "
+                    + "WHERE cor._ownerId = -1 "
+                    + "and cor._partnerId = :accountId "
+                    + "and cor._ik = :ik "
+                    + "and cor._feature = :feature";
+            CooperativeRight right = getEntityManager()
+                    .createQuery(query, CooperationRight.class)
+                    .setParameter("accountId", accountId)
+                    .setParameter("ik", ik)
+                    .setParameter("feature", feature)
+                    .getSingleResult().getCooperativeRight();
+            return right.equals(CooperativeRight.ReadCompletedSealSupervisor)
+                    || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor);
+        } catch (Exception e) {
+            // there might be no entry
+            return false;
+        }
+    }
+
     public CooperationRight save(CooperationRight right) {
         if (right.getId() == null) {
             persist(right);
