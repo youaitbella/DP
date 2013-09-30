@@ -187,6 +187,7 @@ public class NubProposalList {
                 }
             }
             ids.addAll(_nubSessionTools.getManagedAccounts());
+            ids.remove(_sessionController.getAccount().getAccountId());
             _partners4List = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
         }
         return _partners4List;
@@ -195,13 +196,27 @@ public class NubProposalList {
     public List<Triple> getNubProposalsForDisplayFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
         List<Triple> nubs = new ArrayList<>();
+        Set<Integer> iks = new HashSet<>();
 
         for (CooperationRight right : _cooperationRights) {
             if (right.getOwnerId() == partnerId
                     && right.getCooperativeRight() != CooperativeRight.None) {
+                iks.add(right.getIk());
                 nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999));
             }
         }
+
+        // add managed iks
+        for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
+            if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccount().getAccountId())) {
+                iks.add(ik);
+            }
+        }
+
+        for (Integer ik : iks) {
+            nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, ik, 10, 999));
+        }
+
         return nubs;
     }
 

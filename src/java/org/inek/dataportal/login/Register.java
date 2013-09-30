@@ -96,7 +96,7 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgInvalidCharacters");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        if (_accountFacade.existsMailOrUser(input)) {
+        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
             String msg = Utils.getMessage("msgUserExists");
             throw new ValidatorException(new FacesMessage(msg));
         }
@@ -108,7 +108,7 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        if (_accountFacade.existsMailOrUser(input)) {
+        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
             String msg = Utils.getMessage("msgUserExists");
             throw new ValidatorException(new FacesMessage(msg));
         }

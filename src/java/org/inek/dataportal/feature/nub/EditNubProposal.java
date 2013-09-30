@@ -61,6 +61,7 @@ public class EditNubProposal extends AbstractEditController {
     private String _conversationId;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
+    private CooperativeRight _supervisorRight;
 
     @Override
     protected void addTopics() {
@@ -69,33 +70,6 @@ public class EditNubProposal extends AbstractEditController {
         addTopic(NubProposalTabs.tabNubPage2.name(), Pages.NubEditPage2.URL());
         addTopic(NubProposalTabs.tabNubPage3.name(), Pages.NubEditPage3.URL());
         addTopic(NubProposalTabs.tabNubPage4.name(), Pages.NubEditPage4.URL());
-    }
-
-    private void initMenuMultiIK(Object ppId) {
-        Account acc = _sessionController.getAccount();
-        List<AccountAdditionalIK> addIks = _sessionController.getAccount().getAdditionalIKs();
-            ArrayList<SelectItem> items = new ArrayList<>();
-            for (AccountAdditionalIK addIk : addIks) {
-                items.add(new SelectItem(addIk.getIK()));
-            }
-        
-        if(acc.getIK() != null) {
-            items.add(0, new SelectItem(_sessionController.getAccount().getIK()));
-        }
-        if(ppId != null) {
-            _nubProposal = loadNubProposal(ppId);
-            if(acc.getIK().intValue() != _nubProposal.getIk().intValue()) {
-                boolean containsIk = false;
-                for(AccountAdditionalIK addIk : addIks) {
-                    if(addIk.getIK() == _nubProposal.getIk()) {
-                        containsIk = true;
-                    }
-                }
-                if(!containsIk)
-                    items.add(0, new SelectItem(""));
-            }
-        }
-        _multiIks = items.toArray(_multiIks);
     }
 
     enum NubProposalTabs {
@@ -133,20 +107,22 @@ public class EditNubProposal extends AbstractEditController {
     public String getPatientsPastText() {
         return String.format(Utils.getMessage("lblNubPatientsPast"), _currentYear - 1, _currentYear);
     }
-    
+
     public void changedIk() {
         if (_nubProposal != null) {
             Customer c = _customerFacade.getCustomerByIK(_nubProposal.getIk());
             if (c.getName() == null || c.getName().equals("")) {
-                if(_nubProposal.getIkName() == null || c.getName() == null) {
+                if (_nubProposal.getIkName() == null || c.getName() == null) {
                     _nubProposal.setIkName("");
-                } 
-                if(_nubProposal.getIkName().trim().equals(""))
+                }
+                if (_nubProposal.getIkName().trim().equals("")) {
                     _nubProposal.setIkName(_sessionController.getAccount().getCompany());
+                }
             } else {
                 _nubProposal.setIkName(c.getName());
-                if(_nubProposal.getIk().intValue() == _sessionController.getAccount().getIK().intValue())
+                if (_nubProposal.getIk().intValue() == _sessionController.getAccount().getIK().intValue()) {
                     _nubProposal.setIkName(_sessionController.getAccount().getCompany());
+                }
             }
         }
     }
@@ -160,21 +136,41 @@ public class EditNubProposal extends AbstractEditController {
     private void init() {
         _conversationId = (String) Utils.getFlash().get("conversationId");
         Object ppId = Utils.getFlash().get("nubId");
-        initMenuMultiIK(ppId);
         if (ppId == null) {
             _nubProposal = newNubProposal();
+            ensureCooperativeRight(_nubProposal);
+            ensureSupervisorRight(_nubProposal);
         } else {
             _nubProposal = loadNubProposal(ppId);
         }
+        initMenuMultiIK();
         //ensureEmptyEntry(_peppProposal.getProcedures());
+    }
+
+    private void initMenuMultiIK() {
+        Account acc = _sessionController.getAccount();
+        List<AccountAdditionalIK> addIks = _sessionController.getAccount().getAdditionalIKs();
+        ArrayList<SelectItem> items = new ArrayList<>();
+        for (AccountAdditionalIK addIk : addIks) {
+            items.add(new SelectItem(addIk.getIK()));
+        }
+
+        if (acc.getIK() != null) {
+            items.add(0, new SelectItem(_sessionController.getAccount().getIK()));
+        }
+
+        if (!acc.getFullIkList().contains(_nubProposal.getIk().intValue())) {
+            items.add(0, new SelectItem(""));
+        }
+        _multiIks = items.toArray(_multiIks);
     }
 
     private NubProposal loadNubProposal(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
             NubProposal nubProposal = _nubProposalFacade.find(id);
-            
-            if (hasSufficientRights(nubProposal)) { 
+
+            if (hasSufficientRights(nubProposal)) {
                 return nubProposal;
             }
         } catch (NumberFormatException ex) {
@@ -184,18 +180,27 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     private boolean hasSufficientRights(NubProposal nubProposal) {
-        if (isOwnNub(nubProposal)){return true;}
+        if (isOwnNub(nubProposal)) {
+            return true;
+        }
         ensureCooperativeRight(nubProposal);
-        return !_cooperativeRight.equals(CooperativeRight.None);
+        ensureSupervisorRight(nubProposal);
+        return !_cooperativeRight.equals(CooperativeRight.None) || !_supervisorRight.equals(CooperativeRight.None);
     }
 
     private boolean isOwnNub(NubProposal nubProposal) {
         return _sessionController.isMyAccount(nubProposal.getAccountId());
     }
 
-    private void ensureCooperativeRight(NubProposal nubProposal){
-        if (_cooperativeRight == null){
+    private void ensureCooperativeRight(NubProposal nubProposal) {
+        if (_cooperativeRight == null) {
             _cooperativeRight = _nubSessionTools.getCooperativeRight(nubProposal);
+        }
+    }
+
+    private void ensureSupervisorRight(NubProposal nubProposal) {
+        if (_supervisorRight == null) {
+            _supervisorRight = _nubSessionTools.getSupervisorRight(nubProposal);
         }
     }
 
@@ -231,32 +236,32 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public void checkIK(FacesContext context, UIComponent component, Object value) {
-        String ik = ((String)String.valueOf(value)).trim();
+        String ik = ((String) String.valueOf(value)).trim();
         if (!IkValidator.isValidIK(ik)) {
             String msg = Utils.getMessage("errIK");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    
+
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
         try {
-            Integer tmp = Integer.parseInt((String)value);
-            if(tmp > 99999) {
+            Integer tmp = Integer.parseInt((String) value);
+            if (tmp > 99999) {
                 throw new NumberFormatException();
             }
-        } catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             String msg = Utils.getMessage("errPostalCode");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    
+
     public boolean checkPostalCode() {
         try {
-            Integer tmp = Integer.parseInt((String)_nubProposal.getPostalCode());
-            if(tmp > 99999) {
+            Integer tmp = Integer.parseInt((String) _nubProposal.getPostalCode());
+            if (tmp > 99999) {
                 throw new NumberFormatException();
             }
-        } catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             String msg = Utils.getMessage("errPostalCode");
             return false;
         }
@@ -367,43 +372,66 @@ public class EditNubProposal extends AbstractEditController {
     public boolean isReadOnly() {
         return isReadOnly(false);
     }
+
     public boolean isReadOnly(boolean laxCheck) {
-        return _nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue()
-                || isOwnNub() && _nubProposal.getStatus().getValue() >= NubStatus.ApprovalRequested.getValue()
-                || !isOwnNub() && (_cooperativeRight == CooperativeRight.ReadOnly || !laxCheck && _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor) ;
-                
+        if (_nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue()) {
+            // is sealed
+            return true;
+        }
+        if (isOwnNub()) {
+            // own nub depends on status
+            return _nubProposal.getStatus().getValue() >= NubStatus.ApprovalRequested.getValue();
+        }
+        if (_supervisorRight == CooperativeRight.ReadWriteCompletedSealSupervisor) {
+            // supervisor write preceeds
+            return false;
+        }
+        return _cooperativeRight == CooperativeRight.ReadOnly
+                || !laxCheck && (_cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor || _supervisorRight == CooperativeRight.ReadCompletedSealSupervisor);
     }
 
     public boolean isRejectedNub() {
         return NubStatus.Rejected.getValue() == _nubProposal.getStatus().getValue();
     }
 
-    public boolean isSealEnabled(){
+    public boolean isSealEnabled() {
+        ensureSupervisorRight(_nubProposal);
         boolean enabled;
-        if (isOwnNub()){
-            if (_nubProposal.getIk() == null){return false;}
-            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null){return false;}
-            enabled =  _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
-        }else{
-            enabled= _cooperativeRight == CooperativeRight.ReadWriteSeal 
+        if (isOwnNub()) {
+            if (_nubProposal.getIk() == null) {
+                return false;
+            }
+            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null) {
+                return false;
+            }
+            enabled = _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
+        } else {
+            enabled = _cooperativeRight == CooperativeRight.ReadWriteSeal
                     || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor
-                    || _cooperativeRight == CooperativeRight.ReadWriteCompletedSealSupervisor;
+                    || _cooperativeRight == CooperativeRight.ReadWriteCompletedSealSupervisor
+                    || !_supervisorRight.equals(CooperativeRight.None);
         }
-            
+
         return !isReadOnly(true) && enabled;
     }
-    
-    public boolean isApprovalRequestEnabled(){
-        boolean enabled=false;
-        if (_sessionController.isMyAccount(_nubProposal.getAccountId())){
-            if (_nubProposal.getIk() == null){return false;}
-            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null){return false;}
-            enabled =  !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
-                    && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested);
+
+    public boolean isApprovalRequestEnabled() {
+        ensureSupervisorRight(_nubProposal);
+        boolean enabled = false;
+        if (_sessionController.isMyAccount(_nubProposal.getAccountId())) {
+            if (_nubProposal.getIk() == null) {
+                return false;
+            }
+            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null) {
+                return false;
+            }
+            enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
+                    && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested)
+                    && _supervisorRight.equals(CooperativeRight.None);
         }
         return !isReadOnly() && enabled;
     }
-    
+
     /**
      * requests sealing of a formal request if the form is completely full
      * filled, this function displays a confirmation dialog confirming with "ok"
@@ -434,9 +462,11 @@ public class EditNubProposal extends AbstractEditController {
         if (!check4validSession() || !requestIsComplete()) {
             return Pages.Error.URL();
         }
-        if (_nubProposal.getStatus().getValue() >= 10){return Pages.Error.URL();}
+        if (_nubProposal.getStatus().getValue() >= 10) {
+            return Pages.Error.URL();
+        }
 
-        _nubProposal.setStatus(10 + _nubProposal.getStatus().getValue());
+        _nubProposal.setStatus(_nubProposal.getStatus() == NubStatus.Rejected ? NubStatus.ReProvided : NubStatus.Provided);
         _nubProposal.setSealedBy(_sessionController.getAccount().getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
         if (isValidId(_nubProposal.getNubId())) {
@@ -465,7 +495,9 @@ public class EditNubProposal extends AbstractEditController {
         if (!check4validSession() || !requestIsComplete()) {
             return Pages.Error.URL();
         }
-        if (_nubProposal.getStatus().getValue() >= 10){return Pages.Error.URL();}
+        if (_nubProposal.getStatus().getValue() >= 10) {
+            return Pages.Error.URL();
+        }
 
         _nubProposal.setStatus(NubStatus.ApprovalRequested);
         _nubProposal.setLastChangedBy(_sessionController.getAccount().getAccountId());
@@ -473,7 +505,7 @@ public class EditNubProposal extends AbstractEditController {
 
         return "";
     }
-    
+
     /**
      * checks, whether the session is still valid
      *
@@ -493,7 +525,7 @@ public class EditNubProposal extends AbstractEditController {
         //newTopic = checkField(newTopic, _nubProposal.getCategory() == null ? null : _nubProposal.getCategory().name(), "lblCategory", "form:category", NubProposalTabs.tabNubAddress);
         //newTopic = checkField(newTopic, _nubProposal.getInstitute(), "lblPeppProposalingInstitute", "form:institute", NubProposalTabs.tabNubAddress);
         String ik = "";
-        if(_nubProposal.getIk() != null) {
+        if (_nubProposal.getIk() != null) {
             ik = _nubProposal.getIk().toString();
         }
         newTopic = checkField(newTopic, ik, "lblIK", "form:ikMulti", NubProposalTabs.tabNubAddress);
@@ -516,7 +548,7 @@ public class EditNubProposal extends AbstractEditController {
         newTopic = checkField(newTopic, _nubProposal.getPatientsFuture(), "lblPatientsFuture", "form:patientsFuture", NubProposalTabs.tabNubPage3);
         newTopic = checkField(newTopic, _nubProposal.getAddCosts(), "lblAddCosts", "form:nubAddCost", NubProposalTabs.tabNubPage4);
         newTopic = checkField(newTopic, _nubProposal.getWhyNotRepresented(), "lblWhyNotRepresented", "form:nubNotRepresented", NubProposalTabs.tabNubPage4);
-        if(!checkProxyIKs(_nubProposal.getProxyIKs())) {
+        if (!checkProxyIKs(_nubProposal.getProxyIKs())) {
             _msg = Utils.getMessage("lblErrorProxyIKs");
             newTopic = NubProposalTabs.tabNubAddress.name();
         }

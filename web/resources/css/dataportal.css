@@ -450,7 +450,8 @@ select:active, select:focus{
 
 .third {
     display: inline-block;
-    width: 30%;
+    min-width: 20%;
+    max-width: 50%;
     margin-right: 3%;
 }
 .areaNarrowLow {

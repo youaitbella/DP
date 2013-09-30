@@ -31,17 +31,17 @@ public class NubSessionTools implements Serializable {
     // It is used in coopearative environment 
     private Map<Integer, Boolean> _sealOwnNub;
     private Set<Integer> _managedAccounts;
-    
+
     public Map<Integer, Boolean> getSealOwnNub() {
         ensureSealOwnNub();
         return _sealOwnNub;
     }
 
-    public Set<Integer> getManagedAccounts(){
+    public Set<Integer> getManagedAccounts() {
         ensureManagedAcounts();
         return _managedAccounts;
     }
-    
+
     /**
      * clears cache of sealOwnNub e.g. to ensure update after changing rights.
      */
@@ -69,19 +69,25 @@ public class NubSessionTools implements Serializable {
         }
     }
 
-    private void ensureManagedAcounts(){
-        if (_managedAccounts != null){return;}
+    private void ensureManagedAcounts() {
+        if (_managedAccounts != null) {
+            return;
+        }
         Account account = _sessionController.getAccount();
         _managedAccounts = _cooperationRightFacade.isSupervisorFor(Feature.NUB, account.getFullIkList());
-        
+
     }
-    
+
     public CooperativeRight getCooperativeRight(NubProposal nubProposal) {
         return _cooperationRightFacade.getAchievedCooperativeRight(
-                nubProposal.getAccountId(), 
-                _sessionController.getAccount().getAccountId(), 
-                Feature.NUB, 
+                nubProposal.getAccountId(),
+                _sessionController.getAccount().getAccountId(),
+                Feature.NUB,
                 nubProposal.getIk());
+    }
+
+    public CooperativeRight getSupervisorRight(NubProposal nub) {
+        return _cooperationRightFacade.getSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccount().getAccountId());
     }
 
 }
