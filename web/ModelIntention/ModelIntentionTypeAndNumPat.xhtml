@@ -15,11 +15,11 @@
             <h:selectBooleanCheckbox id="ageYearsRequired" value="#{editModelIntention.ageYearEnabled}">
                 <f:ajax event="click" render="@this :logout:remaining ageYearsFrom ageYearsTo" />
             </h:selectBooleanCheckbox>&nbsp;
-            <h:outputLabel value="Von:" />&nbsp;
+            <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
             <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" readonly="#{editModelIntention.ageYearsEnabled}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>&nbsp;
-            <h:outputLabel value="Bis:" />&nbsp;
+            <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
             <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}" readonly="#{editModelIntention.ageYearsEnabled}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
@@ -33,9 +33,9 @@
             </h:selectOneMenu>
         </div>
         
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" id="personalMisc" value="#{msg.lblPersonalMisc}" />&nbsp;
-            <h:inputTextarea styleClass="areaWideLow" id="txtPersonalMisc" value="#{editModelIntention.modelIntention.miscPatient}">
+        <div class="inputPart floating">
+            <h:outputLabel styleClass="label" id="personalMisc" value="#{msg.lblPersonalMisc}:" />&nbsp;
+            <h:inputTextarea styleClass="areaMiddleLow" id="txtPersonalMisc" value="#{editModelIntention.modelIntention.miscPatient}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputTextarea>
         </div>
