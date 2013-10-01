@@ -8,7 +8,21 @@
 
     <ui:define name="editContent">
         
-        
+        <h2>#{msg.tabModelIntTypeAndNumberOfPatients}</h2>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" id="ageYears" value="#{msg.lblAgeYears}:" />
+            <div class="modelIntYesNo">
+                <input type="radio" name="ageYesNo" id="ageNo" checked="true"/>#{msg.lblNo}<br/>
+                <input type="radio" name="ageYesNo" id="ageYes"/>#{msg.lblYes}
+                <div class="marginLeft" style="display: inline-block">
+                    <h:outputLabel styleClass="label" id="lblAgeYearsFrom" value="Von:" />&nbsp;
+                    <h:inputText id="ageYearsFrom" styleClass="inputshort" value="#{editModelIntention.modelIntention.ageYearsFrom}" />&nbsp;
+                    <h:outputLabel styleClass="label" id="lblAgeYearsTo" value="Bis:" />&nbsp;
+                    <h:inputText id="ageYearsTo" styleClass="inputshort" value="#{editModelIntention.modelIntention.ageYearsTo}" />
+                </div>
+            </div>
+        </div>
         
     </ui:define>
 </ui:composition>

@@ -653,6 +653,11 @@ td img {
     margin-top: 5px;
 }
 
+div.modelIntYesNo {
+    margin-top: 4px;
+    margin-left: 16px;
+}
+
 .fullWidth {
     width: 100%;
 }
