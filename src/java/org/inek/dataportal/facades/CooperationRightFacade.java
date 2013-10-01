@@ -3,7 +3,6 @@ package org.inek.dataportal.facades;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
