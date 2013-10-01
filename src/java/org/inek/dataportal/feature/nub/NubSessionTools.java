@@ -87,6 +87,7 @@ public class NubSessionTools implements Serializable {
     }
 
     public CooperativeRight getSupervisorRight(NubProposal nub) {
+        if (nub.getIk() == null){return CooperativeRight.None;}
         return _cooperationRightFacade.getSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccount().getAccountId());
     }
 

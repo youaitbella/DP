@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -27,8 +28,43 @@ public class EditModelIntention extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
+    private boolean _ageYearEnabled;
     private String _conversationId;
     private ModelIntention _modelIntention;
+    
+    public boolean isAgeYearsEnabled() {
+        return !_ageYearEnabled;
+    }
+    
+    public SelectItem[] getGenders() {
+        SelectItem[] items = new SelectItem[3];
+        items[0] = new SelectItem(Genders.Both.gender());
+        items[1] = new SelectItem(Genders.Male.gender());
+        items[2] = new SelectItem(Genders.Female.gender());
+        return items;
+    }
+    
+    public enum Genders {
+        Both(0, "Beide"),
+        Male(1, "Männlich"),
+        Female(2, "Weiblich");
+        
+        private int _index;
+        private String _gender;
+        
+        private Genders(int index, String gender) {
+            _index = index;
+            _gender = gender;
+        }
+        
+        public int index() {
+            return _index;
+        }
+        
+        public String gender() {
+            return _gender;
+        }
+    }
 
     @Override
     protected void addTopics() {
@@ -37,6 +73,14 @@ public class EditModelIntention extends AbstractEditController {
         addTopic(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), Pages.ModelIntentionTreatAreaAndCosts.URL());
         addTopic(ModelIntentionTabs.tabModelIntStructures.name(), Pages.ModelIntentionStructure.URL());
         addTopic(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), Pages.ModelIntentionQuality.URL());
+    }
+
+    public boolean isAgeYearEnabled() {
+        return _ageYearEnabled;
+    }
+
+    public void setAgeYearEnabled(boolean ageYearEnabled) {
+        this._ageYearEnabled = ageYearEnabled;
     }
 
     enum ModelIntentionTabs {
@@ -53,6 +97,7 @@ public class EditModelIntention extends AbstractEditController {
 
     public EditModelIntention() {
         //System.out.println("EditModelIntention");
+        _ageYearEnabled = false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -74,6 +119,8 @@ public class EditModelIntention extends AbstractEditController {
         } else {
             _modelIntention = loadModelIntention(miId);
         }
+        if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
+            _ageYearEnabled = true;
         //ensureEmptyEntry(_peppProposal.getProcedures());
     }
 

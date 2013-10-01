@@ -38,7 +38,7 @@ public class ModelIntention implements Serializable {
     private Integer _ageYearsTo;
     
     @Column(name = "miSex")
-    private String _sex;
+    private Integer _sex;
     
     @Column(name = "miMiscPatient")
     private String _miscPatient;
@@ -218,11 +218,11 @@ public class ModelIntention implements Serializable {
         this._ageYearsTo = ageYearsTo;
     }
 
-    public String getSex() {
+    public Integer getSex() {
         return _sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Integer sex) {
         this._sex = sex;
     }
 
