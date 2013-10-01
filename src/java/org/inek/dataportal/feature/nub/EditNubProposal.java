@@ -159,7 +159,7 @@ public class EditNubProposal extends AbstractEditController {
             items.add(0, new SelectItem(_sessionController.getAccount().getIK()));
         }
 
-        if (!acc.getFullIkList().contains(_nubProposal.getIk().intValue())) {
+        if (_nubProposal.getIk() == null || !acc.getFullIkList().contains(_nubProposal.getIk().intValue())) {
             items.add(0, new SelectItem(""));
         }
         _multiIks = items.toArray(_multiIks);
