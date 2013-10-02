@@ -296,7 +296,7 @@ public class Account implements Serializable {
     
     public Set<Integer> getFullIkList() {
         Set<Integer> iks = new HashSet<>();
-        if (_ik > 0) {iks.add(_ik);}
+        if (_ik != null && _ik > 0) {iks.add(_ik);}
         for (AccountAdditionalIK addIk : getAdditionalIKs()) {
             iks.add(addIk.getIK());
         }

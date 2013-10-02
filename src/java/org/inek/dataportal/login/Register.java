@@ -96,7 +96,7 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgInvalidCharacters");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
+        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null || input.toLowerCase().equals("supervisor")) {
             String msg = Utils.getMessage("msgUserExists");
             throw new ValidatorException(new FacesMessage(msg));
         }

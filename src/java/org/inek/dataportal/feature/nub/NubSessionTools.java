@@ -54,10 +54,12 @@ public class NubSessionTools implements Serializable {
         if (_sealOwnNub != null) {
             return;
         }
+        ensureManagedAcounts();
         _sealOwnNub = new HashMap<>();
         Account account = _sessionController.getAccount();
         for (int ik : account.getFullIkList()) {
-            _sealOwnNub.put(ik, !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
+            // allowed for own NUB if supervisor herself or no supervisor exists
+            _sealOwnNub.put(ik, _cooperationRightFacade.isSupervisor(Feature.NUB, ik, account.getAccountId()) || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
         }
         List<CooperationRight> rights = _cooperationRightFacade
                 .getGrantedCooperationRights(account.getAccountId(), Feature.NUB);
@@ -74,7 +76,7 @@ public class NubSessionTools implements Serializable {
             return;
         }
         Account account = _sessionController.getAccount();
-        _managedAccounts = _cooperationRightFacade.isSupervisorFor(Feature.NUB, account.getFullIkList());
+        _managedAccounts = _cooperationRightFacade.isSupervisorFor(Feature.NUB, account);
 
     }
 
@@ -87,7 +89,6 @@ public class NubSessionTools implements Serializable {
     }
 
     public CooperativeRight getSupervisorRight(NubProposal nub) {
-        if (nub.getIk() == null){return CooperativeRight.None;}
         return _cooperationRightFacade.getSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccount().getAccountId());
     }
 

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
+import org.inek.dataportal.entities.Account;
 import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
@@ -49,7 +50,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
-    public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, int ik) {
+    public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
+        if (ik == null){return CooperativeRight.None;}
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = :ownerId "
@@ -79,7 +81,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param ik
      * @return
      */
-    public boolean hasSupervisor(Feature feature, int ik) {
+    public boolean hasSupervisor(Feature feature, Integer ik) {
+        if (ik == null){return false;}
         String query = "SELECT cor FROM CooperationRight cor "
                 + "WHERE cor._ownerId = -1 "
                 + "and cor._ik = :ik "
@@ -99,14 +102,15 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return false;
     }
 
-    public boolean isSupervisor(Feature feature, int ik, int accountId) {
+    public boolean isSupervisor(Feature feature, Integer ik, int accountId) {
         CooperativeRight right = getSupervisorRight(feature, ik, accountId);
         return right.equals(CooperativeRight.ReadCompletedSealSupervisor)
                 || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor);
 
     }
 
-    public CooperativeRight getSupervisorRight(Feature feature, int ik, int accountId) {
+    public CooperativeRight getSupervisorRight(Feature feature, Integer ik, int accountId) {
+        if (ik == null){return CooperativeRight.None;}
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = -1 "
@@ -126,7 +130,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         }
     }
 
-    public Set<Integer> isSupervisorFor(Feature feature, Set<Integer> iks) {
+    public Set<Integer> isSupervisorFor(Feature feature, Account account) {
+        Set<Integer> iks = account.getFullIkList();
+        if (iks.isEmpty()){return iks;}
         String inIk = "";
         for (int ik : iks) {
             inIk += (inIk.length() > 0 ? ", " : "") + ik;
