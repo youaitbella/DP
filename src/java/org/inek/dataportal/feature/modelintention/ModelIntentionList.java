@@ -22,11 +22,11 @@ public class ModelIntentionList {
     @Inject SessionController _sessionController;
     
     public List<Triple> getModelIntentions() {
-        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccount().getAccountId(), DataSet.OPEN);
+        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.OPEN);
     }
 
     public List<Triple> getSealedModelIntentions() {
-        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccount().getAccountId(), DataSet.SEALED);
+        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.SEALED);
     }
 
     public String newModelIntention() {

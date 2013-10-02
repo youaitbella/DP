@@ -23,11 +23,11 @@ public class RequestList {
     @Inject SessionController _sessionController;
 
     public List<Pair> getRequests() {
-        return _requestFacade.getRequestInfos(_sessionController.getAccount().getAccountId(), false);
+        return _requestFacade.getRequestInfos(_sessionController.getAccountId(), false);
     }
     
     public List<Pair> getSealedRequests() {
-        return _requestFacade.getRequestInfos(_sessionController.getAccount().getAccountId(), true);
+        return _requestFacade.getRequestInfos(_sessionController.getAccountId(), true);
     }
     
     public String newRequest() {

@@ -85,7 +85,7 @@ public class EditCooperation extends AbstractEditController {
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
         _isRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
-                _sessionController.getAccount().getAccountId(),
+                _sessionController.getAccountId(),
                 getPartnerAccount().getAccountId());
         setTopicsVisibility();
     }
@@ -112,7 +112,7 @@ public class EditCooperation extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="tab Partner">
     public String accept() {
-        int partner1Id = _sessionController.getAccount().getAccountId();
+        int partner1Id = _sessionController.getAccountId();
         int partner2Id = getPartnerAccount().getAccountId();
         _cooperationFacade.createCooperation(partner1Id, partner2Id);
         _cooperationRequestFacade.removeAnyCooperationRequest(partner1Id, partner2Id);
@@ -122,14 +122,14 @@ public class EditCooperation extends AbstractEditController {
     }
 
     public String refuse() {
-        int partner1Id = _sessionController.getAccount().getAccountId();
+        int partner1Id = _sessionController.getAccountId();
         int partner2Id = getPartnerAccount().getAccountId();
         _cooperationRequestFacade.removeAnyCooperationRequest(partner1Id, partner2Id);
         return Pages.CooperationSummary.URL();
     }
 
     public String finish() {
-        int partner1Id = _sessionController.getAccount().getAccountId();
+        int partner1Id = _sessionController.getAccountId();
         int partner2Id = getPartnerAccount().getAccountId();
         _cooperationFacade.finishCooperation(partner1Id, partner2Id);
         return Pages.CooperationSummary.URL();
@@ -152,8 +152,8 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void EnsureCooperationRights() {
+        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), Feature.NUB);
         Set<Integer> iks = _sessionController.getAccount().getFullIkList();
-        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccount().getAccountId(), Feature.NUB);
         for (CooperationRight right : _cooperationRights) {
             // remove those iks from list, which still have rights
             iks.remove((Integer)right.getIk());
@@ -161,7 +161,7 @@ public class EditCooperation extends AbstractEditController {
         for (int ik : iks) {
             // for the memaining Iks add new rights to create a full list
             CooperationRight right = new CooperationRight(
-                    _sessionController.getAccount().getAccountId(),
+                    _sessionController.getAccountId(),
                     getPartnerAccount().getAccountId(),
                     ik,
                     Feature.NUB

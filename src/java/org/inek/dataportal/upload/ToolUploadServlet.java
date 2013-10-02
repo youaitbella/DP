@@ -114,7 +114,7 @@ public class ToolUploadServlet extends HttpServlet {
 
     private DropBox createDropBox(String filename, int ik) {
         DropBox dropBox = new DropBox();
-        dropBox.setAccountId(_sessionController.getAccount().getAccountId());
+        dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription("DataTool: " + filename);
         int typeId = PropertyManager.INSTANCE.getPropertyAsInt(PropertyKey.DropBoxTypeId);

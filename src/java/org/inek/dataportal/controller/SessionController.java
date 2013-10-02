@@ -41,12 +41,18 @@ public class SessionController implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger _logger = Logger.getLogger("SessionController");
-    @Inject private Conversation _conversation;
-    @Inject private AnnouncementFacade _announcementFacade;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private DiagnosisFacade _diagnosisFacade;
-    @Inject private PeppFacade _peppFacade;
+    @Inject
+    private Conversation _conversation;
+    @Inject
+    private AnnouncementFacade _announcementFacade;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private DiagnosisFacade _diagnosisFacade;
+    @Inject
+    private PeppFacade _peppFacade;
 
     private Account _account;
     private final Topics _topics = new Topics();
@@ -89,6 +95,20 @@ public class SessionController implements Serializable {
         return getAccount() != null;
     }
 
+    /**
+     * returns the account id if logged in
+     * otherwise it redirects to session timeOut
+     * @return 
+     */
+    public int getAccountId() {
+        if (_account == null) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+            return Integer.MIN_VALUE;
+        }
+        return _account.getAccountId();
+    }
+
     public SearchController getSearchController() {
         if (_searchController == null) {
             _searchController = new SearchController(this, _procedureFacade, _diagnosisFacade, _peppFacade);
@@ -111,14 +131,14 @@ public class SessionController implements Serializable {
     }
     // </editor-fold>
 
-    public String navigate(String topic){
+    public String navigate(String topic) {
         endConversation();
-        if (topic.equals(Pages.UserMaintenanceMasterData.URL())){
+        if (topic.equals(Pages.UserMaintenanceMasterData.URL())) {
             beginConversation();
         }
         return topic;
     }
-            
+
     public String beginConversation() {
         if (_conversation.isTransient()) {
             int minutes = 30;

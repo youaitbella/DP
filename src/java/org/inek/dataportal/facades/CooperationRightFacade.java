@@ -131,8 +131,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public Set<Integer> isSupervisorFor(Feature feature, Account account) {
+        if (account == null){return new HashSet<>();}
         Set<Integer> iks = account.getFullIkList();
-        if (iks.isEmpty()){return iks;}
+        if (iks.isEmpty()){return new HashSet<>();}
         String inIk = "";
         for (int ik : iks) {
             inIk += (inIk.length() > 0 ? ", " : "") + ik;

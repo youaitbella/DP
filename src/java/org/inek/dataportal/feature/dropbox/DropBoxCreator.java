@@ -90,7 +90,7 @@ public class DropBoxCreator  {
     
     private void createDropBox() {
         DropBox dropBox = new DropBox();
-        dropBox.setAccountId(_sessionController.getAccount().getAccountId());
+        dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription(_description);
         dropBox.setDropboxType(_sessionTools.getDropBoxType(_dropboxTypeId));

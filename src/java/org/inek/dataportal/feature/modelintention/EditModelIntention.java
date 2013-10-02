@@ -137,7 +137,7 @@ public class EditModelIntention extends AbstractEditController {
 
     private ModelIntention newModelIntention() {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
-        modelIntention.setAccountId(_sessionController.getAccount().getAccountId());
+        modelIntention.setAccountId(_sessionController.getAccountId());
         return modelIntention;
     }
 

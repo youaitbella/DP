@@ -30,14 +30,14 @@ public class CooperationManager {
 
     public List<Account> getRequestors() {
         if (_requestors == null) {
-            _requestors = _cooperationRequestFacade.getCooperationRequestors(_sessionController.getAccount().getAccountId());
+            _requestors = _cooperationRequestFacade.getCooperationRequestors(_sessionController.getAccountId());
         }
         return _requestors;
     }
 
     public List<Account> getPartners() {
         if (_partners == null) {
-            _partners = _cooperationFacade.getCooperationPartners(_sessionController.getAccount().getAccountId());
+            _partners = _cooperationFacade.getCooperationPartners(_sessionController.getAccountId());
         }
         return _partners;
     }

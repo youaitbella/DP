@@ -34,11 +34,11 @@ public class DropBoxList {
     }
 
     public List<DropBox> getDropBoxes() {
-        return _dropBoxFacade.findAll(_sessionController.getAccount().getAccountId(), false);
+        return _dropBoxFacade.findAll(_sessionController.getAccountId(), false);
     }
 
     public List<DropBox> getSealedDropBoxes() {
-        return _dropBoxFacade.findAll(_sessionController.getAccount().getAccountId(), true);
+        return _dropBoxFacade.findAll(_sessionController.getAccountId(), true);
     }
 
     public boolean containsFiles(DropBox dropBox) {

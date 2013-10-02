@@ -130,7 +130,7 @@ public class EditUserMaintenance extends AbstractEditController {
         
         _features = null;
         //_accountWorkingCopy = ObjectUtils.copyObject(_sessionController.getAccount());
-        _accountWorkingCopy = _accountFacade.find(_sessionController.getAccount().getAccountId());
+        _accountWorkingCopy = _accountFacade.find(_sessionController.getAccountId());
         _user = getAccount().getUser();
         _oldPassword = "";
         _newPassword = "";

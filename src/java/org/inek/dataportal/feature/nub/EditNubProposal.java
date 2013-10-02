@@ -349,7 +349,7 @@ public class EditNubProposal extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
-        _nubProposal.setLastChangedBy(_sessionController.getAccount().getAccountId());
+        _nubProposal.setLastChangedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         if (isValidId(_nubProposal.getNubId())) {
@@ -467,7 +467,7 @@ public class EditNubProposal extends AbstractEditController {
         }
 
         _nubProposal.setStatus(_nubProposal.getStatus() == NubStatus.Rejected ? NubStatus.ReProvided : NubStatus.Provided);
-        _nubProposal.setSealedBy(_sessionController.getAccount().getAccountId());
+        _nubProposal.setSealedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
         if (isValidId(_nubProposal.getNubId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
@@ -500,7 +500,7 @@ public class EditNubProposal extends AbstractEditController {
         }
 
         _nubProposal.setStatus(NubStatus.ApprovalRequested);
-        _nubProposal.setLastChangedBy(_sessionController.getAccount().getAccountId());
+        _nubProposal.setLastChangedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         return "";

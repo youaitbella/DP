@@ -32,15 +32,17 @@ import org.inek.dataportal.helper.structures.Triple;
 @RequestScoped
 public class NubProposalList {
 
-    @Inject NubProposalFacade _nubProposalFacade;
-    @Inject SessionController _sessionController;
+    @Inject
+    NubProposalFacade _nubProposalFacade;
+    @Inject
+    SessionController _sessionController;
 
     public List<Triple> getNubProposals() {
-        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccount().getAccountId(), DataSet.OPEN);
+        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OPEN);
     }
 
     public List<Triple> getSealedNubProposals() {
-        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccount().getAccountId(), DataSet.SEALED);
+        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SEALED);
     }
 
     /**
@@ -110,17 +112,25 @@ public class NubProposalList {
     }
 
     public String printNubProposal(int proposalId) {
-        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
+        NubProposal nubProposal = _nubProposalFacade.find(proposalId);
+
+        String headLine = Utils.getMessage("nameNUB")
+                + (nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue() ? " N" + nubProposal.getNubId() : "");
+        Utils.getFlash().put("headLine", headLine);
         Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
-        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubProposalFacade.find(proposalId)));
+        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubProposal));
         return Pages.PrintView.URL();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
-    @Inject AccountFacade _accountFacade;
-    @Inject CooperationFacade _cooperationFacade;
-    @Inject CooperationRightFacade _cooperationRightFacade;
-    @Inject NubSessionTools _nubSessionTools;
+    @Inject
+    AccountFacade _accountFacade;
+    @Inject
+    CooperationFacade _cooperationFacade;
+    @Inject
+    CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    NubSessionTools _nubSessionTools;
     private List<CooperationRight> _cooperationRights;
     private List<Account> _partners4Edit;
     private List<Account> _partners4List;
@@ -163,7 +173,7 @@ public class NubProposalList {
 
         // add managed iks
         for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
-            if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccount().getAccountId())) {
+            if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
                 if (!iks.containsKey(ik)) {
                     iks.put(ik, NubStatus.ApprovalRequested.getValue());
                 }
@@ -187,7 +197,7 @@ public class NubProposalList {
                 }
             }
             ids.addAll(_nubSessionTools.getManagedAccounts());
-            ids.remove(_sessionController.getAccount().getAccountId());
+            ids.remove(_sessionController.getAccountId());
             _partners4List = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
         }
         return _partners4List;
@@ -208,7 +218,7 @@ public class NubProposalList {
 
         // add managed iks
         for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
-            if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccount().getAccountId())) {
+            if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
                 iks.add(ik);
             }
         }
@@ -222,7 +232,7 @@ public class NubProposalList {
 
     private void ensureAchievedCooperationRights() {
         if (_cooperationRights == null) {
-            _cooperationRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccount().getAccountId(), Feature.NUB);
+            _cooperationRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), Feature.NUB);
         }
     }
 // </editor-fold>
