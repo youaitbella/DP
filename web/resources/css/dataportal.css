@@ -73,11 +73,16 @@ div#wrapper {
 }
 
 @media print {
+    div#wrapper {
+        width: 650px;
+    }
+
     #top .left{
         float: left;
         width: 285px;
         padding-left: 15px;
     }
+
     #content .left,
     .navi{
         display: none;
@@ -89,8 +94,6 @@ div#wrapper {
 
     #content .right {
         margin-left: 0;
-        border-width: 1px 1px 1px 1px;
-        border-style: dotted;
     }
 
     .highlight {
@@ -101,11 +104,29 @@ div#wrapper {
         height: 20px;
     }
 
+    .small{
+        display: none;
+    }
+
     #footer {
         text-align: center;
     }
 
+    #tblPrint {
+        margin: 0;
+        margin-top: 1em;
+        padding: 0;
+        border-collapse: collapse; 
+    }
+
+    #tblPrint td, #tblPrint th {
+        border-collapse: collapse; 
+        border: black dotted 1px;
+        padding: 0.2em;
+    }
+
 }
+
 
 @media screen {
     #top .left {
@@ -130,7 +151,7 @@ div#wrapper {
         border-radius: 0.5em;
         padding: 5px;
     }
-    
+
     .warning{
         border-color: red;
     }
@@ -168,7 +189,7 @@ div#wrapper {
         padding: 0.2em;
         color: #606670;
     }
-    
+
     #footer {
         margin-left: 320px;
     }
@@ -223,13 +244,6 @@ div#wrapper {
     padding-top: 2em;
     padding-bottom: 0.5em;
 }
-/*
-    Document   : navi
-    Created on : 05.10.2010, 10:54:15
-    Author     : muellermi
-    Description:
-        Purpose of the stylesheet follows.
-*/
 
 #content div.tab,
 #content span.tab {
