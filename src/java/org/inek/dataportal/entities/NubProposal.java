@@ -183,17 +183,17 @@ public class NubProposal implements Serializable {
     @Column(name = "nubHospitalCount")
     private String _hospitalCount="";
     
-    @Documentation(key = "lblPatientsFuture")
-    @Column(name = "nubPatientsFuture")
-    private String _patientsFuture = "";
+    @Documentation(key = "lblPatientsLastYear")
+    @Column(name = "nubPatientsLastYear")
+    private String _patientsLastYear = "";
     
     @Documentation(key = "lblPatientsThisYear")
     @Column(name = "nubPatientsThisYear")
     private String _patientsThisYear = "";
     
-    @Documentation(key = "lblPatientsLastYear")
-    @Column(name = "nubPatientsLastYear")
-    private String _patientsLastYear = "";
+    @Documentation(key = "lblPatientsFuture")
+    @Column(name = "nubPatientsFuture")
+    private String _patientsFuture = "";
     
     @Documentation(key = "lblAddCosts")
     @Column(name = "nubAddCosts")

@@ -79,8 +79,8 @@ div#wrapper {
 
     #top .left{
         float: left;
-        width: 285px;
-        padding-left: 15px;
+        width: 140px;
+        padding-left: 0;
     }
 
     #content .left,
@@ -89,7 +89,7 @@ div#wrapper {
     }
 
     #top .right {
-        margin-left: 300px;
+        margin-left: 140px;
     }
 
     #content .right {
@@ -109,14 +109,14 @@ div#wrapper {
     }
 
     #footer {
-        text-align: center;
+        display: none;
     }
 
     #tblPrint {
-        margin: 0;
-        margin-top: 1em;
-        padding: 0;
+        margin: 1px;
+        margin-top: 20px;
         border-collapse: collapse; 
+        padding: 0;
     }
 
     #tblPrint td, #tblPrint th {
