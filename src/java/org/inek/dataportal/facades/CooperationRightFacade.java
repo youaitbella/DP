@@ -33,6 +33,16 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
+    public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId, Feature feature) {
+        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId and cor._feature = :feature";
+        return getEntityManager()
+                .createQuery(query, CooperationRight.class)
+                .setParameter("accountId", accountId)
+                .setParameter("partnerId", partnerId)
+                .setParameter("feature", feature)
+                .getResultList();
+    }
+
     /**
      * returns a list of rights for a given feature, achieved for account from
      * others

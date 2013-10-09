@@ -147,12 +147,12 @@ public class EditCooperation extends AbstractEditController {
         return _cooperationRights;
     }
 
-    public void setCooperationRights(List<CooperationRight> _cooperationRights) {
-        this._cooperationRights = _cooperationRights;
+    public void setCooperationRights(List<CooperationRight> cooperationRights) {
+        this._cooperationRights = cooperationRights;
     }
 
     private void EnsureCooperationRights() {
-        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), Feature.NUB);
+        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getAccountId(), Feature.NUB);
         Set<Integer> iks = _sessionController.getAccount().getFullIkList();
         for (CooperationRight right : _cooperationRights) {
             // remove those iks from list, which still have rights
