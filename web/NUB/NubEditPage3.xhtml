@@ -31,7 +31,6 @@
             <br/>
             <h:inputTextarea  styleClass="areaWideLow" id="nubInHouse" value="#{editNubProposal.nubProposal.inHouseSince}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validator validatorId="RequiredValidator"/>
-                <f:validateLength maximum="200"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubInHouse"/>
             </h:inputTextarea>
         </div>
@@ -56,6 +55,7 @@
                         &nbsp;
                     </span>
                     <h:inputTextarea styleClass="areaNarrowLow" id="patientsLastYear" value="#{editNubProposal.nubProposal.patientsLastYear}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                        <f:validateLength maximum="1000"/>
                         <f:validator validatorId="RequiredValidator"/>
                         <f:ajax event="blur" render="@this :logout:remaining msgPatientsLastYear"/>
                     </h:inputTextarea>
@@ -66,6 +66,7 @@
                         &nbsp;
                     </span>
                     <h:inputTextarea styleClass="areaNarrowLow" id="patientsThisYear" value="#{editNubProposal.nubProposal.patientsThisYear}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                        <f:validateLength maximum="1000"/>
                         <f:validator validatorId="RequiredValidator"/>
                         <f:ajax event="blur" render="@this :logout:remaining msgPatientsThisYear"/>
                     </h:inputTextarea>
@@ -78,6 +79,7 @@
             <h:message for="patientsFuture" id="msgPatientsFuture" styleClass="errorMessage"/>
             <br />
             <h:inputTextarea styleClass="areaWideLow" id="patientsFuture" value="#{editNubProposal.nubProposal.patientsFuture}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validateLength maximum="1000"/>
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgPatientsFuture"/>
             </h:inputTextarea>
