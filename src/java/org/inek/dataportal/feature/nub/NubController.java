@@ -188,7 +188,8 @@ public class NubController extends AbstractFeatureController {
 
     public NubProposal createNubProposalFromOldFormat(String filename, String template) {
         NubProposal proposal = createNubProposal();
-        proposal.setDisplayName(filename);
+        int extPos = filename.lastIndexOf(".");
+        proposal.setDisplayName(extPos > 0 ? filename.substring(0, extPos) :filename);
         String[] lines = template.replace("\r", "").split("[\\n]"); // split at CRLF or LF only
         int i = 0;
         while (i < lines.length) {
