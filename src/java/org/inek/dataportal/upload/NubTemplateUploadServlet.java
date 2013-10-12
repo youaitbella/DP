@@ -29,7 +29,7 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             String fileText = new String(buffer, "UTF-8");
             if (fileText.startsWith("NuB Vorschlag")) {
                 // old format
-                _nubFacade.saveNubProposal(controller.createNubProposalFromOldFormat(new String(buffer)));
+                _nubFacade.saveNubProposal(controller.createNubProposalFromOldFormat(filename, new String(buffer)));
                 return;
             }
             int pos = fileText.lastIndexOf(NubFieldKey.CheckSum + "=");

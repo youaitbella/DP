@@ -12,6 +12,7 @@ package org.inek.dataportal.enums;
 public enum NubFieldKey {
     Version,
     ID,
+    DisplayName,
     Helper,
     Name,
     AltName,

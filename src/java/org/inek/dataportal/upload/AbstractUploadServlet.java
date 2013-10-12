@@ -40,7 +40,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
     private void doSingleUpload(HttpUtil httpUtil) throws IOException {
         String filename = httpUtil.getRequest().getHeader("X-File-Name");
         try (InputStream is = httpUtil.getRequest().getInputStream()) {
-            stream2Document(filename, is);
+            stream2Document(decodeFilename(filename), is);
         }
     }
 
@@ -52,11 +52,15 @@ public abstract class AbstractUploadServlet extends HttpServlet {
             Map<String, String> params = httpUtil.getParams(part);
             String filename = new File(params.get("filename")).getName();  // get rid of absolute path (some IE versions will yield the absoltute path)
             try (InputStream is = part.getInputStream()) {
-                stream2Document(filename, is);
+                stream2Document(decodeFilename(filename), is);
             }
         }
     }
 
+    public String decodeFilename(String filename){
+        return filename.replace("%20", " ");
+    }
+    
     abstract protected void stream2Document(String filename, InputStream is) throws IOException;
 
     protected void copyStream(InputStream is, OutputStream os) throws IOException {

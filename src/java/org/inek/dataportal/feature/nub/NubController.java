@@ -56,6 +56,7 @@ public class NubController extends AbstractFeatureController {
         appendLine(sb, NubFieldKey.ID, helperId);
         String helper = account.getCompany() + "\r\n" + account.getFirstName() + " " + account.getLastName();
         appendLine(sb, NubFieldKey.Helper, helper);
+        appendLine(sb, NubFieldKey.DisplayName, nubProposal.getDisplayName());
         appendLine(sb, NubFieldKey.Name, nubProposal.getName());
         appendLine(sb, NubFieldKey.AltName, nubProposal.getAltName());
         appendLine(sb, NubFieldKey.Description, nubProposal.getDescription());
@@ -124,6 +125,9 @@ public class NubController extends AbstractFeatureController {
                 case Name:
                     proposal.setName(restoreBreaks(content));
                     break;
+                case DisplayName:
+                    proposal.setDisplayName(restoreBreaks(content));
+                    break;
                 case AltName:
                     proposal.setAltName(restoreBreaks(content));
                     break;
@@ -171,6 +175,10 @@ public class NubController extends AbstractFeatureController {
                     break;
             }
         }
+        if (proposal.getHelperId() == proposal.getAccountId()){
+            // no entry for own template
+            proposal.setFormFillHelper("");
+        }
         return proposal;
     }
 
@@ -178,8 +186,9 @@ public class NubController extends AbstractFeatureController {
         return text.replace("#{r}", "\r").replace("#{n}", "\n");
     }
 
-    public NubProposal createNubProposalFromOldFormat(String template) {
+    public NubProposal createNubProposalFromOldFormat(String filename, String template) {
         NubProposal proposal = createNubProposal();
+        proposal.setDisplayName(filename);
         String[] lines = template.replace("\r", "").split("[\\n]"); // split at CRLF or LF only
         int i = 0;
         while (i < lines.length) {
