@@ -19,10 +19,12 @@ import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -77,6 +79,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                         if (sc != null) {
                             sc.logout();
                         }
+                        try {
+                            Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler " + t.getClass() , t.getMessage());
+                        } catch (MessagingException ex) {
+                        }
                         String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
                         fc.getExternalContext().redirect(path + Pages.ErrorRedirector.URL());
 //                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
@@ -99,6 +105,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     if (sc != null) {
                         sc.logout();
                     }
+                    try {
+                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler FacesException", t.getMessage());
+                    } catch (MessagingException ex) {
+                    }
                     nav.handleNavigation(fc, null, Pages.Error.URL());
                     fc.renderResponse();
 //                } catch (IOException ex) {
@@ -107,7 +117,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     i.remove();
                 }
             } else {
-                int dummy = 0;
+                    try {
+                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler OtherException", t.getMessage());
+                    } catch (MessagingException ex) {
+                    }
             }
         }
         getWrapped().handle();
