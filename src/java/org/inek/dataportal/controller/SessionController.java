@@ -19,12 +19,14 @@ import org.inek.dataportal.entities.AccountAdditionalIK;
 import org.inek.dataportal.entities.AccountFeature;
 import org.inek.dataportal.entities.Announcement;
 import org.inek.dataportal.entities.InekRole;
+import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.AccountFacade;
 import org.inek.dataportal.facades.AnnouncementFacade;
 import org.inek.dataportal.facades.DiagnosisFacade;
+import org.inek.dataportal.facades.LogFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.helper.Topic;
@@ -53,6 +55,8 @@ public class SessionController implements Serializable {
     private DiagnosisFacade _diagnosisFacade;
     @Inject
     private PeppFacade _peppFacade;
+    @Inject
+    private LogFacade _logFacade;
 
     private Account _account;
     private final Topics _topics = new Topics();
@@ -96,9 +100,10 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * returns the account id if logged in
-     * otherwise it redirects to session timeOut
-     * @return 
+     * returns the account id if logged in otherwise it redirects to session
+     * timeOut
+     *
+     * @return
      */
     public int getAccountId() {
         if (_account == null) {
@@ -168,6 +173,8 @@ public class SessionController implements Serializable {
     public String logout() {
         if (_account != null) {
             endConversation();
+            Log log = new Log(_account.getAccountId(), "Logout");
+            _logFacade.persist(log);
             _account = null;
             _topics.clear();
             _features.clear();
@@ -193,7 +200,14 @@ public class SessionController implements Serializable {
     public boolean login(String mailOrUser, String password) {
         _account = _accountFacade.getAccount(mailOrUser, password);
         initFeatures();
-        return _account != null;
+        if (_account == null) {
+            Log log = new Log(-1, "Login failed");
+            _logFacade.persist(log);
+            return false;
+        }
+        Log log = new Log(_account.getAccountId(), "Login");
+        _logFacade.persist(log);
+        return true;
     }
 
     private void initFeatures() {

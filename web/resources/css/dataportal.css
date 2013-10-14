@@ -120,6 +120,7 @@ div#wrapper {
     }
 
     #tblPrint td, #tblPrint th {
+        vertical-align: top;
         border-collapse: collapse; 
         border: black dotted 1px;
         padding: 0.2em;
