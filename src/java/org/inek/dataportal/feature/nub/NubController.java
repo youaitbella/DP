@@ -292,6 +292,11 @@ public class NubController extends AbstractFeatureController {
         proposal.setAccountId(account.getAccountId());
         proposal.setIk(account.getIK());
         proposal.setIkName(account.getCompany());
+        populateMasterData(proposal, account);
+        return proposal;
+    }
+
+    public void populateMasterData(NubProposal proposal, Account account) {
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());
         proposal.setFirstName(account.getFirstName());
@@ -309,7 +314,6 @@ public class NubController extends AbstractFeatureController {
         proposal.setPhone(phone);
         proposal.setFax(account.getCustomerFax());
         proposal.setEmail(account.getEmail());
-        return proposal;
     }
 
 }

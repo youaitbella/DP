@@ -249,6 +249,12 @@
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
-
+        
+        <div class="toolBar  floatContainer">
+            <h:commandLink styleClass="button" action="#{editNubProposal.reloadMaster}" value="#{msg.btnReloadMaster}" immediate="true"
+                           rendered="#{!editNubProposal.readOnly}">
+                <f:ajax render="@form"/>
+            </h:commandLink>
+        </div>
     </ui:define>
 </ui:composition>

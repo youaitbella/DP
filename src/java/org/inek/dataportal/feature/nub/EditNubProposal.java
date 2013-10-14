@@ -345,6 +345,12 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     // </editor-fold>
+    
+    public String reloadMaster(){
+        getNubController().populateMasterData(_nubProposal, _sessionController.getAccount());
+        return "";
+    }
+    
     public String save() {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
@@ -387,7 +393,7 @@ public class EditNubProposal extends AbstractEditController {
             return false;
         }
         return _cooperativeRight == CooperativeRight.ReadOnly
-                || !laxCheck && (_cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor || _supervisorRight == CooperativeRight.ReadCompletedSealSupervisor);
+                || !laxCheck && (_cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor || _cooperativeRight != CooperativeRight.ReadWriteSealSupervisor && _supervisorRight == CooperativeRight.ReadCompletedSealSupervisor);
     }
 
     public boolean isRejectedNub() {

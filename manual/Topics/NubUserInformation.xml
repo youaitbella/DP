@@ -23,6 +23,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Das Feld Kommentar dient ebenfalls Ihrer eigenen Verwendung, z.B. der Information von Kollegen, die mit Ihnen gemeinsam die Anfragen bearbeiten. Bitte tragen Sie hier keine Informationen für das InEK ein.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Reinitialisieren ]</text><text styleclass="Normal" translate="true"> Initialisiert das Stammformblatt anhand der Stammdaten neu. Anwendungsbeispiel: Die NUB-Anfrage wurde durch Ihren Kooperationspartner erstellt und das Stammblatt soll aber vor der Bereitstellung an das InEK mit Ihren Stammdaten gefüllt werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> dient der Speicherung der Daten im aktuellen Erfassungszustand. Daten dürfen zum Speicherzeitpunkt unvollständig sein. Eine Fortsetzung der Erfassung kann unmittelbar oder zu einem späteren Zeitpunkt erfolgen.</text></para>
     <para styleclass="Normal"></para>
