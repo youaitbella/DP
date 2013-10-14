@@ -7,6 +7,7 @@
   <script type="text/javascript" src="jquery.js"></script>
   <script type="text/javascript" src="helpman_settings.js"></script>
   <script type="text/javascript" src="helpman_navigation.js"></script>
+  <script type="text/javascript" src="dataportal_contextids.js"></script>
 
   <link type="text/css" href="default.css" rel="stylesheet" />
 
@@ -112,7 +113,14 @@
 <div id="hmcontentbox" >
   <script type="text/javascript">
     var defaulttopic="introduction.htm";
-    if (location.href.lastIndexOf("?") > 0) defaulttopic=location.href.substring(location.href.lastIndexOf("?")+1,location.href.length).replace(/:/g,"");
+    var query = window.location.search.substring(1).replace(/:|&#x3a;|\//g,"");
+    if (query != "") {
+       defaulttopic = query;
+       if (typeof(hmGetContextId) != "undefined") {
+         var tmpCntx = hmGetContextId(query);
+         if (tmpCntx != "") defaulttopic = tmpCntx;
+       }
+    }
     document.write('<iframe name="hmcontent" id="hmcontent" src="'+defaulttopic+'" seamless="seamless" title="Content Page" frameborder="0"></iframe>');
   </script>
   <noscript>

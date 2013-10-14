@@ -105,7 +105,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         for (CooperationRight cooperationRight : cooperationRights) {
             CooperativeRight right = cooperationRight.getCooperativeRight();
             if (right.equals(CooperativeRight.ReadCompletedSealSupervisor)
-                    || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor)) {
+                    || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
+                    || right.equals(CooperativeRight.ReadWriteSealSupervisor)) {
                 return true;
             }
         }
@@ -115,7 +116,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     public boolean isSupervisor(Feature feature, Integer ik, int accountId) {
         CooperativeRight right = getSupervisorRight(feature, ik, accountId);
         return right.equals(CooperativeRight.ReadCompletedSealSupervisor)
-                || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor);
+                || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
+                || right.equals(CooperativeRight.ReadWriteSealSupervisor);
 
     }
 

@@ -382,7 +382,7 @@ public class EditNubProposal extends AbstractEditController {
             // own nub depends on status
             return _nubProposal.getStatus().getValue() >= NubStatus.ApprovalRequested.getValue();
         }
-        if (_supervisorRight == CooperativeRight.ReadWriteCompletedSealSupervisor) {
+        if (_supervisorRight == CooperativeRight.ReadWriteCompletedSealSupervisor || _supervisorRight == CooperativeRight.ReadWriteSealSupervisor) {
             // supervisor write preceeds
             return false;
         }
@@ -409,6 +409,7 @@ public class EditNubProposal extends AbstractEditController {
             enabled = _cooperativeRight == CooperativeRight.ReadWriteSeal
                     || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor
                     || _cooperativeRight == CooperativeRight.ReadWriteCompletedSealSupervisor
+                    || _cooperativeRight == CooperativeRight.ReadWriteSealSupervisor
                     || !_supervisorRight.equals(CooperativeRight.None);
         }
 
@@ -548,6 +549,10 @@ public class EditNubProposal extends AbstractEditController {
         newTopic = checkField(newTopic, _nubProposal.getPatientsFuture(), "lblPatientsFuture", "form:patientsFuture", NubProposalTabs.tabNubPage3);
         newTopic = checkField(newTopic, _nubProposal.getAddCosts(), "lblAddCosts", "form:nubAddCost", NubProposalTabs.tabNubPage4);
         newTopic = checkField(newTopic, _nubProposal.getWhyNotRepresented(), "lblWhyNotRepresented", "form:nubNotRepresented", NubProposalTabs.tabNubPage4);
+        if (_nubProposal.getRoleId() < 0) {
+            _msg = Utils.getMessage("lblContactRole");
+            newTopic = NubProposalTabs.tabNubAddress.name();
+        }
         if (!checkProxyIKs(_nubProposal.getProxyIKs())) {
             _msg = Utils.getMessage("lblErrorProxyIKs");
             newTopic = NubProposalTabs.tabNubAddress.name();

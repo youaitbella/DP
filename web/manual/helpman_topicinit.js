@@ -1,4 +1,4 @@
-﻿/* --------------- Script (c) 2006-2011 EC Software ---------------
+﻿/* --------------- Script (c) 2006-2013 EC Software ---------------
 This script was created by Help & Manual. It is designed for use 
 in combination with the output of Help & Manual and must not
 be used outside this context.     http://www.helpandmanual.com
@@ -107,7 +107,9 @@ var HMToggleExpandDropdown = function(obj, value, animate) {
 }
 
 var HMToggleExpandPicture = function(obj, value, animate) {
-  var newSrc = (value ? obj.getAttribute("hm.src1") : obj.getAttribute("hm.src0"));
+  var oldFile = (value ? obj.getAttribute("hm.src0") : obj.getAttribute("hm.src1"));
+  var newFile = (value ? obj.getAttribute("hm.src1") : obj.getAttribute("hm.src0"));
+  var newSrc = obj.src.replace(oldFile, newFile);
   var isToggleIcon = (obj.getAttribute("hm.type")=="dropdown");
 
   if ((!isToggleIcon) && (animate)) {
@@ -151,8 +153,10 @@ var HMShowPictureLightbox = function(objID) {
   var startT = $(obj).offset().top;
   var startW = $(obj).outerWidth();
   var startH = $(obj).outerHeight();
-	
-  var newSrc = obj.getAttribute("hm.src1");
+
+  var oldFile = obj.getAttribute("hm.src0");
+  var newFile = obj.getAttribute("hm.src1");
+  var newSrc = obj.src.replace(oldFile, newFile);
   var newTitle = obj.getAttribute("hm.title1");
   var newCaption = obj.getAttribute("hm.caption1");
 

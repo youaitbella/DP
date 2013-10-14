@@ -17,6 +17,6 @@ public enum CooperativeRight {
     ReadWriteSeal,              // partner may read, write, seal
     ReadSealed,                // partner may read sealed
     ReadCompletedSealSupervisor,         // partner may read completed. To be sealed by partner only.
-    ReadWriteCompletedSealSupervisor;    // partner may read, write completed. To be sealed by partner only.
-    
+    ReadWriteCompletedSealSupervisor,    // partner may read, write completed. To be sealed by partner only.
+    ReadWriteSealSupervisor;    // partner may read, write incompleted. To be sealed by partner only.
 }

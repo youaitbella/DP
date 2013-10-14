@@ -144,6 +144,7 @@ public class NubProposalList {
                         || right.getCooperativeRight() == CooperativeRight.ReadWrite
                         || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal
                         || right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
                         || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor) {
                     ids.add(right.getOwnerId());
                 }

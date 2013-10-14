@@ -8,6 +8,11 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Im folgenden finden Sie die Änderungen am </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> seit November 2012 in umgekehrter chronologischer Reihenfolge.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">14.10.2013</text></para>
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Zusätzliche Rechte (Supervisor darf auch unfertige Daten sehen) im Bereich Kooperation</text></li>
+    </list>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">17.09.2013</text></para>
     <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Neuer Funktionsbereich Kooperation</text></li>

@@ -65,7 +65,8 @@ public class NubSessionTools implements Serializable {
                 .getGrantedCooperationRights(account.getAccountId(), Feature.NUB);
         for (CooperationRight right : rights) {
             if (right.getCooperativeRight().equals(CooperativeRight.ReadCompletedSealSupervisor)
-                    || right.getCooperativeRight().equals(CooperativeRight.ReadWriteCompletedSealSupervisor)) {
+                    || right.getCooperativeRight().equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
+                    || right.getCooperativeRight().equals(CooperativeRight.ReadWriteSealSupervisor)) {
                 _sealOwnNub.put(right.getIk(), Boolean.FALSE);
             }
         }

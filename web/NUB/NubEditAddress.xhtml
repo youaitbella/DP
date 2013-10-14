@@ -124,7 +124,7 @@
             <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage"/>
             <br/>
             <h:selectOneMenu styleClass="input" id="contactRole" value="#{editNubProposal.nubProposal.roleId}" 
-                             required="false"
+                             required="true"
                              readonly="#{editNubProposal.readOnly}"
                              requiredMessage="#{msg.lblChooseEntry}">
                 <f:selectItems value="#{sessionTools.contactRoleItems}"/>
