@@ -52,9 +52,9 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
 
             ExceptionQueuedEvent event = i.next();
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
-            Throwable t = context.getException();
-            if (t instanceof ViewExpiredException) {
-                ViewExpiredException vee = (ViewExpiredException) t;
+            Throwable exception = context.getException();
+            if (exception instanceof ViewExpiredException) {
+                ViewExpiredException vee = (ViewExpiredException) exception;
                 FacesContext fc = FacesContext.getCurrentInstance();
                 Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
                 NavigationHandler nav = fc.getApplication().getNavigationHandler();
@@ -68,19 +68,19 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 } finally {
                     i.remove();
                 }
-            } else if (t instanceof ELException || t instanceof NonexistentConversationException) {
+            } else if (exception instanceof ELException || exception instanceof NonexistentConversationException) {
                 // this might be result of a session time out
                 FacesContext fc = FacesContext.getCurrentInstance();
                 NavigationHandler nav = fc.getApplication().getNavigationHandler();
                 try {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", t);
+                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", exception);
                     if (!isHandled) {
                         SessionController sc = Utils.getBean(SessionController.class);
                         if (sc != null) {
                             sc.logout();
                         }
                         try {
-                            Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler " + t.getClass() , t.getMessage());
+                            Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler " + exception.getClass() , exception.getMessage());
                         } catch (MessagingException ex) {
                         }
                         String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
@@ -90,15 +90,15 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                         isHandled = true;
                     }
                 } catch (IOException ex) {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", t);
+                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
                 } finally {
                     i.remove();
                 }
-            } else if (t instanceof FacesException) {
+            } else if (exception instanceof FacesException) {
                 FacesContext fc = FacesContext.getCurrentInstance();
                 NavigationHandler nav = fc.getApplication().getNavigationHandler();
                 try {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", t);
+                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", exception);
                     //String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
                     //fc.getExternalContext().redirect(path + Pages.ErrorRedirector.URL());
                     SessionController sc = Utils.getBean(SessionController.class);
@@ -106,7 +106,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                         sc.logout();
                     }
                     try {
-                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler FacesException", t.getMessage());
+                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler FacesException", exception.getMessage());
                     } catch (MessagingException ex) {
                     }
                     nav.handleNavigation(fc, null, Pages.Error.URL());
@@ -118,7 +118,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 }
             } else {
                     try {
-                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler OtherException", t.getMessage());
+                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler OtherException", exception.getMessage());
                     } catch (MessagingException ex) {
                     }
             }
