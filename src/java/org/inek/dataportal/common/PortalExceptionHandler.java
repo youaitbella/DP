@@ -25,6 +25,8 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.utils.PropertyKey;
+import org.inek.dataportal.utils.PropertyManager;
 
 /**
  *
@@ -68,7 +70,28 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 } finally {
                     i.remove();
                 }
-            } else if (exception instanceof ELException || exception instanceof NonexistentConversationException) {
+            } else if(exception instanceof NonexistentConversationException) {
+                FacesContext fc = FacesContext.getCurrentInstance();
+                NavigationHandler nav = fc.getApplication().getNavigationHandler();
+                try {
+                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", exception);
+                    if (!isHandled) {
+                        SessionController sc = Utils.getBean(SessionController.class);
+                        if (sc != null) {
+                            sc.logout();
+                        }
+                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
+                        fc.getExternalContext().redirect(path + Pages.InvalidConversation.URL());
+//                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
+//                        fc.renderResponse();
+                        isHandled = true;
+                    }
+                } catch (IOException ex) {
+                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
+                } finally {
+                    i.remove();
+                }
+            } else if (exception instanceof ELException) {
                 // this might be result of a session time out
                 FacesContext fc = FacesContext.getCurrentInstance();
                 NavigationHandler nav = fc.getApplication().getNavigationHandler();
@@ -80,10 +103,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                             sc.logout();
                         }
                         try {
-                            Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler " + exception.getClass() , exception.getMessage());
+                            Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "PortalExceptionHandler " + exception.getClass() , exception.getMessage());
                         } catch (MessagingException ex) {
                         }
-                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
+                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath(); 
                         fc.getExternalContext().redirect(path + Pages.ErrorRedirector.URL());
 //                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
 //                        fc.renderResponse();
@@ -106,7 +129,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                         sc.logout();
                     }
                     try {
-                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler FacesException", exception.getMessage());
+                        Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "PortalExceptionHandler FacesException", exception.getMessage());
                     } catch (MessagingException ex) {
                     }
                     nav.handleNavigation(fc, null, Pages.Error.URL());
@@ -117,10 +140,21 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     i.remove();
                 }
             } else {
+                FacesContext fc = FacesContext.getCurrentInstance();
+                if(!exception.getMessage().contains("Conversation lock timed out")) {
                     try {
-                        Mailer.sendMail("michael.mueller@inek-drg.de", "PortalExceptionHandler OtherException", exception.getMessage());
+                        Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "PortalExceptionHandler OtherException", exception.getMessage());
                     } catch (MessagingException ex) {
                     }
+                }
+                try {
+                    String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath(); 
+                    fc.getExternalContext().redirect(path + Pages.Error.URL());   
+                } catch(IOException ex) {
+                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
+                } finally {
+                    i.remove();
+                }
             }
         }
         getWrapped().handle();

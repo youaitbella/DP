@@ -38,6 +38,11 @@ public class RequestController implements Serializable {
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             return;
         }
+        if(viewId.equals(Pages.InvalidConversation.URL())) {
+            tryLogout();
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.InvalidConversation.URL());
+            return;
+        }
         if (viewId.equals(Pages.ErrorRedirector.URL())) {
             tryLogout();
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());

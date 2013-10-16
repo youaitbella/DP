@@ -17,17 +17,21 @@
         <br/>
         <br/>
         <br/>
+        <div style="margin-left: 4px;">
         <p>
         Bei der Verarbeitung ist ein Fehler aufgetreten.
         </p>
         <br/>
         <p>
         Mögliche Ursachen:
-        <ul>
+        <ul style="margin-left: 26px;">
             <li>Mehrfache Browserfenster der laufenden Sitzung</li>
             <li>Zeitüberschreitung der laufenden Sitzung</li>
+            <li>Zurück-Funktion Ihres Browsers (Informationen siehe Anwenderhandbuch)</li>
         </ul>
         </p>
+        <h:button styleClass="button" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
+        </div>
 
     </ui:define>
 
