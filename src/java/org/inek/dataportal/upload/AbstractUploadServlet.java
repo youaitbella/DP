@@ -58,7 +58,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
     }
 
     public String decodeFilename(String filename){
-        return filename.replace("%20", " ");
+        return filename.replace("%20", " ").replace("%5B", "[").replace("%5D", "]");
     }
     
     abstract protected void stream2Document(String filename, InputStream is) throws IOException;
