@@ -13,22 +13,24 @@
 
     <ui:define name="content">
         #{sessionController.forceConversationEnd}
-        <h1>Ungültige Konversation</h1>
+        <h1>#{msg.msgInvalidConversation}</h1>
         <br/>
         <br/>
         <br/>
         <div style="margin-left: 4px;">
         <p>
-        Bei der Verarbeitung ist ein Fehler aufgetreten.
+        #{msg.msgErrorOccured}
         </p>
         <br/>
         <p>
-        Mögliche Ursachen:
+        #{msg.msgPossibleErrorReasons}
         <ul style="margin-left: 26px;">
-            <li>Mehrfache Browserfenster der laufenden Sitzung</li>
-            <li>Zeitüberschreitung der laufenden Sitzung</li>
-            <li>Zurück-Funktion Ihres Browsers (Informationen siehe Anwenderhandbuch)</li>
+            <li>#{msg.msgMultipleBrowserWindows}</li>
+            <li>#{msg.msgTimedSession}</li>
+            <li>#{msg.msgBackInBrowser}</li>
         </ul>
+        <br/>
+        #{msg.msgNoReasonMatches} <a href="mailto:anfragen@datenstelle.de">anfragen@datenstelle.de</a>
         </p>
         <h:button styleClass="button" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
         </div>
