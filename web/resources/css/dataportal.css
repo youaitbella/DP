@@ -392,6 +392,11 @@ div#wrapper {
     display: none;
 }
 
+.formModelIntention {
+    max-width: 100px;
+    vertical-align: text-top;
+}
+
 #search-box {
     margin-top: 10px;
     margin-bottom: 30px;

@@ -1,5 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
@@ -37,11 +39,12 @@ public class EditModelIntention extends AbstractEditController {
     }
     
     public SelectItem[] getGenders() {
-        SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem(Genders.Both.gender());
-        items[1] = new SelectItem(Genders.Male.gender());
-        items[2] = new SelectItem(Genders.Female.gender());
-        return items;
+        List<SelectItem> l = new ArrayList<>();
+        Genders[] genders = Genders.values();
+        for(Genders g : genders) {
+            l.add(new SelectItem(g.gender()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
     }
     
     public enum Genders {
@@ -63,6 +66,37 @@ public class EditModelIntention extends AbstractEditController {
         
         public String gender() {
             return _gender;
+        }
+    }
+    
+    public SelectItem[] getRegions() {
+        List<SelectItem> l = new ArrayList<>();
+        Regions[] regions = Regions.values();
+        for(Regions r : regions) {
+            l.add(new SelectItem(r.region()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
+    public enum Regions {
+        Germany(0, "Deutschland"),
+        State(1, "Bundesland"),
+        Misc(2, "Sonstige");
+        
+        private int _index;
+        private String _region;
+        
+        private Regions(int index, String region) {
+            _index = index;
+            _region = region;
+        }
+
+        public int index() {
+            return _index;
+        }
+
+        public String region() {
+            return _region;
         }
     }
 

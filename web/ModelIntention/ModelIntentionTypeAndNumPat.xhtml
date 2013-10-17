@@ -9,36 +9,60 @@
     <ui:define name="editContent">
         
         <h2>#{msg.tabModelIntTypeAndNumberOfPatients}</h2>
-
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" id="ageYears" value="#{msg.lblAgeYears}:" />&nbsp;
-            <h:selectBooleanCheckbox id="ageYearsRequired" value="#{editModelIntention.ageYearEnabled}">
-                <f:ajax event="click" render="@this :logout:remaining ageYearsFrom ageYearsTo" />
-            </h:selectBooleanCheckbox>&nbsp;
-            <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
-            <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" readonly="#{editModelIntention.ageYearsEnabled}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>&nbsp;
-            <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
-            <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}" readonly="#{editModelIntention.ageYearsEnabled}">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
-        </div>
         
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" id="gender" value="#{msg.lblGender}:" />&nbsp;
-            <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}">
-                <f:selectItems value="#{editModelIntention.genders}" />
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:selectOneMenu>
-        </div>
-        
-        <div class="inputPart floating">
-            <h:outputLabel styleClass="label" id="personalMisc" value="#{msg.lblPersonalMisc}:" />&nbsp;
-            <h:inputTextarea styleClass="areaMiddleLow" id="txtPersonalMisc" value="#{editModelIntention.modelIntention.miscPatient}">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputTextarea>
-        </div>
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ageYears" value="#{msg.lblAgeYears}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:selectBooleanCheckbox id="ageYearsRequired" value="#{editModelIntention.ageYearEnabled}">
+                    <f:ajax event="click" render="@this :logout:remaining ageYearsFrom ageYearsTo" />
+                </h:selectBooleanCheckbox>&nbsp;
+                <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
+                <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" readonly="#{editModelIntention.ageYearsEnabled}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>&nbsp;
+                <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
+                <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}" readonly="#{editModelIntention.ageYearsEnabled}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="gender" value="#{msg.lblGender}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}">
+                    <f:selectItems value="#{editModelIntention.genders}" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:selectOneMenu>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="personalMisc" value="#{msg.lblPersonalMisc}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputTextarea styleClass="areaWideLow" id="txtPersonalMisc" value="#{editModelIntention.modelIntention.miscPatient}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputTextarea>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="regional" value="#{msg.lblRegionalFeatures}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div class="floating">
+                    <h:selectOneMenu id="regions" value="#{editModelIntention.modelIntention.region}">
+                        <f:selectItems value="#{editModelIntention.regions}" />
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:selectOneMenu>
+                </div>
+                <h:inputTextarea styleClass="areaWideLow" id="txtRegMisc" value="#{editModelIntention.modelIntention.region}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputTextarea>
+            </h:panelGroup>
+        </h:panelGrid>
         
     </ui:define>
 </ui:composition>
