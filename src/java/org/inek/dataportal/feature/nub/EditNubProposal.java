@@ -53,11 +53,16 @@ public class EditNubProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
 
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private NubProposalFacade _nubProposalFacade;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject NubSessionTools _nubSessionTools;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private NubProposalFacade _nubProposalFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    NubSessionTools _nubSessionTools;
     private String _conversationId;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
@@ -135,6 +140,12 @@ public class EditNubProposal extends AbstractEditController {
     @PostConstruct
     private void init() {
         _conversationId = (String) Utils.getFlash().get("conversationId");
+        if (_conversationId == null) {
+            _logger.log(Level.WARNING, "no conversation on init nub");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.InvalidConversation.URL());
+        }
+
         Object ppId = Utils.getFlash().get("nubId");
         if (ppId == null) {
             _nubProposal = newNubProposal();
@@ -345,12 +356,11 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     // </editor-fold>
-    
-    public String reloadMaster(){
+    public String reloadMaster() {
         getNubController().populateMasterData(_nubProposal, _sessionController.getAccount());
         return "";
     }
-    
+
     public String save() {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();

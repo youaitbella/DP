@@ -35,7 +35,7 @@ import org.inek.dataportal.utils.PropertyManager;
 public class PortalExceptionHandler extends ExceptionHandlerWrapper {
 
     static final Logger _logger = Logger.getLogger(PortalExceptionHandler.class.getName());
-    private ExceptionHandler _wrapped;
+    private final ExceptionHandler _wrapped;
 
     PortalExceptionHandler(ExceptionHandler wrapped) {
         _wrapped = wrapped;
@@ -70,7 +70,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 } finally {
                     i.remove();
                 }
-            } else if(exception instanceof NonexistentConversationException) {
+            } else if (exception instanceof NonexistentConversationException) {
                 FacesContext fc = FacesContext.getCurrentInstance();
                 NavigationHandler nav = fc.getApplication().getNavigationHandler();
                 try {
@@ -102,11 +102,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                         if (sc != null) {
                             sc.logout();
                         }
-                        try {
-                            Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "PortalExceptionHandler " + exception.getClass() , exception.getMessage());
-                        } catch (MessagingException ex) {
-                        }
-                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath(); 
+                        SendExeptionMessage("PortalExceptionHandler " + exception.getClass(), exception);
+                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
                         fc.getExternalContext().redirect(path + Pages.ErrorRedirector.URL());
 //                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
 //                        fc.renderResponse();
@@ -128,10 +125,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     if (sc != null) {
                         sc.logout();
                     }
-                    try {
-                        Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "PortalExceptionHandler FacesException", exception.getMessage());
-                    } catch (MessagingException ex) {
-                    }
+                    SendExeptionMessage("PortalExceptionHandler FacesException", exception);
                     nav.handleNavigation(fc, null, Pages.Error.URL());
                     fc.renderResponse();
 //                } catch (IOException ex) {
@@ -141,16 +135,14 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 }
             } else {
                 FacesContext fc = FacesContext.getCurrentInstance();
-                if(!exception.getMessage().contains("Conversation lock timed out")) {
-                    try {
-                        Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "PortalExceptionHandler OtherException", exception.getMessage());
-                    } catch (MessagingException ex) {
-                    }
+                String msg = exception.getMessage();
+                if (msg == null || !msg.contains("Conversation lock timed out")) {
+                    SendExeptionMessage("PortalExceptionHandler OtherException", exception);
                 }
                 try {
-                    String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath(); 
-                    fc.getExternalContext().redirect(path + Pages.Error.URL());   
-                } catch(IOException ex) {
+                    String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
+                    fc.getExternalContext().redirect(path + Pages.Error.URL());
+                } catch (IOException ex) {
                     _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
                 } finally {
                     i.remove();
@@ -158,5 +150,16 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             }
         }
         getWrapped().handle();
+    }
+
+    private void SendExeptionMessage(String subject, Throwable exception) {
+        String msg = exception.getMessage() + "\r\n" ;
+        for (StackTraceElement element : exception.getStackTrace()) {
+            msg += element.toString() + "\r\n" ;
+        }
+        try {
+            Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg);
+        } catch (MessagingException ex) {
+        }
     }
 }

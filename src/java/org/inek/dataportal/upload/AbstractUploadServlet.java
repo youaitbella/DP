@@ -31,7 +31,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_OK);
             httpUtil.writeStatus("{\"success\": true}");
         } catch (IOException | ServletException e) {
-            _logger.log(Level.WARNING, "FileUploadServlet got Exception", e);
+            _logger.log(Level.WARNING, "FileUploadServlet got Exception: {0}{1}", new Object[]{e.getMessage(), e.getStackTrace()[0].toString()});
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             httpUtil.writeStatus("{\"success\": false, \"message\": \"" + e.getMessage() +  "\"}");
         }
