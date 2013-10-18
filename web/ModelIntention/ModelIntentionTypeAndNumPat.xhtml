@@ -8,7 +8,7 @@
 
     <ui:define name="editContent">
         
-        <h2>#{msg.tabModelIntTypeAndNumberOfPatients}</h2>
+        <h2>#{msg.headerPatientTypes}</h2>
         
         <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
             
@@ -35,7 +35,7 @@
             <h:panelGroup>
                 <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}">
                     <f:selectItems value="#{editModelIntention.genders}" />
-                    <f:ajax event="blur" render="@this :logout:remaining" />
+                    <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectOneMenu>
             </h:panelGroup>
             
@@ -53,15 +53,86 @@
             </h:panelGroup>
             <h:panelGroup>
                 <div class="floating">
-                    <h:selectOneMenu id="regions" value="#{editModelIntention.modelIntention.region}">
+                    <h:selectOneMenu id="regions" value="#{editModelIntention.region}">
                         <f:selectItems value="#{editModelIntention.regions}" />
-                        <f:ajax event="blur" render="@this :logout:remaining" />
+                        <f:ajax event="change" render="@this :logout:remaining txtRegMisc" />
                     </h:selectOneMenu>
                 </div>
-                <h:inputTextarea styleClass="areaWideLow" id="txtRegMisc" value="#{editModelIntention.modelIntention.region}">
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="areaWideLow" id="txtRegMisc" value="#{editModelIntention.modelIntention.region}" readonly="#{!editModelIntention.regionMiscEnabled}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="medical" value="#{msg.lblMedicalFeature}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div class="floating">
+                    <h:selectOneMenu id="medicals" value="#{editModelIntention.modelIntention.medicalAttributesType}">
+                        <f:selectItems value="#{editModelIntention.medicalAttributes}" />
+                        <f:ajax event="change" render="@this :logout:remaining" />
+                    </h:selectOneMenu>
+                </div>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="areaWideLow" id="txtMedicalAttr" value="#{editModelIntention.modelIntention.medicalSpecification}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="healthInsurance" value="#{msg.lblModelIntentionHealthInsurance}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText styleClass="inputmedium" value="TODO">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                    <!-- TODO: Dynamically create textfields. -->
+                </h:inputText>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="personalMiscAttr" value="#{msg.lblMiscAttr}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputTextarea styleClass="areaWideLow" value="#{editModelIntention.modelIntention.miscAttribute}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
             </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="patientAgreement" value="#{msg.lblPatientAgreement}" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:selectBooleanCheckbox value="#{editModelIntention.modelIntention.agreement}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </h:panelGroup>
+            
+        </h:panelGrid>
+        
+        <h2>#{msg.headerAssignmentModelIntention}</h2>
+        
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="settledDocs" value="#{msg.lblSettledDocs}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div class="floating">
+                    <h:selectOneMenu id="settledDocsType" value="#{editModelIntention.modelIntention.settleMedicType}">
+                        <f:selectItems value="#{editModelIntention.settledTypes}" />
+                        <f:ajax event="change" render="@this :logout:remaining txtSettleMedic" />
+                    </h:selectOneMenu>
+                </div>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="areaWideLow" id="txtSettleMedic" value="#{editModelIntention.settleText}" readonly="#{!editModelIntention.settleTextEnabled}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
         </h:panelGrid>
         
     </ui:define>

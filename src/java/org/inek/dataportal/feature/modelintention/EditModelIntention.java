@@ -30,7 +30,7 @@ public class EditModelIntention extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
-    private boolean _ageYearEnabled;
+    private boolean _ageYearEnabled, _regionMiscEnabled;
     private String _conversationId;
     private ModelIntention _modelIntention;
     
@@ -42,7 +42,7 @@ public class EditModelIntention extends AbstractEditController {
         List<SelectItem> l = new ArrayList<>();
         Genders[] genders = Genders.values();
         for(Genders g : genders) {
-            l.add(new SelectItem(g.gender()));
+            l.add(new SelectItem(g.id(), g.gender()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
@@ -52,16 +52,16 @@ public class EditModelIntention extends AbstractEditController {
         Male(1, "Männlich"),
         Female(2, "Weiblich");
         
-        private int _index;
+        private int _id;
         private String _gender;
         
-        private Genders(int index, String gender) {
-            _index = index;
+        private Genders(int id, String gender) {
+            _id = id;
             _gender = gender;
         }
         
-        public int index() {
-            return _index;
+        public int id() {
+            return _id;
         }
         
         public String gender() {
@@ -73,7 +73,7 @@ public class EditModelIntention extends AbstractEditController {
         List<SelectItem> l = new ArrayList<>();
         Regions[] regions = Regions.values();
         for(Regions r : regions) {
-            l.add(new SelectItem(r.region()));
+            l.add(new SelectItem(r.id(), r.region()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
@@ -83,20 +83,81 @@ public class EditModelIntention extends AbstractEditController {
         State(1, "Bundesland"),
         Misc(2, "Sonstige");
         
-        private int _index;
+        private int _id;
         private String _region;
         
-        private Regions(int index, String region) {
-            _index = index;
+        private Regions(int id, String region) {
+            _id = id;
             _region = region;
         }
 
-        public int index() {
-            return _index;
+        public int id() {
+            return _id;
         }
 
         public String region() {
             return _region;
+        }
+    }
+    
+    public SelectItem[] getMedicalAttributes() {
+        List<SelectItem> l = new ArrayList<>();
+        MedicalAttributes[] attrs = MedicalAttributes.values();
+        for(MedicalAttributes ma : attrs) {
+            l.add(new SelectItem(ma.id(), ma.attribute()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
+    public enum MedicalAttributes {
+        MainDiagnosis(0, "Hauptdiagnose(n)"),
+        PracticeAreas(1, "behandelnde Fachgebiete"),
+        Misc(2, "andere Spezifizierung");
+        
+        private int _id;
+        private String _attribute;
+        
+        private MedicalAttributes(int id, String attribute) {
+            _id = id;
+            _attribute = attribute;
+        }
+
+        public int id() {
+            return _id;
+        }
+
+        public String attribute() {
+            return _attribute;
+        }
+    }
+    
+    public SelectItem[] getSettledTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        SettleTypes[] types = SettleTypes.values();
+        for(SettleTypes t : types) {
+            l.add(new SelectItem(t.id(), t.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
+    public enum SettleTypes {
+        ImpartialDepartment(0, "fachgebietsunabhängig"),
+        MiscMedics(1, "sonstige bestimmte Ärzte");
+        
+        private int _id;
+        private String _type;
+        
+        private SettleTypes(int id, String type) {
+            _id = id;
+            _type = type;
+        }
+
+        public int id() {
+            return _id;
+        }
+
+        public String type() {
+            return _type;
         }
     }
 
@@ -117,6 +178,58 @@ public class EditModelIntention extends AbstractEditController {
         this._ageYearEnabled = ageYearEnabled;
     }
 
+    public boolean isRegionMiscEnabled() {
+        return _regionMiscEnabled;
+    }
+
+    public void setRegionMiscEnabled(boolean regionMiscEnabled) {
+        this._regionMiscEnabled = regionMiscEnabled;
+    }
+    
+    public String getSettleText() {
+        if(_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id())
+            return "";
+        return _modelIntention.getSettleMedicText();
+    }
+    
+    public void setSettleText(String text) {
+        if(_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id())
+            _modelIntention.setSettleMedicText("");
+        else
+            _modelIntention.setSettleMedicText(text);
+    }
+    
+    public Integer getRegion() {
+        int index = 0;
+        boolean listItem = false;
+        Regions[] regions = Regions.values();
+        for(Regions r : regions) {
+            if(r.region().equals(_modelIntention.getRegion())) {
+                index = r.id();
+                listItem = true;
+            }
+        }
+        if(!listItem)
+            index = Regions.Misc.id();
+        return index;
+    }
+    
+    public void setRegion(Integer index) {
+        Regions[] regions = Regions.values();
+        for(Regions r : regions) {
+            if(index == r.id()) {
+                _modelIntention.setRegion(r.region());
+                _regionMiscEnabled = r.region().equals(Regions.Misc.region());
+            }
+        }
+    }
+    
+    public boolean isSettleTextEnabled() {
+        if(_modelIntention.getSettleMedicType() == SettleTypes.MiscMedics.id())
+            return true;
+        return false;
+    }
+
     enum ModelIntentionTabs {
 
         tabModelIntTypeAndNumberOfPatients,
@@ -132,6 +245,7 @@ public class EditModelIntention extends AbstractEditController {
     public EditModelIntention() {
         //System.out.println("EditModelIntention");
         _ageYearEnabled = false;
+        _regionMiscEnabled = false;       
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -152,9 +266,10 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntention = newModelIntention();
         } else {
             _modelIntention = loadModelIntention(miId);
-        }
-        if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
+        }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
             _ageYearEnabled = true;
+        if(_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region()))
+            _regionMiscEnabled = true;
         //ensureEmptyEntry(_peppProposal.getProcedures());
     }
 
@@ -172,6 +287,8 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntention newModelIntention() {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
         modelIntention.setAccountId(_sessionController.getAccountId());
+        modelIntention.setRegion(Regions.Germany.region());
+        modelIntention.setSettleMedicType(SettleTypes.ImpartialDepartment.id());
         return modelIntention;
     }
 
