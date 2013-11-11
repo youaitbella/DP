@@ -5,6 +5,8 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
@@ -12,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -20,6 +23,7 @@ import org.inek.dataportal.enums.Pages;
 @Named
 @RequestScoped
 public class RequestController implements Serializable {
+    private static final Logger _logger = Logger.getLogger("RequestController");
 
     @Inject private SessionController _sessionController;
 
@@ -67,6 +71,7 @@ public class RequestController implements Serializable {
     
         public void forceLoginIfNotInternal(ComponentSystemEvent e) {
             if (_sessionController.isInternalClient()){return;}
+            _logger.log(Level.WARNING, "Attempt to call admin page from ip: {0}", Utils.getClientIP());
             FacesContext facesContext = FacesContext.getCurrentInstance();
             tryLogout();
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());

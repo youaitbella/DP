@@ -52,11 +52,12 @@ public class NubProposalList {
      */
     public boolean getNubEnabled() {
         int month = 1 + Calendar.getInstance().get(Calendar.MONTH); // jan=0, thus 1+month
-        return (month >= 9 && month <= 10); // || _sessionController.isInternalClient(); // allow local access allways  
+        return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways  
     }
 
     public boolean getOpenListEnabled() {
-        return getNubEnabled() && getNubProposals().size() > 0;
+        //return getNubEnabled() && getNubProposals().size() > 0;
+        return getNubProposals().size() > 0;
     }
 
     public String getRejectReason(int proposalId) {

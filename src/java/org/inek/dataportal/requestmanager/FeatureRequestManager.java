@@ -1,4 +1,4 @@
-package org.inek.requestmanager;
+package org.inek.dataportal.requestmanager;
 
 import java.io.Serializable;
 import java.util.logging.Level;

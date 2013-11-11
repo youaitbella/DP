@@ -206,6 +206,7 @@ public class SessionController implements Serializable {
             return false;
         }
         Log log = new Log(_account.getAccountId(), "Login");
+        
         _logFacade.persist(log);
         return true;
     }
@@ -370,9 +371,9 @@ public class SessionController implements Serializable {
     }
 
     public boolean isInternalClient() {
-        return Utils.getClientIP().startsWith("192.168.")
-                || Utils.getClientIP().equals("127.0.0.1")
-                || Utils.getClientIP().equals("0:0:0:0:0:0:0:1");
+        return  Utils.getClientIP().equals("127.0.0.1")
+                || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
+                || Utils.getClientIP().startsWith("192.168.0");
     }
 
     public AccountFeature findAccountFeature(Feature feature) {
