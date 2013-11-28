@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "listRole")
+@Table(name = "listRole", catalog="CallCenterDB", schema="dbo")
 public class ContactRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

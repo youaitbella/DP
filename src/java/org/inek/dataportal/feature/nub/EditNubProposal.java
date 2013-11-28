@@ -314,7 +314,7 @@ public class EditNubProposal extends AbstractEditController {
         String codes[] = value.toString().split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (_procedureFacade.findProcedure(code, GlobalVars.PeppProposalCodeFirstYear.getVal(), GlobalVars.PeppProposalCodeLastYear.getVal()).equals("")) {
+            if (_procedureFacade.findProcedure(code, GlobalVars.NubRequestSystemYear.getVal()-1, GlobalVars.NubRequestSystemYear.getVal()).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }

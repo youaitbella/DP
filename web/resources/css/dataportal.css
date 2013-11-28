@@ -631,11 +631,11 @@ a.smallButton{
     min-width: 30px;
 }
 
-.button:hover, .smallButton:hover{
+.button:hover, .smallButton:hover, .sendButton:hover{
     color: white;
 }
 
-.button:active, .smallButton:active{
+.button:active, .smallButton:active, .sendButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
 }
@@ -643,6 +643,22 @@ a.smallButton{
 span.button{
     min-width: 120px;
     color: gray;
+}
+
+a.sendButton{
+    min-width: 120px;
+    display: inline-block;
+    margin: 0 10px 0 0;
+    padding: 0 5px;
+    background-color: #4aa628;  
+    border: solid 2px;
+    border-color:  #eeeeee darkgrey darkgrey #eeeeee;
+    border-radius: 0.5em;
+    text-decoration: none;
+    text-align: left;
+    background-image: url("/DataPortal/javax.faces.resource/bullet_go.png.xhtml?ln=Icon/medium");
+    background-repeat: no-repeat;
+    background-position: right center;
 }
 
 a.rightAllign,

@@ -59,9 +59,11 @@ public class PeppProposalList {
     }
     
     public String printPeppProposal(int proposalId) {
-        Utils.getFlash().put("headLine", Utils.getMessage("namePEPP_PROPOSAL"));
+        PeppProposal peppProposal = _peppProposalFacade.find(proposalId);
+        String headLine = Utils.getMessage("namePEPP_PROPOSAL") + " " + peppProposal.getExternalId();
+        Utils.getFlash().put("headLine", headLine);
         Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
-        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_peppProposalFacade.find(proposalId)));
+        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(peppProposal));
         return Pages.PrintView.URL();
     }
     

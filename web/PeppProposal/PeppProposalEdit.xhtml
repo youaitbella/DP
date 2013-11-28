@@ -37,7 +37,7 @@
                 <div class="toolBar  floatContainer">
                     <h:commandLink styleClass="button" action="#{editPeppProposal.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editPeppProposal.readOnly}"/>
-                    <h:commandLink styleClass="button" action="#{editPeppProposal.requestPeppProposalSeal()}" value="#{msg.btnSaveAndClose}"
+                    <h:commandLink styleClass="sendButton" action="#{editPeppProposal.requestPeppProposalSeal()}" value="#{msg.btnSaveAndClose}"
                                    disabled="#{sessionTools.peppProposalDisabled}" rendered="#{!editPeppProposal.readOnly}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="seal" style="display: none" action="#{editPeppProposal.sealPeppProposal()}" value="seal"/>
                 </div>

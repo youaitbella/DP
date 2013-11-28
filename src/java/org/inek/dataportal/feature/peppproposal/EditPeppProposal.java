@@ -45,13 +45,18 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @Named
 @ConversationScoped
 public class EditPeppProposal extends AbstractEditController {
+
     private static final Logger _logger = Logger.getLogger("EditPeppProposal");
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    @Inject private SessionController _sessionController;
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private DiagnosisFacade _diagnosisFacade;
-    @Inject private PeppProposalFacade _peppProposalFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private DiagnosisFacade _diagnosisFacade;
+    @Inject
+    private PeppProposalFacade _peppProposalFacade;
     private String _conversationId;
     private String _script;
     private PeppProposal _peppProposal;
@@ -136,7 +141,7 @@ public class EditPeppProposal extends AbstractEditController {
         proposal.setEmail(account.getEmail());
         return proposal;
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public PeppProposal getPeppProposal() {
         return _peppProposal;
@@ -242,8 +247,8 @@ public class EditPeppProposal extends AbstractEditController {
         String codes[] = codeString.split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, GlobalVars.PeppProposalCodeFirstYear.getVal(), GlobalVars.PeppProposalCodeLastYear.getVal()).equals("")
-                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, GlobalVars.PeppProposalCodeFirstYear.getVal(), GlobalVars.PeppProposalCodeLastYear.getVal()).equals("")) {
+            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, GlobalVars.PeppProposalSystemYear.getVal()-2, GlobalVars.PeppProposalSystemYear.getVal()-1).equals("")
+                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, GlobalVars.PeppProposalSystemYear.getVal()-2, GlobalVars.PeppProposalSystemYear.getVal()-1).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }
@@ -353,9 +358,13 @@ public class EditPeppProposal extends AbstractEditController {
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
 
         if (isValidId(_peppProposal.getPeppProposalId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("namePEPP_PROPOSAL"));
+            Utils.getFlash().put("headLine", Utils.getMessage("namePEPP_PROPOSAL") + " " + _peppProposal.getExternalId());
             Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_peppProposal));
+            String msg = Utils.getMessage("msgConfirmPeppProposal").replace("\r", "").replace("\n", "\\r\\n");
+            msg = String.format(msg, _peppProposal.getExternalId(), GlobalVars.PeppProposalSystemYear.getVal());
+            String script = "alert ('" + msg + "');";
+            _sessionController.setScript(script);
             _sessionController.endConversation();
             return Pages.PrintView.URL();
         }

@@ -75,6 +75,11 @@ public class Login implements Serializable {
 
     // </editor-fold>
     public String login() {
+        // todo: replace boolean value by something configurable
+        if (false) {
+            _sessionController.setScript("alert('Aufgrund von Wartungsarbeiten ist derzeit kein Zugang möglich');");
+            return null;
+        }
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
             _loginMessage = "Name bzw. Email und / oder Kennwort sind ungültig";
             return null;

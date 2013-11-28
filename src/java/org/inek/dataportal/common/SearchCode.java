@@ -50,7 +50,7 @@ public class SearchCode implements Serializable {
     }
 
     public void search(ActionEvent e) {
-        getSearchController().search(_searchText, GlobalVars.PeppProposalCodeFirstYear.getVal(), GlobalVars.PeppProposalCodeLastYear.getVal());
+        getSearchController().search(_searchText, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal()-1);
         if (getCodeList().isEmpty()){
             _hint = "Keine Ergebnisse zu Ihrer Eingabe gefunden.";
         } else {
@@ -109,11 +109,11 @@ public class SearchCode implements Serializable {
     }
     
     public String getFirstYear(){
-        return "" + GlobalVars.PeppProposalCodeFirstYear.getVal();
+        return "" + (GlobalVars.PeppProposalSystemYear.getVal() - 2);
     }
 
     public String getLastYear(){
-        return "" + GlobalVars.PeppProposalCodeLastYear.getVal();
+        return "" + (GlobalVars.PeppProposalSystemYear.getVal() - 1);
     }
 
 // </editor-fold>

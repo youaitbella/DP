@@ -50,7 +50,7 @@
                                    disabled="#{sessionTools.nubProposalDisabled}" rendered="#{editNubProposal.sealEnabled and nubProposalList.nubEnabled}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
 
-                    <h:commandLink styleClass="button" action="#{editNubProposal.requestApproval()}" value="#{msg.btnRequestApproval}"
+                    <h:commandLink styleClass="sendButton" action="#{editNubProposal.requestApproval()}" value="#{msg.btnRequestApproval}"
                                    disabled="#{sessionTools.nubProposalDisabled}" rendered="#{editNubProposal.approvalRequestEnabled and nubProposalList.nubEnabled}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="confirmApprovalRequest" style="display: none" action="#{editNubProposal.confirmApprovalRequest()}" value="confirmApprovalRequest"/>
 

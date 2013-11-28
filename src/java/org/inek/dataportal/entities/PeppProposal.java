@@ -165,7 +165,7 @@ public class PeppProposal implements Serializable {
 
     @Documentation(name = "Verfahrensnummer", rank = 1)
     public String getExternalId() {
-        if (_peppProposalId == null || _peppProposalId < 0) {
+        if (_peppProposalId == null || _peppProposalId < 0 || _status < 1) {
             return "";
         }
         return "P" + _peppProposalId;
