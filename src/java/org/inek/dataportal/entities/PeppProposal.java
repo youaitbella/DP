@@ -130,7 +130,7 @@ public class PeppProposal implements Serializable {
             name = "mapPeppProposalProcedure",
             joinColumns = @JoinColumn(name = "pppPeppProposalId"),
             inverseJoinColumns = @JoinColumn(name = "pppOpsId"))
-    private List<ProcedureInfo> _procedures;
+    private List<ProcedureInfo> _procedures = new ArrayList<>();
 
     @Documentation(name = "Prozedur(en), Text")
     @Column(name = "ppProcs")
@@ -141,7 +141,7 @@ public class PeppProposal implements Serializable {
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ppdPeppProposalId", referencedColumnName = "ppId")
-    private List<PeppProposalDocument> _documents;
+    private List<PeppProposalDocument> _documents = new ArrayList<>();
     
     @Documentation(name = "Dokumente, Post")
     @Column(name = "ppDocumentsOffline")
@@ -152,7 +152,7 @@ public class PeppProposal implements Serializable {
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "ppcPeppProposalId", referencedColumnName = "ppId")
-    private List<PeppProposalComment> _comments;
+    private List<PeppProposalComment> _comments = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getPeppProposalId() {
@@ -378,9 +378,6 @@ public class PeppProposal implements Serializable {
     }
 
     public List<ProcedureInfo> getProcedures() {
-        if (_procedures == null) {
-            return new ArrayList<>();
-        }
         return _procedures;
     }
 
