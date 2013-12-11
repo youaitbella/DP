@@ -631,7 +631,7 @@ a.smallButton{
     min-width: 30px;
 }
 
-.button:hover, .smallButton:hover, .sendButton:hover{
+.button:hover, .smallButton:hover{
     color: white;
 }
 
@@ -659,6 +659,11 @@ a.sendButton{
     background-image: url("/DataPortal/javax.faces.resource/bullet_go.png.xhtml?ln=Icon/medium");
     background-repeat: no-repeat;
     background-position: right center;
+}
+
+.sendButton:hover{
+    color: white;
+    background-image: url("/DataPortal/javax.faces.resource/bullet_go_hover.png.xhtml?ln=Icon/medium");
 }
 
 a.rightAllign,
