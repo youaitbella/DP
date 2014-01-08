@@ -54,7 +54,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (mailOrUser == null || mailOrUser.length() == 0) {
             return false;
         }
-        return findByMailOrUser(mailOrUser) != null ? true : findByMailOrUser(mailOrUser) != null;
+        return findByMailOrUser(mailOrUser) != null;
     }
 
     public List<Account> getAccountsWithRequestedFeatures() {

@@ -52,7 +52,8 @@ public class CooperationManager {
 
     public String invite() {
         Account requested = _accountFacade.findByMailOrUser(_userOrMail);
-        if (requested != null) {
+        Account AccountNotExists = null;
+        if (requested != AccountNotExists) {
             Account myAccount = _sessionController.getAccount();
             if (!_cooperationFacade.existsCooperation(myAccount.getAccountId(), requested.getAccountId())) {
                 _cooperationRequestFacade.createCooperationRequest(myAccount.getAccountId(), requested.getAccountId());
