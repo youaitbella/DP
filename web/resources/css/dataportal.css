@@ -538,6 +538,11 @@ select:active, select:focus{
 .colValue{
 }
 
+.colValueShort {
+    width: 48px;
+    text-align: center;
+}
+
 .colNarrow{
     width: 10em;
 }

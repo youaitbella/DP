@@ -9,16 +9,26 @@
     <ui:define name="editContent">
 
         <h2>#{msg.headNubCompany}</h2>
-
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
-            <br />
-            <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}"
-                         readonly="#{editNubProposal.readOnly}">
-                <f:ajax event="blur" render="@this :logout:remaining"/>
-            </h:inputText>
+        
+        <div style="display: inline-block">
+            <div class="inputPart floating">
+                <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
+                <br />
+                <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}"
+                             readonly="#{editNubProposal.readOnly}">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:inputText>
+            </div>
+            <div class="inputPart" style="float: left; margin-left: 158px;">
+                <h:outputLabel styleClass="label" for="nubExState" value="#{msg.lblState}:" rendered="#{editNubProposal.externalStateVisible}"/>
+                <br />
+                <h:inputText styleClass="inputshort" maxlength="16" id="nubExState" value="#{editNubProposal.nubProposal.externalState}"
+                             readonly="true" rendered="#{editNubProposal.externalStateVisible}">
+                    <f:ajax event="blur" render="@this :logout:remainin"/>
+                </h:inputText>
+            </div>
         </div>
-
+        
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
             <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>

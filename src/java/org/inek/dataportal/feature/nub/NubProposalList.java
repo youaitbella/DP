@@ -122,6 +122,11 @@ public class NubProposalList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubProposal));
         return Pages.PrintView.URL();
     }
+    
+    public String getExternalState(int proposalId) {
+        NubProposal nubProposal = _nubProposalFacade.find(proposalId);
+        return nubProposal.getExternalState();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
     @Inject

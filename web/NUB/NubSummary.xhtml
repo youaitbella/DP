@@ -68,7 +68,6 @@
                                 </f:facet>
                                 <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2}" immediate="true"/>
                             </h:column>
-
                         </h:dataTable>
                     </h:panelGroup>
                 </c:forEach>
@@ -87,7 +86,7 @@
                 <h:outputLabel styleClass="label" value="#{msg.infoSealedNUB}"/>
 
                 <h:dataTable   headerClass="list-header" value="#{nubProposalList.sealedNubProposals}"
-                               var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+                               var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValueShort, colValue">
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value=""/>
@@ -118,6 +117,12 @@
                             <h:outputText value="ID"/>
                         </f:facet>
                         <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="N#{nub.value1}" immediate="true"/>
+                    </h:column>
+                    <h:column id="state">
+                        <f:facet name="header">
+                            <h:outputText value="Status"/>
+                        </f:facet>
+                        <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nubProposalList.getExternalState(nub.value1)}" immediate="true"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">

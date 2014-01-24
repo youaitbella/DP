@@ -255,6 +255,9 @@ public class NubProposal implements Serializable {
     
     @Column(name = "nubUserComment")
     private String _userComment = "";
+    
+    @Column(name = "nubExternalStatus")
+    private String _externalState = "";
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getNubId() {
@@ -748,6 +751,14 @@ public class NubProposal implements Serializable {
 
     public void setUserComment(String userComment) {
         this._userComment = userComment;
+    }
+
+    public String getExternalState() {
+        return _externalState;
+    }
+
+    public void setExternalState(String _externalState) {
+        this._externalState = _externalState;
     }
 
     // </editor-fold>

@@ -278,6 +278,10 @@ public class EditNubProposal extends AbstractEditController {
         }
         return true;
     }
+    
+    public boolean isExternalStateVisible() {
+        return _nubProposal.getExternalState() != "";
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Codes">
     public String searchProc() {

@@ -171,7 +171,16 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isAgeYearEnabled() {
+        clearAgeYearTextfields();
         return _ageYearEnabled;
+    }
+
+    private void clearAgeYearTextfields() {
+        if(_modelIntention.getAgeYearsFrom() != null && !_ageYearEnabled) {
+            _modelIntention.setAgeYearsFrom(null);
+        } else if(_modelIntention.getAgeYearsTo() != null && !_ageYearEnabled) {
+            _modelIntention.setAgeYearsTo(null);
+        }
     }
 
     public void setAgeYearEnabled(boolean ageYearEnabled) {
@@ -218,8 +227,12 @@ public class EditModelIntention extends AbstractEditController {
         Regions[] regions = Regions.values();
         for(Regions r : regions) {
             if(index == r.id()) {
-                _modelIntention.setRegion(r.region());
                 _regionMiscEnabled = r.region().equals(Regions.Misc.region());
+                if(_regionMiscEnabled) {
+                    _modelIntention.setRegion(null);
+                } else {
+                    _modelIntention.setRegion(r.region());
+                }
             }
         }
     }
@@ -238,9 +251,6 @@ public class EditModelIntention extends AbstractEditController {
         tabModelIntStructures,
         tabModelIntQualityAndSupervision;
     }
-    // <editor-fold defaultstate="collapsed" desc="fields">
-
-    // </editor-fold>
 
     public EditModelIntention() {
         //System.out.println("EditModelIntention");
