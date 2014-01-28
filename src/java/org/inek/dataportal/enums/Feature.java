@@ -25,5 +25,6 @@ public enum Feature {
     PEPP_PROPOSAL,
     ADMIN,
     COOPERATION,
-    MODEL_INTENTION;
+    MODEL_INTENTION,
+    DOCUMENTS;
 }

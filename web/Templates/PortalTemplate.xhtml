@@ -75,6 +75,12 @@
                             <ui:repeat value="#{sessionController.topics}" var="topic">
                                 <li class="#{topic.active ? 'activemenu' : 'menu'}">
                                     <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true"/>
+                                    <c:if test="#{documentList.renderNumDocs(topic)}">
+                                        <div class="notifier">
+                                            <h:graphicImage library="Icon/medium" name="Red-Ball-icon.png"/>
+                                            <h:outputLabel value="#{documentList.numberOfDocs}"/>
+                                        </div>
+                                    </c:if>
                                 </li>
                             </ui:repeat>
                             <ui:insert name="navItems">additional navigation items</ui:insert>

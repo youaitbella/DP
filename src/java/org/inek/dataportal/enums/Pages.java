@@ -91,7 +91,11 @@ public enum Pages {
     //
     AdminError("/Admin/error"),
     AdminApproved("/Admin/approvalcompleted"),
-    AdminApproval("/Admin/approval");
+    AdminApproval("/Admin/approval"),
+    //
+    DocumentsEdit("/Documents/DocumentsEdit"),
+    DocumentsSummary("/Documents/DocumentsSummary"),
+    ListDocuments("/Documents/ListDocuments");
     
     private final String _url;
     private Pages(String url){

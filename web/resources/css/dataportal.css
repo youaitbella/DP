@@ -742,3 +742,6 @@ div.modelIntYesNo {
     background-color: green;
 }
 
+.notifier {
+    float: right;
+}
