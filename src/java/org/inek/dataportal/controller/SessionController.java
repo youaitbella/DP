@@ -1,8 +1,5 @@
 package org.inek.dataportal.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
@@ -152,7 +149,7 @@ public class SessionController implements Serializable {
         if (_conversation.isTransient()) {
             int minutes = 30;
             _conversation.setTimeout(minutes * 60000);
-            _conversation.begin();
+            _conversation.begin(UUID.randomUUID().toString());
             return _conversation.getId();
         } else {
             return _conversation.getId();

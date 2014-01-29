@@ -9,25 +9,25 @@
     <ui:define name="editContent">
 
         <h2>#{msg.headNubCompany}</h2>
-        
-        <div style="display: inline-block">
-            <div class="inputPart floating">
+
+        <h:panelGrid columns="2" width="90%">
+            <h:panelGroup class="inputPart">
                 <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
                 <br />
                 <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}"
                              readonly="#{editNubProposal.readOnly}">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
-            </div>
-            <div class="inputPart" style="float: left; margin-left: 158px;">
+            </h:panelGroup>
+            <h:panelGroup class="inputPart">
                 <h:outputLabel styleClass="label" for="nubExState" value="#{msg.lblNubStatus}:" rendered="#{editNubProposal.externalStateVisible}"/>
                 <br />
                 <h:inputText styleClass="inputshort" maxlength="16" id="nubExState" value="#{editNubProposal.nubProposal.externalState}"
                              readonly="true" rendered="#{editNubProposal.externalStateVisible}">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
-            </div>
-        </div>
+            </h:panelGroup>
+        </h:panelGrid>
         
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
