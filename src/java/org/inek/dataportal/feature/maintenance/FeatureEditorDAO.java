@@ -4,6 +4,9 @@
  */
 package org.inek.dataportal.feature.maintenance;
 
+import javax.inject.Inject;
+import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.Account;
 import org.inek.dataportal.entities.AccountFeature;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
@@ -17,14 +20,22 @@ public class FeatureEditorDAO {
 
     private final AccountFeature _accFeature;
     private boolean _value;
-    private final boolean _isEditable;
+    private boolean _hidden;
+    private final boolean _isEditable;       
 
-    FeatureEditorDAO(AccountFeature accFeature) {
+    FeatureEditorDAO(AccountFeature accFeature, Account acc) {
         _accFeature = accFeature;
         _value = _accFeature.getFeature() == Feature.USER_MAINTENANCE || 
                 accFeature.getFeatureState() != FeatureState.NEW  && accFeature.getFeatureState() != FeatureState.REJECTED;
-        _isEditable = _accFeature.getFeature() != Feature.USER_MAINTENANCE && 
+        _isEditable = (_accFeature.getFeature() != Feature.DOCUMENTS && _accFeature.getFeature() != Feature.USER_MAINTENANCE) && 
                 (accFeature.getFeatureState() == FeatureState.NEW || accFeature.getFeatureState() == FeatureState.SIMPLE || accFeature.getFeatureState() == FeatureState.APPROVED);
+        if(accFeature.getFeature() == Feature.DOCUMENTS) {
+            if(_value) {
+                _hidden = false;
+            } else {
+                _hidden = true;
+            }
+        }
     }
 
     public String getName() {
@@ -51,6 +62,10 @@ public class FeatureEditorDAO {
     
     public boolean isEditable(){
         return _isEditable;
+    }
+    
+    public boolean isHidden() {
+        return _hidden;
     }
 
     public AccountFeature getAccFeature() {

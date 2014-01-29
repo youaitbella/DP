@@ -12,28 +12,34 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#TODO_DOWNLOAD" immediate="true" >
+            <h:commandLink action="#{editDocument.downloadDocument(doc.value1)}" >
                 <h:graphicImage alt="Attach" name="attach.png" library="Icon/small" title="" value=""/>
+                <f:ajax event="blur" render="@all"/>
             </h:commandLink>
         </h:column>
         <h:column id="colName">
             <f:facet name="header">
                 <h:outputText value="Dokument"/>
             </f:facet>
-            <h:commandLink action="#TODO_DOWNLOAD" value="#{doc.value2}" immediate="true"/>
+            <h:commandLink action="#{editDocument.downloadDocument(doc.value1)}" value="#{doc.value2}" immediate="true">
+                <f:ajax event="blur" render="@all"/>
+            </h:commandLink>
         </h:column>
         <h:column id="colDate">
             <f:facet name="header">
                 <h:outputText value="Datum"/>
             </f:facet>
-            <h:commandLink action="#TODO_DOWNLOAD" value="#{doc.value3}" immediate="true"/>
+            <h:commandLink action="#{editDocument.downloadDocument(doc.value1)}" value="#{doc.value3}" immediate="true">
+                <f:ajax event="blur" render="@all"/>
+            </h:commandLink>
         </h:column>
         <h:column id="colRead">
             <f:facet name="header">
                 <h:outputText value="gel."/>
             </f:facet>
-            <h:commandLink action="#TODO_DOWNLOAD" immediate="true" >
-                <h:graphicImage alt="gelesen?" name="#{documentList.readDoc(doc.value1)}" library="Icon/small" title="gelesen?" value=""/>
+            <h:commandLink action="#{editDocument.downloadDocument(doc.value1)}" immediate="true" >
+                <h:graphicImage id="readImg" alt="gelesen?" name="#{documentList.readDoc(doc.value1)}" library="Icon/small" title="gelesen?" value=""/>
+                <f:ajax event="blur" render="@all"/>
             </h:commandLink>
         </h:column>
     </h:dataTable>

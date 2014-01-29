@@ -16,6 +16,7 @@ import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.Account;
 import org.inek.dataportal.entities.AccountAdditionalIK;
+import org.inek.dataportal.entities.AccountDocument;
 import org.inek.dataportal.entities.AccountFeature;
 import org.inek.dataportal.entities.Announcement;
 import org.inek.dataportal.entities.InekRole;
@@ -23,6 +24,7 @@ import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.AccountDocumentFacade;
 import org.inek.dataportal.facades.AccountFacade;
 import org.inek.dataportal.facades.AnnouncementFacade;
 import org.inek.dataportal.facades.DiagnosisFacade;
@@ -57,6 +59,8 @@ public class SessionController implements Serializable {
     private PeppFacade _peppFacade;
     @Inject
     private LogFacade _logFacade;
+    @Inject
+    private AccountDocumentFacade _accDocFacade;
 
     private Account _account;
     private final Topics _topics = new Topics();
@@ -218,8 +222,10 @@ public class SessionController implements Serializable {
         }
         Map<Integer, Feature> features = new TreeMap<>();
         boolean hasMaintenance = false;
+        boolean hasDocument = false;
         for (AccountFeature accFeature : _account.getFeatures()) {
             hasMaintenance |= accFeature.getFeature() == Feature.USER_MAINTENANCE;
+            hasDocument |= accFeature.getFeature() == Feature.DOCUMENTS;
             if (accFeature.getFeatureState() == FeatureState.SIMPLE || accFeature.getFeatureState() == FeatureState.APPROVED) {
                 features.put(accFeature.getSequence(), accFeature.getFeature());
             }
@@ -227,9 +233,35 @@ public class SessionController implements Serializable {
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, _account, this));
         }
+        if(!hasDocument && userHasDocuments()) {
+            _features.add(FeatureFactory.createController(Feature.DOCUMENTS, _account, this));
+            persistDocumentFeature();
+        }
         for (Feature f : features.values()) {
             _features.add(FeatureFactory.createController(f, _account, this));
         }
+    }
+    
+    private boolean userHasDocuments() {
+        List<AccountDocument> docs = _accDocFacade.findAll(_account.getAccountId());
+        return docs.size() > 0;
+    }
+    
+    private void persistDocumentFeature() {
+        AccountFeature doc = createAccountFeature(Feature.DOCUMENTS);
+        List<AccountFeature> afs = _account.getFeatures();
+        afs.add(doc);
+        _account.setFeatures(afs);
+        _account = _accountFacade.updateAccount(_account);
+    }
+    
+    private AccountFeature createAccountFeature(Feature feature) {
+        AccountFeature accFeature = new AccountFeature();
+        accFeature.setFeature(feature);
+        FeatureState state = FeatureState.NEW;
+        accFeature.setFeatureState(state);
+        accFeature.setSequence(_account.getFeatures().size());
+        return accFeature;
     }
 
     public void saveAccount() {

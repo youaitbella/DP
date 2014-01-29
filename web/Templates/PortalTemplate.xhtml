@@ -65,7 +65,7 @@
 
             <div id="content">
                 <div class="navi">
-                    <h:form>
+                    <h:form id="nav">
                         <ul>
                             <c:if test="#{sessionController.loggedIn}">
                                 <li>
@@ -74,13 +74,11 @@
                             </c:if>
                             <ui:repeat value="#{sessionController.topics}" var="topic">
                                 <li class="#{topic.active ? 'activemenu' : 'menu'}">
-                                    <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true"/>
-                                    <c:if test="#{documentList.renderNumDocs(topic)}">
-                                        <div class="notifier">
-                                            <h:graphicImage library="Icon/medium" name="Red-Ball-icon.png"/>
-                                            <h:outputLabel value="#{documentList.numberOfDocs}"/>
-                                        </div>
-                                    </c:if>
+                                    <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true">
+                                        <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
+                                            <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.numberOfUnreadDocs}" />
+                                        </h:panelGroup>
+                                    </h:commandLink>
                                 </li>
                             </ui:repeat>
                             <ui:insert name="navItems">additional navigation items</ui:insert>

@@ -743,5 +743,19 @@ div.modelIntYesNo {
 }
 
 .notifier {
+    margin-top: -3px;
     float: right;
+    font-weight: bold;
+    width: 22px;
+    height: 22px;
+    background-image: url("/DataPortal/javax.faces.resource/Red-Ball-icon.png.xhtml?ln=Icon/medium");
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+.notifierNum {
+    color: white;
+    margin-top: 1px;
+    position: relative;
+    display: block;
 }

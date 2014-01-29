@@ -37,11 +37,11 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         return query.getResultList();
     }
     
-    public String readDoc(int docId) {
+    public boolean readDoc(int docId) {
         AccountDocument doc = find(docId);
         if(doc.isRead()) {
-            return "tick.png";
+            return true;
         }
-        return "error.png";
+        return false;
     }
 }

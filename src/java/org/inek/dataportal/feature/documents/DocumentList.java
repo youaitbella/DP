@@ -1,5 +1,6 @@
-package org.inek.dataportal.feature.nub;
+package org.inek.dataportal.feature.documents;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -26,20 +27,33 @@ public class DocumentList {
     }
     
     public String readDoc(int docId) {
-        return _accountDocFacade.readDoc(docId);
+        if(_accountDocFacade.readDoc(docId)) {
+            return "tick.png";
+        } 
+        return "error.png";
     }
     
     public boolean renderNumDocs(String topic) {
         if(!topic.equals("Dokumente")) {
             return false;
         }
-        if(getDocuments().size() <= 0) {
-            return false;
+        List<Triple> docs = getDocuments();
+        if(getDocuments().size() > 0) {
+            for(Triple doc : docs) {
+                if(!_accountDocFacade.readDoc((int)doc.getValue1()))
+                    return true;
+            }
         }
-        return true;
+        return false;
     }
     
-    public String getNumberOfDocs() {
-        return getDocuments().size() + "";
+    public String getNumberOfUnreadDocs() {
+        List<Triple> docs = new ArrayList<>();
+        for(Triple doc : getDocuments()) {
+            if(!_accountDocFacade.readDoc((int)doc.getValue1())) {
+                docs.add(doc);
+            }
+        }
+        return docs.size() + "";
     }
 }
