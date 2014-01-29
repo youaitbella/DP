@@ -20,7 +20,7 @@
                 </h:inputText>
             </div>
             <div class="inputPart" style="float: left; margin-left: 158px;">
-                <h:outputLabel styleClass="label" for="nubExState" value="#{msg.lblState}:" rendered="#{editNubProposal.externalStateVisible}"/>
+                <h:outputLabel styleClass="label" for="nubExState" value="#{msg.lblNubStatus}:" rendered="#{editNubProposal.externalStateVisible}"/>
                 <br />
                 <h:inputText styleClass="inputshort" maxlength="16" id="nubExState" value="#{editNubProposal.nubProposal.externalState}"
                              readonly="true" rendered="#{editNubProposal.externalStateVisible}">
