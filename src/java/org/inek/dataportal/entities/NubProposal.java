@@ -256,6 +256,7 @@ public class NubProposal implements Serializable {
     @Column(name = "nubUserComment")
     private String _userComment = "";
     
+    @Documentation (key="lblNubStatus", rank = 20)
     @Column(name = "nubExternalStatus")
     private String _externalState = "";
 
