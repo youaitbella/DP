@@ -3,10 +3,13 @@
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Systemvoraussetzung</title>
   <keywords>
+    <keyword translate="true">Betriebssystem</keyword>
+    <keyword translate="true">Browser</keyword>
     <keyword translate="true">Java</keyword>
     <keyword translate="true">JavaScript</keyword>
     <keyword translate="true">Schreibrechte</keyword>
     <keyword translate="true">Systemvoraussetzung</keyword>
+    <keyword translate="true">WebBrowser</keyword>
   </keywords>
   <body>
     <header>

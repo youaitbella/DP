@@ -2,6 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">IK-Supervisor</title>
+  <keywords>
+    <keyword translate="true">IK-Supervisor</keyword>
+  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">IK-Supervisor</text></para>
@@ -10,7 +13,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Darüber hinaus ist es möglich, ein zweistufiges Verfahren zu erzwingen: Für jedes Institutskennzeichen (IK) können ein oder mehrere Supervisor eingerichtet werden. Die Bereitstellung von Daten für das InEK ist dann erst nach Prüfung und Freigabe durch einen Supervisor möglich. Damit entspricht dieses Verfahren der Kooperation, als wenn dort jeder Anwender, der Daten für diese IK bearbeitet, dem Supervisor (Partner) eines der Rechte</text></para>
     <para styleclass="Normal"></para>
-    <list id="13" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeige komplett erfasster Daten zur Bereitstellung an das InEK durch den Partner</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Wie vor mit Bearbeitungsmöglichkeit</text></li>
     </list>

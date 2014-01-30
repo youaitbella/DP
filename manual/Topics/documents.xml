@@ -2,11 +2,14 @@
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Dokumente</title>
+  <keywords>
+    <keyword translate="true">Dokumente</keyword>
+  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion Dokumente dient der Anzeige von Dokumenten, die Ihnen vom InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true">&#32;</text><text styleclass="Normal" translate="true">bereitgestellt </text><text styleclass="Normal" translate="true">wurden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion Dokumente dient der Anzeige von Dokumenten, die Ihnen vom InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bereitgestellt wurden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Dokumente vorhanden sind, erscheint der Eintrag </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> im Navigationsmenü. Die Anzahl der ungelesenen Dokumente wird deutlich sichtbar in einem Kreis auf der Navigationsschaltfläche dargestellt. In den Stammdaten, Bereich Funktionen, können Sie die Platzierung innerhalb des Navigationsmenü verändern. Ähnlich wie Stammdaten, ist der Menüpunkt jedoch nicht komplett abwählbar. Dies soll eine sofortige Information sicherstellen.</text></para>
     <para styleclass="Normal"></para>

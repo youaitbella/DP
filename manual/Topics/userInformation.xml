@@ -7,6 +7,9 @@
     <keyword translate="true">Verfahrensbeschreibung</keyword>
   </keywords>
   <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Stammformblatt</text></para>
+    </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit das InEK Sie über den Status Ihres Vorschlags informieren kann, ist die Angabe Ihrer Adresse erforderlich; daneben aber auch eine Benennung, unter der Sie Ihren Vorschlag später in der Liste Ihrer Vorschläge wieder finden, sowie die Angabe der Vorschlagskategorie. Diese Eingaben erfolgen in der Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Stammformblatt</text><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="PEPP-proposal-master.png" scale="100.00%" styleclass="Image Caption"></image></para>

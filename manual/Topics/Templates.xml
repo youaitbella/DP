@@ -6,15 +6,18 @@
     <keyword translate="true">Vorlagen</keyword>
   </keywords>
   <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Vorlagen</text></para>
+    </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können aus Ihren NUB-Anfragen Vorlagen erstellen und diese zu einem späteren Zeitpunkt wieder einlesen. Dies können Sie beispielsweise nutzen, um ähnliche Anfragen zu erstellen oder eine Anfrage neu zu erzeugen. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Anwendungsbeispiele:</text></para>
     <para styleclass="Normal"></para>
-    <list id="58" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anfrage inhaltlich fehlerhaft</text><br/><text styleclass="Bullet Text" translate="true">Sie haben eine Anfrage dem InEK bereitgestellt. Diese wurde angenommen, da sie keine formalen Fehler beinhaltet. Nun stellen Sie fest, dass Angaben, z.B. Anzahl der Patienten, fehlerhaft sind. Bereitgestelle Anfragen können Sie aus verfahrenstechnischen Gründen nicht mehr ändern, sondern nur zurückziehen.</text><br/><text styleclass="Bullet Text" translate="true">Ziehen Sie die fehlerhafte NUB-Anfrage zurück. Rufen Sie den Erfassungsdialog auf. Dort können Sie zwar nicht mehr ändern, aber die Anfrage als Vorlage speichern. Anschließend erzeugen Sie aus der Vorlage eine neue Anfrage, ändern diese wunschgemäß ab und stellen diese dem InEK zur Bearbeitung bereit.</text></li>
     </list>
     <para styleclass="Bullet Text"></para>
-    <list id="58" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sie bieten anderen Krankenhäuser Hilfestellung</text><br/><text styleclass="Bullet Text" translate="true">Erstellen Sie eine NUB-Anfrage. Soweit Sie diese nicht selber dem InEK bereitstellen möchten, ist dies auch ohne Angabe eines IK möglich. Speichern Sie die Anfrage als Vorlage auf Ihrem Rechner und stellen diese anderen Krankenhäusern zur Verfügung. In der Vorlage werden keine krankenhausspezifischen Daten gespeichert. Ihr Institut und Name werden als &quot;Helfer&quot; abgespeichert und tauchen beim Nutzer Ihrer Vorlagen im Feld &quot;Hilfestellung&quot; auf.</text></li>
     </list>
     <para styleclass="Normal"></para>

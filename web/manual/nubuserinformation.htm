@@ -2,54 +2,92 @@
 <html>
 <head>
    <title>Bedienung &gt; Neue Untersuchungs- und Behandlungsmethoden (NUB) &gt; Stammformblatt</title>
-   <meta name="generator" content="Help &amp; Manual" />
-   <meta name="keywords" content="Stammformblatt" />
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta name="generator" content="Help & Manual">
+   <meta name="keywords" content="Stammformblatt">
+   <meta name="description" content="Stammformblatt">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="default.css" rel="stylesheet">
    <link type="text/css" href="custom.css" rel="stylesheet">
+   <script type="text/javascript" src="nsh.js"></script>
 
-   <style TYPE="text/css" media="screen"> 
-      html, body { margin:0; 
-             padding:0; 
-             overflow: hidden; 
-             background: #FFFFFF; 
-       } 
+<script type="text/javascript">   
+// Toggle Toggler 
 
-      div#printheader { display: none; }
-      #idheader { width:100%; 
-                  height:auto; 
-                  padding: 0; 
-                  margin: 0; 
-       } 
-      #idcontent { position:relative }                                               
-      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
-      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
-      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
-      #callout-table a {text-decoration: none; color: blue;}
-      #callout-table a:visited {text-decoration: none; color: blue;}
-      #overview-table a {text-decoration: none; color: black;}
-      #overview-table a:visited {text-decoration: none; color: black;}
-      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}      
-      #switchtoggles { text-align: right; padding: 0 5px 0 0; font-size: 90%; } 
-      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }
+var toggleCount=false;
+var switchState;
+
+function toggleToggles() {
+
+    if (!toggleCount) {
+     toggleCount = true;
+     HMToggleExpandAll(true);
+     switchState = true;
+     }
+   
+     else if (switchState) {
+        HMToggleExpandAll(false);
+        switchState = false;
+        }
+        
+     else  {
+        HMToggleExpandAll(true);
+        switchState = true;
+        } 
+    }
+</script>
+   
+<!-- non-scrolling headers for CHM and browser-based help, local styles-->
+<style type="text/css" media="screen"> 
+html, body { margin:0; 
+   padding:0; 
+   overflow: hidden; 
+   background: #FFFFFF; 
+  }
+ 
+div#printheader { 
+   display: none;
+   padding-bottom: 10px;
+   }
+   #idheader { 
+      width:100%; 
+      height:auto; 
+      padding: 0; 
+      margin: 0; 
+} 
+    #idheaderbg  {
+    background: #6F6F6F; 
+}
+   #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+   #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+   #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+   #callout-table a {text-decoration: none; color: blue;}
+   #callout-table a:visited {text-decoration: none; color: blue;}
+   #overview-table a {text-decoration: none; color: black;}
+   #overview-table a:visited {text-decoration: none; color: black;}
+   #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}
+   p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }
    </style>
-   <noscript>
-   <style type="text/css">
-   html, body { overflow: auto; }
-   </style> 
-   </noscript>
-   <style type="text/css" media="print">
-      span.f_Heading1 { color: black; }
-      #idheader, #printheader img { display:none; }
-      #printheader { display: block; margin-top: 20px; }
-      #idcontent { margin-top: 10px; position:relative }
-   </style>   
-
+<!--[if lt IE 7]>
+<style type="text/css">
+  #idcontent {padding: 0px;} 
+  #innerdiv {padding: 10px 5px 5px 10px ;} 
+</style> 
+<![endif]-->
+<noscript>
+<style type="text/css">
+html, body { overflow: auto; }
+</style> 
+</noscript>
+<style type="text/css" media="print">
+span.f_Heading1 { color: black; }
+#idheader, #printheader img { display:none; }
+#printheader { display: block; margin-top: 20px; }
+#idcontent { margin-top: 10px; }
+</style>   
    <script type="text/javascript" src="jquery.js"></script>
    <script type="text/javascript" src="helpman_settings.js"></script>
    <script type="text/javascript" src="helpman_topicinit.js"></script>
-   <script type="text/javascript" src="nsh.js"></script>
 
    <script type="text/javascript">
      HMSyncTOC("index.html", "nubuserinformation.htm");
@@ -60,13 +98,15 @@
    </script>
 </head>
 <body>
-<div id="breadcrumbs" style="display:none"><a href="usage.htm">Bedienung</a> &gt; <a href="nub.htm">Neue Untersuchungs- und Behandlungsmethoden (NUB)</a></div>
+<!--ZOOMSTOP-->
 
 <div id="printheader"><h1 class="p_Heading1"><span class="f_Heading1">Stammformblatt</span></h1>
-</div>
+</div> 
 <div id="idheader">
 <div id="idheaderbg">
-<table style="width:100%;border:none;margin:0px;background:url(background-topic-header.jpg)" cellspacing="0" cellpadding="0"> 
+<table width="100%" border="0" cellspacing="0" cellpadding="0" 
+       style="margin: 0px; background: url(header_bg.jpg);">
+
   <tr valign="bottom">
     <td align="left" valign="bottom" class="topichead">
    <p class="crumbs" id="idnav"><b>Navigation:</b>&nbsp;
@@ -78,35 +118,37 @@
     <td align="right" width="120" valign="middle" class="topichead" id="idnav">
     
      <a href="nublist.htm"
-        onmouseover="document.images.prev.src='hm_btn_navigate_prev_orange.png'" 
-        onmouseout="document.images.prev.src='hm_btn_navigate_prev.png'"
-        ><img name="prev" src="hm_btn_navigate_prev.png" border=0 alt="Previous page"
+        onmouseover="document.images.prev.src='btn_prev_h.gif'" 
+        onmouseout="document.images.prev.src='btn_prev_n.gif'"
+        ><img name=prev src="btn_prev_n.gif" border=0 alt="Previous page"
         ></a><a href="nub.htm"
-        onmouseover="document.images.main.src='hm_btn_navigate_top_orange.png'" 
-        onmouseout="document.images.main.src='hm_btn_navigate_top.png'"><img name=main src="hm_btn_navigate_top.png" border=0 alt="Return to chapter overview"
+        onmouseover="document.images.main.src='btn_home_h.gif'" 
+        onmouseout="document.images.main.src='btn_home_n.gif'"><img name=main src="btn_home_n.gif" border=0 alt="Return to chapter overview"
         ></a><a href="nubdescription.htm"
-        onmouseover="document.images.next.src='hm_btn_navigate_next_orange.png'" 
-        onmouseout="document.images.next.src='hm_btn_navigate_next.png'"><img name=next src="hm_btn_navigate_next.png" border=0 alt="Next page"
+        onmouseover="document.images.next.src='btn_next_h.gif'" 
+        onmouseout="document.images.next.src='btn_next_n.gif'"><img name=next src="btn_next_n.gif" border=0 alt="Next page"
         ></a>
     </td>
-  </tr>  
+  </tr>
+  <tr><td colspan="2" style="height: 3px; background: url(header_bg_shadow.gif)"></td></tr>
 </table>
+</div>
+
 <!-- The following code displays Expand All/Collapse All links  below the header in topics containing toggles -->
   
-</div>
+
 </div>  
 
-<div id="idcontent"><div id="innerdiv">
-<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
-<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
 
+
+<div id="idcontent"><div id="innerdiv"> 
 <!--ZOOMRESTART-->
 <p>Die Erfassung einer NUB-Anfrage umfasst diverse Datenfelder, die in fünf Gruppen eingeteilt sind. Die Bedienung erfolgt nach dem verbreiteten Karteireiter-Konzept: Zur Auswahl des Erfassungsdialogs für eine Gruppe, klicken Sie auf den passenden Reiter und es wird der entsprechende Inhalt gezeigt.</p>
 <p>&nbsp;</p>
 <p>Die Registerkarte <span style="font-style: italic;">Stammformblatt </span>enthält die Daten des Antragstellers. In der Regel stimmen diese mit den Stammdaten des Einsenders überein. Sie werden daher aus den Stammdaten in das Stammformblatt übernommen und minimieren so Ihren Erfassungsaufwand. </p>
 <p>&nbsp;</p>
 <p class="p_ImageCaption"><img src="nubproposalmaster.png" width="1022" height="1214" alt="NubProposalMaster" style="border:none" /></p>
-<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 27: Stammformblatt der NUB-Anfrage</span></p>
+<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 28: Stammformblatt der NUB-Anfrage</span></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>Anzeigename ist ein optionales Feld zur Verwendung innerhalb des InEK Datenportals: In der Liste der NUB-Anfragen (siehe vorheriger Abschnitt) werden die NUB-Anfragen mit ihrem Namen angeführt. Soweit Sie den Anzeigenamen leer belassen, wird hierfür der Name, den Sie in der Registerkarte <span style="font-style: italic;">Beschreibung</span> erfassen, gelistet. Dieser Name soll kurz und prägnant sein. Möchten Sie im Datenportal jedoch ein zusätzliches Kennzeichen mit listen, z.B. eine individuelle Nummerierung Ihrer NUB-Anfragen, so tragen Sie dies im Feld Anzeigename ein. Sobald dieses Feld gefüllt ist, wird dieser Name in der Liste geführt. Bei der Übernahme der NUB-Anfrage in die Bearbeitung durch das InEK spielt dieses Feld keine Rolle.</p>
@@ -124,12 +166,12 @@
 <p><span class="f_Button">[ Speichern und bereitstellen ]</span> prüft die Daten auf Vollständigkeit. Sofern sie formal richtig sind, werden sie mit dem Status &quot;für InEK bereitgestellt&quot; versehen und gespeichert. Danach ist eine Änderung nicht mehr möglich. Sind die Daten noch unvollständig, erfolgt eine entsprechende Meldung. Soweit die aktuelle Registerkarte fehlerhaft ist, werden die einzelnen Felder direkt markiert. Andernfalls erhalten Sie eine Fehlerliste und das InEK Datenportal wählt für Sie die erste fehlerhafte Registerkarte an. Sie können dann die Daten vervollständigen bzw. korrigieren. Eine Anfrage, die Sie erfolgreich für das InEK bereitgestellt haben, erhält eine Verfahrensnummer. Diese zeigt Ihnen das InEK Datenportal in der Liste der bereitgestellten Anfragen an.</p>
 <p>&nbsp;</p>
 <p class="p_ImageCaption"><img src="nubrequestseal.png" width="1025" height="924" alt="NubRequestSeal" style="border:none" /></p>
-<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 28: Hinweis auf unvollständig gefüllte Felder (Darstellung ist browserabhängig)</span></p>
+<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 29: Hinweis auf unvollständig gefüllte Felder (Darstellung ist browserabhängig)</span></p>
 <p>&nbsp;</p>
 <p><span class="f_Button">[ Vorlage erstellen ]</span> erzeugt aus Ihrer NUB-Anfrage entsprechend dem aktuellen Stand eine Vorlage. Diese enthält die allgemeinen Daten der Anfrage, ohne die krankenhausspezifischen Daten (z.B. Stammdaten, Anzahl im eigenen Krankenhaus). Es wird der Download-Dialog Ihres Browsers aufgerufen. Speichern Sie damit die Vorlage auf Ihrem Computer. Die folgende Abbildung zeigt einen beispielhaften Browser-Dialog zum Speichern. Dieser Dialog ist abhängig vom verwendeten Browser.</p>
 <p>&nbsp;</p>
 <p class="p_ImageCaption"><img src="nubsavetemplate.png" width="448" height="322" alt="NubSaveTemplate" style="border:none" /></p>
-<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 29: Speicherdialog eines Browsers</span></p>
+<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 30: Speicherdialog eines Browsers</span></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>Hinweis: Die Vorlage ist eine Textdatei, so dass Sie sich diese bei Bedarf in einem Editor ansehen können. Sie dürfen diese jedoch nicht ändern. Andernfalls kann sie nicht mehr als Vorlage genutzt werden und wird als fehlerhaft zurückgewiesen.</p>
@@ -170,39 +212,6 @@ if( document.URL.substring(lastSlashPos + 1, lastSlashPos + 4).toLowerCase() != 
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

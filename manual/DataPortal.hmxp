@@ -16,7 +16,7 @@
           <export-task name="Exportieren als HTM" format="HTM">
             <task-config-group name="settings">
               <task-config-value name="outputfile">..\web\manual\index.html</task-config-value>
-              <task-config-value name="skin">C:\Program Files (x86)\EC Software\HelpAndManual6\Templates\HTML Skins\Integrated IFrames with Header - Blue.hmskin</task-config-value>
+              <task-config-value name="skin">.\template\DataPortal.hmskin</task-config-value>
               <task-config-value name="make3include">HTML</task-config-value>
               <task-config-value name="make3status">*</task-config-value>
             </task-config-group>
@@ -55,11 +55,11 @@
         <style-set media="screen" type="para">margin-right:5px; margin-left:5px;</style-set>
         <style-set media="screen" type="text">font-family:Arial; font-size:11pt; letter-spacing:normal;</style-set>
       </styleclass>
-      <styleclass name="Button" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="text">background-color:#8ea7b9;</style-set>
-      </styleclass>
       <styleclass name="Bullet Text" parentclass="Normal" shortcut="0">
         <style-set media="screen" type="para">text-indent:-24px; margin-top:4px; margin-bottom:4px; margin-left:29px;</style-set>
+      </styleclass>
+      <styleclass name="Button" parentclass="Normal" shortcut="0">
+        <style-set media="screen" type="text">background-color:#8ea7b9;</style-set>
       </styleclass>
       <styleclass name="Code Example" parentclass="Normal" shortcut="0">
         <style-set media="screen" type="para">white-space:nowrap; border:none;</style-set>
@@ -70,7 +70,7 @@
       </styleclass>
       <styleclass name="Heading1" parentclass="Normal" shortcut="119">
         <style-set media="screen" type="para">margin-bottom:0px; page-break-after:avoid; border:none;</style-set>
-        <style-set media="screen" type="text">font-size:16pt; font-weight:bold; color:#ffffff; letter-spacing:normal;</style-set>
+        <style-set media="screen" type="text">font-size:16pt; font-weight:bold;</style-set>
       </styleclass>
       <styleclass name="Heading2" parentclass="Normal" shortcut="16497">
         <style-set media="screen" type="para">margin-top:15px; margin-bottom:10px; page-break-after:avoid; padding:1px; border-color:#c0c0c0; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none;</style-set>
@@ -245,12 +245,12 @@
 ]]></config-value>
       </config-group>
       <config-value name="outputfile">..\web\manual\index.html</config-value>
-      <config-value name="skin">C:\Program Files (x86)\EC Software\HelpAndManual6\Templates\HTML Skins\Integrated IFrames with Header - Blue.hmskin</config-value>
-      <config-value name="navigationstyle">4</config-value>
+      <config-value name="skin">.\template\DataPortal.hmskin</config-value>
+      <config-value name="navigationstyle">3</config-value>
       <config-value name="frameeditor">0</config-value>
-      <config-value name="layoutthreeframe">0</config-value>
+      <config-value name="layoutthreeframe">1</config-value>
       <config-value name="contentwidth">30</config-value>
-      <config-value name="headframeheight">100</config-value>
+      <config-value name="headframeheight">300</config-value>
       <config-value name="contentborder">1</config-value>
       <config-value name="headframescroll">0</config-value>
       <config-value name="iframebackcolor">#CC99FF</config-value>
@@ -260,97 +260,52 @@
       <config-value name="iframebordercolor">#FFFFFF</config-value>
       <config-value name="iframeheaderheight">60</config-value>
       <config-value name="iframeheaderhtml" translate="true"><![CDATA[<p><%TITLE%></p>]]></config-value>
-      <config-value name="frametemplate" translate="true"><![CDATA[<!DOCTYPE html>
+      <config-value name="frametemplate" translate="true"><![CDATA[<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+  "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
-  <title><%TITLE%></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <script type="text/javascript" src="jquery.js"></script>
-  <script type="text/javascript" src="helpman_settings.js"></script>
-  <script type="text/javascript" src="helpman_navigation.js"></script>
-
-  <link type="text/css" href="<%STYLESHEET%>" rel="stylesheet" />
-
-  <style type="text/css">
-    html,body { margin:0;padding:0;height:100%;overflow:hidden;
-    			       background:#CC99FF;
-    }
-
-    #hmheadbox {
-      position: absolute;
-      left: 5px;
-      right: 5px;
-      top: 5px;
-      height: 60px;
-      background: #FFFFFF;
-      border: 1px solid #FFFFFF;
-      }
-
-    #hmheadbox p {
-      font-size: 160%;
-      font-weight: bold;
-      margin-top: 16px;
-      margin-left: 8px;
-     }
-
-    #hmnavbox {
-      position: absolute;
-      left: 5px;
-      width: 50px;
-      min-width: 50px;
-      top: 70px;
-      bottom: 5px;
-      border: 1px solid #FFFFFF;
-      }
-
-    #hmcontentbox {
-      position: absolute;
-      top: 70px;
-      right: 5px;
-      bottom: 5px;
-      left: 60px;
-      border: 1px solid #FFFFFF;
-      }
-
-    iframe {
-      position: absolute;left:0;top:0;width:100%;height:100%;border:none;
-      }
-  </style>
-
-  <script type="text/javascript">
-    $(document).ready(function(){
-      if (!hmSupportsAbspos()) {
-      	$(window).bind("resize", function() {
-      	  hmNoAbsposResize($("#hmheadbox"), true, false);
-      	  hmNoAbsposResize($("#hmnavbox"), false, true);
-      	  hmNoAbsposResize($("#hmcontentbox"), true, true);
-	    });
-	    $(window).trigger("resize");
-	  }
-      hmCreateVSplitter($("#hmnavbox"),$("#hmcontentbox"));
-    });
-  </script>
-
-</head>
-<body>
-<div id="hmheadbox">
-<p><%TITLE%></p></div>
-<div id="hmnavbox">
-  <iframe name="hmnavigation" id="hmnavigation" src="<%HREF_CONTENT_PAGE%>" seamless="seamless" title="Navigation Pane" frameborder="0"></iframe>
-</div>
-
-<div id="hmcontentbox" >
-  <script type="text/javascript">
+<title><%TITLE%></title>
+<meta http-equiv="Content-Type" content="text/html; charset=<%DOCCHARSET%>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="helpman_settings.js"></script>
+<script type="text/javascript" src="helpman_navigation.js"></script>
+<script type="text/javascript">
+<!--
     var defaulttopic="<%HREF_DEFAULT_PAGE%>";
-    if (location.href.lastIndexOf("?") > 0) defaulttopic=location.href.substring(location.href.lastIndexOf("?")+1,location.href.length).replace(/:/g,"");
-    document.write('<iframe name="hmcontent" id="hmcontent" src="'+defaulttopic+'" seamless="seamless" title="Content Page" frameborder="0"></iframe>');
-  </script>
-  <noscript>
-    <iframe name="hmcontent" id="hmcontent" src="<%HREF_DEFAULT_PAGE%>" seamless="seamless" title="Content Page" frameborder="0"></iframe>
-  </noscript>
-</div>
-</body>
+    var query = window.location.search.substring(1).replace(/:|&#x3a;/g,"");
+    if (query != "") {
+       defaulttopic = query;
+       if (typeof(hmGetContextId) != "undefined") {
+         var tmpCntx = hmGetContextId(query);
+         if (tmpCntx != "") defaulttopic = tmpCntx;
+       }
+    }
+document.write('<frameset rows="100,*" frameborder="1" framespacing="1">');
+document.write('<frame name="hmheader" marginwidth="0" marginheight="0" scrolling="No" noresize src="<%HREF_HEADFRAME_PAGE%>" title="Header">');
+document.write('<frameset cols="30%,*" frameborder="1" framespacing="1">');
+if (document.getElementById) {
+  document.write('<frame name="hmnavigation" src="<%HREF_CONTENT_PAGE_DYN%>" title="Navigation frame">'); }
+else {
+  document.write('<frame name="hmnavigation" src="<%HREF_CONTENT_PAGE_STATIC%>" title="Navigation frame">'); }
+document.write('<frame name="hmcontent" src="' + defaulttopic + '" title="Content frame">');
+document.write('</frameset>');
+document.write('</frameset>');
+//-->
+</script>
+</head>
+<noscript>
+  <frameset rows="100,*" frameborder="1" framespacing="1">
+  <frame name="hmheader" marginwidth="0" marginheight="0" scrolling="No" noresize src="<%HREF_HEADFRAME_PAGE%>" title="Header">
+  <frameset cols="30%,*" frameborder="1" framespacing="1">
+    <frame name="hmnavigation" src="<%HREF_CONTENT_PAGE_STATIC%>" title="Navigation frame">
+    <frame name="hmcontent" src="<%HREF_DEFAULT_PAGE%>" title="Content frame">
+    <noframes>
+      This page requires frames<br><a href="<%HREF_CONTENT_PAGE_STATIC%>">Click here to view the table of contents without frames</a>
+    </noframes>
+  </frameset>
+  </frameset>
+</noscript>
 </html>]]></config-value>
       <config-value name="headframehtml" translate="true"><![CDATA[<%DOCTYPE%>
 <html>
