@@ -91,7 +91,16 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Platzieren Sie die Maus über einem der Symbole und lassen sie dort verweilen, so wird ein kurzer Text, ein sogenannter Tooltip, angezeigt. Dieser benennt die Symbolfunktion und führt beim Fehlerstatus auch die Hinweise des InEKs auf.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern die NUB-Anfragen durch das InEK beantwortet wurden, in der Regel bis Ende Januar, erscheint hinter der Spalte ID eine weitere Spalte namens NUB-Status. Dieser NUB-Status wird auch im Stammformblatt sowie in der Druckansicht einer NUB-Anfrage ausgegeben. Der Status halt folgende Bedeutung:</text></para>
     <para styleclass="Normal"></para>
+    <list id="10" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, welche die Kriterien der NUB-Vereinbarung der Vertragsparteien erfüllen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, welche die Kriterien der NUB-Vereinbarung der Vertragsparteien nicht erfüllen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, die innerhalb der festgesetzten Frist nicht vollständig bearbeitet werden konnten und für die daher keine Information nach § 6 Abs. 2 KHEntgG vorliegen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die mit der Anfrage gemäß § 6 Abs. 2 KHEntgG übermittelten Informationen haben die Kriterien der NUB-Vereinbarung zur Bewertung der angefragten Methode/Leistung im Sinne des Verfahrens nicht ausreichend dargestellt.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Es sind auch Doppelstatus wie </text><text styleclass="Normal" style="font-style:italic;" translate="true">1 bzw. 2</text><text styleclass="Normal" translate="true"> möglich. In einem solchen Fall konsultieren Sie bitte die NUB-Liste Ihres Hauses, die alle Anfragen mit ihrem Status enthält, und solche Doppelstatus erläutert. Diese Liste wird Ihnen mit der Beantwortung der NUB-Anfragen zur Verfügung gestellt. Sie finden diese im Bereich </text><link displaytype="text" defaultstyle="true" type="topiclink" href="documents" styleclass="Normal" translate="true">Dokumente</link><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Schaltflächen</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Neue NUB-Anfrage ]</text><text styleclass="Normal" translate="true"> erstellt eine neue NUB-Anfrage und ruft den Erfassungsdialog auf.</text></para>

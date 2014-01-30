@@ -2,28 +2,19 @@
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Dokumente</title>
-  <keywords>
-    <keyword translate="true">Dokumente</keyword>
-  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">In dieser Registerkarte haben Sie die Möglichkeit, Ihrem Vorschlag beliebige Dokumente beizufügen. Dabei sollten Sie die Dokumente bevorzugt auf elektronischem Wege übermitteln. Hierzu steht Ihnen die Schaltfläche </text><text styleclass="Button" translate="true">[ Datei hochladen ]</text><text styleclass="Normal" translate="true"> zur Verfügung. Klicken Sie darauf, so können Sie mittels Auswahldialog ein oder mehrere Dokumente auswählen. Alternativ können Sie ein Dokument durch &quot;Ziehen und Fallenlassen&quot; (Drag and Drop) auf </text><text styleclass="Button" translate="true">[ Datei hochladen ]</text><text styleclass="Normal" translate="true"> Ihrem Vorschlag zufügen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion Dokumente dient der Anzeige von Dokumenten, die Ihnen vom InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true">&#32;</text><text styleclass="Normal" translate="true">bereitgestellt </text><text styleclass="Normal" translate="true">wurden.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="PEPP-proposal-documents.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Registerkarte Dokumente (ohne Dokumente)</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Dokumente vorhanden sind, erscheint der Eintrag </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> im Navigationsmenü. Die Anzahl der ungelesenen Dokumente wird deutlich sichtbar in einem Kreis auf der Navigationsschaltfläche dargestellt. In den Stammdaten, Bereich Funktionen, können Sie die Platzierung innerhalb des Navigationsmenü verändern. Ähnlich wie Stammdaten, ist der Menüpunkt jedoch nicht komplett abwählbar. Dies soll eine sofortige Information sicherstellen.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald Sie eine oder mehrere Dateien hochgeladen haben, erscheinen diese in einer Liste oberhalb der Schaltfläche </text><text styleclass="Button" translate="true">[ Datei hochladen ]</text><text styleclass="Normal" translate="true">. Das Löschsymbol </text><image src="delete.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true"> vor dem jeweiligen Dateinamen erlaubt Ihnen, bei Bedarf die betreffende Datei wieder zu entfernen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> aus dem Navigationsmenü, so gelangen Sie in die entsprechende Funktion.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="PEPP-proposal-documents2.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Registerkarte Dokumente mit hochgeladenen Dateien</text></para>
+    <para styleclass="Image Caption"><image src="Documents.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Funktion Dokumente</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollte es Ihnen in Ausnahmefällen nicht möglich sein, ein Dokument zu digitalisieren, können Sie dies getrennt von Ihrem Vorschlag auf dem Postwege an das InEK übermitteln. Bitte vermerken Sie in einem solchen Fall, welche Dokumente Sie auf dem Postwege übermitteln möchten. Bitte beachten Sie: Seitens des InEK erfolgt keine Eingangsbestätigung für Dokumente, die getrennt übermittelt werden.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie Sie der Verfahrensbeschreibung zum PEPP-Vorschlagsverfahren entnehmen können, sollen in den Dokumenten keine Patientendaten übermittelt werden. Sollte dies in Ausnahmefällen erforderlich sein, müssen die Patientendaten anonymisiert werden. Dies vorausgesetzt, können Sie nur dann einen Vorschlag mit angehängten Dokumenten bereitstellen, wenn Sie versichern, dass die Dokumente keine oder nur anonymisierte Patientendaten beinhalten. Das entsprechende Ankreuzfeld ist bei Übermittlung von Dokumenten daher Pflicht.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hier werden alle vorhandene Dokumente gelistet. In der letzten Spalte (</text><text styleclass="Normal" style="font-style:italic;" translate="true">gel.</text><text styleclass="Normal" translate="true">) ist markiert, ob es sich um ein neues Dokument handelt oder um ein bereits &quot;gelesenes&quot;. Dies wird über ein entsprechendes Symbol, gelbes Dreieck für ungelesen bzw. grüner Haken für gelesen, rechts in der Liste angezeigt. Platzieren Sie den Mauszeiger über dieses Symbol, so wird nach kurzer Zeit des Lese-Status im Klartext eingeblendet. Ein Dokument gilt dann im Sinne des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> als gelesen, wenn Sie es erstmalig geöffnet oder auf Ihren Rechner heruntergeladen haben. Ob Sie dies tatsächlich gelesen haben, kann das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> &#160;natürlich nicht erkennen.</text></para>
   </body>
 </topic>
