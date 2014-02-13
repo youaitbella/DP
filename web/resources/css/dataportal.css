@@ -483,6 +483,11 @@ select:active, select:focus{
     max-height: 100px;
 }
 
+.areaMiPsy {
+    width: 220px;
+    max-width: 220px;
+}
+
 .areaMiddleLow {
     min-width: 50%;
     width: 50%;

@@ -133,7 +133,93 @@
                 </div>
             </h:panelGroup>
             
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="piaAmbulance" value="#{msg.lblPia}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div class="floating">
+                    <h:selectOneMenu id="piaTypes" value="#{editModelIntention.modelIntention.piaType}">
+                        <f:selectItems value="#{editModelIntention.piaTypes}" />
+                        <f:ajax event="change" render="@this :logout:remaining txtPia" />
+                    </h:selectOneMenu>
+                </div>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="areaWideLow" id="txtPia" value="#{editModelIntention.PIAText}" readonly="#{!editModelIntention.PIATextEnabled}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="hospital" value="#{msg.lblHospital}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div class="floating">
+                    <h:selectOneMenu id="hospitalTypes" value="#{editModelIntention.modelIntention.hospitalType}">
+                        <f:selectItems value="#{editModelIntention.hospitalTypes}" />
+                        <f:ajax event="change" render="@this :logout:remaining txtHospital" />
+                    </h:selectOneMenu>
+                </div>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="areaWideLow" id="txtHospital" value="#{editModelIntention.hospitalText}" readonly="#{!editModelIntention.hospitalTextEnabled}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="selfHospitalisation" value="#{msg.lblSelfHospitalisation}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                    <h:selectOneMenu id="selfHospitalisationTypes" value="#{editModelIntention.modelIntention.selfHospitalisationType}">
+                        <f:selectItems value="#{editModelIntention.selfHospitalisationTypes}" />
+                        <f:ajax event="change" render="@this :logout:remaining" />
+                    </h:selectOneMenu>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="miscHospitalisation" value="#{msg.lblMiscHospitalisation}:" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="areaWideLow" id="txtMiscHospitalisation" value="#{editModelIntention.modelIntention.miscHospitalisation}">
+                            <f:ajax event="blur" render="@this :logout:remaining txtMiscHospitalisation" />
+                        </h:inputTextarea>
+                </div>
+            </h:panelGroup>
         </h:panelGrid>
         
+        <h2>#{msg.lblAgreedPatiens}</h2>
+        
+        <h:panelGrid styleClass="inputPart" columns="3" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="AgreedFrom" value="#{msg.lblFrom} (Datum):" />
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputshort" id="txtAgreedFrom" value="#{editModelIntention.patientsFrom}">
+                            <f:ajax event="blur" render="@this :logout:remaining txtAgreedFrom" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="AgreedTo" value="#{msg.lblTo} (Datum):" />
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputshort" id="txtAgreedTo" value="#{editModelIntention.patientsTo}">
+                            <f:ajax event="blur" render="@this :logout:remaining txtAgreedTo" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="AgreedPatientsCount" value="#{msg.lblPatientsCount}:" />
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputshort" id="txtPatientsCount" value="#{editModelIntention.agreedPatients.patientsCount}">
+                            <f:ajax event="blur" render="@this :logout:remaining txtPatientsCount" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+        </h:panelGrid>
+        
+
     </ui:define>
 </ui:composition>

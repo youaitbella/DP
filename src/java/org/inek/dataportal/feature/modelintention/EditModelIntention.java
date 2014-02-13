@@ -1,6 +1,8 @@
 package org.inek.dataportal.feature.modelintention;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -9,6 +11,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.AgreedPatients;
 import org.inek.dataportal.entities.ModelIntention;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
@@ -33,6 +36,7 @@ public class EditModelIntention extends AbstractEditController {
     private boolean _ageYearEnabled, _regionMiscEnabled;
     private String _conversationId;
     private ModelIntention _modelIntention;
+    private AgreedPatients _agreedPatients;
     
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
@@ -142,7 +146,8 @@ public class EditModelIntention extends AbstractEditController {
     
     public enum SettleTypes {
         ImpartialDepartment(0, "fachgebietsunabhängig"),
-        MiscMedics(1, "sonstige bestimmte Ärzte");
+        DepartmentDocs(1, "nur Fachärzte"),
+        MiscMedics(2, "sonstige bestimmte Ärzte");
         
         private int _id;
         private String _type;
@@ -238,11 +243,155 @@ public class EditModelIntention extends AbstractEditController {
     }
     
     public boolean isSettleTextEnabled() {
-        if(_modelIntention.getSettleMedicType() == SettleTypes.MiscMedics.id())
-            return true;
-        return false;
+        if(_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id())
+            return false;
+        return true;
+    }
+    
+    public SelectItem[] getPiaTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        PiaTypes[] types = PiaTypes.values();
+        for(PiaTypes p : types) {
+            l.add(new SelectItem(p.id(), p.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
+    public enum PiaTypes {
+        AnyPIA(0, "jede PIA"),
+        IntegratedPIA(1, "nur PIA der im Modellvorhaben integrierten Krankenhäuser"),
+        ContractPIA(2, "nur PIA, die auch Vertragspartner im Modellvorhaben sind"),
+        SpecificPIA(3, "nur bestimmte PIA");
+        
+        
+        private int _id;
+        private String _type;
+        
+        private PiaTypes(int id, String type) {
+            _id = id;
+            _type = type;
+        }
+
+        public int id() {
+            return _id;
+        }
+
+        public String type() {
+            return _type;
+        }
+    }
+    
+    public String getPIAText() {
+        if(_modelIntention.getPiaType()!= PiaTypes.SpecificPIA.id())
+            return "";
+        return _modelIntention.getPiaText();
+    }
+    
+    public void setPIAText(String text) {
+        if(_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id())
+            _modelIntention.setPiaText("");
+        else
+            _modelIntention.setPiaText(text);
+    }
+    
+    public boolean isPIATextEnabled() {
+        if(_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id())
+            return false;
+        return true;
     }
 
+    public SelectItem[] getHospitalTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        HospitalTypes[] types = HospitalTypes.values();
+        for(HospitalTypes h : types) {
+            l.add(new SelectItem(h.id(), h.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
+    public enum HospitalTypes {
+        AnyHospital(0, "jedes Krankenhaus"),
+        ModelProjectHospital(1, "nur am Modellprojekt beteiligte Krankenhäuser"),
+        SpecificHospital(2, "nur Fachkrankenhäuser"),
+        OtherHospital(3, "sonstige bestimmte Krankenhäuser");
+        
+        
+        private int _id;
+        private String _type;
+        
+        private HospitalTypes(int id, String type) {
+            _id = id;
+            _type = type;
+        }
+
+        public int id() {
+            return _id;
+        }
+
+        public String type() {
+            return _type;
+        }
+    }
+    
+    public String getHospitalText() {
+        if(_modelIntention.getHospitalType()!= HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType()!= HospitalTypes.OtherHospital.id())
+            return "";
+        return _modelIntention.getHospitalText();
+    }
+    
+    public void setHospitalText(String text) {
+        if(_modelIntention.getHospitalType()!= HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType()!= HospitalTypes.OtherHospital.id())
+            _modelIntention.setHospitalText("");
+        else
+            _modelIntention.setHospitalText(text);
+    }
+    
+    public boolean isHospitalTextEnabled() {
+        if(_modelIntention.getHospitalType()!= HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType()!= HospitalTypes.OtherHospital.id())
+            return false;
+        return true;
+    }
+    
+    
+        public SelectItem[] getSelfHospitalisationTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        SelfHospitalisationTypes[] types = SelfHospitalisationTypes.values();
+        for(SelfHospitalisationTypes sh : types) {
+            l.add(new SelectItem(sh.id(), sh.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
+    
+        public enum SelfHospitalisationTypes {
+        Possible(0, "grundsätzlich möglich"),
+        EmergencyPossible(1, "nur als Notfall möglich"),
+        NotPossible(2, "grundsätzlich nicht möglich");
+        
+        
+        private int _id;
+        private String _type;
+        
+        private SelfHospitalisationTypes(int id, String type) {
+            _id = id;
+            _type = type;
+        }
+
+        public int id() {
+            return _id;
+        }
+
+        public String type() {
+            return _type;
+        }
+    }
+            
+    
+ 
+    
+    
+    
+    
     enum ModelIntentionTabs {
 
         tabModelIntTypeAndNumberOfPatients,
@@ -263,6 +412,10 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntention;
     }
 
+    public AgreedPatients getAgreedPatients() {
+        return _agreedPatients;
+    }
+    
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
     }
@@ -274,6 +427,7 @@ public class EditModelIntention extends AbstractEditController {
         Object miId = Utils.getFlash().get("miId");
         if (miId == null) {
             _modelIntention = newModelIntention();
+            _agreedPatients = newAgreedPatients();
         } else {
             _modelIntention = loadModelIntention(miId);
         }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
@@ -299,9 +453,47 @@ public class EditModelIntention extends AbstractEditController {
         modelIntention.setAccountId(_sessionController.getAccountId());
         modelIntention.setRegion(Regions.Germany.region());
         modelIntention.setSettleMedicType(SettleTypes.ImpartialDepartment.id());
+        modelIntention.setPiaType(PiaTypes.AnyPIA.id());
+        modelIntention.setHospitalType(HospitalTypes.AnyHospital.id());
         return modelIntention;
     }
-
+    
+    private AgreedPatients newAgreedPatients() {
+        AgreedPatients agreedPatients = new AgreedPatients();
+        agreedPatients.setPatientsTo(null);
+        agreedPatients.setPatientsFrom(null);
+        agreedPatients.setPatientsCount(null);
+        return agreedPatients;
+    }
+    
+    public String getPatientsTo() {
+        if(_agreedPatients.getPatientsTo() == null)
+            return "";
+        return _agreedPatients.getPatientsTo().toString();
+    }
+    
+    public void setPatientsTo(String date) {
+        try {
+            _agreedPatients.setPatientsTo(SimpleDateFormat.getDateInstance().parse(date));
+        } catch(Exception ex) {
+            _agreedPatients.setPatientsTo(null);
+        }
+    }
+    
+    public String getPatientsFrom() {
+        if(_agreedPatients.getPatientsFrom() == null)
+            return "";
+        return _agreedPatients.getPatientsFrom().toString();
+    }
+    
+    public void setPatientsFrom(String date) {
+        try {
+            _agreedPatients.setPatientsFrom(SimpleDateFormat.getDateInstance().parse(date));
+        } catch(Exception ex) {
+            _agreedPatients.setPatientsFrom(null);
+        }
+    }
+     
     private ModelIntentionController getModelIntentionController() {
         return (ModelIntentionController) _sessionController.getFeatureController(Feature.MODEL_INTENTION);
     }

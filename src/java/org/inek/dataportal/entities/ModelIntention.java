@@ -183,7 +183,7 @@ public class ModelIntention implements Serializable {
     
     @Column(name = "miStatus")
     private Integer _status;
-    
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
     public Integer getMiId() {
@@ -609,8 +609,8 @@ public class ModelIntention implements Serializable {
     public void setStatus(Integer status) {
         this._status = status;
     }
-
-    // </editor-fold>
+   
+       // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
