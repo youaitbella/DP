@@ -1,0 +1,198 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+   <title>Bedienung &gt; Allgemeine Bedienung</title>
+   <meta name="generator" content="Help & Manual">
+   <meta name="keywords" content="Dialogbedienung,Navigation">
+   <meta name="description" content="Allgemeine Bedienung">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <link type="text/css" href="default.css" rel="stylesheet">
+   <link type="text/css" href="custom.css" rel="stylesheet">
+   <script type="text/javascript" src="nsh.js"></script>
+
+<script type="text/javascript">   
+// Toggle Toggler 
+
+var toggleCount=false;
+var switchState;
+
+function toggleToggles() {
+
+    if (!toggleCount) {
+     toggleCount = true;
+     HMToggleExpandAll(true);
+     switchState = true;
+     }
+   
+     else if (switchState) {
+        HMToggleExpandAll(false);
+        switchState = false;
+        }
+        
+     else  {
+        HMToggleExpandAll(true);
+        switchState = true;
+        } 
+    }
+</script>
+   
+<!-- non-scrolling headers for CHM and browser-based help, local styles-->
+<style type="text/css" media="screen"> 
+html, body { margin:0; 
+   padding:0; 
+   overflow: hidden; 
+   background: #FFFFFF; 
+  }
+ 
+div#printheader { 
+   display: none;
+   padding-bottom: 10px;
+   }
+   #idheader { 
+      width:100%; 
+      height:auto; 
+      padding: 0; 
+      margin: 0; 
+} 
+    #idheaderbg  {
+    background: #6F6F6F; 
+}
+   #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+   #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+   #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+   #callout-table a {text-decoration: none; color: blue;}
+   #callout-table a:visited {text-decoration: none; color: blue;}
+   #overview-table a {text-decoration: none; color: black;}
+   #overview-table a:visited {text-decoration: none; color: black;}
+   #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}
+   p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }
+   </style>
+<!--[if lt IE 7]>
+<style type="text/css">
+  #idcontent {padding: 0px;} 
+  #innerdiv {padding: 10px 5px 5px 10px ;} 
+</style> 
+<![endif]-->
+<noscript>
+<style type="text/css">
+html, body { overflow: auto; }
+</style> 
+</noscript>
+<style type="text/css" media="print">
+span.f_Heading1 { color: black; }
+#idheader, #printheader img { display:none; }
+#printheader { display: block; margin-top: 20px; }
+#idcontent { margin-top: 10px; }
+</style>   
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "basehandling.htm");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+<!--ZOOMSTOP-->
+
+<div id="printheader"><h1 class="p_Heading1"><span class="f_Heading1">Allgemeine Bedienung</span></h1>
+</div> 
+<div id="idheader">
+<div id="idheaderbg">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" 
+       style="margin: 0px; background: url(header_bg.jpg);">
+
+  <tr valign="bottom">
+    <td align="left" valign="bottom" class="topichead">
+   <p class="crumbs" id="idnav"><b>Navigation:</b>&nbsp;
+   
+   <a href="usage.htm">Bedienung</a>&nbsp;&gt;</p>
+   <h1 class="p_Heading1"><span class="f_Heading1">Allgemeine Bedienung</span></h1>
+
+    </td>
+    <td align="right" width="120" valign="middle" class="topichead" id="idnav">
+    
+     <a href="usage.htm"
+        onmouseover="document.images.prev.src='btn_prev_h.gif'" 
+        onmouseout="document.images.prev.src='btn_prev_n.gif'"
+        ><img name=prev src="btn_prev_n.gif" border=0 alt="Previous page"
+        ></a><a href="usage.htm"
+        onmouseover="document.images.main.src='btn_home_h.gif'" 
+        onmouseout="document.images.main.src='btn_home_n.gif'"><img name=main src="btn_home_n.gif" border=0 alt="Return to chapter overview"
+        ></a><a href="login.htm"
+        onmouseover="document.images.next.src='btn_next_h.gif'" 
+        onmouseout="document.images.next.src='btn_next_n.gif'"><img name=next src="btn_next_n.gif" border=0 alt="Next page"
+        ></a>
+    </td>
+  </tr>
+  <tr><td colspan="2" style="height: 3px; background: url(header_bg_shadow.gif)"></td></tr>
+</table>
+</div>
+
+<!-- The following code displays Expand All/Collapse All links  below the header in topics containing toggles -->
+  
+
+</div>  
+
+
+
+<div id="idcontent"><div id="innerdiv"> 
+<!--ZOOMRESTART-->
+<h1 class="p_Heading1"><span class="f_Heading1">Einteilung der Dialoge</span></h1>
+<p>&nbsp;</p>
+<p>Die Dialogseiten des InEK Datenportals bestehen im Wesentlichen aus drei Bereichen:</p>
+<p>&nbsp;</p>
+<p style="text-align: left; padding: 0px 0px 0px 13px; margin: 0px 5px 0px 5px;"><span style="font-size:11pt; font-family: 'Arial Unicode MS','Lucida Sans Unicode','Arial';color:#000000;display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Oben: Der Kopfbereich mit Links zur Hompage des InEK, zum Impressum und, sofern Sie eingeloggt sind, zur Abmeldung.</p><p style="text-align: left; padding: 0px 0px 0px 13px; margin: 0px 5px 0px 5px;"><span style="font-size:11pt; font-family: 'Arial Unicode MS','Lucida Sans Unicode','Arial';color:#000000;display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Links: Hier finden Sie nach erfolgreichem Login die Navigation zu den verfügbaren Funktionen.</p><p style="text-align: left; padding: 0px 0px 0px 13px; margin: 0px 5px 0px 5px;"><span style="font-size:11pt; font-family: 'Arial Unicode MS','Lucida Sans Unicode','Arial';color:#000000;display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Rechts: In diesem größten Teil des Dialogs werden die Informationen dargestellt bzw. erfolgen Ihre Eingaben.</p><p>&nbsp;</p>
+<p class="p_ImageCaption"><img src="generalhandling.png" width="1022" height="700" alt="GeneralHandling" style="border:none" /></p>
+<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 1: Einteilung der Dialoge in Kopfbereich (rot markiert), Navigation (grün) und Info- bzw. Eingabeteil (blau)</span></p>
+<p>&nbsp;</p>
+<p>Der linke Navigationsbereich zeigt die Ihnen zur Verfügung stehenden Funktionen an. Im Wesentlichen bestimmen Sie selber (in der Stammdatenpflege) um welche Funktionen es sich dabei handelt. Nur bei bestimmten Funktionen (derzeit nur DropBox-Verfahren) behält sich das InEK eine separate Freischaltung vor. </p>
+<p>&nbsp;</p>
+<p>Über diesen Navigationsbereich können Sie jederzeit zur gewünschten Funktion wechseln. Bitte achten Sie darauf, eventuelle Eingaben vorher zu speichern.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 class="p_Heading1"><span class="f_Heading1">Überblick Dialogbedienung</span></h1>
+<p>&nbsp;</p>
+<p>Anhand der Stammdatenpflege wird im Folgenden exemplarisch die Bedienung von Eingabemasken dargestellt:</p>
+<p>&nbsp;</p>
+<p class="p_ImageCaption"><img src="generalhandling2.png" width="1022" height="700" alt="GeneralHandling2" style="border:none" /></p>
+<p class="p_ImageCaption"><span class="f_ImageCaption">Abb. 2: Beispielhafte Eingabemaske. Die roten Nummern markieren Teile, die im Text besonders erläutert sind</span></p>
+<p>&nbsp;</p>
+<p>Wie wahrscheinlich aus vielen Anwendungen bekannt, gibt es in einem Erfassungsdialog Pflichtfelder sowie optionale Felder. Im InEK Datenportal sind Pflichtfelder durch ein Sternchen (*) neben dem Titel gekennzeichnet. Zusätzlich sind sie in der Regel pastell-farbig hervorgehoben (1). Optionale Felder &nbsp;haben einen einfachen weißen Hintergrund und sind nicht durch ein Sternchen gekennzeichnet (2).</p>
+<p>&nbsp;</p>
+<p>Unabhängig hiervon wird das jeweils aktuelle Eingabefeld (also das in dem Ihre Eingabe erfolgt) farbig hervorgehoben (3). Sobald Sie ein Eingabefeld, für das bestimmte Regeln gelten, verlassen, prüft das InEK Datenportal Ihre Eingabe und meldet ggf. Problemen (4). Die Art der Meldung ist vom jeweiligen Feld abhängig. So meldet das System &nbsp;bei leerem Pflichtfeld beispielsweise &quot;Eingabe erforderlich&quot;.</p>
+<p>&nbsp;</p>
+<p>Ansonsten können die Dialoge viele Elemente, wie sie aus anderen Programmen bekannt sein dürften, enthalten. Beispiele hierfür sind ausklappbare Auswahllisten (&quot;Komboboxen&quot;) (5), Schaltflächen, Ankreuzfelder und vieles mehr. Insbesondere macht das InEK Datenportal auch Gebrauch von Registerkarten (6), über die Sie einen Teil des Dialogs umschalten können. Daneben existieren aber auch Browser-typische Elemente wie Links (7). </p>
+<p>&nbsp;</p>
+<p>Die Bedienung der einzelnen Elemente entspricht ihrer Nutzung in anderen Programmen. Da dies heute weitgehend standardisiert ist, erfolgt hier keine detaillierte Beschreibung einzelner Elemente, soweit das Verhalten nicht vom den üblichen Standards abweicht. </p>
+<p>&nbsp;</p>
+<p class="p_Hinweis"><span class="f_Hinweis">Beim InEK Datenportal handelt es sich um eine Anwendung, die auf einem Server läuft. Der Status dieser Anwendung variiert mit Ihren Eingaben. Daher können Informationen sich ändern. Ihr Browser bietet Ihnen zwar eine Funktion, zurückzublättern. Diese versucht, die vorherige Seite aufzurufen. Bei statischen Webseiten funktioniert dies in der Regel problemlos. Bei einer Anwendung wie dem InEK Datenportal kann durch den veränderten Status die Seite oft jedoch nicht mehr aufgerufen werden. Soweit der Status ungültig ist, kommt es zu Fehlermeldungen. Verzichten Sie bei Web-Applikationen wie dem InEK Datenportal daher auf die Blätterfunktion des Browsers und nutzen Sie ausschließlich die von der Applikation bereitgestellte Navigation.</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+var lastSlashPos = document.URL.lastIndexOf("/") > document.URL.lastIndexOf("\\") ? document.URL.lastIndexOf("/") : document.URL.lastIndexOf("\\");
+if( document.URL.substring(lastSlashPos + 1, lastSlashPos + 4).toLowerCase() != "~hh" )
+{
+ if (document.all) setTimeout(function() {nsrInit();},20); 
+    else nsrInit();
+ } 
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

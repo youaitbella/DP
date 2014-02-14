@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="NubEdit.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="editContent">    
+
+        <h2>#{msg.tabNubPage3}</h2>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubInGermany" value="#{msg.lblNubInGermany}"/>
+            <br/>
+            <h:inputTextarea styleClass="areaWideLow" id="nubInGermany" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.inGermanySince}" required="false">
+                <f:ajax event="blur" render="@this :logout:remaining"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubMedApproved" value="#{msg.lblNubMedApproved}"/>
+            <br/>
+            <h:inputTextarea styleClass="areaWideLow" id="nubMedApproved" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.medApproved}" required="false">
+                <f:ajax event="blur" render="@this :logout:remaining"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubInHouse" value="#{msg.lblNubInHouse}"/>
+            <h:message for="nubInHouse" id="msgNubInHouse" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideLow" id="nubInHouse" value="#{editNubProposal.nubProposal.inHouseSince}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubInHouse"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubHospitalCount" value="#{msg.lblNubHospitalCount}"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideLow" id="nubHospitalCount" value="#{editNubProposal.nubProposal.hospitalCount}" readonly="#{editNubProposal.readOnly}" required="false">
+                <f:ajax event="blur" render="@this :logout:remaining"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{editNubProposal.patientsPastText} *"/>
+            <h:message for="patientsLastYear" id="msgPatientsLastYear" styleClass="errorMessage"/>
+            <h:message for="patientsThisYear" id="msgPatientsThisYear" styleClass="errorMessage"/>
+            <br />
+            <div class="floatContainer">
+                <div style="float: left;">
+                    <span style="float: left;">
+                        <h:outputLabel styleClass="label" for="patientsLastYear" value="in #{editNubProposal.currentYear-1}:" />
+                        &nbsp;
+                    </span>
+                    <h:inputTextarea styleClass="areaNarrowLow" id="patientsLastYear" value="#{editNubProposal.nubProposal.patientsLastYear}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                        <f:validateLength maximum="1000"/>
+                        <f:validator validatorId="RequiredValidator"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgPatientsLastYear"/>
+                    </h:inputTextarea>
+                </div>
+                <div style="float: left; margin-left: 20px;">
+                    <span style="float: left;">
+                        <h:outputLabel styleClass="label" for="patientsThisYear" value="in #{editNubProposal.currentYear}:" />
+                        &nbsp;
+                    </span>
+                    <h:inputTextarea styleClass="areaNarrowLow" id="patientsThisYear" value="#{editNubProposal.nubProposal.patientsThisYear}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                        <f:validateLength maximum="1000"/>
+                        <f:validator validatorId="RequiredValidator"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgPatientsThisYear"/>
+                    </h:inputTextarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="patientsFuture" value="#{editNubProposal.patientsText}" />
+            <h:message for="patientsFuture" id="msgPatientsFuture" styleClass="errorMessage"/>
+            <br />
+            <h:inputTextarea styleClass="areaWideLow" id="patientsFuture" value="#{editNubProposal.nubProposal.patientsFuture}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validateLength maximum="1000"/>
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgPatientsFuture"/>
+            </h:inputTextarea>
+        </div>
+
+        <br/>
+    </ui:define>
+</ui:composition>

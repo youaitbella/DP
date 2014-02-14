@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="navItems">
+        <li>
+            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/> 
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:outputStylesheet name="fileuploader.css" library="css"/>
+        <h:outputScript name="fileuploader.js" library="script"/>
+        <script>
+            var fileCounter = 0;
+            function createUploader() {
+                var uploader = new qq.FileUploader({
+                    element: document.getElementById('file-uploader'),
+                    action: '/DataPortal/upload/nub',
+                    debug: true,
+                    multiple: true,
+                    allowedExtensions: ['nub', 'txt'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                    onSubmit: function(id, fileName) {
+                        fileCounter++;
+                    },
+                    onCancel: function(id, fileName) {
+                        fileCounter--;
+                        if (fileCounter === 0) {
+                        }
+                    },
+                    onComplete: function(id, fileName, responseJSON) {
+                        fileCounter--;
+                        if (fileCounter === 0) {
+                            //document.getElementById("form:takeDocuments").click();
+                        }
+                        if (responseJSON.success){
+                            //alert (responseJSON.success);
+                        } else{
+                            //alert ("Fehler in Datei " + fileName + " " + responseJSON.message);
+                            alert ("Fehler in Datei " + fileName);
+                            var item = this._getItemByFileId(id);                
+                            qq.addClass(item, this._classes.fail);
+                        }
+                    },
+                    messages: {
+                        typeError: "{file} hat eine unzulässige Dateierweiterung. Erlaubt ist {extensions}.",
+                        sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                        minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                        emptyError: "{file} is empty, please select files again without it.",
+                        onLeave: "Dateitransfer läuft. Wenn Sie die Seite verlassen wird dies abgebrochen."
+                    },
+                    template: '<div class="qq-uploader">' +
+                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                            '<div class="qq-upload-button">NUB-Vorlage hochladen</div>' +
+                            '<ul class="qq-upload-list"></ul>' +
+                            '</div>'
+                });
+            }
+            window.onload = createUploader;
+        </script>
+        <h1><h:link value="#{msg.lblNUB}" outcome="#{sessionTools.pages.NubSummary}"/></h1>
+        <br/>
+        <p>
+            Um NUB-Anfragen aus Vorlagen zu erzeugen, klicken Sie unten auf [NUB-Vorlage hochladen] und wählen eine oder mehrere Vorlagen auf Ihrem Rechner aus.
+            Für jede hochgeladene fehlerfreie Datei wird eine NUB-Anfrage erzeugt und Ihrer Liste der offenen Anfragen zugefügt. 
+            Die so erzeugten Anfragen ergänzen Sie im Rahmen der normalen Bearbeitung um Ihre krankenhausspezifischen Kennzahlen.
+        </p>
+        <h3>Hinweis: </h3>
+        <p>
+            Je nach Browser kann es vorkommen, dass jede Datei fälschlicherweise als fehlerhaft angegeben wird, obwohl sie korrekt eingelesen wurde. 
+            Überprüfen können Sie dies, indem Sie zur NUB-Liste wechseln: <br/>
+            Dort werden die korrekt eingelesenen Dateien aufgeführt. Bei einem echten Fehler fehlt die Datei in der Liste. <br/>
+            Bisher ist dieses Problem nur bei bestimmten Versionen des Internet Explorers bekannt.
+        </p>
+        
+        <br/>
+        <div class="inputPart">
+            <div id="file-uploader">
+                <noscript>
+                    <div class="inputPart">Please enable JavaScript to use the file upload.</div>
+                    <!-- or put a simple form for upload here -->
+                </noscript>
+            </div>
+            <h:link styleClass="button" value="Zur NUB Liste" outcome="#{sessionTools.pages.NubSummary}"/>
+        </div>
+    </ui:define>
+
+</ui:composition>

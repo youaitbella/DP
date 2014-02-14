@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="name" value="#{msg.lblAppellation}:"/>
+        <h:message for="name" id="msgName" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="name" value="#{editPeppProposal.peppProposal.name}"
+                     title="#{msg.titleAppellation}"
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" 
+                     maxlength="80">
+            <f:ajax event="blur" render="@this :logout:remaining msgName"/>
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="category" value="#{msg.lblCategory}:"/>
+        <h:message for="category" id="msgCategory" styleClass="errorMessage"/>
+        <br/>
+        <h:selectOneMenu styleClass="input" id="category" value="#{editPeppProposal.peppProposal.category}" 
+                         required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
+                         immediate="true"
+                         title="#{msg.titleCategory}"
+                         readonly="#{editPeppProposal.readOnly}"
+                         valueChangeListener="#{editPeppProposal.changeCategory}">
+            <f:selectItems value="#{editPeppProposal.categories}"/>
+            <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
+        </h:selectOneMenu>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="institute" value="#{msg.lblProposalInstitute}:"/>
+        <h:message for="institute" id="msgInstitute" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="institute" value="#{editPeppProposal.peppProposal.institute}"
+                     title="#{msg.titleProposalInstitute}"
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="200">
+            <f:ajax event="blur" render="@this :logout:remaining msgInstitute"/>
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" value="#{msg.lblContact}"/>
+        <br/>
+        <h:panelGrid columns="2" width="90%">
+            <h:panelGroup styleClass="inputmedium">
+                <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
+                <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
+                <br/>
+                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editPeppProposal.peppProposal.gender}" 
+                                 readonly="#{editPeppProposal.readOnly}"
+                                 required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgChooseEntryShort}">
+                    <f:selectItems value="#{sessionTools.genderItems}"/>
+                    <f:ajax event="blur" render="@this :logout:remaining msgGender"/>
+                </h:selectOneMenu>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
+                <br/>
+                <h:inputText styleClass="inputmedium" id="title" value="#{editPeppProposal.peppProposal.title}" 
+                             readonly="#{editPeppProposal.readOnly}"
+                             required="false" maxlength="50">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:inputText>
+            </h:panelGroup>
+        </h:panelGrid>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
+        <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="firstname" value="#{editPeppProposal.peppProposal.firstName}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgFirstname"/>
+        </h:inputText>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
+        <h:message id="msgLastname" for="lastname" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="lastname" value="#{editPeppProposal.peppProposal.lastName}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgLastname"/>
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:"/>
+        <h:message id="msgDivision" for="division" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="division" value="#{editPeppProposal.peppProposal.division}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="false" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgDivision"/>
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:"/>
+        <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage"/>
+        <br/>
+        <h:selectOneMenu styleClass="input" id="contactRole" value="#{editPeppProposal.peppProposal.roleId}" required="false" requiredMessage="#{msg.lblChooseEntry}">
+            <f:selectItems value="#{sessionTools.contactRoleItems}"/>
+            <f:ajax event="change" render="@this :logout:remaining msgContactRole"/>
+        </h:selectOneMenu>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
+        <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="street" value="#{editPeppProposal.peppProposal.street}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgStreet"/>
+        </h:inputText>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
+        <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="zip" value="#{editPeppProposal.peppProposal.postalCode}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="10">
+            <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
+        </h:inputText>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
+        <h:message id="msgTown" for="town" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="town" value="#{editPeppProposal.peppProposal.town}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
+        </h:inputText>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
+        <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="phone" value="#{editPeppProposal.peppProposal.phone}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgPhone"/>
+        </h:inputText>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
+        <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="fax" value="#{editPeppProposal.peppProposal.fax}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="false" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgFax"/>
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
+        <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
+        <br/>
+        <h:inputText styleClass="input" id="email" value="#{editPeppProposal.peppProposal.email}" 
+                     readonly="#{editPeppProposal.readOnly}"
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
+            <f:validator validatorId="EmailValidator"/>
+        </h:inputText>
+    </div>
+
+</ui:composition>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h2>
+        <h:commandLink action="#{sessionController.navigate(sessionTools.pages.RequestSummary)}" value="#{msg.lblRequest}" immediate="true"/>
+    </h2>
+    <div class="paddingElement">
+        <ui:include src="#{sessionTools.pages.ListRequest}"/>
+        <p>
+            <h:commandLink styleClass="button" action="#{requestList.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
+        </p>
+        <br/>
+        <h:outputLabel styleClass="label" rendered ="#{requestList.sealedRequests.size() > 0}" value="sowie #{requestList.sealedRequests.size()} bereitgestellte Anfragen"/>
+    </div>
+</ui:composition>
+

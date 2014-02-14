@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+        <h2>
+            Vorschlagsverfahren
+        </h2>
+        <div class="paddingElement">
+            <p>
+                <h:commandButton styleClass="button" action="#{mainApp.newRequest}" immediate="false" value="#{msg.btnNewRequest}"/>
+            </p>
+            <h:dataTable rendered="#{mainApp.requests.size() > 0}"  headerClass="list-header" id="tblProposals" value="#{mainApp.requests}" var="r" width="100%" rowClasses="row1, row2" columnClasses="colId, colValue">
+                <h:column id="colId">
+                    <f:facet name="header">
+                        <h:outputText value="ID"/>
+                    </f:facet>
+                    <h:outputText id="txtId" value="#{r.requestId}"/>
+                </h:column>
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:commandLink action="#{mainApp.editRequest}" value="#{r.name}" immediate="true">
+                        <f:setPropertyActionListener target="#{mainApp.requestId}" value="#{r.requestId}"/>
+                    </h:commandLink>
+                </h:column>
+
+            </h:dataTable>
+            <br/>
+            <h:outputLabel styleClass="label" rendered ="#{mainApp.completeProposals.size() > 0}" value="sowie #{mainApp.completeProposals.size()} bereitgestellte Vorschläge"/>
+        </div>
+    </ui:composition>
+</html>
+

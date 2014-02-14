@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                >
+
+    <ui:define name="navItems">
+        <li>
+            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/> 
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>#{msg.lblPeppProposal}</h1>
+            <h:panelGroup class="tab" rendered="#{peppProposalFacade.inekUser}">
+                <ul class="tab">
+                    <ui:repeat  value="#{peppProposalFacade.topics}" var="topic">
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                            <h:commandLink value="#{topic.title}" action="#{peppProposalFacade.changeTabPage(topic.key)}"
+                                           immediate="true">
+                            </h:commandLink>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </h:panelGroup>
+
+            <ui:insert name="summaryContent">Content</ui:insert>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

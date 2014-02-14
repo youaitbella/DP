@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:metadata>
+        <f:viewParam name="partnerId" id="partnerId" value="#{flash.partnerId}" />
+        <f:viewParam name="conversationId" id="conversationId" value="#{flash.conversationId}" />
+    </f:metadata>
+
+    <ui:define name="navItems">
+        <li>
+            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1><h:commandLink value="#{msg.nameCOOPERATION}" action="#{sessionController.navigate(sessionTools.pages.CooperationSummary)}" immediate="true"/></h1>
+            <div class="tab">
+                <ul class="tab">
+                    <ui:repeat  value="#{editCooperation.visibleTopics}" var="topic">
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                            <h:commandLink value="#{topic.title}" action="#{editCooperation.changeTabPage(topic.key)}"
+                                           immediate="true">
+                            </h:commandLink>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </div>
+
+            <div class="edit">
+                <ui:insert name="editContent">Content</ui:insert>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

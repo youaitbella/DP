@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="navItems">
+    </ui:define>
+
+    <ui:define name="content">
+        <noscript>			
+            <h2>#{msg.msgEnableScript}</h2>
+        </noscript>  
+        <h:form id="Login">
+            <h:outputLabel value="#{msg.msgAccountActivation}" />
+            <br />
+            <div class="inputPart">
+                <h:outputLabel id="lblGuid" for="txtGUID" styleClass="label" value="#{msg.lblGuid}:"/>
+                <h:message id="msgGuid" for="txtGUID" styleClass="errorMessage"/>
+                <br />
+                <h:inputText styleClass="input" id="txtGUID" value="#{activateAccount.guid}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                    <f:ajax event="blur" render="@this msgGuid" />
+                </h:inputText>
+            </div>          
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblPassword" for="password" styleClass="label" value="#{msg.lblNewPassword}:"/>
+                <h:message id="msgPassword" for="password" styleClass="errorMessage"/>
+                <br />
+                <h:inputSecret redisplay="true" styleClass="input" id="password" value="#{activateAccount.pw}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                    <f:ajax event="blur" render="@this msgPassword"/>
+                </h:inputSecret>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblPasswordRepeat" for="txtPasswordRepeat" styleClass="label" value="#{msg.lblRepeatPassword}:"/>
+                <h:message id="msgPasswordRepeat" for="txtPasswordRepeat" styleClass="errorMessage"/>
+                <br />
+                <h:inputSecret redisplay="true" validator="#{activateAccount.comparePasswords}" styleClass="input" id="txtPasswordRepeat" value="#{activateAccount.pwRepeat}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                    <f:ajax event="blur" render="@this msgPasswordRepeat" />
+                </h:inputSecret>
+            </div>
+            
+            <br />
+            
+            <p>
+                <h:selectBooleanCheckbox id="approval" value="#{register.approved}" required="true" validator="#{register.checkApproval}">
+                    <f:ajax event="blur" render="@this msgApproval"/>
+                </h:selectBooleanCheckbox>
+                <h:outputLabel for="approval" value="#{msg.agreementMsg}"/>
+                <br/>
+                <h:message id="msgApproval" for="approval" styleClass="errorMessage"/>
+            </p>
+            
+            <br />
+            <p>
+                <h:outputLabel styleClass="label" value="#{msg.msgActivateDPAccess}"/>
+                <br/>
+                <h:commandLink styleClass="button" action="#{activateAccount.activateAndLogin}" immediate="false" value="#{msg.btnActivateAndLogin}"/>
+            </p>
+            
+            <br/>
+            <p>
+                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet? 
+                <br/>
+                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a> 
+                und lesen Sie das <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf">Anwenderhandbuch</a>.
+            </p>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

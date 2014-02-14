@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="navItems">
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="paddingElement">
+            <h:form>
+                <p>
+                    <h:outputLabel styleClass="label" id="lblCodeType" style="" value="#{msg.lblCodeType}:"/>
+                    <br/>
+                    <f:ajax render="@all">
+                        <h:selectOneRadio styleClass="radioGroup" id="radDiagnosis" value="#{searchCode.codeType}" >
+                            <f:selectItem itemLabel="#{msg.lblDiagnoses} &nbsp;" itemValue="Diag" rendered="#{searchCode.searchDiagnosis}"/>
+                            <f:selectItem itemLabel="#{msg.lblProcedures} &nbsp;" itemValue="Proc" rendered="#{!searchCode.searchProcedure}" />
+                            <f:selectItem itemLabel="#{msg.lblPepp}" itemValue="Pepp" rendered="#{!searchCode.searchPepp}" />
+                            <f:selectItem itemLabel="#{msg.lblDrg}" itemValue="Drg" rendered="#{!searchCode.searchDrg}" />
+                        </h:selectOneRadio>
+                    </f:ajax>
+                </p>
+
+                <p>
+                    <h:outputLabel id="lblSearchText" styleClass="label" value="#{msg.lblSearchText}:"/>
+                    <h:message for="startElement" id="msgSearchText" styleClass="errorMessage"/>
+                    <br/>
+                    <h:inputText styleClass="inputlong" id="startElement" value="#{searchCode.searchText}"
+                                 required="true" requiredMessage="#{msg.msgValueNeeded}" 
+                                 validator="#{searchCode.checkSearchToken}"
+                                 title="#{msg.titleSearch}">
+                    </h:inputText>
+                </p>
+                <p>
+                    <h:commandButton styleClass="button" actionListener="#{searchCode.search}" id="btnSearch" value="#{msg.btnSearch}"/>
+                    <h:button styleClass="button" outcome="#{searchCode.targetPage}" value="#{msg.btnBack2Input}">
+                        <!-- because a standard input submit element is rendered, we need to pass the current conversation (to prevent from creating a new bean) -->
+                        <!--f:param name="cid" value="# {javax.enterprise.context.conversation.id}"/-->
+                    </h:button>
+                </p>
+                <p>
+                    <br/>
+                </p>
+            </h:form>
+            
+            <h:panelGrid id="hint" rendered="#{searchCode.hint.length() gt 0}">
+                <h:outputLabel value="#{searchCode.hint}"/>
+            </h:panelGrid>
+
+            <h:form id="formResult" rendered="#{searchCode.codeList.size() > 0}">
+                <h:dataTable styleClass="paddingElement" headerClass="list-header" id="tblCodes" value="#{searchCode.codeList}" var="code"
+                             rowClasses="row1, row2">
+                    <h:column id="colName">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblName}" />
+                        </f:facet>
+                        <h:commandLink action="#{searchCode.putCode(code.code)}" value="#{code.description}" immediate="true">
+                        </h:commandLink>
+                    </h:column>
+                    <h:column id="colFirstYear" rendered="#{searchCode.codeType != 'Pepp'}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblFrom}"/>
+                        </f:facet>
+                        <h:outputText id="txtFirstYear" value="#{code.firstYear gt searchCode.firstYear ? code.firstYear : ''}"/>
+                    </h:column>
+                    <h:column id="colLastYear" rendered="#{searchCode.codeType != 'Pepp'}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblTo}"/>
+                        </f:facet>
+                        <h:outputText id="txtLastYear" value="#{code.lastYear lt searchCode.lastYear ? code.lastYear : ''}"/>
+                    </h:column>
+                    <h:column id="colCode">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblCode}"/>
+                        </f:facet>
+                        <h:commandLink action="#{searchCode.putCode(code.code)}" value="#{code.code}" immediate="true">
+                        </h:commandLink>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

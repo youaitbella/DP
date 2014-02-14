@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ez="http://java.sun.com/jsf/composite/components"
+
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="navItems">
+        <li>
+            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/> 
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+
+            <h1>#{msg.lblModelIntention}</h1>
+
+            <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
+
+            <p>
+                <h:commandLink styleClass="button" action="#{modelIntentionList.newModelIntention}"
+                               immediate="true" value="#{msg.btnNewModelIntention}"/>
+            </p>
+
+            <h:panelGroup rendered="#{modelIntentionList.sealedModelIntentions.size() > 0}">
+                <br/>
+                <h:outputLabel styleClass="label" value="#{msg.infoSealedModelIntention}"/>
+
+                <h:dataTable   headerClass="list-header" value="#{modelIntentionList.sealedModelIntentions}"
+                               var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink action="#{modelIntentionList.printModelIntention(model.value1)}" immediate="true" >
+                            <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink action="#{modelIntentionList.requestDeleteModelIntention(model.value1)}" immediate="true" rendered="#{model.value3.value lt 90}">
+                            <h:graphicImage alt="löschen" name="#{model.value3.value le 9 ? 'delete.png' : 'cross.png'}" 
+                                            library="Icon/small" title="#{model.value3.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" immediate="true" >
+                            <h:graphicImage alt="Status" name="#{model.value3.icon}" library="Icon/small" title="#{model.value3.description}" value=""/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="ID"/>
+                        </f:facet>
+                        <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="MI#{model.value1}" immediate="true"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name"/>
+                        </f:facet>
+                        <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="#{model.value2}" immediate="true"/>
+                    </h:column>
+
+                </h:dataTable>
+            </h:panelGroup>
+            
+        </h:form>
+    </ui:define>
+
+</ui:composition>

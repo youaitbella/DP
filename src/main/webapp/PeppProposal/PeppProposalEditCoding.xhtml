@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:inek="http://java.sun.com/jsf/composite/org/inek"
+                >
+    <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
+    
+    <h:panelGroup styleClass="inputPart" rendered="#{editPeppProposal.system}">
+        <h:outputLabel styleClass="label" for="pepp" value="#{msg.lblReferencedPepp}:"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="pepp" value="#{editPeppProposal.peppProposal.pepp}"
+                          readonly="#{editPeppProposal.readOnly}"
+                          required="false" requiredMessage="#{msg.msgValueNeeded}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgPepp"/>
+        </h:inputTextarea>
+        <h:commandButton styleClass="button rightAllign" action="#{editPeppProposal.searchPepp}" 
+                         immediate="true" value="#{msg.btnCallSearch}"/>
+        <h:message for="pepp" id="msgPepp" styleClass="errorMessage"/>
+        <hr/>
+    </h:panelGroup>
+
+    <div class="inputPart marginTop fullWidth floatContainer">
+        <h:outputLabel styleClass="label" for="peppDiags" value="#{msg.lblDiagRelated}"/>
+        <br/>
+        <h:inputTextarea styleClass="areaNarrowLow" id="peppDiags" 
+                         readonly="#{editPeppProposal.readOnly}"
+                         value="#{editPeppProposal.peppProposal.diagCodes}" 
+                         validator="#{editPeppProposal.checkDiagnosisCodes}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this msgCheckDiags"/>
+        </h:inputTextarea>
+        <h:commandButton styleClass="button rightAllign" action="#{editPeppProposal.searchDiag}" 
+                         immediate="true" value="#{msg.btnCallSearch}"/>
+        <h:message for="peppDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagFreetext}"/>
+        <h:message for="diags" id="msgDiags" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideLow" id="diags" 
+                          readonly="#{editPeppProposal.readOnly}"
+                          value="#{editPeppProposal.peppProposal.diags}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgDiags"/>
+        </h:inputTextarea>
+    </div>
+    <hr/>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="peppProcs" value="#{msg.lblProcRelated}"/>
+        <br/>
+        <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="peppProcs" 
+                         readonly="#{editPeppProposal.readOnly}"
+                         value="#{editPeppProposal.peppProposal.procCodes}" 
+                         validator="#{editPeppProposal.checkProcedureCodes}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this msgCheckProcs"/>
+        </h:inputTextarea>
+        <h:commandButton styleClass="button rightAllign" action="#{editPeppProposal.searchProc}" 
+                         immediate="true" value="#{msg.btnCallSearch}"/>
+        <h:message for="peppProcs" id="msgCheckProcs" styleClass="errorMessage"/>
+    </div>
+
+    <!--inek:expandingTable /-->
+    
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="procs" value="#{msg.lblProcFreetext}"/>
+        <h:message for="procs" id="msgProcs" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideLow" id="procs" 
+                          readonly="#{editPeppProposal.readOnly}"
+                          value="#{editPeppProposal.peppProposal.procs}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgProcs"/>
+        </h:inputTextarea>
+    </div>
+
+    <div class="inpuPart">
+
+    </div>
+</ui:composition>
+

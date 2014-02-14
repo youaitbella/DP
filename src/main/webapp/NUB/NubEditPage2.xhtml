@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="NubEdit.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="editContent">    
+
+        <h2>#{msg.tabNubPage2}</h2>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubIndic" value="#{msg.lblNubIndication}"/>
+            <h:message for="nubIndic" id="msgNubIndic" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideHigh" id="nubIndic" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.indication}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubIndic"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubReplacement" value="#{msg.lblNubReplacement}"/>
+            <h:message for="nubReplacement" id="msgNubReplacement" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubProposal.readOnly}" id="nubReplacement" value="#{editNubProposal.nubProposal.replacement}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubReplacement"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubWhatsNew" value="#{msg.lblNubWhatsNew}"/>
+            <h:message for="nubWhatsNew" id="msgNubWhatsNew" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubProposal.readOnly}" id="nubWhatsNew" value="#{editNubProposal.nubProposal.whatsNew}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="RequiredValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubWhatsNew"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubLos" value="#{msg.lblNubLos}"/>
+            <h:message for="nubLos" id="msgNubLos" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubProposal.readOnly}" id="nubLos" value="#{editNubProposal.nubProposal.los}" required="false">
+                <f:ajax event="blur" render="@this :logout:remaining msgNubLos"/>
+            </h:inputTextarea>
+        </div>
+
+        <br/>
+
+    </ui:define>
+</ui:composition>

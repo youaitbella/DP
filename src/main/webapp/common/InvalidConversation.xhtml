@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    
+    <ui:define name="navItems">
+        <li>
+            <h:link value="#{msg.lblSummary}"  outcome="/common/MainApp"/>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        #{sessionController.forceConversationEnd}
+        <h1>#{msg.msgInvalidConversation}</h1>
+        <br/>
+        <br/>
+        <br/>
+        <div style="margin-left: 4px;">
+        <p>
+        #{msg.msgErrorOccured}
+        </p>
+        <br/>
+        <p>
+        #{msg.msgPossibleErrorReasons}
+        <ul style="margin-left: 26px;">
+            <li>#{msg.msgMultipleBrowserWindows}</li>
+            <li>#{msg.msgTimedSession}</li>
+            <li>#{msg.msgLinkFromFavorites}</li>
+            <li>#{msg.msgBackInBrowser}</li>
+        </ul>
+        <br/>
+        #{msg.msgNoReasonMatches} <a href="mailto:anfragen@datenstelle.de">anfragen@datenstelle.de</a>
+        </p>
+        <h:button styleClass="button" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
