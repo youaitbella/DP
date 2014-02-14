@@ -25,7 +25,7 @@ import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
- * @author muellermi
+ * @author vohldo
  */
 @Stateless
 public class AccountFacade extends AbstractFacade<Account> {
