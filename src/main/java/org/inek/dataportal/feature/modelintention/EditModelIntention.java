@@ -363,7 +363,7 @@ public class EditModelIntention extends AbstractEditController {
     }
     
     
-        public enum SelfHospitalisationTypes {
+    public enum SelfHospitalisationTypes {
         Possible(0, "grundsätzlich möglich"),
         EmergencyPossible(1, "nur als Notfall möglich"),
         NotPossible(2, "grundsätzlich nicht möglich");
@@ -385,10 +385,70 @@ public class EditModelIntention extends AbstractEditController {
             return _type;
         }
     }
-            
     
- 
     
+    public SelectItem[] getTreatmentTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        TreatmentTypes[] types = TreatmentTypes.values();
+        for(TreatmentTypes tt : types) {
+            l.add(new SelectItem(tt.id(), tt.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+        
+    public enum TreatmentTypes {
+        No(0, "nein"),
+        Generally(1, "grundsätzlich"),
+        SpecialSetting(2, "nur spezielles Setting");
+        
+        
+        private int _id;
+        private String _type;
+        
+        private TreatmentTypes(int id, String type) {
+            _id = id;
+            _type = type;
+        }
+
+        public int id() {
+            return _id;
+        }
+
+        public String type() {
+            return _type;
+        }
+    }
+    
+     public boolean isTreatmentTextEnabled() {
+        if(_modelIntention.getStationaryType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+            return false;
+        return true;
+    }
+     
+      public boolean isPartialHospitalisationTextEnabled() {
+        if(_modelIntention.getPartialHospitalisationType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+            return false;
+        return true;
+    }
+    
+    public boolean isHospitalAbulantTextEnabled() {
+        if(_modelIntention.getHospitalAmbulantTreatmentType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+            return false;
+        return true;
+    }
+      
+    public boolean isHomeVisitPIATextEnabled() {
+        if(_modelIntention.getVisitPiaType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+            return false;
+        return true;
+    }
+    
+          
+    public boolean isAmbulantTreatmentTextEnabled() {
+        if(_modelIntention.getAmbulantTreatmentType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+            return false;
+        return true;
+    }
     
     
     
@@ -455,6 +515,11 @@ public class EditModelIntention extends AbstractEditController {
         modelIntention.setSettleMedicType(SettleTypes.ImpartialDepartment.id());
         modelIntention.setPiaType(PiaTypes.AnyPIA.id());
         modelIntention.setHospitalType(HospitalTypes.AnyHospital.id());
+        modelIntention.setStationaryType(TreatmentTypes.No.id());
+        modelIntention.setPartialHospitalisationType(TreatmentTypes.No.id());
+        modelIntention.setHospitalAmbulantTreatmentType(TreatmentTypes.No.id());
+        modelIntention.setVisitPiaType(TreatmentTypes.No.id());
+        modelIntention.setAmbulantTreatmentType(TreatmentTypes.No.id());
         return modelIntention;
     }
     

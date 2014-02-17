@@ -183,7 +183,7 @@ public class ModelIntention implements Serializable {
     
     @Column(name = "miStatus")
     private Integer _status;
-
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
     public Integer getMiId() {
