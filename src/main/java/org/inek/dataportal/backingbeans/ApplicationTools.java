@@ -25,7 +25,7 @@ public class ApplicationTools {
 
         _properties = new Properties();
         try {
-            _properties.load(new FileInputStream(rootPath + "/resources/properties/project.properties"));
+            _properties.load(new FileInputStream(rootPath + "WEB-INF/classes/org/inek/dataportal/project.properties"));
         } catch (IOException e) {
             _logger.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
         }
