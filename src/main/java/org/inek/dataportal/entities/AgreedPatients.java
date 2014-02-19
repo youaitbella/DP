@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author vohldo
+ * @author vohldo/schlappajo
  */
 @Entity
 @Table(name = "AgreedPatients", schema = "mvh")

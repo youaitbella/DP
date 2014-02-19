@@ -23,7 +23,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
  *
- * @author vohldo
+ * @author vohldo/schlappajo
  */
 @Named
 @ConversationScoped
