@@ -33,6 +33,13 @@ public class ModelIntentionStructureInvolved implements Serializable {
     @Column(name = "siType")
     private Integer _Type;
 
+    @Column(name = "mlStartDate")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date _StartDate;
+    
+    @Column(name = "mlMonthDuration")
+    private Integer _MonthDuration;
+    
     @Column(name = "siIK")
     private Integer _IK;
 
@@ -46,19 +53,19 @@ public class ModelIntentionStructureInvolved implements Serializable {
     private Integer _Zip;
     
     @Column(name = "siLocation")
-    private Integer _Location;
+    private Integer _Town;
     
     @Column(name = "siRegCare")
     private Integer _regCare;
     
     @Column(name = "siContactPerson")
-    private Integer _ContactPerson;
+    private String _ContactPerson;
     
     @Column(name = "siPhone")
     private Integer _Phone;
     
     @Column(name = "siEMail")
-    private Integer _EMail;   
+    private String _EMail;   
 
     
   
@@ -111,12 +118,12 @@ public class ModelIntentionStructureInvolved implements Serializable {
         this._Zip = _Zip;
     }
 
-    public Integer getLocation() {
-        return _Location;
+    public Integer getTown() {
+        return _Town;
     }
 
-    public void setLocation(Integer _Location) {
-        this._Location = _Location;
+    public void setTown(Integer _Town) {
+        this._Town = _Town;
     }
 
     public Integer getRegCare() {
@@ -127,11 +134,11 @@ public class ModelIntentionStructureInvolved implements Serializable {
         this._regCare = _regCare;
     }
 
-    public Integer getContactPerson() {
+    public String getContactPerson() {
         return _ContactPerson;
     }
 
-    public void setContactPerson(Integer _ContactPerson) {
+    public void setContactPerson(String _ContactPerson) {
         this._ContactPerson = _ContactPerson;
     }
 
@@ -143,14 +150,33 @@ public class ModelIntentionStructureInvolved implements Serializable {
         this._Phone = _Phone;
     }
 
-    public Integer getEMail() {
+    public String getEMail() {
         return _EMail;
     }
 
-    public void setEMail(Integer _EMail) {
+    public void setEMail(String _EMail) {
         this._EMail = _EMail;
     }
 
+    public Date getStartDate() {
+        return _StartDate;
+    }
+
+    public void setStartDate(Date _StartDate) {
+        this._StartDate = _StartDate;
+    }
+
+    public Integer getMonthDuration() {
+        return _MonthDuration;
+    }
+
+    public void setMonthDuration(Integer _MonthDuration) {
+        this._MonthDuration = _MonthDuration;
+    }
+
+      
+    
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">

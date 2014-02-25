@@ -8,7 +8,91 @@
 
     <ui:define name="editContent">
         
+        <h2>#{msg.headerModelIntentionLifetime}</h2>
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                <div>
+                <h:outputLabel styleClass="label" id="LifeTime" value="#{msg.lblLifeTimeStart}" />
+                </div>
+                <h:inputText styleClass="inputmedium" id="txtLifeTime" value="#{editModelIntention.startDate}">
+                                <f:ajax event="blur" render="@this :logout:remaining txtLifeTime" />
+                </h:inputText>
+            </h:panelGroup>
+            <h:panelGroup>
+                <div>
+                <h:outputLabel styleClass="label" id="LifeTimeMonths" value="#{msg.lblLifeTimeMonths}" />
+                </div>
+                <h:inputText styleClass="inputmedium" id="txtLifeTimeMonths" value="#{editModelIntention.modelIntentionStructureInvolved.monthDuration}">
+                                <f:ajax event="blur" render="@this :logout:remaining txtLifeTimeMonths" />
+                </h:inputText>
+            </h:panelGroup>
+        </h:panelGrid>
+         
         
+        <h2>#{msg.headerModelIntentionContract}</h2>
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                    <h:outputLabel styleClass="label" id="ContractIkNo" value="#{msg.lblIKNo}: " />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="inputlong" id="txtContractIKNo" value="#{editModelIntention.modelIntentionStructureInvolved.IK}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractIKNo" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractName" value="#{msg.lblName}: " />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="inputlong" id="txtContractName" value="#{editModelIntention.modelIntentionStructureInvolved.name}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractName" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                    <h:outputLabel styleClass="label" id="ContractStreet" value="#{msg.lblStreet}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="inputlong" id="txtContractStreet" value="#{editModelIntention.modelIntentionStructureInvolved.street}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractStreet" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                    <h:outputLabel styleClass="label" id="ContractPLZ" value="#{msg.lblPostalCode}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="inputlong" id="txtContractPLZ" value="#{editModelIntention.modelIntentionStructureInvolved.zip}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractPLZ" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractTown" value="#{msg.lblTown}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputTextarea styleClass="inputlong" id="txtContractTown" value="#{editModelIntention.modelIntentionStructureInvolved.town}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractTown" />
+                    </h:inputTextarea>
+                </div>
+            </h:panelGroup>
+            
+        </h:panelGrid>
+        
+        
+        <h2>#{msg.headerModelIntentionEffort}</h2>
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            
+        </h:panelGrid>
         
     </ui:define>
 </ui:composition>

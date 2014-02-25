@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.AgreedPatients;
 import org.inek.dataportal.entities.ModelIntention;
+import org.inek.dataportal.entities.ModelIntentionStructureInvolved;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
@@ -37,6 +38,7 @@ public class EditModelIntention extends AbstractEditController {
     private String _conversationId;
     private ModelIntention _modelIntention;
     private AgreedPatients _agreedPatients;
+    private ModelIntentionStructureInvolved _modelIntentionStrucuterInvolved;
     
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
@@ -476,6 +478,10 @@ public class EditModelIntention extends AbstractEditController {
         return _agreedPatients;
     }
     
+    public ModelIntentionStructureInvolved getModelIntentionStructureInvolved(){
+        return _modelIntentionStrucuterInvolved;
+    }
+    
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
     }
@@ -488,6 +494,7 @@ public class EditModelIntention extends AbstractEditController {
         if (miId == null) {
             _modelIntention = newModelIntention();
             _agreedPatients = newAgreedPatients();
+            _modelIntentionStrucuterInvolved = newModelIntenionStructureInvolved();
         } else {
             _modelIntention = loadModelIntention(miId);
         }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
@@ -531,6 +538,23 @@ public class EditModelIntention extends AbstractEditController {
         return agreedPatients;
     }
     
+    private ModelIntentionStructureInvolved newModelIntenionStructureInvolved() {
+        ModelIntentionStructureInvolved modelIntentionStructureInvolved = new ModelIntentionStructureInvolved();
+        modelIntentionStructureInvolved.setStartDate(null);
+        modelIntentionStructureInvolved.setMonthDuration(0);
+        modelIntentionStructureInvolved.setType(0);
+        modelIntentionStructureInvolved.setIK(0);
+        modelIntentionStructureInvolved.setName("");
+        modelIntentionStructureInvolved.setStreet("");
+        modelIntentionStructureInvolved.setZip(0);
+        modelIntentionStructureInvolved.setTown(0);
+        modelIntentionStructureInvolved.setRegCare(0);
+        modelIntentionStructureInvolved.setContactPerson("");
+        modelIntentionStructureInvolved.setPhone(0);
+        modelIntentionStructureInvolved.setEMail("");
+        return modelIntentionStructureInvolved;
+    }
+    
     public String getPatientsTo() {
         if(_agreedPatients.getPatientsTo() == null)
             return "";
@@ -559,6 +583,24 @@ public class EditModelIntention extends AbstractEditController {
         }
     }
      
+
+    public String getStartDate() {
+        if(_modelIntentionStrucuterInvolved.getStartDate()== null)
+            return "";
+        return _modelIntentionStrucuterInvolved.getStartDate().toString();
+    }
+    
+    public void setStartDate(String date) {
+        try {
+            _modelIntentionStrucuterInvolved.setStartDate(SimpleDateFormat.getDateInstance().parse(date));
+        } catch(Exception ex) {
+            _modelIntentionStrucuterInvolved.setStartDate(null);
+        }
+    }
+    
+    
+    
+    
     private ModelIntentionController getModelIntentionController() {
         return (ModelIntentionController) _sessionController.getFeatureController(Feature.MODEL_INTENTION);
     }
