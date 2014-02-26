@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.AgreedPatients;
 import org.inek.dataportal.entities.ModelIntention;
+import org.inek.dataportal.entities.ModelIntentionModelLife;
 import org.inek.dataportal.entities.ModelIntentionStructureInvolved;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
@@ -39,6 +40,7 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntention _modelIntention;
     private AgreedPatients _agreedPatients;
     private ModelIntentionStructureInvolved _modelIntentionStrucuterInvolved;
+    private ModelIntentionModelLife _modelIntentionModelLife;
     
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
@@ -452,6 +454,9 @@ public class EditModelIntention extends AbstractEditController {
         return true;
     }
     
+    public boolean isRegCare(){
+        return _modelIntentionStrucuterInvolved.getType() == 1;
+    }
     
     
     enum ModelIntentionTabs {
@@ -482,6 +487,10 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntentionStrucuterInvolved;
     }
     
+    public ModelIntentionModelLife getModelIntentionModelLife(){
+        return _modelIntentionModelLife;
+    }
+    
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
     }
@@ -495,6 +504,7 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntention = newModelIntention();
             _agreedPatients = newAgreedPatients();
             _modelIntentionStrucuterInvolved = newModelIntenionStructureInvolved();
+            _modelIntentionModelLife = newModelIntentionModelLife();
         } else {
             _modelIntention = loadModelIntention(miId);
         }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
@@ -540,20 +550,25 @@ public class EditModelIntention extends AbstractEditController {
     
     private ModelIntentionStructureInvolved newModelIntenionStructureInvolved() {
         ModelIntentionStructureInvolved modelIntentionStructureInvolved = new ModelIntentionStructureInvolved();
-        modelIntentionStructureInvolved.setStartDate(null);
-        modelIntentionStructureInvolved.setMonthDuration(0);
-        modelIntentionStructureInvolved.setType(0);
-        modelIntentionStructureInvolved.setIK(0);
-        modelIntentionStructureInvolved.setName("");
-        modelIntentionStructureInvolved.setStreet("");
-        modelIntentionStructureInvolved.setZip(0);
-        modelIntentionStructureInvolved.setTown(0);
-        modelIntentionStructureInvolved.setRegCare(0);
-        modelIntentionStructureInvolved.setContactPerson("");
-        modelIntentionStructureInvolved.setPhone(0);
-        modelIntentionStructureInvolved.setEMail("");
+        modelIntentionStructureInvolved.setType(2);
+        modelIntentionStructureInvolved.setIK(null);
+        modelIntentionStructureInvolved.setName(null);
+        modelIntentionStructureInvolved.setStreet(null);
+        modelIntentionStructureInvolved.setZip(null);
+        modelIntentionStructureInvolved.setTown(null);
+        modelIntentionStructureInvolved.setRegCare(null);
+        modelIntentionStructureInvolved.setContactPerson(null);
+        modelIntentionStructureInvolved.setPhone(null);
+        modelIntentionStructureInvolved.setEMail(null);
         return modelIntentionStructureInvolved;
     }
+    
+   private ModelIntentionModelLife newModelIntentionModelLife(){
+       ModelIntentionModelLife modelIntentionModelLife = new ModelIntentionModelLife();
+       modelIntentionModelLife.setStartDate(null);
+       modelIntentionModelLife.setMonthDuration(null);
+       return modelIntentionModelLife;
+   }
     
     public String getPatientsTo() {
         if(_agreedPatients.getPatientsTo() == null)
@@ -585,16 +600,16 @@ public class EditModelIntention extends AbstractEditController {
      
 
     public String getStartDate() {
-        if(_modelIntentionStrucuterInvolved.getStartDate()== null)
+        if(_modelIntentionModelLife.getStartDate()== null)
             return "";
-        return _modelIntentionStrucuterInvolved.getStartDate().toString();
+        return _modelIntentionModelLife.getStartDate().toString();
     }
     
     public void setStartDate(String date) {
         try {
-            _modelIntentionStrucuterInvolved.setStartDate(SimpleDateFormat.getDateInstance().parse(date));
+            _modelIntentionModelLife.setStartDate(SimpleDateFormat.getDateInstance().parse(date));
         } catch(Exception ex) {
-            _modelIntentionStrucuterInvolved.setStartDate(null);
+            _modelIntentionModelLife.setStartDate(null);
         }
     }
     

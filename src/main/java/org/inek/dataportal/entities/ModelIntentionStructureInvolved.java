@@ -33,13 +33,6 @@ public class ModelIntentionStructureInvolved implements Serializable {
     @Column(name = "siType")
     private Integer _Type;
 
-    @Column(name = "mlStartDate")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _StartDate;
-    
-    @Column(name = "mlMonthDuration")
-    private Integer _MonthDuration;
-    
     @Column(name = "siIK")
     private Integer _IK;
 
@@ -157,25 +150,6 @@ public class ModelIntentionStructureInvolved implements Serializable {
     public void setEMail(String _EMail) {
         this._EMail = _EMail;
     }
-
-    public Date getStartDate() {
-        return _StartDate;
-    }
-
-    public void setStartDate(Date _StartDate) {
-        this._StartDate = _StartDate;
-    }
-
-    public Integer getMonthDuration() {
-        return _MonthDuration;
-    }
-
-    public void setMonthDuration(Integer _MonthDuration) {
-        this._MonthDuration = _MonthDuration;
-    }
-
-      
-    
     
     // </editor-fold>
     

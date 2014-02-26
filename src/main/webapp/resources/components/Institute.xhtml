@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="IK"/>
+        <cc:attribute name="Name"/>
+        <cc:attribute name="Street"/>
+        <cc:attribute name="Zip"/>
+        <cc:attribute name="Town"/>
+        <cc:attribute name="RegCare"/>
+        <cc:attribute name="ContactPerson"/>
+        <cc:attribute name="Phone"/>
+        <cc:attribute name="Mail"/>
+        <cc:attribute name="Type"/>
+        <cc:attribute name="RegCareRender"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                    <h:outputLabel styleClass="label" id="ContractIkNo" value="#{msg.lblIKNo}: " />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractIKNo" value="#{cc.attrs.IK}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractIKNo" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractName" value="#{msg.lblName}: " />
+            </h:panelGroup>
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractName" value="#{cc.attrs.Name}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractName" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                    <h:outputLabel styleClass="label" id="ContractStreet" value="#{msg.lblStreet}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractStreet" value="#{cc.attrs.Street}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractStreet" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                    <h:outputLabel styleClass="label" id="ContractPLZ" value="#{msg.lblPostalCode}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractPLZ" value="#{cc.attrs.Zip}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractPLZ" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractTown" value="#{msg.lblTown}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractTown" value="#{cc.attrs.Town}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractTown" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            
+            <h:panelGroup rendered="#{cc.attrs.RegCareRender}">
+                <h:outputLabel styleClass="label" id="ContractRegCare" value="#{msg.lblRegCare}: " />
+            </h:panelGroup>        
+            <h:panelGroup rendered="#{cc.attrs.RegCareRender}">
+                <div style="width: 60%; float: right;">
+                    <h:selectBooleanCheckbox id="ChkContractRegCare" value="#{cc.attrs.RegCare}">
+                        <f:ajax event="click" render="@this :logout:remaining ChkContractRegCare" />
+                    </h:selectBooleanCheckbox>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractPerson" value="#{msg.lblContactPerson}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractPerson" value="#{cc.attrs.ContactPerson}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractPerson" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractPhone" value="#{msg.lblPhone}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractPhone" value="#{cc.attrs.Phone}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractPhone" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ContractMail" value="#{msg.lblMail}: " />
+            </h:panelGroup>        
+            <h:panelGroup>
+                <div style="width: 60%; float: right;">
+                    <h:inputText styleClass="inputlong" id="txtContractMail" value="#{cc.attrs.Mail}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtContractMail" />
+                    </h:inputText>
+                </div>
+            </h:panelGroup>
+            
+            
+        </h:panelGrid>
+    </cc:implementation>
+</html>
