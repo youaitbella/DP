@@ -12,6 +12,7 @@ public enum PropertyKey {
         FolderUpload("upload"),
         ClientVersion("20120101.5"),
         ManagerURL("https://daten.inek.org/DataPortal"),
+        LocalManagerURL("http://vdataportal1:8080/DataPortal"),
         ExceptionEmail("PortalAdmin@inek-drg.de"),
         ManagerEmail("dsportalanmeldungen@inek-drg.de");
     

@@ -55,7 +55,7 @@ public class FeatureRequestHandler {
     }
 
     private boolean sendApprovalRequestMail(Account account, AccountFeatureRequest featureRequest) {
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
+        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.LocalManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
         String body = Utils.getMessage("msgApprove") + "\r\n" + link + "\r\n\r\n";
         body += "Name:  " + account.getFirstName() + " " + account.getLastName() + "\r\n";
         body += "Email: " + account.getEmail() + "\r\n";
