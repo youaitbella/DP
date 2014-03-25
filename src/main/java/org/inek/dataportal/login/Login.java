@@ -7,9 +7,11 @@ package org.inek.dataportal.login;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.enums.Pages;
 
 /**
@@ -87,4 +89,5 @@ public class Login implements Serializable {
         _loginMessage = "";
         return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
     }
+     
 }

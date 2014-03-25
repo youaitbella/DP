@@ -78,7 +78,6 @@ public class RequestPassword implements Serializable {
             //Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
             //return "";
         }
-        _sessionController.endConversation();
         return Pages.LoginFinishRequestPwd.URL();
     }
 

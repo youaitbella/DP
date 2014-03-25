@@ -31,13 +31,11 @@ public class RequestList {
     }
     
     public String newRequest() {
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.RequestEdit.URL();
     }
     
     public String editRequest(int requestId) {
         Utils.getFlash().put("reqId", requestId);
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.RequestEdit.URL();
     }
     

@@ -30,13 +30,11 @@ public class ModelIntentionList {
     }
 
     public String newModelIntention() {
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.ModelIntentionTypeAndNumPat.URL();
     }
 
     public String editModelIntention(int modelId) {
         Utils.getFlash().put("modelId", modelId);
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.ModelIntentionTypeAndNumPat.URL();
     }
 

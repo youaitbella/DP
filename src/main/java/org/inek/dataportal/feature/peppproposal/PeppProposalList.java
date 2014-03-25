@@ -30,13 +30,11 @@ public class PeppProposalList {
     }
     
     public String newPeppProposal() {
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.PeppProposalEdit.URL();
     }
     
     public String editPeppProposal(int proposalId) {
         Utils.getFlash().put("ppId", proposalId);
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.PeppProposalEdit.URL();
     }
     

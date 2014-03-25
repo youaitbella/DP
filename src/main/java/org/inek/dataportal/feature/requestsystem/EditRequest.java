@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -34,8 +36,8 @@ public class EditRequest extends AbstractEditController {
     private SessionController _sessionController;
     @Inject
     RequestFacade _requestFacade;
+    @Inject private Conversation _conversation;
     private Request _request;
-    private String _conversationId;
 
     enum RequestTabs {
 
@@ -57,7 +59,8 @@ public class EditRequest extends AbstractEditController {
     @PostConstruct
     private void init() {
 
-        _conversationId = (String) Utils.getFlash().get("conversationId");
+        //_logger.log(Level.WARNING, "Init EditRequest");
+        _sessionController.beginConversation(_conversation);
         Object reqId = Utils.getFlash().get("reqId");
         if (reqId == null) {
             _request = newRequest();
@@ -66,6 +69,12 @@ public class EditRequest extends AbstractEditController {
         }
     }
 
+    @PreDestroy
+    private void destroy(){
+        //_logger.log(Level.WARNING, "Destroy EditRequest");
+    }
+    
+    
     private Request loadRequest(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
@@ -263,7 +272,7 @@ public class EditRequest extends AbstractEditController {
             Utils.getFlash().put("headLine", Utils.getMessage("nameREQUEST_SYSTEM"));
             Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_request));
-            _sessionController.endConversation();
+            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;
@@ -283,7 +292,7 @@ public class EditRequest extends AbstractEditController {
      * @return
      */
     private boolean check4validSession() {
-        return _conversationId.equals(_sessionController.getConversationId());
+        return !_conversation.isTransient();
     }
 
     public String takeDocuments() {

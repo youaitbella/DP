@@ -5,9 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.DropBox;
@@ -81,9 +84,14 @@ public class DropBoxController extends AbstractFeatureController {
     /**
      * gets a list of files uploaded to the current DropBox
      *
+     * @param dropBox
      * @return
      */
     public List<DropBoxItem> getUploadedFiles(DropBox dropBox) {
+        if (dropBox == null){
+            _logger.log(Level.WARNING, "MissingDropBox");
+            return new ArrayList<>();
+        }
         if (!dropBox.isComplete()) {
             files2items(dropBox);
         }

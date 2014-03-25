@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -57,7 +59,7 @@ public class EditPeppProposal extends AbstractEditController {
     private DiagnosisFacade _diagnosisFacade;
     @Inject
     private PeppProposalFacade _peppProposalFacade;
-    private String _conversationId;
+    @Inject private Conversation _conversation;
     private String _script;
     private PeppProposal _peppProposal;
 
@@ -95,7 +97,8 @@ public class EditPeppProposal extends AbstractEditController {
     @PostConstruct
     private void init() {
 
-        _conversationId = (String) Utils.getFlash().get("conversationId");
+        //_logger.log(Level.WARNING, "Init EditPeppProposal");
+        _sessionController.beginConversation(_conversation);
         Object ppId = Utils.getFlash().get("ppId");
         if (ppId == null) {
             _peppProposal = newPeppProposal();
@@ -106,6 +109,11 @@ public class EditPeppProposal extends AbstractEditController {
         setVisible(_peppProposal.getCategory());
     }
 
+    @PreDestroy
+    private void destroy(){
+        //_logger.log(Level.WARNING, "Destroy EditPeppProposal");
+    }
+    
     private PeppProposal loadPeppProposal(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
@@ -365,7 +373,7 @@ public class EditPeppProposal extends AbstractEditController {
             msg = String.format(msg, _peppProposal.getExternalId(), GlobalVars.PeppProposalSystemYear.getVal());
             String script = "alert ('" + msg + "');";
             _sessionController.setScript(script);
-            _sessionController.endConversation();
+            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;
@@ -377,7 +385,7 @@ public class EditPeppProposal extends AbstractEditController {
      * @return
      */
     private boolean check4validSession() {
-        return _conversationId.equals(_sessionController.getConversationId());
+        return !_conversation.isTransient();
     }
 
     public String takeDocuments() {

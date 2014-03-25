@@ -8,7 +8,6 @@
 
     <f:metadata>
         <f:viewParam name="modelId" id="modelId" value="#{flash.modelId}" />
-        <f:viewParam name="conversationId" id="conversationId" value="#{flash.conversationId}" />
     </f:metadata>
 
     <ui:define name="navItems">
@@ -24,13 +23,13 @@
         </h1>        
             <div class="tab">
                 <ul class="tab">
-                    <ui:repeat  value="#{editModelIntention.visibleTopics}" var="topic">
+                    <c:forEach items="#{editModelIntention.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                             <h:commandLink value="#{topic.title}" action="#{editModelIntention.changeTabPage(topic.key)}"
                                            immediate="true">
                             </h:commandLink>
                         </li>
-                    </ui:repeat>
+                    </c:forEach>>
                 </ul>
             </div>
         

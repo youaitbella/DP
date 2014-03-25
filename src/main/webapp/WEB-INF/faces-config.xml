@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--faces-config version="2.2"
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"-->
+xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"-->
 <faces-config version="2.0"
               xmlns="http://java.sun.com/xml/ns/javaee" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -20,7 +20,7 @@
         </resource-bundle>
     </application>
     <factory>
-        <exception-handler-factory>org.inek.dataportal.common.PortalExceptionHandlerFactory</exception-handler-factory>
+        <!--exception-handler-factory>org.inek.dataportal.common.PortalExceptionHandlerFactory</exception-handler-factory-->
     </factory>
-
+  
 </faces-config>

@@ -54,9 +54,12 @@
             }
             window.onload = createUploader;
         </script>
+        <h:form>
+            <h1><h:commandLink value="#{msg.lblDropBoxSystem}" action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" immediate="true"/></h1>
+        </h:form>
 
         <h:form id="form">
-            <h1><h:commandLink value="#{msg.lblDropBoxSystem}" action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" immediate="true"/></h1>
+
             <div class="edit">
                 <p>
                     <h:outputLabel styleClass="label" for="id" value="#{msg.lblId}:"/>
@@ -87,7 +90,7 @@
                     <h:panelGroup rendered="#{editDropBox.uploadedFiles.size() > 0}">
                         <p><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></p>
                         <h:dataTable  headerClass="list-header" id="tblDropBoxes"
-                                     value="#{editDropBox.uploadedFiles}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colSize">
+                                      value="#{editDropBox.uploadedFiles}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colSize">
                             <h:column id="colDeleteId" rendered="#{!editDropBox.dropBox.complete}">
                                 <f:facet name="header">
                                     <h:outputText value=""/>
@@ -120,12 +123,16 @@
                         </noscript>
                     </div>
                     <br/>
-                    <h:commandLink styleClass="button" action="#{editDropBox.sealDropBox}" value="#{msg.btnSealDropBox}"/>
+                    <h:commandLink styleClass="button" action="#{editDropBox.sealDropBox}" value="#{msg.btnSealDropBox}">
+                        <f:param name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+                    </h:commandLink>
                     <h:outputLabel value="#{msg.infoSealDropBox}"/>
                 </h:panelGroup>
                 <!-- next comes a hidden element to force a JSF conform refresh -->
-                <h:commandLink id="refresh" style="display: none" action="#{editDropBox.refresh}" value="refresh"/>
-                
+                <h:commandLink id="refresh" style="display: none" action="#{editDropBox.refresh}" value="refresh">
+                    <f:param name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+                </h:commandLink>
+
             </div>
         </h:form>
     </ui:define>

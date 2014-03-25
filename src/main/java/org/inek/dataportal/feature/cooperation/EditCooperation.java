@@ -7,8 +7,11 @@ package org.inek.dataportal.feature.cooperation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -43,7 +46,7 @@ public class EditCooperation extends AbstractEditController {
     @Inject CooperationRequestFacade _cooperationRequestFacade;
     @Inject CooperationFacade _cooperationFacade;
     @Inject AccountFacade _accountFacade;
-    private String _conversationId;
+    @Inject private Conversation _conversation;
     private Account _partnerAccount;
     private boolean _isRequest;
 
@@ -81,13 +84,21 @@ public class EditCooperation extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        _conversationId = (String) Utils.getFlash().get("conversationId");
+        //_logger.log(Level.WARNING, "Init EditCooperation");
+        _sessionController.beginConversation(_conversation);
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
+        //_logger.log(Level.WARNING, "PartnerAccount {0}", getPartnerAccount());
+        
         _isRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
                 _sessionController.getAccountId(),
                 getPartnerAccount().getAccountId());
         setTopicsVisibility();
+    }
+
+    @PreDestroy
+    private void destroy(){
+        //_logger.log(Level.WARNING, "Destroy EditCooperation");
     }
 
     private Account loadAccount(Object partnerId) {

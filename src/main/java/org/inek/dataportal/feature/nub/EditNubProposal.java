@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -63,7 +65,7 @@ public class EditNubProposal extends AbstractEditController {
     private CustomerFacade _customerFacade;
     @Inject
     NubSessionTools _nubSessionTools;
-    private String _conversationId;
+    @Inject private Conversation _conversation;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
     private CooperativeRight _supervisorRight;
@@ -139,12 +141,8 @@ public class EditNubProposal extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        _conversationId = (String) Utils.getFlash().get("conversationId");
-        if (_conversationId == null) {
-            _logger.log(Level.WARNING, "no conversation on init nub");
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.InvalidConversation.URL());
-        }
+        //_logger.log(Level.WARNING, "Init EditNubProposal");
+        _sessionController.beginConversation(_conversation);
 
         Object ppId = Utils.getFlash().get("nubId");
         if (ppId == null) {
@@ -156,6 +154,11 @@ public class EditNubProposal extends AbstractEditController {
         }
         initMenuMultiIK();
         //ensureEmptyEntry(_peppProposal.getProcedures());
+    }
+
+    @PreDestroy
+    private void destroy() {
+        //_logger.log(Level.WARNING, "Destroy EditCooperation");
     }
 
     private void initMenuMultiIK() {
@@ -278,7 +281,7 @@ public class EditNubProposal extends AbstractEditController {
         }
         return true;
     }
-    
+
     public boolean isExternalStateVisible() {
         return _nubProposal.getExternalState() != "";
     }
@@ -318,7 +321,7 @@ public class EditNubProposal extends AbstractEditController {
         String codes[] = value.toString().split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (_procedureFacade.findProcedure(code, GlobalVars.NubRequestSystemYear.getVal()-1, GlobalVars.NubRequestSystemYear.getVal()).equals("")) {
+            if (_procedureFacade.findProcedure(code, GlobalVars.NubRequestSystemYear.getVal() - 1, GlobalVars.NubRequestSystemYear.getVal()).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }
@@ -494,7 +497,7 @@ public class EditNubProposal extends AbstractEditController {
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubProposal));
-            _sessionController.endConversation();
+            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;
@@ -533,7 +536,7 @@ public class EditNubProposal extends AbstractEditController {
      * @return
      */
     private boolean check4validSession() {
-        return _conversationId.equals(_sessionController.getConversationId());
+        return !_conversation.isTransient();
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">

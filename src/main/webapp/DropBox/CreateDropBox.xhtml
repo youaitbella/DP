@@ -15,7 +15,7 @@
     <ui:define name="content">
         <h:form>
             <h1>
-                <h:commandLink value="#{msg.nameDROPBOX}" action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" />
+                <h:commandLink value="#{msg.nameDROPBOX}" action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" immediate="true"/>
             </h1>
 
             <div class="edit">

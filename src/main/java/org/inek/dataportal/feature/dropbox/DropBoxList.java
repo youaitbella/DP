@@ -47,7 +47,6 @@ public class DropBoxList {
 
     public String editDropBox(int dropBoxId) {
         Utils.getFlash().put("dbId", dropBoxId);
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.DropBoxUpload.URL();
     }
 

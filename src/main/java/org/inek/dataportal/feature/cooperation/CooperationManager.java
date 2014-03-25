@@ -66,7 +66,6 @@ public class CooperationManager {
 
     public String managePartner(int partnerId) {
         Utils.getFlash().put("partnerId", partnerId);
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.CooperationEditPartner.URL();
     }
 }

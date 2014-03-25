@@ -2,10 +2,12 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -35,8 +37,8 @@ public class EditModelIntention extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
+    @Inject private Conversation _conversation;
     private boolean _ageYearEnabled, _regionMiscEnabled;
-    private String _conversationId;
     private ModelIntention _modelIntention;
     private AgreedPatients _agreedPatients;
     private ModelIntentionStructureInvolved _modelIntentionStrucuterInvolved;
@@ -498,7 +500,8 @@ public class EditModelIntention extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        _conversationId = (String) Utils.getFlash().get("conversationId");
+        //_logger.log(Level.WARNING, "Init EditModelIntation");
+        _sessionController.beginConversation(_conversation);
         Object miId = Utils.getFlash().get("miId");
         if (miId == null) {
             _modelIntention = newModelIntention();
@@ -513,6 +516,12 @@ public class EditModelIntention extends AbstractEditController {
             _regionMiscEnabled = true;
         //ensureEmptyEntry(_peppProposal.getProcedures());
     }
+
+    @PreDestroy
+    private void destroy(){
+        //_logger.log(Level.WARNING, "Destroy EditModelIntation");
+    }
+    
 
     private ModelIntention loadModelIntention(Object ppId) {
         try {
@@ -689,7 +698,7 @@ public class EditModelIntention extends AbstractEditController {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
             Utils.getFlash().put("targetPage", Pages.ModelIntentionSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_modelIntention));
-            _sessionController.endConversation();
+            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;
@@ -724,7 +733,7 @@ public class EditModelIntention extends AbstractEditController {
      * @return
      */
     private boolean check4validSession() {
-        return _conversationId.equals(_sessionController.getConversationId());
+        return !_conversation.isTransient();
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">

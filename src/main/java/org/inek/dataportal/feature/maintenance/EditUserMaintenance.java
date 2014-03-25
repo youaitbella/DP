@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -55,6 +60,8 @@ public class EditUserMaintenance extends AbstractEditController {
         tabUMOther,
         tabUMConfig;
     }
+    private static final Logger _logger = Logger.getLogger("EditUserMaintenance");
+    
     @Inject private SessionTools _sessionTools;
     @Inject private NubSessionTools _nubSessionTools;
     @Inject private SessionController _sessionController;
@@ -62,7 +69,7 @@ public class EditUserMaintenance extends AbstractEditController {
     @Inject private AccountPwdFacade _accountPwdFacade;
     @Inject private CustomerFacade _customerFacade;
     @Inject private AccountChangeMailFacade _accountChangeMailFacade;
-    private String _myConversationId;
+    @Inject private Conversation _conversation;
     private String _user;
     private String _email;
     private Account _accountWorkingCopy;
@@ -122,14 +129,23 @@ public class EditUserMaintenance extends AbstractEditController {
 
     // </editor-fold>
     @PostConstruct
+    private void init(){
+        //_logger.log(Level.WARNING, "Init EditUserMaintenance");
+        _sessionController.beginConversation(_conversation);
+        initOrResetData();
+    }
+
+    @PreDestroy
+    private void destroy(){
+        //_logger.log(Level.WARNING, "Destroy EditUserMaintenance");
+    }
+    
     private void initOrResetData() {
 //        String activeTopic = (String) Utils.getFlash().get("activeTopic");
 //        if (activeTopic != null) {
 //            changeTab(activeTopic);
 //        }
-        
         _features = null;
-        //_accountWorkingCopy = ObjectUtils.copyObject(_sessionController.getAccount());
         _accountWorkingCopy = _accountFacade.find(_sessionController.getAccountId());
         _user = getAccount().getUser();
         _oldPassword = "";

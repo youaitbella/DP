@@ -70,18 +70,15 @@ public class NubProposalList {
     }
 
     public String newNubProposal() {
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.NubEditAddress.URL();
     }
 
     public String newNubProposalFromTemplate() {
-        //Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.NubFromTemplate.URL();
     }
 
     public String editNubProposal(int proposalId) {
         Utils.getFlash().put("nubId", proposalId);
-        Utils.getFlash().put("conversationId", _sessionController.beginConversation());
         return Pages.NubEditAddress.URL();
     }
 

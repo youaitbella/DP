@@ -151,7 +151,6 @@ public class Register implements Serializable {
             Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
             return "";
         }
-        _sessionController.endConversation();
         return Pages.LoginFinishRegister.URL();
     }
 

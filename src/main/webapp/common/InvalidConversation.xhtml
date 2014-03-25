@@ -12,7 +12,7 @@
     </ui:define>
 
     <ui:define name="content">
-        #{sessionController.forceConversationEnd}
+        <#{sessionController.endAllConversations()}
         <h1>#{msg.msgInvalidConversation}</h1>
         <br/>
         <br/>

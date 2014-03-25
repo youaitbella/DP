@@ -21,14 +21,15 @@
         <h:form id="form">
             <div class="tab">
                 <ul class="tab">
-                    <c:forEach items="#{editUserMaintenance.topics}" var="topic">
+                    <ui:repeat value="#{editUserMaintenance.topics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                             <h:commandLink value="#{topic.title}" action="#{editUserMaintenance.changeTabPage(topic.key)}"
                                            immediate="false">
+                                <f:param name="cid" value="#{javax.enterprise.context.conversation.id}"/>
                             </h:commandLink>
                         </li>
 
-                    </c:forEach>
+                    </ui:repeat>>
                 </ul>
             </div>
             <div class="edit">

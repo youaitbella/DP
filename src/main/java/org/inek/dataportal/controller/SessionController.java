@@ -43,8 +43,6 @@ public class SessionController implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger _logger = Logger.getLogger("SessionController");
     @Inject
-    private Conversation _conversation;
-    @Inject
     private AnnouncementFacade _announcementFacade;
     @Inject
     private AccountFacade _accountFacade;
@@ -71,10 +69,6 @@ public class SessionController implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Conversation getCurrentConversation() {
-        return _conversation;
-    }
-
     public List<Topic> getTopics() {
         return _topics.getTopics();
     }
@@ -138,44 +132,44 @@ public class SessionController implements Serializable {
     // </editor-fold>
 
     public String navigate(String topic) {
-        endConversation();
-        if (topic.equals(Pages.UserMaintenanceMasterData.URL())) {
-            beginConversation();
-        }
+        LogMessage("Navigate to " + topic);
+        endAllConversations();
         return topic;
     }
-
-    public String beginConversation() {
-        if (_conversation.isTransient()) {
+    
+    public String beginConversation(Conversation conversation) {
+        if (conversation.isTransient()) {
             int minutes = 30;
-            _conversation.setTimeout(minutes * 60000);
-            _conversation.begin(UUID.randomUUID().toString());
-            return _conversation.getId();
+            conversation.setTimeout(minutes * 60000);
+            conversation.begin(UUID.randomUUID().toString());
+            _logger.log(Level.WARNING, "Conversation started: {0}", conversation.getId());
+            return conversation.getId();
         } else {
-            return _conversation.getId();
+            _logger.log(Level.WARNING, "Conversation still running: {0}", conversation.getId());
+            return conversation.getId();
         }
     }
 
-    public void endConversation() {
-        if (!_conversation.isTransient()) {
-            _conversation.end();
+    public void endConversation(Conversation conversation) {
+        if (!conversation.isTransient()) {
+            _logger.log(Level.WARNING, "Conversation stopping: {0}", conversation.getId());
+            conversation.end();
         }
     }
 
-    public String getConversationId() {
-        return _conversation.isTransient() ? "" : _conversation.getId();
-    }
-
-    public String getForceConversationEnd() {
-        endConversation();
-        return "";
+    public void endAllConversations() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+        Map<String, Conversation> conversations =  (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
+        for (Conversation conversation : conversations.values()){
+            endConversation(conversation);
+        }
     }
 
     public String logout() {
         if (_account != null) {
-            endConversation();
-            Log log = new Log(_account.getAccountId(), "Logout");
-            _logFacade.persist(log);
+            endAllConversations();
+            LogMessage("Logout");
             _account = null;
             _topics.clear();
             _features.clear();
@@ -183,6 +177,19 @@ public class SessionController implements Serializable {
         }
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return Pages.Login.URL(); // + "?faces-redirect=true";
+    }
+
+    public void LogMessage(String msg) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String sessionId = facesContext.getExternalContext().getSessionId(false);
+        int accountId = -1;
+        if (_account != null) {
+            accountId = _account.getAccountId();
+        }
+        String logMessage =  "[" + sessionId + "]" + msg;
+        Log log = new Log(accountId,logMessage);
+        _logger.log(Level.WARNING, logMessage);
+        _logFacade.persist(log);
     }
 
     /**
@@ -202,13 +209,10 @@ public class SessionController implements Serializable {
         _account = _accountFacade.getAccount(mailOrUser, password);
         initFeatures();
         if (_account == null) {
-            Log log = new Log(-1, "Login failed");
-            _logFacade.persist(log);
+            LogMessage("Login failed");
             return false;
         }
-        Log log = new Log(_account.getAccountId(), "Login");
-        
-        _logFacade.persist(log);
+        LogMessage("Login");
         return true;
     }
 
