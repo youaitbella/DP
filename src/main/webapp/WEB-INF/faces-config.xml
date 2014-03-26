@@ -20,7 +20,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
         </resource-bundle>
     </application>
     <factory>
-        <!--exception-handler-factory>org.inek.dataportal.common.PortalExceptionHandlerFactory</exception-handler-factory-->
+        <exception-handler-factory>org.inek.dataportal.common.PortalExceptionHandlerFactory</exception-handler-factory>
     </factory>
   
 </faces-config>

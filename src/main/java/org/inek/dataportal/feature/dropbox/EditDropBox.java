@@ -44,7 +44,7 @@ public class EditDropBox implements Serializable {
 
     @PostConstruct
     private void init() {
-        _logger.log(Level.WARNING, "Init EditDropBox");
+        //_logger.log(Level.WARNING, "Init EditDropBox");
         _sessionController.beginConversation(_conversation);
         Object dbId = Utils.getFlash().get("dbId");
         _dropBox = loadDropBox(dbId);

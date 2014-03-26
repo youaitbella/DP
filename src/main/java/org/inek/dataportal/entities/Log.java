@@ -36,10 +36,14 @@ public class Log implements Serializable {
     @Column(name = "logMessage")
     private String _message;
     
+    @Column(name = "logSession")
+    private String _session;
+    
 
     public Log(){}
-    public Log(int accountId, String message){
+    public Log(int accountId, String session, String message){
         _accountId=accountId;
+        _session=session;
         _message = message;
     }
 
@@ -62,6 +66,14 @@ public class Log implements Serializable {
 
     public void setAccountId(int accountId) {
         _accountId = accountId;
+    }
+
+    public String getSession() {
+        return _session;
+    }
+
+    public void setSession(String session) {
+        _session = session;
     }
 
     public String getMessage() {

@@ -134,7 +134,7 @@ public class SessionController implements Serializable {
     public String navigate(String topic) {
         LogMessage("Navigate to " + topic);
         endAllConversations();
-        return topic;
+        return topic + "?faces-redirect=true";
     }
     
     public String beginConversation(Conversation conversation) {
@@ -142,17 +142,17 @@ public class SessionController implements Serializable {
             int minutes = 30;
             conversation.setTimeout(minutes * 60000);
             conversation.begin(UUID.randomUUID().toString());
-            _logger.log(Level.WARNING, "Conversation started: {0}", conversation.getId());
+            //_logger.log(Level.WARNING, "Conversation started: {0}", conversation.getId());
             return conversation.getId();
         } else {
-            _logger.log(Level.WARNING, "Conversation still running: {0}", conversation.getId());
+            //_logger.log(Level.WARNING, "Conversation still running: {0}", conversation.getId());
             return conversation.getId();
         }
     }
 
     public void endConversation(Conversation conversation) {
         if (!conversation.isTransient()) {
-            _logger.log(Level.WARNING, "Conversation stopping: {0}", conversation.getId());
+            //_logger.log(Level.WARNING, "Conversation stopping: {0}", conversation.getId());
             conversation.end();
         }
     }
@@ -186,9 +186,7 @@ public class SessionController implements Serializable {
         if (_account != null) {
             accountId = _account.getAccountId();
         }
-        String logMessage =  "[" + sessionId + "]" + msg;
-        Log log = new Log(accountId,logMessage);
-        _logger.log(Level.WARNING, logMessage);
+        Log log = new Log(accountId, sessionId, msg);
         _logFacade.persist(log);
     }
 
