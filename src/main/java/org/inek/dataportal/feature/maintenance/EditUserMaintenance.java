@@ -252,7 +252,7 @@ public class EditUserMaintenance extends AbstractEditController {
             Triple<Integer, Integer, String> ikTriple = _additionalIKs.get(i);
             if (ikTriple.getValue2() == null && ik == null) {
                 _additionalIKs.remove(i);
-            } else if (ikTriple.getValue2() != null && ikTriple.getValue2().intValue() == ik.intValue()) {
+            } else if (ik != null && ikTriple.getValue2() != null && ikTriple.getValue2().intValue() == ik.intValue()) {
                 _additionalIKs.remove(i);
             }
         }
