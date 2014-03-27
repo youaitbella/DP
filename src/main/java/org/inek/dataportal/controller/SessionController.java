@@ -1,5 +1,6 @@
 package org.inek.dataportal.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
@@ -9,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.Account;
@@ -136,7 +138,7 @@ public class SessionController implements Serializable {
         endAllConversations();
         return topic + "?faces-redirect=true";
     }
-    
+
     public String beginConversation(Conversation conversation) {
         if (conversation.isTransient()) {
             int minutes = 30;
@@ -160,8 +162,8 @@ public class SessionController implements Serializable {
     public void endAllConversations() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
-        Map<String, Conversation> conversations =  (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
-        for (Conversation conversation : conversations.values()){
+        Map<String, Conversation> conversations = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
+        for (Conversation conversation : conversations.values()) {
             endConversation(conversation);
         }
     }
@@ -181,7 +183,10 @@ public class SessionController implements Serializable {
 
     public void LogMessage(String msg) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        String sessionId = facesContext.getExternalContext().getSessionId(false);
+        String sessionId = "";
+        if (facesContext != null) {
+            sessionId = facesContext.getExternalContext().getSessionId(false);
+        }
         int accountId = -1;
         if (_account != null) {
             accountId = _account.getAccountId();
@@ -232,7 +237,7 @@ public class SessionController implements Serializable {
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, _account, this));
         }
-        if(!hasDocument && userHasDocuments()) {
+        if (!hasDocument && userHasDocuments()) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, _account, this));
             persistDocumentFeature();
         }
@@ -240,12 +245,12 @@ public class SessionController implements Serializable {
             _features.add(FeatureFactory.createController(f, _account, this));
         }
     }
-    
+
     private boolean userHasDocuments() {
         List<AccountDocument> docs = _accDocFacade.findAll(_account.getAccountId());
         return docs.size() > 0;
     }
-    
+
     private void persistDocumentFeature() {
         AccountFeature doc = createAccountFeature(Feature.DOCUMENTS);
         List<AccountFeature> afs = _account.getFeatures();
@@ -253,7 +258,7 @@ public class SessionController implements Serializable {
         _account.setFeatures(afs);
         _account = _accountFacade.updateAccount(_account);
     }
-    
+
     private AccountFeature createAccountFeature(Feature feature) {
         AccountFeature accFeature = new AccountFeature();
         accFeature.setFeature(feature);
@@ -402,7 +407,7 @@ public class SessionController implements Serializable {
     }
 
     public boolean isInternalClient() {
-        return  Utils.getClientIP().equals("127.0.0.1")
+        return Utils.getClientIP().equals("127.0.0.1")
                 || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
                 || Utils.getClientIP().startsWith("192.168.0");
     }
