@@ -12,10 +12,50 @@
     <ui:define name="editContent">
         
         <h2>#{msg.headerModelIntentionInternQuality}</h2>
+        <h:panelGrid styleClass="inputPart" columns="1" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="InternalQuality" value="#{msg.lblInternalQuality} " />&nbsp;
+                <h:selectBooleanCheckbox id="ChkInternalQuality" value="#{editModelIntention.modelIntentionQuality.id}">
+                        <f:ajax event="click" render="@this :logout:remaining ChkInternalQuality" />
+                </h:selectBooleanCheckbox>
+            </h:panelGroup>
+        </h:panelGrid>
+        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                <div>
+                    <h:outputLabel styleClass="label" id="InternalQualityIndicators" value="#{msg.lblQualityIndicators}" />
+                </div>
+                <h:inputText id="txtInternalQualityIndicators" value="#{editModelIntention.modelIntentionQuality.indicator}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtInternalQualityIndicators" />
+                </h:inputText>
+            </h:panelGroup>
+            <h:panelGroup>
+                <div>
+                    <h:outputLabel styleClass="label" id="InternalQualityDesc" value="#{msg.lblDescription}" />
+                </div>
+                <h:inputTextarea id="txtInternalQualityDesc" styleClass="areaWideHigh" value="#{editModelIntention.modelIntentionQuality.description}">
+                        <f:ajax event="blur" render="@this :logout:remaining txtInternalQualityDesc" />
+                </h:inputTextarea>
+            </h:panelGroup>
+        </h:panelGrid>
+           
+        
         
         <h2>#{msg.headerModelIntentionExternQuality}</h2>
+        <h:panelGrid styleClass="inputPart" columns="1" width="98%" columnClasses="formModelIntention">
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" id="ExternalQuality" value="#{msg.lblExternalQuality} " />&nbsp;
+                <h:selectBooleanCheckbox id="ChkExternalQuality" value="#{editModelIntention.modelIntentionQuality.id}">
+                        <f:ajax event="click" render="@this :logout:remaining ChkExternalQuality" />
+                </h:selectBooleanCheckbox>
+            </h:panelGroup>
+        </h:panelGrid>
+        
+        <components:Indicator/>
         
         <h2>#{msg.headerModelIntentionScientific}</h2>
+        
+        
         
         
     </ui:define>

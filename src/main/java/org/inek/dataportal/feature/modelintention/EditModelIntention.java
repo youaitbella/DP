@@ -17,6 +17,7 @@ import org.inek.dataportal.entities.AgreedPatients;
 import org.inek.dataportal.entities.ModelIntention;
 import org.inek.dataportal.entities.ModelIntentionModelLife;
 import org.inek.dataportal.entities.ModelIntentionStructureInvolved;
+import org.inek.dataportal.entities.ModelIntentionQuality;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
@@ -43,6 +44,7 @@ public class EditModelIntention extends AbstractEditController {
     private AgreedPatients _agreedPatients;
     private ModelIntentionStructureInvolved _modelIntentionStrucuterInvolved;
     private ModelIntentionModelLife _modelIntentionModelLife;
+    private ModelIntentionQuality _modelIntentionQuality;
     
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
@@ -497,6 +499,9 @@ public class EditModelIntention extends AbstractEditController {
         return Pages.UserMaintenance.URL();
     }
 
+    public ModelIntentionQuality getModelIntentionQuality() {
+        return _modelIntentionQuality;
+    }
     // </editor-fold>
     @PostConstruct
     private void init() {
@@ -508,6 +513,7 @@ public class EditModelIntention extends AbstractEditController {
             _agreedPatients = newAgreedPatients();
             _modelIntentionStrucuterInvolved = newModelIntenionStructureInvolved();
             _modelIntentionModelLife = newModelIntentionModelLife();
+            _modelIntentionQuality = newModelIntentionQuality();
         } else {
             _modelIntention = loadModelIntention(miId);
         }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
@@ -579,6 +585,12 @@ public class EditModelIntention extends AbstractEditController {
        return modelIntentionModelLife;
    }
     
+   private ModelIntentionQuality newModelIntentionQuality(){
+       ModelIntentionQuality modelIntentionQuality = new ModelIntentionQuality();
+       modelIntentionQuality.setId(null);
+       return modelIntentionQuality;
+   }
+   
     public String getPatientsTo() {
         if(_agreedPatients.getPatientsTo() == null)
             return "";
