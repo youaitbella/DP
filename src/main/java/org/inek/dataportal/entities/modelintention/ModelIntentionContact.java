@@ -1,27 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-//../Licenses/license-default.txt
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
- *
- * @author vohldo/schlappajo
+ * A contact might be any (juristic) person, who is involved into the model intent,
+ * e.g. partner, hospital, insurance
+ * 
  */
 @Entity
 @Table(name = "StructureInvolved", schema = "mvh")
-public class ModelIntentionStructureInvolved implements Serializable {
+public class ModelIntentionContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -30,7 +24,7 @@ public class ModelIntentionStructureInvolved implements Serializable {
     @Column (name = "siId")
     private Integer _Id;
     
-    @Column(name = "siType")
+    @Column(name = "siContactTypeId")
     private Integer _Type;
 
     @Column(name = "siIK")
@@ -164,10 +158,10 @@ public class ModelIntentionStructureInvolved implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ModelIntentionStructureInvolved)) {
+        if (!(object instanceof ModelIntentionContact)) {
             return false;
         }
-        ModelIntentionStructureInvolved other = (ModelIntentionStructureInvolved) object;
+        ModelIntentionContact other = (ModelIntentionContact) object;
         if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
             return false;
         }
