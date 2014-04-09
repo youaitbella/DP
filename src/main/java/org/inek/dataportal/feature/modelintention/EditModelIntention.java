@@ -658,7 +658,7 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
-        
+        _modelIntention.setStatus(1);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
 
         if (isValidId(_modelIntention.getMiId())) {

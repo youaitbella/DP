@@ -11,7 +11,7 @@
     </f:metadata>
 
     <h:dataTable rendered="#{modelIntentionList.modelIntentions.size() > 0}"  headerClass="list-header" id="tblModelIntentions" 
-                 value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
+                 value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
         <h:column id="colPrintId" >
             <f:facet name="header">
                 <h:outputText value=""/>
@@ -20,33 +20,12 @@
                 <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
             </h:commandLink>
         </h:column>
-        <h:column id="colDeleteId" >
-            <f:facet name="header">
-                <h:outputText value=""/>
-            </f:facet>
-            <h:commandLink action="#{modelIntentionList.requestDeleteModelIntention(model.value1)}" immediate="true" >
-                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-            </h:commandLink>
-        </h:column>
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value=""/>
-            </f:facet>
-            <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" immediate="true" >
-                <h:graphicImage alt="Status" name="#{model.value3.icon}" library="Icon/small" title="#{model.value3.description}" value=""  rendered="#{model.value3.icon.length() gt 0}"/>
-            </h:commandLink>
-        </h:column>
         <h:column id="colName">
             <f:facet name="header">
-                <h:outputText value="Name"/>
+                <h:outputText value="Bezeichnung"/>
             </f:facet>
             <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="#{model.value2.equals('') ? msg.txtEmpty : model.value2}" immediate="true"/>
         </h:column>
     </h:dataTable>
-    
-    <h:commandLink id="deleteModelIntention" style="display: none"
-                   action="#{modelIntentionList.deleteModelIntention(flash.modelId)}"
-                   value="delete #{flash.modelId}">
-    </h:commandLink>
     
 </ui:composition>

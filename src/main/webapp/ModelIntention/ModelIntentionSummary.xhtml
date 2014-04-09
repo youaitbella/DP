@@ -22,7 +22,11 @@
         <h:form id="form">
 
             <h1>#{msg.lblModelIntention}</h1>
-
+            
+            <h:panelGroup rendered="#{modelIntentionList.modelIntentions.size() > 0}">
+                <br/>
+                <h:outputLabel styleClass="label" value="#{msg.infoModelIntentions}"/>
+            </h:panelGroup>
             <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
 
             <p>
@@ -35,7 +39,7 @@
                 <h:outputLabel styleClass="label" value="#{msg.infoSealedModelIntention}"/>
 
                 <h:dataTable   headerClass="list-header" value="#{modelIntentionList.sealedModelIntentions}"
-                               var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+                               var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value=""/>
@@ -46,30 +50,7 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink action="#{modelIntentionList.requestDeleteModelIntention(model.value1)}" immediate="true" rendered="#{model.value3.value lt 90}">
-                            <h:graphicImage alt="löschen" name="#{model.value3.value le 9 ? 'delete.png' : 'cross.png'}" 
-                                            library="Icon/small" title="#{model.value3.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
-                        </h:commandLink>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" immediate="true" >
-                            <h:graphicImage alt="Status" name="#{model.value3.icon}" library="Icon/small" title="#{model.value3.description}" value=""/>
-                        </h:commandLink>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="ID"/>
-                        </f:facet>
-                        <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="MI#{model.value1}" immediate="true"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Name"/>
+                            <h:outputText value="Bezeichnung"/>
                         </f:facet>
                         <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="#{model.value2}" immediate="true"/>
                     </h:column>
