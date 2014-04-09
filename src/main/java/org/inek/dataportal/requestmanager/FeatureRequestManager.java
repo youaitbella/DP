@@ -1,5 +1,8 @@
 package org.inek.dataportal.requestmanager;
 
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountFeature;
+import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

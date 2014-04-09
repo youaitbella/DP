@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;

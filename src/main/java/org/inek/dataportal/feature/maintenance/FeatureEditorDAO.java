@@ -6,8 +6,8 @@ package org.inek.dataportal.feature.maintenance;
 
 import javax.inject.Inject;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Account;
-import org.inek.dataportal.entities.AccountFeature;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.helper.Utils;

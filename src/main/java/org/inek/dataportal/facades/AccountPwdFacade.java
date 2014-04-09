@@ -2,7 +2,7 @@ package org.inek.dataportal.facades;
 
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import org.inek.dataportal.entities.AccountPwd;
+import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.utils.Crypt;
 import org.inek.dataportal.utils.SessionInfo;
 

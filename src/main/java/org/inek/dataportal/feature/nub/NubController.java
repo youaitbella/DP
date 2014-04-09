@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;

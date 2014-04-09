@@ -13,7 +13,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.AgreedPatients;
+import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.ModelIntention;
 import org.inek.dataportal.entities.ModelIntentionModelLife;
 import org.inek.dataportal.entities.ModelIntentionStructureInvolved;

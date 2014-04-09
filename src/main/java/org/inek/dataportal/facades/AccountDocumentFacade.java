@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import org.inek.dataportal.entities.AccountDocument;
+import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.helper.structures.Triple;
 

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.account;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
+import org.inek.dataportal.entities.InekRole;
 
 /**
  *

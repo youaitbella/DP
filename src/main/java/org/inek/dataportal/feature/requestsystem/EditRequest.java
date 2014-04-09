@@ -11,7 +11,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.Request;
 import org.inek.dataportal.entities.RequestDocument;
 import org.inek.dataportal.enums.Feature;

@@ -4,7 +4,7 @@
  */
 package org.inek.dataportal.controller;
 
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import static org.inek.dataportal.enums.Feature.DROPBOX;
 import static org.inek.dataportal.enums.Feature.NUB;

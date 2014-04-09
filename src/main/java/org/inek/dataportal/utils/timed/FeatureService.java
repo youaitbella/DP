@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.facades.AccountFacade;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import org.inek.dataportal.entities.AccountRequest;
+import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.DropBox;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.facades.AccountRequestFacade;

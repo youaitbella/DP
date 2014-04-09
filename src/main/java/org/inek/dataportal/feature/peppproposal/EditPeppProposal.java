@@ -24,7 +24,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.PeppProposal;
 import org.inek.dataportal.entities.PeppProposalDocument;
 import org.inek.dataportal.entities.ProcedureInfo;

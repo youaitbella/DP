@@ -2,7 +2,7 @@ package org.inek.dataportal.facades;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import org.inek.dataportal.entities.AccountActivation;
+import org.inek.dataportal.entities.account.AccountActivation;
 
 /**
  *

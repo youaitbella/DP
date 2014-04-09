@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.AccountRequest;
+import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.mail.Mailer;
 
 /**

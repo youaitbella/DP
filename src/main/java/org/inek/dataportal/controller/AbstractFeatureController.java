@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
-import org.inek.dataportal.entities.Account;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.helper.Topics;
 
