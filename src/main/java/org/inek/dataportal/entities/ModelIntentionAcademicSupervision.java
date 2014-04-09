@@ -104,10 +104,10 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ModelIntentionQuality)) {
+        if (!(object instanceof ModelIntentionAcademicSupervision)) {
             return false;
         }
-        ModelIntentionQuality other = (ModelIntentionQuality) object;
+        ModelIntentionAcademicSupervision other = (ModelIntentionAcademicSupervision) object;
         if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
             return false;
         }
@@ -116,7 +116,7 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
 
     @Override
     public String toString() {
-        return "org.inek.entities.Quality[id=" + _Id + "]";
+        return "org.inek.entities.AcademicSupervision[id=" + _Id + "]";
     }
 
     // </editor-fold>
