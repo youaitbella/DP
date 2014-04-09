@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 //../Licenses/license-default.txt
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,63 +31,63 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "asId")
-    private Integer _Id;
+    private Integer _id;
     
     @Column(name = "asRemitter")
-    private String _Remitter;
+    private String _remitter;
     
     @Column(name = "asContractor")
-    private String _Contractor;
+    private String _contractor;
         
     @Column(name = "asFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _From;
+    private Date _from;
    
     @Column(name = "asTo")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _To;
+    private Date _to;
     
     
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
-        return _Id;
+        return _id;
     }
 
-    public void setId(Integer _Id) {
-        this._Id = _Id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     public String getRemitter() {
-        return _Remitter;
+        return _remitter;
     }
 
-    public void setRemitter(String _Remitter) {
-        this._Remitter = _Remitter;
+    public void setRemitter(String remitter) {
+        _remitter = remitter;
     }
 
     public String getContractor() {
-        return _Contractor;
+        return _contractor;
     }
 
-    public void setContractor(String _Contractor) {
-        this._Contractor = _Contractor;
+    public void setContractor(String contractor) {
+        _contractor = contractor;
     }
 
     public Date getFrom() {
-        return _From;
+        return _from;
     }
 
-    public void setFrom(Date _From) {
-        this._From = _From;
+    public void setFrom(Date from) {
+        _from = from;
     }
 
     public Date getTo() {
-        return _To;
+        return _to;
     }
 
-    public void setTo(Date _To) {
-        this._To = _To;
+    public void setTo(Date to) {
+        _to = to;
     }
     
     // </editor-fold>
@@ -97,7 +97,7 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_Id != null ? _Id.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -108,7 +108,7 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
             return false;
         }
         ModelIntentionAcademicSupervision other = (ModelIntentionAcademicSupervision) object;
-        if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
+        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -116,7 +116,7 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
 
     @Override
     public String toString() {
-        return "org.inek.entities.AcademicSupervision[id=" + _Id + "]";
+        return "org.inek.entities.AcademicSupervision[id=" + _id + "]";
     }
 
     // </editor-fold>

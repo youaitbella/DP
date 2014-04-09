@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,10 +15,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
-import org.inek.dataportal.entities.ModelIntention;
-import org.inek.dataportal.entities.ModelIntentionModelLife;
-import org.inek.dataportal.entities.ModelIntentionStructureInvolved;
-import org.inek.dataportal.entities.ModelIntentionQuality;
+import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.entities.modelintention.ModelIntentionAcademicSupervision;
+import org.inek.dataportal.entities.modelintention.ModelIntentionModelLife;
+import org.inek.dataportal.entities.modelintention.ModelIntentionStructureInvolved;
+import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
@@ -45,6 +47,7 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntentionStructureInvolved _modelIntentionStrucuterInvolved;
     private ModelIntentionModelLife _modelIntentionModelLife;
     private ModelIntentionQuality _modelIntentionQuality;
+    private ModelIntentionAcademicSupervision _modelIntentionAcademicSupervision;
     
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
@@ -514,6 +517,7 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntentionStrucuterInvolved = newModelIntenionStructureInvolved();
             _modelIntentionModelLife = newModelIntentionModelLife();
             _modelIntentionQuality = newModelIntentionQuality();
+            _modelIntentionAcademicSupervision = newModelIntentionAcademicSupervision();
         } else {
             _modelIntention = loadModelIntention(miId);
         }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
@@ -591,6 +595,12 @@ public class EditModelIntention extends AbstractEditController {
        return modelIntentionQuality;
    }
    
+   private ModelIntentionAcademicSupervision newModelIntentionAcademicSupervision(){
+       ModelIntentionAcademicSupervision modelIntentionAcademicSupervision = new ModelIntentionAcademicSupervision();
+       modelIntentionAcademicSupervision.setId(null);
+       return modelIntentionAcademicSupervision;
+   }
+   
     public String getPatientsTo() {
         if(_agreedPatients.getPatientsTo() == null)
             return "";
@@ -633,6 +643,9 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntentionModelLife.setStartDate(null);
         }
     }
+    
+    
+    
     
     
     

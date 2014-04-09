@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 //../Licenses/license-default.txt
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import javax.persistence.Column;
