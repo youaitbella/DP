@@ -10,34 +10,33 @@
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
-        <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
-            <h:panelGroup>
-                <div>
-                <h:outputLabel styleClass="label" id="LifeTime" value="#{msg.lblLifeTimeStart}" />
-                </div>
-                <h:inputText styleClass="inputmedium" id="txtLifeTime" value="#{editModelIntention.startDate}">
-                                <f:ajax event="blur" render="@this :logout:remaining txtLifeTime" />
+        <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
+            <h:column>
+            <f:facet name="header">
+                <h:outputText value="Start"/>
+            </f:facet>
+                <h:inputText value="#{modelLife.startDate}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
-            </h:panelGroup>
-            <h:panelGroup>
-                <div>
-                <h:outputLabel styleClass="label" id="LifeTimeMonths" value="#{msg.lblLifeTimeMonths}" />
-                </div>
-                <h:inputText styleClass="inputmedium" id="txtLifeTimeMonths" value="#{editModelIntention.modelIntentionModelLife.monthDuration}">
-                                <f:ajax event="blur" render="@this :logout:remaining txtLifeTimeMonths" />
+            </h:column>
+            <f:facet name="header">
+                <h:outputText value="Dauer"/>
+            </f:facet>
+            <h:inputText value="#{modelLife.monthDuration}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
-            </h:panelGroup>
-        </h:panelGrid>
-         
+            </h:column>
+        </h:dataTable>
+
         <h2>#{msg.headerModelIntentionContract}</h2>
         <!--<components:Institute Type="# {editModelIntention.regCare}"/>-->
         <components:Institute RegCareRender="true" />
-         
+
         <h2>#{msg.headerModelIntentionEffort}</h2>
-         <components:Institute RegCareRender="false"/>
-         
-         <h2>#{msg.headerModelIntentionCostInsurance}</h2>
-         <components:Institute RegCareRender="false"/>
-        
+        <components:Institute RegCareRender="false"/>
+
+        <h2>#{msg.headerModelIntentionCostInsurance}</h2>
+        <components:Institute RegCareRender="false"/>
+
     </ui:define>
 </ui:composition>

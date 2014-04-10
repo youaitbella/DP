@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-//../Licenses/license-default.txt
+
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
@@ -195,6 +191,11 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<ModelIntentionContact> _contacts;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_startDate")
+    private List<ModelLife> _modelLifes;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
@@ -636,6 +637,17 @@ public class ModelIntention implements Serializable {
 
     public void setContacts(List<ModelIntentionContact> contacts) {
         _contacts = contacts;
+    }
+    
+    public List<ModelLife> getModelLifes() {
+        if (_modelLifes == null){
+            _modelLifes = new ArrayList<>();
+        }
+        return _modelLifes;
+    }
+
+    public void setModelLifes(List<ModelLife> modelLifes) {
+        _modelLifes = modelLifes;
     }
     
     public List<AcademicSupervision> getAcademicSupervisions() {

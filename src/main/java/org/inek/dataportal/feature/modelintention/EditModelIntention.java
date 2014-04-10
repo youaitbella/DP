@@ -12,9 +12,9 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
-import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.entities.modelintention.ModelLife;
@@ -641,21 +641,6 @@ public class EditModelIntention extends AbstractEditController {
             _agreedPatients.setPatientsFrom(SimpleDateFormat.getDateInstance().parse(date));
         } catch(Exception ex) {
             _agreedPatients.setPatientsFrom(null);
-        }
-    }
-     
-   
-    public String getStartDate() {
-        if(_modelIntentionModelLife.getStartDate()== null)
-            return "";
-        return _modelIntentionModelLife.getStartDate().toString();
-    }
-    
-    public void setStartDate(String date) {
-        try {
-            _modelIntentionModelLife.setStartDate(SimpleDateFormat.getDateInstance().parse(date));
-        } catch(Exception ex) {
-            _modelIntentionModelLife.setStartDate(null);
         }
     }
      
