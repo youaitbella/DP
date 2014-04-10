@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
  */
 public abstract class AbstractFacade<T>{
     protected static final Logger _logger = Logger.getLogger("Facade");
-    
+
     @PersistenceContext(unitName = "DataPortalPU")
     private EntityManager _em;
 
@@ -24,6 +24,10 @@ public abstract class AbstractFacade<T>{
 
     public AbstractFacade(Class<T> entityClass) {
         _entityClass = entityClass;
+    }
+
+    public static Logger getLogger() {
+        return _logger;
     }
 
     protected EntityManager getEntityManager() {

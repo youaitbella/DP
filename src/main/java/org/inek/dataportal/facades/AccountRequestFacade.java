@@ -43,17 +43,17 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
         if (accountRequest.getAccountId() != null) {
             return false;
         }
-        _logger.info("Try to create a new account request");
+        getLogger().info("Try to create a new account request");
         accountRequest.setActivationKey(UUID.randomUUID().toString());
         persist(accountRequest);
         if (accountRequest.getAccountId() <= 0) {
-            _logger.warning("Failed to store accout request.");
+            getLogger().warning("Failed to store accout request.");
             return false;
         }
         if (Mailer.sendActivationMail(accountRequest)) {
             return true;
         }
-        _logger.log(Level.WARNING, "Could not send activation mail for {0}", accountRequest.getEmail());
+        getLogger().log(Level.WARNING, "Could not send activation mail for {0}", accountRequest.getEmail());
         remove(accountRequest);
         return false;
 

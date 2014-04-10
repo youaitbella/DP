@@ -21,8 +21,6 @@ import org.inek.dataportal.entities.account.AccountFeatureRequest;
 @Stateless
 public class AccountFeatureRequestFacade extends AbstractFacade<AccountFeatureRequest> {
 
-    private static final Logger _logger = Logger.getLogger("AccountFeatureRequestFacade");
-
     public AccountFeatureRequestFacade() {
         super(AccountFeatureRequest.class);
     }

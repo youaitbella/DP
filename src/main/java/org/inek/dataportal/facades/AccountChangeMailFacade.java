@@ -62,7 +62,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         if (Mailer.sendMailActivationMail(changeMail)) {
             return true;
         }
-        _logger.log(Level.WARNING, "Could not send mail activation mail for {0}", newMail);
+        getLogger().log(Level.WARNING, "Could not send mail activation mail for {0}", newMail);
         remove(changeMail);
         return false;
     }

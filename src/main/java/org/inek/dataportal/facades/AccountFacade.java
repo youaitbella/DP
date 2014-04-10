@@ -94,7 +94,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     public Account updateAccount(Account account) {
         if (account.getAccountId() == null) {
-            _logger.log(Level.SEVERE, "attempt to update a non-existing account");
+            getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
             return null;  // let the client crash
         }
 
@@ -132,7 +132,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
         AccountRequest accountRequest = _accountRequestFacade.findByMailOrUser(mailOrUser);
         if (accountRequest == null) {
-            _logger.log(Level.WARNING, "No account request found for {0}", mailOrUser);
+            getLogger().log(Level.WARNING, "No account request found for {0}", mailOrUser);
             return false;
         }
         if (!accountRequest.getPasswordHash().equals(Crypt.getHash("SHA", password)) || !accountRequest.getActivationKey().equals(activationKey)) {
@@ -226,7 +226,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (Mailer.sendPasswordActivationMail(request, mail)) {
             return true;
         }
-        _logger.log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
+        getLogger().log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
         _pwdRequestFacade.remove(request);
         return false;
     }
