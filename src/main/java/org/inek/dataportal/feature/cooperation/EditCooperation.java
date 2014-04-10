@@ -24,7 +24,7 @@ import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRequestFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;

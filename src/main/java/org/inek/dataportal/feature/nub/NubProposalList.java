@@ -20,7 +20,7 @@ import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubStatus;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;
 import org.inek.dataportal.facades.NubProposalFacade;

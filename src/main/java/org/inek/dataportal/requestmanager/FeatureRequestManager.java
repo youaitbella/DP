@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.*;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.AccountFeatureRequestFacade;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;

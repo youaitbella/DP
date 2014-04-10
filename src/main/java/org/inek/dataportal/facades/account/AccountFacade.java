@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.account;
 
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import java.util.Collection;
@@ -18,6 +18,11 @@ import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.facades.AccountPwdFacade;
+import org.inek.dataportal.facades.AccountRequestFacade;
+import org.inek.dataportal.facades.CustomerFacade;
+import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.utils.Crypt;

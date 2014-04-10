@@ -13,7 +13,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 
 /**
  *
