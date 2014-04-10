@@ -1,10 +1,9 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.account;
 
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import org.inek.dataportal.entities.account.AccountPwd;
+import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.utils.Crypt;
-import org.inek.dataportal.utils.SessionInfo;
 
 /**
  *

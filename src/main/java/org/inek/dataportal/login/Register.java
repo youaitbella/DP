@@ -20,7 +20,7 @@ import org.inek.dataportal.backingbeans.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.AccountRequestFacade;
+import org.inek.dataportal.facades.account.AccountRequestFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;

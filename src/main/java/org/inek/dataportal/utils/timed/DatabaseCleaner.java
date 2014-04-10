@@ -13,7 +13,7 @@ import javax.ejb.Singleton;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.DropBox;
 import org.inek.dataportal.entities.PasswordRequest;
-import org.inek.dataportal.facades.AccountRequestFacade;
+import org.inek.dataportal.facades.account.AccountRequestFacade;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.utils.DateUtils;

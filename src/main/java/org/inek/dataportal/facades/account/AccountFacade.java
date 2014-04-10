@@ -19,8 +19,6 @@ import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.facades.AbstractFacade;
-import org.inek.dataportal.facades.AccountPwdFacade;
-import org.inek.dataportal.facades.AccountRequestFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.mail.Mailer;

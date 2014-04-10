@@ -19,7 +19,7 @@ import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountActivationFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.AccountPwdFacade;
+import org.inek.dataportal.facades.account.AccountPwdFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.Crypt;
 
