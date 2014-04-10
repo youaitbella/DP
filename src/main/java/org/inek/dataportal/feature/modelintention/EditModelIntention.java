@@ -23,7 +23,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.ModelIntentionFacade;
+import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;

@@ -9,7 +9,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.ModelIntentionFacade;
+import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.helper.structures.Triple;
