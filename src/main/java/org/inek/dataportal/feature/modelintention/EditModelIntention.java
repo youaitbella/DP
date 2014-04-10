@@ -17,12 +17,13 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionAcademicSupervision;
-import org.inek.dataportal.entities.modelintention.ModelIntentionModelLife;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
+import org.inek.dataportal.entities.modelintention.ModelIntentionModelLife;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.modelintention.AgreedPatientsFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -40,6 +41,7 @@ public class EditModelIntention extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
+    @Inject private AgreedPatientsFacade _agreedPatientsFacade;
     @Inject private Conversation _conversation;
     private boolean _ageYearEnabled, _regionMiscEnabled;
     private ModelIntention _modelIntention;
@@ -515,7 +517,7 @@ public class EditModelIntention extends AbstractEditController {
     private void init() {
         //_logger.log(Level.WARNING, "Init EditModelIntation");
         _sessionController.beginConversation(_conversation);
-        Object miId = Utils.getFlash().get("miId");
+        Object miId = Utils.getFlash().get("modelId");
         if (miId == null) {
             _modelIntention = newModelIntention();
             _agreedPatients = newAgreedPatients();
@@ -525,6 +527,7 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntentionAcademicSupervision = newModelIntentionAcademicSupervision();
         } else {
             _modelIntention = loadModelIntention(miId);
+            _agreedPatients = loadAgreedPatients(miId);
         }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
             _ageYearEnabled = true;
         if(_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region()))
@@ -547,6 +550,16 @@ public class EditModelIntention extends AbstractEditController {
             _logger.info(ex.getMessage());
         }
         return newModelIntention();
+    }
+    
+    private AgreedPatients loadAgreedPatients(Object miId) {
+        try {
+            int id = Integer.parseInt("" + miId);
+            //return _agreedPatientsFacade.findByModelIntentionId(id);
+        } catch (NumberFormatException ex) {
+            _logger.info(ex.getMessage());
+        }
+        return newAgreedPatients();
     }
 
     private ModelIntention newModelIntention() {
@@ -687,7 +700,7 @@ public class EditModelIntention extends AbstractEditController {
         }
         _modelIntention.setStatus(1);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
-
+        _agreedPatientsFacade.persist(_agreedPatients);
         if (isValidId(_modelIntention.getMiId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";

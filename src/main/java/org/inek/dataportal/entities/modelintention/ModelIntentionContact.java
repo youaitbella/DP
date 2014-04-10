@@ -8,104 +8,103 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  * A contact might be any (juristic) person, who is involved into the model intent,
  * e.g. partner, hospital, insurance
  * 
  */
 @Entity
-@Table(name = "StructureInvolved", schema = "mvh")
+@Table(name = "Contacts", schema = "mvh")
 public class ModelIntentionContact implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVercsonUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "siId")
-    private Integer _Id;
+    @Column (name = "csId")
+    private Integer _id;
     
-    @Column (name = "siModelIntentionId")
+    @Column (name = "csModelIntentionId")
     private Integer _modelIntentionId;
     
-    @Column(name = "siContactTypeId")
-    private Integer _Type;
+    @Column(name = "csContactTypeId")
+    private Integer _type;
 
-    @Column(name = "siIK")
-    private Integer _IK;
+    @Column(name = "csIK")
+    private Integer _ik;
 
-    @Column(name = "siName")
-    private String _Name;
+    @Column(name = "csName")
+    private String _name;
     
-    @Column(name = "siStreet")
-    private String _Street;
+    @Column(name = "csStreet")
+    private String _street;
     
-    @Column(name = "siZip")
-    private Integer _Zip;
+    @Column(name = "csZip")
+    private Integer _zip;
     
-    @Column(name = "siLocation")
+    @Column(name = "csLocation")
     private Integer _Town;
     
-    @Column(name = "siRegCare")
+    @Column(name = "csRegCare")
     private Integer _regCare;
     
-    @Column(name = "siContactPerson")
-    private String _ContactPerson;
+    @Column(name = "csContactPerson")
+    private String _contactPerson;
     
-    @Column(name = "siPhone")
-    private Integer _Phone;
+    @Column(name = "csPhone")
+    private Integer _phone;
     
-    @Column(name = "siEMail")
-    private String _EMail;   
-
-    
+    @Column(name = "csEMail")
+    private String _email;   
   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
-        return _Id;
+        return _id;
     }
 
     public void setId(Integer _Id) {
-        this._Id = _Id;
+        this._id = _Id;
     }
 
     public Integer getType() {
-        return _Type;
+        return _type;
     }
 
     public void setType(Integer _Type) {
-        this._Type = _Type;
+        this._type = _Type;
     }
 
     public Integer getIK() {
-        return _IK;
+        return _ik;
     }
 
     public void setIK(Integer _IK) {
-        this._IK = _IK;
+        this._ik = _IK;
     }
 
     public String getName() {
-        return _Name;
+        return _name;
     }
 
     public void setName(String _Name) {
-        this._Name = _Name;
+        this._name = _Name;
     }
 
     public String getStreet() {
-        return _Street;
+        return _street;
     }
 
     public void setStreet(String _Street) {
-        this._Street = _Street;
+        this._street = _Street;
     }
 
     public Integer getZip() {
-        return _Zip;
+        return _zip;
     }
 
     public void setZip(Integer _Zip) {
-        this._Zip = _Zip;
+        this._zip = _Zip;
     }
 
     public Integer getTown() {
@@ -125,27 +124,27 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public String getContactPerson() {
-        return _ContactPerson;
+        return _contactPerson;
     }
 
     public void setContactPerson(String _ContactPerson) {
-        this._ContactPerson = _ContactPerson;
+        this._contactPerson = _ContactPerson;
     }
 
     public Integer getPhone() {
-        return _Phone;
+        return _phone;
     }
 
     public void setPhone(Integer _Phone) {
-        this._Phone = _Phone;
+        this._phone = _Phone;
     }
 
     public String getEMail() {
-        return _EMail;
+        return _email;
     }
 
     public void setEMail(String _EMail) {
-        this._EMail = _EMail;
+        this._email = _EMail;
     }
 
     public Integer getModelIntentionId() {
@@ -165,7 +164,7 @@ public class ModelIntentionContact implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_Id != null ? _Id.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -176,7 +175,7 @@ public class ModelIntentionContact implements Serializable {
             return false;
         }
         ModelIntentionContact other = (ModelIntentionContact) object;
-        if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
+        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -184,7 +183,7 @@ public class ModelIntentionContact implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.StructureInvolved[id=" + _Id + "]";
+        return "org.inek.entities.StructureInvolved[id=" + _id + "]";
     }
 
     // </editor-fold>

@@ -28,7 +28,10 @@ public class AgreedPatients implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "apId")
-    private Integer _Id;
+    private Integer _id;
+    
+    @Column(name = "apModelIntentionId")
+    private Integer _miId;
     
     @Column(name = "apFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -40,17 +43,15 @@ public class AgreedPatients implements Serializable {
     
     @Column(name = "apPatientsCount")
     private Integer _patientsCount;
-
-
     
     
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
-        return _Id;
+        return _id;
     }
 
-    public void setId(Integer _Id) {
-        this._Id = _Id;
+    public void setId(Integer id) {
+        this._id = id;
     }
     
     
@@ -78,12 +79,20 @@ public class AgreedPatients implements Serializable {
         this._patientsCount = patientsCount;
     }
 
+    public Integer getMiId() {
+        return _miId;
+    }
+
+    public void setMiId(Integer miId) {
+        this._miId = miId;
+    }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_Id != null ? _Id.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -94,7 +103,7 @@ public class AgreedPatients implements Serializable {
             return false;
         }
         AgreedPatients other = (AgreedPatients) object;
-        if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
+        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -102,7 +111,7 @@ public class AgreedPatients implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.AgreedPatients[id=" + _Id + "]";
+        return "org.inek.entities.AgreedPatients[id=" + _id + "]";
     }
 
     // </editor-fold>
