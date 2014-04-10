@@ -52,22 +52,7 @@ public class AcademicSupervision implements Serializable {/*
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _to;
     
-    public AcademicSupervision(){
-    }
-    
-    public AcademicSupervision(String remitter, String contractor, Date from, Date to){
-        _remitter = remitter;
-        _contractor = contractor;
-        _from = from;
-        _to = to;
-    }
-    
-    public List<AcademicSupervision>getAcademicSupervisionInfos(){
-        List<AcademicSupervision> academicSupervisionInfos = new ArrayList<>(); 
-        return academicSupervisionInfos;
-    }
-     
-    
+   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;

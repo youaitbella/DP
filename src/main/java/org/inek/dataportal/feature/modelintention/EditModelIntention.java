@@ -14,7 +14,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
-import org.inek.dataportal.entities.modelintention.ModelIntentionAcademicSupervision;
+import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.entities.modelintention.ModelLife;
@@ -47,8 +47,8 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntentionContact _modelIntentionStrucuterInvolved;
     private ModelLife _modelIntentionModelLife;
     private ModelIntentionQuality _modelIntentionQuality;
-    private ModelIntentionAcademicSupervision _modelIntentionAcademicSupervision;
-    
+    private AcademicSupervision _modelIntentionAcademicSupervision;
+        
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
     }
@@ -505,7 +505,7 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntentionQuality;
     }
     
-    public ModelIntentionAcademicSupervision getModelIntentionAcademicSupervision(){
+    public AcademicSupervision getModelIntentionAcademicSupervision(){
         return _modelIntentionAcademicSupervision;
     }
     
@@ -610,12 +610,12 @@ public class EditModelIntention extends AbstractEditController {
        return modelIntentionQuality;
    }
    
-   private ModelIntentionAcademicSupervision newModelIntentionAcademicSupervision(){
-       ModelIntentionAcademicSupervision modelIntentionAcademicSupervision = new ModelIntentionAcademicSupervision();
+   private AcademicSupervision newModelIntentionAcademicSupervision(){
+       AcademicSupervision modelIntentionAcademicSupervision = new AcademicSupervision();
        modelIntentionAcademicSupervision.setId(null);
        return modelIntentionAcademicSupervision;
    }
-   
+    
     public String getPatientsTo() {
         if(_agreedPatients.getPatientsTo() == null)
             return "";
