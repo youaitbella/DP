@@ -645,11 +645,6 @@ public class EditModelIntention extends AbstractEditController {
     }
     
     
-    
-    
-    
-    
-    
     private ModelIntentionController getModelIntentionController() {
         return (ModelIntentionController) _sessionController.getFeatureController(Feature.MODEL_INTENTION);
     }
