@@ -16,8 +16,8 @@ import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionAcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
-import org.inek.dataportal.entities.modelintention.ModelIntentionModelLife;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
+import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
@@ -45,7 +45,7 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntention _modelIntention;
     private AgreedPatients _agreedPatients;
     private ModelIntentionContact _modelIntentionStrucuterInvolved;
-    private ModelIntentionModelLife _modelIntentionModelLife;
+    private ModelLife _modelIntentionModelLife;
     private ModelIntentionQuality _modelIntentionQuality;
     private ModelIntentionAcademicSupervision _modelIntentionAcademicSupervision;
     
@@ -493,7 +493,7 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntentionStrucuterInvolved;
     }
     
-    public ModelIntentionModelLife getModelIntentionModelLife(){
+    public ModelLife getModelIntentionModelLife(){
         return _modelIntentionModelLife;
     }
     
@@ -597,10 +597,10 @@ public class EditModelIntention extends AbstractEditController {
         return modelIntentionStructureInvolved;
     }
     
-   private ModelIntentionModelLife newModelIntentionModelLife(){
-       ModelIntentionModelLife modelIntentionModelLife = new ModelIntentionModelLife();
+   private ModelLife newModelIntentionModelLife(){
+       ModelLife modelIntentionModelLife = new ModelLife();
        modelIntentionModelLife.setStartDate(null);
-       modelIntentionModelLife.setMonthDuration(null);
+       modelIntentionModelLife.setMonthDuration(0);
        return modelIntentionModelLife;
    }
     

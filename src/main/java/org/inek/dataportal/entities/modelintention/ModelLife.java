@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "ModelLife", schema = "mvh")
-public class ModelIntentionModelLife implements Serializable {
+public class ModelLife implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -39,7 +39,7 @@ public class ModelIntentionModelLife implements Serializable {
     private Date _StartDate;
     
     @Column(name = "mlMonthDuration")
-    private Integer _MonthDuration;
+    private int _MonthDuration;
     
   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
@@ -59,12 +59,12 @@ public class ModelIntentionModelLife implements Serializable {
         this._StartDate = _StartDate;
     }
 
-    public Integer getMonthDuration() {
+    public int getMonthDuration() {
         return _MonthDuration;
     }
 
-    public void setMonthDuration(Integer _MonthDuration) {
-        this._MonthDuration = _MonthDuration;
+    public void setMonthDuration(int monthDuration) {
+        _MonthDuration = monthDuration;
     }
 
     public Integer getModelIntentionId() {
@@ -91,10 +91,10 @@ public class ModelIntentionModelLife implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ModelIntentionModelLife)) {
+        if (!(object instanceof ModelLife)) {
             return false;
         }
-        ModelIntentionModelLife other = (ModelIntentionModelLife) object;
+        ModelLife other = (ModelLife) object;
         if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
             return false;
         }
