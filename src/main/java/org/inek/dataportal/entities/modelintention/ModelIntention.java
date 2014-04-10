@@ -196,6 +196,11 @@ public class ModelIntention implements Serializable {
     @OrderBy("_id")
     private List<ModelIntentionContact> _contacts;
     
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<AcademicSupervision> _academicSupervisions;
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
     public Integer getId() {
@@ -632,6 +637,18 @@ public class ModelIntention implements Serializable {
     public void setContacts(List<ModelIntentionContact> contacts) {
         _contacts = contacts;
     }
+    
+    public List<AcademicSupervision> getAcademicSupervisions() {
+        if (_academicSupervisions == null){
+            _academicSupervisions = new ArrayList<>();
+        }
+        return _academicSupervisions;
+    }
+
+    public void setAcademicSupervisions(List<AcademicSupervision> academicSupervisions) {
+        _academicSupervisions = academicSupervisions;
+    }    
+    
 
        // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">

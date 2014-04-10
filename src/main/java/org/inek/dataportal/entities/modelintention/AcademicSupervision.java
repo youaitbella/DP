@@ -6,7 +6,9 @@
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "AcademicSupervision", schema = "mvh")
-public class ModelIntentionAcademicSupervision implements Serializable {/*
+public class AcademicSupervision implements Serializable {/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -50,7 +52,21 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _to;
     
+    public AcademicSupervision(){
+    }
     
+    public AcademicSupervision(String remitter, String contractor, Date from, Date to){
+        _remitter = remitter;
+        _contractor = contractor;
+        _from = from;
+        _to = to;
+    }
+    
+    public List<AcademicSupervision>getAcademicSupervisionInfos(){
+        List<AcademicSupervision> academicSupervisionInfos = new ArrayList<>(); 
+        return academicSupervisionInfos;
+    }
+     
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
@@ -102,8 +118,6 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     }
     // </editor-fold>
 
-
-   
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -116,10 +130,10 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ModelIntentionAcademicSupervision)) {
+        if (!(object instanceof AcademicSupervision)) {
             return false;
         }
-        ModelIntentionAcademicSupervision other = (ModelIntentionAcademicSupervision) object;
+        AcademicSupervision other = (AcademicSupervision) object;
         if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }

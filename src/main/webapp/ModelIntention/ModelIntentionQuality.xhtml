@@ -18,10 +18,13 @@
         <components:Indicator/>
         
         <h2>#{msg.headerModelIntentionScientific}</h2>
-        <h:panelGrid styleClass="inputPart" columns="1" width="98%" columnClasses="formModelIntention">
-            
-        </h:panelGrid>
-          
-        
+        <h:dataTable value="#{editModelIntention.modelIntention.academicSupervisions}" var="supervision">
+          <h:column id="colName">
+            <f:facet name="header">
+                <h:outputText value="Auftraggeber"/>
+            </f:facet>
+              <h:inputText value="#{supervision.remitter}"/>
+         </h:column>
+        </h:dataTable>
     </ui:define>
 </ui:composition>
