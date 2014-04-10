@@ -43,10 +43,10 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         Order order;
         if (dataSet == DataSet.OPEN) {
             status = cb.lessThan(request.get("_status"), 10);
-            order = cb.asc(request.get("_miId"));
+            order = cb.asc(request.get("_id"));
         } else {
             status = cb.greaterThanOrEqualTo(request.get("_status"), 10);
-            order = cb.desc(request.get("_miId"));
+            order = cb.desc(request.get("_id"));
         }
         if (dataSet == DataSet.ALLSEALED) {
             cq.select(request).where(status).orderBy(order);
@@ -58,7 +58,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     }
 
     public List<ModelIntention> findAll(int accountId) {
-        String sql = "SELECT m FROM ModelIntention m WHERE m._accountId = :accountId ORDER BY m._miId DESC";
+        String sql = "SELECT m FROM ModelIntention m WHERE m._accountId = :accountId ORDER BY m._id DESC";
         Query query = getEntityManager().createQuery(sql, ModelIntention.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
@@ -73,7 +73,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     }
 
     public ModelIntention saveModelIntention(ModelIntention modelIntention) {
-        if (modelIntention.getMiId() == null) {
+        if (modelIntention.getId() == null) {
             persist(modelIntention);
             return modelIntention;
         }
@@ -90,8 +90,8 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         List<ModelIntention> intentions = findAll(accountId, dataSet);
         List<Triple> intentionInfos = new ArrayList<>(); 
         for (ModelIntention intention : intentions){
-            String displayName = "MI" + intention.getMiId();
-            intentionInfos.add(new Triple(intention.getMiId(), displayName, intention.getStatus()));
+            String displayName = "MI" + intention.getId();
+            intentionInfos.add(new Triple(intention.getId(), displayName, intention.getStatus()));
         }
         return intentionInfos;
     }

@@ -31,7 +31,7 @@ public class AgreedPatients implements Serializable {
     private Integer _id;
     
     @Column(name = "apModelIntentionId")
-    private int _miId;
+    private int _modelIntentionId;
     
     @Column(name = "apFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -79,12 +79,12 @@ public class AgreedPatients implements Serializable {
         this._patientsCount = patientsCount;
     }
 
-    public int getMiId() {
-        return _miId;
+    public int getModelIntentionId() {
+        return _modelIntentionId;
     }
 
-    public void setMiId(int miId) {
-        this._miId = miId;
+    public void setModelIntentionId(int miId) {
+        _modelIntentionId = miId;
     }
 
     // </editor-fold>

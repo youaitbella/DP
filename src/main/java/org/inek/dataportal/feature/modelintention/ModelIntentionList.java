@@ -43,7 +43,7 @@ public class ModelIntentionList {
         ModelIntention intention = _modelIntentionFacade.find(modelId);
         if (_sessionController.isMyAccount(intention.getAccountId())) {
             String msg = intention.getStatus() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
-            String script = "if (confirm ('MI" + intention.getMiId().toString().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteModelIntention').click();}";
+            String script = "if (confirm ('MI" + intention.getId().toString().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteModelIntention').click();}";
             _sessionController.setScript(script);
         }
         return "";

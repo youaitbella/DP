@@ -697,8 +697,9 @@ public class EditModelIntention extends AbstractEditController {
         }
         _modelIntention.setStatus(1);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
+        _agreedPatients.setModelIntentionId(_modelIntention.getId());
         _agreedPatientsFacade.persist(_agreedPatients);
-        if (isValidId(_modelIntention.getMiId())) {
+        if (isValidId(_modelIntention.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -756,7 +757,7 @@ public class EditModelIntention extends AbstractEditController {
 
         _modelIntention.setStatus(10 + _modelIntention.getStatus());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
-        if (isValidId(_modelIntention.getMiId())) {
+        if (isValidId(_modelIntention.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
             Utils.getFlash().put("targetPage", Pages.ModelIntentionSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_modelIntention));

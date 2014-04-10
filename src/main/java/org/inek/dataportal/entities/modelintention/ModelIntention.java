@@ -33,7 +33,7 @@ public class ModelIntention implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "miId")
-    private Integer _miId;
+    private Integer _id;
     
     @Column(name = "miAccountId")
     private int _accountId;
@@ -198,12 +198,12 @@ public class ModelIntention implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
-    public Integer getMiId() {
-        return _miId;
+    public Integer getId() {
+        return _id;
     }
 
-    public void setMiId(Integer miId) {
-        this._miId = miId;
+    public void setId(Integer miId) {
+        this._id = miId;
     }
 
     public Integer getAccountId() {
@@ -638,7 +638,7 @@ public class ModelIntention implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_miId != null ? _miId.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -649,7 +649,7 @@ public class ModelIntention implements Serializable {
             return false;
         }
         ModelIntention other = (ModelIntention) object;
-        if ((_miId == null && other.getMiId()!= null) || (_miId != null && !_miId.equals(other.getMiId()))) {
+        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -657,7 +657,7 @@ public class ModelIntention implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.ModelIntention[id=" + _miId + "]";
+        return "org.inek.entities.ModelIntention[id=" + _id + "]";
     }
 
     // </editor-fold>
