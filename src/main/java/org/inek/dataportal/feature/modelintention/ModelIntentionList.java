@@ -11,8 +11,8 @@ import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
 @RequestScoped
@@ -42,7 +42,7 @@ public class ModelIntentionList {
         Utils.getFlash().put("modelId", modelId);
         ModelIntention intention = _modelIntentionFacade.find(modelId);
         if (_sessionController.isMyAccount(intention.getAccountId())) {
-            String msg = intention.getStatus().intValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
+            String msg = intention.getStatus() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
             String script = "if (confirm ('MI" + intention.getMiId().toString().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteModelIntention').click();}";
             _sessionController.setScript(script);
         }
@@ -55,7 +55,7 @@ public class ModelIntentionList {
             return "";
         }
         if (_sessionController.isMyAccount(intention.getAccountId())) {
-            if (intention.getStatus().intValue() <= 9) {
+            if (intention.getStatus() <= 9) {
                 _modelIntentionFacade.remove(intention);
             } else {
                 intention.setStatus(ModelIntentionStatus.Retired.getValue());

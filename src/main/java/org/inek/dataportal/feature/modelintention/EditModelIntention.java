@@ -2,9 +2,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -194,10 +192,9 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void clearAgeYearTextfields() {
-        if(_modelIntention.getAgeYearsFrom() != null && !_ageYearEnabled) {
-            _modelIntention.setAgeYearsFrom(null);
-        } else if(_modelIntention.getAgeYearsTo() != null && !_ageYearEnabled) {
-            _modelIntention.setAgeYearsTo(null);
+        if(!_ageYearEnabled) {
+            _modelIntention.setAgeYearsFrom(-1);
+            _modelIntention.setAgeYearsTo(-1);
         }
     }
 
@@ -528,7 +525,7 @@ public class EditModelIntention extends AbstractEditController {
         } else {
             _modelIntention = loadModelIntention(miId);
             _agreedPatients = loadAgreedPatients(miId);
-        }if(_modelIntention.getAgeYearsFrom() != null || _modelIntention.getAgeYearsTo() != null)
+        }if(_modelIntention.getAgeYearsFrom() >= 0 || _modelIntention.getAgeYearsTo() >= 0)
             _ageYearEnabled = true;
         if(_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region()))
             _regionMiscEnabled = true;
@@ -581,7 +578,7 @@ public class EditModelIntention extends AbstractEditController {
         AgreedPatients agreedPatients = new AgreedPatients();
         agreedPatients.setPatientsTo(null);
         agreedPatients.setPatientsFrom(null);
-        agreedPatients.setPatientsCount(null);
+        agreedPatients.setPatientsCount(0);
         return agreedPatients;
     }
     
@@ -722,7 +719,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isRejectedModelIntention() {
-        return ModelIntentionStatus.Rejected.getValue() == _modelIntention.getStatus().intValue();
+        return ModelIntentionStatus.Rejected.getValue() == _modelIntention.getStatus();
     }
     
     /**
@@ -755,9 +752,9 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.Error.URL();
         }
-        if (_modelIntention.getStatus().intValue() >= 10){return Pages.Error.URL();}
+        if (_modelIntention.getStatus() >= 10){return Pages.Error.URL();}
 
-        _modelIntention.setStatus(10 + _modelIntention.getStatus().intValue());
+        _modelIntention.setStatus(10 + _modelIntention.getStatus());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         if (isValidId(_modelIntention.getMiId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
@@ -785,7 +782,7 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.Error.URL();
         }
-        if (_modelIntention.getStatus().intValue() >= 10){return Pages.Error.URL();}
+        if (_modelIntention.getStatus() >= 10){return Pages.Error.URL();}
 
         _modelIntention.setStatus(ModelIntentionStatus.ApprovalRequested.getValue());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);

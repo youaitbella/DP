@@ -6,11 +6,18 @@
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -29,160 +36,165 @@ public class ModelIntention implements Serializable {
     private Integer _miId;
     
     @Column(name = "miAccountId")
-    private Integer _accountId;
+    private int _accountId;
     
     @Column(name = "miAgeYearsFrom")
-    private Integer _ageYearsFrom;
+    private int _ageYearsFrom = -1;
     
     @Column(name = "miAgeYearsTo")
-    private Integer _ageYearsTo;
+    private int _ageYearsTo = -1;
     
     @Column(name = "miSex")
-    private Integer _sex;
+    private int _sex = -1;
     
     @Column(name = "miMiscPatient")
-    private String _miscPatient;
+    private String _miscPatient = "";
    
     @Column(name = "miRegion")
-    private String _region;
+    private String _region = "";
     
     @Column(name = "miMedicalAttributesType")
-    private Integer _medicalAttributesType;
+    private int _medicalAttributesType;
     
     @Column(name = "miMedicalSpecification")
-    private String _medicalSpecification;
+    private String _medicalSpecification = "";
     
     @Column(name = "miMiscAttribute")
-    private String _miscAttribute;
+    private String _miscAttribute = "";
     
     @Column(name = "miAgreement")
     private boolean _agreement;
     
     @Column(name = "miSettleMedicType")
-    private Integer _settleMedicType;
+    private int _settleMedicType;
     
     @Column(name = "miSettleMedicText")
-    private String _settleMedicText;
+    private String _settleMedicText = "";
     
     @Column(name = "miPIAType")
-    private Integer _piaType;
+    private int _piaType;
     
     @Column(name = "miPIAText")
-    private String _piaText;
+    private String _piaText = "";
     
     @Column(name = "miHospitalType")
-    private Integer _hospitalType;
+    private int _hospitalType;
     
     @Column(name = "miHospitalText")
-    private String _hospitalText;
+    private String _hospitalText = "";
     
     @Column(name = "miSelfHospitalisationType")
-    private Integer _selfHospitalisationType;
+    private int _selfHospitalisationType;
     
     @Column(name = "miMiscHospitalisation")
-    private String _miscHospitalisation;
+    private String _miscHospitalisation = "";
     
     @Column(name = "miPrimaryGoals")
-    private String _primaryGoals;
+    private String _primaryGoals = "";
     
     @Column(name = "miPatientGoals")
-    private String _patientGoals;
+    private String _patientGoals = "";
     
     @Column(name = "miProviderGoals")
-    private String _providerGoals;
+    private String _providerGoals = "";
     
     @Column(name = "miSponsorGoals")
-    private String _sponsorGoals;
+    private String _sponsorGoals = "";
     
     @Column(name = "miInvolvedGoals")
-    private String _involvedGoals;
+    private String _involvedGoals = "";
     
     @Column(name = "miStationaryType")
-    private Integer _stationaryType;
+    private int _stationaryType;
     
     @Column(name = "miStationaryText")
-    private String _stationaryText;
+    private String _stationaryText = "";
     
     @Column(name = "miPartialHospitalisationType")
-    private Integer _partialHospitalisationType;
+    private int _partialHospitalisationType;
     
     @Column(name = "miPartialHospitalisationText")
-    private String _partialHospitalisationText;
+    private String _partialHospitalisationText = "";
     
     @Column(name = "miHospitalAmbulantTreatmentType")
-    private Integer _hospitalAmbulantTreatmentType;
+    private int _hospitalAmbulantTreatmentType;
     
     @Column(name = "miHospitalAmbulantTreatmentText")
-    private String _hospitalAmbulantTreatmentText;
+    private String _hospitalAmbulantTreatmentText = "";
     
     @Column(name = "miVisitPIAType")
-    private Integer _visitPiaType;
+    private int _visitPiaType;
     
     @Column(name = "miVisitPIAText")
-    private String _visitPiaText;
+    private String _visitPiaText = "";
     
     @Column(name = "miAmbulantTreatmentType")
-    private Integer _ambulantTreatmentType;
+    private int _ambulantTreatmentType;
     
     @Column(name = "miAmbulantTreatmentText")
-    private String _ambulantTreatmentText;
+    private String _ambulantTreatmentText = "";
     
     @Column(name = "miMiscTreatment")
-    private String _miscTreatment;
+    private String _miscTreatment = "";
     
     @Column(name = "miCaseManagement")
-    private String _caseManagement;
+    private String _caseManagement = "";
     
     @Column(name = "miTeamBasedInnovations")
-    private String _teamBasedInnovations;
+    private String _teamBasedInnovations = "";
     
     @Column(name = "miCrossSectoralSupply")
-    private String _crossSectoralSupply;
+    private String _crossSectoralSupply = "";
     
     @Column(name = "miHomeTreatment")
-    private String _homeTreatment;
+    private String _homeTreatment = "";
     
     @Column(name = "miMiscSpecialPatientConcept")
-    private String _miscSpecialPatientConcept;
+    private String _miscSpecialPatientConcept = "";
     
     @Column(name = "miSpecialPsyTherapy")
-    private String _specialPsyTherapy;
+    private String _specialPsyTherapy = "";
     
     @Column(name = "miSpecialMedicalMethod")
-    private String _specialMedicalMethod;
+    private String _specialMedicalMethod = "";
     
     @Column(name = "miOtherSpecialTherapyMethod")
-    private String _otherSpecialTherapyMethod;
+    private String _otherSpecialTherapyMethod = "";
     
     @Column(name = "miMiscSpecificActivityContent")
-    private String _miscSpecificActivityContent;
+    private String _miscSpecificActivityContent = "";
     
     @Column(name = "miSingleRemuneration")
-    private String _singleRemuneration;
+    private String _singleRemuneration = "";
     
     @Column(name = "miDayPackage")
-    private String _dayPackage;
+    private String _dayPackage = "";
     
     @Column(name = "miCasePackage")
-    private String _casePackage;
+    private String _casePackage = "";
     
     @Column(name = "miQuarterPackage")
-    private String _quarterPackage;
+    private String _quarterPackage = "";
     
     @Column(name = "miComplexPackage")
-    private String _complexPackage;
+    private String _complexPackage = "";
     
     @Column(name = "miPEPPRemuneration")
-    private String _peppRemuneration;
+    private String _peppRemuneration = "";
     
     @Column(name = "miRegionalBudget")
-    private String _regionalBudget;
+    private String _regionalBudget = "";
     
     @Column(name = "miMiscRemuneration")
-    private String _miscRemuneration;
+    private String _miscRemuneration = "";
     
     @Column(name = "miStatus")
     private Integer _status = -1;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<ModelIntentionContact> _contacts;
     
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
@@ -198,31 +210,31 @@ public class ModelIntention implements Serializable {
         return _accountId;
     }
 
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(int accountId) {
         this._accountId = accountId;
     }
 
-    public Integer getAgeYearsFrom() {
+    public int getAgeYearsFrom() {
         return _ageYearsFrom;
     }
 
-    public void setAgeYearsFrom(Integer ageYearsFrom) {
+    public void setAgeYearsFrom(int ageYearsFrom) {
         this._ageYearsFrom = ageYearsFrom;
     }
 
-    public Integer getAgeYearsTo() {
+    public int getAgeYearsTo() {
         return _ageYearsTo;
     }
 
-    public void setAgeYearsTo(Integer ageYearsTo) {
+    public void setAgeYearsTo(int ageYearsTo) {
         this._ageYearsTo = ageYearsTo;
     }
 
-    public Integer getSex() {
+    public int getSex() {
         return _sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(int sex) {
         this._sex = sex;
     }
 
@@ -242,11 +254,11 @@ public class ModelIntention implements Serializable {
         this._region = region;
     }
 
-    public Integer getMedicalAttributesType() {
+    public int getMedicalAttributesType() {
         return _medicalAttributesType;
     }
 
-    public void setMedicalAttributesType(Integer medicalAttributesType) {
+    public void setMedicalAttributesType(int medicalAttributesType) {
         this._medicalAttributesType = medicalAttributesType;
     }
 
@@ -274,11 +286,11 @@ public class ModelIntention implements Serializable {
         this._agreement = agreement;
     }
 
-    public Integer getSettleMedicType() {
+    public int getSettleMedicType() {
         return _settleMedicType;
     }
 
-    public void setSettleMedicType(Integer settleMedicType) {
+    public void setSettleMedicType(int settleMedicType) {
         this._settleMedicType = settleMedicType;
     }
 
@@ -290,11 +302,11 @@ public class ModelIntention implements Serializable {
         this._settleMedicText = settleMedicText;
     }
 
-    public Integer getPiaType() {
+    public int getPiaType() {
         return _piaType;
     }
 
-    public void setPiaType(Integer piaType) {
+    public void setPiaType(int piaType) {
         this._piaType = piaType;
     }
 
@@ -306,11 +318,11 @@ public class ModelIntention implements Serializable {
         this._piaText = piaText;
     }
 
-    public Integer getHospitalType() {
+    public int getHospitalType() {
         return _hospitalType;
     }
 
-    public void setHospitalType(Integer hospitalType) {
+    public void setHospitalType(int hospitalType) {
         this._hospitalType = hospitalType;
     }
 
@@ -322,11 +334,11 @@ public class ModelIntention implements Serializable {
         this._hospitalText = hospitalText;
     }
 
-    public Integer getSelfHospitalisationType() {
+    public int getSelfHospitalisationType() {
         return _selfHospitalisationType;
     }
 
-    public void setSelfHospitalisationType(Integer selfHospitalisationType) {
+    public void setSelfHospitalisationType(int selfHospitalisationType) {
         this._selfHospitalisationType = selfHospitalisationType;
     }
 
@@ -378,11 +390,11 @@ public class ModelIntention implements Serializable {
         this._involvedGoals = involvedGoals;
     }
 
-    public Integer getStationaryType() {
+    public int getStationaryType() {
         return _stationaryType;
     }
 
-    public void setStationaryType(Integer stationaryType) {
+    public void setStationaryType(int stationaryType) {
         this._stationaryType = stationaryType;
     }
 
@@ -394,11 +406,11 @@ public class ModelIntention implements Serializable {
         this._stationaryText = stationaryText;
     }
 
-    public Integer getPartialHospitalisationType() {
+    public int getPartialHospitalisationType() {
         return _partialHospitalisationType;
     }
 
-    public void setPartialHospitalisationType(Integer partialHospitalisationType) {
+    public void setPartialHospitalisationType(int partialHospitalisationType) {
         this._partialHospitalisationType = partialHospitalisationType;
     }
 
@@ -410,11 +422,11 @@ public class ModelIntention implements Serializable {
         this._partialHospitalisationText = partialHospitalisationText;
     }
 
-    public Integer getHospitalAmbulantTreatmentType() {
+    public int getHospitalAmbulantTreatmentType() {
         return _hospitalAmbulantTreatmentType;
     }
 
-    public void setHospitalAmbulantTreatmentType(Integer hospitalAmbulantTreatmentType) {
+    public void setHospitalAmbulantTreatmentType(int hospitalAmbulantTreatmentType) {
         this._hospitalAmbulantTreatmentType = hospitalAmbulantTreatmentType;
     }
 
@@ -426,11 +438,11 @@ public class ModelIntention implements Serializable {
         this._hospitalAmbulantTreatmentText = hospitalAmbulantTreatmentText;
     }
 
-    public Integer getVisitPiaType() {
+    public int getVisitPiaType() {
         return _visitPiaType;
     }
 
-    public void setVisitPiaType(Integer visitPiaType) {
+    public void setVisitPiaType(int visitPiaType) {
         this._visitPiaType = visitPiaType;
     }
 
@@ -442,11 +454,11 @@ public class ModelIntention implements Serializable {
         this._visitPiaText = visitPiaText;
     }
 
-    public Integer getAmbulantTreatmentType() {
+    public int getAmbulantTreatmentType() {
         return _ambulantTreatmentType;
     }
 
-    public void setAmbulantTreatmentType(Integer ambulantTreatmentType) {
+    public void setAmbulantTreatmentType(int ambulantTreatmentType) {
         this._ambulantTreatmentType = ambulantTreatmentType;
     }
 
@@ -602,14 +614,25 @@ public class ModelIntention implements Serializable {
         this._miscRemuneration = miscRemuneration;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return _status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this._status = status;
     }
    
+    public List<ModelIntentionContact> getContacts() {
+        if (_contacts == null){
+            _contacts = new ArrayList<>();
+        }
+        return _contacts;
+    }
+
+    public void setContacts(List<ModelIntentionContact> contacts) {
+        _contacts = contacts;
+    }
+
        // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
