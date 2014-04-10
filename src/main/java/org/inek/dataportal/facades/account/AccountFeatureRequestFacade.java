@@ -2,17 +2,16 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.account;
 
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
+import org.inek.dataportal.facades.AbstractFacade;
 
 /**
  *
