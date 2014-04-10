@@ -24,6 +24,9 @@ public class ModelIntentionContact implements Serializable {
     @Column (name = "siId")
     private Integer _Id;
     
+    @Column (name = "siModelIntentionId")
+    private Integer _modelIntentionId;
+    
     @Column(name = "siContactTypeId")
     private Integer _Type;
 
@@ -144,6 +147,17 @@ public class ModelIntentionContact implements Serializable {
     public void setEMail(String _EMail) {
         this._EMail = _EMail;
     }
+
+    public Integer getModelIntentionId() {
+        return _modelIntentionId;
+    }
+
+    public void setModelIntentionId(Integer modelIntentionId) {
+        _modelIntentionId = modelIntentionId;
+    }
+    
+    
+    
     
     // </editor-fold>
     

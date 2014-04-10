@@ -29,7 +29,11 @@ public class ModelIntentionModelLife implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "mlId")
     private Integer _Id;
-
+    
+    @Column (name = "mlModelIntentionId")
+    private Integer _modelIntentionId;
+    
+    
     @Column(name = "mlStartDate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _StartDate;
@@ -61,6 +65,14 @@ public class ModelIntentionModelLife implements Serializable {
 
     public void setMonthDuration(Integer _MonthDuration) {
         this._MonthDuration = _MonthDuration;
+    }
+
+    public Integer getModelIntentionId() {
+        return _modelIntentionId;
+    }
+
+    public void setModelIntentionId(Integer modelIntentionId) {
+        _modelIntentionId = modelIntentionId;
     }
 
       

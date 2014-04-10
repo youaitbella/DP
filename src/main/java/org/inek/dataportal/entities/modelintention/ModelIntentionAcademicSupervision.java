@@ -33,6 +33,9 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
     @Column (name = "asId")
     private Integer _id;
     
+    @Column (name = "asModelIntentionId")
+    private Integer _modelIntentionId;
+        
     @Column(name = "asRemitter")
     private String _remitter;
     
@@ -90,8 +93,17 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
         _to = to;
     }
     
+    public Integer getModelIntentionId() {
+        return _modelIntentionId;
+    }
+
+    public void setModelIntentionId(Integer modelIntentionId) {
+        _modelIntentionId = modelIntentionId;
+    }
     // </editor-fold>
-    
+
+
+   
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

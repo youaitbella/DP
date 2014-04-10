@@ -31,6 +31,10 @@ public class ModelIntentionQuality implements Serializable {/*
     @Column (name = "qyId")
     private Integer _Id;
     
+    @Column (name = "qyModelIntentionId")
+    private Integer _modelIntentionId;
+    
+    
     @Column(name = "qyType")
     private Integer _Type;
     
@@ -74,6 +78,16 @@ public class ModelIntentionQuality implements Serializable {/*
     public void setDescription(String _Description) {
         this._Description = _Description;
     }
+
+    public Integer getModelIntentionId() {
+        return _modelIntentionId;
+    }
+
+    public void setModelIntentionId(Integer modelIntentionId) {
+        _modelIntentionId = modelIntentionId;
+    }
+    
+    
     
     // </editor-fold>
     
