@@ -18,7 +18,7 @@ import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionAcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntentionModelLife;
-import org.inek.dataportal.entities.modelintention.ModelIntentionStructureInvolved;
+import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
@@ -44,7 +44,7 @@ public class EditModelIntention extends AbstractEditController {
     private boolean _ageYearEnabled, _regionMiscEnabled;
     private ModelIntention _modelIntention;
     private AgreedPatients _agreedPatients;
-    private ModelIntentionStructureInvolved _modelIntentionStrucuterInvolved;
+    private ModelIntentionContact _modelIntentionStrucuterInvolved;
     private ModelIntentionModelLife _modelIntentionModelLife;
     private ModelIntentionQuality _modelIntentionQuality;
     private ModelIntentionAcademicSupervision _modelIntentionAcademicSupervision;
@@ -490,7 +490,7 @@ public class EditModelIntention extends AbstractEditController {
         return _agreedPatients;
     }
     
-    public ModelIntentionStructureInvolved getModelIntentionStructureInvolved(){
+    public ModelIntentionContact getModelIntentionStructureInvolved(){
         return _modelIntentionStrucuterInvolved;
     }
     
@@ -567,8 +567,8 @@ public class EditModelIntention extends AbstractEditController {
         return agreedPatients;
     }
     
-    private ModelIntentionStructureInvolved newModelIntenionStructureInvolved() {
-        ModelIntentionStructureInvolved modelIntentionStructureInvolved = new ModelIntentionStructureInvolved();
+    private ModelIntentionContact newModelIntenionStructureInvolved() {
+        ModelIntentionContact modelIntentionStructureInvolved = new ModelIntentionContact();
         modelIntentionStructureInvolved.setType(2);
         modelIntentionStructureInvolved.setIK(null);
         modelIntentionStructureInvolved.setName(null);

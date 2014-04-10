@@ -42,7 +42,7 @@ public class ModelIntention implements Serializable {
     
     @Column(name = "miMiscPatient")
     private String _miscPatient;
-    
+   
     @Column(name = "miRegion")
     private String _region;
     
@@ -182,7 +182,7 @@ public class ModelIntention implements Serializable {
     private String _miscRemuneration;
     
     @Column(name = "miStatus")
-    private Integer _status;
+    private Integer _status = -1;
     
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     

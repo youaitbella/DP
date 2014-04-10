@@ -1,13 +1,13 @@
 package org.inek.dataportal.facades;
 
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.modelintention.ModelIntentionStructureInvolved;
+import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 
 @Stateless
-public class ModelIntentionStructureInvolvedFacade extends AbstractFacade<ModelIntentionStructureInvolved> {
+public class ModelIntentionStructureInvolvedFacade extends AbstractFacade<ModelIntentionContact> {
 
     public ModelIntentionStructureInvolvedFacade() {
-        super(ModelIntentionStructureInvolved.class);
+        super(ModelIntentionContact.class);
     }
         
 }
