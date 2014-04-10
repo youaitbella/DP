@@ -641,6 +641,7 @@ public class ModelIntention implements Serializable {
     public List<AcademicSupervision> getAcademicSupervisions() {
         if (_academicSupervisions == null){
             _academicSupervisions = new ArrayList<>();
+            _academicSupervisions.add(new AcademicSupervision());
         }
         return _academicSupervisions;
     }

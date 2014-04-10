@@ -18,13 +18,31 @@
         <components:Indicator/>
         
         <h2>#{msg.headerModelIntentionScientific}</h2>
-        <h:dataTable value="#{editModelIntention.modelIntention.academicSupervisions}" var="supervision">
-          <h:column id="colName">
+        <h:dataTable value="#{editModelIntention.modelIntention.academicSupervisions}" var="supervision" width="98%">
+          <h:column id="remitter">
             <f:facet name="header">
                 <h:outputText value="Auftraggeber"/>
             </f:facet>
               <h:inputText value="#{supervision.remitter}"/>
-         </h:column>
+          </h:column>
+          <h:column id="contractor">
+            <f:facet name="header">
+                <h:outputText value="Auftragnehmer"/>
+            </f:facet>
+              <h:inputText value="#{supervision.contractor}"/>
+          </h:column>
+          <h:column id="begin">
+            <f:facet name="header">
+                <h:outputText value="Beginn"/>
+            </f:facet>
+              <h:inputText value="#{supervision.academicSupFrom}"/>
+          </h:column>
+          <h:column id="end">
+            <f:facet name="header">
+                <h:outputText value="Ende"/>
+            </f:facet>
+              <h:inputText value="#{supervision.academicSupTo}"/>
+          </h:column>
         </h:dataTable>
     </ui:define>
 </ui:composition>

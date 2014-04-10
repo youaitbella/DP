@@ -36,13 +36,13 @@ public class AcademicSupervision implements Serializable {/*
     private Integer _id;
     
     @Column (name = "asModelIntentionId")
-    private Integer _modelIntentionId;
+    private int _modelIntentionId;
         
     @Column(name = "asRemitter")
-    private String _remitter;
+    private String _remitter = "";
     
     @Column(name = "asContractor")
-    private String _contractor;
+    private String _contractor = "";
         
     @Column(name = "asFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -94,11 +94,11 @@ public class AcademicSupervision implements Serializable {/*
         _to = to;
     }
     
-    public Integer getModelIntentionId() {
+    public int getModelIntentionId() {
         return _modelIntentionId;
     }
 
-    public void setModelIntentionId(Integer modelIntentionId) {
+    public void setModelIntentionId(int modelIntentionId) {
         _modelIntentionId = modelIntentionId;
     }
     // </editor-fold>
