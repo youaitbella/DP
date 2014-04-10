@@ -74,19 +74,19 @@ public class ModelIntentionAcademicSupervision implements Serializable {/*
         _contractor = contractor;
     }
 
-    public Date getFrom() {
+    public Date getAcademicSupFrom() {
         return _from;
     }
 
-    public void setFrom(Date from) {
+    public void setAcademicSupFrom(Date from) {
         _from = from;
     }
 
-    public Date getTo() {
+    public Date getAcademicSupTo() {
         return _to;
     }
 
-    public void setTo(Date to) {
+    public void setAcademicSupTo(Date to) {
         _to = to;
     }
     

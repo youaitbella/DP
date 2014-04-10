@@ -505,6 +505,11 @@ public class EditModelIntention extends AbstractEditController {
     public ModelIntentionQuality getModelIntentionQuality() {
         return _modelIntentionQuality;
     }
+    
+    public ModelIntentionAcademicSupervision getModelIntentionAcademicSupervision(){
+        return _modelIntentionAcademicSupervision;
+    }
+    
     // </editor-fold>
     @PostConstruct
     private void init() {
@@ -629,7 +634,7 @@ public class EditModelIntention extends AbstractEditController {
         }
     }
      
-
+   
     public String getStartDate() {
         if(_modelIntentionModelLife.getStartDate()== null)
             return "";
@@ -643,8 +648,35 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntentionModelLife.setStartDate(null);
         }
     }
+     
+    public String getAcademicSupTo() {
+        if(_modelIntentionAcademicSupervision.getAcademicSupTo()== null)
+            return "";
+        return _modelIntentionAcademicSupervision.getAcademicSupTo().toString();
+    }
     
+    public void setAcademicSupTo(String date) {
+        try {
+            _modelIntentionAcademicSupervision.setAcademicSupTo(SimpleDateFormat.getDateInstance().parse(date));
+        } catch(Exception ex) {
+            _modelIntentionAcademicSupervision.setAcademicSupTo(null);
+        }
+    }
     
+    public String getAcademicSupFrom() {
+        if(_modelIntentionAcademicSupervision.getAcademicSupFrom()== null)
+            return "";
+        return _modelIntentionAcademicSupervision.getAcademicSupFrom().toString();
+    }
+    
+    public void setAcademicSupFrom(String date) {
+        try {
+            _modelIntentionAcademicSupervision.setAcademicSupFrom(SimpleDateFormat.getDateInstance().parse(date));
+        } catch(Exception ex) {
+            _modelIntentionAcademicSupervision.setAcademicSupFrom(null);
+        }
+    }
+      
     private ModelIntentionController getModelIntentionController() {
         return (ModelIntentionController) _sessionController.getFeatureController(Feature.MODEL_INTENTION);
     }
