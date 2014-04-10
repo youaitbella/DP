@@ -31,7 +31,7 @@ import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountChangeMailFacade;
+import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import org.inek.dataportal.facades.AccountFacade;
 import org.inek.dataportal.facades.AccountPwdFacade;
 import org.inek.dataportal.facades.CustomerFacade;

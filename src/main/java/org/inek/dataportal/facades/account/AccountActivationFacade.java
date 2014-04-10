@@ -1,8 +1,9 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.account;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import org.inek.dataportal.entities.account.AccountActivation;
+import org.inek.dataportal.facades.AbstractFacade;
 
 /**
  *

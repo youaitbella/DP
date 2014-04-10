@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.account;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.Triple;
 
 @Stateless

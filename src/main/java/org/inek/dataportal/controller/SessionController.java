@@ -23,7 +23,7 @@ import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountDocumentFacade;
+import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.AccountFacade;
 import org.inek.dataportal.facades.AnnouncementFacade;
 import org.inek.dataportal.facades.DiagnosisFacade;

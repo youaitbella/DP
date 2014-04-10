@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AccountDocumentFacade;
+import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.peppproposal.EditPeppProposal;
 

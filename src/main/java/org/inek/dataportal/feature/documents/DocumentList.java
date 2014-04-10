@@ -6,7 +6,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.facades.AccountDocumentFacade;
+import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.helper.structures.Triple;
 
 @Named
