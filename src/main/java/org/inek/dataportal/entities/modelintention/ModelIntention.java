@@ -648,6 +648,17 @@ public class ModelIntention implements Serializable {
         if (_contacts == null){
             _contacts = new ArrayList<>();
         }
+        if (_contacts.isEmpty()){ // todo: move into editMI or other appropiate place, once the target module is ready for further editing
+            ModelIntentionContact c1 = new ModelIntentionContact();
+            c1.setContactTypeId(1);
+            _contacts.add(c1);
+            ModelIntentionContact c2 = new ModelIntentionContact();
+            c2.setContactTypeId(2);
+            _contacts.add(c2);
+            ModelIntentionContact c3 = new ModelIntentionContact();
+            c3.setContactTypeId(3);
+            _contacts.add(c3);
+        }
         return _contacts;
     }
 

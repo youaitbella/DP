@@ -30,8 +30,11 @@
         </h:dataTable>
 
         <h2>#{msg.headerModelIntentionContract}</h2>
-        <!--<components:Institute Type="# {editModelIntention.regCare}"/>-->
-        <components:Institute RegCareRender="true" />
+        <ui:repeat value="#{editModelIntention.modelIntention.contacts}" var="contact">
+            <div class="rectangle">
+                <components:Institute RegCareRender="true" />
+            </div>
+        </ui:repeat>
 
         <h2>#{msg.headerModelIntentionEffort}</h2>
         <components:Institute RegCareRender="false"/>

@@ -26,37 +26,37 @@ public class ModelIntentionContact implements Serializable {
     private Integer _id;
     
     @Column (name = "csModelIntentionId")
-    private Integer _modelIntentionId;
+    private int _modelIntentionId;
     
     @Column(name = "csContactTypeId")
-    private Integer _type;
+    private int _contactTypeId;
 
     @Column(name = "csIK")
-    private Integer _ik;
+    private int _ik;
 
     @Column(name = "csName")
-    private String _name;
+    private String _name = "";
     
     @Column(name = "csStreet")
-    private String _street;
+    private String _street = "";
     
     @Column(name = "csZip")
-    private Integer _zip;
+    private int _zip;
     
-    @Column(name = "csLocation")
-    private Integer _Town;
+    @Column(name = "csTown")
+    private String _town = "";
     
     @Column(name = "csRegCare")
-    private Integer _regCare;
+    private int _regCare;
     
     @Column(name = "csContactPerson")
-    private String _contactPerson;
+    private String _contactPerson = "";
     
     @Column(name = "csPhone")
-    private Integer _phone;
+    private String _phone = "";
     
     @Column(name = "csEMail")
-    private String _email;   
+    private String _email = "";
   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
@@ -67,84 +67,84 @@ public class ModelIntentionContact implements Serializable {
         _id = _Id;
     }
 
-    public Integer getType() {
-        return _type;
+    public int getContactTypeId() {
+        return _contactTypeId;
     }
 
-    public void setType(Integer _Type) {
-        _type = _Type;
+    public void setContactTypeId(int contactType) {
+        _contactTypeId = contactType;
     }
 
-    public Integer getIK() {
+    public int getIK() {
         return _ik;
     }
 
-    public void setIK(Integer _IK) {
-        _ik = _IK;
+    public void setIK(int ik) {
+        _ik = ik;
     }
 
     public String getName() {
         return _name;
     }
 
-    public void setName(String _Name) {
-        _name = _Name;
+    public void setName(String name) {
+        _name = name;
     }
 
     public String getStreet() {
         return _street;
     }
 
-    public void setStreet(String _Street) {
-        _street = _Street;
+    public void setStreet(String street) {
+        _street = street;
     }
 
-    public Integer getZip() {
+    public int getZip() {
         return _zip;
     }
 
-    public void setZip(Integer _Zip) {
-        _zip = _Zip;
+    public void setZip(int zip) {
+        _zip = zip;
     }
 
-    public Integer getTown() {
-        return _Town;
+    public String getTown() {
+        return _town;
     }
 
-    public void setTown(Integer _Town) {
-        _Town = _Town;
+    public void setTown(String town) {
+        _town = town;
     }
 
-    public Integer getRegCare() {
+    public int getRegCare() {
         return _regCare;
     }
 
-    public void setRegCare(Integer _regCare) {
-        _regCare = _regCare;
+    public void setRegCare(int regCare) {
+        _regCare = regCare;
     }
 
     public String getContactPerson() {
         return _contactPerson;
     }
 
-    public void setContactPerson(String _ContactPerson) {
-        _contactPerson = _ContactPerson;
+    public void setContactPerson(String contactPerson) {
+        _contactPerson = contactPerson;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return _phone;
     }
 
-    public void setPhone(Integer _Phone) {
-        _phone = _Phone;
+    public void setPhone(String phone) {
+        _phone = phone;
     }
 
     public String getEMail() {
         return _email;
     }
 
-    public void setEMail(String _EMail) {
-        _email = _EMail;
+    public void setEMail(String email) {
+        _email = email;
     }
 
     public Integer getModelIntentionId() {
@@ -154,9 +154,6 @@ public class ModelIntentionContact implements Serializable {
     public void setModelIntentionId(Integer modelIntentionId) {
         _modelIntentionId = modelIntentionId;
     }
-    
-    
-    
     
     // </editor-fold>
     
