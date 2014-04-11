@@ -64,7 +64,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setId(Integer _Id) {
-        this._id = _Id;
+        _id = _Id;
     }
 
     public Integer getType() {
@@ -72,7 +72,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setType(Integer _Type) {
-        this._type = _Type;
+        _type = _Type;
     }
 
     public Integer getIK() {
@@ -80,7 +80,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setIK(Integer _IK) {
-        this._ik = _IK;
+        _ik = _IK;
     }
 
     public String getName() {
@@ -88,7 +88,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setName(String _Name) {
-        this._name = _Name;
+        _name = _Name;
     }
 
     public String getStreet() {
@@ -96,7 +96,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setStreet(String _Street) {
-        this._street = _Street;
+        _street = _Street;
     }
 
     public Integer getZip() {
@@ -104,7 +104,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setZip(Integer _Zip) {
-        this._zip = _Zip;
+        _zip = _Zip;
     }
 
     public Integer getTown() {
@@ -112,7 +112,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setTown(Integer _Town) {
-        this._Town = _Town;
+        _Town = _Town;
     }
 
     public Integer getRegCare() {
@@ -120,7 +120,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setRegCare(Integer _regCare) {
-        this._regCare = _regCare;
+        _regCare = _regCare;
     }
 
     public String getContactPerson() {
@@ -128,7 +128,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setContactPerson(String _ContactPerson) {
-        this._contactPerson = _ContactPerson;
+        _contactPerson = _ContactPerson;
     }
 
     public Integer getPhone() {
@@ -136,7 +136,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setPhone(Integer _Phone) {
-        this._phone = _Phone;
+        _phone = _Phone;
     }
 
     public String getEMail() {
@@ -144,7 +144,7 @@ public class ModelIntentionContact implements Serializable {
     }
 
     public void setEMail(String _EMail) {
-        this._email = _EMail;
+        _email = _EMail;
     }
 
     public Integer getModelIntentionId() {

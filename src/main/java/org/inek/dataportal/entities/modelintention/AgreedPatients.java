@@ -51,7 +51,7 @@ public class AgreedPatients implements Serializable {
     }
 
     public void setId(Integer id) {
-        this._id = id;
+        _id = id;
     }
     
     
@@ -60,7 +60,7 @@ public class AgreedPatients implements Serializable {
     }
 
     public void setPatientsFrom(Date from) {
-        this._from = from;
+        _from = from;
     }
         
     public Date getPatientsTo() {
@@ -68,7 +68,7 @@ public class AgreedPatients implements Serializable {
     }
 
     public void setPatientsTo(Date to) {
-        this._to = to;
+        _to = to;
     }
     
     public int getPatientsCount() {
@@ -76,7 +76,7 @@ public class AgreedPatients implements Serializable {
     }
 
     public void setPatientsCount(int patientsCount) {
-        this._patientsCount = patientsCount;
+        _patientsCount = patientsCount;
     }
 
     public int getModelIntentionId() {

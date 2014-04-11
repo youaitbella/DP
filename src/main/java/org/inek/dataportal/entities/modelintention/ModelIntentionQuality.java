@@ -29,54 +29,53 @@ public class ModelIntentionQuality implements Serializable {/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "qyId")
-    private Integer _Id;
+    private Integer _id;
     
     @Column (name = "qyModelIntentionId")
     private Integer _modelIntentionId;
     
-    
     @Column(name = "qyType")
-    private Integer _Type;
+    private Integer _type;
     
     @Column(name = "qyIndicator")
-    private String _Indicator;
+    private String _indicator;
         
     @Column(name = "qyDescription")
-    private String _Description;
+    private String _description;
     
     
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
-        return _Id;
+        return _id;
     }
 
-    public void setId(Integer _Id) {
-        this._Id = _Id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     public Integer getType() {
-        return _Type;
+        return _type;
     }
 
-    public void setType(Integer _Type) {
-        this._Type = _Type;
+    public void setType(Integer type) {
+        type = type;
     }
 
     public String getIndicator() {
-        return _Indicator;
+        return _indicator;
     }
 
-    public void setIndicator(String _Indicator) {
-        this._Indicator = _Indicator;
+    public void setIndicator(String indicator) {
+        _indicator = indicator;
     }
 
     public String getDescription() {
-        return _Description;
+        return _description;
     }
 
-    public void setDescription(String _Description) {
-        this._Description = _Description;
+    public void setDescription(String description) {
+        _description = description;
     }
 
     public Integer getModelIntentionId() {
@@ -96,7 +95,7 @@ public class ModelIntentionQuality implements Serializable {/*
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_Id != null ? _Id.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -107,7 +106,7 @@ public class ModelIntentionQuality implements Serializable {/*
             return false;
         }
         ModelIntentionQuality other = (ModelIntentionQuality) object;
-        if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
+        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -115,7 +114,7 @@ public class ModelIntentionQuality implements Serializable {/*
 
     @Override
     public String toString() {
-        return "org.inek.entities.Quality[id=" + _Id + "]";
+        return "org.inek.entities.Quality[id=" + _id + "]";
     }
 
     // </editor-fold>

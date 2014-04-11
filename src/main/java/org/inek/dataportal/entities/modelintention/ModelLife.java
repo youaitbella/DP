@@ -28,7 +28,7 @@ public class ModelLife implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "mlId")
-    private Integer _Id;
+    private Integer _id;
     
     @Column (name = "mlModelIntentionId")
     private Integer _modelIntentionId;
@@ -44,19 +44,19 @@ public class ModelLife implements Serializable {
   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
-        return _Id;
+        return _id;
     }
 
-    public void setId(Integer _Id) {
-        this._Id = _Id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     public Date getStartDate() {
         return _startDate;
     }
 
-    public void setStartDate(Date _StartDate) {
-        this._startDate = _StartDate;
+    public void setStartDate(Date startDate) {
+        _startDate = startDate;
     }
 
     public int getMonthDuration() {
@@ -84,7 +84,7 @@ public class ModelLife implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_Id != null ? _Id.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -95,7 +95,7 @@ public class ModelLife implements Serializable {
             return false;
         }
         ModelLife other = (ModelLife) object;
-        if ((_Id == null && other.getId()!= null) || (_Id != null && !_Id.equals(other.getId()))) {
+        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -103,7 +103,7 @@ public class ModelLife implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.ModelLife[id=" + _Id + "]";
+        return "org.inek.entities.ModelLife[id=" + _id + "]";
     }
 
     // </editor-fold>

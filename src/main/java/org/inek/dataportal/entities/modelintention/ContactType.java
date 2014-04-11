@@ -26,7 +26,7 @@ public class ContactType implements Serializable {
     }
 
     public void setId(Long id) {
-        this._id = id;
+        _id = id;
     }
     
     public String getText() {
@@ -34,7 +34,7 @@ public class ContactType implements Serializable {
     }
 
     public void setText(String text) {
-        this._text = text;
+        _text = text;
     }
     
     
