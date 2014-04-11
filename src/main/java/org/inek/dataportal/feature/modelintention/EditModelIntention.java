@@ -44,63 +44,63 @@ public class EditModelIntention extends AbstractEditController {
     private boolean _ageYearEnabled, _regionMiscEnabled;
     private ModelIntention _modelIntention;
     private AgreedPatients _agreedPatients;
-    private ModelIntentionContact _modelIntentionStrucuterInvolved;
-    private ModelLife _modelIntentionModelLife;
     private ModelIntentionQuality _modelIntentionQuality;
     private AcademicSupervision _modelIntentionAcademicSupervision;
-        
+
     public boolean isAgeYearsEnabled() {
         return !_ageYearEnabled;
     }
-    
+
     public SelectItem[] getGenders() {
         List<SelectItem> l = new ArrayList<>();
         Genders[] genders = Genders.values();
-        for(Genders g : genders) {
+        for (Genders g : genders) {
             l.add(new SelectItem(g.id(), g.gender()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public enum Genders {
+
         Both(0, "Beide"),
         Male(1, "Männlich"),
         Female(2, "Weiblich");
-        
+
         private int _id;
         private String _gender;
-        
+
         private Genders(int id, String gender) {
             _id = id;
             _gender = gender;
         }
-        
+
         public int id() {
             return _id;
         }
-        
+
         public String gender() {
             return _gender;
         }
     }
-    
+
     public SelectItem[] getRegions() {
         List<SelectItem> l = new ArrayList<>();
         Regions[] regions = Regions.values();
-        for(Regions r : regions) {
+        for (Regions r : regions) {
             l.add(new SelectItem(r.id(), r.region()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public enum Regions {
+
         Germany(0, "Deutschland"),
         State(1, "Bundesland"),
         Misc(2, "Sonstige");
-        
+
         private int _id;
         private String _region;
-        
+
         private Regions(int id, String region) {
             _id = id;
             _region = region;
@@ -114,24 +114,25 @@ public class EditModelIntention extends AbstractEditController {
             return _region;
         }
     }
-    
+
     public SelectItem[] getMedicalAttributes() {
         List<SelectItem> l = new ArrayList<>();
         MedicalAttributes[] attrs = MedicalAttributes.values();
-        for(MedicalAttributes ma : attrs) {
+        for (MedicalAttributes ma : attrs) {
             l.add(new SelectItem(ma.id(), ma.attribute()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public enum MedicalAttributes {
+
         MainDiagnosis(0, "Hauptdiagnose(n)"),
         PracticeAreas(1, "behandelnde Fachgebiete"),
         Misc(2, "andere Spezifizierung");
-        
+
         private int _id;
         private String _attribute;
-        
+
         private MedicalAttributes(int id, String attribute) {
             _id = id;
             _attribute = attribute;
@@ -145,24 +146,25 @@ public class EditModelIntention extends AbstractEditController {
             return _attribute;
         }
     }
-    
+
     public SelectItem[] getSettledTypes() {
         List<SelectItem> l = new ArrayList<>();
         SettleTypes[] types = SettleTypes.values();
-        for(SettleTypes t : types) {
+        for (SettleTypes t : types) {
             l.add(new SelectItem(t.id(), t.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public enum SettleTypes {
+
         ImpartialDepartment(0, "fachgebietsunabhängig"),
         DepartmentDocs(1, "nur Fachärzte"),
         MiscMedics(2, "sonstige bestimmte Ärzte");
-        
+
         private int _id;
         private String _type;
-        
+
         private SettleTypes(int id, String type) {
             _id = id;
             _type = type;
@@ -192,7 +194,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void clearAgeYearTextfields() {
-        if(!_ageYearEnabled) {
+        if (!_ageYearEnabled) {
             _modelIntention.setAgeYearsFrom(-1);
             _modelIntention.setAgeYearsTo(-1);
         }
@@ -209,41 +211,44 @@ public class EditModelIntention extends AbstractEditController {
     public void setRegionMiscEnabled(boolean regionMiscEnabled) {
         this._regionMiscEnabled = regionMiscEnabled;
     }
-    
+
     public String getSettleText() {
-        if(_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id())
+        if (_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id()) {
             return "";
+        }
         return _modelIntention.getSettleMedicText();
     }
-    
+
     public void setSettleText(String text) {
-        if(_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id())
+        if (_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id()) {
             _modelIntention.setSettleMedicText("");
-        else
+        } else {
             _modelIntention.setSettleMedicText(text);
+        }
     }
-    
+
     public Integer getRegion() {
         int index = 0;
         boolean listItem = false;
         Regions[] regions = Regions.values();
-        for(Regions r : regions) {
-            if(r.region().equals(_modelIntention.getRegion())) {
+        for (Regions r : regions) {
+            if (r.region().equals(_modelIntention.getRegion())) {
                 index = r.id();
                 listItem = true;
             }
         }
-        if(!listItem)
+        if (!listItem) {
             index = Regions.Misc.id();
+        }
         return index;
     }
-    
+
     public void setRegion(Integer index) {
         Regions[] regions = Regions.values();
-        for(Regions r : regions) {
-            if(index == r.id()) {
+        for (Regions r : regions) {
+            if (index == r.id()) {
                 _regionMiscEnabled = r.region().equals(Regions.Misc.region());
-                if(_regionMiscEnabled) {
+                if (_regionMiscEnabled) {
                     _modelIntention.setRegion(null);
                 } else {
                     _modelIntention.setRegion(r.region());
@@ -251,32 +256,33 @@ public class EditModelIntention extends AbstractEditController {
             }
         }
     }
-    
+
     public boolean isSettleTextEnabled() {
-        if(_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id())
+        if (_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id()) {
             return false;
+        }
         return true;
     }
-    
+
     public SelectItem[] getPiaTypes() {
         List<SelectItem> l = new ArrayList<>();
         PiaTypes[] types = PiaTypes.values();
-        for(PiaTypes p : types) {
+        for (PiaTypes p : types) {
             l.add(new SelectItem(p.id(), p.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public enum PiaTypes {
+
         AnyPIA(0, "jede PIA"),
         IntegratedPIA(1, "nur PIA der im Modellvorhaben integrierten Krankenhäuser"),
         ContractPIA(2, "nur PIA, die auch Vertragspartner im Modellvorhaben sind"),
         SpecificPIA(3, "nur bestimmte PIA");
-        
-        
+
         private int _id;
         private String _type;
-        
+
         private PiaTypes(int id, String type) {
             _id = id;
             _type = type;
@@ -290,45 +296,48 @@ public class EditModelIntention extends AbstractEditController {
             return _type;
         }
     }
-    
+
     public String getPIAText() {
-        if(_modelIntention.getPiaType()!= PiaTypes.SpecificPIA.id())
+        if (_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id()) {
             return "";
+        }
         return _modelIntention.getPiaText();
     }
-    
+
     public void setPIAText(String text) {
-        if(_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id())
+        if (_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id()) {
             _modelIntention.setPiaText("");
-        else
+        } else {
             _modelIntention.setPiaText(text);
+        }
     }
-    
+
     public boolean isPIATextEnabled() {
-        if(_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id())
+        if (_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id()) {
             return false;
+        }
         return true;
     }
 
     public SelectItem[] getHospitalTypes() {
         List<SelectItem> l = new ArrayList<>();
         HospitalTypes[] types = HospitalTypes.values();
-        for(HospitalTypes h : types) {
+        for (HospitalTypes h : types) {
             l.add(new SelectItem(h.id(), h.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public enum HospitalTypes {
+
         AnyHospital(0, "jedes Krankenhaus"),
         ModelProjectHospital(1, "nur am Modellprojekt beteiligte Krankenhäuser"),
         SpecificHospital(2, "nur Fachkrankenhäuser"),
         OtherHospital(3, "sonstige bestimmte Krankenhäuser");
-        
-        
+
         private int _id;
         private String _type;
-        
+
         private HospitalTypes(int id, String type) {
             _id = id;
             _type = type;
@@ -342,46 +351,47 @@ public class EditModelIntention extends AbstractEditController {
             return _type;
         }
     }
-    
+
     public String getHospitalText() {
-        if(_modelIntention.getHospitalType()!= HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType()!= HospitalTypes.OtherHospital.id())
+        if (_modelIntention.getHospitalType() != HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType() != HospitalTypes.OtherHospital.id()) {
             return "";
+        }
         return _modelIntention.getHospitalText();
     }
-    
+
     public void setHospitalText(String text) {
-        if(_modelIntention.getHospitalType()!= HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType()!= HospitalTypes.OtherHospital.id())
+        if (_modelIntention.getHospitalType() != HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType() != HospitalTypes.OtherHospital.id()) {
             _modelIntention.setHospitalText("");
-        else
+        } else {
             _modelIntention.setHospitalText(text);
+        }
     }
-    
+
     public boolean isHospitalTextEnabled() {
-        if(_modelIntention.getHospitalType()!= HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType()!= HospitalTypes.OtherHospital.id())
+        if (_modelIntention.getHospitalType() != HospitalTypes.SpecificHospital.id() && _modelIntention.getHospitalType() != HospitalTypes.OtherHospital.id()) {
             return false;
+        }
         return true;
     }
-    
-    
-        public SelectItem[] getSelfHospitalisationTypes() {
+
+    public SelectItem[] getSelfHospitalisationTypes() {
         List<SelectItem> l = new ArrayList<>();
         SelfHospitalisationTypes[] types = SelfHospitalisationTypes.values();
-        for(SelfHospitalisationTypes sh : types) {
+        for (SelfHospitalisationTypes sh : types) {
             l.add(new SelectItem(sh.id(), sh.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
-    
+
     public enum SelfHospitalisationTypes {
+
         Possible(0, "grundsätzlich möglich"),
         EmergencyPossible(1, "nur als Notfall möglich"),
         NotPossible(2, "grundsätzlich nicht möglich");
-        
-        
+
         private int _id;
         private String _type;
-        
+
         private SelfHospitalisationTypes(int id, String type) {
             _id = id;
             _type = type;
@@ -395,26 +405,25 @@ public class EditModelIntention extends AbstractEditController {
             return _type;
         }
     }
-    
-    
+
     public SelectItem[] getTreatmentTypes() {
         List<SelectItem> l = new ArrayList<>();
         TreatmentTypes[] types = TreatmentTypes.values();
-        for(TreatmentTypes tt : types) {
+        for (TreatmentTypes tt : types) {
             l.add(new SelectItem(tt.id(), tt.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-        
+
     public enum TreatmentTypes {
+
         No(0, "nein"),
         Generally(1, "grundsätzlich"),
         SpecialSetting(2, "nur spezielles Setting");
-        
-        
+
         private int _id;
         private String _type;
-        
+
         private TreatmentTypes(int id, String type) {
             _id = id;
             _type = type;
@@ -428,43 +437,42 @@ public class EditModelIntention extends AbstractEditController {
             return _type;
         }
     }
-    
-     public boolean isTreatmentTextEnabled() {
-        if(_modelIntention.getStationaryType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+
+    public boolean isTreatmentTextEnabled() {
+        if (_modelIntention.getStationaryType() == TreatmentTypes.Generally.id() || _modelIntention.getStationaryType() == TreatmentTypes.No.id()) {
             return false;
+        }
         return true;
     }
-     
-      public boolean isPartialHospitalisationTextEnabled() {
-        if(_modelIntention.getPartialHospitalisationType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+
+    public boolean isPartialHospitalisationTextEnabled() {
+        if (_modelIntention.getPartialHospitalisationType() == TreatmentTypes.Generally.id() || _modelIntention.getStationaryType() == TreatmentTypes.No.id()) {
             return false;
+        }
         return true;
     }
-    
+
     public boolean isHospitalAbulantTextEnabled() {
-        if(_modelIntention.getHospitalAmbulantTreatmentType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+        if (_modelIntention.getHospitalAmbulantTreatmentType() == TreatmentTypes.Generally.id() || _modelIntention.getStationaryType() == TreatmentTypes.No.id()) {
             return false;
+        }
         return true;
     }
-      
+
     public boolean isHomeVisitPIATextEnabled() {
-        if(_modelIntention.getVisitPiaType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+        if (_modelIntention.getVisitPiaType() == TreatmentTypes.Generally.id() || _modelIntention.getStationaryType() == TreatmentTypes.No.id()) {
             return false;
+        }
         return true;
     }
-    
-          
+
     public boolean isAmbulantTreatmentTextEnabled() {
-        if(_modelIntention.getAmbulantTreatmentType()== TreatmentTypes.Generally.id() || _modelIntention.getStationaryType()== TreatmentTypes.No.id())
+        if (_modelIntention.getAmbulantTreatmentType() == TreatmentTypes.Generally.id() || _modelIntention.getStationaryType() == TreatmentTypes.No.id()) {
             return false;
+        }
         return true;
     }
-    
-    public boolean isRegCare(){
-        return _modelIntentionStrucuterInvolved.getType() == 1;
-    }
-    
-    
+
     enum ModelIntentionTabs {
 
         tabModelIntTypeAndNumberOfPatients,
@@ -477,7 +485,7 @@ public class EditModelIntention extends AbstractEditController {
     public EditModelIntention() {
         //System.out.println("EditModelIntention");
         _ageYearEnabled = false;
-        _regionMiscEnabled = false;       
+        _regionMiscEnabled = false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -488,15 +496,7 @@ public class EditModelIntention extends AbstractEditController {
     public AgreedPatients getAgreedPatients() {
         return _agreedPatients;
     }
-    
-    public ModelIntentionContact getModelIntentionStructureInvolved(){
-        return _modelIntentionStrucuterInvolved;
-    }
-    
-    public ModelLife getModelIntentionModelLife(){
-        return _modelIntentionModelLife;
-    }
-    
+
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
     }
@@ -504,11 +504,11 @@ public class EditModelIntention extends AbstractEditController {
     public ModelIntentionQuality getModelIntentionQuality() {
         return _modelIntentionQuality;
     }
-    
-    public AcademicSupervision getModelIntentionAcademicSupervision(){
+
+    public AcademicSupervision getModelIntentionAcademicSupervision() {
         return _modelIntentionAcademicSupervision;
     }
-    
+
     // </editor-fold>
     @PostConstruct
     private void init() {
@@ -518,25 +518,25 @@ public class EditModelIntention extends AbstractEditController {
         if (miId == null) {
             _modelIntention = newModelIntention();
             _agreedPatients = newAgreedPatients();
-            _modelIntentionStrucuterInvolved = newModelIntenionStructureInvolved();
-            _modelIntentionModelLife = newModelIntentionModelLife();
             _modelIntentionQuality = newModelIntentionQuality();
             _modelIntentionAcademicSupervision = newModelIntentionAcademicSupervision();
         } else {
             _modelIntention = loadModelIntention(miId);
             _agreedPatients = loadAgreedPatients(miId);
-        }if(_modelIntention.getAgeYearsFrom() >= 0 || _modelIntention.getAgeYearsTo() >= 0)
+        }
+        if (_modelIntention.getAgeYearsFrom() >= 0 || _modelIntention.getAgeYearsTo() >= 0) {
             _ageYearEnabled = true;
-        if(_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region()))
+        }
+        if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region())) {
             _regionMiscEnabled = true;
+        }
         //ensureEmptyEntry(_peppProposal.getProcedures());
     }
 
     @PreDestroy
-    private void destroy(){
+    private void destroy() {
         //_logger.log(Level.WARNING, "Destroy EditModelIntation");
     }
-    
 
     private ModelIntention loadModelIntention(Object ppId) {
         try {
@@ -548,7 +548,7 @@ public class EditModelIntention extends AbstractEditController {
         }
         return newModelIntention();
     }
-    
+
     private AgreedPatients loadAgreedPatients(Object miId) {
         try {
             int id = Integer.parseInt("" + miId);
@@ -573,7 +573,7 @@ public class EditModelIntention extends AbstractEditController {
         modelIntention.setAmbulantTreatmentType(TreatmentTypes.No.id());
         return modelIntention;
     }
-    
+
     private AgreedPatients newAgreedPatients() {
         AgreedPatients agreedPatients = new AgreedPatients();
         agreedPatients.setPatientsTo(null);
@@ -581,7 +581,7 @@ public class EditModelIntention extends AbstractEditController {
         agreedPatients.setPatientsCount(0);
         return agreedPatients;
     }
-    
+
     private ModelIntentionContact newModelIntenionStructureInvolved() {
         ModelIntentionContact modelIntentionStructureInvolved = new ModelIntentionContact();
         modelIntentionStructureInvolved.setType(2);
@@ -596,82 +596,86 @@ public class EditModelIntention extends AbstractEditController {
         modelIntentionStructureInvolved.setEMail(null);
         return modelIntentionStructureInvolved;
     }
-    
-   private ModelLife newModelIntentionModelLife(){
-       ModelLife modelIntentionModelLife = new ModelLife();
-       modelIntentionModelLife.setStartDate(null);
-       modelIntentionModelLife.setMonthDuration(0);
-       return modelIntentionModelLife;
-   }
-    
-   private ModelIntentionQuality newModelIntentionQuality(){
-       ModelIntentionQuality modelIntentionQuality = new ModelIntentionQuality();
-       modelIntentionQuality.setId(null);
-       return modelIntentionQuality;
-   }
-   
-   private AcademicSupervision newModelIntentionAcademicSupervision(){
-       AcademicSupervision modelIntentionAcademicSupervision = new AcademicSupervision();
-       modelIntentionAcademicSupervision.setId(null);
-       return modelIntentionAcademicSupervision;
-   }
-    
+
+    private ModelLife newModelIntentionModelLife() {
+        ModelLife modelIntentionModelLife = new ModelLife();
+        modelIntentionModelLife.setStartDate(null);
+        modelIntentionModelLife.setMonthDuration(0);
+        return modelIntentionModelLife;
+    }
+
+    private ModelIntentionQuality newModelIntentionQuality() {
+        ModelIntentionQuality modelIntentionQuality = new ModelIntentionQuality();
+        modelIntentionQuality.setId(null);
+        return modelIntentionQuality;
+    }
+
+    private AcademicSupervision newModelIntentionAcademicSupervision() {
+        AcademicSupervision modelIntentionAcademicSupervision = new AcademicSupervision();
+        modelIntentionAcademicSupervision.setId(null);
+        return modelIntentionAcademicSupervision;
+    }
+
     public String getPatientsTo() {
-        if(_agreedPatients.getPatientsTo() == null)
+        if (_agreedPatients.getPatientsTo() == null) {
             return "";
+        }
         return _agreedPatients.getPatientsTo().toString();
     }
-    
+
     public void setPatientsTo(String date) {
         try {
             _agreedPatients.setPatientsTo(SimpleDateFormat.getDateInstance().parse(date));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             _agreedPatients.setPatientsTo(null);
         }
     }
-    
+
     public String getPatientsFrom() {
-        if(_agreedPatients.getPatientsFrom() == null)
+        if (_agreedPatients.getPatientsFrom() == null) {
             return "";
+        }
         return _agreedPatients.getPatientsFrom().toString();
     }
-    
+
     public void setPatientsFrom(String date) {
         try {
             _agreedPatients.setPatientsFrom(SimpleDateFormat.getDateInstance().parse(date));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             _agreedPatients.setPatientsFrom(null);
         }
     }
-     
+
     public String getAcademicSupTo() {
-        if(_modelIntentionAcademicSupervision.getAcademicSupTo()== null)
+        if (_modelIntentionAcademicSupervision.getAcademicSupTo() == null) {
             return "";
+        }
         return _modelIntentionAcademicSupervision.getAcademicSupTo().toString();
     }
-    
+
     public void setAcademicSupTo(String date) {
         try {
             _modelIntentionAcademicSupervision.setAcademicSupTo(SimpleDateFormat.getDateInstance().parse(date));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             _modelIntentionAcademicSupervision.setAcademicSupTo(null);
         }
     }
-    
+
     public String getAcademicSupFrom() {
-        if(_modelIntentionAcademicSupervision.getAcademicSupFrom()== null)
+        if (_modelIntentionAcademicSupervision.getAcademicSupFrom() == null) {
             return "";
+        }
         return _modelIntentionAcademicSupervision.getAcademicSupFrom().toString();
     }
-    
+
     public void setAcademicSupFrom(String date) {
         try {
             _modelIntentionAcademicSupervision.setAcademicSupFrom(SimpleDateFormat.getDateInstance().parse(date));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             _modelIntentionAcademicSupervision.setAcademicSupFrom(null);
         }
     }
-      
+
     private ModelIntentionController getModelIntentionController() {
         return (ModelIntentionController) _sessionController.getFeatureController(Feature.MODEL_INTENTION);
     }
@@ -700,6 +704,7 @@ public class EditModelIntention extends AbstractEditController {
     public boolean isReadOnly() {
         return false;
     }
+
     public boolean isReadOnly(boolean laxCheck) {
         return false;
     }
@@ -707,7 +712,7 @@ public class EditModelIntention extends AbstractEditController {
     public boolean isRejectedModelIntention() {
         return ModelIntentionStatus.Rejected.getValue() == _modelIntention.getStatus();
     }
-    
+
     /**
      * requests sealing of a formal request if the form is completely full
      * filled, this function displays a confirmation dialog confirming with "ok"
@@ -738,7 +743,9 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.Error.URL();
         }
-        if (_modelIntention.getStatus() >= 10){return Pages.Error.URL();}
+        if (_modelIntention.getStatus() >= 10) {
+            return Pages.Error.URL();
+        }
 
         _modelIntention.setStatus(10 + _modelIntention.getStatus());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
@@ -768,13 +775,15 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.Error.URL();
         }
-        if (_modelIntention.getStatus() >= 10){return Pages.Error.URL();}
+        if (_modelIntention.getStatus() >= 10) {
+            return Pages.Error.URL();
+        }
 
         _modelIntention.setStatus(ModelIntentionStatus.ApprovalRequested.getValue());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         return "";
     }
-    
+
     /**
      * checks, whether the session is still valid
      *
@@ -785,6 +794,5 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-
     // </editor-fold>
 }

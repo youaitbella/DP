@@ -12,17 +12,18 @@
         <h2>#{msg.headerModelIntentionLifetime}</h2>
         <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
             <h:column>
-            <f:facet name="header">
-                <h:outputText value="Start"/>
-            </f:facet>
+                <f:facet name="header">
+                    <h:outputText value="Start"/>
+                </f:facet>
                 <h:inputText value="#{modelLife.startDate}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </h:column>
-            <f:facet name="header">
-                <h:outputText value="Dauer"/>
-            </f:facet>
-            <h:inputText value="#{modelLife.monthDuration}">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Dauer"/>
+                </f:facet>
+                <h:inputText value="#{modelLife.monthDuration}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </h:column>
