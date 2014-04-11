@@ -13,15 +13,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.AcademicSupervision;
-import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
-import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
-import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.modelintention.AgreedPatientsFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -39,11 +35,9 @@ public class EditModelIntention extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
-    @Inject private AgreedPatientsFacade _agreedPatientsFacade;
     @Inject private Conversation _conversation;
     private boolean _ageYearEnabled, _regionMiscEnabled;
     private ModelIntention _modelIntention;
-    private AgreedPatients _agreedPatients;
     private ModelIntentionQuality _modelIntentionQuality;
     private AcademicSupervision _modelIntentionAcademicSupervision;
 
@@ -493,9 +487,6 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntention;
     }
 
-    public AgreedPatients getAgreedPatients() {
-        return _agreedPatients;
-    }
 
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
@@ -517,12 +508,10 @@ public class EditModelIntention extends AbstractEditController {
         Object miId = Utils.getFlash().get("modelId");
         if (miId == null) {
             _modelIntention = newModelIntention();
-            _agreedPatients = newAgreedPatients();
             _modelIntentionQuality = newModelIntentionQuality();
             _modelIntentionAcademicSupervision = newModelIntentionAcademicSupervision();
         } else {
             _modelIntention = loadModelIntention(miId);
-            _agreedPatients = loadAgreedPatients(miId);
         }
         if (_modelIntention.getAgeYearsFrom() >= 0 || _modelIntention.getAgeYearsTo() >= 0) {
             _ageYearEnabled = true;
@@ -549,16 +538,6 @@ public class EditModelIntention extends AbstractEditController {
         return newModelIntention();
     }
 
-    private AgreedPatients loadAgreedPatients(Object miId) {
-        try {
-            int id = Integer.parseInt("" + miId);
-            //return _agreedPatientsFacade.findByModelIntentionId(id);
-        } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
-        }
-        return newAgreedPatients();
-    }
-
     private ModelIntention newModelIntention() {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
         modelIntention.setAccountId(_sessionController.getAccountId());
@@ -574,36 +553,6 @@ public class EditModelIntention extends AbstractEditController {
         return modelIntention;
     }
 
-    private AgreedPatients newAgreedPatients() {
-        AgreedPatients agreedPatients = new AgreedPatients();
-        agreedPatients.setPatientsTo(null);
-        agreedPatients.setPatientsFrom(null);
-        agreedPatients.setPatientsCount(0);
-        return agreedPatients;
-    }
-
-    private ModelIntentionContact newModelIntenionStructureInvolved() {
-        ModelIntentionContact modelIntentionStructureInvolved = new ModelIntentionContact();
-        modelIntentionStructureInvolved.setType(2);
-        modelIntentionStructureInvolved.setIK(null);
-        modelIntentionStructureInvolved.setName(null);
-        modelIntentionStructureInvolved.setStreet(null);
-        modelIntentionStructureInvolved.setZip(null);
-        modelIntentionStructureInvolved.setTown(null);
-        modelIntentionStructureInvolved.setRegCare(null);
-        modelIntentionStructureInvolved.setContactPerson(null);
-        modelIntentionStructureInvolved.setPhone(null);
-        modelIntentionStructureInvolved.setEMail(null);
-        return modelIntentionStructureInvolved;
-    }
-
-    private ModelLife newModelIntentionModelLife() {
-        ModelLife modelIntentionModelLife = new ModelLife();
-        modelIntentionModelLife.setStartDate(null);
-        modelIntentionModelLife.setMonthDuration(0);
-        return modelIntentionModelLife;
-    }
-
     private ModelIntentionQuality newModelIntentionQuality() {
         ModelIntentionQuality modelIntentionQuality = new ModelIntentionQuality();
         modelIntentionQuality.setId(null);
@@ -614,36 +563,6 @@ public class EditModelIntention extends AbstractEditController {
         AcademicSupervision modelIntentionAcademicSupervision = new AcademicSupervision();
         modelIntentionAcademicSupervision.setId(null);
         return modelIntentionAcademicSupervision;
-    }
-
-    public String getPatientsTo() {
-        if (_agreedPatients.getPatientsTo() == null) {
-            return "";
-        }
-        return _agreedPatients.getPatientsTo().toString();
-    }
-
-    public void setPatientsTo(String date) {
-        try {
-            _agreedPatients.setPatientsTo(SimpleDateFormat.getDateInstance().parse(date));
-        } catch (Exception ex) {
-            _agreedPatients.setPatientsTo(null);
-        }
-    }
-
-    public String getPatientsFrom() {
-        if (_agreedPatients.getPatientsFrom() == null) {
-            return "";
-        }
-        return _agreedPatients.getPatientsFrom().toString();
-    }
-
-    public void setPatientsFrom(String date) {
-        try {
-            _agreedPatients.setPatientsFrom(SimpleDateFormat.getDateInstance().parse(date));
-        } catch (Exception ex) {
-            _agreedPatients.setPatientsFrom(null);
-        }
     }
 
     public String getAcademicSupTo() {
@@ -686,8 +605,6 @@ public class EditModelIntention extends AbstractEditController {
         }
         _modelIntention.setStatus(1);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
-        _agreedPatients.setModelIntentionId(_modelIntention.getId());
-        _agreedPatientsFacade.persist(_agreedPatients);
         if (isValidId(_modelIntention.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";

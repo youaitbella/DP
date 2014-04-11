@@ -193,6 +193,11 @@ public class ModelIntention implements Serializable {
     private List<ModelIntentionContact> _contacts;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<AgreedPatients> _agreedPatients;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
     private List<ModelLife> _modelLifes;
@@ -626,6 +631,17 @@ public class ModelIntention implements Serializable {
 
     public void setStatus(int status) {
         this._status = status;
+    }
+
+    public List<AgreedPatients> getAgreedPatients() {
+        if (_agreedPatients == null){
+            _agreedPatients = new ArrayList<>();
+        }
+        return _agreedPatients;
+    }
+
+    public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
+        _agreedPatients = agreedPatients;
     }
    
     public List<ModelIntentionContact> getContacts() {
