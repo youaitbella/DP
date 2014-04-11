@@ -416,6 +416,12 @@ div#wrapper {
     font-weight: bold;
 }
 
+.label30 {
+    font-weight: bold;
+    display: inline-block;
+    width: 30%;
+}
+
 label.required:after,
 label.fakeRequired:after {
     content: " *";

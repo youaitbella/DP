@@ -6,7 +6,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:inek="http://java.sun.com/jsf/composite/components"
-                xmlns:components="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:i="http://xmlns.jcp.org/jsf/composite/components">
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
@@ -30,17 +30,27 @@
         </h:dataTable>
 
         <h2>#{msg.headerModelIntentionContract}</h2>
-        <ui:repeat value="#{editModelIntention.modelIntention.contacts}" var="contact">
+        <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==1).toList() }" var="contact">
             <div class="rectangle">
-                <components:Institute RegCareRender="true" />
+                <i:Institute RegCareRender="true" 
+                             IK="#{contact.ik}"
+                             Name="#{contact.name}"/>
             </div>
         </ui:repeat>
 
         <h2>#{msg.headerModelIntentionEffort}</h2>
-        <components:Institute RegCareRender="false"/>
+        <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==2).toList() }" var="contact">
+            <div class="rectangle">
+                <i:Institute RegCareRender="false" />
+            </div>
+        </ui:repeat>
 
         <h2>#{msg.headerModelIntentionCostInsurance}</h2>
-        <components:Institute RegCareRender="false"/>
+        <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==3).toList() }" var="contact">
+            <div class="rectangle">
+                <i:Institute RegCareRender="false" />
+            </div>
+        </ui:repeat>
 
     </ui:define>
 </ui:composition>

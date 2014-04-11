@@ -71,15 +71,15 @@ public class ModelIntentionContact implements Serializable {
         return _contactTypeId;
     }
 
-    public void setContactTypeId(int contactType) {
-        _contactTypeId = contactType;
+    public void setContactTypeId(int contactTypeId) {
+        _contactTypeId = contactTypeId;
     }
 
-    public int getIK() {
+    public int getIk() {
         return _ik;
     }
 
-    public void setIK(int ik) {
+    public void setIk(int ik) {
         _ik = ik;
     }
 
