@@ -1,8 +1,12 @@
 package org.inek.dataportal.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.Conversation;
@@ -10,26 +14,25 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
+import org.inek.dataportal.entities.Announcement;
+import org.inek.dataportal.entities.InekRole;
+import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.AccountFeature;
-import org.inek.dataportal.entities.Announcement;
-import org.inek.dataportal.entities.InekRole;
-import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.AnnouncementFacade;
 import org.inek.dataportal.facades.DiagnosisFacade;
 import org.inek.dataportal.facades.LogFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
+import org.inek.dataportal.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
@@ -176,23 +179,35 @@ public class SessionController implements Serializable {
             _topics.clear();
             _features.clear();
             _parts.clear();
+            invalidateSession();
         }
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return Pages.Login.URL(); // + "?faces-redirect=true";
+        return Pages.Login.URL() + "?faces-redirect=true";
+    }
+
+    private void invalidateSession() {
+        String sessionId = retrieveSessionId();
+        if (sessionId.length() > 0) {
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        }
     }
 
     public void LogMessage(String msg) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        String sessionId = "";
-        if (facesContext != null) {
-            sessionId = facesContext.getExternalContext().getSessionId(false);
-        }
+        String sessionId = retrieveSessionId();
         int accountId = -1;
         if (_account != null) {
             accountId = _account.getAccountId();
         }
         Log log = new Log(accountId, sessionId, msg);
         _logFacade.persist(log);
+    }
+
+    private String retrieveSessionId() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        if (facesContext == null) {
+            return "";
+        }
+        String sessionId = facesContext.getExternalContext().getSessionId(false);
+        return sessionId == null ? "" : sessionId;
     }
 
     /**
@@ -209,6 +224,7 @@ public class SessionController implements Serializable {
     }
 
     public boolean login(String mailOrUser, String password) {
+        //invalidateSession();
         _account = _accountFacade.getAccount(mailOrUser, password);
         initFeatures();
         if (_account == null) {

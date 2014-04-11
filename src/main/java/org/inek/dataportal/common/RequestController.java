@@ -52,7 +52,7 @@ public class RequestController implements Serializable {
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
             return;
         }
-        if (viewId.equals(Pages.Login.URL()) || viewId.equals(Pages.Error.URL()) || viewId.equals(Pages.SessionTimeout.URL())) {
+        if (viewId.equals(Pages.Error.URL()) || viewId.equals(Pages.SessionTimeout.URL())) {
             tryLogout();
             return;
         }
