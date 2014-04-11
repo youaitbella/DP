@@ -139,11 +139,11 @@ public class ModelIntentionContact implements Serializable {
         _phone = phone;
     }
 
-    public String getEMail() {
+    public String getEmail() {
         return _email;
     }
 
-    public void setEMail(String email) {
+    public void setEmail(String email) {
         _email = email;
     }
 

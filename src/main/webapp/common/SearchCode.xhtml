@@ -32,7 +32,7 @@
                     <h:outputLabel id="lblSearchText" styleClass="label" value="#{msg.lblSearchText}:"/>
                     <h:message for="startElement" id="msgSearchText" styleClass="errorMessage"/>
                     <br/>
-                    <h:inputText styleClass="inputlong" id="startElement" value="#{searchCode.searchText}"
+                    <h:inputText styleClass="inputwide" id="startElement" value="#{searchCode.searchText}"
                                  required="true" requiredMessage="#{msg.msgValueNeeded}" 
                                  validator="#{searchCode.checkSearchToken}"
                                  title="#{msg.titleSearch}">

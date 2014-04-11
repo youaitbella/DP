@@ -8,12 +8,14 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
@@ -487,7 +489,6 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntention;
     }
 
-
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
     }
@@ -710,6 +711,14 @@ public class EditModelIntention extends AbstractEditController {
         return !_conversation.isTransient();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="tab structure">
+    public void addContractorListener(ActionEvent event){
+        ModelIntentionContact contact = new ModelIntentionContact();
+        contact.setContactTypeId(1);
+        _modelIntention.getContacts().add(contact);
+    }
+    
+    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
     // </editor-fold>
 }
