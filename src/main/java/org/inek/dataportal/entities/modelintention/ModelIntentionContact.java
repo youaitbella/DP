@@ -20,6 +20,9 @@ public class ModelIntentionContact implements Serializable {
 
     private static final long serialVercsonUID = 1L;
     
+    public ModelIntentionContact (){}
+    public ModelIntentionContact (int contactTypeId){_contactTypeId = contactTypeId;}
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "csId")
@@ -32,7 +35,7 @@ public class ModelIntentionContact implements Serializable {
     private int _contactTypeId;
 
     @Column(name = "csIK")
-    private int _ik;
+    private int _ik = -1;
 
     @Column(name = "csName")
     private String _name = "";
@@ -75,12 +78,12 @@ public class ModelIntentionContact implements Serializable {
         _contactTypeId = contactTypeId;
     }
 
-    public int getIk() {
-        return _ik;
+    public Integer getIk() {
+        return _ik < 0 ? null : _ik;
     }
 
-    public void setIk(int ik) {
-        _ik = ik;
+    public void setIk(Integer ik) {
+        _ik = ik == null ? -1 : ik;
     }
 
     public String getName() {

@@ -647,17 +647,9 @@ public class ModelIntention implements Serializable {
     public List<ModelIntentionContact> getContacts() {
         if (_contacts == null){
             _contacts = new ArrayList<>();
-        }
-        if (_contacts.isEmpty()){ // todo: move into editMI or other appropiate place, once the target module is ready for further editing
-            ModelIntentionContact c1 = new ModelIntentionContact();
-            c1.setContactTypeId(1);
-            _contacts.add(c1);
-            ModelIntentionContact c2 = new ModelIntentionContact();
-            c2.setContactTypeId(2);
-            _contacts.add(c2);
-            ModelIntentionContact c3 = new ModelIntentionContact();
-            c3.setContactTypeId(3);
-            _contacts.add(c3);
+            // at least, there must be two partners:
+            _contacts.add(new ModelIntentionContact(1));
+            _contacts.add(new ModelIntentionContact(1));
         }
         return _contacts;
     }
@@ -669,6 +661,7 @@ public class ModelIntention implements Serializable {
     public List<ModelLife> getModelLifes() {
         if (_modelLifes == null){
             _modelLifes = new ArrayList<>();
+            _modelLifes.add(new ModelLife());
         }
         return _modelLifes;
     }

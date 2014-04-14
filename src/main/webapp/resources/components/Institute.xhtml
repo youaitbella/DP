@@ -23,35 +23,35 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractIkNo" value="#{msg.lblIKNo}: " />
             <h:inputText styleClass="inputlong" id="txtContractIKNo" value="#{cc.attrs.IK}">
                 <f:ajax event="blur" render="@this :logout:remaining"  />
             </h:inputText>
         </div>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractName" value="#{msg.lblName}: " />
             <h:inputText styleClass="inputlong" id="txtContractName" value="#{cc.attrs.Name}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </div>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractStreet" value="#{msg.lblStreet}: " />
             <h:inputText styleClass="inputlong" id="txtContractStreet" value="#{cc.attrs.Street}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </div>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractPLZ" value="#{msg.lblPostalCode}: " />
             <h:inputText styleClass="inputlong" id="txtContractPLZ" value="#{cc.attrs.Zip}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </div>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractTown" value="#{msg.lblTown}: " />
             <h:inputText styleClass="inputlong" id="txtContractTown" value="#{cc.attrs.Town}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
@@ -60,7 +60,7 @@
 
 
         <h:panelGroup rendered="#{cc.attrs.RegCareRender}">
-            <div style="inputPart">
+            <div class="inputPart">
                 <h:outputLabel styleClass="label30" id="ContractRegCare" value="#{msg.lblRegCare}: " />
                 <h:selectBooleanCheckbox id="ChkContractRegCare" value="#{cc.attrs.RegCare}">
                     <f:ajax event="click" render="@this :logout:remaining" />
@@ -68,21 +68,21 @@
             </div>
         </h:panelGroup>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractPerson" value="#{msg.lblContactPerson}: " />
             <h:inputText styleClass="inputlong" id="txtContractPerson" value="#{cc.attrs.ContactPerson}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </div>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractPhone" value="#{msg.lblPhone}: " />
             <h:inputText styleClass="inputlong" id="txtContractPhone" value="#{cc.attrs.Phone}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </div>
 
-        <div style="inputPart">
+        <div class="inputPart">
             <h:outputLabel styleClass="label30" id="ContractMail" value="#{msg.lblMail}: " />
             <h:inputText styleClass="inputlong" id="txtContractMail" value="#{cc.attrs.Mail}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
