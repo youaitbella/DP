@@ -10,6 +10,7 @@
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
+        <inek:ExpandingTable table="#{editModelIntention.modelIntention.modelLifes}" />
         <h:form id="lifeTime">
             <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
                 <h:column>
