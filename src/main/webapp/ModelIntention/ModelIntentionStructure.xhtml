@@ -5,20 +5,29 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:inek="http://java.sun.com/jsf/composite/components"
-                xmlns:i="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:i="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:cb="http://inek.org/dataportal"
+                >
+
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
-        <inek:ExpandingTable table="#{editModelIntention.modelIntention.modelLifes}" />
+        <i:ExpandingTable table="#{editModelIntention.modelIntention.modelLifes}" />
         <h:form id="lifeTime">
+            <h:commandButton value="test" actionListener="#{editModelIntention.testListener}">
+                <cb:confirmation/>
+            </h:commandButton>
+
+            <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
             <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
                     <h:inputText value="#{modelLife.startDate}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
+                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                        <f:ajax event="keyup" execute="@this" render="@form" listener="#{editModelIntention.keyUp}"/>
+                        <!--f:ajax event="blur" render="@this :logout:remaining" /-->
                     </h:inputText>
                 </h:column>
                 <h:column>
@@ -26,8 +35,8 @@
                         <h:outputText value="Dauer"/>
                     </f:facet>
                     <h:inputText value="#{modelLife.monthDuration}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                        <f:ajax event="keyup" execute="@this" render="@form" listener="#{editModelIntention.keyUp}"/>
+                    </h:inputText> 
                 </h:column>
             </h:dataTable>
         </h:form>

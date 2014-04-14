@@ -3,11 +3,16 @@ package org.inek.dataportal.feature.modelintention;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,6 +21,7 @@ import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
+import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
@@ -521,7 +527,7 @@ public class EditModelIntention extends AbstractEditController {
         if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region())) {
             _regionMiscEnabled = true;
         }
-        //ensureEmptyEntry(_peppProposal.getProcedures());
+        ensureEmptyEntry(_modelIntention.getModelLifes());
     }
 
     @PreDestroy
@@ -720,6 +726,30 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     
+    public void keyUp(AjaxBehaviorEvent event) {
+        HtmlInputText t = (HtmlInputText) event.getSource();
+        String currentId = t.getClientId();
+        _logger.log(Level.WARNING, "KeyUp: {0}", currentId);
+        List<ModelLife> lifes = _modelIntention.getModelLifes();
+        if (ensureEmptyEntry(lifes)) {
+            String script = "setCaretPosition('" + currentId + "', -1);";
+            _sessionController.setScript(script);
+        } else {
+            FacesContext.getCurrentInstance().responseComplete();
+        }
+    }
+    
+    private boolean ensureEmptyEntry(List<ModelLife> lifes) {
+        if (lifes.isEmpty() || lifes.get(lifes.size() - 1).getStartDate() != null) {
+            lifes.add(new ModelLife());
+            return true;
+        }
+        return false;
+    }
+    
+    public void testListener(ActionEvent event){
+        _logger.log(Level.WARNING, "testListener");
+    }
     // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
     // </editor-fold>
