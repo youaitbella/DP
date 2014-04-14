@@ -10,76 +10,92 @@
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
-        <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Start"/>
-                </f:facet>
-                <h:inputText value="#{modelLife.startDate}">
-                    <f:ajax event="blur" render="@this :logout:remaining" />
-                </h:inputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Dauer"/>
-                </f:facet>
-                <h:inputText value="#{modelLife.monthDuration}">
-                    <f:ajax event="blur" render="@this :logout:remaining" />
-                </h:inputText>
-            </h:column>
-        </h:dataTable>
+        <h:form id="lifeTime">
+            <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Start"/>
+                    </f:facet>
+                    <h:inputText value="#{modelLife.startDate}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Dauer"/>
+                    </f:facet>
+                    <h:inputText value="#{modelLife.monthDuration}">
+                        <f:ajax event="blur" render="@this :logout:remaining" />
+                    </h:inputText>
+                </h:column>
+            </h:dataTable>
+        </h:form>
 
-        <h2>#{msg.headerModelIntentionContract}</h2>
-        <ui:repeat id="contractors" value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==1).toList() }" var="contact">
-            <div class="rectangle">
-                <i:Institute RegCareRender="true" 
-                             IK="#{contact.ik}"
-                             Name="#{contact.name}"
-                             Street="#{contact.street}"
-                             Zip="#{contact.zip}"
-                             Town="#{contact.town}"
-                             ContactPerson="#{contact.contactPerson}"
-                             Phone="#{contact.phone}"
-                             Mail="#{contact.email}"
-                             />
-            </div>
-        </ui:repeat>
-        <h:commandLink styleClass="button" actionListener="#{editModelIntention.addContractorListener}" value="#{msg.btnContractor}"
-                       rendered="#{!editModelIntention.readOnly}">
-            <f:ajax event="click" render="contractors :logout:remaining"/>
-        </h:commandLink>
+        <h:form id="contractors">
+            <h2>#{msg.headerModelIntentionContract}</h2>
+            <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==1).toList() }" var="contact">
+                <div class="rectangle">
+                    <i:Institute RegCareRender="true" 
+                                 IK="#{contact.ik}"
+                                 Name="#{contact.name}"
+                                 Street="#{contact.street}"
+                                 Zip="#{contact.zip}"
+                                 Town="#{contact.town}"
+                                 ContactPerson="#{contact.contactPerson}"
+                                 Phone="#{contact.phone}"
+                                 Mail="#{contact.email}"
+                                 />
+                </div>
+            </ui:repeat>
+            <h:commandLink styleClass="button" value="#{msg.btnAddContractor}" 
+                           rendered="#{!editModelIntention.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(1)}"/>
+            </h:commandLink>
+        </h:form>
 
-        <h2>#{msg.headerModelIntentionEffort}</h2>
-        <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==2).toList() }" var="contact">
-            <div class="rectangle">
-                <i:Institute RegCareRender="false" 
-                             IK="#{contact.ik}"
-                             Name="#{contact.name}"
-                             Street="#{contact.street}"
-                             Zip="#{contact.zip}"
-                             Town="#{contact.town}"
-                             ContactPerson="#{contact.contactPerson}"
-                             Phone="#{contact.phone}"
-                             Mail="#{contact.email}"
-                             />
-            </div>
-        </ui:repeat>
+        <h:form id="provider">
+            <h2>#{msg.headerModelIntentionEffort}</h2>
+            <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==2).toList() }" var="contact">
+                <div class="rectangle">
+                    <i:Institute RegCareRender="false" 
+                                 IK="#{contact.ik}"
+                                 Name="#{contact.name}"
+                                 Street="#{contact.street}"
+                                 Zip="#{contact.zip}"
+                                 Town="#{contact.town}"
+                                 ContactPerson="#{contact.contactPerson}"
+                                 Phone="#{contact.phone}"
+                                 Mail="#{contact.email}"
+                                 />
+                </div>
+            </ui:repeat>
+            <h:commandLink styleClass="button" value="#{msg.btnAddProvider}" 
+                           rendered="#{!editModelIntention.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(2)}"/>
+            </h:commandLink>
+        </h:form>
 
-        <h2>#{msg.headerModelIntentionCostInsurance}</h2>
-        <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==3).toList() }" var="contact">
-            <div class="rectangle">
-                <i:Institute RegCareRender="false" 
-                             IK="#{contact.ik}"
-                             Name="#{contact.name}"
-                             Street="#{contact.street}"
-                             Zip="#{contact.zip}"
-                             Town="#{contact.town}"
-                             ContactPerson="#{contact.contactPerson}"
-                             Phone="#{contact.phone}"
-                             Mail="#{contact.email}"
-                             />
-            </div>
-        </ui:repeat>
+        <h:form id="insurance">
+            <h2>#{msg.headerModelIntentionCostInsurance}</h2>
+            <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==3).toList() }" var="contact">
+                <div class="rectangle">
+                    <i:Institute RegCareRender="false" 
+                                 IK="#{contact.ik}"
+                                 Name="#{contact.name}"
+                                 Street="#{contact.street}"
+                                 Zip="#{contact.zip}"
+                                 Town="#{contact.town}"
+                                 ContactPerson="#{contact.contactPerson}"
+                                 Phone="#{contact.phone}"
+                                 Mail="#{contact.email}"
+                                 />
+                </div>
+            </ui:repeat>
+            <h:commandLink styleClass="button" value="#{msg.btnAddInsurance}" 
+                           rendered="#{!editModelIntention.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(3)}"/>
+            </h:commandLink>
+        </h:form>
 
     </ui:define>
 </ui:composition>

@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -712,11 +711,12 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab structure">
-    public void addContractorListener(ActionEvent event){
+    public void addContact(int id){
         ModelIntentionContact contact = new ModelIntentionContact();
-        contact.setContactTypeId(1);
+        contact.setContactTypeId(id);
         _modelIntention.getContacts().add(contact);
     }
+
     
     // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
