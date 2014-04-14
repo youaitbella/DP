@@ -37,14 +37,10 @@ public class EditModelIntention extends AbstractEditController {
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
     @Inject private Conversation _conversation;
-    private boolean _ageYearEnabled, _regionMiscEnabled;
+    private boolean _regionMiscEnabled;
     private ModelIntention _modelIntention;
     private ModelIntentionQuality _modelIntentionQuality;
     private AcademicSupervision _modelIntentionAcademicSupervision;
-
-    public boolean isAgeYearsEnabled() {
-        return !_ageYearEnabled;
-    }
 
     public SelectItem[] getGenders() {
         List<SelectItem> l = new ArrayList<>();
@@ -183,22 +179,6 @@ public class EditModelIntention extends AbstractEditController {
         addTopic(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), Pages.ModelIntentionQuality.URL());
     }
 
-    public boolean isAgeYearEnabled() {
-        clearAgeYearTextfields();
-        return _ageYearEnabled;
-    }
-
-    private void clearAgeYearTextfields() {
-        if (!_ageYearEnabled) {
-            _modelIntention.setAgeYearsFrom(-1);
-            _modelIntention.setAgeYearsTo(-1);
-        }
-    }
-
-    public void setAgeYearEnabled(boolean ageYearEnabled) {
-        this._ageYearEnabled = ageYearEnabled;
-    }
-
     public boolean isRegionMiscEnabled() {
         return _regionMiscEnabled;
     }
@@ -220,6 +200,32 @@ public class EditModelIntention extends AbstractEditController {
         } else {
             _modelIntention.setSettleMedicText(text);
         }
+    }
+    
+    public String getAgeYearFrom() {
+        if(_modelIntention.getAgeYearsFrom() < 1)
+            return "";
+        return _modelIntention.getAgeYearsFrom() + "";
+    }
+    
+    public void setAgeYearFrom(String ageYearFrom) {
+        if(ageYearFrom.equals(""))
+            ageYearFrom = "0";
+        int ayf = Integer.parseInt(ageYearFrom);
+        _modelIntention.setAgeYearsFrom(ayf);
+    }
+    
+    public String getAgeYearTo() {
+        if(_modelIntention.getAgeYearsTo() < 1)
+            return "";
+        return _modelIntention.getAgeYearsTo() + "";
+    }
+    
+    public void setAgeYearTo(String ageYearTo) {
+        if(ageYearTo.equals(""))
+            ageYearTo = "0";
+        int ayf = Integer.parseInt(ageYearTo);
+        _modelIntention.setAgeYearsTo(ayf);
     }
 
     public Integer getRegion() {
@@ -479,7 +485,6 @@ public class EditModelIntention extends AbstractEditController {
 
     public EditModelIntention() {
         //System.out.println("EditModelIntention");
-        _ageYearEnabled = false;
         _regionMiscEnabled = false;
     }
 
@@ -512,9 +517,6 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntentionAcademicSupervision = newModelIntentionAcademicSupervision();
         } else {
             _modelIntention = loadModelIntention(miId);
-        }
-        if (_modelIntention.getAgeYearsFrom() >= 0 || _modelIntention.getAgeYearsTo() >= 0) {
-            _ageYearEnabled = true;
         }
         if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region())) {
             _regionMiscEnabled = true;

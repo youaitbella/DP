@@ -16,15 +16,12 @@
                 <h:outputLabel styleClass="label" id="ageYears" value="#{msg.lblAgeYears}:" />
             </h:panelGroup>
             <h:panelGroup>
-                <h:selectBooleanCheckbox id="ageYearsRequired" value="#{editModelIntention.ageYearEnabled}">
-                    <f:ajax event="click" render="@this :logout:remaining ageYearsFrom ageYearsTo" />
-                </h:selectBooleanCheckbox>&nbsp;
                 <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
-                <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" readonly="#{editModelIntention.ageYearsEnabled}" >
+                <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.ageYearFrom}" >
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>&nbsp;
                 <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
-                <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}" readonly="#{editModelIntention.ageYearsEnabled}">
+                <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.ageYearTo}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </h:panelGroup>
