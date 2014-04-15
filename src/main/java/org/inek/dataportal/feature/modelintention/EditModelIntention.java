@@ -24,9 +24,12 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
+import org.inek.dataportal.enums.MedicalAttribute;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.Region;
+import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -70,67 +73,22 @@ public class EditModelIntention extends AbstractEditController {
 
     public SelectItem[] getMedicalAttributes() {
         List<SelectItem> l = new ArrayList<>();
-        MedicalAttributes[] attrs = MedicalAttributes.values();
-        for (MedicalAttributes ma : attrs) {
+        MedicalAttribute[] attrs = MedicalAttribute.values();
+        for (MedicalAttribute ma : attrs) {
             l.add(new SelectItem(ma.id(), ma.attribute()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
 
-    public enum MedicalAttributes {
-
-        MainDiagnosis(0, "Hauptdiagnose(n)"),
-        PracticeAreas(1, "behandelnde Fachgebiete"),
-        Misc(2, "andere Spezifizierung");
-
-        private int _id;
-        private String _attribute;
-
-        private MedicalAttributes(int id, String attribute) {
-            _id = id;
-            _attribute = attribute;
-        }
-
-        public int id() {
-            return _id;
-        }
-
-        public String attribute() {
-            return _attribute;
-        }
-    }
-
     public SelectItem[] getSettledTypes() {
         List<SelectItem> l = new ArrayList<>();
-        SettleTypes[] types = SettleTypes.values();
-        for (SettleTypes t : types) {
+        SettleType[] types = SettleType.values();
+        for (SettleType t : types) {
             l.add(new SelectItem(t.id(), t.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
 
-    public enum SettleTypes {
-
-        ImpartialDepartment(0, "fachgebietsunabhÃ¤ngig"),
-        DepartmentDocs(1, "nur FachÃ¤rzte"),
-        MiscMedics(2, "sonstige bestimmte Ã„rzte");
-
-        private int _id;
-        private String _type;
-
-        private SettleTypes(int id, String type) {
-            _id = id;
-            _type = type;
-        }
-
-        public int id() {
-            return _id;
-        }
-
-        public String type() {
-            return _type;
-        }
-    }
 
     @Override
     protected void addTopics() {
@@ -150,14 +108,14 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public String getSettleText() {
-        if (_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id()) {
+        if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
             return "";
         }
         return _modelIntention.getSettleMedicText();
     }
 
     public void setSettleText(String text) {
-        if (_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id()) {
+        if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
             _modelIntention.setSettleMedicText("");
         } else {
             _modelIntention.setSettleMedicText(text);
@@ -195,7 +153,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isSettleTextEnabled() {
-        if (_modelIntention.getSettleMedicType() == SettleTypes.ImpartialDepartment.id()) {
+        if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
             return false;
         }
         return true;
@@ -203,46 +161,22 @@ public class EditModelIntention extends AbstractEditController {
 
     public SelectItem[] getPiaTypes() {
         List<SelectItem> l = new ArrayList<>();
-        PiaTypes[] types = PiaTypes.values();
-        for (PiaTypes p : types) {
+        PiaType[] types = PiaType.values();
+        for (PiaType p : types) {
             l.add(new SelectItem(p.id(), p.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
     }
 
-    public enum PiaTypes {
-
-        AnyPIA(0, "jede PIA"),
-        IntegratedPIA(1, "nur PIA der im Modellvorhaben integrierten KrankenhÃ¤user"),
-        ContractPIA(2, "nur PIA, die auch Vertragspartner im Modellvorhaben sind"),
-        SpecificPIA(3, "nur bestimmte PIA");
-
-        private int _id;
-        private String _type;
-
-        private PiaTypes(int id, String type) {
-            _id = id;
-            _type = type;
-        }
-
-        public int id() {
-            return _id;
-        }
-
-        public String type() {
-            return _type;
-        }
-    }
-
     public String getPIAText() {
-        if (_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id()) {
+        if (_modelIntention.getPiaType() != PiaType.SpecificPIA.id()) {
             return "";
         }
         return _modelIntention.getPiaText();
     }
 
     public void setPIAText(String text) {
-        if (_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id()) {
+        if (_modelIntention.getPiaType() != PiaType.SpecificPIA.id()) {
             _modelIntention.setPiaText("");
         } else {
             _modelIntention.setPiaText(text);
@@ -250,7 +184,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isPIATextEnabled() {
-        if (_modelIntention.getPiaType() != PiaTypes.SpecificPIA.id()) {
+        if (_modelIntention.getPiaType() != PiaType.SpecificPIA.id()) {
             return false;
         }
         return true;
@@ -480,8 +414,8 @@ public class EditModelIntention extends AbstractEditController {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
         modelIntention.setAccountId(_sessionController.getAccountId());
         modelIntention.setRegion(Region.Germany.region());
-        modelIntention.setSettleMedicType(SettleTypes.ImpartialDepartment.id());
-        modelIntention.setPiaType(PiaTypes.AnyPIA.id());
+        modelIntention.setSettleMedicType(SettleType.ImpartialDepartment.id());
+        modelIntention.setPiaType(PiaType.AnyPIA.id());
         modelIntention.setHospitalType(HospitalTypes.AnyHospital.id());
         modelIntention.setStationaryType(TreatmentTypes.No.id());
         modelIntention.setPartialHospitalisationType(TreatmentTypes.No.id());

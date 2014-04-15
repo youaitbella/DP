@@ -12,16 +12,16 @@ import org.inek.dataportal.helper.Utils;
  *
  * @author schlappajo
  */
-public enum Region {
-        
-    Germany(0, "enmRegionGer"),
-    State(1, "enmRegionState"),
-    Misc(2, "enmRegionMisc");
+public enum SettleType {
+    
+    ImpartialDepartment(0, "enmSettleTypeImpDep"),
+    DepartmentDocs(1, "enmSettleTypeDepDocs"),
+    MiscMedics(2, "enmSettleTypeMiscDocs");
 
     private int _id;
     private String _textId;
 
-    private Region(int id, String textId) {
+    private SettleType(int id, String textId) {
         _id = id;
         _textId = textId;
     }
@@ -30,7 +30,7 @@ public enum Region {
         return _id;
     }
 
-    public String region() {
+    public String type() {
         return Utils.getMessage(_textId);
     }
 }
