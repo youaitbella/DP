@@ -6,9 +6,16 @@
     <namespace>http://inek.org/dataportal</namespace>
 
     <tag>
-        <tag-name>confirmation</tag-name>
+        <tag-name>confirmDelete</tag-name>
         <behavior>
-            <behavior-id>confirmation</behavior-id>
+            <behavior-id>confirmDelete</behavior-id>
+        </behavior>
+    </tag>
+
+    <tag>
+        <tag-name>confirmSeal</tag-name>
+        <behavior>
+            <behavior-id>confirmSeal</behavior-id>
         </behavior>
     </tag>
 

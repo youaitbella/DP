@@ -39,7 +39,7 @@ public class ModelLife implements Serializable {
     private Date _startDate;
     
     @Column(name = "mlMonthDuration")
-    private int _monthDuration;
+    private Integer _monthDuration;
     
   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
@@ -59,11 +59,11 @@ public class ModelLife implements Serializable {
         _startDate = startDate;
     }
 
-    public int getMonthDuration() {
+    public Integer getMonthDuration() {
         return _monthDuration;
     }
 
-    public void setMonthDuration(int monthDuration) {
+    public void setMonthDuration(Integer monthDuration) {
         _monthDuration = monthDuration;
     }
 
@@ -74,9 +74,6 @@ public class ModelLife implements Serializable {
     public void setModelIntentionId(Integer modelIntentionId) {
         _modelIntentionId = modelIntentionId;
     }
-
-      
-    
     
     // </editor-fold>
     

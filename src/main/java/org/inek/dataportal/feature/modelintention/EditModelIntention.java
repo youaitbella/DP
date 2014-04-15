@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,7 +12,6 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -60,7 +60,7 @@ public class EditModelIntention extends AbstractEditController {
     public enum Genders {
 
         Both(0, "Beide"),
-        Male(1, "Männlich"),
+        Male(1, "MÃ¤nnlich"),
         Female(2, "Weiblich");
 
         private int _id;
@@ -155,9 +155,9 @@ public class EditModelIntention extends AbstractEditController {
 
     public enum SettleTypes {
 
-        ImpartialDepartment(0, "fachgebietsunabhängig"),
-        DepartmentDocs(1, "nur Fachärzte"),
-        MiscMedics(2, "sonstige bestimmte Ärzte");
+        ImpartialDepartment(0, "fachgebietsunabhÃ¤ngig"),
+        DepartmentDocs(1, "nur FachÃ¤rzte"),
+        MiscMedics(2, "sonstige bestimmte Ã„rzte");
 
         private int _id;
         private String _type;
@@ -207,29 +207,33 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntention.setSettleMedicText(text);
         }
     }
-    
+
     public String getAgeYearFrom() {
-        if(_modelIntention.getAgeYearsFrom() < 1)
+        if (_modelIntention.getAgeYearsFrom() < 1) {
             return "";
+        }
         return _modelIntention.getAgeYearsFrom() + "";
     }
-    
+
     public void setAgeYearFrom(String ageYearFrom) {
-        if(ageYearFrom.equals(""))
+        if (ageYearFrom.equals("")) {
             ageYearFrom = "0";
+        }
         int ayf = Integer.parseInt(ageYearFrom);
         _modelIntention.setAgeYearsFrom(ayf);
     }
-    
+
     public String getAgeYearTo() {
-        if(_modelIntention.getAgeYearsTo() < 1)
+        if (_modelIntention.getAgeYearsTo() < 1) {
             return "";
+        }
         return _modelIntention.getAgeYearsTo() + "";
     }
-    
+
     public void setAgeYearTo(String ageYearTo) {
-        if(ageYearTo.equals(""))
+        if (ageYearTo.equals("")) {
             ageYearTo = "0";
+        }
         int ayf = Integer.parseInt(ageYearTo);
         _modelIntention.setAgeYearsTo(ayf);
     }
@@ -283,7 +287,7 @@ public class EditModelIntention extends AbstractEditController {
     public enum PiaTypes {
 
         AnyPIA(0, "jede PIA"),
-        IntegratedPIA(1, "nur PIA der im Modellvorhaben integrierten Krankenhäuser"),
+        IntegratedPIA(1, "nur PIA der im Modellvorhaben integrierten KrankenhÃ¤user"),
         ContractPIA(2, "nur PIA, die auch Vertragspartner im Modellvorhaben sind"),
         SpecificPIA(3, "nur bestimmte PIA");
 
@@ -338,9 +342,9 @@ public class EditModelIntention extends AbstractEditController {
     public enum HospitalTypes {
 
         AnyHospital(0, "jedes Krankenhaus"),
-        ModelProjectHospital(1, "nur am Modellprojekt beteiligte Krankenhäuser"),
-        SpecificHospital(2, "nur Fachkrankenhäuser"),
-        OtherHospital(3, "sonstige bestimmte Krankenhäuser");
+        ModelProjectHospital(1, "nur am Modellprojekt beteiligte KrankenhÃ¤user"),
+        SpecificHospital(2, "nur FachkrankenhÃ¤user"),
+        OtherHospital(3, "sonstige bestimmte KrankenhÃ¤user");
 
         private int _id;
         private String _type;
@@ -392,9 +396,9 @@ public class EditModelIntention extends AbstractEditController {
 
     public enum SelfHospitalisationTypes {
 
-        Possible(0, "grundsätzlich möglich"),
-        EmergencyPossible(1, "nur als Notfall möglich"),
-        NotPossible(2, "grundsätzlich nicht möglich");
+        Possible(0, "grundsÃ¤tzlich mÃ¶glich"),
+        EmergencyPossible(1, "nur als Notfall mÃ¶glich"),
+        NotPossible(2, "grundsÃ¤tzlich nicht mÃ¶glich");
 
         private int _id;
         private String _type;
@@ -425,7 +429,7 @@ public class EditModelIntention extends AbstractEditController {
     public enum TreatmentTypes {
 
         No(0, "nein"),
-        Generally(1, "grundsätzlich"),
+        Generally(1, "grundsÃ¤tzlich"),
         SpecialSetting(2, "nur spezielles Setting");
 
         private int _id;
@@ -527,7 +531,7 @@ public class EditModelIntention extends AbstractEditController {
         if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region())) {
             _regionMiscEnabled = true;
         }
-        ensureEmptyEntry(_modelIntention.getModelLifes());
+        ensureEmptyModelLife();
     }
 
     @PreDestroy
@@ -611,6 +615,7 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
+        removeEmptyEntries();
         _modelIntention.setStatus(1);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         if (isValidId(_modelIntention.getId())) {
@@ -719,38 +724,68 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab structure">
-    public void addContact(int id){
+    public void addContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
         contact.setContactTypeId(id);
         _modelIntention.getContacts().add(contact);
     }
 
-    
-    public void keyUp(AjaxBehaviorEvent event) {
-        HtmlInputText t = (HtmlInputText) event.getSource();
-        String currentId = t.getClientId();
-        _logger.log(Level.WARNING, "KeyUp: {0}", currentId);
-        List<ModelLife> lifes = _modelIntention.getModelLifes();
-        if (ensureEmptyEntry(lifes)) {
-            String script = "setCaretPosition('" + currentId + "', -1);";
-            _sessionController.setScript(script);
-        } else {
-            FacesContext.getCurrentInstance().responseComplete();
-        }
+    public void checkModelLife(AjaxBehaviorEvent event) {
+        ensureEmptyModelLife();
     }
-    
-    private boolean ensureEmptyEntry(List<ModelLife> lifes) {
+
+    private boolean ensureEmptyModelLife() {
+        List<ModelLife> lifes = _modelIntention.getModelLifes();
         if (lifes.isEmpty() || lifes.get(lifes.size() - 1).getStartDate() != null) {
             lifes.add(new ModelLife());
             return true;
         }
         return false;
     }
-    
-    public void testListener(ActionEvent event){
-        _logger.log(Level.WARNING, "testListener");
+
+    String _script = "";
+
+    public void keyUp(AjaxBehaviorEvent event) {
+        HtmlInputText t = (HtmlInputText) event.getSource();
+        String currentId = t.getClientId();
+        if (ensureEmptyModelLife()) {
+            _logger.log(Level.WARNING, "KeyUp - added");
+            _script = "setCaretPosition('" + currentId + "', -1);";
+        } else {
+            _logger.log(Level.WARNING, "KeyUp - no action");
+            _script = "";
+            FacesContext.getCurrentInstance().responseComplete();
+        }
     }
+
+    public String getModelLifeScript() {
+        String script = _script;
+        _script = "";
+        return script;
+    }
+
+    private void removeEmptyModelLife() {
+        List<ModelLife> modelLifes = _modelIntention.getModelLifes();
+//        for (int i = modelLifes.size() - 1; i >= 0; i--) {
+//            ModelLife life = modelLifes.get(i);
+//            if (life.getStartDate() == null || life.getMonthDuration() < 0) {
+//                modelLifes.remove(i);
+//            }
+//        }
+        for (Iterator<ModelLife> itr = modelLifes.iterator(); itr.hasNext();) {
+            ModelLife life = itr.next();
+            if (life.getStartDate() == null || life.getMonthDuration() == null) {
+                itr.remove();
+            }
+        }
+    }
+
     // </editor-fold>    
+    private void removeEmptyEntries() {
+        removeEmptyModelLife();
+        // todo: remove other empty entries
+    }
+
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
     // </editor-fold>
 }

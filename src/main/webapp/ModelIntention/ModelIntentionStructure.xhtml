@@ -12,12 +12,7 @@
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
-        <i:ExpandingTable table="#{editModelIntention.modelIntention.modelLifes}" />
         <h:form id="lifeTime">
-            <h:commandButton value="test" actionListener="#{editModelIntention.testListener}">
-                <cb:confirmation/>
-            </h:commandButton>
-
             <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
             <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
                 <h:column>
@@ -26,8 +21,7 @@
                     </f:facet>
                     <h:inputText value="#{modelLife.startDate}">
                         <f:convertDateTime pattern="dd.MM.yyyy" />
-                        <f:ajax event="keyup" execute="@this" render="@form" listener="#{editModelIntention.keyUp}"/>
-                        <!--f:ajax event="blur" render="@this :logout:remaining" /-->
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
                     </h:inputText>
                 </h:column>
                 <h:column>
@@ -35,10 +29,13 @@
                         <h:outputText value="Dauer"/>
                     </f:facet>
                     <h:inputText value="#{modelLife.monthDuration}">
-                        <f:ajax event="keyup" execute="@this" render="@form" listener="#{editModelIntention.keyUp}"/>
+                        <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.keyUp}"/>
                     </h:inputText> 
                 </h:column>
             </h:dataTable>
+            <script type="text/javascript">
+                #{editModelIntention.modelLifeScript}
+            </script>
         </h:form>
 
         <h:form id="contractors">
