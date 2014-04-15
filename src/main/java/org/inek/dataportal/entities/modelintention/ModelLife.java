@@ -45,7 +45,7 @@ public class ModelLife implements Serializable {
 
     
     @Transient
-    private final String _uuid= UUID.randomUUID().toString();
+    private final String _uuid= UUID.randomUUID().toString().replace("-", "");
     
   
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">

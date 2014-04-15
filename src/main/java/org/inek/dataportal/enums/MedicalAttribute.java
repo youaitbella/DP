@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.inek.dataportal.enums;
 
 import org.inek.dataportal.helper.Utils;
@@ -13,7 +12,7 @@ import org.inek.dataportal.helper.Utils;
  * @author schlappajo
  */
 public enum MedicalAttribute {
-            
+
     MainDiagnosis(0, "enmMedAttrMainDia"),
     PracticeAreas(1, "enmMedAttrPracticeArea"),
     Misc(2, "andere Spezifizierung");
@@ -31,6 +30,10 @@ public enum MedicalAttribute {
     }
 
     public String attribute() {
-        return Utils.getMessage(_textId);
+        try {
+            return Utils.getMessage(_textId);
+        } catch (Exception e) {
+            return "KeyNotFound";
+        }
     }
 }
