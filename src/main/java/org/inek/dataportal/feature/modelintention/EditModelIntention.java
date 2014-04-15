@@ -23,8 +23,10 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -57,59 +59,13 @@ public class EditModelIntention extends AbstractEditController {
         return l.toArray(new SelectItem[l.size()]);
     }
 
-    public enum Genders {
-
-        Both(0, "Beide"),
-        Male(1, "MÃ¤nnlich"),
-        Female(2, "Weiblich");
-
-        private int _id;
-        private String _gender;
-
-        private Genders(int id, String gender) {
-            _id = id;
-            _gender = gender;
-        }
-
-        public int id() {
-            return _id;
-        }
-
-        public String gender() {
-            return _gender;
-        }
-    }
-
     public SelectItem[] getRegions() {
         List<SelectItem> l = new ArrayList<>();
-        Regions[] regions = Regions.values();
-        for (Regions r : regions) {
+        Region[] regions = Region.values();
+        for (Region r : regions) {
             l.add(new SelectItem(r.id(), r.region()));
         }
         return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public enum Regions {
-
-        Germany(0, "Deutschland"),
-        State(1, "Bundesland"),
-        Misc(2, "Sonstige");
-
-        private int _id;
-        private String _region;
-
-        private Regions(int id, String region) {
-            _id = id;
-            _region = region;
-        }
-
-        public int id() {
-            return _id;
-        }
-
-        public String region() {
-            return _region;
-        }
     }
 
     public SelectItem[] getMedicalAttributes() {
@@ -211,24 +167,24 @@ public class EditModelIntention extends AbstractEditController {
     public Integer getRegion() {
         int index = 0;
         boolean listItem = false;
-        Regions[] regions = Regions.values();
-        for (Regions r : regions) {
+        Region[] regions = Region.values();
+        for (Region r : regions) {
             if (r.region().equals(_modelIntention.getRegion())) {
                 index = r.id();
                 listItem = true;
             }
         }
         if (!listItem) {
-            index = Regions.Misc.id();
+            index = Region.Misc.id();
         }
         return index;
     }
 
     public void setRegion(Integer index) {
-        Regions[] regions = Regions.values();
-        for (Regions r : regions) {
+        Region[] regions = Region.values();
+        for (Region r : regions) {
             if (index == r.id()) {
-                _regionMiscEnabled = r.region().equals(Regions.Misc.region());
+                _regionMiscEnabled = r.region().equals(Region.Misc.region());
                 if (_regionMiscEnabled) {
                     _modelIntention.setRegion(null);
                 } else {
@@ -498,7 +454,7 @@ public class EditModelIntention extends AbstractEditController {
         } else {
             _modelIntention = loadModelIntention(miId);
         }
-        if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region())) {
+        if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Region.Misc.region())) {
             _regionMiscEnabled = true;
         }
         ensureEmptyEntries();
@@ -523,7 +479,7 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntention newModelIntention() {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
         modelIntention.setAccountId(_sessionController.getAccountId());
-        modelIntention.setRegion(Regions.Germany.region());
+        modelIntention.setRegion(Region.Germany.region());
         modelIntention.setSettleMedicType(SettleTypes.ImpartialDepartment.id());
         modelIntention.setPiaType(PiaTypes.AnyPIA.id());
         modelIntention.setHospitalType(HospitalTypes.AnyHospital.id());
