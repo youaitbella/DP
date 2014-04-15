@@ -4,7 +4,9 @@
                 template="/Templates/PortalTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
 
     <f:metadata>
         <f:viewParam name="modelId" id="modelId" value="#{flash.modelId}" />
@@ -18,9 +20,11 @@
 
     <ui:define name="content">
         <h:form id="form">
-       <h1>
-           <h:commandLink value="#{msg.nameMODEL_INTENTION}" action="#{sessionController.navigate(sessionTools.pages.ModelIntentionSummary)}" immediate="true"/>
-        </h1>        
+            <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
+            <!--onkeyup="jsf.ajax.request(this, event, {render:'@form'}; return false"/-->
+            <h1>
+                <h:commandLink value="#{msg.nameMODEL_INTENTION}" action="#{sessionController.navigate(sessionTools.pages.ModelIntentionSummary)}" immediate="true"/>
+            </h1>        
             <div class="tab">
                 <ul class="tab">
                     <c:forEach items="#{editModelIntention.visibleTopics}" var="topic">
@@ -32,7 +36,7 @@
                     </c:forEach>
                 </ul>
             </div>
-        
+
             <div class="edit">
                 <!--ui:include src="# {editModelIntention.part}"/-->
                 <ui:insert name="editContent">Content</ui:insert>
@@ -41,9 +45,10 @@
                     <h:commandLink styleClass="button" action="#{editModelIntention.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editModelIntention.readOnly}"/>
 
-                    <h:commandLink styleClass="button" action="#{editModelIntention.requestSeal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.modelIntentionDisabled}" title="#{msg.infoSaveAndClose}"/>
-                    <h:commandLink id="seal" style="display: none" action="#{editModelIntention.seal()}" value="seal"/>
+                    <h:commandLink styleClass="button" action="#{editModelIntention.seal()}" value="#{msg.btnSaveAndClose}"
+                                   disabled="#{sessionTools.modelIntentionDisabled}" title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
                 </div>
             </div>
 

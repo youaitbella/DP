@@ -6,15 +6,24 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:i="http://xmlns.jcp.org/jsf/composite/components"
-                xmlns:cb="http://inek.org/dataportal"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
 
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
         <h:form id="lifeTime">
-            <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
             <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
+                <h:column id="colDeleteId" >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink>
+                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                        <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteModelLife(modelLife)}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Start"/>
@@ -54,7 +63,7 @@
                                  />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="button" value="#{msg.btnAddContractor}" 
+            <h:commandLink styleClass="button inputPart" value="#{msg.btnAddContractor}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(1)}"/>
             </h:commandLink>
@@ -76,7 +85,7 @@
                                  />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="button" value="#{msg.btnAddProvider}" 
+            <h:commandLink styleClass="button inputPart" value="#{msg.btnAddProvider}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(2)}"/>
             </h:commandLink>
@@ -98,7 +107,7 @@
                                  />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="button" value="#{msg.btnAddInsurance}" 
+            <h:commandLink styleClass="button inputPart" value="#{msg.btnAddInsurance}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(3)}"/>
             </h:commandLink>

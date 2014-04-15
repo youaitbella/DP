@@ -531,7 +531,7 @@ public class EditModelIntention extends AbstractEditController {
         if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Regions.Misc.region())) {
             _regionMiscEnabled = true;
         }
-        ensureEmptyModelLife();
+        ensureEmptyEntries();
     }
 
     @PreDestroy
@@ -618,6 +618,7 @@ public class EditModelIntention extends AbstractEditController {
         removeEmptyEntries();
         _modelIntention.setStatus(1);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
+        ensureEmptyEntries();
         if (isValidId(_modelIntention.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -671,13 +672,14 @@ public class EditModelIntention extends AbstractEditController {
      */
     public String seal() {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
-            return Pages.Error.URL();
+            return Pages.InvalidConversation.URL();
         }
         if (_modelIntention.getStatus() >= 10) {
             return Pages.Error.URL();
         }
 
         _modelIntention.setStatus(10 + _modelIntention.getStatus());
+        removeEmptyEntries();
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         if (isValidId(_modelIntention.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
@@ -766,12 +768,6 @@ public class EditModelIntention extends AbstractEditController {
 
     private void removeEmptyModelLife() {
         List<ModelLife> modelLifes = _modelIntention.getModelLifes();
-//        for (int i = modelLifes.size() - 1; i >= 0; i--) {
-//            ModelLife life = modelLifes.get(i);
-//            if (life.getStartDate() == null || life.getMonthDuration() < 0) {
-//                modelLifes.remove(i);
-//            }
-//        }
         for (Iterator<ModelLife> itr = modelLifes.iterator(); itr.hasNext();) {
             ModelLife life = itr.next();
             if (life.getStartDate() == null || life.getMonthDuration() == null) {
@@ -780,10 +776,20 @@ public class EditModelIntention extends AbstractEditController {
         }
     }
 
+    public String deleteModelLife(ModelLife life){
+        _modelIntention.getModelLifes().remove(life);
+        return "";
+    }
+            
     // </editor-fold>    
     private void removeEmptyEntries() {
         removeEmptyModelLife();
         // todo: remove other empty entries
+    }
+
+    private void ensureEmptyEntries() {
+        ensureEmptyModelLife();
+        // todo: ensure other empty entries
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
