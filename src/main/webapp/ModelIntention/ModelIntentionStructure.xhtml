@@ -28,26 +28,34 @@
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:inputText id="#{'startDate'}" value="#{modelLife.startDate}" 
+                    <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
                                   required="true" requiredMessage="#{msg.msgValueNeeded}" >
                         <f:convertDateTime pattern="dd.MM.yyyy" />
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
                     </h:inputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Dauer"/>
                     </f:facet>
-                    <h:inputText value="#{modelLife.monthDuration}" 
+                    <h:inputText id="duration#{modelLife.UUID}" value="#{modelLife.monthDuration}" 
                                  required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                        <f:validateLongRange minimum="1" maximum="120"/>
                         <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.keyUp}"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgDuration#{modelLife.UUID}"/>
                     </h:inputText> 
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value=""/>
+                        <h:outputText value="errDate"/>
                     </f:facet>
-                    <h:message id="msgStartDate" for="#{'startDate'}" styleClass="errorMessage"/>
+                    <h:message id="msgStartDate#{modelLife.UUID}" for="startDate#{modelLife.UUID}" styleClass="errorMessage"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="errDur"/>
+                    </f:facet>
+                    <h:message id="msgDuration#{modelLife.UUID}" for="duration#{modelLife.UUID}" styleClass="errorMessage"/>
                 </h:column>
             </h:dataTable>
             <script type="text/javascript">

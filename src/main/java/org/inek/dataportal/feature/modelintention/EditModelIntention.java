@@ -707,7 +707,11 @@ public class EditModelIntention extends AbstractEditController {
         _modelIntention.getModelLifes().remove(life);
         return "";
     }
-            
+       
+    public String getDummy(){
+        return "Dummy";
+    }
+    
     // </editor-fold>    
     private void removeEmptyEntries() {
         removeEmptyModelLife();
