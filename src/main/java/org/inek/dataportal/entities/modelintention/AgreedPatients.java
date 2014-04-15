@@ -42,7 +42,7 @@ public class AgreedPatients implements Serializable {
     private Date _to;
     
     @Column(name = "apPatientsCount")
-    private int _patientsCount;
+    private int _patientsCount = -1;
     
     
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -71,12 +71,12 @@ public class AgreedPatients implements Serializable {
         _to = to;
     }
     
-    public int getPatientsCount() {
-        return _patientsCount;
+    public Integer getPatientsCount() {
+        return _patientsCount == -1 ? null : _patientsCount;
     }
 
-    public void setPatientsCount(int patientsCount) {
-        _patientsCount = patientsCount;
+    public void setPatientsCount(Integer patientsCount) {
+        _patientsCount = patientsCount == null ? -1 : patientsCount;
     }
 
     public int getModelIntentionId() {

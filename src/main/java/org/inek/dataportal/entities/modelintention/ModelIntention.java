@@ -225,19 +225,20 @@ public class ModelIntention implements Serializable {
         this._accountId = accountId;
     }
 
-    public int getAgeYearsFrom() {
-        return _ageYearsFrom;
+    public Integer getAgeYearsFrom() {
+        return _ageYearsFrom == -1 ? null : _ageYearsFrom;
     }
 
-    public void setAgeYearsFrom(int ageYearsFrom) {
-        this._ageYearsFrom = ageYearsFrom;
+    public void setAgeYearsFrom(Integer ageYearsFrom) {
+        this._ageYearsFrom = ageYearsFrom == null ? -1 : ageYearsFrom;
     }
 
-    public int getAgeYearsTo() {
-        return _ageYearsTo;
+    public Integer getAgeYearsTo() {
+        return _ageYearsTo == -1 ? null : _ageYearsTo;
     }
 
-    public void setAgeYearsTo(int ageYearsTo) {
+    public void setAgeYearsTo(Integer ageYearsTo) {
+        ageYearsTo = ageYearsTo == null ? -1 : ageYearsTo;
         this._ageYearsTo = ageYearsTo;
     }
 

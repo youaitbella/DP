@@ -208,36 +208,6 @@ public class EditModelIntention extends AbstractEditController {
         }
     }
 
-    public String getAgeYearFrom() {
-        if (_modelIntention.getAgeYearsFrom() < 1) {
-            return "";
-        }
-        return _modelIntention.getAgeYearsFrom() + "";
-    }
-
-    public void setAgeYearFrom(String ageYearFrom) {
-        if (ageYearFrom.equals("")) {
-            ageYearFrom = "0";
-        }
-        int ayf = Integer.parseInt(ageYearFrom);
-        _modelIntention.setAgeYearsFrom(ayf);
-    }
-
-    public String getAgeYearTo() {
-        if (_modelIntention.getAgeYearsTo() < 1) {
-            return "";
-        }
-        return _modelIntention.getAgeYearsTo() + "";
-    }
-
-    public void setAgeYearTo(String ageYearTo) {
-        if (ageYearTo.equals("")) {
-            ageYearTo = "0";
-        }
-        int ayf = Integer.parseInt(ageYearTo);
-        _modelIntention.setAgeYearsTo(ayf);
-    }
-
     public Integer getRegion() {
         int index = 0;
         boolean listItem = false;
@@ -617,6 +587,7 @@ public class EditModelIntention extends AbstractEditController {
         }
         removeEmptyEntries();
         _modelIntention.setStatus(1);
+        
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         ensureEmptyEntries();
         if (isValidId(_modelIntention.getId())) {

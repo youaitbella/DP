@@ -41,7 +41,8 @@ public class ModelLife implements Serializable {
     private Date _startDate;
     
     @Column(name = "mlMonthDuration")
-    private Integer _monthDuration;
+    private Integer _monthDuration = -1;
+
     
     @Transient
     private final String _uuid= UUID.randomUUID().toString();
@@ -65,11 +66,10 @@ public class ModelLife implements Serializable {
     }
 
     public Integer getMonthDuration() {
-        return _monthDuration;
+        return _monthDuration == -1 ? null : _monthDuration;
     }
-
     public void setMonthDuration(Integer monthDuration) {
-        _monthDuration = monthDuration;
+        _monthDuration = monthDuration == null ? -1 : monthDuration;
     }
 
     public Integer getModelIntentionId() {

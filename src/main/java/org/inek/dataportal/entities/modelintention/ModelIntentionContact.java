@@ -44,7 +44,7 @@ public class ModelIntentionContact implements Serializable {
     private String _street = "";
     
     @Column(name = "csZip")
-    private int _zip;
+    private int _zip = -1;
     
     @Column(name = "csTown")
     private String _town = "";
@@ -102,12 +102,12 @@ public class ModelIntentionContact implements Serializable {
         _street = street;
     }
 
-    public int getZip() {
-        return _zip;
+    public Integer getZip() {
+        return _zip == -1 ? null : _zip;
     }
 
-    public void setZip(int zip) {
-        _zip = zip;
+    public void setZip(Integer zip) {
+        _zip = zip == null ? -1 : zip;
     }
 
     public String getTown() {

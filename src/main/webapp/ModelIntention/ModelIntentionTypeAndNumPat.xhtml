@@ -17,11 +17,11 @@
             </h:panelGroup>
             <h:panelGroup>
                 <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
-                <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.ageYearFrom}" >
+                <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" >
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>&nbsp;
                 <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
-                <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.ageYearTo}">
+                <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </h:panelGroup>
