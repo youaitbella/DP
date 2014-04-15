@@ -20,15 +20,16 @@
                     </f:facet>
                     <h:commandLink>
                         <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-                        <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteModelLife(modelLife)}"/>
                         <cb:confirmDelete/>
+                        <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteModelLife(modelLife)}"/>
                     </h:commandLink>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:inputText value="#{modelLife.startDate}">
+                    <h:inputText id="#{'startDate'}" value="#{modelLife.startDate}" 
+                                  required="true" requiredMessage="#{msg.msgValueNeeded}" >
                         <f:convertDateTime pattern="dd.MM.yyyy" />
                         <f:ajax event="blur" render="@this :logout:remaining"/>
                     </h:inputText>
@@ -37,9 +38,16 @@
                     <f:facet name="header">
                         <h:outputText value="Dauer"/>
                     </f:facet>
-                    <h:inputText value="#{modelLife.monthDuration}">
+                    <h:inputText value="#{modelLife.monthDuration}" 
+                                 required="true" requiredMessage="#{msg.msgValueNeeded}" >
                         <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.keyUp}"/>
                     </h:inputText> 
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:message id="msgStartDate" for="#{'startDate'}" styleClass="errorMessage"/>
                 </h:column>
             </h:dataTable>
             <script type="text/javascript">
