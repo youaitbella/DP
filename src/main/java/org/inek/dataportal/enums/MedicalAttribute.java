@@ -15,7 +15,7 @@ public enum MedicalAttribute {
 
     MainDiagnosis(0, "enmMedAttrMainDia"),
     PracticeAreas(1, "enmMedAttrPracticeArea"),
-    Misc(2, "andere Spezifizierung");
+    Misc(2, "enmMedAttrMisc");
 
     private int _id;
     private String _textId;
@@ -33,7 +33,7 @@ public enum MedicalAttribute {
         try {
             return Utils.getMessage(_textId);
         } catch (Exception e) {
-            return "KeyNotFound";
+            return "KeyNotFound: " + _textId;
         }
     }
 }
