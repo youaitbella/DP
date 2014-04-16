@@ -13,6 +13,8 @@
     <ui:define name="editContent">
         <h2>#{msg.headerModelIntentionLifetime}</h2>
         <h:form id="lifeTime">
+            <h:commandLink styleClass="button" value="Test" action="xxx" onclick="return confirm ('#{msg.msgConfirmSeal}');">
+            </h:commandLink>
             <h:dataTable value="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
                 <h:column id="colDeleteId" >
                     <f:facet name="header">
@@ -31,6 +33,7 @@
                     <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
                                   required="true" requiredMessage="#{msg.msgValueNeeded}" >
                         <f:convertDateTime pattern="dd.MM.yyyy" />
+                        <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.keyUp}"/-->
                         <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
                     </h:inputText>
                 </h:column>
@@ -47,14 +50,9 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="errDate"/>
+                        <h:outputText value="err"/>
                     </f:facet>
                     <h:message id="msgStartDate#{modelLife.UUID}" for="startDate#{modelLife.UUID}" styleClass="errorMessage"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="errDur"/>
-                    </f:facet>
                     <h:message id="msgDuration#{modelLife.UUID}" for="duration#{modelLife.UUID}" styleClass="errorMessage"/>
                 </h:column>
             </h:dataTable>

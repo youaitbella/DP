@@ -13,7 +13,8 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:dataTable value="#{cc.attrs.table}" var="v">
+        <h:dataTable value="#{cc.attrs.table}" var="v" binding="">
+            
         </h:dataTable>
         <h:outputText value="#{cc.foo}"/>
         <h:commandButton value="Test" actionListener="#{cc.sessionListener}">

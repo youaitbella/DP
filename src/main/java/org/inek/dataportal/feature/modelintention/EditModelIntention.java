@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -599,7 +598,9 @@ public class EditModelIntention extends AbstractEditController {
 
     private boolean ensureEmptyModelLife() {
         List<ModelLife> lifes = _modelIntention.getModelLifes();
-        if (lifes.isEmpty() || lifes.get(lifes.size() - 1).getStartDate() != null) {
+        if (lifes.isEmpty() 
+                || lifes.get(lifes.size() - 1).getStartDate() != null 
+                || lifes.get(lifes.size() - 1).getMonthDuration()!= null) {
             lifes.add(new ModelLife());
             return true;
         }
@@ -612,10 +613,8 @@ public class EditModelIntention extends AbstractEditController {
         HtmlInputText t = (HtmlInputText) event.getSource();
         String currentId = t.getClientId();
         if (ensureEmptyModelLife()) {
-            _logger.log(Level.WARNING, "KeyUp - added");
             _script = "setCaretPosition('" + currentId + "', -1);";
         } else {
-            _logger.log(Level.WARNING, "KeyUp - no action");
             _script = "";
             FacesContext.getCurrentInstance().responseComplete();
         }
@@ -639,6 +638,7 @@ public class EditModelIntention extends AbstractEditController {
 
     public String deleteModelLife(ModelLife life){
         _modelIntention.getModelLifes().remove(life);
+        ensureEmptyModelLife();
         return "";
     }
        
