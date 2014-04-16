@@ -525,16 +525,16 @@ public class EditModelIntention extends AbstractEditController {
         _modelIntention.getContacts().add(contact);
     }
 
-    public void checkModelLife(AjaxBehaviorEvent event) {
-        ensureEmptyModelLife();
-    }
-
     private boolean ensureEmptyModelLife() {
         List<ModelLife> lifes = _modelIntention.getModelLifes();
         if (lifes.isEmpty() 
                 || lifes.get(lifes.size() - 1).getStartDate() != null 
                 || lifes.get(lifes.size() - 1).getMonthDuration()!= null) {
-            lifes.add(new ModelLife());
+            ModelLife life = new ModelLife();
+            if (_modelIntention.getId() != null){
+                life.setModelIntentionId(_modelIntention.getId());
+            }
+            lifes.add(life);
             return true;
         }
         return false;
@@ -542,7 +542,7 @@ public class EditModelIntention extends AbstractEditController {
 
     String _script = "";
 
-    public void keyUp(AjaxBehaviorEvent event) {
+    public void checkModelLifeListener(AjaxBehaviorEvent event) {
         HtmlInputText t = (HtmlInputText) event.getSource();
         String currentId = t.getClientId();
         if (ensureEmptyModelLife()) {

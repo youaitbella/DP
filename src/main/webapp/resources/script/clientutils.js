@@ -67,20 +67,20 @@ function getCaretPosition (element) {
 
 function setCaretPosition(id, pos){
     var element = document.getElementById(id);
+    if (!element) {return;}
     if (pos < 0){
         pos = element.value.length;
     }
-    if (element && element.focus) {
+    element.focus();
+    if (element.value.length === 0) {return;}
+    if(element.setSelectionRange)  {
         element.focus();
-        if(element.setSelectionRange)  {
-            element.focus();
-            element.setSelectionRange(pos,pos);
-        } else if (element.createTextRange) {
-            var range = element.createTextRange();
-            range.collapse(true);
-            range.moveEnd('character', pos);
-            range.moveStart('character', pos);
-            range.select();
-        }
+        element.setSelectionRange(pos,pos);
+    } else if (element.createTextRange) {
+        var range = element.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
     }
 }

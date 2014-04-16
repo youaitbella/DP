@@ -8,6 +8,7 @@ package org.inek.dataportal.entities.modelintention;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ import javax.persistence.Transient;
 public class ModelLife implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final Logger _logger = Logger.getLogger("ModelLife");
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +35,7 @@ public class ModelLife implements Serializable {
     private Integer _id;
     
     @Column (name = "mlModelIntentionId")
-    private Integer _modelIntentionId;
+    private int _modelIntentionId;
     
     
     @Column(name = "mlStartDate")
@@ -58,10 +60,14 @@ public class ModelLife implements Serializable {
     }
 
     public Date getStartDate() {
+//        String msg = " <<< getStartDate: " + (_startDate == null ? "null" : new SimpleDateFormat("dd.MM.yyyy").format(_startDate));
+//        _logger.log(Level.WARNING, msg);
         return _startDate;
     }
 
     public void setStartDate(Date startDate) {
+//        String msg = " >>> setStartDate: " + (_startDate == null ? "null" : new SimpleDateFormat("dd.MM.yyyy").format(_startDate));
+//        _logger.log(Level.WARNING, msg);
         _startDate = startDate;
     }
 
@@ -72,11 +78,11 @@ public class ModelLife implements Serializable {
         _monthDuration = monthDuration == null ? -1 : monthDuration;
     }
 
-    public Integer getModelIntentionId() {
+    public int getModelIntentionId() {
         return _modelIntentionId;
     }
 
-    public void setModelIntentionId(Integer modelIntentionId) {
+    public void setModelIntentionId(int modelIntentionId) {
         _modelIntentionId = modelIntentionId;
     }
     
@@ -108,7 +114,7 @@ public class ModelLife implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.ModelLife[id=" + _id + "]";
+        return this.getClass().getName() + "[id=" + _id + "]";
     }
 
     // </editor-fold>

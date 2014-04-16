@@ -1,33 +1,30 @@
 
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.entities.common;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "listContactType", schema = "mvh")
-public class ContactType implements Serializable {
+@Table(name = "listRemunerationType", schema = "dbo")
+public class listRemunerationType implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name = "lctId")
-    private Long _id;
+    @Column (name = "rtCharId")
+    private String _id;
     
-    @Column (name = "lctText")
+    @Column (name = "rtText")
     private String _text;
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
-    public Long getId() {
+    public String getId() {
         return _id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         _id = id;
     }
     
@@ -54,10 +51,10 @@ public class ContactType implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the _id fields are not set
-        if (!(object instanceof ContactType)) {
+        if (!(object instanceof listRemunerationType)) {
             return false;
         }
-        ContactType other = (ContactType) object;
+        listRemunerationType other = (listRemunerationType) object;
         if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
@@ -66,7 +63,7 @@ public class ContactType implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.modelintention.ContactType[ id=" + _id + " ]";
+        return this.getClass().getName() + "[ id=" + _id + " ]";
     }
     // </editor-fold>
 

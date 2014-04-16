@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.inek.dataportal.enums;
 
 import org.inek.dataportal.helper.Utils;
@@ -13,7 +12,7 @@ import org.inek.dataportal.helper.Utils;
  * @author schlappajo
  */
 public enum HospitalType {
-    
+
     AnyHospital(0, "enmHospitalTypeAny"),
     ModelProjectHospital(1, "enmHospitalModelProject"),
     SpecificHospital(2, "enmHospitalTypeSpecific"),
@@ -32,6 +31,11 @@ public enum HospitalType {
     }
 
     public String type() {
-        return Utils.getMessage(_textId);
+        try {
+            return Utils.getMessage(_textId);
+        } catch (Exception ex) {
+            return "unknown text id: " + _textId;
+        }
+
     }
 }
