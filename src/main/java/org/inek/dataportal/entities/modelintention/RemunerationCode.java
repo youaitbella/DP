@@ -2,6 +2,7 @@
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,8 +23,14 @@ public class RemunerationCode implements Serializable {
     @Column (name = "rcModelIntentionId")
     private int _modelIntentionId;
     
+    @Column (name = "rcCode")
+    private String _code = "";
+    
     @Column (name = "rcText")
-    private String _text;
+    private String _text = "";
+    
+    @Column (name = "rcAmount")
+    private BigDecimal _amount = new BigDecimal(0);
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Long getId() {
@@ -42,12 +49,28 @@ public class RemunerationCode implements Serializable {
         _modelIntentionId = modelIntentionId;
     }
     
+    public String getCode() {
+        return _code;
+    }
+
+    public void setCode(String code) {
+        _code = code;
+    }
+    
     public String getText() {
         return _text;
     }
 
     public void setText(String text) {
         _text = text;
+    }
+
+    public BigDecimal getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        _amount = amount;
     }
     
     

@@ -21,6 +21,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.entities.modelintention.ModelLife;
+import org.inek.dataportal.entities.modelintention.RemunerationCode;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
@@ -518,6 +519,28 @@ public class EditModelIntention extends AbstractEditController {
         return !_conversation.isTransient();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="tab costs">
+    private boolean ensureEmptyRemunerationCode() {
+        List<RemunerationCode> remunerationCodes = _modelIntention.getRemunerationCodes();
+        if (needEmptyCode(remunerationCodes)) {
+            RemunerationCode remunerationCode = new RemunerationCode();
+            if (_modelIntention.getId() != null){
+                remunerationCode.setModelIntentionId(_modelIntention.getId());
+            }
+            remunerationCodes.add(remunerationCode);
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean needEmptyCode(List<RemunerationCode> remunerationCodes) {
+        if (remunerationCodes.isEmpty()){return true;}
+        RemunerationCode remunerationCode = remunerationCodes.get(remunerationCodes.size() - 1);
+        return remunerationCode.getCode().length() > 0 || remunerationCode.getText().length() > 0 ;
+    }
+
+    
+    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
@@ -540,22 +563,22 @@ public class EditModelIntention extends AbstractEditController {
         return false;
     }
 
-    String _script = "";
+    String _modelLifeScript = "";
 
     public void checkModelLifeListener(AjaxBehaviorEvent event) {
         HtmlInputText t = (HtmlInputText) event.getSource();
         String currentId = t.getClientId();
         if (ensureEmptyModelLife()) {
-            _script = "setCaretPosition('" + currentId + "', -1);";
+            _modelLifeScript = "setCaretPosition('" + currentId + "', -1);";
         } else {
-            _script = "";
+            _modelLifeScript = "";
             FacesContext.getCurrentInstance().responseComplete();
         }
     }
 
     public String getModelLifeScript() {
-        String script = _script;
-        _script = "";
+        String script = _modelLifeScript;
+        _modelLifeScript = "";
         return script;
     }
 
@@ -587,6 +610,7 @@ public class EditModelIntention extends AbstractEditController {
 
     private void ensureEmptyEntries() {
         ensureEmptyModelLife();
+        ensureEmptyRemunerationCode();
         // todo: ensure other empty entries
     }
 

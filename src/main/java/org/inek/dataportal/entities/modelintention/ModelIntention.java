@@ -188,14 +188,19 @@ public class ModelIntention implements Serializable {
     private Integer _status = -1;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
-    @OrderBy("_id")
-    private List<ModelIntentionContact> _contacts;
-    
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AgreedPatients> _agreedPatients;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "rcModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<RemunerationCode> _remunerationCodes;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<Cost> _costs;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
@@ -203,14 +208,14 @@ public class ModelIntention implements Serializable {
     private List<ModelLife> _modelLifes;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<ModelIntentionContact> _contacts;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AcademicSupervision> _academicSupervisions;
-    
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
-    @OrderBy("_id")
-    private List<Cost> _costs;
     
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
@@ -685,6 +690,17 @@ public class ModelIntention implements Serializable {
 
     public void setAcademicSupervisions(List<AcademicSupervision> academicSupervisions) {
         _academicSupervisions = academicSupervisions;
+    }    
+    
+    public List<RemunerationCode> getRemunerationCodes() {
+        if (_remunerationCodes == null){
+            _remunerationCodes = new ArrayList<>();
+        }
+        return _remunerationCodes;
+    }
+
+    public void setRemunerationCodes(List<RemunerationCode> remunerationCodes) {
+        _remunerationCodes = remunerationCodes;
     }    
     
     public List<Cost> getCosts() {

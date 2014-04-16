@@ -30,7 +30,7 @@
                     </f:facet>
                     <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
                                   required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                        <f:converter converterId="FlexibleDateTimeConverter"/>
                         <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
                         <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
                     </h:inputText>
