@@ -309,48 +309,9 @@
             
         </h:panelGrid>
         
-        <h:form id="remunerationCodes">
-            <h:dataTable value="#{editModelIntention.modelIntention.remunerationCodes}" var="remunerationCode">
-                <h:column id="colDeleteId" >
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <h:commandLink>
-                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-                        <cb:confirmDelete/>
-                        <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteModelLife(remunerationCode)}"/>
-                    </h:commandLink>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblRemunerationCode}"/>
-                    </f:facet>
-                    <h:inputText value="#{remunerationCode.code}">
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblRemunerationType}"/>
-                    </f:facet>
-                    <h:inputText value="#{remunerationCode.text}" >
-                        <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationCodeListener}"/-->
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText> 
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblRemunerationAmount}"/>
-                    </f:facet>
-                    <h:inputText value="#{remunerationCode.amount}">
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText>
-                </h:column>
-            </h:dataTable>
-            <script type="text/javascript">
-                <!--# {editModelIntention.remunerationCodeScript}-->
-            </script>
-        </h:form>
+        <ui:include src="#{sessionTools.pages.FragmentRemuneration}"/>
+        <ui:include src="#{sessionTools.pages.FragmentCost}"/>
+       
         
     </ui:define>
 </ui:composition>

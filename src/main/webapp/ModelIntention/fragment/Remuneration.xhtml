@@ -9,64 +9,66 @@
                 >
 
 
-    <h2>#{msg.headerModelIntentionLifetime}</h2>
-    <h:form id="lifeTime">
+    <h2>#{msg.headerRemuneration}</h2>
 
-        <table>
+    <h:form id="remuneration">
+        <table width="100%">
             <thead>
                 <tr>
-                    <th scope="col"></th>
-                    <th scope="col">#{msg.lblRemunerationCode}</th>
-                    <th scope="col">#{msg.lblRemunerationType}</th>
-                    <th scope="col">#{msg.lblRemunerationAmount}</th>
-                    <th scope="col"></th>
+                    <th class="list-header" scope="col"></th>
+                    <th class="list-header" scope="col">#{msg.lblRemunerationCode}</th>
+                    <th class="list-header" scope="col">#{msg.lblRemunerationType}</th>
+                    <th class="list-header" scope="col">#{msg.lblRemunerationAmount}</th>
+                    <th class="list-header" scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.remunerationCodes}" var="remuneration">
+                <c:forEach items="#{editModelIntention.modelIntention.remunerations}" var="remuneration">
                     <tr>
                         <td>
                             <h:commandLink>
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
-                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteRemnuneration(remuneration)}"/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.deleteEntry(remuneration)}"/>
                             </h:commandLink>
                         </td>
 
                         <td>
                             <h:inputText id="code#{remuneration.UUID}" value="#{remuneration.code}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{remuneration.UUID}"/>
+                                <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationListener}"/-->
+                                <f:ajax event="change" render="@this :logout:remaining text#{remuneration.UUID}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgCode#{remuneration.UUID}"/>
                             </h:inputText>
                         </td>
                         
                         <td>
                             <h:inputText id="text#{remuneration.UUID}" value="#{remuneration.text}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.checkRemunerationListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgDuration#{remuneration.UUID}"/>
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgText#{remuneration.UUID}"/>
                             </h:inputText> 
                         </td>
 
                         <td>
-                            <h:inputText id="text#{remuneration.UUID}" value="#{remuneration.amount}" 
+                            <h:inputText id="amount#{remuneration.UUID}" value="#{remuneration.amount}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.checkRemunerationListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgDuration#{remuneration.UUID}"/>
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgAmount#{remuneration.UUID}"/>
                             </h:inputText> 
                         </td>
 
                         <td>
-                            <h:message id="msgStartDate#{remuneration.UUID}" for="code#{remuneration.UUID}" styleClass="errorMessage"/>
-                            <h:message id="msgDuration#{remuneration.UUID}" for="text#{remuneration.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgCode#{remuneration.UUID}" for="code#{remuneration.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgText#{remuneration.UUID}" for="text#{remuneration.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgAmount#{remuneration.UUID}" for="amount#{remuneration.UUID}" styleClass="errorMessage"/>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>        
             <script type="text/javascript">
-                #{editModelIntention.remunerationScript}
+                #{editModelIntention.remunerationTable.script}
             </script>
     </h:form>
 </ui:composition>

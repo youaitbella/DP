@@ -2,26 +2,23 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
-import org.inek.dataportal.entities.modelintention.ModelLife;
-import org.inek.dataportal.entities.modelintention.RemunerationCode;
+import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
@@ -33,6 +30,7 @@ import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.enums.SelfHospitalisationType;
 import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.enums.TreatmentType;
+import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -520,58 +518,28 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab costs">
-    private boolean ensureEmptyRemunerationCode() {
-        List<RemunerationCode> remunerationCodes = getModelIntention().getRemunerationCodes();
-        if (needEmptyCode(remunerationCodes)) {
-            RemunerationCode remunerationCode = new RemunerationCode();
-            if (getModelIntention().getId() != null){
-                remunerationCode.setModelIntentionId(getModelIntention().getId());
-            }
-            remunerationCodes.add(remunerationCode);
-            return true;
-        }
-        return false;
-    }
+    private RemunerationDynamicTable _remunarationTable;
     
-    private boolean needEmptyCode(List<RemunerationCode> remunerationCodes) {
-        if (remunerationCodes.isEmpty()){return true;}
-        RemunerationCode remunerationCode = remunerationCodes.get(remunerationCodes.size() - 1);
-        return remunerationCode.getCode().length() > 0 || remunerationCode.getText().length() > 0 ;
+    public DynamicTable getRemunerationTable(){
+        if (_remunarationTable == null){
+            _remunarationTable = new RemunerationDynamicTable(getModelIntention());
+        }
+        return _remunarationTable;
     }
 
-    String _remunerationScript = "";
-
-    public void checkRemunerationListener(AjaxBehaviorEvent event) {
-        HtmlInputText t = (HtmlInputText) event.getSource();
-        String currentId = t.getClientId();
-        if (ensureEmptyRemunerationCode()) {
-            _remunerationScript = "setCaretPosition('" + currentId + "', -1);";
-        } else {
-            _remunerationScript = "";
+    @Inject private RemunerationTypeFacade _remunerationTypeFacade;
+    public void loadRemunerationListener(Remuneration remuneration) {
+        String code = remuneration.getCode();
+        if (code.length() != 8 || remuneration.getText().length() > 0){
             FacesContext.getCurrentInstance().responseComplete();
+            return;
         }
-    }
-
-    public String getRemunerationScript() {
-        String script = _remunerationScript;
-        _remunerationScript = "";
-        return script;
-    }
-
-    private void removeEmptyRemunerationCode() {
-        List<RemunerationCode> remunerations = getModelIntention().getRemunerationCodes();
-        for (Iterator<RemunerationCode> itr = remunerations.iterator(); itr.hasNext();) {
-            RemunerationCode remuneration = itr.next();
-            if (remuneration.getCode()== null || remuneration.getText()== null) {
-                itr.remove();
-            }
+        RemunerationType type = _remunerationTypeFacade.find(code);
+        if (type == null){
+            FacesContext.getCurrentInstance().responseComplete();
+            return;
         }
-    }
-
-    public String deleteRemuneration(RemunerationCode remuneration){
-        getModelIntention().getRemunerationCodes().remove(remuneration);
-        ensureEmptyRemunerationCode();
-        return "";
+        remuneration.setText(type.getText());
     }
        
 // </editor-fold>    
@@ -583,67 +551,26 @@ public class EditModelIntention extends AbstractEditController {
         getModelIntention().getContacts().add(contact);
     }
 
-    private boolean ensureEmptyModelLife() {
-        List<ModelLife> lifes = getModelIntention().getModelLifes();
-        if (lifes.isEmpty() 
-                || lifes.get(lifes.size() - 1).getStartDate() != null 
-                || lifes.get(lifes.size() - 1).getMonthDuration()!= null) {
-            ModelLife life = new ModelLife();
-            if (getModelIntention().getId() != null){
-                life.setModelIntentionId(getModelIntention().getId());
-            }
-            lifes.add(life);
-            return true;
+    private ModelLifeDynamicTable _modelLifeTable;
+    
+    public DynamicTable getModelLifeTable(){
+        if (_modelLifeTable == null){
+            _modelLifeTable = new ModelLifeDynamicTable(getModelIntention());
         }
-        return false;
-    }
-
-    String _modelLifeScript = "";
-
-    public void checkModelLifeListener(AjaxBehaviorEvent event) {
-        HtmlInputText t = (HtmlInputText) event.getSource();
-        String currentId = t.getClientId();
-        if (ensureEmptyModelLife()) {
-            _modelLifeScript = "setCaretPosition('" + currentId + "', -1);";
-        } else {
-            _modelLifeScript = "";
-            FacesContext.getCurrentInstance().responseComplete();
-        }
-    }
-
-    public String getModelLifeScript() {
-        String script = _modelLifeScript;
-        _modelLifeScript = "";
-        return script;
-    }
-
-    private void removeEmptyModelLife() {
-        List<ModelLife> modelLifes = getModelIntention().getModelLifes();
-        for (Iterator<ModelLife> itr = modelLifes.iterator(); itr.hasNext();) {
-            ModelLife life = itr.next();
-            if (life.getStartDate() == null || life.getMonthDuration() == null) {
-                itr.remove();
-            }
-        }
-    }
-
-    public String deleteModelLife(ModelLife life){
-        getModelIntention().getModelLifes().remove(life);
-        ensureEmptyModelLife();
-        return "";
+        return _modelLifeTable;
     }
        
     
     // </editor-fold>    
     private void removeEmptyEntries() {
-        removeEmptyModelLife();
-        removeEmptyRemunerationCode();
+        getModelLifeTable().removeEmptyEntries();
+        getRemunerationTable().removeEmptyEntries();
         // todo: remove other empty entries
     }
 
     private void ensureEmptyEntries() {
-        ensureEmptyModelLife();
-        ensureEmptyRemunerationCode();
+        getModelLifeTable().ensureEmptyEntry();
+        getRemunerationTable().ensureEmptyEntry();
         // todo: ensure other empty entries
     }
 

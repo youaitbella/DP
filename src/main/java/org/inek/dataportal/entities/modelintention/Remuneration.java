@@ -12,16 +12,16 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "RemunerationCode", schema = "mvh")
-public class RemunerationCode implements Serializable {
+@Table(name = "Remuneration", schema = "mvh")
+public class Remuneration implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Properties">
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "rcId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reId")
     private Long _id;
 
     public Long getId() {
@@ -34,7 +34,7 @@ public class RemunerationCode implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="modelIntentionId">
-    @Column(name = "rcModelIntentionId")
+    @Column(name = "reModelIntentionId")
     private int _modelIntentionId;
 
     public int getModelIntentionId() {
@@ -47,7 +47,7 @@ public class RemunerationCode implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="code">
-    @Column(name = "rcCode")
+    @Column(name = "reCode")
     private String _code = "";
 
     public String getCode() {
@@ -60,7 +60,7 @@ public class RemunerationCode implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="text">
-    @Column(name = "rcText")
+    @Column(name = "reText")
     private String _text = "";
 
     public String getText() {
@@ -73,7 +73,7 @@ public class RemunerationCode implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="amaount">
-    @Column(name = "rcAmount")
+    @Column(name = "reAmount")
     private BigDecimal _amount = new BigDecimal(0);
 
     public BigDecimal getAmount() {
@@ -106,12 +106,15 @@ public class RemunerationCode implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the _id fields are not set
-        if (!(object instanceof RemunerationCode)) {
+        if (!(object instanceof Remuneration)) {
             return false;
         }
-        RemunerationCode other = (RemunerationCode) object;
+        Remuneration other = (Remuneration) object;
         if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
+        }
+        if (this._id == null && other._id == null){
+            return this._uuid.equals(other._uuid);
         }
         return true;
     }

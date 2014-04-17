@@ -15,20 +15,20 @@
         <table>
             <thead>
                 <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Start</th>
-                    <th scope="col">Dauer</th>
-                    <th scope="col"></th>
+                    <th class="list-header" scope="col"></th>
+                    <th class="list-header" scope="col">Start</th>
+                    <th class="list-header" scope="col">Dauer</th>
+                    <th class="list-header" scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
                     <tr>
-                        <td>
+                        <td class="colIcon">
                             <h:commandLink>
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
-                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteModelLife(modelLife)}"/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.modelLifeTable.deleteEntry(modelLife)}"/>
                             </h:commandLink>
                         </td>
 
@@ -44,7 +44,7 @@
                             <h:inputText id="duration#{modelLife.UUID}" value="#{modelLife.monthDuration}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                 <f:validateLongRange minimum="1" maximum="120"/>
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.checkModelLifeListener}"/>
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgDuration#{modelLife.UUID}"/>
                             </h:inputText> 
                         </td>
@@ -58,7 +58,7 @@
             </tbody>
         </table>        
         <script type="text/javascript">
-            #{editModelIntention.modelLifeScript}
+            #{editModelIntention.modelLifeTable.script}
         </script>
     </h:form>
 </ui:composition>

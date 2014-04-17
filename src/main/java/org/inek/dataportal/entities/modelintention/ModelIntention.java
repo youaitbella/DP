@@ -1,4 +1,3 @@
-
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
@@ -25,200 +24,226 @@ import javax.persistence.Table;
 public class ModelIntention implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "miId")
     private Integer _id;
-    
+
     @Column(name = "miAccountId")
     private int _accountId;
-    
+
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
-    
+
     @Column(name = "miAgeYearsTo")
     private int _ageYearsTo = -1;
-    
+
     @Column(name = "miSex")
     private int _sex = -1;
-    
+
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
-   
+
     @Column(name = "miRegion")
     private String _region = "";
-    
+
     @Column(name = "miMedicalAttributesType")
     private int _medicalAttributesType;
-    
+
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
-    
+
     @Column(name = "miMiscAttribute")
     private String _miscAttribute = "";
-    
+
     @Column(name = "miAgreement")
     private boolean _agreement;
-    
+
     @Column(name = "miSettleMedicType")
     private int _settleMedicType;
-    
+
     @Column(name = "miSettleMedicText")
     private String _settleMedicText = "";
-    
+
     @Column(name = "miPIAType")
     private int _piaType;
-    
+
     @Column(name = "miPIAText")
     private String _piaText = "";
-    
+
     @Column(name = "miHospitalType")
     private int _hospitalType;
-    
+
     @Column(name = "miHospitalText")
     private String _hospitalText = "";
-    
+
     @Column(name = "miSelfHospitalisationType")
     private int _selfHospitalisationType;
-    
+
     @Column(name = "miMiscHospitalisation")
     private String _miscHospitalisation = "";
-    
+
     @Column(name = "miPrimaryGoals")
     private String _primaryGoals = "";
-    
+
     @Column(name = "miPatientGoals")
     private String _patientGoals = "";
-    
+
     @Column(name = "miProviderGoals")
     private String _providerGoals = "";
-    
+
     @Column(name = "miSponsorGoals")
     private String _sponsorGoals = "";
-    
+
     @Column(name = "miInvolvedGoals")
     private String _involvedGoals = "";
-    
+
     @Column(name = "miStationaryType")
     private int _stationaryType;
-    
+
     @Column(name = "miStationaryText")
     private String _stationaryText = "";
-    
+
     @Column(name = "miPartialHospitalisationType")
     private int _partialHospitalisationType;
-    
+
     @Column(name = "miPartialHospitalisationText")
     private String _partialHospitalisationText = "";
-    
+
     @Column(name = "miHospitalAmbulantTreatmentType")
     private int _hospitalAmbulantTreatmentType;
-    
+
     @Column(name = "miHospitalAmbulantTreatmentText")
     private String _hospitalAmbulantTreatmentText = "";
-    
+
     @Column(name = "miVisitPIAType")
     private int _visitPiaType;
-    
+
     @Column(name = "miVisitPIAText")
     private String _visitPiaText = "";
-    
+
     @Column(name = "miAmbulantTreatmentType")
     private int _ambulantTreatmentType;
-    
+
     @Column(name = "miAmbulantTreatmentText")
     private String _ambulantTreatmentText = "";
-    
+
     @Column(name = "miMiscTreatment")
     private String _miscTreatment = "";
-    
+
     @Column(name = "miCaseManagement")
     private String _caseManagement = "";
-    
+
     @Column(name = "miTeamBasedInnovations")
     private String _teamBasedInnovations = "";
-    
+
     @Column(name = "miCrossSectoralSupply")
     private String _crossSectoralSupply = "";
-    
+
     @Column(name = "miHomeTreatment")
     private String _homeTreatment = "";
-    
+
     @Column(name = "miMiscSpecialPatientConcept")
     private String _miscSpecialPatientConcept = "";
-    
+
     @Column(name = "miSpecialPsyTherapy")
     private String _specialPsyTherapy = "";
-    
+
     @Column(name = "miSpecialMedicalMethod")
     private String _specialMedicalMethod = "";
-    
+
     @Column(name = "miOtherSpecialTherapyMethod")
     private String _otherSpecialTherapyMethod = "";
-    
+
     @Column(name = "miMiscSpecificActivityContent")
     private String _miscSpecificActivityContent = "";
-    
+
     @Column(name = "miSingleRemuneration")
     private String _singleRemuneration = "";
-    
+
     @Column(name = "miDayPackage")
     private String _dayPackage = "";
-    
+
     @Column(name = "miCasePackage")
     private String _casePackage = "";
-    
+
     @Column(name = "miQuarterPackage")
     private String _quarterPackage = "";
-    
+
     @Column(name = "miComplexPackage")
     private String _complexPackage = "";
-    
+
     @Column(name = "miPEPPRemuneration")
     private String _peppRemuneration = "";
-    
+
     @Column(name = "miRegionalBudget")
     private String _regionalBudget = "";
-    
+
     @Column(name = "miMiscRemuneration")
     private String _miscRemuneration = "";
-    
+
     @Column(name = "miStatus")
     private Integer _status = -1;
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AgreedPatients> _agreedPatients;
-    
+
+
+    // <editor-fold defaultstate="collapsed" desc="remuneration">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "rcModelIntentionId", referencedColumnName = "miId")
+    @JoinColumn(name = "reModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
-    private List<RemunerationCode> _remunerationCodes;
-    
+    private List<Remuneration> _remunerations;
+
+    public List<Remuneration> getRemunerations() {
+        if (_remunerations == null) {
+            _remunerations = new ArrayList<>();
+        }
+        return _remunerations;
+    }
+
+    public void setRemunerations(List<Remuneration> remunerations) {
+        _remunerations = remunerations;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="cost">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<Cost> _costs;
-    
+
+    public List<Cost> getCosts() {
+        if (_costs == null) {
+            _costs = new ArrayList<>();
+        }
+        return _costs;
+    }
+
+    public void setCosts(List<Cost> costs) {
+        _costs = costs;
+    }
+    // </editor-fold>
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
     private List<ModelLife> _modelLifes;
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<ModelIntentionContact> _contacts;
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AcademicSupervision> _academicSupervisions;
-    
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    
     public Integer getId() {
         return _id;
     }
@@ -645,7 +670,7 @@ public class ModelIntention implements Serializable {
     }
 
     public List<AgreedPatients> getAgreedPatients() {
-        if (_agreedPatients == null){
+        if (_agreedPatients == null) {
             _agreedPatients = new ArrayList<>();
         }
         return _agreedPatients;
@@ -654,9 +679,9 @@ public class ModelIntention implements Serializable {
     public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
         _agreedPatients = agreedPatients;
     }
-   
+
     public List<ModelIntentionContact> getContacts() {
-        if (_contacts == null){
+        if (_contacts == null) {
             _contacts = new ArrayList<>();
             // at least, there must be two partners:
             _contacts.add(new ModelIntentionContact(1));
@@ -668,9 +693,9 @@ public class ModelIntention implements Serializable {
     public void setContacts(List<ModelIntentionContact> contacts) {
         _contacts = contacts;
     }
-    
+
     public List<ModelLife> getModelLifes() {
-        if (_modelLifes == null){
+        if (_modelLifes == null) {
             _modelLifes = new ArrayList<>();
         }
         return _modelLifes;
@@ -679,9 +704,9 @@ public class ModelIntention implements Serializable {
     public void setModelLifes(List<ModelLife> modelLifes) {
         _modelLifes = modelLifes;
     }
-    
+
     public List<AcademicSupervision> getAcademicSupervisions() {
-        if (_academicSupervisions == null){
+        if (_academicSupervisions == null) {
             _academicSupervisions = new ArrayList<>();
             _academicSupervisions.add(new AcademicSupervision());
         }
@@ -690,32 +715,9 @@ public class ModelIntention implements Serializable {
 
     public void setAcademicSupervisions(List<AcademicSupervision> academicSupervisions) {
         _academicSupervisions = academicSupervisions;
-    }    
-    
-    public List<RemunerationCode> getRemunerationCodes() {
-        if (_remunerationCodes == null){
-            _remunerationCodes = new ArrayList<>();
-        }
-        return _remunerationCodes;
     }
 
-    public void setRemunerationCodes(List<RemunerationCode> remunerationCodes) {
-        _remunerationCodes = remunerationCodes;
-    }    
-    
-    public List<Cost> getCosts() {
-        if (_costs == null){
-            _costs = new ArrayList<>();
-        }
-        return _costs;
-    }
-
-    public void setCosts(List<Cost> costs) {
-        _costs = costs;
-    }    
-    
-
-       // </editor-fold>
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -731,7 +733,7 @@ public class ModelIntention implements Serializable {
             return false;
         }
         ModelIntention other = (ModelIntention) object;
-        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
+        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;

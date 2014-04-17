@@ -103,6 +103,9 @@ public class ModelLife implements Serializable {
         if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
+        if (this._id == null && other._id == null){
+            return this._uuid.equals(other._uuid);
+        }
         return true;
     }
 
