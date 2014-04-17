@@ -521,11 +521,11 @@ public class EditModelIntention extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private boolean ensureEmptyRemunerationCode() {
-        List<RemunerationCode> remunerationCodes = _modelIntention.getRemunerationCodes();
+        List<RemunerationCode> remunerationCodes = getModelIntention().getRemunerationCodes();
         if (needEmptyCode(remunerationCodes)) {
             RemunerationCode remunerationCode = new RemunerationCode();
-            if (_modelIntention.getId() != null){
-                remunerationCode.setModelIntentionId(_modelIntention.getId());
+            if (getModelIntention().getId() != null){
+                remunerationCode.setModelIntentionId(getModelIntention().getId());
             }
             remunerationCodes.add(remunerationCode);
             return true;
@@ -539,23 +539,58 @@ public class EditModelIntention extends AbstractEditController {
         return remunerationCode.getCode().length() > 0 || remunerationCode.getText().length() > 0 ;
     }
 
+    String _remunerationScript = "";
+
+    public void checkRemunerationListener(AjaxBehaviorEvent event) {
+        HtmlInputText t = (HtmlInputText) event.getSource();
+        String currentId = t.getClientId();
+        if (ensureEmptyRemunerationCode()) {
+            _remunerationScript = "setCaretPosition('" + currentId + "', -1);";
+        } else {
+            _remunerationScript = "";
+            FacesContext.getCurrentInstance().responseComplete();
+        }
+    }
+
+    public String getRemunerationScript() {
+        String script = _remunerationScript;
+        _remunerationScript = "";
+        return script;
+    }
+
+    private void removeEmptyRemunerationCode() {
+        List<RemunerationCode> remunerations = getModelIntention().getRemunerationCodes();
+        for (Iterator<RemunerationCode> itr = remunerations.iterator(); itr.hasNext();) {
+            RemunerationCode remuneration = itr.next();
+            if (remuneration.getCode()== null || remuneration.getText()== null) {
+                itr.remove();
+            }
+        }
+    }
+
+    public String deleteRemuneration(RemunerationCode remuneration){
+        getModelIntention().getRemunerationCodes().remove(remuneration);
+        ensureEmptyRemunerationCode();
+        return "";
+    }
+       
+// </editor-fold>    
     
-    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
         contact.setContactTypeId(id);
-        _modelIntention.getContacts().add(contact);
+        getModelIntention().getContacts().add(contact);
     }
 
     private boolean ensureEmptyModelLife() {
-        List<ModelLife> lifes = _modelIntention.getModelLifes();
+        List<ModelLife> lifes = getModelIntention().getModelLifes();
         if (lifes.isEmpty() 
                 || lifes.get(lifes.size() - 1).getStartDate() != null 
                 || lifes.get(lifes.size() - 1).getMonthDuration()!= null) {
             ModelLife life = new ModelLife();
-            if (_modelIntention.getId() != null){
-                life.setModelIntentionId(_modelIntention.getId());
+            if (getModelIntention().getId() != null){
+                life.setModelIntentionId(getModelIntention().getId());
             }
             lifes.add(life);
             return true;
@@ -583,7 +618,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void removeEmptyModelLife() {
-        List<ModelLife> modelLifes = _modelIntention.getModelLifes();
+        List<ModelLife> modelLifes = getModelIntention().getModelLifes();
         for (Iterator<ModelLife> itr = modelLifes.iterator(); itr.hasNext();) {
             ModelLife life = itr.next();
             if (life.getStartDate() == null || life.getMonthDuration() == null) {
@@ -593,18 +628,16 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public String deleteModelLife(ModelLife life){
-        _modelIntention.getModelLifes().remove(life);
+        getModelIntention().getModelLifes().remove(life);
         ensureEmptyModelLife();
         return "";
     }
        
-    public String getDummy(){
-        return "Dummy";
-    }
     
     // </editor-fold>    
     private void removeEmptyEntries() {
         removeEmptyModelLife();
+        removeEmptyRemunerationCode();
         // todo: remove other empty entries
     }
 

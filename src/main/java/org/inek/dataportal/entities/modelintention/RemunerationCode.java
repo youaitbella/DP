@@ -1,38 +1,29 @@
-
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "RemunerationCode", schema = "mvh")
 public class RemunerationCode implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
+    // <editor-fold defaultstate="collapsed" desc="Properties">
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name = "rcId")
+    @Column(name = "rcId")
     private Long _id;
-    
-    @Column (name = "rcModelIntentionId")
-    private int _modelIntentionId;
-    
-    @Column (name = "rcCode")
-    private String _code = "";
-    
-    @Column (name = "rcText")
-    private String _text = "";
-    
-    @Column (name = "rcAmount")
-    private BigDecimal _amount = new BigDecimal(0);
-    
-    // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
+
     public Long getId() {
         return _id;
     }
@@ -40,7 +31,12 @@ public class RemunerationCode implements Serializable {
     public void setId(Long id) {
         _id = id;
     }
-    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="modelIntentionId">
+    @Column(name = "rcModelIntentionId")
+    private int _modelIntentionId;
+
     public int getModelIntentionId() {
         return _modelIntentionId;
     }
@@ -48,7 +44,12 @@ public class RemunerationCode implements Serializable {
     public void setModelIntentionId(int modelIntentionId) {
         _modelIntentionId = modelIntentionId;
     }
-    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="code">
+    @Column(name = "rcCode")
+    private String _code = "";
+
     public String getCode() {
         return _code;
     }
@@ -56,7 +57,12 @@ public class RemunerationCode implements Serializable {
     public void setCode(String code) {
         _code = code;
     }
-    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="text">
+    @Column(name = "rcText")
+    private String _text = "";
+
     public String getText() {
         return _text;
     }
@@ -64,6 +70,11 @@ public class RemunerationCode implements Serializable {
     public void setText(String text) {
         _text = text;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="amaount">
+    @Column(name = "rcAmount")
+    private BigDecimal _amount = new BigDecimal(0);
 
     public BigDecimal getAmount() {
         return _amount;
@@ -72,12 +83,19 @@ public class RemunerationCode implements Serializable {
     public void setAmount(BigDecimal amount) {
         _amount = amount;
     }
-    
-    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="UUID">
+    @Transient
+    private final String _uuid = UUID.randomUUID().toString().replace("-", "");
+
+    public String getUUID() {
+        return _uuid;
+    }
+    // </editor-fold>
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-
     @Override
     public int hashCode() {
         int hash = 0;

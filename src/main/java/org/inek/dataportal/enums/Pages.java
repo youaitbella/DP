@@ -81,7 +81,9 @@ public enum Pages {
     ModelIntentionTreatAreaAndCosts("/ModelIntention/ModelIntentionTreatAreaAndCosts"),
     ModelIntentionStructure("/ModelIntention/ModelIntentionStructure"),
     ModelIntentionQuality("/ModelIntention/ModelIntentionQuality"),
-    IncludeModelLife("/ModelIntention/fragment/ModelLife"),
+    FragmentModelLife("/ModelIntention/fragment/ModelLife"),
+    FragmentRemuneration("/ModelIntention/fragment/Remuneration"),
+    FragmentCost("/ModelIntention/fragment/Cost"),
     //
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),

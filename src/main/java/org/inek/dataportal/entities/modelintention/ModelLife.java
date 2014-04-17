@@ -45,11 +45,9 @@ public class ModelLife implements Serializable {
     @Column(name = "mlMonthDuration")
     private Integer _monthDuration = -1;
 
-    
     @Transient
     private final String _uuid= UUID.randomUUID().toString().replace("-", "");
     
-  
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -60,14 +58,10 @@ public class ModelLife implements Serializable {
     }
 
     public Date getStartDate() {
-//        String msg = " <<< getStartDate: " + (_startDate == null ? "null" : new SimpleDateFormat("dd.MM.yyyy").format(_startDate));
-//        _logger.log(Level.WARNING, msg);
         return _startDate;
     }
 
     public void setStartDate(Date startDate) {
-//        String msg = " >>> setStartDate: " + (_startDate == null ? "null" : new SimpleDateFormat("dd.MM.yyyy").format(_startDate));
-//        _logger.log(Level.WARNING, msg);
         _startDate = startDate;
     }
 
