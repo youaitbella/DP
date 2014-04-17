@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:i="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+
+    <h2>#{msg.headerModelIntentionLifetime}</h2>
+    <h:form id="lifeTime">
+
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Start</th>
+                    <th scope="col">Dauer</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
+                    <tr>
+                        <td>
+                            <h:commandLink>
+                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <cb:confirmDelete/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteModelLife(modelLife)}"/>
+                            </h:commandLink>
+                        </td>
+
+                        <td>
+                            <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:converter converterId="FlexibleDateTimeConverter"/>
+                                <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
+                                <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:inputText id="duration#{modelLife.UUID}" value="#{modelLife.monthDuration}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:validateLongRange minimum="1" maximum="120"/>
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.checkModelLifeListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgDuration#{modelLife.UUID}"/>
+                            </h:inputText> 
+                        </td>
+
+                        <td>
+                            <h:message id="msgStartDate#{modelLife.UUID}" for="startDate#{modelLife.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgDuration#{modelLife.UUID}" for="duration#{modelLife.UUID}" styleClass="errorMessage"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>        
+    </h:form>
+</ui:composition>
