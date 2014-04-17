@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "listRemunerationType", schema = "dbo")
-public class listRemunerationType implements Serializable {
+public class RemunerationType implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -51,10 +51,10 @@ public class listRemunerationType implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the _id fields are not set
-        if (!(object instanceof listRemunerationType)) {
+        if (!(object instanceof RemunerationType)) {
             return false;
         }
-        listRemunerationType other = (listRemunerationType) object;
+        RemunerationType other = (RemunerationType) object;
         if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
