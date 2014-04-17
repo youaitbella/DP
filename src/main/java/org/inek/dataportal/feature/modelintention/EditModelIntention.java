@@ -1,20 +1,27 @@
 package org.inek.dataportal.feature.modelintention;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.AcademicSupervision;
+import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
@@ -89,7 +96,6 @@ public class EditModelIntention extends AbstractEditController {
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-
 
     @Override
     protected void addTopics() {
@@ -408,7 +414,7 @@ public class EditModelIntention extends AbstractEditController {
         }
         removeEmptyEntries();
         _modelIntention.setStatus(1);
-        
+
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         ensureEmptyEntries();
         if (isValidId(_modelIntention.getId())) {
@@ -519,31 +525,85 @@ public class EditModelIntention extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private RemunerationDynamicTable _remunarationTable;
-    
-    public DynamicTable getRemunerationTable(){
-        if (_remunarationTable == null){
+
+    public DynamicTable getRemunerationTable() {
+        if (_remunarationTable == null) {
             _remunarationTable = new RemunerationDynamicTable(getModelIntention());
         }
         return _remunarationTable;
     }
 
     @Inject private RemunerationTypeFacade _remunerationTypeFacade;
+
     public void loadRemunerationListener(Remuneration remuneration) {
         String code = remuneration.getCode();
-        if (code.length() != 8 || remuneration.getText().length() > 0){
+        if (code.length() != 8 || remuneration.getText().length() > 0) {
             FacesContext.getCurrentInstance().responseComplete();
             return;
         }
         RemunerationType type = _remunerationTypeFacade.find(code);
-        if (type == null){
+        if (type == null) {
             FacesContext.getCurrentInstance().responseComplete();
             return;
         }
         remuneration.setText(type.getText());
     }
-       
-// </editor-fold>    
-    
+
+    private CostDynamicTable _costTable;
+
+    public DynamicTable getCostTable() {
+        if (_costTable == null) {
+            _costTable = new CostDynamicTable(getModelIntention());
+        }
+        return _costTable;
+    }
+
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _logger.log(Level.WARNING, "setFile: {0}", file);
+        _file = file;
+    }
+
+    public void upload() {
+        _logger.log(Level.WARNING, "upload");
+        try {
+            if (_file != null) {
+                Scanner scanner = new Scanner(_file.getInputStream(),
+                        "UTF-8");
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    _logger.log(Level.WARNING, "\t found: {0}", line);
+                }
+
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage("Upload successfully"));
+            }
+        } catch (IOException | NoSuchElementException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Upload failed!"));
+        }
+    }
+
+    public void addCost(String line){
+        // todo: this is just quick'n'dirty to evaluate the function
+        String[] tokens = line.split(";");
+        if (tokens.length == 5){
+            _costTable.ensureEmptyEntry();
+            Cost cost = getModelIntention().getCosts().get(getModelIntention().getCosts().size() - 1);
+            try {
+            cost.setIk(Integer.parseInt(tokens[0]));
+            } catch (Exception ex){}
+            cost.setRemunerationCode(tokens[1]); // add other cols
+            cost.setCostTypeId(tokens[3]);
+            _costTable.ensureEmptyEntry();
+        }
+    }
+    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
@@ -552,25 +612,26 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private ModelLifeDynamicTable _modelLifeTable;
-    
-    public DynamicTable getModelLifeTable(){
-        if (_modelLifeTable == null){
+
+    public DynamicTable getModelLifeTable() {
+        if (_modelLifeTable == null) {
             _modelLifeTable = new ModelLifeDynamicTable(getModelIntention());
         }
         return _modelLifeTable;
     }
-       
-    
+
     // </editor-fold>    
     private void removeEmptyEntries() {
         getModelLifeTable().removeEmptyEntries();
         getRemunerationTable().removeEmptyEntries();
+        getCostTable().removeEmptyEntries();
         // todo: remove other empty entries
     }
 
     private void ensureEmptyEntries() {
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();
+        getCostTable().ensureEmptyEntry();
         // todo: ensure other empty entries
     }
 

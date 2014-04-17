@@ -72,7 +72,7 @@ public class Remuneration implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="amaount">
+    // <editor-fold defaultstate="collapsed" desc="amount">
     @Column(name = "reAmount")
     private BigDecimal _amount = new BigDecimal(0);
 
@@ -105,7 +105,6 @@ public class Remuneration implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the _id fields are not set
         if (!(object instanceof Remuneration)) {
             return false;
         }

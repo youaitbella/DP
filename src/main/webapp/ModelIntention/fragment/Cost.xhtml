@@ -9,32 +9,89 @@
                 >
 
 
-    <h2>#{msg.headerModelIntentionLifetime}</h2>
-    <h:form id="lifeTime">
+    <h2>#{msg.headerModelIntentionCost}</h2>
+
+    <h:form id="lifeTime" enctype="multipart/form-data">
+
+        <h:inputFile id="file" value="#{uploadBean.file}">
+            <f:ajax listener="#{uploadBean.upload()}" render="@form"/>
+        </h:inputFile>
 
         <table>
             <thead>
                 <tr>
                     <th scope="col"></th>
+                    <th scope="col">#{msg.lblIK}</th>
                     <th scope="col">#{msg.lblRemunerationCode}</th>
-                    <th scope="col">Dauer</th>
+                    <th scope="col">#{msg.lblCostCenter}</th>
+                    <th scope="col">#{msg.lblCostType}</th>
+                    <th scope="col">#{msg.lblCostAmount}</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
+                <c:forEach items="#{editModelIntention.modelIntention.costs}" var="cost">
                     <tr>
-                        <td>
+                        <td class="colIcon">
+                            <h:commandLink>
+                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <cb:confirmDelete/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.costTable.deleteEntry(cost)}"/>
+                            </h:commandLink>
                         </td>
 
                         <td>
+                            <h:inputText id="ik#{cost.UUID}" value="#{cost.ik}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="blur" render="@this :logout:remaining msgIk#{cost.UUID}"/>
+                            </h:inputText>
+                        </td>
+
+                        <td>
+                            <h:inputText id="remunerationCode#{cost.UUID}" value="#{cost.remunerationCode}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{cost.UUID}"/>
+                            </h:inputText> 
+                        </td>
+
+                        <td>
+                            <h:inputText id="costCenter#{cost.UUID}" value="#{cost.costCenterId}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgCostCenter#{cost.UUID}"/>
+                            </h:inputText> 
+                        </td>
+
+                        <td>
+                            <h:inputText id="costType#{cost.UUID}" value="#{cost.costTypeId}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgCostType#{cost.UUID}"/>
+                            </h:inputText> 
+                        </td>
+
+                        <td>
+                            <h:inputText id="amount#{cost.UUID}" value="#{cost.amount}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgAmount#{cost.UUID}"/>
+                            </h:inputText> 
+                        </td>
+
+                        <td>
+                            <h:message id="msgIk#{cost.UUID}" for="ik#{cost.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgRemunerationCode#{cost.UUID}" for="remunerationCode#{cost.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgCostCenter#{cost.UUID}" for="costCenter#{cost.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgCostType#{cost.UUID}" for="costType#{cost.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgAmount#{cost.UUID}" for="amount#{cost.UUID}" styleClass="errorMessage"/>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>        
-            <script type="text/javascript">
-                # {editModelIntention.CostScript}
-            </script>
+        <script type="text/javascript">
+            #{editModelIntention.costTable.script}
+        </script>
     </h:form>
 </ui:composition>

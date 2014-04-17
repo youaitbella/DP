@@ -2,12 +2,14 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -24,22 +26,39 @@ public class Cost implements Serializable {
     @Column (name = "coModelIntentionId")
     private Integer _modelIntentionId;
     
+    // <editor-fold defaultstate="collapsed" desc="IK">
     @Column (name = "coIk")
     private int _ik = -1;
+
+    public Integer getIk() {
+        return _ik < 0 ? null : _ik;
+    }
+
+    public void setIk(Integer ik) {
+        _ik = ik == null ? -1 : ik;
+    }
+    // </editor-fold>
     
     @Column (name = "coRemunerationKey")
-    private String _remunerationKey = "";
+    private String _remunerationCode = "";
     
     @Column (name = "coCostCenterId")
     private int _costCenterId = -1;
     
     @Column (name = "coCostTypeId")
-    private int _costTypeId = -1;
+    private String _costTypeId = "";
     
     @Column (name = "coAmount")
     private BigDecimal _amount;
     
-  
+      // <editor-fold defaultstate="collapsed" desc="UUID">
+    @Transient
+    private final String _uuid = UUID.randomUUID().toString().replace("-", "");
+
+    public String getUUID() {
+        return _uuid;
+    }
+
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -57,20 +76,13 @@ public class Cost implements Serializable {
         _modelIntentionId = modelIntentionId;
     }
 
-    public int getIk() {
-        return _ik;
+
+    public String getRemunerationCode() {
+        return _remunerationCode;
     }
 
-    public void setIk(int _ik) {
-        _ik = _ik;
-    }
-
-    public String getRemunerationKey() {
-        return _remunerationKey;
-    }
-
-    public void setRemunerationKey(String remunerationKey) {
-        _remunerationKey = remunerationKey;
+    public void setRemunerationCode(String remunerationCode) {
+        _remunerationCode = remunerationCode;
     }
 
     public int getCostCenterId() {
@@ -81,11 +93,11 @@ public class Cost implements Serializable {
         _costCenterId = costCenterId;
     }
 
-    public int getCostTypeId() {
+    public String getCostTypeId() {
         return _costTypeId;
     }
 
-    public void setCostTypeId(int costTypeId) {
+    public void setCostTypeId(String costTypeId) {
         _costTypeId = costTypeId;
     }
 
@@ -96,8 +108,6 @@ public class Cost implements Serializable {
     public void setAmount(BigDecimal amount) {
         _amount = amount;
     }
-    
-    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
@@ -110,13 +120,15 @@ public class Cost implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Cost)) {
             return false;
         }
         Cost other = (Cost) object;
         if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
+        }
+        if (this._id == null && other._id == null){
+            return this._uuid.equals(other._uuid);
         }
         return true;
     }
