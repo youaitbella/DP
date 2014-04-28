@@ -18,7 +18,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form">
+        <h:form id="tabs">
             <h1><h:commandLink value="#{msg.nameREQUEST_SYSTEM}" action="#{sessionTools.pages.RequestSummary}" immediate="true"/></h1>
             <div class="tab">
                 <ul class="tab">
@@ -31,8 +31,12 @@
                     </c:forEach>
                 </ul>
             </div>
-            <div class="edit">
+        </h:form>
+        <div class="edit">
+            <h:form id="form">
                 <ui:include src="#{editRequest.part}"/>
+            </h:form>
+            <h:form id="buttons">
                 <div class="toolBar">
                     <h:commandLink styleClass="button" action="#{editRequest.save}" value="#{msg.btnSave}" immediate="false"
                                    rendered="#{!editRequest.request.complete}"/>
@@ -40,8 +44,8 @@
                                    rendered="#{!editRequest.request.complete}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="seal" style="display: none" action="#{editRequest.seal}" value="seal"/>
                 </div>
-            </div>
-        </h:form>
+            </h:form>
+        </div>
 
         <script type="text/javascript">
             #{editRequest.script}

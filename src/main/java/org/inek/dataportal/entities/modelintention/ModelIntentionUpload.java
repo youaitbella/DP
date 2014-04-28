@@ -13,12 +13,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.feature.modelintention.EditModelIntention;
+import org.inek.dataportal.utils.ValueLists;
 
 @Named
 @RequestScoped
 public class ModelIntentionUpload {
 
     @Inject EditModelIntention _modelIntention;
+    @Inject ValueLists _valueLists;
     private static final Logger _logger = Logger.getLogger("ModelIntentionUpload");
     private Part _file;
 
@@ -52,7 +54,6 @@ public class ModelIntentionUpload {
     }
 
     public void addCost(String line) {
-        // todo: this is just quick'n'dirty to evaluate the function
         String[] tokens = line.split(";");
         if (tokens.length == 5) {
             Cost cost = new Cost();
@@ -61,8 +62,8 @@ public class ModelIntentionUpload {
             } catch (NumberFormatException ex) {
             }
             cost.setRemunerationCode(tokens[1]);
-            cost.setCostCenterId(tokens[2]);
-            cost.setCostTypeId(tokens[3]);
+            cost.setCostCenterId(_valueLists.getCostCenterId(tokens[2]));
+            cost.setCostTypeId(_valueLists.getCostTypeId(tokens[3]));
             try {
                 cost.setAmount(new BigDecimal(tokens[4].replace(",", ".")));
             } catch (NumberFormatException ex) {

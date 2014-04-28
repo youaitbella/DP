@@ -24,7 +24,7 @@ public abstract class DynamicTable<T> {
     public ModelIntention getModelIntention() {
         return _modelIntention;
     }
-    
+
     public boolean ensureEmptyEntry() {
         if (needEmptyCode()) {
             addNewEntry();
@@ -41,12 +41,12 @@ public abstract class DynamicTable<T> {
         return !isEmptyEntry(entry);
     }
 
-    public void addEntry(T entry){
+    public void addEntry(T entry) {
         _list.add(entry);
     }
-    
+
     abstract protected void addNewEntry();
-    
+
     public void removeEmptyEntries() {
         for (Iterator<T> itr = _list.iterator(); itr.hasNext();) {
             T entry = itr.next();
@@ -57,20 +57,19 @@ public abstract class DynamicTable<T> {
     }
 
     abstract protected boolean isEmptyEntry(T entry);
-    
+
     public String deleteEntry(T entry) {
         _list.remove(entry);
         ensureEmptyEntry();
         return "";
     }
-   
-    
+
     String _script = "";
 
     public void checkDynamicListener(AjaxBehaviorEvent event) {
-        HtmlInputText t = (HtmlInputText) event.getSource();
-        String currentId = t.getClientId();
-        if (ensureEmptyEntry()) {
+        if (ensureEmptyEntry() && event.getSource() instanceof HtmlInputText) {
+            HtmlInputText t = (HtmlInputText) event.getSource();
+            String currentId = t.getClientId();
             _script = "setCaretPosition('" + currentId + "', -1);";
         } else {
             _script = "";
@@ -83,6 +82,5 @@ public abstract class DynamicTable<T> {
         _script = "";
         return script;
     }
-
 
 }

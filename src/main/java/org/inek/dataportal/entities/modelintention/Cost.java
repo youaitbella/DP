@@ -43,13 +43,13 @@ public class Cost implements Serializable {
     private String _remunerationCode = "";
     
     @Column (name = "coCostCenterId")
-    private String _costCenterId = "";
+    private int _costCenterId = -1;
     
     @Column (name = "coCostTypeId")
-    private String _costTypeId = "";
+    private int _costTypeId = -1;
     
     @Column (name = "coAmount")
-    private BigDecimal _amount;
+    private BigDecimal _amount = new BigDecimal(0d);
     
       // <editor-fold defaultstate="collapsed" desc="UUID">
     @Transient
@@ -85,19 +85,19 @@ public class Cost implements Serializable {
         _remunerationCode = remunerationCode;
     }
 
-    public String getCostCenterId() {
+    public int getCostCenterId() {
         return _costCenterId;
     }
 
-    public void setCostCenterId(String costCenterId) {
+    public void setCostCenterId(int costCenterId) {
         _costCenterId = costCenterId;
     }
 
-    public String getCostTypeId() {
+    public int getCostTypeId() {
         return _costTypeId;
     }
 
-    public void setCostTypeId(String costTypeId) {
+    public void setCostTypeId(int costTypeId) {
         _costTypeId = costTypeId;
     }
 

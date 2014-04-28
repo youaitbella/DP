@@ -25,7 +25,7 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">#{msg.lblIK}</th>
+                    <th scope="col">#{msg.lblIkAbbr}</th>
                     <th scope="col">#{msg.lblRemunerationCode}</th>
                     <th scope="col">#{msg.lblCostCenter}</th>
                     <th scope="col">#{msg.lblCostType}</th>
@@ -44,39 +44,37 @@
                             </h:commandLink>
                         </td>
 
-                        <td>
-                            <h:inputText id="ik#{cost.UUID}" value="#{cost.ik}" 
-                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                        <td class="colIk">
+                            <h:inputText styleClass="colIk" id="ik#{cost.UUID}" value="#{cost.ik}" 
+                                         required="false" requiredMessage="#{msg.msgValueNeeded}" >
                                 <f:ajax event="blur" render="@this :logout:remaining msgIk#{cost.UUID}"/>
                             </h:inputText>
                         </td>
 
-                        <td>
-                            <h:inputText id="remunerationCode#{cost.UUID}" value="#{cost.remunerationCode}" 
-                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{cost.UUID}"/>
+                        <td class="col08">
+                            <h:inputText styleClass="col08" id="remunerationCode#{cost.UUID}" value="#{cost.remunerationCode}" 
+                            required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                            <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                            <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{cost.UUID}"/>
                             </h:inputText> 
                         </td>
 
-                        <td>
-                            <h:inputText id="costCenter#{cost.UUID}" value="#{cost.costCenterId}" 
-                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgCostCenter#{cost.UUID}"/>
-                            </h:inputText> 
+                        <td class="col16">
+                            <h:selectOneMenu styleClass="col16" id="costCenter#{cost.UUID}" value="#{cost.costCenterId}" required="true">
+                            <f:selectItems value="#{valueLists.costCenters}" />
+                            <f:ajax event="change" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                            </h:selectOneMenu>
                         </td>
 
                         <td>
-                            <h:inputText id="costType#{cost.UUID}" value="#{cost.costTypeId}" 
-                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgCostType#{cost.UUID}"/>
-                            </h:inputText> 
+                            <h:selectOneMenu styleClass="col16" id="costType#{cost.UUID}" value="#{cost.costTypeId}" required="true" >
+                            <f:selectItems value="#{valueLists.costTypes}" />
+                            <f:ajax event="change" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                            </h:selectOneMenu> 
                         </td>
 
                         <td>
-                            <h:inputText id="amount#{cost.UUID}" value="#{cost.amount}" 
+                            <h:inputText styleClass="col06" id="amount#{cost.UUID}" value="#{cost.amount}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                 <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgAmount#{cost.UUID}"/>

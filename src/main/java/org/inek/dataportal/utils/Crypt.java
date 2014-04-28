@@ -29,9 +29,7 @@ public class Crypt {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
             return byte2hex(md.digest(input.getBytes("utf-8")));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Crypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
             Logger.getLogger(Crypt.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";

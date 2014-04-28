@@ -542,37 +542,43 @@ select:active, select:focus{
     width: 100%;
 }
 
-.colId{
-    width: 4em;
+.colId, .colShort{
+    width: 5em;
 }
 
-.colIk{
+.colIk, .col06{
     width: 6em;
 }
 
 .colValue{
 }
 
-.colValueShort {
-    width: 48px;
+.colShortCentered {
+    width: 5em;
     text-align: center;
 }
 
-.colNarrow{
+.col08{
+    width: 8em;
+}
+
+.col10{
     width: 10em;
 }
 
-.col20{
-    width: 20%;
+.col12{
+    width: 12em;
+}
+
+.col16{
+    width: 16em;
 }
 
 tr.row1 > td.colIk > input {
-    width: 6em;
     background-color: #f8f8f8;
 }
 
 tr.row2 > td.colIk > input {
-    width: 6em;
     background-color: #eeeeee;
 }
 

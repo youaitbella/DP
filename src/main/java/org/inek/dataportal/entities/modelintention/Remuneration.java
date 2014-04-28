@@ -74,7 +74,7 @@ public class Remuneration implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="amount">
     @Column(name = "reAmount")
-    private BigDecimal _amount = new BigDecimal(0);
+    private BigDecimal _amount = new BigDecimal(0d);
 
     public BigDecimal getAmount() {
         return _amount;

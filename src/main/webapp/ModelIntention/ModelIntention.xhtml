@@ -19,7 +19,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form">
+        <h:form id="tabs">
             <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
             <!--onkeyup="jsf.ajax.request(this, event, {render:'@form'}; return false"/-->
             <h1>
@@ -36,10 +36,12 @@
                     </c:forEach>
                 </ul>
             </div>
+        </h:form>
 
-            <div class="edit">
-                <!--ui:include src="# {editModelIntention.part}"/-->
-                <ui:insert name="editContent">Content</ui:insert>
+        <div class="edit">
+            <!--ui:include src="# {editModelIntention.part}"/-->
+            <ui:insert name="editContent">Content</ui:insert>
+            <h:form id="buttons">
 
                 <div class="toolBar  floatContainer">
                     <h:commandLink styleClass="button" action="#{editModelIntention.save}" value="#{msg.btnSave}" immediate="true"
@@ -50,9 +52,9 @@
                         <cb:confirmSeal/>
                     </h:commandLink>
                 </div>
-            </div>
+            </h:form>
+        </div>
 
-        </h:form>
 
     </ui:define>
 
