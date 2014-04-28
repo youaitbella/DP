@@ -18,8 +18,8 @@ public enum Region {
     State(1, "enmRegionState"),
     Misc(2, "enmRegionMisc");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
     private Region(int id, String textId) {
         _id = id;

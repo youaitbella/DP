@@ -14,7 +14,7 @@
     <h:form id="lifeTime" enctype="multipart/form-data">
         <div class="uploadFile">
             <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadCostData}">
-                <f:ajax listener="#{modelIntentionUpload.uploadCosts()}" render="@form"/>
+                <f:ajax listener="#{modelIntentionUpload.uploadCosts()}" render="lifeTime"/>
             </h:inputFile>
             <div class="fakeFile">
                 <h:outputLabel styleClass="button" value="#{msg.btnUploadCostData}"/>
@@ -40,7 +40,7 @@
                             <h:commandLink>
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
-                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.costTable.deleteEntry(cost)}"/>
+                                <f:ajax render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.deleteEntry(cost)}"/>
                             </h:commandLink>
                         </td>
 
@@ -54,7 +54,7 @@
                         <td>
                             <h:inputText id="remunerationCode#{cost.UUID}" value="#{cost.remunerationCode}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{cost.UUID}"/>
                             </h:inputText> 
                         </td>
@@ -62,7 +62,7 @@
                         <td>
                             <h:inputText id="costCenter#{cost.UUID}" value="#{cost.costCenterId}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgCostCenter#{cost.UUID}"/>
                             </h:inputText> 
                         </td>
@@ -70,7 +70,7 @@
                         <td>
                             <h:inputText id="costType#{cost.UUID}" value="#{cost.costTypeId}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgCostType#{cost.UUID}"/>
                             </h:inputText> 
                         </td>
@@ -78,7 +78,7 @@
                         <td>
                             <h:inputText id="amount#{cost.UUID}" value="#{cost.amount}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                <f:ajax event="keyup" render="lifeTime :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgAmount#{cost.UUID}"/>
                             </h:inputText> 
                         </td>

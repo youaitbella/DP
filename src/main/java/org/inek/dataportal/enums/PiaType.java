@@ -14,13 +14,14 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum PiaType {
     
+    None(-1, "enmNone"),
     AnyPIA(0, "enmPiaTypeAny"),
     IntegratedPIA(1, "enmPiaTypeIntegrated"),
     ContractPIA(2, "enmPiaTypeContract"),
     SpecificPIA(3, "enmPiaTypeSpecific");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
     private PiaType(int id, String textId) {
         _id = id;

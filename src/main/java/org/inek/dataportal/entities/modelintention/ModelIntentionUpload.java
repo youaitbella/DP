@@ -21,15 +21,15 @@ public class ModelIntentionUpload {
     @Inject EditModelIntention _modelIntention;
     private static final Logger _logger = Logger.getLogger("ModelIntentionUpload");
     private Part _file;
-    
+
     public Part getFile() {
         return _file;
     }
-    
+
     public void setFile(Part file) {
         _file = file;
     }
-    
+
     public void uploadCosts() {
         _logger.log(Level.WARNING, "uploadCosts");
         try {
@@ -41,7 +41,7 @@ public class ModelIntentionUpload {
                     _logger.log(Level.WARNING, "\t found: {0}", line);
                     addCost(line);
                 }
-                
+
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage("Upload successfully"));
             }
@@ -50,25 +50,25 @@ public class ModelIntentionUpload {
                     new FacesMessage("Upload failed!"));
         }
     }
-    
-    public void addCost(String line){
+
+    public void addCost(String line) {
         // todo: this is just quick'n'dirty to evaluate the function
         String[] tokens = line.split(";");
-        if (tokens.length == 5){
+        if (tokens.length == 5) {
             Cost cost = new Cost();
             try {
                 cost.setIk(Integer.parseInt(tokens[0]));
-            } catch (NumberFormatException ex){}
-            cost.setRemunerationCode(tokens[1]); 
-            try {
-                cost.setCostCenterId(Integer.parseInt(tokens[2]));
-            } catch (NumberFormatException ex){}
+            } catch (NumberFormatException ex) {
+            }
+            cost.setRemunerationCode(tokens[1]);
+            cost.setCostCenterId(tokens[2]);
             cost.setCostTypeId(tokens[3]);
             try {
                 cost.setAmount(new BigDecimal(tokens[4].replace(",", ".")));
-            } catch (NumberFormatException ex){}
+            } catch (NumberFormatException ex) {
+            }
             _modelIntention.addCost(cost);
         }
     }
-    
+
 }

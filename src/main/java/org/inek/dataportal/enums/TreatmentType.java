@@ -18,8 +18,8 @@ public enum TreatmentType {
     Generally(1, "enmTreatmentTypeGeneral"),
     SpecialSetting(2, "enmTreatmentTypeSpecial");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
     private TreatmentType(int id, String textId) {
         _id = id;

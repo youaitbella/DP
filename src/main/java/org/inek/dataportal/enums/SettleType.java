@@ -14,12 +14,13 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum SettleType {
     
+    None(-1, "enmNone"),
     ImpartialDepartment(0, "enmSettleTypeImpDep"),
     DepartmentDocs(1, "enmSettleTypeDepDocs"),
     MiscMedics(2, "enmSettleTypeMiscDocs");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
     private SettleType(int id, String textId) {
         _id = id;

@@ -13,13 +13,14 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum HospitalType {
 
+    None(-1, "enmNone"),
     AnyHospital(0, "enmHospitalTypeAny"),
     ModelProjectHospital(1, "enmHospitalTypeModelProject"),
     SpecificHospital(2, "enmHospitalTypeSpecific"),
     OtherHospital(3, "enmHospitalTypeOther");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
     private HospitalType(int id, String textId) {
         _id = id;

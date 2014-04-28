@@ -18,8 +18,8 @@ public enum Genders {
         Male(1, "enmGenderMale"),
         Female(2, "enmGenderFemale");
 
-        private int _id;
-        private String _textId;
+        private final int _id;
+        private final String _textId;
 
         private Genders(int id, String textId) {
             _id = id;

@@ -17,8 +17,8 @@ public enum MedicalAttribute {
     PracticeAreas(1, "enmMedAttrPracticeArea"),
     Misc(2, "enmMedAttrMisc");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
     private MedicalAttribute(int id, String textId) {
         _id = id;
@@ -33,7 +33,7 @@ public enum MedicalAttribute {
         try {
             return Utils.getMessage(_textId);
         } catch (Exception e) {
-            return "KeyNotFound: " + _textId;
+            return "unknown text id: " + _textId;
         }
     }
 }

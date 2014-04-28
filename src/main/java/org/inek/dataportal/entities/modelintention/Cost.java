@@ -43,7 +43,7 @@ public class Cost implements Serializable {
     private String _remunerationCode = "";
     
     @Column (name = "coCostCenterId")
-    private int _costCenterId = -1;
+    private String _costCenterId = "";
     
     @Column (name = "coCostTypeId")
     private String _costTypeId = "";
@@ -85,11 +85,11 @@ public class Cost implements Serializable {
         _remunerationCode = remunerationCode;
     }
 
-    public int getCostCenterId() {
+    public String getCostCenterId() {
         return _costCenterId;
     }
 
-    public void setCostCenterId(int costCenterId) {
+    public void setCostCenterId(String costCenterId) {
         _costCenterId = costCenterId;
     }
 
