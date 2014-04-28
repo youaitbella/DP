@@ -631,7 +631,7 @@ input.button {
     border-radius: 0.5em;
 }
 
-a.button, a.smallButton, span.button{
+a.button, a.smallButton, span.button, label.button{
     display: inline-block;
     margin: 0 10px 0 0;
     padding: 0 5px;
@@ -781,4 +781,21 @@ div.modelIntYesNo {
     border-color: #7F9BAF;
     margin: 1em;
     padding: 1em;
+}
+
+div.uploadFile {
+	position: relative;
+}
+
+div.fakeFile {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+}
+
+.hiddenFile {
+	position: relative;
+	opacity: 0;
+	z-index: 2;
 }

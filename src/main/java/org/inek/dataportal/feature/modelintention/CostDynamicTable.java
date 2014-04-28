@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.helper.Utils;
 
 public class CostDynamicTable extends DynamicTable {
 
@@ -21,7 +22,7 @@ public class CostDynamicTable extends DynamicTable {
     @Override
     protected boolean isEmptyEntry(Object entry) {
         Cost cost = (Cost) entry;
-        return cost.getIk() == null && cost.getRemunerationCode() == null;
+        return cost.getIk() == null && Utils.isNullOrEmpty(cost.getRemunerationCode());
     }
 
 }

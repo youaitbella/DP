@@ -41,6 +41,10 @@ public abstract class DynamicTable<T> {
         return !isEmptyEntry(entry);
     }
 
+    public void addEntry(T entry){
+        _list.add(entry);
+    }
+    
     abstract protected void addNewEntry();
     
     public void removeEmptyEntries() {

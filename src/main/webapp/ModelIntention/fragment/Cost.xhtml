@@ -12,10 +12,14 @@
     <h2>#{msg.headerModelIntentionCost}</h2>
 
     <h:form id="lifeTime" enctype="multipart/form-data">
-
-        <h:inputFile id="file" value="#{uploadBean.file}">
-            <f:ajax listener="#{uploadBean.upload()}" render="@form"/>
-        </h:inputFile>
+        <div class="uploadFile">
+            <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadCostData}">
+                <f:ajax listener="#{modelIntentionUpload.uploadCosts()}" render="@form"/>
+            </h:inputFile>
+            <div class="fakeFile">
+                <h:outputLabel styleClass="button" value="#{msg.btnUploadCostData}"/>
+            </div>
+        </div>
 
         <table>
             <thead>

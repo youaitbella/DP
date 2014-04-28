@@ -1,23 +1,17 @@
 package org.inek.dataportal.feature.modelintention;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.AcademicSupervision;
@@ -558,52 +552,13 @@ public class EditModelIntention extends AbstractEditController {
         return _costTable;
     }
 
-    private Part _file;
-
-    public Part getFile() {
-        return _file;
-    }
-
-    public void setFile(Part file) {
-        _logger.log(Level.WARNING, "setFile: {0}", file);
-        _file = file;
-    }
-
-    public void upload() {
-        _logger.log(Level.WARNING, "upload");
-        try {
-            if (_file != null) {
-                Scanner scanner = new Scanner(_file.getInputStream(),
-                        "UTF-8");
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    _logger.log(Level.WARNING, "\t found: {0}", line);
-                }
-
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage("Upload successfully"));
-            }
-        } catch (IOException | NoSuchElementException e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Upload failed!"));
-        }
-    }
-
-    public void addCost(String line){
-        // todo: this is just quick'n'dirty to evaluate the function
-        String[] tokens = line.split(";");
-        if (tokens.length == 5){
-            _costTable.ensureEmptyEntry();
-            Cost cost = getModelIntention().getCosts().get(getModelIntention().getCosts().size() - 1);
-            try {
-            cost.setIk(Integer.parseInt(tokens[0]));
-            } catch (Exception ex){}
-            cost.setRemunerationCode(tokens[1]); // add other cols
-            cost.setCostTypeId(tokens[3]);
-            _costTable.ensureEmptyEntry();
-        }
+    public void addCost(Cost cost){
+        _costTable.removeEmptyEntries();
+        _costTable.addEntry(cost);
+        _costTable.ensureEmptyEntry();
     }
     // </editor-fold>    
+    
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
