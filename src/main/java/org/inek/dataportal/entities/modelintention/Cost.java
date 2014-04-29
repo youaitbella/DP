@@ -51,13 +51,14 @@ public class Cost implements Serializable {
     @Column (name = "coAmount")
     private BigDecimal _amount = new BigDecimal(0d);
     
-      // <editor-fold defaultstate="collapsed" desc="UUID">
+    // <editor-fold defaultstate="collapsed" desc="UUID">
     @Transient
     private final String _uuid = UUID.randomUUID().toString().replace("-", "");
 
     public String getUUID() {
         return _uuid;
     }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {

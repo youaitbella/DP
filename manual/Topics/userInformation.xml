@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Stammformblatt</title>
+  <keywords>
+    <keyword translate="true">Stammformblatt</keyword>
+    <keyword translate="true">Verfahrensbeschreibung</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Stammformblatt</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit das InEK Sie über den Status Ihres Vorschlags informieren kann, ist die Angabe Ihrer Adresse erforderlich; daneben aber auch eine Benennung, unter der Sie Ihren Vorschlag später in der Liste Ihrer Vorschläge wieder finden, sowie die Angabe der Vorschlagskategorie. Diese Eingaben erfolgen in der Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Stammformblatt</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PEPP-proposal-master.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Stammformblatt des PEPP-Vorschlagsverfahrens</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Feld Benennung geben Sie einen wahlfreien Namen ein. Dieser Name dient der Organisation Ihrer Vorschläge. Dies ist der Name, der in der Liste Ihrer Vorschläge auftaucht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Feld Kategorie können Sie unter den im Folgenden erläuterten Einträgen wählen:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Weiterentwicklung Leistungsbezeichner</text><br/><text styleclass="Bullet Text" translate="true">Es handelt sich um einen Vorschlag zur Weiterentwicklung der Leistungsbezeichner (insbesondere zu den ICD- und OPS-Systematiken).</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zur Kalkulation PEPP</text><br/><text styleclass="Bullet Text" translate="true">Der Vorschlag betrifft die Kalkulation, wie beispielsweise ein Vorschlag zur Weiterentwicklung der Betreuungsintensitätsmodelle (BI-Modelle).</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zu den Kodierrichtlinien Psychiatrie und Psychosomatik</text><br/><text styleclass="Bullet Text" translate="true">Ein solcher Vorschlag dient der Weiterentwicklung der DKR-Psych.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zur Systementwicklung PEPP</text><br/><text styleclass="Bullet Text" translate="true">Der Vorschlag betrifft die Systementwicklung PEPP, beispielsweise Kodeverschiebungen oder andere Kriterien zur Differenzierung der PEPPs.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zum Zusatzentgelt</text><br/><text styleclass="Bullet Text" translate="true">Dieser Vorschlag dient der Weiterentwicklung der Zusatzentgelte.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sonstiger Vorschlag</text><br/><text styleclass="Bullet Text" translate="true">In diese Kategorie fallen Vorschläge, die von keiner der oben genannten Kategorien abgebildet werden.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die detaillierte Beschreibung befindet sich in der Verfahrensbeschreibung des PEPP-Vorschlagsverfahrens.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abhängig von der Kategorie stehen Ihnen zusätzlich die Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Kodes</text><text styleclass="Normal" translate="true"> zur Verfügung, Dies ist der Fall bei einem Vorschlag zur Weiterentwicklung Leistungsbezeichner sowie einem Vorschlag zur Systementwicklung PEPP.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die übrigen Felder des Stammformblatts entsprechen denen der Stammdaten. Sie werden initial anhand der Stammdaten befüllt, können jedoch an dieser Stelle abgeändert werden. Dies ist dann angebracht, wenn der Übermittler des Vorschlags von der vorschlagenden Organisation bzw. Person abweichend ist.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> dient der Speicherung der Daten im aktuellen Erfassungszustand. Daten dürfen zum Speicherzeitpunkt unvollständig sein. Eine Fortsetzung der Erfassung kann unmittelbar oder aber erst zu einem späteren Zeitpunkt erfolgen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Durch den Wechsel auf eine andere Internetseite verlassen Sie das Datenportal, ohne dass Ihre Daten gespeichert werden. Auch der Wechsel innerhalb des InEK-Datenportals zu einer anderen Funktion entspricht technisch solch einem Seitenwechsel. Insofern denken Sie bitte daran, vor jedem Wechsel Ihre Daten zu speichern. Beim Wechsel der Registerkarten innerhalb des Vorschlagsverfahrens verbleiben Ihre Daten jedoch in der Applikation, so dass Sie hier problemlos hin und her wechseln können. Im Hinblick auf mögliche Verbindungsabbrüche, automatische Abmeldung nach 30 Minuten ohne Benutzeraktivität etc. wird empfohlen, die Eingabedaten hier und da zwischen zu speichern. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> prüft die Daten auf Vollständigkeit. Sofern sie formal richtig sind, werden sie mit dem Status &quot;für InEK bereitgestellt&quot; versehen und gespeichert. Danach ist eine Änderung nicht mehr möglich. Sind die Daten noch unvollständig oder formal fehlerhaft, erfolgt eine entsprechende Meldung. Sie können dann die Daten vervollständigen bzw. korrigieren. Ein Vorschlag, den Sie erfolgreich für das InEK bereitgestellt haben, erhält eine Verfahrensnummer. Diese zeigt Ihnen das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in der Liste der bereitgestellten Vorschläge an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hinweis: In diesem Stammformblatt ist die Telefonnummer eine Pflichtangabe. Da die Telefonnummer innerhalb des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> nicht in allen Funktionen benötigt wird, ist sie in den Anwender-Stammdaten nicht als Pflichtfeld definiert. Um sie nicht jedes mal erfassen zu müssen, wird empfohlen, diese in den Anwender-Stammdaten zu hinterlegen.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

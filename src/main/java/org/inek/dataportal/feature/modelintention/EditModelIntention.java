@@ -517,6 +517,18 @@ public class EditModelIntention extends AbstractEditController {
         return !_conversation.isTransient();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="tab patients">
+    private AgreedPatientsDynamicTable _agreedPatiensTable;
+
+    public DynamicTable getAgreedPatientsTable() {
+        if (_agreedPatiensTable == null) {
+            _agreedPatiensTable = new AgreedPatientsDynamicTable(getModelIntention());
+        }
+        return _agreedPatiensTable;
+    }
+
+    // </editor-fold>    
+
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private RemunerationDynamicTable _remunarationTable;
 
@@ -577,17 +589,17 @@ public class EditModelIntention extends AbstractEditController {
 
     // </editor-fold>    
     private void removeEmptyEntries() {
+        getAgreedPatientsTable().removeEmptyEntries();
         getModelLifeTable().removeEmptyEntries();
         getRemunerationTable().removeEmptyEntries();
         getCostTable().removeEmptyEntries();
-        // todo: remove other empty entries
     }
 
     private void ensureEmptyEntries() {
+        getAgreedPatientsTable().ensureEmptyEntry();
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();
         getCostTable().ensureEmptyEntry();
-        // todo: ensure other empty entries
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">

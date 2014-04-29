@@ -192,38 +192,9 @@
                 </h:panelGroup>
             </h:panelGrid>
 
-            <h2>#{msg.lblAgreedPatiens}</h2>
-
-            <h:dataTable value="#{editModelIntention.modelIntention.agreedPatients}" var="agreedPatients" width="98%" >
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblFrom} (Datum)"/>
-                    </f:facet>
-                    <h:inputText value="#{agreedPatients.patientsFrom}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblTo} (Datum)"/>
-                    </f:facet>
-                    <h:inputText value="#{agreedPatients.patientsTo}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblPatientsCount}"/>
-                    </f:facet>
-                    <h:inputText value="#{agreedPatients.patientsCount}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-
-            </h:dataTable>
-
         </h:form>
+
+        <ui:include src="#{sessionTools.pages.FragmentAgreedPatients}"/>
+        
     </ui:define>
 </ui:composition>

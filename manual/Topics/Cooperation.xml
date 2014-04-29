@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Kooperation</title>
+  <keywords>
+    <keyword translate="true">Kooperation</keyword>
+    <keyword translate="true">Partner</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wurde entwickelt, damit Die auf komfortable Art und Weise Ihre Daten, Anfragen etc. an das InEK übermitteln können. Dabei hat jeder Anwender des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> standardmäßig Zugriff nur auf die eigenen Daten. In manchen Situationen kann es sinnvoll oder erforderlich sein, Daten vor oder nach der Übermittlung an das InEK mit mehreren Personen zu sichten oder zu bearbeiten. Hier setzt die Funktion der Kooperation an. Sie bestimmen dabei, welche andere Anwende des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> die von Ihnen erfassten Daten sichten oder bearbeiten dürfen. Auch können Sie das System - für jeden Bereich individuell - so einrichten, dass Ihre Daten erst nach Freigabe durch eine andere Person dem InEK zur Bearbeitung bereitgestellt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zur Nutzung der Kooperation ist die Funktion Kooperation in den Stammdaten zu markieren. Um mit anderen Personen kooperiren zu können, ist als erstes eine Kooperationsanfrage zu versenden. Nach Bestätigung durch den Partner können Sie dessen Rechte konfigurieren und Daten gemeinsam bearbeiten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Gemeinsam berabeiten bedeutet, dass Sie die Daten sehen und möglicherweise bearbeiten können, die Ihr Partner für Sie freigeschaltet hat und umgekehrt. Es sind keine besonderen Sperren vorgesehen für den Fall, dass mehrere Partner gleichzeitig die selben Daten bearbeiten. Hier &quot;gewinnt&quot; wer als letztes speichert.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können ihrem Partner diese Rechte gewähren:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Nur Anzeige Ihrer Daten (z. B. NUB-Anfrage)</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeigen und Bearbeiten Ihrer Daten</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeigen, Bearbeitung und Bereitstellung Ihrer Daten für das InEK</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeige komplett erfasster Daten zur Bereitstellung an das InEK durch den Partner</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Wie vor mit Bearbeitungsmöglichkeit</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeige komplett erfasster Daten nach Bereitstellung für das InEK</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Berechtigung konfigurieren Sie je Kooperationspartner getrennt je Funktion (derzeit nur NUB-Anfragen) und IK (falls Sie für mehrere Krankenhäuser arbeiten). Sie können also mit beliebig vielen Partnern zusammenarbeiten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Falls Sie die Rechte so konfigurieren, dass die Bereitstellung für das InEK durch den Partner erfolgt, können Sie die Bereitstellung selbst nicht mehr vornehmen. Damit richten Sie also ein zweistufiges Verfahren ein: Erfassung der Daten durch Sie, Freigabe für das InEK durch eine andere Person. Hier ist beispielsweise ein Szenario denkbar, in dem diverse Fachleute die Daten erfassen und diese dann durch eine zentrale Stelle dem InEK zur Bearbeitung übermittelt werden.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

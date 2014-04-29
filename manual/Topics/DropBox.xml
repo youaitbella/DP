@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">DropBox</title>
+  <keywords>
+    <keyword translate="true">DropBox</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">DropBox</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie größere Datenmengen, die Sie im Rahmen der Datenlieferung gem. § 21 KHEntgG oder aus sonstigen Gründen an das InEK übermitteln müssen? Hierzu stellt Ihnen das InEK die Funktionalität der DropBox zur Verfügung. Eine DropBox ist ein privater Datenbereich, über den Sie Daten übermitteln können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DropBoxList.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich DropBox-Verfahren</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ DropBox anlegen ]</text><text styleclass="Normal" translate="true"> können Sie jederzeit eine neue Dropbox anlegen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Oberhalb dieser Schaltfläche befindet sich eine Liste der aktuell offenen DropBoxen. In eine offene DropBox können Sie Dateien hineinlegen oder herauslöschen. Sie können diese Arbeit unterbrechen und zu einem späteren Zeitpunkt, vor Ablauf der Gültigkeit - diese wird in der Spalte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Gültig bis</text><text styleclass="Normal" translate="true"> angezeigt -, wieder aufnehmen. Erst wenn sich alle gewünschten Dateien in der DropBox befinden, schließen Sie diese und stellen damit die Daten für die Verarbeitung durch das InEK bereit.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Liste der offenen DropBoxen sowie die Schaltfläche </text><text styleclass="Button" translate="true">[ DropBox anlegen ]</text><text styleclass="Normal" translate="true"> entsprechen den Elementen in der Übersicht. Hier, im Bereich DropBox-Verfahren, erhalten Sie unterhalb der genannten Schaltfläche eine Liste der geschlossenen DropBoxen. Dabei handelt es sich um DropBoxen, die Sie abgeschlossen und dem InEK zur Verfügung gestellt haben. Somit erhalten Sie einen Überblick über die Historie Ihrer Datenlieferungen.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

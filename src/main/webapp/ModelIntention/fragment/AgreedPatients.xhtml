@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:i="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <h:form id="agreedPatients">
+        <h2>#{msg.lblAgreedPatiens}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="list-header" scope="col"></th>
+                    <th class="list-header" scope="col">#{msg.lblFrom} (Datum)</th>
+                    <th class="list-header" scope="col">#{msg.lblTo} (Datum)</th>
+                    <th class="list-header" scope="col">#{msg.lblPatientsCount}</th>
+                    <th class="list-header" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="#{editModelIntention.modelIntention.agreedPatients}" var="agreedPatients">
+                    <tr>
+                        <td class="colIcon">
+                            <h:commandLink>
+                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <cb:confirmDelete/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.deleteEntry(agreedPatients)}"/>
+                            </h:commandLink>
+                        </td>
+
+                        <td>
+                            <h:inputText id="patientsFrom#{agreedPatients.UUID}" value="#{agreedPatients.patientsFrom}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
+                                <f:ajax event="blur" render="@this :logout:remaining msgPatientsFrom#{agreedPatients.UUID}"/>
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:inputText id="patientsTo#{agreedPatients.UUID}" value="#{agreedPatients.patientsTo}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{agreedPatients.UUID}"/>
+                            </h:inputText> 
+                        </td>
+                        <td>
+                            <h:inputText id="patientsCount#{agreedPatients.UUID}" value="#{agreedPatients.patientsCount}" 
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{agreedPatients.UUID}"/>
+                            </h:inputText> 
+                        </td>
+
+                        <td>
+                            <h:message id="msgPatientsFrom#{agreedPatients.UUID}" for="patientsFrom#{agreedPatients.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgPatientsTo#{agreedPatients.UUID}" for="patientsTo#{agreedPatients.UUID}" styleClass="errorMessage"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>        
+        <script type="text/javascript">
+            #{editModelIntention.agreedPatientsTable.script}
+        </script>
+    </h:form>
+</ui:composition>

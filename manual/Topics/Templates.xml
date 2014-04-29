@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Vorlagen</title>
+  <keywords>
+    <keyword translate="true">Vorlagen</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Vorlagen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können aus Ihren NUB-Anfragen Vorlagen erstellen und diese zu einem späteren Zeitpunkt wieder einlesen. Dies können Sie beispielsweise nutzen, um ähnliche Anfragen zu erstellen oder eine Anfrage neu zu erzeugen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anwendungsbeispiele:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anfrage inhaltlich fehlerhaft</text><br/><text styleclass="Bullet Text" translate="true">Sie haben eine Anfrage dem InEK bereitgestellt. Diese wurde angenommen, da sie keine formalen Fehler beinhaltet. Nun stellen Sie fest, dass Angaben, z.B. Anzahl der Patienten, fehlerhaft sind. Bereitgestelle Anfragen können Sie aus verfahrenstechnischen Gründen nicht mehr ändern, sondern nur zurückziehen.</text><br/><text styleclass="Bullet Text" translate="true">Ziehen Sie die fehlerhafte NUB-Anfrage zurück. Rufen Sie den Erfassungsdialog auf. Dort können Sie zwar nicht mehr ändern, aber die Anfrage als Vorlage speichern. Anschließend erzeugen Sie aus der Vorlage eine neue Anfrage, ändern diese wunschgemäß ab und stellen diese dem InEK zur Bearbeitung bereit.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sie bieten anderen Krankenhäuser Hilfestellung</text><br/><text styleclass="Bullet Text" translate="true">Erstellen Sie eine NUB-Anfrage. Soweit Sie diese nicht selber dem InEK bereitstellen möchten, ist dies auch ohne Angabe eines IK möglich. Speichern Sie die Anfrage als Vorlage auf Ihrem Rechner und stellen diese anderen Krankenhäusern zur Verfügung. In der Vorlage werden keine krankenhausspezifischen Daten gespeichert. Ihr Institut und Name werden als &quot;Helfer&quot; abgespeichert und tauchen beim Nutzer Ihrer Vorlagen im Feld &quot;Hilfestellung&quot; auf.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Vorlagen können Sie aus dem NUB-Editor des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> erzeugen. Eine Beschreibung der Funktion finden Sie im Abschnitt </text><link displaytype="text" defaultstyle="true" type="topiclink" href="NubUserInformation" styleclass="Normal" translate="true">Stammformblatt</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neue Anfragen aus Vorlagen erzeugen Sie über einen Dialog, in dem Sie die Vorlagen hoch laden können. Dieser Dialog wird über </text><text styleclass="Button" translate="true">[ Neu aus Vorlage ]</text><text styleclass="Normal" translate="true"> aufgerufen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="NubTemplateUpload.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Hochladedialog für Vorlagen</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ NUB-Vorlage hochladen ]</text><text styleclass="Normal" translate="true"> startet den Datei-Öffnen-Dialog Ihres Browsers. Wählen Sie eine oder mehrere NUB-Dateien aus und bestätigen Sie (bei den meisten Browsern mit [Öffnen] oder [Ok]). Die Vorlagen werden zum Server transferiert und dort geprüft. Sollte ein Fehler festgestellt werden, erhalten Sie einen Hinweisdialog. Andernfalls wird eine neue NUB-Anfrage erstellt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hochgeladene Dateien werden unabhängig von Fehlern unterhalb des Buttons gelistet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Zur NUB Liste ]</text><text styleclass="Normal" translate="true"> wechselt zurück in den Bereich NUB. Die neu erzeugten Anfragen finden Sie dort in der Liste der neuen Anfragen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Als besonderen Service können Sie für das Verfahren 2014 nicht nur Vorlagen nutzen, die Sie mit dem </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> erstellt haben, sondern auch Dateien des Verfahrens 2013 hochladen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

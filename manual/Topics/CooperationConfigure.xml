@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Kooperation konfigurieren</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation konfigurieren</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie eine Kooperation bestätigt, so sind die Berechtigungen des Partners zu konfigurieren. Die Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> stehen jedem offen. Entsprechend gibt es keine hierarchische Benutzerverwaltung &quot;von oben&quot;. Vielmehr legen Sie selber fest, welcher Anwender mit Ihnen zusammenarbeiten und welche Daten dieser sehen oder ändern darf. Dies können Sie für jeden Kooperationspartner, Funktionsbereich und IK individuell festlegen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CooperationConfigure.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Konfiguration Zugriffsrechte für Kooperation am Beispiel &quot;Neue Untersuchungs- und Behandlungsmethoden&quot; (NUB)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie im Kooperationsdialog die gewünscht Registerkarte an. Die Abbildung zeigt dies beispielhaft für den Bereich &quot;Neue Untersuchungs- und Behandlungsmethoden&quot; (NUB). Es werden alle Institutskennzeichen (IK) gelistet, für die Sie sich registriert haben. Dahinter befindet sich eine Auswahlbox mit den möglichen Optionen. Diese lauten:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Kein Zugriff</text><br/><text styleclass="Bullet Text" translate="true">Ihr Partner hat keinen Zugriff auf Ihre Daten (der zu konfigurierenden Funktion, im Beispiel NUB).</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf Daten sehen</text><br/><text styleclass="Bullet Text" translate="true">Sobald Sie Daten gespeichert haben, sind diese für den Partner sichtbar.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf Daten sehen und ändern</text><br/><text styleclass="Bullet Text" translate="true">Sobald Sie Daten gespeichert haben, sind diese für den Partner sicht- und änderbar.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf Daten sehen, ändern, bereitstellen</text><br/><text styleclass="Bullet Text" translate="true">Sobald Sie Daten gespeichert haben, sind diese für den Partner sicht- und änderbar. Darüber hinaus kann Ihr Partner die Daten für das InEK bereitstellen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf fertig erfasste Daten sehen und als Supervisor freigeben</text><br/><text styleclass="Bullet Text" translate="true">Mit dieser Option verzichten Sie auf die Möglichkeit, die Daten für das InEK bereitzustellen. Stattdessen erhalten Sie bei der Datenerfassung die Möglichkeit, Ihrem Partner zu signalisieren, dass Sie die Daten fertig erfasst haben. Die Bereitstellung für das InEK erfolgt anschließend durch den Partner.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf fertig erfasste Daten sehen, ändern und als Supervisor freigeben</text><br/><text styleclass="Bullet Text" translate="true">Wie vor. Der Partner darf zusätzlich Ihre Daten ändern.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf Daten sehen, ändern und als Supervisor freigeben</text><br/><text styleclass="Bullet Text" translate="true">Wie vor. Die Daten werden jedoch sofort nach dem ersten Speichern (also ggf. unfertig) sichtbar.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf bereitgestellte Daten sehen</text><br/><text styleclass="Bullet Text" translate="true">Ihr Partner darf die Daten sehen, aber erst, nachdem Sie diese fertig erfasst und für das InEK bereitgestellt haben.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Suche</title>
+  <keywords>
+    <keyword translate="true">Suche</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Suche</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In diversen Formularen, z.B. beim PEPP-Vorschlagsverfahren, wird die Eingabe von Kodes benötigt. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> stellt Ihnen daher einen allgemeinen Suchdialog zur Verfügung, den Sie bei Bedarf in den entsprechenden Formularen aktivieren können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="search.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Suchdialog</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abhängig davon, welche verschiedenen Kode-Typen (DRG, PEPP, Diagnosen, Prozeduren etc.) Sie im jeweiligen Formular benötigen, ist der Kode-Typ passend fest eingestellt oder frei wählbar.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zur Suche geben Sie im Feld </text><text styleclass="Normal" style="font-style:italic;" translate="true">Suche</text><text styleclass="Normal" translate="true"> ein oder mehrere Textfragmente ein. Ein Textfragment muss aus mindestens drei Buchstaben bzw. Lautfolgen bestehen. Die Buchstabenkombination &quot;sch&quot; wird beispielsweise als ein Laut betrachtet. Es wird nach allen Kodes gesucht, deren Text alle Textfragmente in beliebiger Reihenfolge beinhaltet. Die Reihenfolge der Eingabe spielt dabei keine Rolle. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Suchfunktion benutzt die in den systematischen und alphabetischen Verzeichnissen von ICD-10-GM und OPS hinterlegten Begrifflichkeiten sowie die Bezeichnungen der einzelnen PEPPs und Zusatzentgelte aus dem PEPP-Entgeltkatalog. Da damit die Suchmöglichkeiten begrenzt sind, ist die Suchfunktion lediglich als Hilfestellung bei der Suche nach gewünschten Kodes zu verstehen. Folglich kann weiterhin der Blick in die systematischen Verzeichnisse von ICD-10-GM und OPS sinnvoll sein, um einen Überblick über die zur Verfügung stehenden Kodes zu bekommen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Suche erfolgt in Form eines Textvergleichs, wobei die Groß-/Kleinschreibung keine Rolle spielt. Ansonsten müssen jedoch alle eingegebenen Textfragmente im Text des jeweiligen Kodes vorhanden sein. So finden Sie beispielsweise bei der Suche nach &quot;depression&quot; alle Kodes, in deren Text dieses Wort an beliebiger Stelle vorkommt, z.B. &quot;Zerebraler Depressionszustand des Neugeborenen&quot;. Die Suche erfolgt im alphabetischen Verzeichnis, das mehr Begriffe enthält als die Bezeichnung des betreffenden Kodes. Daher erhalten Sie auch Kodes gelistet, welche den Suchbegriff nicht im Namen beinhalten. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie finden jedoch keine Kodes, die weder in der Bezeichnung noch der alphabetischen Wortliste den Suchbegriff enthalten. So liefert Ihnen die Suche nach &quot;depression&quot; über die alphabetische Liste zwar viele Stellen, an denen der Text &quot;depressive ....&quot; heißt, aber nur solche, die in der alphabetischen Liste des DIMDI einen entsprechenden Eintrag enthalten. Möchten Sie dagegen Kodes finden, die entweder &quot;Depression&quot; oder &quot;depressiv&quot; enthalten, so suchen Sie bitte nach einem gemeinsamen Wortteil, z.B. &quot;depressi&quot;.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kodes der Diagnosen, Prozeduren etc. sind ebenfalls in der Liste der Suchbegriffe enthalten. Dies erlaubt beispielsweise bei den Prozeduren die Suche nach &quot;9-66&quot;, um alle Kodes aus der Gruppe &quot;9-66, Psychiatrisch-psychosomatische Regelbehandlung bei [...] Jugendlichen&quot; zu finden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für die Suche nach PEPP und DRG stehen nur die entsprechenden Bezeichnungen und Kodes zur Verfügung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Suchen ]</text><text styleclass="Normal" translate="true"> startet die Suche, sofern ein genügend langer Suchbegriff eingegeben wurde.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Zurück zur Eingabe ]</text><text styleclass="Normal" translate="true"> kehrt ohne Ergebnis zu dem Formular zurück, von dem Sie die Suche gestartet haben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgende Abbildung zeigt ein beispielhaftes Suchergebnis für die Suche nach &quot;stör psych&quot;. Das Ergebnis ist gleich der Suche nach &quot;psych stör&quot;.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="searc-result.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Suchdialog mit Ergebnisliste</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Ergebnisliste zeigt Ihnen die gefundenen Texte mit den zugehörigen Kodes. Abhängig von der jeweiligen Funktion werden die Kodes eines oder mehrerer Jahre durchsucht. Dass ein Kode innerhalb dieser Zeit nicht durchgehend gültig ist, erkennen Sie an den Spalten </text><text styleclass="Normal" style="font-style:italic;" translate="true">von</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Normal" style="font-style:italic;" translate="true">bis</text><text styleclass="Normal" translate="true">, wobei ein leeres Feld für unbeschränkt im betrachteten Zeitraum steht. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Steht also in der Spalte </text><text styleclass="Normal" style="font-style:italic;" translate="true">von</text><text styleclass="Normal" translate="true"> eine Jahreszahl, so ist dieser Kode erst ab dem angegebenen Jahr verfügbar. Steht in der Spalte </text><text styleclass="Normal" style="font-style:italic;" translate="true">bis</text><text styleclass="Normal" translate="true"> eine Jahreszahl, ist der Kode nur bis zu diesem Jahr im Katalog enthalten. Dies dient lediglich zu Ihrer Orientierung. Unabhängig davon, in welchem Katalog der Kode enthalten ist, sind alle angezeigten Kodes für Ihre Eingabe zulässig. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Ergebnisliste ist in Form von Hyperlinks ausgeprägt. Klicken Sie auf einen solchen Link, so kehren Sie in das Ausgangsformular zurück und der gewählte Kode wird in das passende Eingabefeld übernommen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

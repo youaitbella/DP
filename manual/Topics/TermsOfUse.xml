@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Nutzungsbedingungen</title>
+  <keywords>
+    <keyword translate="true">Gewährleistung</keyword>
+    <keyword translate="true">Haftung</keyword>
+    <keyword translate="true">Nutzungsbedingungen</keyword>
+    <keyword translate="true">Urheberrechtsschutz</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Nutzungsbedingungen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das InEK stellt das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> für interessierte Nutzer kostenlos zum Download sowie zur Nutzung für die Datenübermittlung an die InEK GmbH zur Verfügung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mit dem Download bzw. der Nutzung des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> kommt ein Nutzungsvertrag zwischen der InEK GmbH und dem Nutzer zustande. Es gelten dabei die folgenden Nutzungsbedingungen:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">I. Nutzungsumfang</text></para>
+    <para styleclass="Normal"></para>
+    <list id="130" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Der Nutzer ist berechtigt, den kostenlosen Download des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> vorzunehmen und dieses ausschließlich zur Datenübermittlung von Datenlieferungen gem. § 21 KHEntgG sowie sonstiger Datenlieferungen an das InEK zu nutzen.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="130" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Dem Nutzer ist es untersagt, Änderungen an dem </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> vorzunehmen, das Programm zu dekompilieren, es in andere Produkte einzubinden oder in einer anderen, nicht bestimmungsmäßigen Art zu nutzen. </text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="130" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Dem Nutzer ist es untersagt, das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> ganz oder in Teilen an Dritte in körperlicher oder elektronischer Form weiterzugeben, insbesondere diese an Dritte zu veräußern, zu vermarkten oder in sonstiger Weise kommerziell zu nutzen.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="130" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Der Nutzer stellt die InEK GmbH auf erstes Anfordern von allen Ansprüchen Dritter frei, die sich daraus ergeben, dass er gegen den in Ziffer I.1-3 geregelten Nutzungsumfang verstoßen hat.</text></li>
+    </list>
+    <para styleclass="Heading1"></para>
+    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">II. Urheberrechtsschutz</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unbeschadet der in Ziffer I eingeräumten Rechte verbleiben alle Rechte an dem </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bei der InEK GmbH.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">III. Gewährleistung / Haftung</text></para>
+    <para styleclass="Normal"></para>
+    <list id="131" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die InEK GmbH übernimmt keine Gewähr dafür, dass das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in vollem Umfang fehlerfrei ist.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="131" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die InEK GmbH haftet auf Schadenersatz nach den gesetzlichen Bestimmungen für Personenschäden und für Schäden nach dem Produkthaftungsgesetz.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="131" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die InEK GmbH haftet nach den gesetzlichen Bestimmungen für Schäden, die durch arglistiges Verhalten verursacht wurden oder für Schäden, die durch Vorsatz oder grobe Fahrlässigkeit der gesetzlichen Vertreter oder leitenden Angestellten von InEK verursacht wurden.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="131" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die InEK GmbH haftet auf Schadenersatz begrenzt auf die Höhe des vertragstypischen, vorhersehbaren Schadens für Schäden aus einer leicht fahrlässigen Verletzung wesentlicher Vertragspflichten oder Kardinalpflichten oder für Schäden, die von einfachen Erfüllungsgehilfen von InEK grob fahrlässig oder vorsätzlich ohne Verletzung wesentlicher Vertragspflichten oder Kardinalpflichten verursacht werden.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="131" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die InEK GmbH haftet nicht für entgangenen Gewinn, mittelbare Schäden, Mangelfolgeschäden und Ansprüche Dritter.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">IV. Anwendbares Recht</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für diese Nutzungsbedingungen gilt das Recht der Bundesrepublik Deutschland.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
