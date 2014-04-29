@@ -724,6 +724,14 @@ td img {
     margin: 0;
 }
 
+.alignTop {
+    vertical-align: top;
+}
+
+.alignBottom {
+    vertical-align: bottom;
+}
+
 .inputPart
 {
     margin-top: 5px;

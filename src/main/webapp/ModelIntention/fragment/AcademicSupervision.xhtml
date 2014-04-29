@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:i="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <h:form id="scientific">
+            <h2>#{msg.headerModelIntentionScientific}</h2>
+            
+        <table>
+            <thead>
+                <tr>
+                    <th class="list-header" scope="col"></th>
+                    <th class="list-header" scope="col">Auftraggeber</th>
+                    <th class="list-header" scope="col">Auftragnehmer</th>
+                    <th class="list-header" scope="col">Beginn</th>
+                    <th class="list-header" scope="col">Ende</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="#{editModelIntention.modelIntention.academicSupervisions}" var="supervision">
+                    <tr>
+                        <td class="colIcon">
+                            <h:commandLink>
+                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <cb:confirmDelete/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.deleteEntry(supervision)}"/>
+                            </h:commandLink>
+                        </td>
+
+                        <td class="alignBottom">
+                            <h:panelGrid columns="1">
+                                <h:message id="msgRemitter#{supervision.UUID}" for="remitter#{supervision.UUID}" styleClass="errorMessage"/>
+                                <h:inputText id="remitter#{supervision.UUID}" value="#{supervision.remitter}" 
+                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
+                                    <f:ajax event="blur" render="@this :logout:remaining msgRemitter#{supervision.UUID}"/>
+                                </h:inputText>
+                            </h:panelGrid>
+                        </td>
+
+                        <td class="alignBottom">
+                            <h:panelGrid columns="1">
+                                <h:message id="msgContractor#{supervision.UUID}" for="contractor#{supervision.UUID}" styleClass="errorMessage"/>
+                                <h:inputText id="contractor#{supervision.UUID}" value="#{supervision.contractor}" 
+                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
+                                </h:inputText> 
+                            </h:panelGrid>
+                        </td>
+
+                        <td class="alignBottom">
+                            <h:panelGrid columns="1">
+                                <h:inputText id="academicSupFrom#{supervision.UUID}" value="#{supervision.academicSupFrom}" 
+                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                    <f:converter converterId="FlexibleDateTimeConverter"/>
+                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
+                                </h:inputText> 
+                            </h:panelGrid>
+                        </td>
+
+                        <td class="alignBottom">
+                            <h:panelGrid columns="1">
+                                <h:inputText id="academicSupTo#{supervision.UUID}" value="#{supervision.academicSupTo}" 
+                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                    <f:converter converterId="FlexibleDateTimeConverter"/>
+                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
+                                </h:inputText> 
+                            </h:panelGrid>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>        
+        <script type="text/javascript">
+            #{editModelIntention.supervisionTable.script}
+        </script>
+    </h:form>
+</ui:composition>

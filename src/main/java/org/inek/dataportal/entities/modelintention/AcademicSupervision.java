@@ -6,9 +6,8 @@
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 /**
  *
@@ -52,6 +52,14 @@ public class AcademicSupervision implements Serializable {/*
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _to;
     
+    // <editor-fold defaultstate="collapsed" desc="UUID">
+    @Transient
+    private final String _uuid = UUID.randomUUID().toString().replace("-", "");
+
+    public String getUUID() {
+        return _uuid;
+    }
+    // </editor-fold>
    
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {

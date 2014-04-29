@@ -588,11 +588,25 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // </editor-fold>    
+    
+    // <editor-fold defaultstate="collapsed" desc="tab quality">
+    private AcademicSupervisionDynamicTable _academicSupervisionTable;
+
+    public DynamicTable getSupervisionTable() {
+        if (_academicSupervisionTable == null) {
+            _academicSupervisionTable = new AcademicSupervisionDynamicTable(getModelIntention());
+        }
+        return _academicSupervisionTable;
+    }
+
+    // </editor-fold>    
+    
     private void removeEmptyEntries() {
         getAgreedPatientsTable().removeEmptyEntries();
         getModelLifeTable().removeEmptyEntries();
         getRemunerationTable().removeEmptyEntries();
         getCostTable().removeEmptyEntries();
+        getSupervisionTable().removeEmptyEntries();
     }
 
     private void ensureEmptyEntries() {
@@ -600,6 +614,7 @@ public class EditModelIntention extends AbstractEditController {
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();
         getCostTable().ensureEmptyEntry();
+        getSupervisionTable().ensureEmptyEntry();
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
