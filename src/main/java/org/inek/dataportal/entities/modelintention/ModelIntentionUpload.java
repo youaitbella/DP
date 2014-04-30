@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -33,14 +32,12 @@ public class ModelIntentionUpload {
     }
 
     public void uploadCosts() {
-        _logger.log(Level.WARNING, "uploadCosts");
         try {
             if (_file != null) {
                 Scanner scanner = new Scanner(_file.getInputStream(),
                         "UTF-8");
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    _logger.log(Level.WARNING, "\t found: {0}", line);
                     addCost(line);
                 }
 
@@ -54,6 +51,7 @@ public class ModelIntentionUpload {
     }
 
     public void addCost(String line) {
+        // todo: compose and show message to user
         String[] tokens = line.split(";");
         if (tokens.length == 5) {
             Cost cost = new Cost();
@@ -69,6 +67,60 @@ public class ModelIntentionUpload {
             } catch (NumberFormatException ex) {
             }
             _modelIntention.addCost(cost);
+        }
+    }
+
+    public void uploadContact() {
+        try {
+            if (_file != null) {
+                Scanner scanner = new Scanner(_file.getInputStream(),
+                        "UTF-8");
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    addContact(line);
+                }
+
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage("Upload successfully"));
+            }
+        } catch (IOException | NoSuchElementException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Upload failed!"));
+        }
+    }
+
+    private void addContact(String line) {
+        // todo: compose and show message to user
+        String[] tokens = line.split(";");
+        if (tokens.length == 10) {
+            ModelIntentionContact contact = new ModelIntentionContact();
+            try {
+                int id = Integer.parseInt(tokens[0]);
+                if (id < 1 || id > 3){
+                    throw new NumberFormatException();
+                }
+                contact.setContactTypeId(id);
+            } catch (NumberFormatException ex) {
+                // without a valid id, there is nothing to add
+                return;
+            }
+            try {
+                contact.setIk(Integer.parseInt(tokens[1]));
+            } catch (NumberFormatException ex) {
+            }
+            contact.setName(tokens[2]);
+            contact.setStreet(tokens[3]);
+            contact.setZip(tokens[4]);
+            contact.setTown(tokens[5]);
+            try {
+                contact.setRegCare(Integer.parseInt(tokens[6]));
+            } catch (NumberFormatException ex) {
+            }
+            contact.setContactPerson(tokens[7]);
+            contact.setPhone(tokens[8]);
+            contact.setEmail(tokens[9]);
+
+            _modelIntention.addContact(contact);
         }
     }
 

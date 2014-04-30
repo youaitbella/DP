@@ -19,13 +19,14 @@
             <h:outputLabel styleClass="label30" value="#{cc.attrs.Label}:" />
             <h:selectOneMenu value="#{cc.attrs.TreatmentType}">
                 <f:selectItems value="#{valueLists.treatmentTypes}" />
-                <f:ajax event="change" render="@this :logout:remaining idTreatmentText" />
+                <f:ajax event="change" render="@this :logout:remaining idTreatmentText msgTreatmentText" />
             </h:selectOneMenu>
-            <h:inputTextarea styleClass="areaRight70Low" id="idTreatmentText" 
+            <h:message for="idTreatmentText" id="msgTreatmentText" styleClass="errorMessage"/>
+            <h:inputTextarea styleClass="areaRight70Low #{cc.attrs.TreatmentType eq 2 ? 'required' : ''}" id="idTreatmentText" 
                              value="#{cc.attrs.TreatmentText}" 
                              readonly="#{cc.attrs.TreatmentType lt 2}"
                              required="#{cc.attrs.TreatmentType eq 2}" requiredMessage="#{msg.msgValueNeeded}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
+                <f:ajax event="blur" render="@this :logout:remaining msgTreatmentText" />
             </h:inputTextarea>
         </div>
     </cc:implementation>

@@ -8,29 +8,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 /**
- * A contact might be any (juristic) person, who is involved into the model intent,
- * e.g. partner, hospital, insurance
- * 
+ * A contact might be any (juristic) person, who is involved into the model
+ * intent, e.g. partner, hospital, insurance
+ *
  */
 @Entity
 @Table(name = "Contacts", schema = "mvh")
 public class ModelIntentionContact implements Serializable {
 
     private static final long serialVercsonUID = 1L;
-    
-    public ModelIntentionContact (){}
-    public ModelIntentionContact (int contactTypeId){_contactTypeId = contactTypeId;}
-    
+
+    public ModelIntentionContact() {
+    }
+
+    public ModelIntentionContact(int contactTypeId) {
+        _contactTypeId = contactTypeId;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "csId")
+    @Column(name = "csId")
     private Integer _id;
-    
-    @Column (name = "csModelIntentionId")
+
+    @Column(name = "csModelIntentionId")
     private int _modelIntentionId;
-    
+
     @Column(name = "csContactTypeId")
     private int _contactTypeId;
 
@@ -39,28 +42,37 @@ public class ModelIntentionContact implements Serializable {
 
     @Column(name = "csName")
     private String _name = "";
-    
+
     @Column(name = "csStreet")
     private String _street = "";
-    
+
+    // <editor-fold defaultstate="collapsed" desc="Zip">
     @Column(name = "csZip")
-    private int _zip = -1;
-    
+    private String _zip = "";
+    public String getZip() {
+        return _zip;
+    }
+
+    public void setZip(String zip) {
+        _zip = zip;
+    }
+    // </editor-fold>
+
     @Column(name = "csTown")
     private String _town = "";
-    
+
     @Column(name = "csRegCare")
     private int _regCare;
-    
+
     @Column(name = "csContactPerson")
     private String _contactPerson = "";
-    
+
     @Column(name = "csPhone")
     private String _phone = "";
-    
+
     @Column(name = "csEMail")
     private String _email = "";
-  
+
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -100,14 +112,6 @@ public class ModelIntentionContact implements Serializable {
 
     public void setStreet(String street) {
         _street = street;
-    }
-
-    public Integer getZip() {
-        return _zip == -1 ? null : _zip;
-    }
-
-    public void setZip(Integer zip) {
-        _zip = zip == null ? -1 : zip;
     }
 
     public String getTown() {
@@ -157,9 +161,8 @@ public class ModelIntentionContact implements Serializable {
     public void setModelIntentionId(Integer modelIntentionId) {
         _modelIntentionId = modelIntentionId;
     }
-    
+
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -175,7 +178,7 @@ public class ModelIntentionContact implements Serializable {
             return false;
         }
         ModelIntentionContact other = (ModelIntentionContact) object;
-        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
+        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;

@@ -13,8 +13,20 @@
     <ui:define name="editContent">
         <ui:include src="#{sessionTools.pages.FragmentModelLife}"/>
 
+        <h2>#{msg.headerModelIntentionContract}</h2>
+
+        <h:form id="contactUpload" enctype="multipart/form-data">
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadCostData}">
+                    <f:ajax listener="#{modelIntentionUpload.uploadContact()}" render="@all"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCostData}"/>
+                </div>
+            </div>
+        </h:form>
+
         <h:form id="contractors">
-            <h2>#{msg.headerModelIntentionContract}</h2>
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==1).toList() }" var="contact">
                 <div class="rectangle">
                     <i:Institute RegCareRender="true" 
@@ -31,7 +43,7 @@
             </ui:repeat>
             <h:commandLink styleClass="button inputPart" value="#{msg.btnAddContractor}" 
                            rendered="#{!editModelIntention.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(1)}"/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(1)}"/>
             </h:commandLink>
         </h:form>
 
@@ -53,7 +65,7 @@
             </ui:repeat>
             <h:commandLink styleClass="button inputPart" value="#{msg.btnAddProvider}" 
                            rendered="#{!editModelIntention.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(2)}"/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(2)}"/>
             </h:commandLink>
         </h:form>
 
@@ -75,7 +87,7 @@
             </ui:repeat>
             <h:commandLink styleClass="button inputPart" value="#{msg.btnAddInsurance}" 
                            rendered="#{!editModelIntention.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addContact(3)}"/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(3)}"/>
             </h:commandLink>
         </h:form>
 

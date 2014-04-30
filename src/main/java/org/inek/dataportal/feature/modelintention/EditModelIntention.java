@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.modelintention;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,11 +13,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
-import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
-import org.inek.dataportal.entities.modelintention.ModelIntentionQuality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
@@ -31,7 +28,6 @@ import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.enums.SelfHospitalisationType;
 import org.inek.dataportal.enums.SettleType;
-import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -53,8 +49,6 @@ public class EditModelIntention extends AbstractEditController {
     @Inject private Conversation _conversation;
     private boolean _regionMiscEnabled;
     private ModelIntention _modelIntention;
-    private ModelIntentionQuality _modelIntentionQuality;
-    private AcademicSupervision _modelIntentionAcademicSupervision;
 
     public SelectItem[] getGenders() {
         List<SelectItem> l = new ArrayList<>();
@@ -265,13 +259,6 @@ public class EditModelIntention extends AbstractEditController {
         return Pages.UserMaintenance.URL();
     }
 
-    public ModelIntentionQuality getModelIntentionQuality() {
-        return _modelIntentionQuality;
-    }
-
-    public AcademicSupervision getModelIntentionAcademicSupervision() {
-        return _modelIntentionAcademicSupervision;
-    }
 
     // </editor-fold>
     @PostConstruct
@@ -281,8 +268,6 @@ public class EditModelIntention extends AbstractEditController {
         Object miId = Utils.getFlash().get("modelId");
         if (miId == null) {
             _modelIntention = newModelIntention();
-            _modelIntentionQuality = newModelIntentionQuality();
-            _modelIntentionAcademicSupervision = newModelIntentionAcademicSupervision();
         } else {
             _modelIntention = loadModelIntention(miId);
         }
@@ -311,59 +296,7 @@ public class EditModelIntention extends AbstractEditController {
     private ModelIntention newModelIntention() {
         ModelIntention modelIntention = getModelIntentionController().createModelIntention();
         modelIntention.setAccountId(_sessionController.getAccountId());
-        modelIntention.setRegion(Region.Germany.region());
-        modelIntention.setSettleMedicType(SettleType.ImpartialDepartment.id());
-        modelIntention.setPiaType(PiaType.AnyPIA.id());
-        modelIntention.setHospitalType(HospitalType.AnyHospital.id());
-        modelIntention.setInpatientTreatmentType(TreatmentType.No.id());
-        modelIntention.setDayPatientTreatmentType(TreatmentType.No.id());
-        modelIntention.setInpatientCompensationTreatmentType(TreatmentType.No.id());
-        modelIntention.setInpatientCompensationHomeTreatmentType(TreatmentType.No.id());
-        modelIntention.setOutpatientTreatmentType(TreatmentType.No.id());
-        modelIntention.setOutpatientHomeTreatmentType(TreatmentType.No.id());
         return modelIntention;
-    }
-
-    private ModelIntentionQuality newModelIntentionQuality() {
-        ModelIntentionQuality modelIntentionQuality = new ModelIntentionQuality();
-        modelIntentionQuality.setId(null);
-        return modelIntentionQuality;
-    }
-
-    private AcademicSupervision newModelIntentionAcademicSupervision() {
-        AcademicSupervision modelIntentionAcademicSupervision = new AcademicSupervision();
-        modelIntentionAcademicSupervision.setId(null);
-        return modelIntentionAcademicSupervision;
-    }
-
-    public String getAcademicSupTo() {
-        if (_modelIntentionAcademicSupervision.getAcademicSupTo() == null) {
-            return "";
-        }
-        return _modelIntentionAcademicSupervision.getAcademicSupTo().toString();
-    }
-
-    public void setAcademicSupTo(String date) {
-        try {
-            _modelIntentionAcademicSupervision.setAcademicSupTo(SimpleDateFormat.getDateInstance().parse(date));
-        } catch (Exception ex) {
-            _modelIntentionAcademicSupervision.setAcademicSupTo(null);
-        }
-    }
-
-    public String getAcademicSupFrom() {
-        if (_modelIntentionAcademicSupervision.getAcademicSupFrom() == null) {
-            return "";
-        }
-        return _modelIntentionAcademicSupervision.getAcademicSupFrom().toString();
-    }
-
-    public void setAcademicSupFrom(String date) {
-        try {
-            _modelIntentionAcademicSupervision.setAcademicSupFrom(SimpleDateFormat.getDateInstance().parse(date));
-        } catch (Exception ex) {
-            _modelIntentionAcademicSupervision.setAcademicSupFrom(null);
-        }
     }
 
     private ModelIntentionController getModelIntentionController() {
@@ -540,9 +473,14 @@ public class EditModelIntention extends AbstractEditController {
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="tab structure">
-    public void addContact(int id) {
+    public void addNewContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
         contact.setContactTypeId(id);
+        addContact(contact);
+    }
+
+    public void addContact(ModelIntentionContact contact) {
+        contact.setModelIntentionId(_modelIntention.getId());
         getModelIntention().getContacts().add(contact);
     }
 
