@@ -37,7 +37,6 @@
                                 <h:inputText id="patientsFrom#{agreedPatients.UUID}" value="#{agreedPatients.patientsFrom}" 
                                              required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
-                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsFrom#{agreedPatients.UUID}"/>
                                 </h:inputText>
                             </h:panelGrid>
@@ -49,7 +48,6 @@
                                 <h:inputText id="patientsTo#{agreedPatients.UUID}" value="#{agreedPatients.patientsTo}" 
                                              required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
-                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{agreedPatients.UUID}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -57,10 +55,11 @@
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
+                                <h:message id="msgPatientsCount#{agreedPatients.UUID}" for="patientsCount#{agreedPatients.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="patientsCount#{agreedPatients.UUID}" value="#{agreedPatients.patientsCount}" 
                                              required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{agreedPatients.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsCount#{agreedPatients.UUID}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>

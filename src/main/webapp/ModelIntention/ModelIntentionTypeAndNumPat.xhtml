@@ -83,15 +83,11 @@
                     </div>
                 </h:panelGroup>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="healthInsurance" value="#{msg.lblModelIntentionHealthInsurance}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <h:inputText styleClass="inputmedium" value="TODO">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                        <!-- TODO: Dynamically create textfields. -->
-                    </h:inputText>
-                </h:panelGroup>
+                    <h:outputLabel styleClass="label" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
+                        <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}">
+                            <f:selectItems value="#{editModelIntention.insuranceAffiliation}" />
+                            <f:ajax event="change" render="@this :logout:remaining" />
+                        </h:selectOneMenu>
 
                 <h:panelGroup>
                     <h:outputLabel styleClass="label" id="personalMiscAttr" value="#{msg.lblMiscAttr}:" />

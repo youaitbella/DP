@@ -6,111 +6,44 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 >
 
     <ui:define name="editContent">
         <h:form id="form">
 
             <h2>#{msg.headerModelIntentionTreatAreaAndCosts}</h2>
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            <inek:TreatmentType Label="#{msg.lblInpatientTreatment}" 
+                                TreatmentType="#{editModelIntention.modelIntention.inpatientTreatmentType}"
+                                TreatmentText="#{editModelIntention.modelIntention.inpatientTreatmentText}"/>
+            
+            <inek:TreatmentType Label="#{msg.lblDayPatientTreatment}" 
+                                TreatmentType="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
+                                TreatmentText="#{editModelIntention.modelIntention.dayPatientTreatmentText}"/>
+            
+            <inek:TreatmentType Label="#{msg.lblInpatientCompensationTreatment}" 
+                                TreatmentType="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
+                                TreatmentText="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"/>
+           
+            <inek:TreatmentType Label="#{msg.lblInpatientCompensationHomeTreatment}" 
+                                TreatmentType="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
+                                TreatmentText="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"/>
+           
+            <inek:TreatmentType Label="#{msg.lblOutpatientTreatment}" 
+                                TreatmentType="#{editModelIntention.modelIntention.outpatientTreatmentType}"
+                                TreatmentText="#{editModelIntention.modelIntention.outpatientTreatmentText}"/>
+           
+            <inek:TreatmentType Label="#{msg.lblOutpatientHomeTreatment}" 
+                                TreatmentType="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
+                                TreatmentText="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"/>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="stationaryTreatment" value="#{msg.lblStationaryTreatment}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="stationTreatment" value="#{editModelIntention.treatmentTypes}">
-                            <f:selectItems value="#{editModelIntention.treatmentTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtStationaryText" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtStationaryText" value="#{editModelIntention.modelIntention.stationaryText}" readonly="#{editModelIntention.treatmentTextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30" id="miscTreatment" value="#{msg.lblMisc}:" />
+                <h:inputTextarea styleClass="areaRight70Low" id="txtMiscText" value="#{editModelIntention.modelIntention.miscTreatment}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputTextarea>
+            </div>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="ambulantTreatment" value="#{msg.lblAmbulantTreatment}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="ambulantTreatmentType" value="#{editModelIntention.treatmentTypes}">
-                            <f:selectItems value="#{editModelIntention.treatmentTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtPartialHospitalisationText" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtPartialHospitalisationText" value="#{editModelIntention.modelIntention.partialHospitalisationText}" readonly="#{editModelIntention.partialHospitalisationTextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="clinicAmbulantTreatment" value="#{msg.lblClinicAmbulantTreatment}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="clinicAmbulantTreatmentType" value="#{editModelIntention.treatmentTypes}">
-                            <f:selectItems value="#{editModelIntention.treatmentTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtHospitalAmbulantTreatmentText" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtHospitalAmbulantTreatmentText" value="#{editModelIntention.modelIntention.hospitalAmbulantTreatmentText}" readonly="#{editModelIntention.hospitalAbulantTextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="homeVisitPIA" value="#{msg.lblHomeVisitPIA}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="homeVisitPIAType" value="#{editModelIntention.treatmentTypes}">
-                            <f:selectItems value="#{editModelIntention.treatmentTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtVisitPIAText" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtVisitPIAText" value="#{editModelIntention.modelIntention.visitPiaText}" readonly="#{editModelIntention.homeVisitPIATextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="abulantTreatment" value="#{msg.lblAmbulantTreatment}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="abulantTreatmentType" value="#{editModelIntention.treatmentTypes}">
-                            <f:selectItems value="#{editModelIntention.treatmentTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtAbulantTreatmentText" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtAbulantTreatmentText" value="#{editModelIntention.modelIntention.ambulantTreatmentText}" readonly="#{editModelIntention.ambulantTreatmentTextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="miscTreatment" value="#{msg.lblMisc}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtMiscText" value="#{editModelIntention.modelIntention.miscTreatment}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-            </h:panelGrid>
 
             <h2>#{msg.headerSpecialPatientsConcept}</h2>
             <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">

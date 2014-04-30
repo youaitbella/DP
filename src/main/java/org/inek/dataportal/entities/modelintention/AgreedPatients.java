@@ -35,13 +35,33 @@ public class AgreedPatients implements Serializable {
     @Column(name = "apModelIntentionId")
     private int _modelIntentionId;
     
+    // <editor-fold defaultstate="collapsed" desc="patientsFrom">
     @Column(name = "apFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _from;
     
+    public Date getPatientsFrom() {
+        return _from;
+    }
+
+    public void setPatientsFrom(Date from) {
+        _from = from;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="patientsTo">
     @Column(name = "apTo")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _to;
+    
+    public Date getPatientsTo() {
+        return _to;
+    }
+
+    public void setPatientsTo(Date to) {
+        _to = to;
+    }
+    // </editor-fold>
     
     @Column(name = "apPatientsCount")
     private int _patientsCount = -1;
@@ -55,7 +75,6 @@ public class AgreedPatients implements Serializable {
     }
     // </editor-fold>
 
-    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
         return _id;
@@ -63,23 +82,6 @@ public class AgreedPatients implements Serializable {
 
     public void setId(Integer id) {
         _id = id;
-    }
-    
-    
-    public Date getPatientsFrom() {
-        return _from;
-    }
-
-    public void setPatientsFrom(Date from) {
-        _from = from;
-    }
-        
-    public Date getPatientsTo() {
-        return _to;
-    }
-
-    public void setPatientsTo(Date to) {
-        _to = to;
     }
     
     public Integer getPatientsCount() {

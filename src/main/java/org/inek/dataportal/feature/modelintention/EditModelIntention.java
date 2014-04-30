@@ -23,6 +23,7 @@ import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
+import org.inek.dataportal.enums.InsuranceAffiliation;
 import org.inek.dataportal.enums.MedicalAttribute;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
@@ -89,6 +90,14 @@ public class EditModelIntention extends AbstractEditController {
             l.add(new SelectItem(t.id(), t.type()));
         }
         return l.toArray(new SelectItem[l.size()]);
+    }
+
+    public List<SelectItem> getInsuranceAffiliation() {
+        List<SelectItem> l = new ArrayList<>();
+        for (InsuranceAffiliation t : InsuranceAffiliation.values()) {
+            l.add(new SelectItem(t.id(), t.type()));
+        }
+        return l;
     }
 
     @Override
@@ -231,49 +240,7 @@ public class EditModelIntention extends AbstractEditController {
         return l.toArray(new SelectItem[l.size()]);
     }
 
-    public SelectItem[] getTreatmentTypes() {
-        List<SelectItem> l = new ArrayList<>();
-        TreatmentType[] types = TreatmentType.values();
-        for (TreatmentType tt : types) {
-            l.add(new SelectItem(tt.id(), tt.type()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
 
-    public boolean isTreatmentTextEnabled() {
-        if (_modelIntention.getStationaryType() == TreatmentType.Generally.id() || _modelIntention.getStationaryType() == TreatmentType.No.id()) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isPartialHospitalisationTextEnabled() {
-        if (_modelIntention.getPartialHospitalisationType() == TreatmentType.Generally.id() || _modelIntention.getStationaryType() == TreatmentType.No.id()) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isHospitalAbulantTextEnabled() {
-        if (_modelIntention.getHospitalAmbulantTreatmentType() == TreatmentType.Generally.id() || _modelIntention.getStationaryType() == TreatmentType.No.id()) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isHomeVisitPIATextEnabled() {
-        if (_modelIntention.getVisitPiaType() == TreatmentType.Generally.id() || _modelIntention.getStationaryType() == TreatmentType.No.id()) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isAmbulantTreatmentTextEnabled() {
-        if (_modelIntention.getAmbulantTreatmentType() == TreatmentType.Generally.id() || _modelIntention.getStationaryType() == TreatmentType.No.id()) {
-            return false;
-        }
-        return true;
-    }
 
     enum ModelIntentionTabs {
 
@@ -348,11 +315,12 @@ public class EditModelIntention extends AbstractEditController {
         modelIntention.setSettleMedicType(SettleType.ImpartialDepartment.id());
         modelIntention.setPiaType(PiaType.AnyPIA.id());
         modelIntention.setHospitalType(HospitalType.AnyHospital.id());
-        modelIntention.setStationaryType(TreatmentType.No.id());
-        modelIntention.setPartialHospitalisationType(TreatmentType.No.id());
-        modelIntention.setHospitalAmbulantTreatmentType(TreatmentType.No.id());
-        modelIntention.setVisitPiaType(TreatmentType.No.id());
-        modelIntention.setAmbulantTreatmentType(TreatmentType.No.id());
+        modelIntention.setInpatientTreatmentType(TreatmentType.No.id());
+        modelIntention.setDayPatientTreatmentType(TreatmentType.No.id());
+        modelIntention.setInpatientCompensationTreatmentType(TreatmentType.No.id());
+        modelIntention.setInpatientCompensationHomeTreatmentType(TreatmentType.No.id());
+        modelIntention.setOutpatientTreatmentType(TreatmentType.No.id());
+        modelIntention.setOutpatientHomeTreatmentType(TreatmentType.No.id());
         return modelIntention;
     }
 
@@ -410,6 +378,7 @@ public class EditModelIntention extends AbstractEditController {
         _modelIntention.setStatus(1);
 
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
+        resetDynamicTables();
         ensureEmptyEntries();
         if (isValidId(_modelIntention.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
@@ -528,7 +497,6 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // </editor-fold>    
-
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private RemunerationDynamicTable _remunarationTable;
 
@@ -564,13 +532,13 @@ public class EditModelIntention extends AbstractEditController {
         return _costTable;
     }
 
-    public void addCost(Cost cost){
+    public void addCost(Cost cost) {
         _costTable.removeEmptyEntries();
         _costTable.addEntry(cost);
         _costTable.ensureEmptyEntry();
     }
     // </editor-fold>    
-    
+
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
@@ -588,7 +556,6 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // </editor-fold>    
-    
     // <editor-fold defaultstate="collapsed" desc="tab quality">
     private AcademicSupervisionDynamicTable _academicSupervisionTable;
 
@@ -600,7 +567,14 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // </editor-fold>    
-    
+    private void resetDynamicTables() {
+        _agreedPatiensTable = null;
+        _modelLifeTable = null;
+        _remunarationTable = null;
+        _costTable = null;
+        _academicSupervisionTable = null;
+    }
+
     private void removeEmptyEntries() {
         getAgreedPatientsTable().removeEmptyEntries();
         getModelLifeTable().removeEmptyEntries();

@@ -54,6 +54,18 @@ public class ModelIntention implements Serializable {
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
 
+    // <editor-fold defaultstate="collapsed" desc="insuranceAffiliation">
+    @Column(name = "miInsuranceAffiliation")
+    private String _insuranceAffiliation = "";
+    public String getInsuranceAffiliation() {
+        return _insuranceAffiliation;
+    }
+
+    public void setInsuranceAffiliation(String insuranceAffiliation) {
+        _insuranceAffiliation = insuranceAffiliation;
+    }
+    // </editor-fold>
+
     @Column(name = "miMiscAttribute")
     private String _miscAttribute = "";
 
@@ -99,38 +111,157 @@ public class ModelIntention implements Serializable {
     @Column(name = "miInvolvedGoals")
     private String _involvedGoals = "";
 
-    @Column(name = "miStationaryType")
-    private int _stationaryType;
+    // <editor-fold defaultstate="collapsed" desc="inpatientTreatment">
+    @Column(name = "miInpatientType")
+    private int _inpatientTreatmentType;
+    public int getInpatientTreatmentType() {
+        return _inpatientTreatmentType;
+    }
 
-    @Column(name = "miStationaryText")
-    private String _stationaryText = "";
+    public void setInpatientTreatmentType(int inpatientType) {
+        _inpatientTreatmentType = inpatientType;
+    }
 
-    @Column(name = "miPartialHospitalisationType")
-    private int _partialHospitalisationType;
+    @Column(name = "miInpatientText")
+    private String _inpatientTreatmentText = "";
+    public String getInpatientTreatmentText() {
+        return _inpatientTreatmentText;
+    }
 
-    @Column(name = "miPartialHospitalisationText")
-    private String _partialHospitalisationText = "";
+    public void setInpatientTreatmentText(String inpatientText) {
+        _inpatientTreatmentText = inpatientText;
+    }
+   // </editor-fold>
 
-    @Column(name = "miHospitalAmbulantTreatmentType")
-    private int _hospitalAmbulantTreatmentType;
+    // <editor-fold defaultstate="collapsed" desc="dayPatient">
+    @Column(name = "miDayPatientType")
+    private int _dayPatientTreatmentType;
+    public int getDayPatientTreatmentType() {
+        return _dayPatientTreatmentType;
+    }
 
-    @Column(name = "miHospitalAmbulantTreatmentText")
-    private String _hospitalAmbulantTreatmentText = "";
+    public void setDayPatientTreatmentType(int dayPatientType) {
+        _dayPatientTreatmentType = dayPatientType;
+    }
 
-    @Column(name = "miVisitPIAType")
-    private int _visitPiaType;
+    @Column(name = "miDayPatientText")
+    private String _dayPatientTreatmentText = "";
+    public String getDayPatientTreatmentText() {
+        return _dayPatientTreatmentText;
+    }
 
-    @Column(name = "miVisitPIAText")
-    private String _visitPiaText = "";
+    public void setDayPatientTreatmentText(String dayPatientText) {
+        _dayPatientTreatmentText = dayPatientText;
+    }
+   // </editor-fold>
 
-    @Column(name = "miAmbulantTreatmentType")
-    private int _ambulantTreatmentType;
+    // <editor-fold defaultstate="collapsed" desc="InpatientCompensationTreatment">
+    @Column(name = "miInpatientCompensationType")
+    private int _inpatientCompensationTreatmentType;
 
-    @Column(name = "miAmbulantTreatmentText")
-    private String _ambulantTreatmentText = "";
+    public int getInpatientCompensationTreatmentType() {
+        return _inpatientCompensationTreatmentType;
+    }
 
+    public void setInpatientCompensationTreatmentType(int inpatientCompensationTreatmentType) {
+        _inpatientCompensationTreatmentType = inpatientCompensationTreatmentType;
+    }
+
+    @Column(name = "miInpatientCompensationText")
+    private String _inpatientCompensationTreatmentText = "";
+
+    public String getInpatientCompensationTreatmentText() {
+        return _inpatientCompensationTreatmentText;
+    }
+
+    public void setInpatientCompensationTreatmentText(String inpatientCompensationTreatmentText) {
+        _inpatientCompensationTreatmentText = inpatientCompensationTreatmentText;
+    }
+   // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="InpatientCompensationHomeTreatment">
+    @Column(name = "miInpatientCompensationHomeType")
+    private int _inpatientCompensationHomeTreatmentType;
+
+    public int getInpatientCompensationHomeTreatmentType() {
+        return _inpatientCompensationHomeTreatmentType;
+    }
+
+    public void setInpatientCompensationHomeTreatmentType(int inpatientCompensationHomeTreatmentType) {
+        _inpatientCompensationHomeTreatmentType = inpatientCompensationHomeTreatmentType;
+    }
+
+    @Column(name = "miInpatientCompensationHomeText")
+    private String _inpatientCompensationHomeTreatmentText = "";
+
+    public String getInpatientCompensationHomeTreatmentText() {
+        return _inpatientCompensationHomeTreatmentText;
+    }
+
+    public void setInpatientCompensationHomeTreatmentText(String inpatientCompensationHomeTreatmentText) {
+        _inpatientCompensationHomeTreatmentText = inpatientCompensationHomeTreatmentText;
+    }
+   // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="OutpatientTreatment">
+    @Column(name = "miOutpatientTreatmentType")
+    private int _outpatientTreatmentType;
+    
+    public int getOutpatientTreatmentType() {
+        return _outpatientTreatmentType;
+    }
+
+    public void setOutpatientTreatmentType(int outpatientTreatmentType) {
+        _outpatientTreatmentType = outpatientTreatmentType;
+    }
+
+    @Column(name = "miOutpatientTreatmentText")
+    private String _outpatientTreatmentText = "";
+
+    public String getOutpatientTreatmentText() {
+        return _outpatientTreatmentText;
+    }
+
+    public void setOutpatientTreatmentText(String outPatientText) {
+        _outpatientTreatmentText = outPatientText;
+    }
+   // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="OutpatientHomeTreatment">
+    @Column(name = "miOutpatientHomeTreatmentType")
+    private int _outpatientHomeTreatmentType;
+    
+    public int getOutpatientHomeTreatmentType() {
+        return _outpatientHomeTreatmentType;
+    }
+
+    public void setOutpatientHomeTreatmentType(int outpatientHomeTreatmentType) {
+        _outpatientHomeTreatmentType = outpatientHomeTreatmentType;
+    }
+
+    @Column(name = "miOutpatientHomeTreatmentText")
+    private String _outpatientHomeTreatmentText = "";
+
+    public String getOutpatientHomeTreatmentText() {
+        return _outpatientHomeTreatmentText;
+    }
+
+    public void setOutpatientHomeTreatmentText(String outPatientText) {
+        _outpatientHomeTreatmentText = outPatientText;
+    }
+   // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="MiscTreatment">
     @Column(name = "miMiscTreatment")
     private String _miscTreatment = "";
+    public String getMiscTreatment() {
+        return _miscTreatment;
+    }
+
+    public void setMiscTreatment(String miscTreatment) {
+        this._miscTreatment = miscTreatment;
+    }
+    // </editor-fold>
 
     @Column(name = "miCaseManagement")
     private String _caseManagement = "";
@@ -190,7 +321,6 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AgreedPatients> _agreedPatients;
-
 
     // <editor-fold defaultstate="collapsed" desc="remuneration">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -435,94 +565,6 @@ public class ModelIntention implements Serializable {
 
     public void setInvolvedGoals(String involvedGoals) {
         this._involvedGoals = involvedGoals;
-    }
-
-    public int getStationaryType() {
-        return _stationaryType;
-    }
-
-    public void setStationaryType(int stationaryType) {
-        this._stationaryType = stationaryType;
-    }
-
-    public String getStationaryText() {
-        return _stationaryText;
-    }
-
-    public void setStationaryText(String stationaryText) {
-        this._stationaryText = stationaryText;
-    }
-
-    public int getPartialHospitalisationType() {
-        return _partialHospitalisationType;
-    }
-
-    public void setPartialHospitalisationType(int partialHospitalisationType) {
-        this._partialHospitalisationType = partialHospitalisationType;
-    }
-
-    public String getPartialHospitalisationText() {
-        return _partialHospitalisationText;
-    }
-
-    public void setPartialHospitalisationText(String partialHospitalisationText) {
-        this._partialHospitalisationText = partialHospitalisationText;
-    }
-
-    public int getHospitalAmbulantTreatmentType() {
-        return _hospitalAmbulantTreatmentType;
-    }
-
-    public void setHospitalAmbulantTreatmentType(int hospitalAmbulantTreatmentType) {
-        this._hospitalAmbulantTreatmentType = hospitalAmbulantTreatmentType;
-    }
-
-    public String getHospitalAmbulantTreatmentText() {
-        return _hospitalAmbulantTreatmentText;
-    }
-
-    public void setHospitalAmbulantTreatmentText(String hospitalAmbulantTreatmentText) {
-        this._hospitalAmbulantTreatmentText = hospitalAmbulantTreatmentText;
-    }
-
-    public int getVisitPiaType() {
-        return _visitPiaType;
-    }
-
-    public void setVisitPiaType(int visitPiaType) {
-        this._visitPiaType = visitPiaType;
-    }
-
-    public String getVisitPiaText() {
-        return _visitPiaText;
-    }
-
-    public void setVisitPiaText(String visitPiaText) {
-        this._visitPiaText = visitPiaText;
-    }
-
-    public int getAmbulantTreatmentType() {
-        return _ambulantTreatmentType;
-    }
-
-    public void setAmbulantTreatmentType(int ambulantTreatmentType) {
-        this._ambulantTreatmentType = ambulantTreatmentType;
-    }
-
-    public String getAmbulantTreatmentText() {
-        return _ambulantTreatmentText;
-    }
-
-    public void setAmbulantTreatmentText(String ambulantTreatmentText) {
-        this._ambulantTreatmentText = ambulantTreatmentText;
-    }
-
-    public String getMiscTreatment() {
-        return _miscTreatment;
-    }
-
-    public void setMiscTreatment(String miscTreatment) {
-        this._miscTreatment = miscTreatment;
     }
 
     public String getCaseManagement() {

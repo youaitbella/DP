@@ -46,7 +46,7 @@
 
                         <td class="colIk">
                             <h:inputText styleClass="colIk" id="ik#{cost.UUID}" value="#{cost.ik}" 
-                                         required="false" requiredMessage="#{msg.msgValueNeeded}" >
+                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                 <f:ajax event="blur" render="@this :logout:remaining msgIk#{cost.UUID}"/>
                             </h:inputText>
                         </td>
