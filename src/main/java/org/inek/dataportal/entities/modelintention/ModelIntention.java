@@ -358,6 +358,24 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="adjustment">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "adModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<Adjustment> _adjustments;
+
+    public List<Adjustment> getAdjustments() {
+        if (_adjustments == null) {
+            _adjustments = new ArrayList<>();
+        }
+        return _adjustments;
+    }
+
+    public void setAdjustments(List<Adjustment> adjustments) {
+        _adjustments = adjustments;
+    }
+    // </editor-fold>
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")

@@ -8,10 +8,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
+import org.inek.dataportal.entities.modelintention.AdjustmentType;
 import org.inek.dataportal.enums.QualityUsage;
 import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.CostCenterFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
+import org.inek.dataportal.facades.modelintention.AdjustmentTypeFacade;
 
 /**
  *
@@ -23,6 +25,7 @@ public class ValueLists {
 
     @Inject CostCenterFacade _costCenterFacade;
     @Inject CostTypeFacade _costTypeFacade;
+    @Inject AdjustmentTypeFacade _adjustmentTypeFacade;
 
     List<SelectItem> _costCenters;
     public List<SelectItem> getCostCenters() {
@@ -79,6 +82,24 @@ public class ValueLists {
         }
         return -1;
     }
+    
+    List<SelectItem> _adjustmentTypes;
+    public synchronized List<SelectItem> getAdjustmentTypes() {
+        ensureAdjustmentTypes();
+        return _adjustmentTypes;
+    }
+    private void ensureAdjustmentTypes() {
+        if (_adjustmentTypes == null) {
+            List<AdjustmentType> adjustmentTypes = _adjustmentTypeFacade.findAll();
+            _adjustmentTypes = new ArrayList<>();
+            SelectItem emptyItem = new SelectItem(-1, "");
+            emptyItem.setNoSelectionOption(true);
+            _adjustmentTypes.add(emptyItem);
+            for (AdjustmentType adjustmentType : adjustmentTypes){
+                _adjustmentTypes.add(new SelectItem(adjustmentType.getId(), adjustmentType.getText()));
+            }
+        }
+    }    
     
     public List getTreatmentTypes() {
         List<SelectItem> list = new ArrayList<>();

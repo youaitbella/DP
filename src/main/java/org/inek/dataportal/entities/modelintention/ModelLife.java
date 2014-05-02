@@ -38,9 +38,19 @@ public class ModelLife implements Serializable {
     private int _modelIntentionId;
     
     
+    // <editor-fold defaultstate="collapsed" desc="startDate">
     @Column(name = "mlStartDate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _startDate;
+    
+    public Date getStartDate() {
+        return _startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        _startDate = startDate;
+    }
+    // </editor-fold>
     
     @Column(name = "mlMonthDuration")
     private Integer _monthDuration = -1;
@@ -55,14 +65,6 @@ public class ModelLife implements Serializable {
 
     public void setId(Integer id) {
         _id = id;
-    }
-
-    public Date getStartDate() {
-        return _startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        _startDate = startDate;
     }
 
     public Integer getMonthDuration() {

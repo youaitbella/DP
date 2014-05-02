@@ -470,6 +470,15 @@ public class EditModelIntention extends AbstractEditController {
         _costTable.addEntry(cost);
         _costTable.ensureEmptyEntry();
     }
+    
+    private AdjustmentDynamicTable _adjustmentTable;
+
+    public DynamicTable getAdjustmentTable() {
+        if (_adjustmentTable == null) {
+            _adjustmentTable = new AdjustmentDynamicTable(getModelIntention());
+        }
+        return _adjustmentTable;
+    }
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="tab structure">
@@ -542,6 +551,7 @@ public class EditModelIntention extends AbstractEditController {
         _modelLifeTable = null;
         _remunarationTable = null;
         _costTable = null;
+        _adjustmentTable = null;
         _internalQualityTable = null;
         _externalQualityTable = null;
         _academicSupervisionTable = null;
@@ -552,6 +562,7 @@ public class EditModelIntention extends AbstractEditController {
         getModelLifeTable().removeEmptyEntries();
         getRemunerationTable().removeEmptyEntries();
         getCostTable().removeEmptyEntries();
+        getAdjustmentTable().removeEmptyEntries();
         getInternalQualityTable().removeEmptyEntries();
         getExternalQualityTable().removeEmptyEntries();
         getSupervisionTable().removeEmptyEntries();
@@ -562,6 +573,7 @@ public class EditModelIntention extends AbstractEditController {
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();
         getCostTable().ensureEmptyEntry();
+        getAdjustmentTable().ensureEmptyEntry();
         getInternalQualityTable().ensureEmptyEntry();
         getExternalQualityTable().ensureEmptyEntry();
         getSupervisionTable().ensureEmptyEntry();

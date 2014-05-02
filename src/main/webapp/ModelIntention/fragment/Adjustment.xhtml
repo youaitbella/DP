@@ -17,73 +17,77 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">#{msg.lblIkAbbr}</th>
-                    <th scope="col">#{msg.lblRemunerationCode}</th>
-                    <th scope="col">#{msg.lblCostCenter}</th>
-                    <th scope="col">#{msg.lblCostType}</th>
+                    <th scope="col">für</th>
+                    <th scope="col">von</th>
+                    <th scope="col">bis</th>
                     <th scope="col">#{msg.lblCostAmount}</th>
+                    <th scope="col">#{msg.lblDescription}</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.costs}" var="cost" varStatus="status">
+                <c:forEach items="#{editModelIntention.modelIntention.adjustments}" var="adjustment" varStatus="status">
                     <tr>
 
                         <td class="colIcon alignBottom">
                             <h:commandLink>
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
-                                <f:ajax render="costForm :logout:remaining" listener="#{editModelIntention.costTable.deleteEntry(cost)}"/>
+                                <f:ajax render="adjustmentForm :logout:remaining" listener="#{editModelIntention.adjustmentTable.deleteEntry(adjustment)}"/>
                             </h:commandLink>
                         </td>
 
-                        <td class="colIk alignBottom">
+                        <td class="col30 alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgIk#{status.index}" for="ik#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth" id="ik#{status.index}" value="#{cost.ik}" 
+                                <h:message id="msgAdjustmentType#{status.index}" for="adjustmentType#{status.index}" styleClass="errorMessage"/>
+                                <h:selectOneMenu styleClass="fullWidth" id="adjustmentType#{status.index}" value="#{adjustment.adjustmentTypeId}" required="true" >
+                                    <f:selectItems value="#{valueLists.adjustmentTypes}" />
+                                    <f:ajax event="change" render="adjustmentForm :logout:remaining" listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
+                                </h:selectOneMenu> 
+                            </h:panelGrid>
+                        </td>
+
+                        <td class="col11 alignBottom">
+                            <h:panelGrid columns="1">
+                                <h:message id="msgDateFrom#{status.index}" for="dateFrom#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText styleClass="fullWidth" id="dateFrom#{status.index}" value="#{adjustment.dateFrom}" 
                                              required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                    <f:ajax event="blur" render="@this :logout:remaining msgIk#{status.index}"/>
+                                    <f:converter converterId="FlexibleDateTimeConverter"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgdateFrom#{status.index}"/>
+                                </h:inputText>
+                            </h:panelGrid>
+                        </td>
+
+                        <td class="col11 alignBottom">
+                            <h:panelGrid columns="1">
+                                <h:message id="msgDateTo#{status.index}" for="dateTo#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText styleClass="fullWidth" id="dateTo#{status.index}" value="#{adjustment.dateTo}" 
+                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                    <f:converter converterId="FlexibleDateTimeConverter"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgdateTo#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
 
                         <td class="col14 alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgRemunerationCode#{status.index}" for="remunerationCode#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}" 
+                                <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{adjustment.amount}" 
                                              required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                    <f:ajax event="keyup" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{status.index}"/>
+                                    <f:ajax event="keyup" render="adjustmentForm :logout:remaining" listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
 
-                        <td class="col30 alignBottom">
-                            <h:panelGrid columns="1">
-                                <h:message id="msgCostCenter#{status.index}" for="costCenter#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}" required="true">
-                                    <f:selectItems value="#{valueLists.costCenters}" />
-                                    <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                </h:selectOneMenu>
-                            </h:panelGrid>
-                        </td>
 
-                        <td class="col30 alignBottom">
-                            <h:panelGrid columns="1">
-                                <h:message id="msgCostType#{status.index}" for="costType#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="costType#{status.index}" value="#{cost.costTypeId}" required="true" >
-                                    <f:selectItems value="#{valueLists.costTypes}" />
-                                    <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                </h:selectOneMenu> 
-                            </h:panelGrid>
-                        </td>
-
-                        <td class=" alignBottom">
-                            <h:panelGrid columns="1">
-                                <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{cost.amount}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
-                                    <f:ajax event="keyup" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
+                        <td class="alignBottom">
+                            <h:panelGrid columns="1" styleClass="fullWidth">
+                                <h:message id="msgDescription#{status.index}" for="description#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText styleClass="fullWidth" id="description#{status.index}" value="#{adjustment.description}" 
+                                                 required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                    <f:ajax event="keyup" render="@form :logout:remaining" 
+                                            listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgDescription#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
@@ -93,7 +97,7 @@
             </tbody>
         </table>        
         <script type="text/javascript">
-            #{editModelIntention.costTable.script}
+            #{editModelIntention.adjustmentTable.script}
         </script>
     </h:form>
 </ui:composition>
