@@ -16,6 +16,7 @@ import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
+import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
@@ -234,8 +235,6 @@ public class EditModelIntention extends AbstractEditController {
         return l.toArray(new SelectItem[l.size()]);
     }
 
-
-
     enum ModelIntentionTabs {
 
         tabModelIntTypeAndNumberOfPatients,
@@ -258,7 +257,6 @@ public class EditModelIntention extends AbstractEditController {
     public String getUserMaintenancePage() {
         return Pages.UserMaintenance.URL();
     }
-
 
     // </editor-fold>
     @PostConstruct
@@ -308,6 +306,8 @@ public class EditModelIntention extends AbstractEditController {
             return Pages.InvalidConversation.URL();
         }
         removeEmptyEntries();
+        _modelIntention.setQualities(_internalQualityTable.getList());
+        _modelIntention.getQualities().addAll(_externalQualityTable.getList());
         _modelIntention.setStatus(1);
 
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
@@ -495,6 +495,38 @@ public class EditModelIntention extends AbstractEditController {
 
     // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="tab quality">
+    private QualityDynamicTable _internalQualityTable;
+
+    public DynamicTable getInternalQualityTable() {
+        final int typeId = 1;
+        if (_internalQualityTable == null) {
+            List<Quality> list = getQualities(typeId);
+            _internalQualityTable = new QualityDynamicTable(getModelIntention(), list, typeId);
+        }
+        return _internalQualityTable;
+    }
+
+    private QualityDynamicTable _externalQualityTable;
+
+    public DynamicTable getExternalQualityTable() {
+        final int typeId = 2;
+        if (_externalQualityTable == null) {
+            List<Quality> list = getQualities(typeId);
+            _externalQualityTable = new QualityDynamicTable(getModelIntention(), list, typeId);
+        }
+        return _externalQualityTable;
+    }
+
+    private List<Quality> getQualities(int typeId) {
+        List<Quality> list = new ArrayList<>();
+        for (Quality quality : _modelIntention.getQualities()) {
+            if (quality.getTypeId() == typeId) {
+                list.add(quality);
+            }
+        }
+        return list;
+    }
+
     private AcademicSupervisionDynamicTable _academicSupervisionTable;
 
     public DynamicTable getSupervisionTable() {
@@ -510,6 +542,8 @@ public class EditModelIntention extends AbstractEditController {
         _modelLifeTable = null;
         _remunarationTable = null;
         _costTable = null;
+        _internalQualityTable = null;
+        _externalQualityTable = null;
         _academicSupervisionTable = null;
     }
 
@@ -518,6 +552,8 @@ public class EditModelIntention extends AbstractEditController {
         getModelLifeTable().removeEmptyEntries();
         getRemunerationTable().removeEmptyEntries();
         getCostTable().removeEmptyEntries();
+        getInternalQualityTable().removeEmptyEntries();
+        getExternalQualityTable().removeEmptyEntries();
         getSupervisionTable().removeEmptyEntries();
     }
 
@@ -526,6 +562,8 @@ public class EditModelIntention extends AbstractEditController {
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();
         getCostTable().ensureEmptyEntry();
+        getInternalQualityTable().ensureEmptyEntry();
+        getExternalQualityTable().ensureEmptyEntry();
         getSupervisionTable().ensureEmptyEntry();
     }
 

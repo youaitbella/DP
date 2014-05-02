@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
+import org.inek.dataportal.enums.QualityUsage;
 import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.CostCenterFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
@@ -78,10 +79,19 @@ public class ValueLists {
         }
         return -1;
     }
+    
     public List getTreatmentTypes() {
         List<SelectItem> list = new ArrayList<>();
-        for (TreatmentType tt : TreatmentType.values()) {
-            list.add(new SelectItem(tt.id(), tt.type()));
+        for (TreatmentType val : TreatmentType.values()) {
+            list.add(new SelectItem(val.id(), val.type()));
+        }
+        return list;
+    }
+    
+    public List getQualityUsage() {
+        List<SelectItem> list = new ArrayList<>();
+        for (QualityUsage val : QualityUsage.values()) {
+            list.add(new SelectItem(val.id(), val.type()));
         }
         return list;
     }

@@ -373,6 +373,44 @@ public class ModelIntention implements Serializable {
     @OrderBy("_id")
     private List<AcademicSupervision> _academicSupervisions;
 
+    // <editor-fold defaultstate="collapsed" desc="quality">
+    @Column(name = "miInternalQuality")
+    private int _internalQuality;
+    public int getInternalQuality() {
+        return _internalQuality;
+    }
+
+    public void setInternalQuality(int internalQuality) {
+        _internalQuality = internalQuality;
+    }
+    
+    @Column(name = "miExternalQuality")
+    private int _externalQuality;
+    public int getExternalQuality() {
+        return _externalQuality;
+    }
+
+    public void setExternalQuality(int externalQuality) {
+        _externalQuality = externalQuality;
+    }
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "qyModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    private List<Quality> _qualities;
+
+    public List<Quality> getQualities() {
+        if (_qualities == null) {
+            _qualities = new ArrayList<>();
+        }
+        return _qualities;
+    }
+
+    public void setQualities(List<Quality> qualitys) {
+        _qualities = qualitys;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
         return _id;

@@ -124,7 +124,7 @@ public class AgreedPatients implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.AgreedPatients[id=" + _id + "]";
+        return this.getClass().getName() + "[ id=" + _id + " ]";
     }
 
     // </editor-fold>

@@ -9,17 +9,9 @@
                 >
 
 
-    <h2>#{msg.headerModelIntentionCost}</h2>
+    <h2>#{msg.headerModelIntentionAdjustment}</h2>
 
-    <h:form id="costForm" enctype="multipart/form-data">
-        <div class="uploadFile">
-            <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadCostData}">
-                <f:ajax listener="#{modelIntentionUpload.uploadCosts()}" render="costForm"/>
-            </h:inputFile>
-            <div class="fakeFile">
-                <h:outputLabel styleClass="button" value="#{msg.btnUploadCostData}"/>
-            </div>
-        </div>
+    <h:form id="adjustmentForm">
 
         <table class="fullWidth">
             <thead>

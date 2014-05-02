@@ -516,6 +516,15 @@ select:active, select:focus{
     max-height: 10em;
 }
 
+.area40emWideLow {
+    min-width: 40em;
+    width: 40em;
+    max-width: 40em;
+    min-height: 1.5em;
+    height: 3em;
+    max-height: 10em;
+}
+
 .areaRight70Low {
     min-width: 70%;
     width: 70%;
@@ -548,48 +557,8 @@ select:active, select:focus{
     font-weight: bold;
 }
 
-.tableWide{
-    width: 100%;
-}
-
-.colId, .colShort{
-    width: 5em;
-}
-
-.colIk, .col06{
-    width: 6em;
-}
-
-.colValue{
-}
-
-.colShortCentered {
-    width: 5em;
-    text-align: center;
-}
-
-.col08{
-    width: 8em;
-}
-
-.col10{
-    width: 10em;
-}
-
-.col12{
-    width: 12em;
-}
-
-.col16{
-    width: 16em;
-}
-
-tr.row1 > td.colIk > input {
-    background-color: #f8f8f8;
-}
-
-tr.row2 > td.colIk > input {
-    background-color: #eeeeee;
+.col05{
+    width: 5%; 
 }
 
 .colIcon{ 
@@ -598,6 +567,58 @@ tr.row2 > td.colIk > input {
 
 .colIcon img {
     border: none;
+}
+
+.colId, .colShort{
+    width: 8%;
+}
+
+.colIk, .col11{
+    width: 11%; 
+}
+
+.colValue{
+}
+
+.colShortCentered {
+    width: 8%;
+    text-align: center;
+}
+
+.col14{
+    width: 14%;
+}
+
+.col17{
+    width: 17%; 
+}
+
+.col12{
+    width: 21%;
+}
+
+.col28{
+    width: 28%;
+}
+
+.col30{
+    width: 30%;
+}
+
+.col50{
+    width: 50%;
+}
+
+.col60{
+    width: 60%;
+}
+
+tr.row1 > td.colIk > input {
+    background-color: #f8f8f8;
+}
+
+tr.row2 > td.colIk > input {
+    background-color: #eeeeee;
 }
 
 .colCode{

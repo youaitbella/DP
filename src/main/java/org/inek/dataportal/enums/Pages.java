@@ -86,6 +86,7 @@ public enum Pages {
     FragmentCost("/ModelIntention/fragment/Cost"),
     FragmentAgreedPatients("/ModelIntention/fragment/AgreedPatients"),
     FragmentAcademicSupervision("/ModelIntention/fragment/AcademicSupervision"),
+    FragmentQuality("/ModelIntention/fragment/Quality"),
     //
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),

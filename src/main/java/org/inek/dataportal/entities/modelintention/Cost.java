@@ -2,14 +2,12 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 
 @Entity
@@ -51,15 +49,6 @@ public class Cost implements Serializable {
     @Column (name = "coAmount")
     private BigDecimal _amount = new BigDecimal(0d);
     
-    // <editor-fold defaultstate="collapsed" desc="UUID">
-    @Transient
-    private final String _uuid = UUID.randomUUID().toString().replace("-", "");
-
-    public String getUUID() {
-        return _uuid;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -128,15 +117,16 @@ public class Cost implements Serializable {
         if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
-        if (this._id == null && other._id == null){
-            return this._uuid.equals(other._uuid);
-        }
-        return true;
+        return this._ik == other._ik
+                && this._remunerationCode.equals(other._remunerationCode)
+                && this._costCenterId == other._costCenterId
+                && this._costTypeId == other._costTypeId
+                && this._amount.equals(other._amount);
     }
 
     @Override
     public String toString() {
-        return "org.inek.entities.Cost[id=" + _id + "]";
+        return this.getClass().getName() + "[ id=" + _id + " ]";
     }
 
     // </editor-fold>

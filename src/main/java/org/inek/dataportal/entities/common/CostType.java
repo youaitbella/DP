@@ -12,17 +12,11 @@ import javax.persistence.Table;
 public class CostType implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Column (name = "ctId")
     private Integer _id;
     
-    @Column (name = "ctCharId")
-    private String _charId;
-    
-    @Column (name = "ctText")
-    private String _text;
-    
-    // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public int getId() {
         return _id;
     }
@@ -30,6 +24,11 @@ public class CostType implements Serializable {
     public void setId(int id) {
         _id = id;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="charId">
+    @Column (name = "ctCharId")
+    private String _charId;
     
     public String getCharId() {
         return _charId;
@@ -38,6 +37,11 @@ public class CostType implements Serializable {
     public void setCharId(String charId) {
         _charId = charId;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="text">
+    @Column (name = "ctText")
+    private String _text;
     
     public String getText() {
         return _text;
@@ -46,8 +50,6 @@ public class CostType implements Serializable {
     public void setText(String text) {
         _text = text;
     }
-    
-    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
