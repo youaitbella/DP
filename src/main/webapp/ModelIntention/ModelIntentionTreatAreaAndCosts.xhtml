@@ -37,72 +37,16 @@
                                 TreatmentType="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
                                 TreatmentText="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"/>
 
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30" id="miscTreatment" value="#{msg.lblMisc}:" />
-                <h:inputTextarea styleClass="areaRight70Low" id="txtMiscText" value="#{editModelIntention.modelIntention.miscTreatment}">
-                    <f:ajax event="blur" render="@this :logout:remaining" />
-                </h:inputTextarea>
-            </div>
-
+            <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscTreatment}" Required="false"/>
+            
 
             <h2>#{msg.headerSpecialPatientsConcept}</h2>
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="caseManagement" value="#{msg.lblCaseManagement}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtCaseManagementText" value="#{editModelIntention.modelIntention.caseManagement}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="teamBaseInnovations" value="#{msg.lblTeamBasedInnovations}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtTeamBaseInnovationsText" value="#{editModelIntention.modelIntention.teamBasedInnovations}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="crossSectoralSupply" value="#{msg.lblCrossSectoralSupply}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtcrossSectoralSupplyText" value="#{editModelIntention.modelIntention.crossSectoralSupply}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="homeTreatment" value="#{msg.lblHomeTreatment}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtHomeTreatmentText" value="#{editModelIntention.modelIntention.homeTreatment}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>    
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="miscSpecialPatientConcept" value="#{msg.lblMisc}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtMiscSpecialPatientConceptText" value="#{editModelIntention.modelIntention.miscSpecialPatientConcept}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>     
-            </h:panelGrid> 
+            <inek:LabeledTextarea Label="#{msg.lblCaseManagement}" Text="#{editModelIntention.modelIntention.caseManagement}" Required="false"/>
+            <inek:LabeledTextarea Label="#{msg.lblTeamBasedInnovations}" Text="#{editModelIntention.modelIntention.teamBasedInnovations}" Required="false"/>
+            <inek:LabeledTextarea Label="#{msg.lblCrossSectoralSupply}" Text="#{editModelIntention.modelIntention.crossSectoralSupply}" Required="false"/>
+            <inek:LabeledTextarea Label="#{msg.lblHomeTreatment}" Text="#{editModelIntention.modelIntention.homeTreatment}" Required="false"/>
+            <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscSpecialPatientConcept}" Required="false"/>
 
             <h2>#{msg.headerSpecificEffortModelIntention}</h2>
             <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
