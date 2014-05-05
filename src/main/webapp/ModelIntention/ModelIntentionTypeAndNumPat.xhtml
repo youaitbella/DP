@@ -4,7 +4,9 @@
                 template="ModelIntention.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                >
 
     <ui:define name="editContent">
         <h:form id="form">
@@ -14,41 +16,28 @@
             #{msg.msgPatientTypes}
             <br/>
 
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="ageYears" value="#{msg.lblAgeYears}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
-                    <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>&nbsp;
-                    <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
-                    <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="gender" value="#{msg.lblGender}:" />
-                </h:panelGroup>
-                <h:panelGroup>
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30" id="ageYears" value="#{msg.lblAgeYears}:" />
+                <h:outputLabel value="#{msg.lblFromUpper}:" />&nbsp;
+                <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>&nbsp;
+                <h:outputLabel value="#{msg.lblToUpper}:" />&nbsp;
+                <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+            </div>
+            <div class="inputPart">
+                    <h:outputLabel styleClass="label30" id="gender" value="#{msg.lblGender}:" />
                     <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}">
                         <f:selectItems value="#{editModelIntention.genders}" />
                         <f:ajax event="change" render="@this :logout:remaining" />
                     </h:selectOneMenu>
-                </h:panelGroup>
+            </div>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="personalMisc" value="#{msg.lblPersonalMisc}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <h:inputTextarea styleClass="areaWideLow" id="txtPersonalMisc" value="#{editModelIntention.modelIntention.miscPatient}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputTextarea>
-                </h:panelGroup>
-
+            <inek:LabeledTextarea Label="#{msg.lblPersonalMisc}" Text="#{editModelIntention.modelIntention.miscPatient}"/>
+            
+            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
                 <h:panelGroup>
                     <h:outputLabel styleClass="label" id="regional" value="#{msg.lblRegionalFeatures}:" />
                 </h:panelGroup>
@@ -83,11 +72,11 @@
                     </div>
                 </h:panelGroup>
 
-                    <h:outputLabel styleClass="label" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
-                        <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}">
-                            <f:selectItems value="#{editModelIntention.insuranceAffiliation}" />
-                            <f:ajax event="change" render="@this :logout:remaining" />
-                        </h:selectOneMenu>
+                <h:outputLabel styleClass="label" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
+                <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}">
+                    <f:selectItems value="#{editModelIntention.insuranceAffiliation}" />
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectOneMenu>
 
                 <h:panelGroup>
                     <h:outputLabel styleClass="label" id="personalMiscAttr" value="#{msg.lblMiscAttr}:" />
@@ -191,6 +180,6 @@
         </h:form>
 
         <ui:include src="#{sessionTools.pages.FragmentAgreedPatients}"/>
-        
+
     </ui:define>
 </ui:composition>

@@ -49,143 +49,21 @@
             <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscSpecialPatientConcept}" Required="false"/>
 
             <h2>#{msg.headerSpecificEffortModelIntention}</h2>
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="specialPsyTherapy" value="#{msg.lblSpecialPsyTherapy}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtSpecialPsyTherapyText" value="#{editModelIntention.modelIntention.specialPsyTherapy}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="specialMedicalMethod" value="#{msg.lblSpecialMedicalMethod}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtspecialMedicalMethodText" value="#{editModelIntention.modelIntention.specialMedicalMethod}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="otherSpecialMedicalMethod" value="#{msg.lblOtherSpecialMedicalMethod}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtOtherSpecialMedicalMethodText" value="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="specificMisc" value="#{msg.lblMisc}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtSpecificMiscText" value="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>    
-            </h:panelGrid> 
+            <inek:LabeledTextarea Label="#{msg.lblSpecialPsyTherapy}" Text="#{editModelIntention.modelIntention.specialPsyTherapy}"/>
+            <inek:LabeledTextarea Label="#{msg.lblSpecialMedicalMethod}" Text="#{editModelIntention.modelIntention.specialMedicalMethod}"/>
+            <inek:LabeledTextarea Label="#{msg.lblOtherSpecialMedicalMethod}" Text="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}"/>
+            <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}"/> <!-- todo: datafield missing?-->
 
             <h2>#{msg.headerCosts}</h2>
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="singleRefund" value="#{msg.lblSingleRefund}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtSingleRefundText" value="#{editModelIntention.modelIntention.singleRemuneration}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="DayPackage" value="#{msg.lblDayPackage}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtDayPackageText" value="#{editModelIntention.modelIntention.dayPackage}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="CasePackage" value="#{msg.lblCasePackage}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtCasePackageText" value="#{editModelIntention.modelIntention.casePackage}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="QuarterPackage" value="#{msg.lblQuarterPackage}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtQuarterPackageText" value="#{editModelIntention.modelIntention.quarterPackage}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="ComplexPackage" value="#{msg.lblComplexPackage}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtComplexPackageText" value="#{editModelIntention.modelIntention.complexPackage}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="PeppRemuneration" value="#{msg.lblPeppRemuneration}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtPeppRemunerationText" value="#{editModelIntention.modelIntention.peppRemuneration}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="ReginalBudget" value="#{msg.lblReginalBudget}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtReginalBudgetText" value="#{editModelIntention.modelIntention.regionalBudget}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>    
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="MiscRefund" value="#{msg.lblMiscRefund}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtMiscRefundText" value="#{editModelIntention.modelIntention.miscRemuneration}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>     
-
-            </h:panelGrid>
+            <inek:LabeledTextarea Label="#{msg.lblSingleRefund}" Text="#{editModelIntention.modelIntention.singleRemuneration}"/>
+            <inek:LabeledTextarea Label="#{msg.lblDayPackage}" Text="#{editModelIntention.modelIntention.dayPackage}"/>
+            <inek:LabeledTextarea Label="#{msg.lblCasePackage}" Text="#{editModelIntention.modelIntention.casePackage}"/>
+            <inek:LabeledTextarea Label="#{msg.lblQuarterPackage}" Text="#{editModelIntention.modelIntention.quarterPackage}"/>
+            <inek:LabeledTextarea Label="#{msg.lblComplexPackage}" Text="#{editModelIntention.modelIntention.complexPackage}"/>
+            <inek:LabeledTextarea Label="#{msg.lblPeppRemuneration}" Text="#{editModelIntention.modelIntention.peppRemuneration}"/>
+            <inek:LabeledTextarea Label="#{msg.lblReginalBudget}" Text="#{editModelIntention.modelIntention.regionalBudget}"/>
+            <inek:LabeledTextarea Label="#{msg.lblMiscRefund}" Text="#{editModelIntention.modelIntention.miscRemuneration}"/>
+            
         </h:form>
 
         <ui:include src="#{sessionTools.pages.FragmentRemuneration}"/>
