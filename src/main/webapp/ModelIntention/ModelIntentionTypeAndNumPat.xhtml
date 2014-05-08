@@ -65,82 +65,33 @@
 
             <h2>#{msg.headerAssignmentModelIntention}</h2>
 
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
+            <inek:LabeledSelectAndText Label="#{msg.lblSettledDocs}" 
+                                       SelectElement="#{editModelIntention.modelIntention.settleMedicType}"
+                                       SelectItems="#{editModelIntention.settledTypes}"
+                                       Text="#{editModelIntention.settleText}"
+                                       />
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="settledDocs" value="#{msg.lblSettledDocs}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="settledDocsType" value="#{editModelIntention.modelIntention.settleMedicType}">
-                            <f:selectItems value="#{editModelIntention.settledTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtSettleMedic" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtSettleMedic" value="#{editModelIntention.settleText}" readonly="#{!editModelIntention.settleTextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
+            <inek:LabeledSelectAndText Label="#{msg.lblPia}" 
+                                       SelectElement="#{editModelIntention.modelIntention.piaType}"
+                                       SelectItems="#{editModelIntention.piaTypes}"
+                                       Text="#{editModelIntention.PIAText}"
+                                       />
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="piaAmbulance" value="#{msg.lblPia}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="piaTypes" value="#{editModelIntention.modelIntention.piaType}">
-                            <f:selectItems value="#{editModelIntention.piaTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtPia" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtPia" value="#{editModelIntention.PIAText}" readonly="#{!editModelIntention.PIATextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
+            <inek:LabeledSelectAndText Label="#{msg.lblHospital}" 
+                                       SelectElement="#{editModelIntention.modelIntention.hospitalType}"
+                                       SelectItems="#{editModelIntention.hospitalTypes}"
+                                       Text="#{editModelIntention.hospitalText}"
+                                       />
 
+            <div class="inputpart">
+                <h:outputLabel styleClass="label30" id="selfHospitalisation" value="#{msg.lblSelfHospitalisation}:" />
+                <h:selectOneMenu id="selfHospitalisationTypes" value="#{editModelIntention.modelIntention.selfHospitalisationType}">
+                    <f:selectItems value="#{editModelIntention.selfHospitalisationTypes}" />
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectOneMenu>
+            </div>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="hospital" value="#{msg.lblHospital}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="hospitalTypes" value="#{editModelIntention.modelIntention.hospitalType}">
-                            <f:selectItems value="#{editModelIntention.hospitalTypes}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtHospital" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtHospital" value="#{editModelIntention.hospitalText}" readonly="#{!editModelIntention.hospitalTextEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="selfHospitalisation" value="#{msg.lblSelfHospitalisation}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <h:selectOneMenu id="selfHospitalisationTypes" value="#{editModelIntention.modelIntention.selfHospitalisationType}">
-                        <f:selectItems value="#{editModelIntention.selfHospitalisationTypes}" />
-                        <f:ajax event="change" render="@this :logout:remaining" />
-                    </h:selectOneMenu>
-                </h:panelGroup>
-
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="miscHospitalisation" value="#{msg.lblMiscHospitalisation}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtMiscHospitalisation" value="#{editModelIntention.modelIntention.miscHospitalisation}">
-                            <f:ajax event="blur" render="@this :logout:remaining txtMiscHospitalisation" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
-            </h:panelGrid>
+            <inek:LabeledTextarea Label="#{msg.lblMiscHospitalisation}" Text="#{editModelIntention.modelIntention.miscHospitalisation}"/>
 
         </h:form>
 
