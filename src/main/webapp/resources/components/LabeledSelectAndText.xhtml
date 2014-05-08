@@ -11,7 +11,7 @@
         <cc:attribute name="Label"/>
         <cc:attribute name="SelectElement"/>
         <cc:attribute name="SelectItems"/>
-        <cc:attribute name="LastElement" default={"cc.attrs.SelectItems.stream().last().value}"/>
+        <cc:attribute name="LastElement" default="#{cc.attrs.SelectItems.stream().map(i -> i.value).max().orElse(-1)}"/>
         <cc:attribute name="Text"/>
     </cc:interface>
 

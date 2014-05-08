@@ -28,75 +28,40 @@
                 </h:inputText>
             </div>
             <div class="inputPart">
-                    <h:outputLabel styleClass="label30" id="gender" value="#{msg.lblGender}:" />
-                    <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}">
-                        <f:selectItems value="#{editModelIntention.genders}" />
-                        <f:ajax event="change" render="@this :logout:remaining" />
-                    </h:selectOneMenu>
+                <h:outputLabel styleClass="label30" id="gender" value="#{msg.lblGender}:" />
+                <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}">
+                    <f:selectItems value="#{editModelIntention.genders}" />
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectOneMenu>
             </div>
 
             <inek:LabeledTextarea Label="#{msg.lblPersonalMisc}" Text="#{editModelIntention.modelIntention.miscPatient}"/>
-            
-            <h:panelGrid styleClass="inputPart" columns="2" width="98%" columnClasses="formModelIntention">
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="regional" value="#{msg.lblRegionalFeatures}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="regions" value="#{editModelIntention.region}">
-                            <f:selectItems value="#{editModelIntention.regions}" />
-                            <f:ajax event="change" render="@this :logout:remaining txtRegMisc" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtRegMisc" value="#{editModelIntention.modelIntention.region}" readonly="#{!editModelIntention.regionMiscEnabled}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="medical" value="#{msg.lblMedicalFeature}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <div class="floating">
-                        <h:selectOneMenu id="medicals" value="#{editModelIntention.modelIntention.medicalAttributesType}">
-                            <f:selectItems value="#{editModelIntention.medicalAttributes}" />
-                            <f:ajax event="change" render="@this :logout:remaining" />
-                        </h:selectOneMenu>
-                    </div>
-                    <div style="width: 60%; float: right;">
-                        <h:inputTextarea styleClass="areaWideLow" id="txtMedicalAttr" value="#{editModelIntention.modelIntention.medicalSpecification}">
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputTextarea>
-                    </div>
-                </h:panelGroup>
+            <inek:LabeledSelectAndText Label="#{msg.lblRegionalFeatures}" 
+                                       SelectElement="#{editModelIntention.region}"
+                                       SelectItems="#{editModelIntention.regions}"
+                                       Text="#{editModelIntention.modelIntention.region}"
+                                       />
 
-                <h:outputLabel styleClass="label" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
-                <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}">
-                    <f:selectItems value="#{editModelIntention.insuranceAffiliation}" />
-                    <f:ajax event="change" render="@this :logout:remaining" />
-                </h:selectOneMenu>
+            <inek:LabeledSelectAndText Label="#{msg.lblMedicalFeature}" 
+                                       SelectElement="#{editModelIntention.modelIntention.medicalAttributesType}"
+                                       SelectItems="#{editModelIntention.medicalAttributes}"
+                                       Text="#{editModelIntention.modelIntention.medicalSpecification}"
+                                       />
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="personalMiscAttr" value="#{msg.lblMiscAttr}:" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <h:inputTextarea styleClass="areaWideLow" value="#{editModelIntention.modelIntention.miscAttribute}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputTextarea>
-                </h:panelGroup>
+            <h:outputLabel styleClass="label30" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
+            <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}">
+                <f:selectItems value="#{editModelIntention.insuranceAffiliation}" />
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectOneMenu>
 
-                <h:panelGroup>
-                    <h:outputLabel styleClass="label" id="patientAgreement" value="#{msg.lblPatientAgreement}" />
-                </h:panelGroup>
-                <h:panelGroup>
-                    <h:selectBooleanCheckbox value="#{editModelIntention.modelIntention.agreement}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:selectBooleanCheckbox>
-                </h:panelGroup>
+            <inek:LabeledTextarea Label="#{msg.lblMiscAttr}" Text="#{editModelIntention.modelIntention.miscAttribute}"/>
 
-            </h:panelGrid>
+            <h:outputLabel styleClass="label30" id="patientAgreement" value="#{msg.lblPatientAgreement}" />
+            <h:selectBooleanCheckbox value="#{editModelIntention.modelIntention.agreement}">
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+
 
             <h2>#{msg.headerAssignmentModelIntention}</h2>
 
