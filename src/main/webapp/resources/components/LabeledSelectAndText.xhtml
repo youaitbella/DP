@@ -11,7 +11,7 @@
         <cc:attribute name="Label"/>
         <cc:attribute name="SelectElement"/>
         <cc:attribute name="SelectItems"/>
-        <cc:attribute name="LastElement" default="#{cc.attrs.SelectItems.stream().map(item -> item.value).max().orElse(-1)}"/>
+        <cc:attribute name="Threshold" default="#{cc.attrs.SelectItems.stream().map(item -> item.value).max().orElse(-1)}"/>
         <cc:attribute name="Text"/>
     </cc:interface>
 
@@ -24,10 +24,10 @@
                 <f:ajax event="change" render="@this :logout:remaining idText msgText" />
             </h:selectOneMenu>
             <h:message for="idText" id="msgText" styleClass="errorMessage"/>
-            <h:inputTextarea styleClass="areaRight70Low #{cc.attrs.SelectElement eq cc.attrs.LastElement ? 'required' : ''}" id="idText" 
+            <h:inputTextarea styleClass="areaRight70Low #{cc.attrs.SelectElement ge cc.attrs.Threshold ? 'required' : ''}" id="idText" 
                              value="#{cc.attrs.Text}" 
-                             readonly="#{cc.attrs.SelectElement lt cc.attrs.LastElement}"
-                             required="#{cc.attrs.SelectElement eq cc.attrs.LastElement}" requiredMessage="#{msg.msgValueNeeded}" >
+                             readonly="#{cc.attrs.SelectElement lt cc.attrs.Threshold}"
+                             required="#{cc.attrs.SelectElement ge cc.attrs.Threshold}" requiredMessage="#{msg.msgValueNeeded}" >
                 <f:ajax event="blur" render="@this :logout:remaining msgText" />
             </h:inputTextarea>
         </div>
