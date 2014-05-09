@@ -465,10 +465,18 @@ public class EditModelIntention extends AbstractEditController {
         return _costTable;
     }
 
-    public void addCost(Cost cost) {
+    public boolean tryAddCost(Cost cost) {
+        for (Object existing : _costTable.getList()){
+            if (existing instanceof Cost){
+                if (((Cost)existing).equalsFunctional(cost)){
+                    return false;
+                }
+            }
+        }
         _costTable.removeEmptyEntries();
         _costTable.addEntry(cost);
         _costTable.ensureEmptyEntry();
+        return true;
     }
     
     private AdjustmentDynamicTable _adjustmentTable;

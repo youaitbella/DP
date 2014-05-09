@@ -190,4 +190,18 @@ public class ModelIntentionContact implements Serializable {
     }
 
     // </editor-fold>
+
+    /**
+     * Two contacts are functional equal, if they have the same ik
+     * or the same name and town,
+     * even thought they might differ in other properties.
+     * @param other
+     * @return 
+     */
+    public boolean equalsFunctional(ModelIntentionContact other) {
+        if (other == null){return false;}
+        return this._ik == other._ik
+                || this._name.equals(other._name)
+                && this._town.equals(other._town);
+    }
 }

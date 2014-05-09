@@ -130,4 +130,18 @@ public class Cost implements Serializable {
     }
 
     // </editor-fold>
+    
+    /**
+     * Two cost are functional equal, if they define the same module.
+     * This check is independent from id and amount!
+     * @param other
+     * @return 
+     */
+    public boolean equalsFunctional(Cost other) {
+        if (other == null){return false;}
+        return this._ik == other._ik
+                && this._remunerationCode.equals(other._remunerationCode)
+                && this._costCenterId == other._costCenterId
+                && this._costTypeId == other._costTypeId;
+    }
 }

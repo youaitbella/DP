@@ -36,22 +36,27 @@ public class ModelIntentionUpload {
             if (_file != null) {
                 Scanner scanner = new Scanner(_file.getInputStream(),
                         "UTF-8");
+                int countSuccess = 0;
+                int countFail = 0;
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    addCost(line);
+                    if (tryAddCost(line)) {
+                        countSuccess++;
+                    } else {
+                        countFail++;
+                    }
                 }
+                _modelIntention.getCostTable().setMessage(countSuccess + " Zeilen zugefügt, " + countFail + " Zeilen (Fehler oder Duplikate) nicht zugefügt.");
 
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage("Upload successfully"));
+                //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload successfully"));
             }
         } catch (IOException | NoSuchElementException e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Upload failed!"));
+            _modelIntention.getCostTable().setMessage("Upload fehlgeschlagen.");
+            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload failed!"));
         }
     }
 
-    public void addCost(String line) {
-        // todo: compose and show message to user
+    public boolean tryAddCost(String line) {
         String[] tokens = line.split(";");
         if (tokens.length == 5) {
             Cost cost = new Cost();
@@ -66,8 +71,9 @@ public class ModelIntentionUpload {
                 cost.setAmount(new BigDecimal(tokens[4].replace(",", ".")));
             } catch (NumberFormatException ex) {
             }
-            _modelIntention.addCost(cost);
+            return !_modelIntention.tryAddCost(cost);
         }
+        return false;
     }
 
     public void uploadContact() {
@@ -96,7 +102,7 @@ public class ModelIntentionUpload {
             ModelIntentionContact contact = new ModelIntentionContact();
             try {
                 int id = Integer.parseInt(tokens[0]);
-                if (id < 1 || id > 3){
+                if (id < 1 || id > 3) {
                     throw new NumberFormatException();
                 }
                 contact.setContactTypeId(id);
