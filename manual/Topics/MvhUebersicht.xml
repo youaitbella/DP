@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Übersicht</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Übersicht</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald Sie vom InEK eine Vetragsnummer für die Teilnahme am Modellvorhaben erhalten haben, können Sie sich im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> anmelden und Ihr Modellvorhaben einpflegen. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Auswahl der Rubrik Modellvorhaben gelangen Sie zunächst auf die Übersichtsseite. Dort können Sie das für Sie angelegte Modellvorhaben aus der Liste der zu bearbeitenden Modellvorhaben auswählen. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Über das Drucksymbol vor dem jeweiligen Modellvorhaben können Sie ein Modellvorhaben ausdrucken lassen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anschließend gelangen Sie auf die </text><link displaytype="text" defaultstyle="true" type="topiclink" href="MvhArt_Anzahl_Patienten" styleclass="Normal" translate="true">erste Seite</link><text styleclass="Normal" translate="true"> des Modellvorhabens und können mit dem Einpflegen Ihrer Daten beginnen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="MvhOverview.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
