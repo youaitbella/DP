@@ -1,9 +1,27 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" status="" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title>Modellvorhaben</title>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Modellvorhaben</title>
+  <keywords>
+    <keyword translate="true">Meldung</keyword>
+    <keyword translate="true">Modellvorhaben</keyword>
+  </keywords>
   <body>
-    <header><para styleclass="Heading1">Modellvorhaben</para></header>
-    <para styleclass="Normal">Geben Sie hier den Text ein.</para>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Modellvorhaben</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach den Vorgaben des § 64b SGB V sind dem InEK Vertragsdaten von vereinbarten Modellprojekten nach § 64b SGB V zu melden. Die Vertragsparteien auf Bundesebene haben eine „Vereinbarung nach § 64 b Abs. 3 SGB V über Art und Umfang der zu meldenden Daten von Modellvorhaben zur Versorgung psychisch kranker Menschen sowie zur </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Modellvorhaben" styleclass="Normal" translate="true">Meldung</link><text styleclass="Normal" translate="true"> von Modellvorhaben an das DRG-Institut“ konsentiert. Die technische Umsetzung der gesetzlichen Vorgaben sowie der Vorgaben aus der Selbstverwaltungsvereinbarung zur Datenerfassung erfolgt in einem zweistufigen Verfahren. In der ersten Stufe wird der gem. § 3 Abs. 1 der Vereinbarung benannte Beauftragte (Ansprechpartner) dem InEK gemeldet. Der Beauftragte meldet sich dann in Stufe 2 beim InEK-Datenportal an und gibt die Vertragsdaten ein. Das InEK prüft nach der Dateneingabe die Angaben auf eine vollständige und fehlerfreie Datenmeldung nach Maßgabe der Vereinbarung und vergibt ein Vertragskennzeichen für das Modellvorhaben. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Weitere Informationen zum organisatorischen Ablauf der Modellvorhaben entnehmen Sie bitte der entsprechenden WebSite des InEKs [</text><link displaytype="text" defaultstyle="true" type="weblink" href="http://g-drg.de/cms/Modellvorhaben_zur_Versorgung_psychisch_kranker_Menschen_nach_64b_SGB_V" target="_blank" styleclass="Normal" translate="true">http://g-drg.de/cms/Modellvorhaben_zur_Versorgung_psychisch_kranker_Menschen_nach_64b_SGB_V</link><text styleclass="Normal" translate="true">].</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der technische Ablauf der Datenmeldung via </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wird in diesem Abschnitt detailliert beschrieben. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie der obigen Einleitung zu entnehmen, ist die Erfassung der Vertragsdaten ausschließlich dem benannten Beauftragten möglich. Hierzu ist es erforderlich, in den Stammdaten, Register </text><link displaytype="text" defaultstyle="true" type="topiclink" href="MaintenanceFeatures" styleclass="Normal" translate="true">Funktionen</link><text styleclass="Normal" translate="true">, die Funktion Modellvorhaben zu markieren. Gleichzeitig können Sie mittels dieser Funktion festlegen, an welcher Stelle in der </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Overview" styleclass="Normal" translate="true">Übersicht</link><text styleclass="Normal" translate="true"> das Modellvorhaben geführt wird.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abweichend von den sonstigen Funktionsbereichen finden Sie im Bereich Modellvorhaben keine Schaltfläche zur Anlage eines neuen Modellvorhabens. Da in Stufe 1 der Beauftragte an das InEK zu melden ist und nur dieser die Daten erfassen darf, wird ein Modellvorhaben im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> ausschließlich durch das InEK angelegt und dem passenden Anwender als Eigentümer zugewiesen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Als Beauftragter können Sie im Rahmen der Funktion </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true"> anderen Anwendern ein Leserecht auf die Daten einräumen, wahlweise von Anbeginn oder erst nach Meldung an das InEK. Ihre Kooperationspartner müssen dazu ebenfalls in den Stammdaten die Funktion Modellvorhaben markiert haben. Die in Kooperation neben Lesen beschriebenen sonstigen Rechte können Sie nicht gewähren.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
   </body>
 </topic>
