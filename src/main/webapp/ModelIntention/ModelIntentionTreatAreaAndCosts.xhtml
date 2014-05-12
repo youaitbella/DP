@@ -13,30 +13,43 @@
         <h:form id="form">
 
             <h2>#{msg.headerModelIntentionTreatAreaAndCosts}</h2>
-            <inek:TreatmentType Label="#{msg.lblInpatientTreatment}" 
-                                TreatmentType="#{editModelIntention.modelIntention.inpatientTreatmentType}"
-                                TreatmentText="#{editModelIntention.modelIntention.inpatientTreatmentText}"/>
-            
-            <inek:TreatmentType Label="#{msg.lblDayPatientTreatment}" 
-                                TreatmentType="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
-                                TreatmentText="#{editModelIntention.modelIntention.dayPatientTreatmentText}"/>
-            
-            <inek:TreatmentType Label="#{msg.lblInpatientCompensationTrekatment}" 
-                                TreatmentType="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
-                                TreatmentText="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"/>
-           
-            <inek:TreatmentType Label="#{msg.lblInpatientCompensationHomeTreatment}" 
-                                TreatmentType="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
-                                TreatmentText="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"/>
-           
-            <inek:TreatmentType Label="#{msg.lblOutpatientTreatment}" 
-                                TreatmentType="#{editModelIntention.modelIntention.outpatientTreatmentType}"
-                                TreatmentText="#{editModelIntention.modelIntention.outpatientTreatmentText}"/>
-           
-            <inek:TreatmentType Label="#{msg.lblOutpatientHomeTreatment}" 
-                                TreatmentType="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
-                                TreatmentText="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"/>
 
+            <inek:LabeledSelectAndText Label="#{msg.lblInpatientTreatment}" 
+                                       SelectElement="#{editModelIntention.modelIntention.inpatientTreatmentType}"
+                                       SelectItems="#{valueLists.treatmentTypes}"
+                                       Text="#{editModelIntention.modelIntention.inpatientTreatmentText}"
+                                       />
+            
+            <inek:LabeledSelectAndText Label="#{msg.lblDayPatientTreatment}" 
+                                       SelectElement="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
+                                       SelectItems="#{valueLists.treatmentTypes}"
+                                       Text="#{editModelIntention.modelIntention.dayPatientTreatmentText}"
+                                       />
+            
+            <inek:LabeledSelectAndText Label="#{msg.lblInpatientCompensationTreatment}" 
+                                       SelectElement="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
+                                       SelectItems="#{valueLists.treatmentTypes}"
+                                       Text="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"
+                                       />
+            
+            <inek:LabeledSelectAndText Label="#{msg.lblInpatientCompensationHomeTreatment}" 
+                                       SelectElement="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
+                                       SelectItems="#{valueLists.treatmentTypes}"
+                                       Text="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"
+                                       />
+            
+            <inek:LabeledSelectAndText Label="#{msg.lblOutpatientTreatment}" 
+                                       SelectElement="#{editModelIntention.modelIntention.outpatientTreatmentType}"
+                                       SelectItems="#{valueLists.treatmentTypes}"
+                                       Text="#{editModelIntention.modelIntention.outpatientTreatmentText}"
+                                       />
+            
+            <inek:LabeledSelectAndText Label="#{msg.lblOutpatientHomeTreatment}" 
+                                       SelectElement="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
+                                       SelectItems="#{valueLists.treatmentTypes}"
+                                       Text="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"
+                                       />
+            
             <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscTreatment}" Required="false"/>
             
 
