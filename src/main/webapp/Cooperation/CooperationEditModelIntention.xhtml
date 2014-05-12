@@ -8,10 +8,11 @@
 
     <ui:define name="editContent">
 
-        <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
+        <h2>#{msg.lblCooperation} #{msg.nameMODEL_INTENTION}</h2>
 
-        <h:dataTable value="#{editCooperation.cooperationRights.stream().filter(r -> r.feature == Feature.NUB).toList()}" var="cor"
-         styleClass="fullWidth" headerClass="list-header" rowClasses="row1, row2" columnClasses="">
+        <!--h:dataTable value="#{ editCooperation.cooperationRights.stream().filter(r -> r.feature == Feature.MODEL_INTENTION).toList()}" var="cor" -->
+        <h:dataTable value="#{editCooperation.cooperationRights}" var="cor" 
+                     styleClass="fullWidth" headerClass="list-header" rowClasses="row1, row2" columnClasses="">
             <h:column id="colIk">
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblIK}"/>
@@ -28,10 +29,10 @@
                 </h:selectOneMenu>
             </h:column>
         </h:dataTable>
-
-        <div class="toolBar">
-            <h:commandLink styleClass="button" action="#{editCooperation.save}" value="#{msg.btnSave}" immediate="false" />
-        </div>
-
+        
+            <div class="toolBar">
+                <h:commandLink styleClass="button" action="#{editCooperation.save}" value="#{msg.btnSave}" immediate="false" />
+            </div>
+        
     </ui:define>
 </ui:composition>

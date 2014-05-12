@@ -14,10 +14,10 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Dialogseiten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> bestehen im Wesentlichen aus drei Bereichen:</text></para>
     <para styleclass="Normal"></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Oben: Der Kopfbereich mit Links zur Hompage des InEK, zum Impressum und, sofern Sie eingeloggt sind, zur Abmeldung.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Links: Hier finden Sie nach erfolgreichem Login die Navigation zu den verfügbaren Funktionen.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Rechts: In diesem größten Teil des Dialogs werden die Informationen dargestellt bzw. erfolgen Ihre Eingaben.</text></li>
+    <list id="23" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Oben: Der Kopfbereich mit Links zur Hompage des InEK, zum Impressum und, sofern Sie eingeloggt sind, zur Abmeldung.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Links: Hier finden Sie nach erfolgreichem Login die Navigation zu den verfügbaren Funktionen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Rechts: In diesem größten Teil des Dialogs werden die Informationen dargestellt bzw. erfolgen Ihre Eingaben.</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="GeneralHandling.png" scale="100.00%" styleclass="Image Caption"></image></para>

@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.CooperationRight;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 
@@ -30,6 +30,15 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .createQuery(query, CooperationRight.class)
                 .setParameter("accountId", accountId)
                 .setParameter("feature", feature)
+                .getResultList();
+    }
+
+    public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId) {
+        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId";
+        return getEntityManager()
+                .createQuery(query, CooperationRight.class)
+                .setParameter("accountId", accountId)
+                .setParameter("partnerId", partnerId)
                 .getResultList();
     }
 

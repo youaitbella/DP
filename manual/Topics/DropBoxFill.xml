@@ -43,15 +43,6 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Befinden sich alle zu übermittelnden Dateien in der DropBox, so schließen Sie diese mittels </text><text styleclass="Button" translate="true">[ DropBox abschließen ]</text><text styleclass="Normal" translate="true">. Letzteres stellt die Daten für die Verarbeitung im InEK bereit.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><table styleclass="Default" rowcount="1" colcount="1" style="width:auto; cell-spacing:5px; border-width:1px; border-spacing:5px; cell-border-width:0px; border-color:#000000; border-style:solid; background-color:#c0c0c0;">
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Hinweis:</text></para>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Datenverarbeitung erfolgt ausschließlich nach Abschluss der DropBox. Sollten Sie die DropBox nicht abschließen, wird sie nach Ablauf der Gültigkeit automatisch verworfen.</text></para>
-        </td>
-      </tr>
-    </table></para>
-    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Die Datenverarbeitung erfolgt ausschließlich nach Abschluss der DropBox. Sollten Sie die DropBox nicht abschließen, wird sie nach Ablauf der Gültigkeit automatisch verworfen.</text></para>
   </body>
 </topic>

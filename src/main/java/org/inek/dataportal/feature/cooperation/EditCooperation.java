@@ -7,7 +7,6 @@ package org.inek.dataportal.feature.cooperation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,17 +16,17 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
-import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRequestFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
@@ -54,12 +53,14 @@ public class EditCooperation extends AbstractEditController {
     protected void addTopics() {
         addTopic(CooperationTabs.tabCooperationPartner.name(), Pages.CooperationEditPartner.URL());
         addTopic(CooperationTabs.tabCooperationNub.name(), Pages.CooperationEditNub.URL(), false);
+        addTopic(CooperationTabs.tabCooperationModelIntention.name(), Pages.CooperationEditModelIntention.URL(), false);
     }
 
     enum CooperationTabs {
 
         tabCooperationPartner,
-        tabCooperationNub;
+        tabCooperationNub,
+        tabCooperationModelIntention;
     }
     // <editor-fold defaultstate="collapsed" desc="fields">
     // </editor-fold>
@@ -89,7 +90,7 @@ public class EditCooperation extends AbstractEditController {
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
         //_logger.log(Level.WARNING, "PartnerAccount {0}", getPartnerAccount());
-        
+
         _isRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
                 _sessionController.getAccountId(),
                 getPartnerAccount().getAccountId());
@@ -97,7 +98,7 @@ public class EditCooperation extends AbstractEditController {
     }
 
     @PreDestroy
-    private void destroy(){
+    private void destroy() {
         //_logger.log(Level.WARNING, "Destroy EditCooperation");
     }
 
@@ -116,9 +117,14 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void setTopicsVisibility() {
-        Topic topic = findTopic(CooperationTabs.tabCooperationNub.name());
-        AccountFeature feature = _sessionController.findAccountFeature(Feature.NUB);
-        topic.setVisible(!_isRequest && feature.getFeatureState().equals(FeatureState.SIMPLE));
+        setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Feature.NUB);
+        setTopicVisibility(CooperationTabs.tabCooperationModelIntention.name(), Feature.MODEL_INTENTION);
+    }
+
+    private void setTopicVisibility(String topicName, Feature feature) {
+        Topic topic = findTopic(topicName);
+        AccountFeature accountFeature = _sessionController.findAccountFeature(feature);
+        topic.setVisible(!_isRequest && accountFeature.getFeatureState().equals(FeatureState.SIMPLE));
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab Partner">
@@ -163,11 +169,22 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void EnsureCooperationRights() {
-        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getAccountId(), Feature.NUB);
+        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getAccountId());
+        addMissingNubCooperationRights();
+        addMissingModelIntentionCooperationRights();
+    }
+
+    private void addMissingNubCooperationRights() {
+        Topic topic = findTopic(CooperationTabs.tabCooperationNub.name());
+        if (!topic.isVisible()){return;}
+        
         Set<Integer> iks = _sessionController.getAccount().getFullIkList();
+
         for (CooperationRight right : _cooperationRights) {
-            // remove those iks from list, which still have rights
-            iks.remove((Integer)right.getIk());
+            if (right.getFeature() == Feature.NUB) {
+                // remove those iks from list, which still have rights, to determine the missing
+                iks.remove((Integer) right.getIk());
+            }
         }
         for (int ik : iks) {
             // for the memaining Iks add new rights to create a full list
@@ -179,6 +196,26 @@ public class EditCooperation extends AbstractEditController {
             );
             _cooperationRights.add(right);
         }
+    }
+
+    private void addMissingModelIntentionCooperationRights() {
+        Topic topic = findTopic(CooperationTabs.tabCooperationModelIntention.name());
+        if (!topic.isVisible()){return;}
+        
+
+        for (CooperationRight right : _cooperationRights) {
+            if (right.getFeature() == Feature.MODEL_INTENTION) {
+                // cooperative right is still available
+                return;
+            }
+        }
+            CooperationRight right = new CooperationRight(
+                    _sessionController.getAccountId(),
+                    getPartnerAccount().getAccountId(),
+                    -1,
+                    Feature.MODEL_INTENTION
+            );
+            _cooperationRights.add(right);
     }
 
     public List<SelectItem> getCooperativeRights() {
@@ -201,5 +238,3 @@ public class EditCooperation extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="tab XXX">
     // </editor-fold>
 }
-
-

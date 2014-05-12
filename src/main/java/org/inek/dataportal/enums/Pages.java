@@ -72,6 +72,7 @@ public enum Pages {
     CooperationSummary("/Cooperation/CooperationSummary"),
     CooperationEditPartner("/Cooperation/CooperationEditPartner"),
     CooperationEditNub("/Cooperation/CooperationEditNub"),
+    CooperationEditModelIntention("/Cooperation/CooperationEditModelIntention"),
     //
     PartModelIntention("/ModelIntention/PartModelIntention"),
     ListModelIntention("/ModelIntention/ListModelIntention"),
