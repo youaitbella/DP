@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -493,7 +494,12 @@ public class EditModelIntention extends AbstractEditController {
     public void addNewContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
         contact.setContactTypeId(id);
-        tryAddContact(contact);
+        addContact(contact);
+    }
+    
+    private void addContact(ModelIntentionContact contact) {
+        contact.setModelIntentionId(_modelIntention.getId());
+        getModelIntention().getContacts().add(contact);
     }
 
     public boolean tryAddContact(ModelIntentionContact contact) {
@@ -502,8 +508,7 @@ public class EditModelIntention extends AbstractEditController {
                 return false;
             }
         }
-        contact.setModelIntentionId(_modelIntention.getId());
-        getModelIntention().getContacts().add(contact);
+        addContact(contact);
         return true;
     }
 
@@ -592,6 +597,16 @@ public class EditModelIntention extends AbstractEditController {
         getInternalQualityTable().removeEmptyEntries();
         getExternalQualityTable().removeEmptyEntries();
         getSupervisionTable().removeEmptyEntries();
+        removeEmptyContacts();
+    }
+
+    private void removeEmptyContacts() {
+        for (Iterator<ModelIntentionContact> itr = _modelIntention.getContacts().iterator(); itr.hasNext();) {
+            ModelIntentionContact entry = itr.next();
+            if (entry.isEmpty()) {
+                itr.remove();
+            }
+        }
     }
 
     private void ensureEmptyEntries() {

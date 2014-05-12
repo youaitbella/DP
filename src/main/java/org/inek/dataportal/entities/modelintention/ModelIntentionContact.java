@@ -31,8 +31,18 @@ public class ModelIntentionContact implements Serializable {
     @Column(name = "csId")
     private Integer _id;
 
+    // <editor-fold defaultstate="collapsed" desc="ModelIntentionId">
     @Column(name = "csModelIntentionId")
-    private int _modelIntentionId;
+    private Integer _modelIntentionId;
+
+    public Integer getModelIntentionId() {
+        return _modelIntentionId;
+    }
+
+    public void setModelIntentionId(Integer modelIntentionId) {
+        _modelIntentionId = modelIntentionId;
+    }
+    // </editor-fold>
 
     @Column(name = "csContactTypeId")
     private int _contactTypeId;
@@ -73,6 +83,17 @@ public class ModelIntentionContact implements Serializable {
     @Column(name = "csEMail")
     private String _email = "";
 
+    public boolean isEmpty(){
+        return _ik == -1
+                && _name.isEmpty()
+                && _street.isEmpty()
+                && _zip.isEmpty()
+                && _town.isEmpty()
+                && _regCare == 0
+                && _contactPerson.isEmpty()
+                && _phone.isEmpty()
+                && _email.isEmpty();
+    }
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -154,13 +175,6 @@ public class ModelIntentionContact implements Serializable {
         _email = email;
     }
 
-    public Integer getModelIntentionId() {
-        return _modelIntentionId;
-    }
-
-    public void setModelIntentionId(Integer modelIntentionId) {
-        _modelIntentionId = modelIntentionId;
-    }
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">

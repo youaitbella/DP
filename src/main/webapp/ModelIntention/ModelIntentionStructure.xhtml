@@ -18,10 +18,10 @@
         <h:form id="contactUpload" enctype="multipart/form-data">
             <div class="uploadFile">
                 <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadContacts}">
-                    <f:ajax listener="#{modelIntentionUpload.uploadContact()}" render="@all"/>
+                    <f:ajax listener="#{modelIntentionUpload.uploadContact()}" render="contractors provider insurance"/>
                 </h:inputFile>
                 <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCostData}"/>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadContacts}"/>
                 </div>
             </div>
         </h:form>
