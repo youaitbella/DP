@@ -122,6 +122,24 @@
         <caption translate="true">Kooperation konfigurieren</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="417715107204284" build="ALL" modified="2014-05-12T11:10:58.285Z" icon="0" href="Modellvorhaben">
+      <caption translate="true">Modellvorhaben</caption>
+      <topicref type="topic" id="417715484462504" build="ALL" modified="2014-05-12T11:16:16.501Z" icon="0" href="MvhArt_Anzahl_Patienten">
+        <caption translate="true">Art/Anzahl Patienten</caption>
+      </topicref>
+      <topicref type="topic" id="417714480882679" build="ALL" modified="2014-05-12T11:16:06.580Z" icon="0" href="MvhZiele">
+        <caption translate="true">Ziele</caption>
+      </topicref>
+      <topicref type="topic" id="417713860412422" build="ALL" modified="2014-05-12T11:16:01.178Z" icon="0" href="MvhBehandlungsbereiche_Kosten">
+        <caption translate="true">Behandlungsbereiche/Kosten</caption>
+      </topicref>
+      <topicref type="topic" id="417714331682133" build="ALL" modified="2014-05-12T11:15:07.726Z" icon="0" href="MvhStruktur">
+        <caption translate="true">Struktur</caption>
+      </topicref>
+      <topicref type="topic" id="417715640184909" build="ALL" modified="2014-05-12T11:16:36.917Z" icon="0" href="MvhQualitaet">
+        <caption translate="true">Qualität</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="415475298526563" build="ALL" modified="2013-09-30T10:10:10.031Z" icon="0" href="IKSupervisor">
       <caption translate="true">IK-Supervisor</caption>
     </topicref>
