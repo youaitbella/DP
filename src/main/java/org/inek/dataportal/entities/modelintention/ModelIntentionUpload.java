@@ -71,7 +71,7 @@ public class ModelIntentionUpload {
                 cost.setAmount(new BigDecimal(tokens[4].replace(",", ".")));
             } catch (NumberFormatException ex) {
             }
-            return !_modelIntention.tryAddCost(cost);
+            return _modelIntention.tryAddCost(cost);
         }
         return false;
     }
