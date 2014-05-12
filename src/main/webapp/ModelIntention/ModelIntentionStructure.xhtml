@@ -17,7 +17,7 @@
 
         <h:form id="contactUpload" enctype="multipart/form-data">
             <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadCostData}">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadContacts}">
                     <f:ajax listener="#{modelIntentionUpload.uploadContact()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
@@ -89,6 +89,10 @@
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(3)}"/>
             </h:commandLink>
+        <script type="text/javascript">
+            #{editModelIntention.contactScript}
+        </script>
+            
         </h:form>
 
     </ui:define>

@@ -493,14 +493,32 @@ public class EditModelIntention extends AbstractEditController {
     public void addNewContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
         contact.setContactTypeId(id);
-        addContact(contact);
+        tryAddContact(contact);
     }
 
-    public void addContact(ModelIntentionContact contact) {
+    public boolean tryAddContact(ModelIntentionContact contact) {
+        for(ModelIntentionContact existing : _modelIntention.getContacts()){
+            if (contact.equalsFunctional(existing)){
+                return false;
+            }
+        }
         contact.setModelIntentionId(_modelIntention.getId());
         getModelIntention().getContacts().add(contact);
+        return true;
     }
 
+    String _contactScript = "";
+
+    public void setContactMessage(String msg){
+        _contactScript = "alert('" + msg + "');";
+    }
+    
+    public String getContactScript() {
+        String script = _contactScript;
+        _contactScript = "";
+        return script;
+    }
+    
     private ModelLifeDynamicTable _modelLifeTable;
 
     public DynamicTable getModelLifeTable() {

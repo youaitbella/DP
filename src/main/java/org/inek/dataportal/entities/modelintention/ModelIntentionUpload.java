@@ -6,12 +6,11 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.feature.modelintention.EditModelIntention;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.ValueLists;
 
 @Named
@@ -46,12 +45,12 @@ public class ModelIntentionUpload {
                         countFail++;
                     }
                 }
-                _modelIntention.getCostTable().setMessage(countSuccess + " Zeilen zugefügt, " + countFail + " Zeilen (Fehler oder Duplikate) nicht zugefügt.");
+                _modelIntention.getCostTable().setMessage(String.format(Utils.getMessage("msgLinesUploaded"), countSuccess, countFail));
 
                 //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload successfully"));
             }
         } catch (IOException | NoSuchElementException e) {
-            _modelIntention.getCostTable().setMessage("Upload fehlgeschlagen.");
+            _modelIntention.getCostTable().setMessage(Utils.getMessage("msgUploadFailed"));
             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload failed!"));
         }
     }
@@ -81,21 +80,24 @@ public class ModelIntentionUpload {
             if (_file != null) {
                 Scanner scanner = new Scanner(_file.getInputStream(),
                         "UTF-8");
+                int countSuccess = 0;
+                int countFail = 0;
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    addContact(line);
+                    if (tryAddContact(line)) {
+                        countSuccess++;
+                    } else {
+                        countFail++;
+                    }
                 }
-
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage("Upload successfully"));
+                _modelIntention.setContactMessage(String.format(Utils.getMessage("msgLinesUploaded"), countSuccess, countFail));
             }
         } catch (IOException | NoSuchElementException e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Upload failed!"));
+            _modelIntention.setContactMessage(Utils.getMessage("msgUploadFailed"));
         }
     }
 
-    private void addContact(String line) {
+    private boolean tryAddContact(String line) {
         // todo: compose and show message to user
         String[] tokens = line.split(";");
         if (tokens.length == 10) {
@@ -108,7 +110,7 @@ public class ModelIntentionUpload {
                 contact.setContactTypeId(id);
             } catch (NumberFormatException ex) {
                 // without a valid id, there is nothing to add
-                return;
+                return false;
             }
             try {
                 contact.setIk(Integer.parseInt(tokens[1]));
@@ -126,8 +128,9 @@ public class ModelIntentionUpload {
             contact.setPhone(tokens[8]);
             contact.setEmail(tokens[9]);
 
-            _modelIntention.addContact(contact);
+            return _modelIntention.tryAddContact(contact);
         }
+        return false;
     }
 
 }

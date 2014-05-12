@@ -79,11 +79,9 @@ public abstract class DynamicTable<T> {
 
     public void setMessage(String msg){
         _script = "alert('" + msg + "');";
-        System.out.println("Dynamic table setMessage: " + _script);
     }
     
     public String getScript() {
-        System.out.println("Dynamic table getScript: " + _script);
         String script = _script;
         _script = "";
         return script;
