@@ -10,8 +10,8 @@
 
         <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
 
-        <h:dataTable value="#{editCooperation.cooperationRights.stream().filter(r -> r.feature == Feature.NUB).toList()}" var="cor"
-         styleClass="fullWidth" headerClass="list-header" rowClasses="row1, row2" columnClasses="">
+        <h:dataTable value="#{ editCooperation.cooperationRights.stream().filter(r -> r.feature.name().equals('NUB')).toList()}" var="cor">
+            styleClass="fullWidth" headerClass="list-header" rowClasses="row1, row2" columnClasses="">
             <h:column id="colIk">
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblIK}"/>

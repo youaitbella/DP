@@ -36,7 +36,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgRemitter#{supervision.UUID}" for="remitter#{supervision.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="remitter#{supervision.UUID}" value="#{supervision.remitter}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" >
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgRemitter#{supervision.UUID}"/>
                                 </h:inputText>
@@ -47,7 +47,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgContractor#{supervision.UUID}" for="contractor#{supervision.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="contractor#{supervision.UUID}" value="#{supervision.contractor}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" >
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
                                 </h:inputText> 

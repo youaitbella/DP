@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.cooperation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -221,6 +222,16 @@ public class EditCooperation extends AbstractEditController {
     public List<SelectItem> getCooperativeRights() {
         List<SelectItem> items = new ArrayList<>();
         for (CooperativeRight right : CooperativeRight.values()) {
+            SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
+            items.add(item);
+        }
+        return items;
+    }
+
+    public List<SelectItem> getCooperativeReadRights() {
+        List<SelectItem> items = new ArrayList<>();
+        List<CooperativeRight> rights = Arrays.asList(CooperativeRight.None, CooperativeRight.ReadOnly, CooperativeRight.ReadSealed);
+        for (CooperativeRight right : rights) {
             SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
             items.add(item);
         }

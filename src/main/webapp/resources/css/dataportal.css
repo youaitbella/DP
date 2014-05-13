@@ -422,6 +422,16 @@ div#wrapper {
     width: 30%;
 }
 
+.element30 {
+    display:inline-block;
+    width: 30%;
+}
+
+.element70 {
+    display:inline-block;
+    width: 70%;
+}
+
 label.required:after,
 label.fakeRequired:after {
     content: " *";

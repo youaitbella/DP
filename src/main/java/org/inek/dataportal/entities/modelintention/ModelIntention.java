@@ -33,6 +33,34 @@ public class ModelIntention implements Serializable {
     @Column(name = "miAccountId")
     private int _accountId;
 
+    // <editor-fold defaultstate="collapsed" desc="Code">
+    @Column(name = "miCode")
+    //@Size(max = 8)
+    private String _code;
+
+    public String getCode() {
+        return _code;
+    }
+
+    public void setCode(String code) {
+        _code = code;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Description">
+    @Column(name = "miDescription")
+    //@Size(min = 1, max = 100)
+    private String _description;
+
+    public String getDescription() {
+        return _description;
+    }
+
+    public void setDescription(String description) {
+        _description = description;
+    }
+    // </editor-fold>
+    
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
 

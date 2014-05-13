@@ -11,6 +11,10 @@
     <ui:define name="editContent">
         <h:form id="form">
 
+            <inek:LabeledText Label="#{msg.lblModelIntentionCode}" Text="#{editModelIntention.modelIntention.code}" Required="true" styleClass="element30"/>
+            <inek:LabeledText Label="#{msg.lblDescription}" Text="#{editModelIntention.modelIntention.description}" Required="true"/>
+
+            
             <h2>#{msg.headerPatientTypes}</h2>
             <br/>
             #{msg.msgPatientTypes}

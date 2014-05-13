@@ -312,9 +312,25 @@ public class SessionController implements Serializable {
         return getAccount().getFirstName() + " " + getAccount().getLastName();
     }
 
+    /**
+     * @param requestedFeature
+     * @return true, if the current user is within any InEK role for the requested feature
+     */
     public boolean isInekUser(Feature requestedFeature) {
+        return isInekUser(requestedFeature, false);
+    }
+
+    /**
+     * 
+     * @param requestedFeature
+     * @param needsWriteAccess
+     * @return true, if the current user is within any InEK role for the requested feature
+     * and either has write access enabled or no write access is requested
+     */
+    public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         for (InekRole role : getAccount().getInekRoles()) {
-            if (role.getFeature() == Feature.ADMIN || role.getFeature() == requestedFeature) {
+            if ((role.isIsWriteEnabled() || !needsWriteAccess)
+                    && (role.getFeature() == Feature.ADMIN || role.getFeature() == requestedFeature)) {
                 return true;
             }
         }
@@ -411,6 +427,7 @@ public class SessionController implements Serializable {
     public void setScript(String script) {
         _script = script;
     }
+
     private String _script = "";
 
     public void alertClient(String message) {
