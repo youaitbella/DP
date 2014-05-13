@@ -19,12 +19,15 @@
             <div class="inputPart">
                 <h:outputLabel styleClass="label30" id="ageYears" value="#{msg.lblAgeYears} (von - bis):" />
                 <h:inputText styleClass="inputshort" id="ageYearsFrom" value="#{editModelIntention.modelIntention.ageYearsFrom}" >
-                    <f:ajax event="blur" render="@this :logout:remaining" />
+                    <f:ajax event="blur" render="@this msgAgeYearsFrom :logout:remaining" />
                 </h:inputText>
                 &nbsp;- &nbsp;
                 <h:inputText styleClass="inputshort" id="ageYearsTo" value="#{editModelIntention.modelIntention.ageYearsTo}">
-                    <f:ajax event="blur" render="@this :logout:remaining" />
+                    <f:ajax event="blur" render="@this msgAgeYearsTo :logout:remaining" />
                 </h:inputText>
+                <h:message for="ageYearsFrom" id="msgAgeYearsFrom" styleClass="errorMessage"/>
+                <h:message for="ageYearsTo" id="msgAgeYearsTo" styleClass="errorMessage"/>
+
             </div>
             <div class="inputPart">
                 <h:outputLabel styleClass="label30" id="gender" value="#{msg.lblGender}:" />

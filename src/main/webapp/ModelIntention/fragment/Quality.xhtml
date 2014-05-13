@@ -42,7 +42,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgIndicator#{status.index}" for="indicator#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="" id="indicator#{status.index}" value="#{quality.indicator}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true">
                                     <f:ajax event="keyup" render="@form :logout:remaining" 
                                             listener="#{dynamicTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgIndicator#{status.index}"/>

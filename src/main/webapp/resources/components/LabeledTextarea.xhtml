@@ -17,10 +17,12 @@
     <cc:implementation>
         <div class="inputPart">
             <h:outputLabel styleClass="label30 alignTop" value="#{cc.attrs.Label}:" />
-            <h:inputTextarea styleClass="area70Low alignTop #{cc.attrs.Required ? 'required' : ''}" id="idText" 
+            <h:inputTextarea id="idText" 
+                             styleClass="area70Low alignTop #{cc.attrs.Required ? 'required' : ''}" 
                              value="#{cc.attrs.Text}" 
-                             required="#{cc.attrs.Required}" requiredMessage="#{msg.msgValueNeeded}" >
-                <f:ajax event="blur" render="@this :logout:remaining msgText" />
+                             required="#{cc.attrs.Required}" 
+                             requiredMessage="#{msg.msgValueNeeded}" >
+                <f:ajax event="blur" render="@this msgText :logout:remaining msgText" />
             </h:inputTextarea>
             <h:message for="idText" id="msgText" styleClass="errorMessage"/>
         </div>
