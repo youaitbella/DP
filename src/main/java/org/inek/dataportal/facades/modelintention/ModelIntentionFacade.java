@@ -30,8 +30,8 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         super(ModelIntention.class);
     }
 
-    public List<ModelIntention> findAll(int accountId, DataSet dataSet) {
-        if (dataSet == DataSet.All) {
+    public List<ModelIntention> findAll(int accountId, DataSet dataSet, boolean isAdmin) {
+        if (isAdmin) {
             // todo: is this user allowed to get the whole list?
             return Collections.EMPTY_LIST;
         }
@@ -44,11 +44,14 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         if (dataSet == DataSet.OpenOnly) {
             status = cb.lessThan(request.get("_status"), 10);
             order = cb.asc(request.get("_id"));
-        } else {
+        } else if (dataSet == DataSet.SealedOnly) {
             status = cb.greaterThanOrEqualTo(request.get("_status"), 10);
             order = cb.desc(request.get("_id"));
+        } else {
+            status = cb.greaterThanOrEqualTo(request.get("_status"), 0);
+            order = cb.desc(request.get("_id"));
         }
-        if (dataSet == DataSet.All) {
+        if (isAdmin) {
             cq.select(request).where(status).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
@@ -84,10 +87,11 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
      * A list of ModelIntentions infos for display usage, e.g. lists
      * @param accountId
      * @param dataSet
+     * @param isAdmin
      * @return 
      */
-    public List<Triple> getModelIntentionInfos(int accountId, DataSet dataSet) {
-        List<ModelIntention> intentions = findAll(accountId, dataSet);
+    public List<Triple> getModelIntentionInfos(int accountId, DataSet dataSet, boolean isAdmin) {
+        List<ModelIntention> intentions = findAll(accountId, dataSet, isAdmin);
         List<Triple> intentionInfos = new ArrayList<>(); 
         for (ModelIntention intention : intentions){
             String displayName = "MI" + intention.getId();

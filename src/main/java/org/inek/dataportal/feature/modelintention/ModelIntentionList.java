@@ -7,6 +7,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
@@ -22,11 +23,7 @@ public class ModelIntentionList {
     @Inject SessionController _sessionController;
     
     public List<Triple> getModelIntentions() {
-        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
-    }
-
-    public List<Triple> getSealedModelIntentions() {
-        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
+        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, _sessionController.isInekUser(Feature.MODEL_INTENTION));
     }
 
     public String newModelIntention() {

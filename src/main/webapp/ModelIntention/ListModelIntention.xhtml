@@ -36,28 +36,4 @@
                        rendered="#{sessionController.isInekUser(Feature.MODEL_INTENTION)}"/>
     </div>
 
-    <h:panelGroup rendered="#{modelIntentionList.sealedModelIntentions.size() > 0}">
-        <br/>
-        <h:outputLabel styleClass="label" value="#{msg.infoSealedModelIntention}"/>
-
-        <h:dataTable   headerClass="list-header" value="#{modelIntentionList.sealedModelIntentions}"
-                       var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value=""/>
-                </f:facet>
-                <h:commandLink action="#{modelIntentionList.printModelIntention(model.value1)}" immediate="true" >
-                    <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
-                </h:commandLink>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Bezeichnung"/>
-                </f:facet>
-                <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="#{model.value2}" immediate="true"/>
-            </h:column>
-
-        </h:dataTable>
-    </h:panelGroup>
-
 </ui:composition>
