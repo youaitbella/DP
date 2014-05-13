@@ -17,6 +17,7 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
+            <h:message for="idText" id="msgText" styleClass="errorMessage elementRight70"/>
             <h:outputLabel styleClass="label30" value="#{cc.attrs.Label}:" />
             <h:inputText id="idText" 
                          styleClass="#{cc.attrs.styleClass} #{cc.attrs.Required ? 'required' : ''}" 
@@ -24,7 +25,6 @@
                              required="#{cc.attrs.Required}">
                 <f:ajax event="blur" render="@this msgText :logout:remaining msgText" />
             </h:inputText>
-            <h:message for="idText" id="msgText" styleClass="errorMessage"/>
         </div>
     </cc:implementation>
 </html>

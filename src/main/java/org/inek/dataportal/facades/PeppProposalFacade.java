@@ -32,7 +32,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     public List<PeppProposal> findAll(int accountId, DataSet dataSet) {
-        if (dataSet == DataSet.ALLSEALED) {
+        if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
         }
 
@@ -41,14 +41,14 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         Root request = cq.from(PeppProposal.class);
         Predicate sealed;
         Order order;
-        if (dataSet == DataSet.OPEN) {
+        if (dataSet == DataSet.OpenOnly) {
             sealed = cb.le(request.get("_status"), 0);
             order = cb.asc(request.get("_peppProposalId"));
         } else {
             sealed = cb.greaterThan(request.get("_status"), 0);
             order = cb.desc(request.get("_peppProposalId"));
         }
-        if (dataSet == DataSet.ALLSEALED) {
+        if (dataSet == DataSet.All) {
             cq.select(request).where(sealed).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);

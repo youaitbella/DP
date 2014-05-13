@@ -22,11 +22,11 @@ public class PeppProposalList {
     @Inject SessionController _sessionController;
    
     public List<Triple> getPeppProposals() {
-        return _peppProposalFacade.getPeppProposalInfos(_sessionController.getAccountId(), DataSet.OPEN);
+        return _peppProposalFacade.getPeppProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
     }
 
     public List<Triple> getSealedPeppProposals() {
-        return _peppProposalFacade.getPeppProposalInfos(_sessionController.getAccountId(), DataSet.SEALED);
+        return _peppProposalFacade.getPeppProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
     }
     
     public String newPeppProposal() {

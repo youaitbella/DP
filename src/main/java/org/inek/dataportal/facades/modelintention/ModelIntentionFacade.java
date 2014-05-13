@@ -31,7 +31,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     }
 
     public List<ModelIntention> findAll(int accountId, DataSet dataSet) {
-        if (dataSet == DataSet.ALLSEALED) {
+        if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
             return Collections.EMPTY_LIST;
         }
@@ -41,14 +41,14 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         Root request = cq.from(ModelIntention.class);
         Predicate status;
         Order order;
-        if (dataSet == DataSet.OPEN) {
+        if (dataSet == DataSet.OpenOnly) {
             status = cb.lessThan(request.get("_status"), 10);
             order = cb.asc(request.get("_id"));
         } else {
             status = cb.greaterThanOrEqualTo(request.get("_status"), 10);
             order = cb.desc(request.get("_id"));
         }
-        if (dataSet == DataSet.ALLSEALED) {
+        if (dataSet == DataSet.All) {
             cq.select(request).where(status).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);

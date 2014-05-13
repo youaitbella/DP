@@ -38,11 +38,11 @@ public class NubProposalList {
     SessionController _sessionController;
 
     public List<Triple> getNubProposals() {
-        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OPEN);
+        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
     }
 
     public List<Triple> getSealedNubProposals() {
-        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SEALED);
+        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
     }
 
     /**

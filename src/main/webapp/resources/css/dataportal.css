@@ -431,6 +431,11 @@ div#wrapper {
     display:inline-block;
     width: 70%;
 }
+.elementRight70 {
+    display:inline-block;
+    padding-left: 30%;
+    width: 70%;
+}
 
 label.required:after,
 label.fakeRequired:after {
