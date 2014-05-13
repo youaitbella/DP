@@ -6,6 +6,24 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Behandlungsbereiche/Kosten</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie hier den Text ein.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der dritte Reiter im Modellvorhaben bietet Ihnen die Möglichkeit Inhalte zu Behandlungsbereichen und Kosten anzugeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhPatbetreung.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Behandlungsbereiche und Patientenbetreuung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die erste Rubrik des Reiters Behandlungsbereiche/Kosten bietet Ihnen die Möglichkeit Inhalte zu Behandlungsbereichen und Patientenbetreuung anzugeben. Sollten Sie keine konkreten Vorgaben für das vorliegende Modellvorhaben haben, so nehmen Sie keine Änderungen vor.</text></para>
+    <para styleclass="Normal"></para>
+    <list id="91" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter stationäre Behandlung können Sie neben </text><text styleclass="Bullet Text" translate="true">Nein</text><text styleclass="Bullet Text" translate="true">, auch </text><text styleclass="Bullet Text" translate="true">grundsätzlich</text><text styleclass="Bullet Text" translate="true"> oder </text><text styleclass="Bullet Text" translate="true">nur spezielles Setting</text><text styleclass="Bullet Text" translate="true"> wählen. Sollten Sie letzteres auswählen, so ist eine Angabe mit entsprechender Spezifizierung nötig. Das Textfeld wird als Hinweis gelb eingefärbt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Alle weiteren Komboboxen unter dieser Rubrik verhalten sich wie die der stationären Behandlung und weisen die gleichen Auswahlkriterien auf.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sollten neben den bereits aufgeführten Aspekten noch weitere für das Modellvorhaben relevante Punkte vorliegen, so können Sie diese unter dem Punkt Sonstige eintragen.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben den Behandlungsbereichen können spezielle Patientenbetreuungskonzepte sowie spezifische Leistungsinhalte des Modellvorhabens angegeben werden. Diese Einträge können Sie in den dazugehörigen Textboxen vornehmen. Sollten Sie zu diesen Aspekten keine relevanten Inhalte für das Modellvorhaben aufweisen, so lassen Sie die entsprechenden Felder leer.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhSpezielle.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Spezielle Inhalte</text></para>
+    <para styleclass="Bullet Text" style="text-align:center;"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unter der Rubrik Kosten, können Sie die für das gewählte Modellvorhaben relevanten Kostenwerte eintragen.</text></para>
   </body>
 </topic>

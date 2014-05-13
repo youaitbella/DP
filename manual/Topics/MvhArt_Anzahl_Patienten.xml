@@ -8,28 +8,41 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf dem ersten Reiter Art/Anzahl Patienten haben Sie die Möglichkeit die entsprechenden Inhalte zu den einzelnen Rubriken einzutragen.</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die erste Rubrik ist Art der Patienten. Hier haben Sie die Möglichkeit, Merkmale zur Einbeziehung von Patientinnen oder Patienten anzugeben, die am jeweiligen Modellvorhaben teilnehmen. </text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nicht relevante Merkmale, werden leer übermittelt.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nicht relevante Merkmale werden leer übermittelt. Pflichtfelder werden auf allen Reitern gelb hinterlegt und mit einer Hinweismeldung gekennzeichnet, falls diese nicht befüllt sind.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><image src="MvhArtAnzPat.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
-    <list id="3" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Im Feld Alter in Jahren (von - bis) wird ein entsprechender Ganzjahreswert (keine Dezimalwerte, nur eine Zahl pro Feld) erwartet.</text></li>
-    </list>
-    <list id="4" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Sofern das vorliegende Modellvorhaben für ein bestimmtes Geschlecht relevant ist, so wird dies in der Auswahl entsprechend gewählt. Andernfalls wird dieses auf dem Standardwert Beide gelassen.</text></li>
-    </list>
-    <list id="5" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die Auswahl Regionale Merkmale bietet die Möglichkeit, dass Modellvorhaben auf eine bestimmte Region einzugrenzen. Sofern die Auswahl Sonstige gewählt ist, ist diese in dem darunterliegenden Textfeld konkret zu spezifizieren. Bei der Auswahl Bundesland, gilt das vorliegende Modellvorhaben für das Bundesland des Vertragspartners. Die Auswahl Deutschland gilt übergreifend für ganz Deutschland und ist somit nicht näher spezifiziert.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Sofern ein medizinisches Merkmal relevant ist, ist dieses auszuwählen und &#160;im darunterliegenden Textfeld konkret zu spezifizieren. Andernfalls wird dieses Feld leer übermittelt.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Bei der Zugehörigkeit zu einer Krankenversicherung können Sie festlegen, ob das vorliegende Modellvorhaben nur für bestimmte oder alle Krankenkassen gilt. Liegt eine Eingrenzung vor, so könne Sie hier den Punkt auf Seite Struktur benannten Kostenartenträger wählen. Dadurch werden die von Ihnen auf der Seite Struktur eingepflegten Kostenartenträger gewählt.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Unter sonstige Merkmale können Sie bislang nicht aufgeführte Patientenmerkmale benennen, die für das Modellvorhaben berücksichtigt werden sollen.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Ist die Zustimmung des Versicherten zur Behandlung im Rahmen des Modellvorhabens erforderlich, so kennzeichnen Sie dies mit der Auswahl der entsprechenden Checkbox. Andernfalls lassen Sie diese leer.</text></li>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhArtAnzPat.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Art der Patienten</text></para>
+    <para styleclass="Normal"></para>
+    <list id="220" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Alter in Jahren (von - bis) wird ein entsprechender Ganzjahreswert (keine Dezimalwerte, nur eine Zahl pro Feld) erwartet.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sofern das vorliegende Modellvorhaben für ein bestimmtes Geschlecht relevant ist, so wird dies in der Auswahl entsprechend gewählt. Andernfalls wird dieses auf dem Standardwert Beide gelassen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Auswahl Regionale Merkmale bietet die Möglichkeit, dass Modellvorhaben auf eine bestimmte Region einzugrenzen. Sofern die Auswahl Sonstige gewählt ist, ist diese in dem darunterliegenden Textfeld konkret zu spezifizieren. Bei der Auswahl Bundesland, gilt das vorliegende Modellvorhaben für das Bundesland des Vertragspartners. Die Auswahl Deutschland gilt übergreifend für ganz Deutschland und ist somit nicht näher spezifiziert.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sofern ein medizinisches Merkmal relevant ist, ist dieses auszuwählen und &#160;im darunterliegenden Textfeld konkret zu spezifizieren. Andernfalls wird dieses Feld leer übermittelt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei der Zugehörigkeit zu einer Krankenversicherung können Sie festlegen, ob das vorliegende Modellvorhaben nur für bestimmte oder alle Krankenkassen gilt. Liegt eine Eingrenzung vor, so könne Sie hier den Punkt auf Seite Struktur benannten Kostenartenträger wählen. Dadurch werden die von Ihnen auf der Seite Struktur eingepflegten Kostenartenträger gewählt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter sonstige Merkmale können Sie bislang nicht aufgeführte Patientenmerkmale benennen, die für das Modellvorhaben berücksichtigt werden sollen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Ist die Zustimmung des Versicherten zur Behandlung im Rahmen des Modellvorhabens erforderlich, so kennzeichnen Sie dies mit der Auswahl der entsprechenden Checkbox. Andernfalls lassen Sie diese leer.</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die nächste Rubrik ermöglicht Ihnen die Zuweisungsberechtigung im Modellvorhaben einzutragen.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><image src="MvhZuwBerechtigung.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhZuwBerechtigung.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zuweisungsberechtigung Modellvorhaben</text></para>
+    <para styleclass="Normal" style="text-align:center;"></para>
+    <list id="221" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Kombobox der niedergelassenen Ärzte bietet Ihnen vier verschiedene Auswahlmöglichkeiten. Dabei sind die Punkte nur Fachärzte sowie sonstige bestimmte Ärzte Pflichtfelder und müssen im darunterliegenden Textfeld konkret spezifiziert werden.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Kombobox psychiatrische Institutsambulanz bietet Ihnen fünf Auswahlmöglichkeiten. Die Auswahl nur bestimmte PIA ist ein Pflichtfeld und muss im darunterliegenden Textfeld konkret spezifiziert werden.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Mit der Kombobx Krankenhaus können Sie das für dieses Modellvorhaben relevante Krankenhaus auswählen. Sofern Sie die Auswahl nur Fachkrankenhäuser oder sonstige bestimmte Krankenhäuser treffen, so ist diese konkret zu spezifizieren.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter Selbsteinweisung können Sie wählen, ob dies grundsätzlich, nur in Notfällen oder in keinem Fall im vorliegenden Modellvorhaben möglich ist. Alle weiteren Einweisen können Sie im darunterliegenden Textfeld konkret spezifizieren.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die letzte Rubrik bietet Ihnen die Möglichkeit, die vereinbarte Anzahl der Patienten für das ausgewählte Modellvorhaben zu übermitteln.</text></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhVerAnzPat.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Vereinbarte Anzahl Patienten</text></para>
+    <list id="222" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Image Caption" style="font-family:Wingdings; font-size:9pt; color:#000000;">
+      <li styleclass="Image Caption"></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> können Sie Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt dieses ans InEK. Eine Bearbeitung ist nachträglich nicht mehr möglich.</text></li>
+    </list>
   </body>
 </topic>
