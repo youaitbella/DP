@@ -36,7 +36,7 @@
                             <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                 <f:converter converterId="FlexibleDateTimeConverter"/>
-                                <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
+                                <!--<f:ajax event="change" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
                                 <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
                             </h:inputText>
                         </td>
@@ -44,7 +44,7 @@
                             <h:inputText id="duration#{modelLife.UUID}" value="#{modelLife.monthDuration}" 
                                          required="true" requiredMessage="#{msg.msgValueNeeded}" >
                                 <f:validateLongRange minimum="1" maximum="120"/>
-                                <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>
+                                <f:ajax event="focus" render="@form :logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgDuration#{modelLife.UUID}"/>
                             </h:inputText> 
                         </td>

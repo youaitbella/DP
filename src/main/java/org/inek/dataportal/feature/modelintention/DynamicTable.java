@@ -69,8 +69,10 @@ public abstract class DynamicTable<T> {
     public void checkDynamicListener(AjaxBehaviorEvent event) {
         if (ensureEmptyEntry() && event.getSource() instanceof HtmlInputText) {
             HtmlInputText t = (HtmlInputText) event.getSource();
+            if(t.getValue().toString().length() <= 0)
+                return;
             String currentId = t.getClientId();
-            _script = "setCaretPosition('" + currentId + "', -1);";
+            _script = "setCaretPosition('" + currentId + "', " + t.getValue().toString().length() + ");";
         } else {
             _script = "";
             FacesContext.getCurrentInstance().responseComplete();
