@@ -102,7 +102,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         List<EntityInfo> intentionInfos = new ArrayList<>();
         for (ModelIntention intention : intentions) {
             String code = intention.getCode().isEmpty() ? "- nn - " :  intention.getCode();
-            intentionInfos.add(new EntityInfo(intention.getId(), code, intention.getDescription(), intention.getStatus()));
+            intentionInfos.add(new EntityInfo(intention.getId(), code, intention.getDescription(), intention.getStatus(), intention.getAccountId()));
         }
         return intentionInfos;
     }

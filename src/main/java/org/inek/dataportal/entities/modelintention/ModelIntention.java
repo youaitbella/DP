@@ -38,7 +38,7 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property code">
     @Column(name = "miCode")
     //@Size(max = 8)
-    private String _code;
+    private String _code = "";
 
     public String getCode() {
         return _code;
@@ -52,7 +52,7 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property description">
     @Column(name = "miDescription")
     //@Size(min = 1, max = 100)
-    private String _description;
+    private String _description = "";
 
     public String getDescription() {
         return _description;

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="list"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="paddingElement">
+            <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" id="tblModelIntentions" 
+                         value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colId, colValue">
+
+                <h:column id="colPrintId" >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.printModelIntention(model.id)}" immediate="true" >
+                        <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" immediate="true" >
+                        <h:graphicImage alt="Status" name="#{model.status.icon}" library="Icon/small" value="" title="#{model.status.description}" rendered="#{model.status.icon.length() gt 0}"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column id="colCode">
+                    <f:facet name="header">
+                        <h:outputText value="Kennung"/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code}" immediate="true"/>
+                </h:column>
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Bezeichnung"/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.description}" immediate="true"/>
+                </h:column>
+            </h:dataTable>
+        </div>
+    </cc:implementation>
+</html>

@@ -8,11 +8,12 @@ import org.inek.dataportal.enums.WorkflowStatus;
  */
 public class EntityInfo {
 
-    public EntityInfo(Integer id, String code, String description, WorkflowStatus status) {
+    public EntityInfo(Integer id, String code, String description, WorkflowStatus status, int accountId) {
         _id = id;
         _code = code;
         _description = description;
         _status = status;
+        _accountId = accountId;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Id">
@@ -44,5 +45,13 @@ public class EntityInfo {
         return _status;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Id">
+    private final int _accountId;
+    public int getAccountId() {
+        return _accountId;
+    }
+    // </editor-fold>
+
 
 }

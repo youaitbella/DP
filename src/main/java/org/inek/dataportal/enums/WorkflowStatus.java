@@ -7,7 +7,7 @@ package org.inek.dataportal.enums;
 public enum WorkflowStatus {
 
     Unknown(-1, "Unbekannt", ""),
-    New(0, "Neu", ""),
+    New(0, "Neu / in Erfassung", "edit.png"),
     Rejected(1, "Abgelehnt (Fehler)", "error.png"),
     ApprovalRequested(5, "Freigabe erforderlich", "timed.png"),
     Provided(10, "Bereitgestellt", "timed.png"),
