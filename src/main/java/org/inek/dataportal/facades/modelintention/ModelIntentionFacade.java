@@ -5,15 +5,16 @@
 package org.inek.dataportal.facades.modelintention;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -26,14 +27,16 @@ import org.inek.dataportal.helper.structures.Triple;
 @Stateless
 public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
 
+    @Inject SessionController _sessionController;
+    
     public ModelIntentionFacade() {
         super(ModelIntention.class);
     }
 
-    public List<ModelIntention> findAll(int accountId, DataSet dataSet, boolean isAdmin) {
-        if (isAdmin) {
+    public List<ModelIntention> findAll(int accountId, DataSet dataSet, boolean forAllUsers) {
+        if (forAllUsers) {
             // todo: is this user allowed to get the whole list?
-            return Collections.EMPTY_LIST;
+            //return Collections.EMPTY_LIST;
         }
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -51,7 +54,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
             status = cb.greaterThanOrEqualTo(request.get("_status"), 0);
             order = cb.desc(request.get("_id"));
         }
-        if (isAdmin) {
+        if (forAllUsers) {
             cq.select(request).where(status).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
@@ -87,11 +90,11 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
      * A list of ModelIntentions infos for display usage, e.g. lists
      * @param accountId
      * @param dataSet
-     * @param isAdmin
+     * @param forAllUsers
      * @return 
      */
-    public List<Triple> getModelIntentionInfos(int accountId, DataSet dataSet, boolean isAdmin) {
-        List<ModelIntention> intentions = findAll(accountId, dataSet, isAdmin);
+    public List<Triple> getModelIntentionInfos(int accountId, DataSet dataSet, boolean forAllUsers) {
+        List<ModelIntention> intentions = findAll(accountId, dataSet, forAllUsers);
         List<Triple> intentionInfos = new ArrayList<>(); 
         for (ModelIntention intention : intentions){
             String displayName = "MI" + intention.getId();
