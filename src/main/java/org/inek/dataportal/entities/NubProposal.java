@@ -17,7 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.inek.dataportal.enums.NubStatus;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -286,15 +286,15 @@ public class NubProposal implements Serializable {
     }
 
     @Documentation(name="Bearbeitungsstatus", rank = 10)
-    public NubStatus getStatus() {
-        return NubStatus.fromValue(_status);
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_status);
     }
 
     public void setStatus(int value) {
         _status = value;
     }
 
-    public void setStatus(NubStatus status) {
+    public void setStatus(WorkflowStatus status) {
         _status = status.getValue();
     }
 

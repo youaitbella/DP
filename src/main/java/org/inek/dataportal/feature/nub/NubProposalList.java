@@ -18,7 +18,7 @@ import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.NubStatus;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.CooperationFacade;
@@ -61,7 +61,7 @@ public class NubProposalList {
     }
 
     public String getRejectReason(int proposalId) {
-        String reason = NubStatus.Rejected.getDescription();
+        String reason = WorkflowStatus.Rejected.getDescription();
         NubProposal proposal = _nubProposalFacade.find(proposalId);
         if (proposal != null) {
             reason += " Grund: " + proposal.getErrorText();
@@ -102,7 +102,7 @@ public class NubProposalList {
             if (proposal.getStatus().getValue() <= 9) {
                 _nubProposalFacade.remove(proposal);
             } else {
-                proposal.setStatus(NubStatus.Retired);
+                proposal.setStatus(WorkflowStatus.Retired);
                 _nubProposalFacade.saveNubProposal(proposal);
             }
         }
@@ -113,7 +113,7 @@ public class NubProposalList {
         NubProposal nubProposal = _nubProposalFacade.find(proposalId);
 
         String headLine = Utils.getMessage("nameNUB")
-                + (nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue() ? " N" + nubProposal.getNubId() : "");
+                + (nubProposal.getStatus().getValue() >= WorkflowStatus.Provided.getValue() ? " N" + nubProposal.getNubId() : "");
         Utils.getFlash().put("headLine", headLine);
         Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubProposal));
@@ -168,7 +168,7 @@ public class NubProposalList {
                     && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
                 int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
                         || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
-                        ? NubStatus.ApprovalRequested.getValue()
+                        ? WorkflowStatus.ApprovalRequested.getValue()
                         : 0;
                 //        nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
                 iks.put(right.getIk(), minStatus);
@@ -179,7 +179,7 @@ public class NubProposalList {
         for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
             if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
                 if (!iks.containsKey(ik)) {
-                    iks.put(ik, NubStatus.ApprovalRequested.getValue());
+                    iks.put(ik, WorkflowStatus.ApprovalRequested.getValue());
                 }
             }
         }

@@ -9,7 +9,7 @@ package org.inek.dataportal.enums;
  *
  * @author muellermi
  */
-public enum NubStatus {
+public enum WorkflowStatus {
 
     Unknown(-1, "Unbekannt", ""),
     New(0, "Neu", ""),
@@ -25,14 +25,14 @@ public enum NubStatus {
     private final String _description;
     private final String _icon;
 
-    public static NubStatus fromValue (int value){
-        for (NubStatus status : NubStatus.values()){
+    public static WorkflowStatus fromValue (int value){
+        for (WorkflowStatus status : WorkflowStatus.values()){
             if (status.getValue() == value){return status;}
         }
-        return NubStatus.Unknown;
+        return WorkflowStatus.Unknown;
     }
             
-    private NubStatus(int value, String description, String icon) {
+    private WorkflowStatus(int value, String description, String icon) {
         _value = value;
         _description = description;
         _icon = icon;

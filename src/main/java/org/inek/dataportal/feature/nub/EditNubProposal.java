@@ -34,7 +34,7 @@ import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
-import org.inek.dataportal.enums.NubStatus;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
@@ -397,13 +397,13 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isReadOnly(boolean laxCheck) {
-        if (_nubProposal.getStatus().getValue() >= NubStatus.Provided.getValue()) {
+        if (_nubProposal.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
             // is sealed
             return true;
         }
         if (isOwnNub()) {
             // own nub depends on status
-            return _nubProposal.getStatus().getValue() >= NubStatus.ApprovalRequested.getValue();
+            return _nubProposal.getStatus().getValue() >= WorkflowStatus.ApprovalRequested.getValue();
         }
         if (_supervisorRight == CooperativeRight.ReadWriteCompletedSealSupervisor || _supervisorRight == CooperativeRight.ReadWriteSealSupervisor) {
             // supervisor write preceeds
@@ -414,7 +414,7 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isRejectedNub() {
-        return NubStatus.Rejected.getValue() == _nubProposal.getStatus().getValue();
+        return WorkflowStatus.Rejected.getValue() == _nubProposal.getStatus().getValue();
     }
 
     public boolean isSealEnabled() {
@@ -450,7 +450,7 @@ public class EditNubProposal extends AbstractEditController {
                 return false;
             }
             enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
-                    && !_nubProposal.getStatus().equals(NubStatus.ApprovalRequested)
+                    && !_nubProposal.getStatus().equals(WorkflowStatus.ApprovalRequested)
                     && _supervisorRight.equals(CooperativeRight.None);
         }
         return !isReadOnly() && enabled;
@@ -490,7 +490,7 @@ public class EditNubProposal extends AbstractEditController {
             return Pages.Error.URL();
         }
 
-        _nubProposal.setStatus(_nubProposal.getStatus() == NubStatus.Rejected ? NubStatus.ReProvided : NubStatus.Provided);
+        _nubProposal.setStatus(_nubProposal.getStatus() == WorkflowStatus.Rejected ? WorkflowStatus.ReProvided : WorkflowStatus.Provided);
         _nubProposal.setSealedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
         if (isValidId(_nubProposal.getNubId())) {
@@ -523,7 +523,7 @@ public class EditNubProposal extends AbstractEditController {
             return Pages.Error.URL();
         }
 
-        _nubProposal.setStatus(NubStatus.ApprovalRequested);
+        _nubProposal.setStatus(WorkflowStatus.ApprovalRequested);
         _nubProposal.setLastChangedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
