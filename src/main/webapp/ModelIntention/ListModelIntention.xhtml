@@ -12,13 +12,13 @@
 
     <div class="paddingElement">
         <h:dataTable rendered="#{modelIntentionList.modelIntentions.size() > 0}"  headerClass="list-header" id="tblModelIntentions" 
-                     value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                     value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colId, colValue">
 
             <h:column id="colPrintId" >
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{modelIntentionList.printModelIntention(model.value1)}" immediate="true" >
+                <h:commandLink action="#{modelIntentionList.printModelIntention(model.id)}" immediate="true" >
                     <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
                 </h:commandLink>
             </h:column>
@@ -26,15 +26,21 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" immediate="true" >
-                    <h:graphicImage alt="Status" name="#{model.value3.icon}" library="Icon/small" value=""  rendered="#{nub.value3.icon.length() gt 0}"/>
+                <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" immediate="true" >
+                    <h:graphicImage alt="Status" name="#{model.status.icon}" library="Icon/small" value=""  rendered="#{nub.status.icon.length() gt 0}"/>
                 </h:commandLink>
+            </h:column>
+            <h:column id="colCode">
+                <f:facet name="header">
+                    <h:outputText value="Kennung"/>
+                </f:facet>
+                <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code}" immediate="true"/>
             </h:column>
             <h:column id="colName">
                 <f:facet name="header">
                     <h:outputText value="Bezeichnung"/>
                 </f:facet>
-                <h:commandLink action="#{modelIntentionList.editModelIntention(model.value1)}" value="#{model.value2.equals('') ? msg.txtEmpty : model.value2}" immediate="true"/>
+                <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.description}" immediate="true"/>
             </h:column>
         </h:dataTable>
     </div>

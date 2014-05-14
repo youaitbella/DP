@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -33,7 +35,7 @@ public class ModelIntention implements Serializable {
     @Column(name = "miAccountId")
     private int _accountId;
 
-    // <editor-fold defaultstate="collapsed" desc="Code">
+    // <editor-fold defaultstate="collapsed" desc="Property code">
     @Column(name = "miCode")
     //@Size(max = 8)
     private String _code;
@@ -47,7 +49,7 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Description">
+    // <editor-fold defaultstate="collapsed" desc="Property description">
     @Column(name = "miDescription")
     //@Size(min = 1, max = 100)
     private String _description;
@@ -82,7 +84,7 @@ public class ModelIntention implements Serializable {
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
 
-    // <editor-fold defaultstate="collapsed" desc="insuranceAffiliation">
+    // <editor-fold defaultstate="collapsed" desc="Property insuranceAffiliation">
     @Column(name = "miInsuranceAffiliation")
     private String _insuranceAffiliation = "";
     public String getInsuranceAffiliation() {
@@ -139,7 +141,7 @@ public class ModelIntention implements Serializable {
     @Column(name = "miInvolvedGoals")
     private String _involvedGoals = "";
 
-    // <editor-fold defaultstate="collapsed" desc="inpatientTreatment">
+    // <editor-fold defaultstate="collapsed" desc="Property inpatientTreatment">
     @Column(name = "miInpatientType")
     private int _inpatientTreatmentType;
     public int getInpatientTreatmentType() {
@@ -161,7 +163,7 @@ public class ModelIntention implements Serializable {
     }
    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="dayPatient">
+    // <editor-fold defaultstate="collapsed" desc="Property dayPatient">
     @Column(name = "miDayPatientType")
     private int _dayPatientTreatmentType;
     public int getDayPatientTreatmentType() {
@@ -183,7 +185,7 @@ public class ModelIntention implements Serializable {
     }
    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="InpatientCompensationTreatment">
+    // <editor-fold defaultstate="collapsed" desc="Property inpatientCompensationTreatment">
     @Column(name = "miInpatientCompensationType")
     private int _inpatientCompensationTreatmentType;
 
@@ -207,7 +209,7 @@ public class ModelIntention implements Serializable {
     }
    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="InpatientCompensationHomeTreatment">
+    // <editor-fold defaultstate="collapsed" desc="Property  inpatientCompensationHomeTreatment">
     @Column(name = "miInpatientCompensationHomeType")
     private int _inpatientCompensationHomeTreatmentType;
 
@@ -231,7 +233,7 @@ public class ModelIntention implements Serializable {
     }
    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="OutpatientTreatment">
+    // <editor-fold defaultstate="collapsed" desc="Property outpatientTreatment">
     @Column(name = "miOutpatientTreatmentType")
     private int _outpatientTreatmentType;
     
@@ -255,7 +257,7 @@ public class ModelIntention implements Serializable {
     }
    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="OutpatientHomeTreatment">
+    // <editor-fold defaultstate="collapsed" desc="Property  outpatientHomeTreatment">
     @Column(name = "miOutpatientHomeTreatmentType")
     private int _outpatientHomeTreatmentType;
     
@@ -279,7 +281,7 @@ public class ModelIntention implements Serializable {
     }
    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="MiscTreatment">
+    // <editor-fold defaultstate="collapsed" desc="Property  miscTreatment">
     @Column(name = "miMiscTreatment")
     private String _miscTreatment = "";
     public String getMiscTreatment() {
@@ -342,15 +344,30 @@ public class ModelIntention implements Serializable {
     @Column(name = "miMiscRemuneration")
     private String _miscRemuneration = "";
 
+    // <editor-fold defaultstate="collapsed" desc="Property status">
     @Column(name = "miStatus")
     private Integer _status = -1;
 
+    @Documentation(name="Bearbeitungsstatus", rank = 10)
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_status);
+    }
+
+    public void setStatus(int value) {
+        _status = value;
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _status = status.getValue();
+    }
+    // </editor-fold>
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AgreedPatients> _agreedPatients;
 
-    // <editor-fold defaultstate="collapsed" desc="remuneration">
+    // <editor-fold defaultstate="collapsed" desc="list remuneration">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "reModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -368,7 +385,7 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="cost">
+    // <editor-fold defaultstate="collapsed" desc="list costs">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -386,7 +403,7 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="adjustment">
+    // <editor-fold defaultstate="collapsed" desc="list adjustments">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "adModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -419,7 +436,7 @@ public class ModelIntention implements Serializable {
     @OrderBy("_id")
     private List<AcademicSupervision> _academicSupervisions;
 
-    // <editor-fold defaultstate="collapsed" desc="quality">
+    // <editor-fold defaultstate="collapsed" desc="list quality">
     @Column(name = "miInternalQuality")
     private int _internalQuality;
     public int getInternalQuality() {
@@ -787,14 +804,6 @@ public class ModelIntention implements Serializable {
         this._miscRemuneration = miscRemuneration;
     }
 
-    public int getStatus() {
-        return _status;
-    }
-
-    public void setStatus(int status) {
-        this._status = status;
-    }
-
     public List<AgreedPatients> getAgreedPatients() {
         if (_agreedPatients == null) {
             _agreedPatients = new ArrayList<>();
@@ -844,6 +853,7 @@ public class ModelIntention implements Serializable {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

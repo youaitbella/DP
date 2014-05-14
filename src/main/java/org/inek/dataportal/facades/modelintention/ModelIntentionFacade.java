@@ -20,7 +20,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
-import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.helper.structures.EntityInfo;
 
 /**
  *
@@ -97,12 +97,12 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
      * @param forAllUsers
      * @return
      */
-    public List<Triple> getModelIntentionInfos(int accountId, DataSet dataSet, boolean forAllUsers) {
+    public List<EntityInfo> getModelIntentionInfos(int accountId, DataSet dataSet, boolean forAllUsers) {
         List<ModelIntention> intentions = findAll(accountId, dataSet, forAllUsers);
-        List<Triple> intentionInfos = new ArrayList<>();
+        List<EntityInfo> intentionInfos = new ArrayList<>();
         for (ModelIntention intention : intentions) {
-            String displayName = "MI" + intention.getId();
-            intentionInfos.add(new Triple(intention.getId(), displayName, intention.getStatus()));
+            String code = intention.getCode().isEmpty() ? "- nn - " :  intention.getCode();
+            intentionInfos.add(new EntityInfo(intention.getId(), code, intention.getDescription(), intention.getStatus()));
         }
         return intentionInfos;
     }

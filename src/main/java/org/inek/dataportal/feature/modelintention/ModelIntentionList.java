@@ -8,11 +8,11 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.helper.structures.EntityInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
@@ -22,7 +22,7 @@ public class ModelIntentionList {
     @Inject ModelIntentionFacade _modelIntentionFacade;
     @Inject SessionController _sessionController;
     
-    public List<Triple> getModelIntentions() {
+    public List<EntityInfo> getModelIntentions() {
         return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, _sessionController.isInekUser(Feature.MODEL_INTENTION));
     }
 
@@ -35,27 +35,16 @@ public class ModelIntentionList {
         return Pages.ModelIntentionTypeAndNumPat.URL();
     }
 
-    public String requestDeleteModelIntention(int modelId) {
-        Utils.getFlash().put("modelId", modelId);
-        ModelIntention intention = _modelIntentionFacade.find(modelId);
-        if (_sessionController.isMyAccount(intention.getAccountId())) {
-            String msg = intention.getStatus() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
-            String script = "if (confirm ('MI" + intention.getId().toString().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteModelIntention').click();}";
-            _sessionController.setScript(script);
-        }
-        return "";
-    }
-
     public String deleteModelIntention(int modelId) {
         ModelIntention intention = _modelIntentionFacade.find(modelId);
         if (intention == null) { 
             return "";
         }
         if (_sessionController.isMyAccount(intention.getAccountId())) {
-            if (intention.getStatus() <= 9) {
+            if (intention.getStatus().getValue() <= WorkflowStatus.Provided.getValue()) {
                 _modelIntentionFacade.remove(intention);
             } else {
-                intention.setStatus(ModelIntentionStatus.Retired.getValue());
+                intention.setStatus(WorkflowStatus.Retired.getValue());
                 _modelIntentionFacade.saveModelIntention(intention);
             }
         }

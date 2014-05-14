@@ -24,12 +24,12 @@ import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
 import org.inek.dataportal.enums.InsuranceAffiliation;
 import org.inek.dataportal.enums.MedicalAttribute;
-import org.inek.dataportal.enums.ModelIntentionStatus;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.enums.SelfHospitalisationType;
 import org.inek.dataportal.enums.SettleType;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -336,7 +336,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isRejectedModelIntention() {
-        return ModelIntentionStatus.Rejected.getValue() == _modelIntention.getStatus();
+        return WorkflowStatus.Rejected == _modelIntention.getStatus();
     }
 
     /**
@@ -369,11 +369,11 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.InvalidConversation.URL();
         }
-        if (_modelIntention.getStatus() >= 10) {
+        if (_modelIntention.getStatus().getValue() >= 10) {
             return Pages.Error.URL();
         }
 
-        _modelIntention.setStatus(10 + _modelIntention.getStatus());
+        _modelIntention.setStatus(10 + _modelIntention.getStatus().getValue());
         removeEmptyEntries();
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         if (isValidId(_modelIntention.getId())) {
@@ -402,11 +402,11 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.Error.URL();
         }
-        if (_modelIntention.getStatus() >= 10) {
+        if (_modelIntention.getStatus().getValue() >= 10) {
             return Pages.Error.URL();
         }
 
-        _modelIntention.setStatus(ModelIntentionStatus.ApprovalRequested.getValue());
+        _modelIntention.setStatus(WorkflowStatus.ApprovalRequested.getValue());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         return "";
     }
