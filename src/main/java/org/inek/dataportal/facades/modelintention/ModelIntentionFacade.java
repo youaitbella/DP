@@ -6,7 +6,9 @@ package org.inek.dataportal.facades.modelintention;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -35,7 +37,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         super(ModelIntention.class);
     }
 
-    public List<ModelIntention> findAll(int accountId, DataSet dataSet, boolean forAllUsers) {
+    public List<ModelIntention> findAll(Set<Integer> accountIds, DataSet dataSet, boolean forAllUsers) {
         if (forAllUsers) {
             if (!_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
                 return Collections.EMPTY_LIST;
@@ -60,7 +62,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         if (forAllUsers) {
             cq.select(request).where(status).orderBy(order);
         } else {
-            Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
+            Predicate isAccount = request.get("_accountId").in(accountIds);
             cq.select(request).where(cb.and(isAccount, status)).orderBy(order);
         }
         return getEntityManager().createQuery(cq).getResultList();
@@ -98,11 +100,21 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
      * @return
      */
     public List<EntityInfo> getModelIntentionInfos(int accountId, DataSet dataSet, boolean forAllUsers) {
-        List<ModelIntention> intentions = findAll(accountId, dataSet, forAllUsers);
+        Set<Integer> accountIds = new HashSet<>();
+        accountIds.add(accountId);
+        return getModelIntentionInfos(accountIds, dataSet, forAllUsers);
+    }
+
+    public List<EntityInfo> getModelIntentionInfos(Set<Integer> accountIds, DataSet dataSet, boolean forAllUsers) {
+        List<ModelIntention> intentions = findAll(accountIds, dataSet, forAllUsers);
         List<EntityInfo> intentionInfos = new ArrayList<>();
         for (ModelIntention intention : intentions) {
-            String code = intention.getCode().isEmpty() ? "- nn - " :  intention.getCode();
-            intentionInfos.add(new EntityInfo(intention.getId(), code, intention.getDescription(), intention.getStatus(), intention.getAccountId()));
+            intentionInfos.add(new EntityInfo(
+                    intention.getId(),
+                    intention.getCode(), 
+                    intention.getDescription(), 
+                    intention.getStatus(), 
+                    intention.getAccountId()));
         }
         return intentionInfos;
     }

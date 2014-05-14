@@ -12,21 +12,21 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
 @RequestScoped
@@ -126,14 +126,10 @@ public class NubProposalList {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
-    @Inject
-    AccountFacade _accountFacade;
-    @Inject
-    CooperationFacade _cooperationFacade;
-    @Inject
-    CooperationRightFacade _cooperationRightFacade;
-    @Inject
-    NubSessionTools _nubSessionTools;
+    @Inject AccountFacade _accountFacade;
+    @Inject CooperationFacade _cooperationFacade;
+    @Inject CooperationRightFacade _cooperationRightFacade;
+    @Inject NubSessionTools _nubSessionTools;
     private List<CooperationRight> _cooperationRights;
     private List<Account> _partners4Edit;
     private List<Account> _partners4List;

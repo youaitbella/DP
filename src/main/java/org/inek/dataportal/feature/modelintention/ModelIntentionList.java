@@ -1,14 +1,25 @@
 package org.inek.dataportal.feature.modelintention;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.CooperationRight;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.CooperationFacade;
+import org.inek.dataportal.facades.CooperationRightFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.EntityInfo;
@@ -20,9 +31,52 @@ public class ModelIntentionList {
 
     @Inject ModelIntentionFacade _modelIntentionFacade;
     @Inject SessionController _sessionController;
-    
+    @Inject AccountFacade _accountFacade;
+    @Inject CooperationFacade _cooperationFacade;
+    @Inject CooperationRightFacade _cooperationRightFacade;
+    Map<Account, List<EntityInfo>> _modelIntentionInfos;
+    private List<Account> _partners;
+    List<EntityInfo> _partnerEntityInfos;
+
     public List<EntityInfo> getModelIntentions() {
         return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, false);
+    }
+
+    public List<EntityInfo> getModelIntentions4Account(int accountId) {
+        List<EntityInfo> infos = new ArrayList<>();
+        for (EntityInfo info : _partnerEntityInfos) {
+            if (info.getAccountId() == accountId) {
+                infos.add(info);
+            }
+        }
+        return infos;
+    }
+
+    public List<Account> getPartners() {
+        ensureInfos();
+        return _partners;
+    }
+    private void ensureInfos() {
+        if (_partners == null) {
+            List<CooperationRight> achievedRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), Feature.MODEL_INTENTION);
+            Set<Integer> ids = new HashSet<>();
+            for (CooperationRight right : achievedRights) {
+                if (right.getCooperativeRight() != CooperativeRight.None) {
+                    ids.add(right.getOwnerId());
+                }
+            }
+            ids.remove(_sessionController.getAccountId());
+            if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
+                _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, true);
+            } else {
+                _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(ids, DataSet.All, false);
+            }
+            ids.clear();
+            for (EntityInfo info : _partnerEntityInfos) {
+                ids.add(info.getAccountId());
+            }
+            _partners = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
+        }
     }
 
     public String newModelIntention() {
@@ -36,7 +90,7 @@ public class ModelIntentionList {
 
     public String deleteModelIntention(int modelId) {
         ModelIntention intention = _modelIntentionFacade.find(modelId);
-        if (intention == null) { 
+        if (intention == null) {
             return "";
         }
         if (_sessionController.isMyAccount(intention.getAccountId())) {
@@ -56,4 +110,5 @@ public class ModelIntentionList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_modelIntentionFacade.find(modelId)));
         return Pages.PrintView.URL();
     }
+
 }

@@ -309,7 +309,6 @@ public class EditModelIntention extends AbstractEditController {
         removeEmptyEntries();
         _modelIntention.setQualities(_internalQualityTable.getList());
         _modelIntention.getQualities().addAll(_externalQualityTable.getList());
-        _modelIntention.setStatus(1);
 
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();

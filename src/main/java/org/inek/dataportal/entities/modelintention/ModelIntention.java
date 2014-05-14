@@ -346,7 +346,7 @@ public class ModelIntention implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property status">
     @Column(name = "miStatus")
-    private Integer _status = -1;
+    private int _status = 0;
 
     @Documentation(name="Bearbeitungsstatus", rank = 10)
     public WorkflowStatus getStatus() {

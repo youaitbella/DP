@@ -15,7 +15,7 @@
     <cc:implementation>
         <div class="paddingElement">
             <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" id="tblModelIntentions" 
-                         value="#{modelIntentionList.modelIntentions}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colId, colValue">
+                         value="#{cc.attrs.list}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colId, colValue">
 
                 <h:column id="colPrintId" >
                     <f:facet name="header">
