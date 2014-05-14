@@ -13,8 +13,8 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die erste Rubrik des Reiters Behandlungsbereiche/Kosten bietet Ihnen die Möglichkeit Inhalte zu Behandlungsbereichen und Patientenbetreuung anzugeben. Sollten Sie keine konkreten Vorgaben für das vorliegende Modellvorhaben haben, so nehmen Sie keine Änderungen vor.</text></para>
     <para styleclass="Normal"></para>
-    <list id="91" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter stationäre Behandlung können Sie neben </text><text styleclass="Bullet Text" translate="true">Nein</text><text styleclass="Bullet Text" translate="true">, auch </text><text styleclass="Bullet Text" translate="true">grundsätzlich</text><text styleclass="Bullet Text" translate="true"> oder </text><text styleclass="Bullet Text" translate="true">nur spezielles Setting</text><text styleclass="Bullet Text" translate="true"> wählen. Sollten Sie letzteres auswählen, so ist eine Angabe mit entsprechender Spezifizierung nötig. Das Textfeld wird als Hinweis gelb eingefärbt.</text></li>
+    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter stationäre Behandlung können Sie neben Nein, auch grundsätzlich oder nur spezielles Setting wählen. Sollten Sie letzteres auswählen, so ist eine Angabe mit entsprechender Spezifizierung nötig. Das Textfeld wird als Hinweis gelb eingefärbt.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Alle weiteren Komboboxen unter dieser Rubrik verhalten sich wie die der stationären Behandlung und weisen die gleichen Auswahlkriterien auf.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sollten neben den bereits aufgeführten Aspekten noch weitere für das Modellvorhaben relevante Punkte vorliegen, so können Sie diese unter dem Punkt Sonstige eintragen.</text></li>
     </list>
@@ -24,6 +24,47 @@
     <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhSpezielle.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Bullet Text" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Spezielle Inhalte</text></para>
     <para styleclass="Bullet Text" style="text-align:center;"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unter der Rubrik Kosten, können Sie die für das gewählte Modellvorhaben relevanten Kostenwerte eintragen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unter der Rubrik Kosten, können Sie die für das gewählte Modellvorhaben relevanten Vergütungsarten beschreiben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhCost.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Vergütungsarten</text></para>
+    <para styleclass="Normal"></para>
+    <list id="6" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Eingabefelder sind mit entsprechenden Erläuterungen für die veranschlagten Vergütungsarten zu befüllen, sofern Sie für das Modellvorhaben relevant sind. Sollten die aufgeführten Aspekte keine Relevanz für das Modellvorhaben besitzen, so sind die Felder leer zu übermitteln.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die letzten Rubriken des Reiters Behandlungsbereiche/Kosten bietet Ihnen die Möglichkeit die einzelnen Kostenwerte einzutragen.</text></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhCostValues.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Kostenwerte</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Entgeltartenschlüssel:</text></para>
+    <list id="7" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Beim Eintragen eines Entgeltschlüssels wird die dazugehörige Entgeltart automatisch vom System vorgefüllt, sofern diese bekannt ist. Nach dem Eintrag des Entgeltbetrages wird automatisch eine neue Zeile angefügt, um weitere Entgeltschlüssel mit entsprechenden Bezeichnungen und Entgeltbeträgen eintragen zu können.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Der einzutragende Entgeltbetrag muss bei Dezimalzahlen einen Punkt als Trenner verwenden. Andernfalls ist die Eingabe ungültig.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie das Papierkorbsymbol vor dem jeweiligen Eintrag. Nach einer Rückfrage und Bestätigungsaufforderung, wird der ausgewählte Datensatz entfernt.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Kostendaten für die vereinbarte Vergütung:</text></para>
+    <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">In die Felder Institutionskennzeichen, Entgeltschlüssel und Kostenwert können Sie die entsprechenden Inhalte für Ihr Modellvorhaben eintragen. Auch hier ist der Kostenwert bei Dezimalzahlen mit einem Punkt als Trenner einzugeben.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Für die dazugehörigen Kostenstellen- und artengruppen wählen Sie die entsprechenden Werte aus den Komboboxen. Eine manuelle Eingabe ist an dieser Stelle nicht möglich.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Alternativ haben Sie hier die Möglichkeit die Kostendaten aus einer csv-Datei hochzuladen. Dazu wählen Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Kostendaten hochladen]</text><text styleclass="Bullet Text" translate="true"> die auf Ihrem System liegende Kostendatei und Bestätigen die Auswahl mit </text><text styleclass="Button" translate="true">[Öffnen]</text><text styleclass="Bullet Text" translate="true">. Anschließend wird die gewählte Datei ausgelesen und die Einträge werden in das Modellvorhaben übernommen. Die csv-Datei muss dazu im gleichen Format vorliegen wie die Inhalte im </text><var styleclass="Bullet Text">&lt;%TITLE%&gt;</var><text styleclass="Bullet Text" translate="true">. Die Kopfzeile muss dementsprechend auch die gleiche Reihenfolge der Daten (beginnend mit dem IK) aufweisen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie auch hier das Papierkorbsymbol vor dem jeweiligen Eintrag.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bereinigung nach § 64 Abs 3 Satz 1 SGB V:</text></para>
+    <list id="9" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei der Kombobox für können Sie zwischen vier vordefinierten Auswahlmöglichkeiten für die Bereinigung nach § 64 wählen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Felder von und bis sind jeweils mit dem für diese Bereinigung relevanten Datum zu füllen. Sollten Sie für die gleichen Themengebiete unterschiedliche Zeiträume besitzen, so können Sie diese nicht in einem Feld eintragen, sondern müssen einen neuen Eintrag erstellen und dort die abweichenden Zeiträume angeben.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Der Kostenwert ist wie bei den anderen Feldern auch, mit einem Punkt als Trenner anzugeben.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Beschreibung haben Sie die Möglichkeit eine kurze Erläuterung zu den gewählten Bereinigungen zu geben.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <list id="12" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Wie auf den vorhergehenden Seiten haben Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> die Möglichkeit Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
+    </list>
+    <list id="11" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt dieses ans InEK. Eine Bearbeitung ist nachträglich nicht mehr möglich. </text></li>
+    </list>
   </body>
 </topic>
