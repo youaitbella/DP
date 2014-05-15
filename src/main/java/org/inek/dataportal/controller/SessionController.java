@@ -14,6 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.Announcement;
@@ -137,7 +138,7 @@ public class SessionController implements Serializable {
     // </editor-fold>
 
     public String navigate(String topic) {
-        LogMessage("Navigate to " + topic);
+        logMessage("Navigate to " + topic);
         endAllConversations();
         return topic + "?faces-redirect=true";
     }
@@ -174,7 +175,7 @@ public class SessionController implements Serializable {
     public String logout() {
         if (_account != null) {
             endAllConversations();
-            LogMessage("Logout");
+            logMessage("Logout");
             _account = null;
             _topics.clear();
             _features.clear();
@@ -187,11 +188,18 @@ public class SessionController implements Serializable {
     private void invalidateSession() {
         String sessionId = retrieveSessionId();
         if (sessionId.length() > 0) {
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            try {
+                System.out.println("old session " + sessionId);
+                //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                sessionId = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
+                System.out.println("new session " + sessionId);
+            } catch (Exception ex) {
+                _logger.log(Level.WARNING, "Exception during invalidatesesion");
+            }
         }
     }
 
-    public void LogMessage(String msg) {
+    public void logMessage(String msg) {
         String sessionId = retrieveSessionId();
         int accountId = -1;
         if (_account != null) {
@@ -211,27 +219,35 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * @param mailOrUser the _mailOrUser to set to reset the user info (e.g.
-     * after logout), call this method with an empty string
+     * Login for usage within the portal.
+     * Setup environment after login.
+     * @param mailOrUser 
      * @param password
      * @return
      */
     public boolean loginAndSetTopics(String mailOrUser, String password) {
+        invalidateSession();
         login(mailOrUser, password);
+        initFeatures();
         setTopics();
         setParts();
         return _account != null;
     }
 
+    /**
+     * General login function. Will be used from UploadServlet (DatenDienst) too.
+     * Thus, perform login only.
+     * @param mailOrUser
+     * @param password
+     * @return 
+     */
     public boolean login(String mailOrUser, String password) {
-        //invalidateSession();
         _account = _accountFacade.getAccount(mailOrUser, password);
-        initFeatures();
         if (_account == null) {
-            LogMessage("Login failed");
+            logMessage("Login failed");
             return false;
         }
-        LogMessage("Login");
+        logMessage("Login");
         return true;
     }
 
@@ -314,18 +330,20 @@ public class SessionController implements Serializable {
 
     /**
      * @param requestedFeature
-     * @return true, if the current user is within any InEK role for the requested feature
+     * @return true, if the current user is within any InEK role for the
+     * requested feature
      */
     public boolean isInekUser(Feature requestedFeature) {
         return isInekUser(requestedFeature, false);
     }
 
     /**
-     * 
+     *
      * @param requestedFeature
      * @param needsWriteAccess
-     * @return true, if the current user is within any InEK role for the requested feature
-     * and either has write access enabled or no write access is requested
+     * @return true, if the current user is within any InEK role for the
+     * requested feature and either has write access enabled or no write access
+     * is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         for (InekRole role : getAccount().getInekRoles()) {

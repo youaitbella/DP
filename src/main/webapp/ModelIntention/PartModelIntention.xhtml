@@ -8,14 +8,11 @@
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.ModelIntentionSummary)}" value="#{msg.lblModelIntention}" immediate="true"/>
         </h2>
         <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
-        
-            <br/>
-        <h:outputLabel value="#{msg.lblPartnerModelIntentionExist}" 
+
+        <br/>
+        <h:outputLabel value="#{sessionController.isInekUser(Feature.MODEL_INTENTION) ? msg.lblUserModelIntentionExist : msg.lblPartnerModelIntentionExist}" 
                        styleClass="label"
-                       rendered="#{modelIntentionList.partners.size() > 0 and not sessionController.isInekUser(Feature.MODEL_INTENTION)}"/>
-        <h:outputLabel value="#{lblUserModelIntentionExist}" 
-                       styleClass="label"
-                       rendered="#{modelIntentionList.partners.size() > 0 and sessionController.isInekUser(Feature.MODEL_INTENTION)}"/>
+                       rendered="#{modelIntentionList.partners.size() > 0}"/>
     </ui:composition>
 </html>
 

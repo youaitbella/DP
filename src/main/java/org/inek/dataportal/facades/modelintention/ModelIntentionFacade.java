@@ -43,6 +43,8 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
             if (!_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
                 return Collections.EMPTY_LIST;
             }
+        } else if (accountIds.isEmpty()) {
+            return Collections.EMPTY_LIST;
         }
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -62,7 +64,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         }
         if (userSet == UserSet.AllUsers) {
             cq.select(request).where(status).orderBy(order);
-        } else if (userSet == UserSet.OtherUsers){
+        } else if (userSet == UserSet.OtherUsers) {
             Predicate isAccount = request.get("_accountId").in(accountIds);
             cq.select(request).where(cb.and(cb.not(isAccount), status)).orderBy(order);
         } else {
@@ -100,7 +102,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
      *
      * @param accountId
      * @param dataSet
-     * @param forAllUsers
+     * @param userSet
      * @return
      */
     public List<EntityInfo> getModelIntentionInfos(int accountId, DataSet dataSet, UserSet userSet) {
@@ -115,9 +117,9 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         for (ModelIntention intention : intentions) {
             intentionInfos.add(new EntityInfo(
                     intention.getId(),
-                    intention.getCode(), 
-                    intention.getDescription(), 
-                    intention.getStatus(), 
+                    intention.getCode(),
+                    intention.getDescription(),
+                    intention.getStatus(),
                     intention.getAccountId()));
         }
         return intentionInfos;

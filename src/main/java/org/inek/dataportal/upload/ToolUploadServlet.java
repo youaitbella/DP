@@ -74,13 +74,13 @@ public class ToolUploadServlet extends HttpServlet {
     private boolean loginAndResponseFailure(String emailOrUser, String password, HttpUtil httpUtil) throws IOException {
         if (!_sessionController.login(emailOrUser, password)) {
             httpUtil.writeStatus("fail");
-            _sessionController.LogMessage("Datendienst: Login failed for " + emailOrUser);
+            _sessionController.logMessage("Datendienst: Login failed for " + emailOrUser);
             return false;
         }
         try {
             _sessionController.getFeatureController(Feature.DROPBOX);
         } catch (IllegalArgumentException e) {
-            _sessionController.LogMessage("Datendienst: No DropBox enabled for " + emailOrUser);
+            _sessionController.logMessage("Datendienst: No DropBox enabled for " + emailOrUser);
             httpUtil.writeStatus("no dropbox");
             return false;
         }
@@ -110,7 +110,7 @@ public class ToolUploadServlet extends HttpServlet {
             fos.flush();
         }
         ((DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX)).sealDropBox(_dropBoxFacade, dropBox);
-        _sessionController.LogMessage("Datendienst: Upload ok");
+        _sessionController.logMessage("Datendienst: Upload ok");
         httpUtil.getResponse().setStatus(HttpServletResponse.SC_OK);
         httpUtil.writeStatus("success");
     }

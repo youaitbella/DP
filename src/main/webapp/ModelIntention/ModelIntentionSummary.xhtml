@@ -28,6 +28,9 @@
 
             <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
 
+            <br/>
+            <h:outputLabel styleClass="label" value="#{msg.lblModelIntentionFromOthers}"/>
+
             <c:forEach items="#{modelIntentionList.partners}" var="partner" rendered="#{modelIntentionList.partners.size() > 0}">
                 <div>
                     <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
