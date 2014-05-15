@@ -16,6 +16,7 @@ import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.UserSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CooperationFacade;
 import org.inek.dataportal.facades.CooperationRightFacade;
@@ -39,7 +40,7 @@ public class ModelIntentionList {
     List<EntityInfo> _partnerEntityInfos;
 
     public List<EntityInfo> getModelIntentions() {
-        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, false);
+        return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, UserSet.DenotedUsers);
     }
 
     public List<EntityInfo> getModelIntentions4Account(int accountId) {
@@ -67,9 +68,9 @@ public class ModelIntentionList {
             }
             ids.remove(_sessionController.getAccountId());
             if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
-                _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, true);
+                _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, UserSet.OtherUsers);
             } else {
-                _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(ids, DataSet.All, false);
+                _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(ids, DataSet.All, UserSet.DenotedUsers);
             }
             ids.clear();
             for (EntityInfo info : _partnerEntityInfos) {

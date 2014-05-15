@@ -21,6 +21,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.UserSet;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.EntityInfo;
 
@@ -37,8 +38,8 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         super(ModelIntention.class);
     }
 
-    public List<ModelIntention> findAll(Set<Integer> accountIds, DataSet dataSet, boolean forAllUsers) {
-        if (forAllUsers) {
+    public List<ModelIntention> findAll(Set<Integer> accountIds, DataSet dataSet, UserSet userSet) {
+        if (userSet == UserSet.AllUsers) {
             if (!_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
                 return Collections.EMPTY_LIST;
             }
@@ -59,8 +60,11 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
             status = cb.greaterThanOrEqualTo(request.get("_status"), 0);
             order = cb.desc(request.get("_id"));
         }
-        if (forAllUsers) {
+        if (userSet == UserSet.AllUsers) {
             cq.select(request).where(status).orderBy(order);
+        } else if (userSet == UserSet.OtherUsers){
+            Predicate isAccount = request.get("_accountId").in(accountIds);
+            cq.select(request).where(cb.and(cb.not(isAccount), status)).orderBy(order);
         } else {
             Predicate isAccount = request.get("_accountId").in(accountIds);
             cq.select(request).where(cb.and(isAccount, status)).orderBy(order);
@@ -99,14 +103,14 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
      * @param forAllUsers
      * @return
      */
-    public List<EntityInfo> getModelIntentionInfos(int accountId, DataSet dataSet, boolean forAllUsers) {
+    public List<EntityInfo> getModelIntentionInfos(int accountId, DataSet dataSet, UserSet userSet) {
         Set<Integer> accountIds = new HashSet<>();
         accountIds.add(accountId);
-        return getModelIntentionInfos(accountIds, dataSet, forAllUsers);
+        return getModelIntentionInfos(accountIds, dataSet, userSet);
     }
 
-    public List<EntityInfo> getModelIntentionInfos(Set<Integer> accountIds, DataSet dataSet, boolean forAllUsers) {
-        List<ModelIntention> intentions = findAll(accountIds, dataSet, forAllUsers);
+    public List<EntityInfo> getModelIntentionInfos(Set<Integer> accountIds, DataSet dataSet, UserSet userSet) {
+        List<ModelIntention> intentions = findAll(accountIds, dataSet, userSet);
         List<EntityInfo> intentionInfos = new ArrayList<>();
         for (ModelIntention intention : intentions) {
             intentionInfos.add(new EntityInfo(

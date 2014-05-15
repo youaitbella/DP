@@ -29,7 +29,7 @@
         <h:form id="contractors">
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==1).toList() }" var="contact">
                 <div class="rectangle">
-                    <i:Institute RegCareRender="true" 
+                    <inek:Institute RegCareRender="true" 
                                  IK="#{contact.ik}"
                                  Name="#{contact.name}"
                                  Street="#{contact.street}"
@@ -51,7 +51,7 @@
             <h2>#{msg.headerModelIntentionProvider}</h2>
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==2).toList() }" var="contact">
                 <div class="rectangle">
-                    <i:Institute RegCareRender="false" 
+                    <inek:Institute RegCareRender="false" 
                                  IK="#{contact.ik}"
                                  Name="#{contact.name}"
                                  Street="#{contact.street}"
@@ -73,7 +73,7 @@
             <h2>#{msg.headerModelIntentionCostInsurance}</h2>
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==3).toList() }" var="contact">
                 <div class="rectangle">
-                    <i:Institute RegCareRender="false" 
+                    <inek:Institute RegCareRender="false" 
                                  IK="#{contact.ik}"
                                  Name="#{contact.name}"
                                  Street="#{contact.street}"
