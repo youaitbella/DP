@@ -7,7 +7,6 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.Transient;
 
 /**
  *
@@ -55,8 +53,6 @@ public class ModelLife implements Serializable {
     @Column(name = "mlMonthDuration")
     private Integer _monthDuration = -1;
 
-    @Transient
-    private final String _uuid= UUID.randomUUID().toString().replace("-", "");
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
@@ -82,9 +78,6 @@ public class ModelLife implements Serializable {
         _modelIntentionId = modelIntentionId;
     }
     
-    public String getUUID(){
-        return _uuid;
-    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
@@ -104,10 +97,8 @@ public class ModelLife implements Serializable {
         if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
-        if (this._id == null && other._id == null){
-            return this._uuid.equals(other._uuid);
-        }
-        return true;
+        return this._startDate.equals(other._startDate)
+                && this._monthDuration.equals(other._monthDuration);
     }
 
     @Override

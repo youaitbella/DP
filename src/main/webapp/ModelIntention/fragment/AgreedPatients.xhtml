@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.agreedPatients}" var="agreedPatients">
+                <c:forEach items="#{editModelIntention.modelIntention.agreedPatients}" var="agreedPatients" varStatus="status">
                     <tr>
                         <td class="colIcon">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
@@ -33,33 +33,33 @@
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgPatientsFrom#{agreedPatients.UUID}" for="patientsFrom#{agreedPatients.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="patientsFrom#{agreedPatients.UUID}" value="#{agreedPatients.patientsFrom}" 
+                                <h:message id="msgPatientsFrom#{status.index}" for="patientsFrom#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="patientsFrom#{status.index}" value="#{agreedPatients.patientsFrom}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsFrom#{agreedPatients.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsFrom#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgPatientsTo#{agreedPatients.UUID}" for="patientsTo#{agreedPatients.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="patientsTo#{agreedPatients.UUID}" value="#{agreedPatients.patientsTo}" 
+                                <h:message id="msgPatientsTo#{status.index}" for="patientsTo#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="patientsTo#{status.index}" value="#{agreedPatients.patientsTo}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{agreedPatients.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgPatientsCount#{agreedPatients.UUID}" for="patientsCount#{agreedPatients.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="patientsCount#{agreedPatients.UUID}" value="#{agreedPatients.patientsCount}" 
+                                <h:message id="msgPatientsCount#{status.index}" for="patientsCount#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="patientsCount#{status.index}" value="#{agreedPatients.patientsCount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsCount#{agreedPatients.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgPatientsCount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>

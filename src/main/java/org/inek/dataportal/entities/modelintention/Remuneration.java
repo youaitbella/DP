@@ -2,14 +2,12 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Remuneration", schema = "mvh")
@@ -84,16 +82,7 @@ public class Remuneration implements Serializable {
         _amount = amount;
     }
     // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="UUID">
-    @Transient
-    private final String _uuid = UUID.randomUUID().toString().replace("-", "");
-
-    public String getUUID() {
-        return _uuid;
-    }
-    // </editor-fold>
-    // </editor-fold>
+  // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -112,10 +101,8 @@ public class Remuneration implements Serializable {
         if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
-        if (this._id == null && other._id == null){
-            return this._uuid.equals(other._uuid);
-        }
-        return true;
+        return this._code.equals(other._code)
+                && this._text.equals(other._text);
     }
 
     @Override

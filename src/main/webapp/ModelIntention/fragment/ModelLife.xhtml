@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
+                <c:forEach items="#{editModelIntention.modelIntention.modelLifes}" var="modelLife" varStatus="status">
                     <tr>
                         <td class="colIcon">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
@@ -33,25 +33,25 @@
                         </td>
 
                         <td>
-                            <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
+                            <h:inputText id="startDate#{status.index}" value="#{modelLife.startDate}" 
                                          required="true" readonly="#{editModelIntention.readOnly}">
                                 <f:converter converterId="FlexibleDateTimeConverter"/>
                                 <f:ajax event="focus" render=":logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{status.index}"/>
                             </h:inputText>
                         </td>
                         <td>
-                            <h:inputText id="duration#{modelLife.UUID}" value="#{modelLife.monthDuration}" 
+                            <h:inputText id="duration#{status.index}" value="#{modelLife.monthDuration}" 
                                          required="true" readonly="#{editModelIntention.readOnly}">
                                 <f:validateLongRange minimum="1" maximum="120"/>
-                                <f:ajax event="blur" render="@this :logout:remaining msgDuration#{modelLife.UUID}"/>
+                                <f:ajax event="blur" render="@this :logout:remaining msgDuration#{status.index}"/>
                                 <f:ajax event="focus" render=":logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>
                             </h:inputText> 
                         </td>
 
                         <td>
-                            <h:message id="msgStartDate#{modelLife.UUID}" for="startDate#{modelLife.UUID}" styleClass="errorMessage"/>
-                            <h:message id="msgDuration#{modelLife.UUID}" for="duration#{modelLife.UUID}" styleClass="errorMessage"/>
+                            <h:message id="msgStartDate#{status.index}" for="startDate#{status.index}" styleClass="errorMessage"/>
+                            <h:message id="msgDuration#{status.index}" for="duration#{status.index}" styleClass="errorMessage"/>
                         </td>
                     </tr>
                 </c:forEach>

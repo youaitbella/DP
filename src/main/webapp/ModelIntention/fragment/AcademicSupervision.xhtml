@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.academicSupervisions}" var="supervision">
+                <c:forEach items="#{editModelIntention.modelIntention.academicSupervisions}" var="supervision" varStatus="status">
                     <tr>
                         <td class="colIcon">
                             <h:commandLink>
@@ -36,44 +36,44 @@
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgRemitter#{supervision.UUID}" for="remitter#{supervision.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="remitter#{supervision.UUID}" value="#{supervision.remitter}" 
+                                <h:message id="msgRemitter#{status.index}" for="remitter#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="remitter#{status.index}" value="#{supervision.remitter}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
-                                    <f:ajax event="blur" render="@this :logout:remaining msgRemitter#{supervision.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgRemitter#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:message id="msgContractor#{supervision.UUID}" for="contractor#{supervision.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="contractor#{supervision.UUID}" value="#{supervision.contractor}" 
+                                <h:message id="msgContractor#{status.index}" for="contractor#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="contractor#{status.index}" value="#{supervision.contractor}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:inputText id="academicSupFrom#{supervision.UUID}" value="#{supervision.academicSupFrom}" 
+                                <h:inputText id="academicSupFrom#{status.index}" value="#{supervision.academicSupFrom}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <!-- <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/> -->
-                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
-                                <h:inputText id="academicSupTo#{supervision.UUID}" value="#{supervision.academicSupTo}" 
+                                <h:inputText id="academicSupTo#{status.index}" value="#{supervision.academicSupTo}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <!-- <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/> -->
-                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>

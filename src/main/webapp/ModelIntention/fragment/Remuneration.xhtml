@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="#{editModelIntention.modelIntention.remunerations}" var="remuneration">
+                <c:forEach items="#{editModelIntention.modelIntention.remunerations}" var="remuneration" varStatus="status">
                     <tr>
                         <td class="colIcon alignTop">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
@@ -35,34 +35,34 @@
 
                         <td class="col14 alignTop">
                             <h:panelGrid columns="1">
-                                <h:message id="msgCode#{remuneration.UUID}" for="code#{remuneration.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="code#{remuneration.UUID}" styleClass="fullWidth" value="#{remuneration.code}" 
+                                <h:message id="msgCode#{status.index}" for="code#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="code#{status.index}" styleClass="fullWidth" value="#{remuneration.code}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationListener}"/-->
-                                    <f:ajax event="change" render="@this :logout:remaining text#{remuneration.UUID}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgCode#{remuneration.UUID}"/>
+                                    <f:ajax event="change" render="@this :logout:remaining text#{status.index}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgCode#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
 
                         <td class="alignTop">
                             <h:panelGrid columns="1" styleClass="fullWidth">
-                                <h:message id="msgText#{remuneration.UUID}" for="text#{remuneration.UUID}" styleClass="errorMessage"/>
-                                <h:inputTextarea id="text#{remuneration.UUID}" styleClass="areaWideLow" value="#{remuneration.text}" 
+                                <h:message id="msgText#{status.index}" for="text#{status.index}" styleClass="errorMessage"/>
+                                <h:inputTextarea id="text#{status.index}" styleClass="areaWideLow" value="#{remuneration.text}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgText#{remuneration.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgText#{status.index}"/>
                                 </h:inputTextarea> 
                             </h:panelGrid>
                         </td>
 
                         <td class="col14 alignTop">
                             <h:panelGrid columns="1">
-                                <h:message id="msgAmount#{remuneration.UUID}" for="amount#{remuneration.UUID}" styleClass="errorMessage"/>
-                                <h:inputText id="amount#{remuneration.UUID}" styleClass="fullWidth" value="#{remuneration.amount}" 
+                                <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
+                                <h:inputText id="amount#{status.index}" styleClass="fullWidth" value="#{remuneration.amount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgAmount#{remuneration.UUID}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
