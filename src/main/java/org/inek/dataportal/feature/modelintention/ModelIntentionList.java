@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +58,7 @@ public class ModelIntentionList {
         ensureInfos();
         return _partners;
     }
+
     private void ensureInfos() {
         if (_partners == null) {
             List<CooperationRight> achievedRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), Feature.MODEL_INTENTION);
@@ -71,6 +73,19 @@ public class ModelIntentionList {
                 _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, UserSet.OtherUsers);
             } else {
                 _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(ids, DataSet.All, UserSet.DenotedUsers);
+                // remove entries, if not sealed and only sealed are allowesd visible
+                // TODO: When switched to Java 8 replace this ugly code by streams with filter
+                for (Iterator<EntityInfo> itr = _partnerEntityInfos.iterator(); itr.hasNext();) {
+                    EntityInfo entry = itr.next();
+                    if (entry.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
+                        for (CooperationRight right : achievedRights) {
+                            if (right.getOwnerId() == entry.getAccountId() && right.getCooperativeRight() == CooperativeRight.ReadSealed) {
+                                itr.remove();
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             ids.clear();
             for (EntityInfo info : _partnerEntityInfos) {
