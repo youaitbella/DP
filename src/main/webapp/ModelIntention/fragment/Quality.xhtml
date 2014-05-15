@@ -31,7 +31,7 @@
                     <tr>
 
                         <td class="colIcon alignTop">
-                            <h:commandLink>
+                            <h:commandLink rendered="#{!editModelIntention.readOnly}">
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="@form :logout:remaining" listener="#{dynamicTable.deleteEntry(quality)}"/>
@@ -42,7 +42,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgIndicator#{status.index}" for="indicator#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="" id="indicator#{status.index}" value="#{quality.indicator}" 
-                                             required="true">
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" 
                                             listener="#{dynamicTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgIndicator#{status.index}"/>
@@ -54,7 +54,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgDescription#{status.index}" for="description#{status.index}" styleClass="errorMessage"/>
                                 <h:inputTextarea styleClass="area40emWideLow" id="description#{status.index}" value="#{quality.description}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" 
                                             listener="#{dynamicTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgDescription#{status.index}"/>

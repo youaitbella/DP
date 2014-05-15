@@ -15,7 +15,7 @@
 
         <h2>#{msg.headerModelIntentionContract}</h2>
 
-        <h:form id="contactUpload" enctype="multipart/form-data">
+        <h:form id="contactUpload" enctype="multipart/form-data" rendered="#{!editModelIntention.readOnly}">
             <div class="uploadFile">
                 <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadContacts}">
                     <f:ajax listener="#{modelIntentionUpload.uploadContact()}" render="contractors provider insurance"/>
@@ -38,6 +38,7 @@
                                  ContactPerson="#{contact.contactPerson}"
                                  Phone="#{contact.phone}"
                                  Mail="#{contact.email}"
+                                 readonly="#{editModelIntention.readOnly}"
                                  />
                 </div>
             </ui:repeat>
@@ -60,6 +61,7 @@
                                  ContactPerson="#{contact.contactPerson}"
                                  Phone="#{contact.phone}"
                                  Mail="#{contact.email}"
+                                 readonly="#{editModelIntention.readOnly}"
                                  />
                 </div>
             </ui:repeat>
@@ -82,6 +84,7 @@
                                  ContactPerson="#{contact.contactPerson}"
                                  Phone="#{contact.phone}"
                                  Mail="#{contact.email}"
+                                 readonly="#{editModelIntention.readOnly}"
                                  />
                 </div>
             </ui:repeat>

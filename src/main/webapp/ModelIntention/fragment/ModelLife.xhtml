@@ -25,7 +25,7 @@
                 <c:forEach items="#{editModelIntention.modelIntention.modelLifes}" var="modelLife">
                     <tr>
                         <td class="colIcon">
-                            <h:commandLink>
+                            <h:commandLink rendered="#{!editModelIntention.readOnly}">
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.modelLifeTable.deleteEntry(modelLife)}"/>
@@ -34,7 +34,7 @@
 
                         <td>
                             <h:inputText id="startDate#{modelLife.UUID}" value="#{modelLife.startDate}" 
-                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                         required="true" readonly="#{editModelIntention.readOnly}">
                                 <f:converter converterId="FlexibleDateTimeConverter"/>
                                 <f:ajax event="focus" render=":logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgStartDate#{modelLife.UUID}"/>
@@ -42,7 +42,7 @@
                         </td>
                         <td>
                             <h:inputText id="duration#{modelLife.UUID}" value="#{modelLife.monthDuration}" 
-                                         required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                         required="true" readonly="#{editModelIntention.readOnly}">
                                 <f:validateLongRange minimum="1" maximum="120"/>
                                 <f:ajax event="blur" render="@this :logout:remaining msgDuration#{modelLife.UUID}"/>
                                 <f:ajax event="focus" render=":logout:remaining" listener="#{editModelIntention.modelLifeTable.checkDynamicListener}"/>

@@ -462,9 +462,9 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean tryAddCost(Cost cost) {
-        for (Object existing : _costTable.getList()){
-            if (existing instanceof Cost){
-                if (((Cost)existing).equalsFunctional(cost)){
+        for (Object existing : _costTable.getList()) {
+            if (existing instanceof Cost) {
+                if (((Cost) existing).equalsFunctional(cost)) {
                     return false;
                 }
             }
@@ -474,7 +474,7 @@ public class EditModelIntention extends AbstractEditController {
         _costTable.ensureEmptyEntry();
         return true;
     }
-    
+
     private AdjustmentDynamicTable _adjustmentTable;
 
     public DynamicTable getAdjustmentTable() {
@@ -491,15 +491,15 @@ public class EditModelIntention extends AbstractEditController {
         contact.setContactTypeId(id);
         addContact(contact);
     }
-    
+
     private void addContact(ModelIntentionContact contact) {
         contact.setModelIntentionId(_modelIntention.getId());
         getModelIntention().getContacts().add(contact);
     }
 
     public boolean tryAddContact(ModelIntentionContact contact) {
-        for(ModelIntentionContact existing : _modelIntention.getContacts()){
-            if (contact.equalsFunctional(existing)){
+        for (ModelIntentionContact existing : _modelIntention.getContacts()) {
+            if (contact.equalsFunctional(existing)) {
                 return false;
             }
         }
@@ -509,16 +509,16 @@ public class EditModelIntention extends AbstractEditController {
 
     String _contactScript = "";
 
-    public void setContactMessage(String msg){
+    public void setContactMessage(String msg) {
         _contactScript = "alert('" + msg + "');";
     }
-    
+
     public String getContactScript() {
         String script = _contactScript;
         _contactScript = "";
         return script;
     }
-    
+
     private ModelLifeDynamicTable _modelLifeTable;
 
     public DynamicTable getModelLifeTable() {
@@ -605,6 +605,9 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void ensureEmptyEntries() {
+        if (isReadOnly()) {
+            return;
+        }
         getAgreedPatientsTable().ensureEmptyEntry();
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();

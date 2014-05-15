@@ -28,7 +28,9 @@
                             <h:commandLink>
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
-                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.deleteEntry(supervision)}"/>
+                                <f:ajax render="@form :logout:remaining" 
+                                        listener="#{editModelIntention.supervisionTable.deleteEntry(supervision)}" 
+                                        rendered="#{!editModelIntention.readOnly}"/>
                             </h:commandLink>
                         </td>
 
@@ -36,7 +38,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgRemitter#{supervision.UUID}" for="remitter#{supervision.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="remitter#{supervision.UUID}" value="#{supervision.remitter}" 
-                                             required="true" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkModelLifeListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgRemitter#{supervision.UUID}"/>
                                 </h:inputText>
@@ -47,7 +49,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgContractor#{supervision.UUID}" for="contractor#{supervision.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="contractor#{supervision.UUID}" value="#{supervision.contractor}" 
-                                             required="true" >
+                                             required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
                                 </h:inputText> 
@@ -57,7 +59,7 @@
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
                                 <h:inputText id="academicSupFrom#{supervision.UUID}" value="#{supervision.academicSupFrom}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <!-- <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/> -->
                                     <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>
@@ -68,7 +70,7 @@
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
                                 <h:inputText id="academicSupTo#{supervision.UUID}" value="#{supervision.academicSupTo}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <!-- <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/> -->
                                     <f:ajax event="blur" render="@this :logout:remaining msgContractor#{supervision.UUID}"/>

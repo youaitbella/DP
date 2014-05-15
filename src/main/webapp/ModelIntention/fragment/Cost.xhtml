@@ -11,7 +11,7 @@
 
     <h2>#{msg.headerModelIntentionCost}</h2>
 
-    <h:form id="costForm" enctype="multipart/form-data">
+    <h:form id="costUploadForm" enctype="multipart/form-data" rendered="#{!editModelIntention.readOnly}">
         <div class="uploadFile">
             <h:inputFile styleClass="hiddenFile" id="file" value="#{modelIntentionUpload.file}" title="#{msg.btnUploadCostData}">
                 <f:ajax listener="#{modelIntentionUpload.uploadCosts()}" render="costForm"/>
@@ -20,7 +20,8 @@
                 <h:outputLabel styleClass="button" value="#{msg.btnUploadCostData}"/>
             </div>
         </div>
-
+    </h:form>
+    <h:form id="costForm" enctype="multipart/form-data">
         <table class="fullWidth">
             <thead>
                 <tr>
@@ -37,7 +38,7 @@
                     <tr>
 
                         <td class="colIcon alignBottom">
-                            <h:commandLink>
+                            <h:commandLink rendered="#{!editModelIntention.readOnly}">
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="costForm :logout:remaining" listener="#{editModelIntention.costTable.deleteEntry(cost)}"/>
@@ -48,7 +49,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgIk#{status.index}" for="ik#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="ik#{status.index}" value="#{cost.ik}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="blur" render="@this :logout:remaining msgIk#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
@@ -58,7 +59,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgRemunerationCode#{status.index}" for="remunerationCode#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{status.index}"/>
                                 </h:inputText> 
@@ -68,7 +69,8 @@
                         <td class="col30 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgCostCenter#{status.index}" for="costCenter#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}" required="true">
+                                <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}" 
+                                                 required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:selectItems value="#{valueLists.costCenters}" />
                                     <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 </h:selectOneMenu>
@@ -78,7 +80,8 @@
                         <td class="col30 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgCostType#{status.index}" for="costType#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="costType#{status.index}" value="#{cost.costTypeId}" required="true" >
+                                <h:selectOneMenu styleClass="fullWidth" id="costType#{status.index}" value="#{cost.costTypeId}" 
+                                                 required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:selectItems value="#{valueLists.costTypes}" />
                                     <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 </h:selectOneMenu> 
@@ -89,7 +92,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{cost.amount}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 

@@ -24,7 +24,7 @@
                 <c:forEach items="#{editModelIntention.modelIntention.agreedPatients}" var="agreedPatients">
                     <tr>
                         <td class="colIcon">
-                            <h:commandLink>
+                            <h:commandLink rendered="#{!editModelIntention.readOnly}">
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.deleteEntry(agreedPatients)}"/>
@@ -35,7 +35,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgPatientsFrom#{agreedPatients.UUID}" for="patientsFrom#{agreedPatients.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="patientsFrom#{agreedPatients.UUID}" value="#{agreedPatients.patientsFrom}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsFrom#{agreedPatients.UUID}"/>
                                 </h:inputText>
@@ -46,7 +46,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgPatientsTo#{agreedPatients.UUID}" for="patientsTo#{agreedPatients.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="patientsTo#{agreedPatients.UUID}" value="#{agreedPatients.patientsTo}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsTo#{agreedPatients.UUID}"/>
                                 </h:inputText> 
@@ -57,7 +57,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgPatientsCount#{agreedPatients.UUID}" for="patientsCount#{agreedPatients.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="patientsCount#{agreedPatients.UUID}" value="#{agreedPatients.patientsCount}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsCount#{agreedPatients.UUID}"/>
                                 </h:inputText> 

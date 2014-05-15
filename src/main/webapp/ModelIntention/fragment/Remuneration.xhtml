@@ -25,10 +25,11 @@
                 <c:forEach items="#{editModelIntention.modelIntention.remunerations}" var="remuneration">
                     <tr>
                         <td class="colIcon alignTop">
-                            <h:commandLink>
+                            <h:commandLink rendered="#{!editModelIntention.readOnly}">
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
-                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.deleteEntry(remuneration)}"/>
+                                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.deleteEntry(remuneration)}"
+                                        />
                             </h:commandLink>
                         </td>
 
@@ -36,7 +37,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgCode#{remuneration.UUID}" for="code#{remuneration.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="code#{remuneration.UUID}" styleClass="fullWidth" value="#{remuneration.code}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationListener}"/-->
                                     <f:ajax event="change" render="@this :logout:remaining text#{remuneration.UUID}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgCode#{remuneration.UUID}"/>
@@ -48,7 +49,7 @@
                             <h:panelGrid columns="1" styleClass="fullWidth">
                                 <h:message id="msgText#{remuneration.UUID}" for="text#{remuneration.UUID}" styleClass="errorMessage"/>
                                 <h:inputTextarea id="text#{remuneration.UUID}" styleClass="areaWideLow" value="#{remuneration.text}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgText#{remuneration.UUID}"/>
                                 </h:inputTextarea> 
@@ -59,7 +60,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgAmount#{remuneration.UUID}" for="amount#{remuneration.UUID}" styleClass="errorMessage"/>
                                 <h:inputText id="amount#{remuneration.UUID}" styleClass="fullWidth" value="#{remuneration.amount}" 
-                                             required="true" requiredMessage="#{msg.msgValueNeeded}" >
+                                             required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{remuneration.UUID}"/>
                                 </h:inputText> 
