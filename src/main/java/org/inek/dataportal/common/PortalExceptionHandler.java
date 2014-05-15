@@ -153,7 +153,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private void SendExeptionMessage(String subject, Throwable exception) {
-        String msg = exception.getMessage() + "\r\n" ;
+        String name = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+        String msg = "Server: " + name + "\r\n" + exception.getMessage() + "\r\n" ;
         for (StackTraceElement element : exception.getStackTrace()) {
             msg += element.toString() + "\r\n" ;
         }
