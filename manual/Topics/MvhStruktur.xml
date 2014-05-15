@@ -1,9 +1,34 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" status="" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title>Struktur</title>
+<topic template="Default" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Struktur</title>
   <body>
-    <header><para styleclass="Heading1">Struktur</para></header>
-    <para styleclass="Normal">Geben Sie hier den Text ein.</para>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Struktur</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Reiter Struktur bietet Ihnen die Möglichkeit Strukturmerkmale des Modellvorhabens einzutragen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dazu zählen:</text></para>
+    <list id="3" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Laufzeit des Modellvorhabens</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vertragspartner des Modellvorhabens</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Eingebundene Leistungserbringer</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Eingebundene Kostenträger</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhStruktur.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Struktur</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Laufzeit des Modellvorhabens:</text></para>
+    <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Hier tragen Sie entsprechend den Feldern die Laufzeit des Modellvorhabens ein.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Start wird das Datum eingetragen, an dem das Modellvorhaben beginnt. Kurze Datumsangaben (z.B. 1.1.14) werden automatisch umgesetzt (01.01.2014).</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Feld Dauer beschreibt die Dauer des Modellvorhabens in Monaten. Bei der Verwendung von Dezimalwerten ist darauf zu achten, dass diese mit einem Punkt zu trennen sind.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Weitere Einträge können angelegt werden, sobald die Laufzeit vollständig eingetragen wurde. Dazu erscheint automatisch eine neue Eingabezeile.</text></li>
+    </list>
+    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie das Papierkorbsymbol vor dem jeweiligen Eintrag.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vertragspartner des Modellvorhabens:</text></para>
   </body>
 </topic>
