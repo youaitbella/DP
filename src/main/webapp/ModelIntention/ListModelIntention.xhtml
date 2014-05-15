@@ -16,15 +16,6 @@
 
     <inek:ModelIntentionList list="#{modelIntentionList.modelIntentions}"/>
 
-    <c:forEach items="#{modelIntentionList.partners}" var="partner" rendered="#{modelIntentionList.partners.size() > 0}">
-        <div>
-            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
-            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
-        </div>
-        <inek:ModelIntentionList list="#{modelIntentionList.getModelIntentions4Account(partner.accountId)}"/>
-    </c:forEach>
-
     <div class="inputPart">
         <h:commandLink styleClass="button" action="#{modelIntentionList.newModelIntention}" 
                        immediate="true" value="#{msg.btnNewModelIntention}"
