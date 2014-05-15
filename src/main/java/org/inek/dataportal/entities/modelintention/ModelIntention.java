@@ -36,6 +36,7 @@ public class ModelIntention implements Serializable {
     private int _accountId;
 
     // <editor-fold defaultstate="collapsed" desc="Property code">
+    @Documentation(key = "lblModelIntentionCode")
     @Column(name = "miCode")
     //@Size(max = 8)
     private String _code = "";
@@ -50,6 +51,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property description">
+    @Documentation(key = "lblAppellation")
     @Column(name = "miDescription")
     //@Size(min = 1, max = 100)
     private String _description = "";
@@ -72,6 +74,7 @@ public class ModelIntention implements Serializable {
     @Column(name = "miSex")
     private int _sex = -1;
 
+    @Documentation(key = "lblPersonalMisc")
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
 

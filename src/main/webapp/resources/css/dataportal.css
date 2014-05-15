@@ -495,10 +495,16 @@ select:active, select:focus{
 
 .third {
     display: inline-block;
+    width: 30%;
     min-width: 20%;
     max-width: 50%;
-    margin-right: 3%;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    background-color: #7F9BAF;
+    color: white;
+    text-decoration: none;
 }
+
 .areaNarrowLow {
     min-width: 100px;
     width: 100px;

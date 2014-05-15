@@ -32,7 +32,7 @@
             <h:outputLabel styleClass="label" value="#{msg.lblModelIntentionFromOthers}" rendered="#{modelIntentionList.partners.size() > 0}"/>
 
             <c:forEach items="#{modelIntentionList.partners}" var="partner" rendered="#{modelIntentionList.partners.size() > 0}">
-                <div>
+                <div class="paddingElement">
                     <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
                     <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
                     <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
