@@ -327,11 +327,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return false;
-    }
-
-    public boolean isReadOnly(boolean laxCheck) {
-        return false;
+        return _modelIntention.getAccountId() != _sessionController.getAccountId();
     }
 
     public boolean isRejectedModelIntention() {

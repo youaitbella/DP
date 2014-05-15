@@ -13,20 +13,22 @@
         <cc:attribute name="SelectItems"/>
         <cc:attribute name="Threshold" default="#{cc.attrs.SelectItems.stream().map(item -> item.value).max().orElse(-1)}"/>
         <cc:attribute name="Text"/>
+        <cc:attribute name="readonly" default="false"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
             <h:outputLabel styleClass="label30" value="#{cc.attrs.Label}:" />
-            <h:selectOneMenu value="#{cc.attrs.SelectElement}">
+            <h:selectOneMenu value="#{cc.attrs.SelectElement}"
+                             readonly="#{cc.attrs.readonly}">
                 <f:selectItems value="#{cc.attrs.SelectItems}" />
                 <f:ajax event="change" render="@this :logout:remaining idText msgText" />
             </h:selectOneMenu>
             <h:message for="idText" id="msgText" styleClass="errorMessage"/>
             <h:inputTextarea styleClass="areaRight70Low #{cc.attrs.SelectElement ge cc.attrs.Threshold ? 'required' : ''}" id="idText" 
                              value="#{cc.attrs.Text}" 
-                             readonly="#{cc.attrs.SelectElement lt cc.attrs.Threshold}"
+                             readonly="#{cc.attrs.readonly or cc.attrs.SelectElement lt cc.attrs.Threshold}"
                              required="#{cc.attrs.SelectElement ge cc.attrs.Threshold}" requiredMessage="#{msg.msgValueNeeded}" >
                 <f:ajax event="blur" render="@this :logout:remaining msgText" />
             </h:inputTextarea>

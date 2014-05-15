@@ -12,7 +12,7 @@
         <cc:attribute name="Text"/>
         <cc:attribute name="Required" default="false"/>
         <cc:attribute name="styleClass" default="element70"/>
-        <cc:attribute name="disabled" default="false"/>
+        <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="displayAsLabel" default="false"/>
     </cc:interface>
 
@@ -24,11 +24,11 @@
             <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.disabled}"
                          styleClass="#{cc.attrs.styleClass} #{cc.attrs.Required ? 'required' : ''}" 
                          value="#{cc.attrs.Text}" 
-                         disabled="#{cc.attrs.disabled}"
+                         readonly="#{cc.attrs.readonly}"
                          required="#{cc.attrs.Required}">
                 <f:ajax event="blur" render="@this msgText :logout:remaining msgText" />
             </h:inputText>
-            <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.disabled}"
+            <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.readonly}"
                            styleClass="#{cc.attrs.styleClass}"
                            value="#{cc.attrs.Text}"/>
     </div>

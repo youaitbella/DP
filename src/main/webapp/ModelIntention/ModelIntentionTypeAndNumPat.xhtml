@@ -14,7 +14,7 @@
             <h2>#{msg.headerAdministrativeData}</h2>
             
             <inek:LabeledText styleClass="element30" 
-                              disabled="#{not sessionController.isInekUser(Feature.MODEL_INTENTION)}"
+                              readonly="#{not sessionController.isInekUser(Feature.MODEL_INTENTION)}"
                               displayAsLabel="true"
                               Label="#{msg.lblModelIntentionCode}" 
                               Text="#{sessionController.isInekUser(Feature.MODEL_INTENTION) or editModelIntention.modelIntention.code.length() > 0 
