@@ -14,7 +14,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum Genders {
     
-        Both(0, "enmGenderBoth"),
+        NoAttribute(0, "enmNoAttribute"),
         Male(1, "enmGenderMale"),
         Female(2, "enmGenderFemale");
 

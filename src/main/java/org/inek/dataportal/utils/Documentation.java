@@ -33,6 +33,12 @@ public @interface Documentation {
     public String key() default "";
 
     /**
+     *
+     * @return
+     */
+    public String translateValue() default "";
+
+    /**
      * relative order
      *
      * @return

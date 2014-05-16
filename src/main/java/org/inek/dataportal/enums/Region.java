@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.inek.dataportal.enums;
 
 import org.inek.dataportal.helper.Utils;
@@ -13,7 +12,8 @@ import org.inek.dataportal.helper.Utils;
  * @author schlappajo
  */
 public enum Region {
-        
+
+    NoAttribute(-1, "enmNoAttribute"),
     Germany(0, "enmRegionGer"),
     State(1, "enmRegionState"),
     Misc(2, "enmRegionMisc");
@@ -33,4 +33,5 @@ public enum Region {
     public String region() {
         return Utils.getMessage(_textId);
     }
+
 }

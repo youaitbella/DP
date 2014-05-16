@@ -13,6 +13,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum MedicalAttribute {
 
+    NoAttribute(-1, "enmNoAttribute"),
     MainDiagnosis(0, "enmMedAttrMainDia"),
     PracticeAreas(1, "enmMedAttrPracticeArea"),
     Misc(2, "enmMedAttrMisc");

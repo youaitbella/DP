@@ -18,6 +18,8 @@ import javax.faces.context.FacesContext;
  */
 public class DocumentationUtil {
 
+    private final static String KeyNotFound = "### key not found";
+
     public static List<KeyValue> getDocumentation(Object o) {
         Map<Long, KeyValue> sorter = new TreeMap<>();
         List<KeyValue> fieldValues = new ArrayList<>();
@@ -28,9 +30,9 @@ public class DocumentationUtil {
                 continue;
             }
             try {
-                String name = getName(doc, field.getName());
                 field.setAccessible(true);
                 Object rawValue = field.get(o);
+                String name = getName(doc, field.getName());
                 i = addDoc(rawValue, doc, i, sorter, name);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
@@ -41,9 +43,9 @@ public class DocumentationUtil {
                 continue;
             }
             try {
-                String name = getName(doc, method.getName());
                 method.setAccessible(true);
                 Object rawValue = method.invoke(o);
+                String name = getName(doc, method.getName());
                 i = addDoc(rawValue, doc, i, sorter, name);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
@@ -56,13 +58,15 @@ public class DocumentationUtil {
     }
 
     private static int addDoc(Object rawValue, Documentation doc, int i, Map<Long, KeyValue> sorter, String name) {
-        if (rawValue instanceof Boolean){
-            rawValue = (boolean) rawValue ? "Ja" : "Nein"; // todo: replace by localized message
+        String value;
+        if (rawValue instanceof Boolean) {
+            value = (boolean) rawValue ? "Ja" : "Nein"; // todo: replace by localized message
+        } else if (rawValue instanceof Date) {
+            value = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(((Date) rawValue)); // todo: replace by localized message
+        } else {
+            value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');
+            value = translateValue(doc, value);
         }
-        if (rawValue instanceof Date){
-            rawValue = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(((Date) rawValue)); // todo: replace by localized message
-        }
-        String value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');
         Long sorterKey = 1000L * doc.rank() + i;
         i++;
         if (value.length() > 0 || !doc.omitOnEmpty()) {
@@ -71,32 +75,48 @@ public class DocumentationUtil {
         return i;
     }
 
-    
-    public static String getMessage(String key) {
+    private static String getMessage(String key) {
         FacesContext ctxt = FacesContext.getCurrentInstance();
         ResourceBundle messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
         try {
             return messageBundle.getString(key);
         } catch (Exception e) {
-            return "";
+            return KeyNotFound + " " + key;
         }
     }
 
-    private static String getName(Documentation doc, String defaultName) {
-        String name = "";
-        if (doc.key().length() > 0) {
-            name = getMessage(doc.key());
-        }
-        if (name.isEmpty()) {
-            if (doc.name().length() > 0) {
-                name = doc.name();
-            } else {
-                name = defaultName;
-                if (name.startsWith("_")) {
-                    name = name.substring(1, 2).toUpperCase() + name.substring(2);
+    private static String translateValue(Documentation doc, String value) {
+        if (doc.translateValue().length() > 0) {
+            String[] pairs = doc.translateValue().split(";");
+            for (String pair : pairs) {
+                int pos = pair.indexOf("=");
+                if (pos > 0 && pair.length() > pos + 1) {
+                    String val = pair.substring(0, pos).trim();
+                    String key = pair.substring(pos + 1).trim();
+                    if (val.equals(value)) {
+                        String translatedValue = getMessage(key);
+                        if (!translatedValue.startsWith(KeyNotFound)) {
+                            return translatedValue;
+                        }
+                        break;
+                    }
                 }
             }
         }
-        return name;
+        return value;
     }
+
+    private static String getName(Documentation doc, String defaultName) {
+        if (doc.key().length() > 0) {
+            return getMessage(doc.key());
+        }
+        if (doc.name().length() > 0) {
+            return doc.name();
+        }
+        if (defaultName.startsWith("_")) {
+            return defaultName.substring(1, 2).toUpperCase() + defaultName.substring(2);
+        }
+        return defaultName;
+    }
+
 }

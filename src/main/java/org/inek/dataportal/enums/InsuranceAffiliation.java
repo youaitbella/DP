@@ -8,7 +8,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum InsuranceAffiliation {
     
-    AllInsurances(0, "enmInsuranceAffiliationAll"),
+    AllInsurances(0, "enmNoAttribute"),
     NamedInsurances(1, "enmInsuranceAffiliationNamed");
 
     private final int _id;

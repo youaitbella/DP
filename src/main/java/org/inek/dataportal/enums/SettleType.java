@@ -14,7 +14,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum SettleType {
     
-    None(-1, "enmNone"),
+    No(-1, "enmNo"),
     ImpartialDepartment(0, "enmSettleTypeImpDep"),
     DepartmentDocs(1, "enmSettleTypeDepDocs"),
     MiscMedics(2, "enmSettleTypeMiscDocs");

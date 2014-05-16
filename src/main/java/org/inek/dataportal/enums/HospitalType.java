@@ -13,7 +13,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum HospitalType {
 
-    None(-1, "enmNone"),
+    No(-1, "enmNo"),
     AnyHospital(0, "enmHospitalTypeAny"),
     ModelProjectHospital(1, "enmHospitalTypeModelProject"),
     SpecificHospital(2, "enmHospitalTypeSpecific"),

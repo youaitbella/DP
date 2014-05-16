@@ -65,19 +65,23 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
     
+    @Documentation(key = "lblAgeFrom", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
 
+    @Documentation(key = "lblAgeTo", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsTo")
     private int _ageYearsTo = -1;
 
+    @Documentation(key = "lblGender", translateValue = "0=enmGenderBoth;1=enmGenderMale;2=enmGenderFemale")
     @Column(name = "miSex")
-    private int _sex = -1;
+    private int _sex = 0;
 
-    @Documentation(key = "lblPersonalMisc")
+    @Documentation(key = "lblPersonalMisc", omitOnEmpty = true)
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
 
+    @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
     @Column(name = "miRegion")
     private String _region = "";
 

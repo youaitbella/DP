@@ -14,7 +14,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum PiaType {
     
-    None(-1, "enmNone"),
+    None(-1, "enmNo"),
     AnyPIA(0, "enmPiaTypeAny"),
     IntegratedPIA(1, "enmPiaTypeIntegrated"),
     ContractPIA(2, "enmPiaTypeContract"),
