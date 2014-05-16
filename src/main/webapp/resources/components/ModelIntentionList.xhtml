@@ -33,11 +33,11 @@
                         <h:graphicImage alt="Status" name="#{model.status.icon}" library="Icon/small" value="" title="#{model.status.description}" rendered="#{model.status.icon.length() gt 0}"/>
                     </h:commandLink>
                 </h:column>
-                <h:column id="colCode">
+                <h:column id="colIK">
                     <f:facet name="header">
                         <h:outputText value="Kennung"/>
                     </f:facet>
-                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code}" immediate="true"/>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code.isEmpty() ? 'nicht&nbsp;erteilt' : model.code}" immediate="true"/>
                 </h:column>
                 <h:column id="colName">
                     <f:facet name="header">
