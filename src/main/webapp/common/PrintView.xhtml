@@ -24,7 +24,8 @@
 
         <h:outputLabel styleClass="noPrint" value="#{msg.lblPrintView}"/>
         
-        <h:dataTable styleClass="paddingElement" headerClass="list-header" id="tblPrint" value="#{flash.printContent}" var="p" width="100%" rowClasses="row1, row2" columnClasses="col14, colValue">
+        <h:dataTable styleClass="paddingElement" headerClass="list-header" id="tblPrint" value="#{flash.printContent}" var="p" 
+                     width="100%" rowClasses="row1, row2" columnClasses="col14, colValue" >
             <h:column id="colKey">
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblField}"/>
@@ -33,9 +34,9 @@
             </h:column>
             <h:column id="colValue">
                 <f:facet name="header">
-                    <h:outputText value="#{msg.lblValue}"/>
+                    <h:outputText  value="#{msg.lblValue}"/>
                 </f:facet>
-                <h:outputLabel value="#{p.value}"/>
+                <h:outputLabel value="#{p.value}" />
             </h:column>
 
         </h:dataTable>

@@ -81,9 +81,11 @@ public class DocumentationUtil {
     }
 
     private void documentCollection(Documentation doc, Collection collection, int level) {
+        int counter=0;
         for (Object entry : collection) {
 //            documentObject(entry, level);
-            addDoc(flatDocumentObject(entry), doc, "", level);
+            counter++;
+            addDoc(flatDocumentObject(entry), doc, ""+counter, level);
         }
     }
 
@@ -118,7 +120,7 @@ public class DocumentationUtil {
 
     private String addField(String line, String fieldName, Object rawValue) {
         if (line.length() > 0) {
-            line += "; ";
+            line += "<br/>";
         }
         line += fieldName + " = " + rawValue;
         return line;
