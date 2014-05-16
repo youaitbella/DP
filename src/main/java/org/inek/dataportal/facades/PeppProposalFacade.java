@@ -1,6 +1,5 @@
 package org.inek.dataportal.facades;
 
-import org.inek.dataportal.facades.account.AccountFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +8,18 @@ import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.PeppProposal;
 import org.inek.dataportal.entities.PeppProposalComment;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.utils.DocumentationUtil;
-import org.inek.dataportal.utils.KeyValue;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.KeyValueLevel;
 
 /**
  *
@@ -67,11 +71,11 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     private void logData(Object data) {
-        List<KeyValue> doc = DocumentationUtil.getDocumentation(data);
+        List<KeyValueLevel> doc = DocumentationUtil.getDocumentation(data);
         // ensure these messages to be logged
         Level oldLevel = _logger.getLevel();
         _logger.setLevel(Level.INFO);
-        for (KeyValue kv : doc) {
+        for (KeyValueLevel kv : doc) {
             _logger.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
         }
         _logger.setLevel(oldLevel);

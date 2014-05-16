@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,27 @@ public class DocumentationUtil {
 
     private final static String KeyNotFound = "### key not found";
 
-    public static List<KeyValue> getDocumentation(Object o) {
-        Map<Long, KeyValue> sorter = new TreeMap<>();
-        List<KeyValue> fieldValues = new ArrayList<>();
-        int i = 0;
+    public static List<KeyValueLevel> getDocumentation(Object o) {
+        DocumentationUtil docUtil = new DocumentationUtil();
+        docUtil.documentObject(o, 0);
+        return docUtil.getFieldValues();
+    }
+
+    private DocumentationUtil() {
+    }
+
+    private final Map<Long, KeyValueLevel> _sorter = new TreeMap<>();
+    private int _position = 0;
+
+    public List<KeyValueLevel> getFieldValues() {
+        List<KeyValueLevel> fieldValues = new ArrayList<>();
+        for (KeyValueLevel kv : _sorter.values()) {
+            fieldValues.add(kv);
+        }
+        return fieldValues;
+    }
+
+    public void documentObject(Object o, int level) {
         for (Field field : o.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -32,8 +50,7 @@ public class DocumentationUtil {
             try {
                 field.setAccessible(true);
                 Object rawValue = field.get(o);
-                String name = getName(doc, field.getName());
-                i = addDoc(rawValue, doc, i, sorter, name);
+                docElement(doc, field.getName(), rawValue, level);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
@@ -45,34 +62,104 @@ public class DocumentationUtil {
             try {
                 method.setAccessible(true);
                 Object rawValue = method.invoke(o);
-                String name = getName(doc, method.getName());
-                i = addDoc(rawValue, doc, i, sorter, name);
+                docElement(doc, method.getName(), rawValue, level);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
 
         }
-        for (KeyValue kv : sorter.values()) {
-            fieldValues.add(kv);
-        }
-        return fieldValues;
     }
 
-    private static int addDoc(Object rawValue, Documentation doc, int i, Map<Long, KeyValue> sorter, String name) {
-        String value;
-        if (rawValue instanceof Boolean) {
-            value = (boolean) rawValue ? "Ja" : "Nein"; // todo: replace by localized message
-        } else if (rawValue instanceof Date) {
-            value = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(((Date) rawValue)); // todo: replace by localized message
+    private void docElement(Documentation doc, String fieldName, Object rawValue, int level) {
+        String name = getName(doc, fieldName);
+        if (rawValue instanceof Collection) {
+            addDoc("", doc, name, level);
+            documentCollection(doc, (Collection) rawValue, level + 1);
         } else {
-            value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');
-            value = translateValue(doc, value);
+            String value = translate(rawValue, doc);
+            addDoc(value, doc, name, level);
         }
-        Long sorterKey = 1000L * doc.rank() + i;
-        i++;
+    }
+
+    private void documentCollection(Documentation doc, Collection collection, int level) {
+        for (Object entry : collection) {
+//            documentObject(entry, level);
+            addDoc(flatDocumentObject(entry), doc, "", level);
+        }
+    }
+
+    private String flatDocumentObject(Object o) {
+        String line = "";
+        for (Field field : o.getClass().getDeclaredFields()) {
+            Documentation doc = field.getAnnotation(Documentation.class);
+            if (doc == null) {
+                continue;
+            }
+            try {
+                field.setAccessible(true);
+                Object rawValue = field.get(o);
+                line = addField(line, getName(doc, field.getName()), rawValue);
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+            }
+        }
+        for (Method method : o.getClass().getMethods()) {
+            Documentation doc = method.getAnnotation(Documentation.class);
+            if (doc == null) {
+                continue;
+            }
+            try {
+                method.setAccessible(true);
+                Object rawValue = method.invoke(o);
+                line = addField(line, getName(doc, method.getName()), rawValue);
+            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
+            }
+        }
+        return line;
+    }
+
+    private String addField(String line, String fieldName, Object rawValue) {
+        if (line.length() > 0) {
+            line += "; ";
+        }
+        line += fieldName + " = " + rawValue;
+        return line;
+    }
+
+    private void addDoc(String value, Documentation doc, String name, int level) {
+        Long sorterKey = 1000L * doc.rank() + _position;
+        _position++;
         if (value.length() > 0 || !doc.omitOnEmpty()) {
-            sorter.put(sorterKey, new KeyValue<>(name, value));
+            _sorter.put(sorterKey, new KeyValueLevel<>(name, value, level));
         }
-        return i;
+    }
+
+    private String translate(Object rawValue, Documentation doc) {
+        if (rawValue instanceof Boolean) {
+            return (boolean) rawValue ? "Ja" : "Nein"; // todo: replace by localized message
+        }
+        if (rawValue instanceof Date) {
+            return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(((Date) rawValue)); // todo: replace by localized message
+        }
+
+        String value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');
+        if (doc.translateValue().length() == 0) {
+            return value;
+        }
+        String[] pairs = doc.translateValue().split(";");
+        for (String pair : pairs) {
+            int pos = pair.indexOf("=");
+            if (pos > 0 && pair.length() > pos + 1) {
+                String val = pair.substring(0, pos).trim();
+                String key = pair.substring(pos + 1).trim();
+                if (val.equals(value)) {
+                    String translatedValue = getMessage(key);
+                    if (!translatedValue.startsWith(KeyNotFound)) {
+                        return translatedValue;
+                    }
+                    break;
+                }
+            }
+        }
+        return value;
     }
 
     private static String getMessage(String key) {
@@ -83,27 +170,6 @@ public class DocumentationUtil {
         } catch (Exception e) {
             return KeyNotFound + " " + key;
         }
-    }
-
-    private static String translateValue(Documentation doc, String value) {
-        if (doc.translateValue().length() > 0) {
-            String[] pairs = doc.translateValue().split(";");
-            for (String pair : pairs) {
-                int pos = pair.indexOf("=");
-                if (pos > 0 && pair.length() > pos + 1) {
-                    String val = pair.substring(0, pos).trim();
-                    String key = pair.substring(pos + 1).trim();
-                    if (val.equals(value)) {
-                        String translatedValue = getMessage(key);
-                        if (!translatedValue.startsWith(KeyNotFound)) {
-                            return translatedValue;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        return value;
     }
 
     private static String getName(Documentation doc, String defaultName) {

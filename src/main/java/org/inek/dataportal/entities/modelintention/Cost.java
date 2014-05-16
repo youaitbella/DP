@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 
 @Entity
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 public class Cost implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,7 @@ public class Cost implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="IK">
     @Column (name = "coIk")
+    @Documentation(key = "lblIK")
     private int _ik = -1;
 
     public Integer getIk() {
@@ -38,15 +41,19 @@ public class Cost implements Serializable {
     // </editor-fold>
     
     @Column (name = "coRemunerationKey")
+    @Documentation(key = "lblRemunerationCode")
     private String _remunerationCode = "";
     
     @Column (name = "coCostCenterId")
+    @Documentation(key = "lblCostCenter")
     private int _costCenterId = -1;
     
     @Column (name = "coCostTypeId")
+    @Documentation(key = "lblCostType")
     private int _costTypeId = -1;
     
     @Column (name = "coAmount")
+    @Documentation(key = "lblCostAmount")
     private BigDecimal _amount = new BigDecimal(0d);
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">

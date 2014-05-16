@@ -396,6 +396,7 @@ public class ModelIntention implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
+    @Documentation(key = "headerModelIntentionCost")
     private List<Cost> _costs;
 
     public List<Cost> getCosts() {
