@@ -8,7 +8,7 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Reiter Struktur bietet Ihnen die Möglichkeit Strukturmerkmale des Modellvorhabens einzutragen.</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Dazu zählen:</text></para>
-    <list id="3" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="7" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Laufzeit des Modellvorhabens</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vertragspartner des Modellvorhabens</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Eingebundene Leistungserbringer</text></li>
@@ -19,16 +19,40 @@
     <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Struktur</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Laufzeit des Modellvorhabens:</text></para>
-    <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Hier tragen Sie entsprechend den Feldern die Laufzeit des Modellvorhabens ein.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Start wird das Datum eingetragen, an dem das Modellvorhaben beginnt. Kurze Datumsangaben (z.B. 1.1.14) werden automatisch umgesetzt (01.01.2014).</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Feld Dauer beschreibt die Dauer des Modellvorhabens in Monaten. Bei der Verwendung von Dezimalwerten ist darauf zu achten, dass diese mit einem Punkt zu trennen sind.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Weitere Einträge können angelegt werden, sobald die Laufzeit vollständig eingetragen wurde. Dazu erscheint automatisch eine neue Eingabezeile.</text></li>
     </list>
-    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="9" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie das Papierkorbsymbol vor dem jeweiligen Eintrag.</text></li>
     </list>
     <para styleclass="Bullet Text"></para>
     <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vertragspartner des Modellvorhabens:</text></para>
+    <list id="10" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Vertragspartner des Modellvorhabens können Sie entweder manuell eintragen oder mit Hilfe einer csv-Datei hochladen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Zum Hochladen einer csv-Datei wählen Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Kontaktdaten hochladen]</text><text styleclass="Bullet Text" translate="true"> die entsprechende csv-Datei auf Ihrem System und bestätigen die Auswahl mit </text><text styleclass="Button" translate="true">[Öffnen]</text><text styleclass="Bullet Text" translate="true">. Anschließend werden Ihre Kontaktdaten in das aktuelle Modellvorhaben übertragen. Die hochzuladene csv-Datei muss die gleichen Felder wie die manuelle Eingabe enthalten . Andernfalls ist ein Hochladen nicht möglich.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um eine manuelle Eingabe der Daten vorzunehmen, wählen Sie zunächst die Schaltfläche </text><text styleclass="Button" translate="true">[Vertragspartner zufügen]</text><text styleclass="Bullet Text" translate="true">. Anschließend erscheinen die auszufüllenden Eingabefelder.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><text styleclass="Bullet Text" translate="true">&#32;</text><image src="MvhVertragspartner.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Vertragspartner</text></para>
+    <list id="11" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die vorliegenden Felder können Sie nun mit den entsprechenden Inhalten befüllen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sollten Sie weitere Vertragspartner anlegen wollen, können Sie zusätzliche Eingabefelder über die Schaltfläche [Vertragspartner hinzufügen] hinzufügen.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben den Vertragspartnern haben Sie die Möglichkeit eingebundene Leistungserbringer und Kostenträger anzugeben. Dies geschieht auf die gleiche Weise wie bei den Vertragspartnern, jedoch haben Sie hier nicht die Möglichkeit diese mit Hilfe von csv-Dateien hochzuladen. Durch betätigen der entsprechenden Schaltflächen (</text><text styleclass="Button" translate="true">[Leistungserbringer hinzufügen]</text><text styleclass="Normal" translate="true">, </text><text styleclass="Button" translate="true">[Kostenträger hinzufügen]</text><text styleclass="Normal" translate="true">), erscheinen die jeweiligen Felder in die Sie anschließend die Inhalte eintragen können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhLeistungKostenträger.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Leistungserbringer &amp; Kostenträger</text></para>
+    <para styleclass="Bullet Text"></para>
+    <list id="12" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Auch hier haben Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> die Möglichkeit Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
+    </list>
+    <list id="13" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt dieses ans InEK. Eine Bearbeitung ist nachträglich nicht mehr möglich. </text></li>
+    </list>
   </body>
 </topic>

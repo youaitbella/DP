@@ -10,7 +10,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die erste Rubrik ist Art der Patienten. Hier haben Sie die Möglichkeit, Merkmale zur Einbeziehung von Patientinnen oder Patienten anzugeben, die am jeweiligen Modellvorhaben teilnehmen. </text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Nicht relevante Merkmale werden leer übermittelt. Pflichtfelder werden auf allen Reitern gelb hinterlegt und mit einer Hinweismeldung gekennzeichnet, falls diese nicht befüllt sind.</text></para>
     <para styleclass="Normal"></para>
-    <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Feld Vertragskennzeichen wird durch das InEK nach abgeschlossener Bearbeitung des Modellvorhabens befüllt. Dieses Feld bitte </text><text styleclass="Warning" translate="true">nicht</text><text styleclass="Bullet Text" translate="true"> manuell befüllen!</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Beschreibung können Sie eine Kurzbeschreibung für das aktuelle Modellvorhaben eintragen.</text></li>
     </list>
@@ -18,7 +18,7 @@
     <para styleclass="Normal" style="text-align:center;"><image src="MvhArtAnzPat.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Art der Patienten</text></para>
     <para styleclass="Normal"></para>
-    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="6" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Alter in Jahren (von - bis) wird ein entsprechender Ganzjahreswert (keine Dezimalwerte, nur eine Zahl pro Feld) erwartet.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sofern das vorliegende Modellvorhaben für ein bestimmtes Geschlecht relevant ist, so wird dies in der Auswahl entsprechend gewählt. Andernfalls wird dieses auf dem Standardwert Beide gelassen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Auswahl Regionale Merkmale bietet die Möglichkeit, dass Modellvorhaben auf eine bestimmte Region einzugrenzen. Sofern die Auswahl Sonstige gewählt ist, ist diese in dem darunterliegenden Textfeld konkret zu spezifizieren. Bei der Auswahl Bundesland, gilt das vorliegende Modellvorhaben für das Bundesland des Vertragspartners. Die Auswahl Deutschland gilt übergreifend für ganz Deutschland und ist somit nicht näher spezifiziert.</text></li>
@@ -31,10 +31,10 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die nächste Rubrik ermöglicht Ihnen die Zuweisungsberechtigung im Modellvorhaben einzutragen.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal" style="text-align:center;"><image src="MvhZuwBerechtigung.jpg" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhZuwBerechtigung.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zuweisungsberechtigung Modellvorhaben</text></para>
     <para styleclass="Normal" style="text-align:center;"></para>
-    <list id="6" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="7" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Kombobox der niedergelassenen Ärzte bietet Ihnen vier verschiedene Auswahlmöglichkeiten. Dabei sind die Punkte nur Fachärzte sowie sonstige bestimmte Ärzte Pflichtfelder und müssen im darunterliegenden Textfeld konkret spezifiziert werden.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Kombobox psychiatrische Institutsambulanz bietet Ihnen fünf Auswahlmöglichkeiten. Die Auswahl nur bestimmte PIA ist ein Pflichtfeld und muss im darunterliegenden Textfeld konkret spezifiziert werden.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Mit der Kombobx Krankenhaus können Sie das für dieses Modellvorhaben relevante Krankenhaus auswählen. Sofern Sie die Auswahl nur Fachkrankenhäuser oder sonstige bestimmte Krankenhäuser treffen, so ist diese konkret zu spezifizieren.</text></li>
@@ -45,15 +45,15 @@
     <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhVerAnzPat.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Vereinbarte Anzahl Patienten</text></para>
     <para styleclass="Normal"></para>
-    <list id="7" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">In den Feldern von und bis wird jeweils der Gültigkeitszeitraum für eine bestimmte Anzahl Patienten eingetragen. Das Datum kann in Kurzform (z.B. 1.1.14) angegeben werden. </text><text styleclass="Normal" translate="true">Diese wird automatisch umgesetzt (01.01.2014).</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Feld Anzahl Patienten erwartet einen Ganzzahlwert und beschreibt die Anzahl der Patienten für den gewählten Gültigkeitszeitraum. Dezimalwerte dürfen an dieser Stelle nicht eingetragen werden.</text></li>
     </list>
-    <list id="18" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="9" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie das Papierkorbsymbol vor dem jeweiligen Eintrag.</text></li>
     </list>
     <para styleclass="Bullet Text"></para>
-    <list id="7" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> können Sie Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt dieses ans InEK. Eine Bearbeitung ist nachträglich nicht mehr möglich.</text></li>
     </list>
