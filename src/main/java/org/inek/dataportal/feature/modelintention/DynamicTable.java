@@ -88,5 +88,5 @@ public abstract class DynamicTable<T> {
         _script = "";
         return script;
     }
-
 }
+

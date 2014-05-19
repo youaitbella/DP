@@ -8,7 +8,6 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
-
     <h2>#{msg.headerModelIntentionCost}</h2>
 
     <h:form id="costUploadForm" enctype="multipart/form-data" rendered="#{!editModelIntention.readOnly}">
@@ -22,6 +21,8 @@
         </div>
     </h:form>
     <h:form id="costForm" enctype="multipart/form-data">
+        
+        
         <table class="fullWidth">
             <thead>
                 <tr>
@@ -58,11 +59,14 @@
                         <td class="col14 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgRemunerationCode#{status.index}" for="remunerationCode#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}" 
-                                             required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:ajax event="keyup" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgRemunerationCode#{status.index}"/>
-                                </h:inputText> 
+                                <h:selectOneMenu styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}" 
+                                                 required="true" readonly="#{editModelIntention.readOnly}" >
+                                    <f:selectItems value="#{editModelIntention.modelIntention.remunerations.stream().filter(r -> !r.code.isEmpty()).toList()}" 
+                                                   var="r" itemLabelEscaped="true"
+                                                   itemValue="#{r.code}" itemLabel="#{r.code}" />
+                                    <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                </h:selectOneMenu>
+
                             </h:panelGrid>
                         </td>
 
@@ -71,7 +75,7 @@
                                 <h:message id="msgCostCenter#{status.index}" for="costCenter#{status.index}" styleClass="errorMessage"/>
                                 <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}" 
                                                  required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:selectItems value="#{valueLists.costCenters}" />
+                                    <f:selectItems value="#{valueLists.costCenters}"/>
                                     <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
                                 </h:selectOneMenu>
                             </h:panelGrid>

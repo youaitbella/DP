@@ -43,7 +43,6 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @Named
 @ConversationScoped
 public class EditModelIntention extends AbstractEditController {
-
     private static final Logger _logger = Logger.getLogger("EditModelIntention");
 
     @Inject private SessionController _sessionController;
