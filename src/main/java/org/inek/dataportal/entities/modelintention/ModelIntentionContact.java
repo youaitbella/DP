@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  * A contact might be any (juristic) person, who is involved into the model
@@ -45,19 +46,24 @@ public class ModelIntentionContact implements Serializable {
     // </editor-fold>
 
     @Column(name = "csContactTypeId")
+    @Documentation(name="Art", translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", omitOnEmpty = true)
     private int _contactTypeId;
 
     @Column(name = "csIK")
+    @Documentation(key = "lblIK")
     private int _ik = -1;
 
     @Column(name = "csName")
+    @Documentation(key = "lblName")
     private String _name = "";
 
     @Column(name = "csStreet")
+    @Documentation(key = "lblStreet")
     private String _street = "";
 
     // <editor-fold defaultstate="collapsed" desc="Zip">
     @Column(name = "csZip")
+    @Documentation(key = "lblPostalCode")
     private String _zip = "";
     public String getZip() {
         return _zip;
@@ -69,18 +75,23 @@ public class ModelIntentionContact implements Serializable {
     // </editor-fold>
 
     @Column(name = "csTown")
+    @Documentation(key = "lblTown")
     private String _town = "";
 
     @Column(name = "csRegCare")
+    @Documentation(key = "lblRegCare")
     private int _regCare;
 
     @Column(name = "csContactPerson")
+    @Documentation(key = "lblContactPerson")
     private String _contactPerson = "";
 
     @Column(name = "csPhone")
+    @Documentation(key = "lblPhone")
     private String _phone = "";
 
     @Column(name = "csEMail")
+    @Documentation(key = "lblMail")
     private String _email = "";
 
     public boolean isEmpty(){

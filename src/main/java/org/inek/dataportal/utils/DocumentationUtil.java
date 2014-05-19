@@ -23,7 +23,7 @@ public class DocumentationUtil {
 
     public static List<KeyValueLevel> getDocumentation(Object o) {
         DocumentationUtil docUtil = new DocumentationUtil();
-        docUtil.documentObject(o, 0);
+        docUtil.documentObject(o);
         return docUtil.getFieldValues();
     }
 
@@ -41,7 +41,7 @@ public class DocumentationUtil {
         return fieldValues;
     }
 
-    public void documentObject(Object o, int level) {
+    public void documentObject(Object o) {
         for (Field field : o.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -50,7 +50,7 @@ public class DocumentationUtil {
             try {
                 field.setAccessible(true);
                 Object rawValue = field.get(o);
-                docElement(doc, field.getName(), rawValue, level);
+                docElement(doc, field.getName(), rawValue);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
@@ -62,35 +62,33 @@ public class DocumentationUtil {
             try {
                 method.setAccessible(true);
                 Object rawValue = method.invoke(o);
-                docElement(doc, method.getName(), rawValue, level);
+                docElement(doc, method.getName(), rawValue);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
-
         }
     }
 
-    private void docElement(Documentation doc, String fieldName, Object rawValue, int level) {
+    private void docElement(Documentation doc, String fieldName, Object rawValue) {
         String name = getName(doc, fieldName);
         if (rawValue instanceof Collection) {
-            addDoc("", doc, name, level);
-            documentCollection(doc, (Collection) rawValue, level + 1);
+            addDoc(name, "", doc, 0);
+            documentCollection(doc, (Collection) rawValue);
         } else {
             String value = translate(rawValue, doc);
-            addDoc(value, doc, name, level);
+            addDoc(name, value, doc, 0);
         }
     }
 
-    private void documentCollection(Documentation doc, Collection collection, int level) {
+    private void documentCollection(Documentation doc, Collection collection) {
         int counter=0;
         for (Object entry : collection) {
-//            documentObject(entry, level);
             counter++;
-            addDoc(flatDocumentObject(entry), doc, ""+counter, level);
+            addDoc(""+counter, getDocForSubObject(entry), doc, 1);
         }
     }
 
-    private String flatDocumentObject(Object o) {
-        String line = "";
+    private List<KeyValueLevel> getDocForSubObject(Object o) {
+        List<KeyValueLevel> subList = new ArrayList<>();
         for (Field field : o.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -99,7 +97,7 @@ public class DocumentationUtil {
             try {
                 field.setAccessible(true);
                 Object rawValue = field.get(o);
-                line = addField(line, getName(doc, field.getName()), rawValue);
+                subList.add(new KeyValueLevel(getName(doc, field.getName()), translate(rawValue, doc), 1));
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
@@ -111,25 +109,18 @@ public class DocumentationUtil {
             try {
                 method.setAccessible(true);
                 Object rawValue = method.invoke(o);
-                line = addField(line, getName(doc, method.getName()), rawValue);
+                subList.add(new KeyValueLevel(getName(doc, method.getName()), translate(rawValue, doc), 1));
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
         }
-        return line;
+        return subList;
     }
 
-    private String addField(String line, String fieldName, Object rawValue) {
-        if (line.length() > 0) {
-            line += "<br/>";
-        }
-        line += fieldName + " = " + rawValue;
-        return line;
-    }
 
-    private void addDoc(String value, Documentation doc, String name, int level) {
+    private void addDoc(String name, Object value, Documentation doc, int level) {
         Long sorterKey = 1000L * doc.rank() + _position;
         _position++;
-        if (value.length() > 0 || !doc.omitOnEmpty()) {
+        if (value.toString().length() > 0 || !doc.omitOnEmpty()) {
             _sorter.put(sorterKey, new KeyValueLevel<>(name, value, level));
         }
     }

@@ -23,7 +23,7 @@
         <h1><h:link value="#{flash.headLine}" outcome="#{flash.targetPage}"/></h1>
 
         <h:outputLabel styleClass="noPrint" value="#{msg.lblPrintView}"/>
-        
+
         <h:dataTable styleClass="paddingElement" headerClass="list-header" id="tblPrint" value="#{flash.printContent}" var="p" 
                      width="100%" rowClasses="row1, row2" columnClasses="col14, colValue" >
             <h:column id="colKey">
@@ -36,7 +36,16 @@
                 <f:facet name="header">
                     <h:outputText  value="#{msg.lblValue}"/>
                 </f:facet>
-                <h:outputLabel value="#{p.value}" />
+                <h:outputLabel value="#{p.value}" rendered="#{p.level == 0}"/>
+                <h:dataTable value="#{p.value}" var="sub" rendered="#{p.level > 0}" columnClasses="col30, colValue" width="100%">
+                    <h:column id="colSubKey">
+                        <h:outputLabel value="#{sub.key}"/>
+                    </h:column>
+                    <h:column id="colSubVal">
+                        <h:outputLabel value="#{sub.value}"/>
+                    </h:column>
+
+                </h:dataTable>
             </h:column>
 
         </h:dataTable>

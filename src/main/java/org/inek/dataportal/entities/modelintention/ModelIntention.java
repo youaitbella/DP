@@ -434,11 +434,29 @@ public class ModelIntention implements Serializable {
     @OrderBy("_startDate")
     private List<ModelLife> _modelLifes;
 
+    // <editor-fold defaultstate="collapsed" desc="ModelIntentionContact">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
+    @Documentation(key = "headerModelIntentionContract")
     private List<ModelIntentionContact> _contacts;
 
+    public List<ModelIntentionContact> getContacts() {
+        if (_contacts == null) {
+            _contacts = new ArrayList<>();
+            // at least, there must be two partners:
+            _contacts.add(new ModelIntentionContact(1));
+            _contacts.add(new ModelIntentionContact(1));
+        }
+        return _contacts;
+    }
+
+    public void setContacts(List<ModelIntentionContact> contacts) {
+        _contacts = contacts;
+    }
+    // </editor-fold>
+
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -821,20 +839,6 @@ public class ModelIntention implements Serializable {
 
     public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
         _agreedPatients = agreedPatients;
-    }
-
-    public List<ModelIntentionContact> getContacts() {
-        if (_contacts == null) {
-            _contacts = new ArrayList<>();
-            // at least, there must be two partners:
-            _contacts.add(new ModelIntentionContact(1));
-            _contacts.add(new ModelIntentionContact(1));
-        }
-        return _contacts;
-    }
-
-    public void setContacts(List<ModelIntentionContact> contacts) {
-        _contacts = contacts;
     }
 
     public List<ModelLife> getModelLifes() {
