@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -38,9 +39,10 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property code">
     @Documentation(key = "lblModelIntentionCode")
     @Column(name = "miCode")
-    //@Size(max = 8)
     private String _code = "";
 
+
+    @Size(max = 8)
     public String getCode() {
         return _code;
     }
@@ -49,7 +51,7 @@ public class ModelIntention implements Serializable {
         _code = code;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property description">
     @Documentation(key = "lblAppellation")
     @Column(name = "miDescription")
@@ -64,7 +66,7 @@ public class ModelIntention implements Serializable {
         _description = description;
     }
     // </editor-fold>
-    
+
     @Documentation(key = "lblAgeFrom", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
@@ -77,9 +79,20 @@ public class ModelIntention implements Serializable {
     @Column(name = "miSex")
     private int _sex = 0;
 
+    // <editor-fold defaultstate="collapsed" desc="MiscPatient">
     @Documentation(key = "lblPersonalMisc", omitOnEmpty = true)
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
+
+    @Size(max = 8)
+    public String getMiscPatient() {
+        return _miscPatient;
+    }
+
+    public void setMiscPatient(String miscPatient) {
+        this._miscPatient = miscPatient;
+    }
+    // </editor-fold>
 
     @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
     @Column(name = "miRegion")
@@ -243,7 +256,7 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property outpatientTreatment">
     @Column(name = "miOutpatientTreatmentType")
     private int _outpatientTreatmentType;
-    
+
     public int getOutpatientTreatmentType() {
         return _outpatientTreatmentType;
     }
@@ -267,7 +280,7 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property  outpatientHomeTreatment">
     @Column(name = "miOutpatientHomeTreatmentType")
     private int _outpatientHomeTreatmentType;
-    
+
     public int getOutpatientHomeTreatmentType() {
         return _outpatientHomeTreatmentType;
     }
@@ -355,7 +368,7 @@ public class ModelIntention implements Serializable {
     @Column(name = "miStatus")
     private int _status = 0;
 
-    @Documentation(name="Bearbeitungsstatus", rank = 10)
+    @Documentation(name = "Bearbeitungsstatus", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_status);
     }
@@ -368,7 +381,7 @@ public class ModelIntention implements Serializable {
         _status = status.getValue();
     }
     // </editor-fold>
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -428,7 +441,7 @@ public class ModelIntention implements Serializable {
         _adjustments = adjustments;
     }
     // </editor-fold>
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
@@ -456,7 +469,6 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -472,7 +484,7 @@ public class ModelIntention implements Serializable {
     public void setInternalQuality(int internalQuality) {
         _internalQuality = internalQuality;
     }
-    
+
     @Column(name = "miExternalQuality")
     private int _externalQuality;
     public int getExternalQuality() {
@@ -482,7 +494,7 @@ public class ModelIntention implements Serializable {
     public void setExternalQuality(int externalQuality) {
         _externalQuality = externalQuality;
     }
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "qyModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -499,7 +511,7 @@ public class ModelIntention implements Serializable {
         _qualities = qualitys;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
         return _id;
@@ -540,14 +552,6 @@ public class ModelIntention implements Serializable {
 
     public void setSex(int sex) {
         this._sex = sex;
-    }
-
-    public String getMiscPatient() {
-        return _miscPatient;
-    }
-
-    public void setMiscPatient(String miscPatient) {
-        this._miscPatient = miscPatient;
     }
 
     public String getRegion() {
@@ -865,7 +869,6 @@ public class ModelIntention implements Serializable {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
