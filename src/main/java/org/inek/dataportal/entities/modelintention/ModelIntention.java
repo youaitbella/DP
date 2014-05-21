@@ -123,6 +123,9 @@ public class ModelIntention implements Serializable {
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
 
+    @Column(name = "miRegionType")
+    private Integer _regionType = -1;
+    
     @Size(max = 8)
     public String getMiscPatient() {
         return _miscPatient;
@@ -137,10 +140,6 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
     @Column(name = "miRegion")
     private String _region = "";
-    
-    public String getRegion() {
-        return _region;
-    }
 
     public void setRegion(String region) {
         this._region = region;
@@ -682,33 +681,18 @@ public class ModelIntention implements Serializable {
     public void setAccountId(int accountId) {
         this._accountId = accountId;
     }
-
     
+    public Integer getRegionType() {
+        return _regionType;
+    }
 
-    
+    public void setRegionType(Integer _regionType) {
+        this._regionType = _regionType;
+    }
 
-    
-
-    
-
-    
-
-  
-
-   
-   
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    public String getRegion() {
+        return _region;
+    }
 
     public int getSelfHospitalisationType() {
         return _selfHospitalisationType;

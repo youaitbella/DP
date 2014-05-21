@@ -54,7 +54,7 @@
             <inek:LabeledTextarea Label="#{msg.lblPersonalMisc}" Text="#{editModelIntention.modelIntention.miscPatient}" readonly="#{editModelIntention.readOnly}"/>
 
             <inek:LabeledSelectAndText Label="#{msg.lblRegionalFeatures}" 
-                                       SelectElement="#{editModelIntention.region}"
+                                       SelectElement="#{editModelIntention.modelIntention.regionType}"
                                        SelectItems="#{editModelIntention.regions}"
                                        Text="#{editModelIntention.modelIntention.region}"
                                        readonly="#{editModelIntention.readOnly}"
