@@ -9,13 +9,13 @@
                 >
 
 
-            <h2>#{qualityHeader}</h2>
+    <h2>#{qualityHeader}</h2>
 
     <h:form>
         <h:selectOneMenu value="#{qualityUsage}">
             <f:selectItems value="#{valueLists.qualityUsage}" />
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectOneMenu>
+            <f:ajax event="change" render="@form :logout:remaining" />
+        </h:selectOneMenu>
 
         <table>
             <thead>
@@ -43,8 +43,7 @@
                                 <h:message id="msgIndicator#{status.index}" for="indicator#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="" id="indicator#{status.index}" value="#{quality.indicator}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:ajax event="keyup" render="@form :logout:remaining" 
-                                            listener="#{dynamicTable.checkDynamicListener}"/>
+                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {dynamicTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgIndicator#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -54,9 +53,8 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgDescription#{status.index}" for="description#{status.index}" styleClass="errorMessage"/>
                                 <h:inputTextarea styleClass="area40emWideLow" id="description#{status.index}" value="#{quality.description}" 
-                                             required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:ajax event="keyup" render="@form :logout:remaining" 
-                                            listener="#{dynamicTable.checkDynamicListener}"/>
+                                                 required="true" readonly="#{editModelIntention.readOnly}">
+                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {dynamicTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgDescription#{status.index}"/>
                                 </h:inputTextarea> 
                             </h:panelGrid>
@@ -66,6 +64,12 @@
                 </c:forEach>
             </tbody>
         </table>        
+
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddQuality}" 
+                       rendered="#{!editModelIntention.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{addNewEntry}"/>
+        </h:commandLink>
+
         <script type="text/javascript">
             #{dynamicTable.script}
         </script>

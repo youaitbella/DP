@@ -58,7 +58,7 @@
                                 <h:message id="msgPatientsCount#{status.index}" for="patientsCount#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText id="patientsCount#{status.index}" value="#{agreedPatients.patientsCount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.agreedPatientsTable.checkDynamicListener}"/>
+                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.agreedPatientsTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsCount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -67,6 +67,12 @@
                 </c:forEach>
             </tbody>
         </table>        
+
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddAgreedPatients}" 
+                       rendered="#{!editModelIntention.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewAgreedPatients()}"/>
+        </h:commandLink>
+
         <script type="text/javascript">
             #{editModelIntention.agreedPatientsTable.script}
         </script>

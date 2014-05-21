@@ -81,6 +81,12 @@
                 </c:forEach>
             </tbody>
         </table>        
+
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddAcademicSupervision}" 
+                       rendered="#{!editModelIntention.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewAcademicSupervision()}"/>
+        </h:commandLink>
+
         <script type="text/javascript">
             #{editModelIntention.supervisionTable.script}
         </script>

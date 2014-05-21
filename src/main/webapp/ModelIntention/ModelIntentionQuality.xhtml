@@ -14,12 +14,14 @@
             <ui:param name="qualityHeader" value="#{msg.headerModelIntentionInternQuality}"/>
             <ui:param name="qualityUsage" value="#{editModelIntention.modelIntention.internalQuality}"/>
             <ui:param name="dynamicTable" value="#{editModelIntention.internalQualityTable}"/>
+            <ui:param name="addNewEntry" value="#{editModelIntention.addNewInternalQuality()}"/>
         </ui:include>            
 
         <ui:include src="#{sessionTools.pages.FragmentQuality}">
             <ui:param name="qualityHeader" value="#{msg.headerModelIntentionExternQuality}"/>
             <ui:param name="qualityUsage" value="#{editModelIntention.modelIntention.externalQuality}"/>
             <ui:param name="dynamicTable" value="#{editModelIntention.externalQualityTable}"/>
+            <ui:param name="addNewEntry" value="#{editModelIntention.addNewExternalQuality()}"/>
         </ui:include>            
 
         <ui:include src="#{sessionTools.pages.FragmentAcademicSupervision}"/>

@@ -396,6 +396,9 @@ public class EditModelIntention extends AbstractEditController {
         return _agreedPatiensTable;
     }
 
+    public void addNewAgreedPatients(){
+        _agreedPatiensTable.addNewEntry();
+    }
     // </editor-fold>  
     
     // <editor-fold defaultstate="collapsed" desc="tab costs">
@@ -513,7 +516,11 @@ public class EditModelIntention extends AbstractEditController {
         return _modelLifeTable;
     }
 
+    public void addNewModelLife(){
+        _modelLifeTable.addNewEntry();
+    }
     // </editor-fold>    
+
     // <editor-fold defaultstate="collapsed" desc="tab quality">
     private QualityDynamicTable _internalQualityTable;
 
@@ -526,6 +533,10 @@ public class EditModelIntention extends AbstractEditController {
         return _internalQualityTable;
     }
 
+    public void addNewInternalQuality(){
+        _internalQualityTable.addNewEntry();
+    }
+
     private QualityDynamicTable _externalQualityTable;
 
     public DynamicTable getExternalQualityTable() {
@@ -535,6 +546,10 @@ public class EditModelIntention extends AbstractEditController {
             _externalQualityTable = new QualityDynamicTable(getModelIntention(), list, typeId);
         }
         return _externalQualityTable;
+    }
+
+    public void addNewExternalQuality(){
+        _externalQualityTable.addNewEntry();
     }
 
     private List<Quality> getQualities(int typeId) {
@@ -556,7 +571,11 @@ public class EditModelIntention extends AbstractEditController {
         return _academicSupervisionTable;
     }
 
+    public void addNewAcademicSupervision(){
+        _academicSupervisionTable.addNewEntry();
+    }
     // </editor-fold>    
+   
     private void resetDynamicTables() {
         _agreedPatiensTable = null;
         _modelLifeTable = null;

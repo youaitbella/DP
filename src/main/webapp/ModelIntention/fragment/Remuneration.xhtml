@@ -71,11 +71,13 @@
                     </tr>
                 </c:forEach>
             </tbody>
-        </table>  
+        </table> 
+        
         <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddRemuneration}" 
                        rendered="#{!editModelIntention.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewRemuneration()}"/>
         </h:commandLink>
+        
         <script type="text/javascript">
             #{editModelIntention.remunerationTable.script}
         </script>
