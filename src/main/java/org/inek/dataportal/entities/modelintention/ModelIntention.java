@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -160,8 +161,18 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property MedicalSpecification">
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
+    
+    public String getMedicalSpecification() {
+        return _medicalSpecification;
+    }
+
+    public void setMedicalSpecification(String medicalSpecification) {
+        this._medicalSpecification = medicalSpecification;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property insuranceAffiliation">
     @Column(name = "miInsuranceAffiliation")
@@ -175,14 +186,45 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property miscAttribute">
     @Column(name = "miMiscAttribute")
     private String _miscAttribute = "";
+    
+    public String getMiscAttribute() {
+        return _miscAttribute;
+    }
 
+    public void setMiscAttribute(String miscAttribute) {
+        this._miscAttribute = miscAttribute;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Agreement">
     @Column(name = "miAgreement")
-    private boolean _agreement;
+    private boolean _agreement = false;
+    
+    @NotNull
+    public boolean isAgreement() {
+        return _agreement;
+    }
 
+    public void setAgreement(boolean agreement) {
+        this._agreement = agreement;
+    }
+     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SettleMedicType">
     @Column(name = "miSettleMedicType")
     private int _settleMedicType;
+    
+    public int getSettleMedicType() {
+        return _settleMedicType;
+    }
+
+    public void setSettleMedicType(int settleMedicType) {
+        this._settleMedicType = settleMedicType;
+    }
+     // </editor-fold>
 
     @Column(name = "miSettleMedicText")
     private String _settleMedicText = "";
@@ -598,37 +640,12 @@ public class ModelIntention implements Serializable {
 
     
 
-    public String getMedicalSpecification() {
-        return _medicalSpecification;
-    }
+  
 
-    public void setMedicalSpecification(String medicalSpecification) {
-        this._medicalSpecification = medicalSpecification;
-    }
+   
+   
 
-    public String getMiscAttribute() {
-        return _miscAttribute;
-    }
-
-    public void setMiscAttribute(String miscAttribute) {
-        this._miscAttribute = miscAttribute;
-    }
-
-    public boolean isAgreement() {
-        return _agreement;
-    }
-
-    public void setAgreement(boolean agreement) {
-        this._agreement = agreement;
-    }
-
-    public int getSettleMedicType() {
-        return _settleMedicType;
-    }
-
-    public void setSettleMedicType(int settleMedicType) {
-        this._settleMedicType = settleMedicType;
-    }
+    
 
     public String getSettleMedicText() {
         return _settleMedicText;
