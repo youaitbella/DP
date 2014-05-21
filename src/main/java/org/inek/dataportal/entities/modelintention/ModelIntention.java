@@ -102,9 +102,20 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property sex">
     @Documentation(key = "lblGender", translateValue = "0=enmGenderBoth;1=enmGenderMale;2=enmGenderFemale")
     @Column(name = "miSex")
     private int _sex = 0;
+    
+   // @Size(min = 1, max = 50)
+    public int getSex() {
+        return _sex;
+    }
+
+    public void setSex(int sex) {
+        this._sex = sex;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="MiscPatient">
     @Documentation(key = "lblPersonalMisc", omitOnEmpty = true)
@@ -121,12 +132,33 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property region">
     @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
     @Column(name = "miRegion")
     private String _region = "";
+    
+    public String getRegion() {
+        return _region;
+    }
 
+    public void setRegion(String region) {
+        this._region = region;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property medicalAttributesType">
+    @Documentation(key = "lblMedicalFeatures", translateValue = "0=enmMedAttrMainDia;1=enmMedAttrPracticeArea;2=enmMedAttrMisc")
     @Column(name = "miMedicalAttributesType")
     private int _medicalAttributesType;
+    
+    public int getMedicalAttributesType() {
+        return _medicalAttributesType;
+    }
+
+    public void setMedicalAttributesType(int medicalAttributesType) {
+        this._medicalAttributesType = medicalAttributesType;
+    }
+    // </editor-fold>
 
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
@@ -560,29 +592,11 @@ public class ModelIntention implements Serializable {
 
     
 
-    public int getSex() {
-        return _sex;
-    }
+    
 
-    public void setSex(int sex) {
-        this._sex = sex;
-    }
+    
 
-    public String getRegion() {
-        return _region;
-    }
-
-    public void setRegion(String region) {
-        this._region = region;
-    }
-
-    public int getMedicalAttributesType() {
-        return _medicalAttributesType;
-    }
-
-    public void setMedicalAttributesType(int medicalAttributesType) {
-        this._medicalAttributesType = medicalAttributesType;
-    }
+    
 
     public String getMedicalSpecification() {
         return _medicalSpecification;
