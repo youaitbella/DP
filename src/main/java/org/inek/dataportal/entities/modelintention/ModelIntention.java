@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -67,13 +69,38 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property AgeYearsFrom">
     @Documentation(key = "lblAgeFrom", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
+    
+    @Min(-1)
+    @Max(124)
+    public Integer getAgeYearsFrom() {
+        return _ageYearsFrom == -1 ? null : _ageYearsFrom;
+    }
 
+    public void setAgeYearsFrom(Integer ageYearsFrom) {
+        this._ageYearsFrom = ageYearsFrom == null ? -1 : ageYearsFrom;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AgeYearsTo">
     @Documentation(key = "lblAgeTo", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsTo")
     private int _ageYearsTo = -1;
+    
+    @Min(-1)
+    @Max(124)
+    public Integer getAgeYearsTo() {
+        return _ageYearsTo == -1 ? null : _ageYearsTo;
+    }
+
+    public void setAgeYearsTo(Integer ageYearsTo) {
+        ageYearsTo = ageYearsTo == null ? -1 : ageYearsTo;
+        this._ageYearsTo = ageYearsTo;
+    }
+    // </editor-fold>
 
     @Documentation(key = "lblGender", translateValue = "0=enmGenderBoth;1=enmGenderMale;2=enmGenderFemale")
     @Column(name = "miSex")
@@ -529,22 +556,9 @@ public class ModelIntention implements Serializable {
         this._accountId = accountId;
     }
 
-    public Integer getAgeYearsFrom() {
-        return _ageYearsFrom == -1 ? null : _ageYearsFrom;
-    }
+    
 
-    public void setAgeYearsFrom(Integer ageYearsFrom) {
-        this._ageYearsFrom = ageYearsFrom == null ? -1 : ageYearsFrom;
-    }
-
-    public Integer getAgeYearsTo() {
-        return _ageYearsTo == -1 ? null : _ageYearsTo;
-    }
-
-    public void setAgeYearsTo(Integer ageYearsTo) {
-        ageYearsTo = ageYearsTo == null ? -1 : ageYearsTo;
-        this._ageYearsTo = ageYearsTo;
-    }
+    
 
     public int getSex() {
         return _sex;
