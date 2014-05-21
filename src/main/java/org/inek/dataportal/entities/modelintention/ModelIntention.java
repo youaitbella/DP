@@ -147,9 +147,8 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
     
-
     // <editor-fold defaultstate="collapsed" desc="Property region">
-    @Documentation(name = "",omitOnEmpty = true)
+    @Documentation(key = "empty",omitOnEmpty = true)
     @Column(name = "miRegion")
     private String _region = "";
 
@@ -173,7 +172,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property MedicalSpecification">
-    @Documentation(name = "", omitOnEmpty = true)
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
     
@@ -240,6 +239,7 @@ public class ModelIntention implements Serializable {
      // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SettleMedicText">
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miSettleMedicText")
     private String _settleMedicText = "";
     
@@ -267,6 +267,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property PIAText">
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miPIAText")
     private String _piaText = "";
     
@@ -294,6 +295,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property HospitalText">
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miHospitalText")
     private String _hospitalText = "";
     
@@ -321,6 +323,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property MiscHospitalisation">
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miMiscHospitalisation")
     private String _miscHospitalisation = "";
     
@@ -334,6 +337,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property PrimaryGoals">
+    @Documentation(name = "Hallöschen", omitOnEmpty = true)
     @Column(name = "miPrimaryGoals")
     private String _primaryGoals = "";
     
