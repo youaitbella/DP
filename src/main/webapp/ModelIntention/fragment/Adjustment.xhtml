@@ -75,6 +75,7 @@
                                 <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{adjustment.amount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" >
+                                    <f:convertNumber  maxFractionDigits="2"/>
                                     <f:ajax event="keyup" render="adjustmentForm :logout:remaining" listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
