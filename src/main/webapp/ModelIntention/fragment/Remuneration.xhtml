@@ -49,8 +49,8 @@
                             <h:panelGrid columns="1" styleClass="fullWidth">
                                 <h:message id="msgText#{status.index}" for="text#{status.index}" styleClass="errorMessage"/>
                                 <h:inputTextarea id="text#{status.index}" styleClass="areaWideLow" value="#{remuneration.text}" 
-                                             required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
+                                                 required="true" readonly="#{editModelIntention.readOnly}">
+                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.remunerationTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgText#{status.index}"/>
                                 </h:inputTextarea> 
                             </h:panelGrid>
@@ -62,7 +62,7 @@
                                 <h:inputText id="amount#{status.index}" styleClass="fullWidth" value="#{remuneration.amount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:convertNumber  maxFractionDigits="2"/>
-                                    <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.remunerationTable.checkDynamicListener}"/>
+                                    <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.remunerationTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -71,7 +71,11 @@
                     </tr>
                 </c:forEach>
             </tbody>
-        </table>        
+        </table>  
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddRemuneration}" 
+                       rendered="#{!editModelIntention.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewRemuneration()}"/>
+        </h:commandLink>
         <script type="text/javascript">
             #{editModelIntention.remunerationTable.script}
         </script>

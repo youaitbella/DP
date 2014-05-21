@@ -64,7 +64,7 @@
                                     <f:selectItems value="#{editModelIntention.modelIntention.remunerations.stream().filter(r -> !r.code.isEmpty()).toList()}" 
                                                    var="r" itemLabelEscaped="true"
                                                    itemValue="#{r.code}" itemLabel="#{r.code}" />
-                                    <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                    <f:ajax event="change" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/>
                                 </h:selectOneMenu>
 
                             </h:panelGrid>
@@ -76,7 +76,7 @@
                                 <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}" 
                                                  required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:selectItems value="#{valueLists.costCenters}"/>
-                                    <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                    <f:ajax event="change" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/>
                                 </h:selectOneMenu>
                             </h:panelGrid>
                         </td>
@@ -98,7 +98,7 @@
                                 <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{cost.amount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:convertNumber  maxFractionDigits="2"/>
-                                    <f:ajax event="keyup" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
+                                    <!--f:ajax event="keyup" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -108,6 +108,12 @@
                 </c:forEach>
             </tbody>
         </table>        
+
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddCost}" 
+                       rendered="#{!editModelIntention.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewCost()}"/>
+        </h:commandLink>
+
         <script type="text/javascript">
             #{editModelIntention.costTable.script}
         </script>

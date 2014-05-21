@@ -424,7 +424,8 @@ public class EditModelIntention extends AbstractEditController {
         return _agreedPatiensTable;
     }
 
-    // </editor-fold>    
+    // </editor-fold>  
+    
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private RemunerationDynamicTable _remunarationTable;
 
@@ -451,6 +452,10 @@ public class EditModelIntention extends AbstractEditController {
         remuneration.setText(type.getText());
     }
 
+    public void addNewRemuneration(){
+        _remunarationTable.addNewEntry();
+    }
+    
     private CostDynamicTable _costTable;
 
     public DynamicTable getCostTable() {
@@ -474,6 +479,10 @@ public class EditModelIntention extends AbstractEditController {
         return true;
     }
 
+    public void addNewCost(){
+        _costTable.addNewEntry();
+    }
+    
     private AdjustmentDynamicTable _adjustmentTable;
 
     public DynamicTable getAdjustmentTable() {
@@ -482,6 +491,11 @@ public class EditModelIntention extends AbstractEditController {
         }
         return _adjustmentTable;
     }
+
+    public void addNewAdjustment(){
+        _adjustmentTable.addNewEntry();
+    }
+    
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="tab structure">

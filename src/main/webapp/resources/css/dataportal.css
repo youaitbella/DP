@@ -722,7 +722,7 @@ a.smallButton{
     color: white;
 }
 
-.button:active, .smallButton:active, .sendButton:active{
+.button:active, .smallButton:active, .sendButton:active, .addButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
 }
@@ -732,25 +732,38 @@ span.button{
     color: gray;
 }
 
-a.sendButton{
+.sendButton, a.addButton{
     min-width: 120px;
     display: inline-block;
     margin: 0 10px 0 0;
-    padding: 0 5px;
-    background-color: #4aa628;  
+    padding: 0 20px 0 5px;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
     border-radius: 0.5em;
     text-decoration: none;
     text-align: left;
-    background-image: url("/DataPortal/javax.faces.resource/bullet_go.png.xhtml?ln=Icon/medium");
     background-repeat: no-repeat;
     background-position: right center;
 }
 
+.sendButton{
+    background-color: #4aa628;  
+    background-image: url("/DataPortal/javax.faces.resource/arrow_go.png.xhtml?ln=Icon/small");
+}
+
 .sendButton:hover{
     color: white;
-    background-image: url("/DataPortal/javax.faces.resource/bullet_go_hover.png.xhtml?ln=Icon/medium");
+    background-image: url("/DataPortal/javax.faces.resource/arrow_go_hover.png.xhtml?ln=Icon/small");
+}
+
+.addButton{
+    background-color: #7F9BAF;  
+    background-image: url("/DataPortal/javax.faces.resource/add.png.xhtml?ln=Icon/small");
+}
+
+.addButton:hover{
+    color: white;
+    background-image: url("/DataPortal/javax.faces.resource/add_hover.png.xhtml?ln=Icon/small");
 }
 
 a.rightAllign,

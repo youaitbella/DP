@@ -76,7 +76,7 @@
                                 <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{adjustment.amount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:convertNumber  maxFractionDigits="2"/>
-                                    <f:ajax event="keyup" render="adjustmentForm :logout:remaining" listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
+                                    <!--f:ajax event="keyup" render="adjustmentForm :logout:remaining" listener="# {editModelIntention.adjustmentTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -88,8 +88,7 @@
                                 <h:message id="msgDescription#{status.index}" for="description#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="description#{status.index}" value="#{adjustment.description}" 
                                                  required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:ajax event="keyup" render="@form :logout:remaining" 
-                                            listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
+                                    <!--f:ajax event="keyup" render="adjustmentForm :logout:remaining" listener="# {editModelIntention.adjustmentTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgDescription#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
@@ -99,6 +98,12 @@
                 </c:forEach>
             </tbody>
         </table>        
+
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddAdjustment}" 
+                       rendered="#{!editModelIntention.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewAdjustment()}"/>
+        </h:commandLink>
+
         <script type="text/javascript">
             #{editModelIntention.adjustmentTable.script}
         </script>

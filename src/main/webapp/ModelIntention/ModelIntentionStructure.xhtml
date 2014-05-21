@@ -42,7 +42,7 @@
                                  />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="button inputPart" value="#{msg.btnAddContractor}" 
+            <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddContractor}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(1)}"/>
             </h:commandLink>
@@ -65,7 +65,7 @@
                                  />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="button inputPart" value="#{msg.btnAddProvider}" 
+            <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddProvider}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(2)}"/>
             </h:commandLink>
@@ -88,7 +88,7 @@
                                  />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="button inputPart" value="#{msg.btnAddInsurance}" 
+            <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddInsurance}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(3)}"/>
             </h:commandLink>
