@@ -127,35 +127,7 @@ public class EditModelIntention extends AbstractEditController {
         }
     }
 
-    public Integer getRegion() {
-        int index = 0;
-        boolean listItem = false;
-        Region[] regions = Region.values();
-        for (Region r : regions) {
-            if (r.region().equals(_modelIntention.getRegion())) {
-                index = r.id();
-                listItem = true;
-            }
-        }
-        if (!listItem) {
-            index = Region.Misc.id();
-        }
-        return index;
-    }
-
-    public void setRegion(Integer index) {
-        Region[] regions = Region.values();
-        for (Region r : regions) {
-            if (index == r.id()) {
-                _regionMiscEnabled = r.region().equals(Region.Misc.region());
-                if (_regionMiscEnabled) {
-                    _modelIntention.setRegion(null);
-                } else {
-                    _modelIntention.setRegion(r.region());
-                }
-            }
-        }
-    }
+ 
 
     public boolean isSettleTextEnabled() {
         if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {

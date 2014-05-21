@@ -123,9 +123,6 @@ public class ModelIntention implements Serializable {
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
 
-    @Column(name = "miRegionType")
-    private Integer _regionType = -1;
-    
     @Size(max = 8)
     public String getMiscPatient() {
         return _miscPatient;
@@ -135,9 +132,24 @@ public class ModelIntention implements Serializable {
         this._miscPatient = miscPatient;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property RegionType">
+    @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
+    @Column(name = "miRegionType")
+    private Integer _regionType = -1;
+    
+    public Integer getRegionType() {
+        return _regionType;
+    }
+
+    public void setRegionType(Integer _regionType) {
+        this._regionType = _regionType;
+    }
+    // </editor-fold>
+    
 
     // <editor-fold defaultstate="collapsed" desc="Property region">
-    @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
+    @Documentation(name = "",omitOnEmpty = true)
     @Column(name = "miRegion")
     private String _region = "";
 
@@ -161,6 +173,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property MedicalSpecification">
+    @Documentation(name = "", omitOnEmpty = true)
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
     
@@ -267,7 +280,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property HospitalType">
-   // @Documentation(key = "lblHospital", translateValue = "0=enmPiaTypeAny;1=enmPiaTypeIntegrated;2=enmPiaTypeContract;3=enmPiaTypeSpecific")
+    @Documentation(key = "lblHospital", translateValue = "0=enmHospitalTypeAny;1=enmHospitalTypeModelProject;2=enmHospitalTypeSpecific;3=enmHospitalTypeOther")
     @Column(name = "miHospitalType")
     private int _hospitalType;
     
@@ -293,26 +306,97 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property SelfHospitalisationType">
+    @Documentation(key = "lblSelfHospitalisation", translateValue = "0=enmSelfHospitalisationTypePossible;1=enmSelfHospitalisationTypeEmergency;2=enmSelfHospitalisationTypeImpossible")
     @Column(name = "miSelfHospitalisationType")
-    private int _selfHospitalisationType;
+    private int _selfHospitalisationType = 0;
+    
+    public int getSelfHospitalisationType() {
+        return _selfHospitalisationType;
+    }
 
+    public void setSelfHospitalisationType(int selfHospitalisationType) {
+        this._selfHospitalisationType = selfHospitalisationType;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property MiscHospitalisation">
     @Column(name = "miMiscHospitalisation")
     private String _miscHospitalisation = "";
+    
+    public String getMiscHospitalisation() {
+        return _miscHospitalisation;
+    }
 
+    public void setMiscHospitalisation(String miscHospitalisation) {
+        this._miscHospitalisation = miscHospitalisation;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PrimaryGoals">
     @Column(name = "miPrimaryGoals")
     private String _primaryGoals = "";
+    
+    public String getPrimaryGoals() {
+        return _primaryGoals;
+    }
 
+    public void setPrimaryGoals(String primaryGoals) {
+        this._primaryGoals = primaryGoals;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PatientGoals">
     @Column(name = "miPatientGoals")
     private String _patientGoals = "";
+    
+    public String getPatientGoals() {
+        return _patientGoals;
+    }
 
+    public void setPatientGoals(String patientGoals) {
+        this._patientGoals = patientGoals;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ProviderGoals">
     @Column(name = "miProviderGoals")
     private String _providerGoals = "";
+    
+    public String getProviderGoals() {
+        return _providerGoals;
+    }
 
+    public void setProviderGoals(String providerGoals) {
+        this._providerGoals = providerGoals;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SponsorGoals">
     @Column(name = "miSponsorGoals")
     private String _sponsorGoals = "";
+    
+    public String getSponsorGoals() {
+        return _sponsorGoals;
+    }
 
+    public void setSponsorGoals(String sponsorGoals) {
+        this._sponsorGoals = sponsorGoals;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property MiscHospitalisation">
     @Column(name = "miInvolvedGoals")
     private String _involvedGoals = "";
+    
+    public String getInvolvedGoals() {
+        return _involvedGoals;
+    }
+
+    public void setInvolvedGoals(String involvedGoals) {
+        this._involvedGoals = involvedGoals;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property inpatientTreatment">
     @Column(name = "miInpatientType")
@@ -682,73 +766,25 @@ public class ModelIntention implements Serializable {
         this._accountId = accountId;
     }
     
-    public Integer getRegionType() {
-        return _regionType;
-    }
-
-    public void setRegionType(Integer _regionType) {
-        this._regionType = _regionType;
-    }
+    
 
     public String getRegion() {
         return _region;
     }
 
-    public int getSelfHospitalisationType() {
-        return _selfHospitalisationType;
-    }
+    
 
-    public void setSelfHospitalisationType(int selfHospitalisationType) {
-        this._selfHospitalisationType = selfHospitalisationType;
-    }
+    
 
-    public String getMiscHospitalisation() {
-        return _miscHospitalisation;
-    }
+    
 
-    public void setMiscHospitalisation(String miscHospitalisation) {
-        this._miscHospitalisation = miscHospitalisation;
-    }
+    
 
-    public String getPrimaryGoals() {
-        return _primaryGoals;
-    }
+    
 
-    public void setPrimaryGoals(String primaryGoals) {
-        this._primaryGoals = primaryGoals;
-    }
+    
 
-    public String getPatientGoals() {
-        return _patientGoals;
-    }
-
-    public void setPatientGoals(String patientGoals) {
-        this._patientGoals = patientGoals;
-    }
-
-    public String getProviderGoals() {
-        return _providerGoals;
-    }
-
-    public void setProviderGoals(String providerGoals) {
-        this._providerGoals = providerGoals;
-    }
-
-    public String getSponsorGoals() {
-        return _sponsorGoals;
-    }
-
-    public void setSponsorGoals(String sponsorGoals) {
-        this._sponsorGoals = sponsorGoals;
-    }
-
-    public String getInvolvedGoals() {
-        return _involvedGoals;
-    }
-
-    public void setInvolvedGoals(String involvedGoals) {
-        this._involvedGoals = involvedGoals;
-    }
+    
 
     public String getCaseManagement() {
         return _caseManagement;
