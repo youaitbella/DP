@@ -148,7 +148,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property medicalAttributesType">
-    @Documentation(key = "lblMedicalFeatures", translateValue = "0=enmMedAttrMainDia;1=enmMedAttrPracticeArea;2=enmMedAttrMisc")
+    @Documentation(key = "lblMedicalFeature", translateValue = "0=enmMedAttrMainDia;1=enmMedAttrPracticeArea;2=enmMedAttrMisc")
     @Column(name = "miMedicalAttributesType")
     private int _medicalAttributesType;
     
@@ -214,8 +214,9 @@ public class ModelIntention implements Serializable {
      // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SettleMedicType">
+    @Documentation(key = "lblSettledDocs", translateValue = "0=enmSettleTypeImpDep;1=enmSettleTypeDepDocs;2=enmSettleTypeMiscDocs")
     @Column(name = "miSettleMedicType")
-    private int _settleMedicType;
+    private int _settleMedicType = 0;
     
     public int getSettleMedicType() {
         return _settleMedicType;
@@ -226,20 +227,72 @@ public class ModelIntention implements Serializable {
     }
      // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property SettleMedicText">
     @Column(name = "miSettleMedicText")
     private String _settleMedicText = "";
+    
+    public String getSettleMedicText() {
+        return _settleMedicText;
+    }
 
+    public void setSettleMedicText(String settleMedicText) {
+        this._settleMedicText = settleMedicText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PIAType">
+    @Documentation(key = "lblPia", translateValue = "0=enmPiaTypeAny;1=enmPiaTypeIntegrated;2=enmPiaTypeContract;3=enmPiaTypeSpecific")
     @Column(name = "miPIAType")
-    private int _piaType;
+    private int _piaType = 0;
+    
+    public int getPiaType() {
+        return _piaType;
+    }
 
+    public void setPiaType(int piaType) {
+        this._piaType = piaType;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PIAText">
     @Column(name = "miPIAText")
     private String _piaText = "";
+    
+    public String getPiaText() {
+        return _piaText;
+    }
+    
+    public void setPiaText(String piaText) {
+        this._piaText = piaText;
+    }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property HospitalType">
+   // @Documentation(key = "lblHospital", translateValue = "0=enmPiaTypeAny;1=enmPiaTypeIntegrated;2=enmPiaTypeContract;3=enmPiaTypeSpecific")
     @Column(name = "miHospitalType")
     private int _hospitalType;
+    
+    public int getHospitalType() {
+        return _hospitalType;
+    }
 
+    public void setHospitalType(int hospitalType) {
+        this._hospitalType = hospitalType;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property HospitalText">
     @Column(name = "miHospitalText")
     private String _hospitalText = "";
+    
+    public String getHospitalText() {
+        return _hospitalText;
+    }
+
+    public void setHospitalText(String hospitalText) {
+        this._hospitalText = hospitalText;
+    }
+    // </editor-fold>
 
     @Column(name = "miSelfHospitalisationType")
     private int _selfHospitalisationType;
@@ -647,45 +700,15 @@ public class ModelIntention implements Serializable {
 
     
 
-    public String getSettleMedicText() {
-        return _settleMedicText;
-    }
+    
 
-    public void setSettleMedicText(String settleMedicText) {
-        this._settleMedicText = settleMedicText;
-    }
+    
 
-    public int getPiaType() {
-        return _piaType;
-    }
+    
 
-    public void setPiaType(int piaType) {
-        this._piaType = piaType;
-    }
+    
 
-    public String getPiaText() {
-        return _piaText;
-    }
-
-    public void setPiaText(String piaText) {
-        this._piaText = piaText;
-    }
-
-    public int getHospitalType() {
-        return _hospitalType;
-    }
-
-    public void setHospitalType(int hospitalType) {
-        this._hospitalType = hospitalType;
-    }
-
-    public String getHospitalText() {
-        return _hospitalText;
-    }
-
-    public void setHospitalText(String hospitalText) {
-        this._hospitalText = hospitalText;
-    }
+    
 
     public int getSelfHospitalisationType() {
         return _selfHospitalisationType;
