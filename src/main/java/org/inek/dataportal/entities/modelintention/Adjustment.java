@@ -48,6 +48,7 @@ public class Adjustment implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="adjustmentTypeId">
     @Column(name = "adAdjustmentTypeId")
+    @Documentation(key = "lblFor", translateValue = "1=enmAdjustmentType1;2=enmAdjustmentType2;3=enmAdjustmentType3;4=enmAdjustmentType4")
     private int _adjustmentTypeId;
 
     public int getAdjustmentTypeId() {
@@ -91,6 +92,7 @@ public class Adjustment implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="amount">
     @Column (name = "adAmount")
+    @Documentation(key = "lblCostAmount", omitOnEmpty = true)
     private BigDecimal _amount = new BigDecimal(0d);
     
     public BigDecimal getAmount() {
@@ -105,6 +107,7 @@ public class Adjustment implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="description">
     @Column(name = "adDescription")
+    @Documentation(key = "tabNubPage1", omitOnEmpty = true)
     private String _description;
 
     public String getDescription() {
