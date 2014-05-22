@@ -616,6 +616,8 @@ public class EditModelIntention extends AbstractEditController {
         if (isReadOnly()) {
             return;
         }
+        boolean weDontNeedEmptyEntriesUntilEventHandlingIsFine = true;
+        if (weDontNeedEmptyEntriesUntilEventHandlingIsFine){return;}
         getAgreedPatientsTable().ensureEmptyEntry();
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();
