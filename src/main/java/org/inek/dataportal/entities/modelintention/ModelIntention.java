@@ -512,11 +512,12 @@ public class ModelIntention implements Serializable {
     public void setInpatientCompensationHomeTreatmentText(String inpatientCompensationHomeTreatmentText) {
         _inpatientCompensationHomeTreatmentText = inpatientCompensationHomeTreatmentText;
     }
-   // </editor-fold>
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property outpatientTreatment">
+    @Documentation(key = "lblOutpatientTreatment", translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
     @Column(name = "miOutpatientTreatmentType")
-    private int _outpatientTreatmentType;
+    private int _outpatientTreatmentType = 0;
 
     public int getOutpatientTreatmentType() {
         return _outpatientTreatmentType;
@@ -525,7 +526,10 @@ public class ModelIntention implements Serializable {
     public void setOutpatientTreatmentType(int outpatientTreatmentType) {
         _outpatientTreatmentType = outpatientTreatmentType;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property outpatientTreatmentText">
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miOutpatientTreatmentText")
     private String _outpatientTreatmentText = "";
 
@@ -539,6 +543,7 @@ public class ModelIntention implements Serializable {
    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property  outpatientHomeTreatment">
+    @Documentation(key = "lblOutpatientHomeTreatment", translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
     @Column(name = "miOutpatientHomeTreatmentType")
     private int _outpatientHomeTreatmentType;
 
@@ -549,7 +554,10 @@ public class ModelIntention implements Serializable {
     public void setOutpatientHomeTreatmentType(int outpatientHomeTreatmentType) {
         _outpatientHomeTreatmentType = outpatientHomeTreatmentType;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property  outpatientHomeTreatmentText">
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miOutpatientHomeTreatmentText")
     private String _outpatientHomeTreatmentText = "";
 
@@ -563,6 +571,7 @@ public class ModelIntention implements Serializable {
    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property  miscTreatment">
+    @Documentation(key = "lblMisc", omitOnEmpty = true)
     @Column(name = "miMiscTreatment")
     private String _miscTreatment = "";
     public String getMiscTreatment() {
@@ -574,56 +583,246 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property  CaseManagement">
+    @Documentation(key = "lblCaseManagement", omitOnEmpty = true)
     @Column(name = "miCaseManagement")
     private String _caseManagement = "";
+    
+    public String getCaseManagement() {
+        return _caseManagement;
+    }
 
+    public void setCaseManagement(String caseManagement) {
+        this._caseManagement = caseManagement;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  TeamBasedInnovations">
+    @Documentation(key = "lblTeamBasedInnovations", omitOnEmpty = true)
     @Column(name = "miTeamBasedInnovations")
     private String _teamBasedInnovations = "";
+    
+    public String getTeamBasedInnovations() {
+        return _teamBasedInnovations;
+    }
 
+    public void setTeamBasedInnovations(String teamBasedInnovations) {
+        this._teamBasedInnovations = teamBasedInnovations;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  CrossSectoralSupply">
+    @Documentation(key = "lblCrossSectoralSupply", omitOnEmpty = true)
     @Column(name = "miCrossSectoralSupply")
     private String _crossSectoralSupply = "";
+    
+    public String getCrossSectoralSupply() {
+        return _crossSectoralSupply;
+    }
 
+    public void setCrossSectoralSupply(String crossSectoralSupply) {
+        this._crossSectoralSupply = crossSectoralSupply;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  HomeTreatment">
+    @Documentation(key = "lblHomeTreatment", omitOnEmpty = true)
     @Column(name = "miHomeTreatment")
     private String _homeTreatment = "";
+    
+    public String getHomeTreatment() {
+        return _homeTreatment;
+    }
 
+    public void setHomeTreatment(String homeTreatment) {
+        this._homeTreatment = homeTreatment;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  MiscSpecialPatientConcept">
+    @Documentation(key = "lblMisc", omitOnEmpty = true)
     @Column(name = "miMiscSpecialPatientConcept")
     private String _miscSpecialPatientConcept = "";
+    
+    public String getMiscSpecialPatientConcept() {
+        return _miscSpecialPatientConcept;
+    }
 
+    public void setMiscSpecialPatientConcept(String miscSpecialPatientConcept) {
+        this._miscSpecialPatientConcept = miscSpecialPatientConcept;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  SpecialPsyTherapy">
+    @Documentation(key = "lblSpecialPsyTherapy", omitOnEmpty = true)
     @Column(name = "miSpecialPsyTherapy")
     private String _specialPsyTherapy = "";
+    
+    public String getSpecialPsyTherapy() {
+        return _specialPsyTherapy;
+    }
 
+    public void setSpecialPsyTherapy(String specialPsyTherapy) {
+        this._specialPsyTherapy = specialPsyTherapy;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  SpecialMedicalMethod">
+    @Documentation(key = "lblSpecialMedicalMethod", omitOnEmpty = true)
     @Column(name = "miSpecialMedicalMethod")
     private String _specialMedicalMethod = "";
+    
+    public String getSpecialMedicalMethod() {
+        return _specialMedicalMethod;
+    }
 
+    public void setSpecialMedicalMethod(String specialMedicalMethod) {
+        this._specialMedicalMethod = specialMedicalMethod;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  OtherSpecialTherapyMethod">
+    @Documentation(key = "lblOtherSpecialMedicalMethod", omitOnEmpty = true)
     @Column(name = "miOtherSpecialTherapyMethod")
     private String _otherSpecialTherapyMethod = "";
+    
+    public String getOtherSpecialTherapyMethod() {
+        return _otherSpecialTherapyMethod;
+    }
 
+    public void setOtherSpecialTherapyMethod(String otherSpecialTherapyMethod) {
+        this._otherSpecialTherapyMethod = otherSpecialTherapyMethod;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  MiscSpecificActivityContent">
+    @Documentation(key = "lblMisc", omitOnEmpty = true)
     @Column(name = "miMiscSpecificActivityContent")
     private String _miscSpecificActivityContent = "";
+    
+    public String getMiscSpecificActivityContent() {
+        return _miscSpecificActivityContent;
+    }
 
+    public void setMiscSpecificActivityContent(String miscSpecificActivityContent) {
+        this._miscSpecificActivityContent = miscSpecificActivityContent;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property  SingleRemuneration">
+    @Documentation(key = "lblSingleRefund", omitOnEmpty = true)
     @Column(name = "miSingleRemuneration")
     private String _singleRemuneration = "";
+    
+    public String getSingleRemuneration() {
+        return _singleRemuneration;
+    }
 
+    public void setSingleRemuneration(String singleRemuneration) {
+        this._singleRemuneration = singleRemuneration;
+    }
+    // </editor-fold>
+   
+    // <editor-fold defaultstate="collapsed" desc="Property  DayPackage">
+    @Documentation(key = "lblDayPackage", omitOnEmpty = true)
     @Column(name = "miDayPackage")
     private String _dayPackage = "";
+    
+    public String getDayPackage() {
+        return _dayPackage;
+    }
 
+    public void setDayPackage(String dayPackage) {
+        this._dayPackage = dayPackage;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  CasePackage">
+    @Documentation(key = "lblCasePackage", omitOnEmpty = true)
     @Column(name = "miCasePackage")
     private String _casePackage = "";
+    
+    public String getCasePackage() {
+        return _casePackage;
+    }
 
+    public void setCasePackage(String casePackage) {
+        this._casePackage = casePackage;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  QuarterPackage">
+    @Documentation(key = "lblQuarterPackage", omitOnEmpty = true)
     @Column(name = "miQuarterPackage")
     private String _quarterPackage = "";
+    
+    public String getQuarterPackage() {
+        return _quarterPackage;
+    }
 
+    public void setQuarterPackage(String quarterPackage) {
+        this._quarterPackage = quarterPackage;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  ComplexPackage">
+    @Documentation(key = "lblComplexPackage", omitOnEmpty = true)
     @Column(name = "miComplexPackage")
     private String _complexPackage = "";
+    
+    public String getComplexPackage() {
+        return _complexPackage;
+    }
 
+    public void setComplexPackage(String complexPackage) {
+        this._complexPackage = complexPackage;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  PEPPRemuneration">
+    @Documentation(key = "lblPeppRemuneration", omitOnEmpty = true)
     @Column(name = "miPEPPRemuneration")
     private String _peppRemuneration = "";
+    
+    public String getPeppRemuneration() {
+        return _peppRemuneration;
+    }
 
+    public void setPeppRemuneration(String peppRemuneration) {
+        this._peppRemuneration = peppRemuneration;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  RegionalBudget">
+    @Documentation(key = "lblReginalBudget", omitOnEmpty = true)
     @Column(name = "miRegionalBudget")
     private String _regionalBudget = "";
+    
+    public String getRegionalBudget() {
+        return _regionalBudget;
+    }
 
+    public void setRegionalBudget(String regionalBudget) {
+        this._regionalBudget = regionalBudget;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property  MiscRemuneration">
+    @Documentation(key = "lblMiscRefund", omitOnEmpty = true)
     @Column(name = "miMiscRemuneration")
     private String _miscRemuneration = "";
+    
+    public String getMiscRemuneration() {
+        return _miscRemuneration;
+    }
+
+    public void setMiscRemuneration(String miscRemuneration) {
+        this._miscRemuneration = miscRemuneration;
+    }
+    // </editor-fold>
+    
+    ///////////////////////////////
+    
 
     // <editor-fold defaultstate="collapsed" desc="Property status">
     @Column(name = "miStatus")
@@ -801,7 +1000,6 @@ public class ModelIntention implements Serializable {
     
 
     
-
     
 
     
@@ -809,142 +1007,6 @@ public class ModelIntention implements Serializable {
     
 
     
-
-    public String getCaseManagement() {
-        return _caseManagement;
-    }
-
-    public void setCaseManagement(String caseManagement) {
-        this._caseManagement = caseManagement;
-    }
-
-    public String getTeamBasedInnovations() {
-        return _teamBasedInnovations;
-    }
-
-    public void setTeamBasedInnovations(String teamBasedInnovations) {
-        this._teamBasedInnovations = teamBasedInnovations;
-    }
-
-    public String getCrossSectoralSupply() {
-        return _crossSectoralSupply;
-    }
-
-    public void setCrossSectoralSupply(String crossSectoralSupply) {
-        this._crossSectoralSupply = crossSectoralSupply;
-    }
-
-    public String getHomeTreatment() {
-        return _homeTreatment;
-    }
-
-    public void setHomeTreatment(String homeTreatment) {
-        this._homeTreatment = homeTreatment;
-    }
-
-    public String getMiscSpecialPatientConcept() {
-        return _miscSpecialPatientConcept;
-    }
-
-    public void setMiscSpecialPatientConcept(String miscSpecialPatientConcept) {
-        this._miscSpecialPatientConcept = miscSpecialPatientConcept;
-    }
-
-    public String getSpecialPsyTherapy() {
-        return _specialPsyTherapy;
-    }
-
-    public void setSpecialPsyTherapy(String specialPsyTherapy) {
-        this._specialPsyTherapy = specialPsyTherapy;
-    }
-
-    public String getSpecialMedicalMethod() {
-        return _specialMedicalMethod;
-    }
-
-    public void setSpecialMedicalMethod(String specialMedicalMethod) {
-        this._specialMedicalMethod = specialMedicalMethod;
-    }
-
-    public String getOtherSpecialTherapyMethod() {
-        return _otherSpecialTherapyMethod;
-    }
-
-    public void setOtherSpecialTherapyMethod(String otherSpecialTherapyMethod) {
-        this._otherSpecialTherapyMethod = otherSpecialTherapyMethod;
-    }
-
-    public String getMiscSpecificActivityContent() {
-        return _miscSpecificActivityContent;
-    }
-
-    public void setMiscSpecificActivityContent(String miscSpecificActivityContent) {
-        this._miscSpecificActivityContent = miscSpecificActivityContent;
-    }
-
-    public String getSingleRemuneration() {
-        return _singleRemuneration;
-    }
-
-    public void setSingleRemuneration(String singleRemuneration) {
-        this._singleRemuneration = singleRemuneration;
-    }
-
-    public String getDayPackage() {
-        return _dayPackage;
-    }
-
-    public void setDayPackage(String dayPackage) {
-        this._dayPackage = dayPackage;
-    }
-
-    public String getCasePackage() {
-        return _casePackage;
-    }
-
-    public void setCasePackage(String casePackage) {
-        this._casePackage = casePackage;
-    }
-
-    public String getQuarterPackage() {
-        return _quarterPackage;
-    }
-
-    public void setQuarterPackage(String quarterPackage) {
-        this._quarterPackage = quarterPackage;
-    }
-
-    public String getComplexPackage() {
-        return _complexPackage;
-    }
-
-    public void setComplexPackage(String complexPackage) {
-        this._complexPackage = complexPackage;
-    }
-
-    public String getPeppRemuneration() {
-        return _peppRemuneration;
-    }
-
-    public void setPeppRemuneration(String peppRemuneration) {
-        this._peppRemuneration = peppRemuneration;
-    }
-
-    public String getRegionalBudget() {
-        return _regionalBudget;
-    }
-
-    public void setRegionalBudget(String regionalBudget) {
-        this._regionalBudget = regionalBudget;
-    }
-
-    public String getMiscRemuneration() {
-        return _miscRemuneration;
-    }
-
-    public void setMiscRemuneration(String miscRemuneration) {
-        this._miscRemuneration = miscRemuneration;
-    }
 
     public List<AgreedPatients> getAgreedPatients() {
         if (_agreedPatients == null) {
