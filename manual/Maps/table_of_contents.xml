@@ -142,6 +142,9 @@
       <topicref type="topic" id="417715640184909" build="ALL" modified="2014-05-12T11:16:36.917Z" icon="0" href="MvhQualitaet">
         <caption translate="true">Qualität</caption>
       </topicref>
+      <topicref type="topic" id="417813738806157" build="ALL" modified="2014-05-22T13:47:47.621Z" icon="0" href="ModelIntentionDataFormat">
+        <caption translate="true">Datenformate</caption>
+      </topicref>
     </topicref>
     <topicref type="topic" id="415475298526563" build="ALL" modified="2013-09-30T10:10:10.031Z" icon="0" href="IKSupervisor">
       <caption translate="true">IK-Supervisor</caption>
@@ -154,6 +157,9 @@
     </topicref>
     <topicref type="topic" id="413192333018456" build="ALL" modified="2013-02-14T10:28:09.207Z" icon="0" href="Aenderungshistorie">
       <caption translate="true">Änderungshistorie</caption>
+    </topicref>
+    <topicref type="topic" id="417814645315789" build="ALL" modified="2014-05-22T11:16:18.452Z" icon="0" href="Glossar">
+      <caption translate="true">Glossar</caption>
     </topicref>
   </topicref>
 </map>

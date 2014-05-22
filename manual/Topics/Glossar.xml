@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Glossar</title>
+  <keywords>
+    <keyword translate="true">Ja</keyword>
+    <keyword translate="true">Nein</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Glossar</text></para>
+    </header>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="3" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:162px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-family:Arial;" translate="true">Ankreuzfeld</text></para>
+        </td>
+        <td style="width:1005px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-family:Arial;" translate="true">Eingabefeld mit zwei Zuständen: Leer oder angekreuzt (Häkchen). Dies entspricht den Werten </text><text styleclass="Normal" style="font-family:Arial; font-style:italic;" translate="true">Nein</text><text styleclass="Normal" style="font-family:Arial;" translate="true"> / </text><text styleclass="Normal" style="font-family:Arial; font-style:italic;" translate="true">Ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:162px; height:18px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-family:Arial;" translate="true">Checkbox</text></para>
+        </td>
+        <td style="width:1005px; height:18px;">
+          <para style="margin-bottom:13px; line-height:1.15;"><text styleclass="Font Style" style="font-family:Wingdings; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">à</text><text styleclass="Font Style" style="font-family:Arial; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true"> Ankreuzfeld</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:162px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-family:Arial;" translate="true">Kombobox</text></para>
+        </td>
+        <td style="width:1005px;">
+          <para styleclass="Normal"><text styleclass="Font Style" style="font-family:Arial; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Kombiniertes Eingabefeld, bestehend aus einem Textfeld und einer aufklappbaren Liste. Sie können die Liste aufklappen, daraus einen Eintrag wählen und diesen in das Textfeld übernehmen. Je nach Variante ist das Textfeld frei editierbar oder kann nur mit Werten der Liste gefüllt werden. Bei Letzterem spricht man auch von einer Dropdown-Liste.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

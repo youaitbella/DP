@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Struktur</title>
   <body>
     <header>
@@ -18,7 +18,7 @@
     <para styleclass="Normal" style="text-align:center;"><image src="MvhStruktur.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Struktur</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Laufzeit des Modellvorhabens:</text></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Laufzeit des Modellvorhabens</text></para>
     <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Hier tragen Sie entsprechend den Feldern die Laufzeit des Modellvorhabens ein.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Start wird das Datum eingetragen, an dem das Modellvorhaben beginnt. Kurze Datumsangaben (z.B. 1.1.14) werden automatisch umgesetzt (01.01.2014).</text></li>
@@ -29,10 +29,10 @@
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie das Papierkorbsymbol vor dem jeweiligen Eintrag.</text></li>
     </list>
     <para styleclass="Bullet Text"></para>
-    <para styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vertragspartner des Modellvorhabens:</text></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Vertragspartner des Modellvorhabens</text></para>
     <list id="10" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Vertragspartner des Modellvorhabens können Sie entweder manuell eintragen oder mit Hilfe einer csv-Datei hochladen.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Zum Hochladen einer csv-Datei wählen Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Kontaktdaten hochladen]</text><text styleclass="Bullet Text" translate="true"> die entsprechende csv-Datei auf Ihrem System und bestätigen die Auswahl mit </text><text styleclass="Button" translate="true">[Öffnen]</text><text styleclass="Bullet Text" translate="true">. Anschließend werden Ihre Kontaktdaten in das aktuelle Modellvorhaben übertragen. Die hochzuladene csv-Datei muss die gleichen Felder wie die manuelle Eingabe enthalten . Andernfalls ist ein Hochladen nicht möglich.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Zum Hochladen einer csv-Datei wählen Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Kontaktdaten hochladen]</text><text styleclass="Bullet Text" translate="true"> die entsprechende csv-Datei auf Ihrem System und bestätigen die Auswahl mit </text><text styleclass="Button" translate="true">[Öffnen]</text><text styleclass="Bullet Text" translate="true">. Anschließend werden Ihre Kontaktdaten in das aktuelle Modellvorhaben übertragen. Die hochzuladene csv-Datei muss die gleichen Felder wie die manuelle Eingabe enthalten . Andernfalls ist ein Hochladen nicht möglich. Siehe auch </text><link displaytype="text" defaultstyle="true" type="topiclink" href="ModelIntentionDataFormat" styleclass="Bullet Text" translate="true">Datenformate</link><text styleclass="Bullet Text" translate="true">.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um eine manuelle Eingabe der Daten vorzunehmen, wählen Sie zunächst die Schaltfläche </text><text styleclass="Button" translate="true">[Vertragspartner zufügen]</text><text styleclass="Bullet Text" translate="true">. Anschließend erscheinen die auszufüllenden Eingabefelder.</text></li>
     </list>
     <para styleclass="Normal"></para>
@@ -48,6 +48,7 @@
     <para styleclass="Normal" style="text-align:center;"><image src="MvhLeistungKostenträger.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Leistungserbringer &amp; Kostenträger</text></para>
     <para styleclass="Bullet Text"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Allgemeine Schaltflächen</text></para>
     <list id="12" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Auch hier haben Sie über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> die Möglichkeit Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
     </list>

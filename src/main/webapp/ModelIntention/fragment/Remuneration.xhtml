@@ -39,7 +39,7 @@
                                 <h:inputText id="code#{status.index}" styleClass="fullWidth" value="#{remuneration.code}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationListener}"/-->
-                                    <f:ajax event="change" render="@this :logout:remaining text#{status.index}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
+                                    <f:ajax event="change" render="@this cost :logout:remaining text#{status.index}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgCode#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
