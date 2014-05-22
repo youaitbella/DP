@@ -47,7 +47,8 @@ public class ModelIntentionContact implements Serializable {
     // </editor-fold>
 
     @Column(name = "csContactTypeId")
-    @Documentation(name="Art", translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", omitOnEmpty = true)
+    
+    @Documentation(name = "Art", translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", omitOnEmpty = true)
     private int _contactTypeId;
 
     @Column(name = "csIK")
@@ -105,7 +106,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblMail")
     private String _email = "";
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return _ik == -1
                 && _name.isEmpty()
                 && _street.isEmpty()
@@ -116,6 +117,7 @@ public class ModelIntentionContact implements Serializable {
                 && _phone.isEmpty()
                 && _email.isEmpty();
     }
+
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -189,28 +191,32 @@ public class ModelIntentionContact implements Serializable {
         _email = email;
     }
 
-
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ModelIntentionContact)) {
             return false;
         }
         ModelIntentionContact other = (ModelIntentionContact) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
-            return false;
+        return Objects.equals(_id, other._id)
+                && (_id != null
+                || _contactTypeId == other._contactTypeId && equalsFunctional(other));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this._id);
+        if (_id == null) {
+            hash = 83 * hash + this._contactTypeId;
+            hash = 83 * hash + this._ik;
+            if (_ik == -1) {
+                hash = 83 * hash + Objects.hashCode(this._name);
+                hash = 83 * hash + Objects.hashCode(this._town);
+            }
         }
-        if (Objects.equals(_id, other._id)){return true;}
-        return _contactTypeId == other._contactTypeId && equalsFunctional(other);
+        return hash;
     }
 
     @Override
@@ -219,18 +225,21 @@ public class ModelIntentionContact implements Serializable {
     }
 
     // </editor-fold>
-
     /**
-     * Two contacts are functional equal, if they have the same ik
-     * or the same name and town,
-     * even thought they might differ in other properties.
+     * Two contacts are functional equal, if they have the same ik or the same
+     * name and town, even thought they might differ in other properties.
+     *
      * @param other
-     * @return 
+     * @return
      */
     public boolean equalsFunctional(ModelIntentionContact other) {
-        if (other == null){return false;}
-        return this._ik == other._ik
+        if (other == null) {
+            return false;
+        }
+        return _ik == other._ik
+                && (_ik >= 0
                 || this._name.equals(other._name)
-                && this._town.equals(other._town);
+                && this._town.equals(other._town));
     }
+
 }

@@ -3,6 +3,7 @@ package org.inek.dataportal.entities.modelintention;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,6 @@ public class Adjustment implements Serializable {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="modelIntentionId">
     @Column(name = "adModelIntentionId")
     private Integer _modelIntentionId;
@@ -91,10 +91,10 @@ public class Adjustment implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="amount">
-    @Column (name = "adAmount")
+    @Column(name = "adAmount")
     @Documentation(key = "lblCostAmount", omitOnEmpty = true)
     private BigDecimal _amount = new BigDecimal(0d);
-    
+
     public BigDecimal getAmount() {
         return _amount;
     }
@@ -104,7 +104,6 @@ public class Adjustment implements Serializable {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="description">
     @Column(name = "adDescription")
     @Documentation(key = "tabNubPage1", omitOnEmpty = true)
@@ -121,23 +120,28 @@ public class Adjustment implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the _id fields are not set
         if (!(object instanceof Adjustment)) {
             return false;
         }
         Adjustment other = (Adjustment) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
+        return Objects.equals(_id, other._id)
+                && (_id != null
+                || _adjustmentTypeId == other._adjustmentTypeId
+                && Objects.equals(_dateFrom, other._dateFrom)
+                && Objects.equals(_dateTo, other._dateTo));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this._id);
+        if (_id == null) {
+            hash = 23 * hash + this._adjustmentTypeId;
+            hash = 23 * hash + Objects.hashCode(this._dateFrom);
+            hash = 23 * hash + Objects.hashCode(this._dateTo);
         }
-        return true;
+        return hash;
     }
 
     @Override

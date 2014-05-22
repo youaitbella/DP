@@ -448,9 +448,9 @@ public class EditModelIntention extends AbstractEditController {
                 }
             }
         }
-        _costTable.removeEmptyEntries();
+        //_costTable.removeEmptyEntries();
         _costTable.addEntry(cost);
-        _costTable.ensureEmptyEntry();
+        //_costTable.ensureEmptyEntry();
         return true;
     }
 

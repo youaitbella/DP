@@ -60,14 +60,14 @@ public abstract class DynamicTable<T> {
 
     public String deleteEntry(T entry) {
         _list.remove(entry);
-        ensureEmptyEntry();
+        //ensureEmptyEntry();
         return "";
     }
 
     String _script = "";
 
     public void checkDynamicListener(AjaxBehaviorEvent event) {
-        if (ensureEmptyEntry() && event.getSource() instanceof HtmlInputText) {
+        if (false && ensureEmptyEntry() && event.getSource() instanceof HtmlInputText) {
             HtmlInputText t = (HtmlInputText) event.getSource();
             if(t.getValue().toString().length() <= 0)
                 return;

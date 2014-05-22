@@ -2,6 +2,7 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -86,27 +87,30 @@ public class Remuneration implements Serializable {
         _amount = amount;
     }
     // </editor-fold>
-  // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
-    }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Remuneration)) {
             return false;
         }
         Remuneration other = (Remuneration) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
+        return Objects.equals(_id, other._id)
+                && (_id != null
+                || Objects.equals(_code, other._code)
+                && Objects.equals(_text, other._text));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this._id);
+        if (_id == null) {
+            hash = 67 * hash + Objects.hashCode(this._code);
+            hash = 67 * hash + Objects.hashCode(this._text);
         }
-        return this._code.equals(other._code)
-                && this._text.equals(other._text);
+        return hash;
     }
 
     @Override

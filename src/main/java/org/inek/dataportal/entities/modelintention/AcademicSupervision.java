@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,34 +23,36 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "AcademicSupervision", schema = "mvh")
 public class AcademicSupervision implements Serializable {/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+     * To change this license header, choose License Headers in Project Properties.
+     * To change this template file, choose Tools | Templates
+     * and open the template in the editor.
+     */
+
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "asId")
+    @Column(name = "asId")
     private Integer _id;
-    
-    @Column (name = "asModelIntentionId")
+
+    @Column(name = "asModelIntentionId")
     private int _modelIntentionId;
-        
+
     @Column(name = "asRemitter")
     private String _remitter = "";
-    
+
     @Column(name = "asContractor")
     private String _contractor = "";
-        
+
     @Column(name = "asFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _from;
-   
+
     @Column(name = "asTo")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _to;
-    
+
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public Integer getId() {
         return _id;
@@ -90,7 +93,7 @@ public class AcademicSupervision implements Serializable {/*
     public void setAcademicSupTo(Date to) {
         _to = to;
     }
-    
+
     public int getModelIntentionId() {
         return _modelIntentionId;
     }
@@ -100,26 +103,32 @@ public class AcademicSupervision implements Serializable {/*
     }
     // </editor-fold>
 
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof AcademicSupervision)) {
             return false;
         }
         AcademicSupervision other = (AcademicSupervision) object;
-        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
-            return false;
+        return Objects.equals(_id, other._id)
+                && (_id != null
+                || Objects.equals(_remitter, other._remitter)
+                && Objects.equals(_contractor, other._contractor)
+                && Objects.equals(_from, other._from)
+                && Objects.equals(_to, other._to));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this._id);
+        if (_id == null) {
+            hash = 79 * hash + Objects.hashCode(this._remitter);
+            hash = 79 * hash + Objects.hashCode(this._contractor);
+            hash = 79 * hash + Objects.hashCode(this._from);
+            hash = 79 * hash + Objects.hashCode(this._to);
         }
-        return true;
+        return hash;
     }
 
     @Override
@@ -128,6 +137,4 @@ public class AcademicSupervision implements Serializable {/*
     }
 
     // </editor-fold>
-    
-    
 }

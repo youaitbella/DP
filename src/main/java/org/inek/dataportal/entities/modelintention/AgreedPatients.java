@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,20 +25,20 @@ import javax.persistence.Temporal;
 public class AgreedPatients implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "apId")
+    @Column(name = "apId")
     private Integer _id;
-    
+
     @Column(name = "apModelIntentionId")
     private int _modelIntentionId;
-    
+
     // <editor-fold defaultstate="collapsed" desc="patientsFrom">
     @Column(name = "apFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _from;
-    
+
     public Date getPatientsFrom() {
         return _from;
     }
@@ -46,12 +47,12 @@ public class AgreedPatients implements Serializable {
         _from = from;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="patientsTo">
     @Column(name = "apTo")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _to;
-    
+
     public Date getPatientsTo() {
         return _to;
     }
@@ -60,10 +61,10 @@ public class AgreedPatients implements Serializable {
         _to = to;
     }
     // </editor-fold>
-    
+
     @Column(name = "apPatientsCount")
     private int _patientsCount = -1;
-  
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
         return _id;
@@ -72,7 +73,7 @@ public class AgreedPatients implements Serializable {
     public void setId(Integer id) {
         _id = id;
     }
-    
+
     public Integer getPatientsCount() {
         return _patientsCount == -1 ? null : _patientsCount;
     }
@@ -92,23 +93,27 @@ public class AgreedPatients implements Serializable {
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof AgreedPatients)) {
             return false;
         }
         AgreedPatients other = (AgreedPatients) object;
-        if ((_id == null && other.getId()!= null) || (_id != null && !_id.equals(other.getId()))) {
-            return false;
+        return Objects.equals(_id, other._id)
+                && (_id != null
+                || Objects.equals(_from, other._from)
+                && Objects.equals(_to, other._to));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this._id);
+        if (_id == null) {
+            hash = 23 * hash + Objects.hashCode(this._from);
+            hash = 23 * hash + Objects.hashCode(this._to);
         }
-        return true;
+        return hash;
     }
 
     @Override
