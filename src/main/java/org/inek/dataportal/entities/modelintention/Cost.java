@@ -45,7 +45,11 @@ public class Cost implements Serializable {
     private String _remunerationCode = "";
     
     @Column (name = "coCostCenterId")
-    @Documentation(key = "lblCostCenter")
+    @Documentation(key = "lblCostCenter",translateValue = "1=enmCostCenter1;2=enmCostCenter2;3=enmCostCenter3"
+            + ";4=enmCostCenter4;5=enmCostCenter5;6=enmCostCenter6;7=enmCostCenter7;8=enmCostCenter8"
+            + ";9=enmCostCenter9;10=enmCostCenter10;11=enmCostCenter11;12=enmCostCenter21;13=enmCostCenter22"
+            + ";14=enmCostCenter23;15=enmCostCenter24;16=enmCostCenter25;17=enmCostCenter26;18=enmCostCenter30"
+            + ";19=enmCostCenter40;20=enmCostCenter99")
     private int _costCenterId = -1;
     
     @Column (name = "coCostTypeId")
