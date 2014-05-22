@@ -53,7 +53,9 @@ public class Cost implements Serializable {
     private int _costCenterId = -1;
     
     @Column (name = "coCostTypeId")
-    @Documentation(key = "lblCostType")
+    @Documentation(key = "lblCostType",translateValue = "0=enmCostType1;100=enmCostType2;110=enmCostType3;120=enmCostType4"
+            + ";130=enmCostType5;131=enmCostType6;132=enmCostType7;133=enmCostType8;141=enmCostType9;142=enmCostType10"
+            + ";150=enmCostType11;161=enmCostType12;162=enmCostType13;170=enmCostType14;180=enmCostType15")
     private int _costTypeId = -1;
     
     @Column (name = "coAmount")
