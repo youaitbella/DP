@@ -337,6 +337,11 @@ public class SessionController implements Serializable {
         return isInekUser(requestedFeature, false);
     }
 
+    public boolean isInekUser(String featureName) {
+        Feature requestedFeature = Feature.valueOf(featureName);
+        return isInekUser(requestedFeature, false);
+    }
+
     /**
      *
      * @param requestedFeature

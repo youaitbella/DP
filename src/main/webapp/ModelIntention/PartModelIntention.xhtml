@@ -10,7 +10,7 @@
         <ui:include src="#{sessionTools.pages.ListModelIntention}"/>
 
         <br/>
-        <h:outputLabel value="#{sessionController.isInekUser(Feature.MODEL_INTENTION) ? msg.lblUserModelIntentionExist : msg.lblPartnerModelIntentionExist}" 
+        <h:outputLabel value="#{sessionController.isInekUser('MODEL_INTENTION') ? msg.lblUserModelIntentionExist : msg.lblPartnerModelIntentionExist}" 
                        styleClass="label"
                        rendered="#{modelIntentionList.partners.size() > 0}"/>
     </ui:composition>
