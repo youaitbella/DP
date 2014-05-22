@@ -121,7 +121,7 @@ public class ModelIntentionUpload {
             contact.setZip(tokens[4]);
             contact.setTown(tokens[5]);
             try {
-                contact.setRegCare(Integer.parseInt(tokens[6]));
+                contact.setRegCare(tokens[6].equals("1"));
             } catch (NumberFormatException ex) {
             }
             contact.setContactPerson(tokens[7]);

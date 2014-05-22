@@ -29,17 +29,7 @@
         <h:form id="contractors">
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==1).toList() }" var="contact">
                 <div class="rectangle">
-                    <inek:Institute RegCareRender="true" 
-                                 IK="#{contact.ik}"
-                                 Name="#{contact.name}"
-                                 Street="#{contact.street}"
-                                 Zip="#{contact.zip}"
-                                 Town="#{contact.town}"
-                                 ContactPerson="#{contact.contactPerson}"
-                                 Phone="#{contact.phone}"
-                                 Mail="#{contact.email}"
-                                 readonly="#{editModelIntention.readOnly}"
-                                 />
+                    <inek:Institute contact="#{contact}" />
                 </div>
             </ui:repeat>
             <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddContractor}" 
@@ -52,17 +42,7 @@
             <h2>#{msg.headerModelIntentionProvider}</h2>
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==2).toList() }" var="contact">
                 <div class="rectangle">
-                    <inek:Institute RegCareRender="false" 
-                                 IK="#{contact.ik}"
-                                 Name="#{contact.name}"
-                                 Street="#{contact.street}"
-                                 Zip="#{contact.zip}"
-                                 Town="#{contact.town}"
-                                 ContactPerson="#{contact.contactPerson}"
-                                 Phone="#{contact.phone}"
-                                 Mail="#{contact.email}"
-                                 readonly="#{editModelIntention.readOnly}"
-                                 />
+                    <inek:Institute contact="#{contact}" />
                 </div>
             </ui:repeat>
             <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddProvider}" 
@@ -75,27 +55,18 @@
             <h2>#{msg.headerModelIntentionCostInsurance}</h2>
             <ui:repeat value="#{editModelIntention.modelIntention.contacts.stream().filter(c->c.contactTypeId==3).toList() }" var="contact">
                 <div class="rectangle">
-                    <inek:Institute RegCareRender="false" 
-                                 IK="#{contact.ik}"
-                                 Name="#{contact.name}"
-                                 Street="#{contact.street}"
-                                 Zip="#{contact.zip}"
-                                 Town="#{contact.town}"
-                                 ContactPerson="#{contact.contactPerson}"
-                                 Phone="#{contact.phone}"
-                                 Mail="#{contact.email}"
-                                 readonly="#{editModelIntention.readOnly}"
-                                 />
+                    <inek:Institute contact="#{contact}" />
                 </div>
             </ui:repeat>
             <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddInsurance}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(3)}"/>
             </h:commandLink>
-        <script type="text/javascript">
-            #{editModelIntention.contactScript}
-        </script>
-            
+
+            <script type="text/javascript">
+                #{editModelIntention.contactScript}
+            </script>
+
         </h:form>
 
     </ui:define>

@@ -495,6 +495,10 @@ public class EditModelIntention extends AbstractEditController {
         return true;
     }
 
+    public void deleteContact(ModelIntentionContact contact){
+        _modelIntention.getContacts().remove(contact);
+    }
+    
     String _contactScript = "";
 
     public void setContactMessage(String msg) {

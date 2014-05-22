@@ -1,6 +1,7 @@
 package org.inek.dataportal.entities.modelintention;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -78,9 +79,19 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblTown")
     private String _town = "";
 
+    // <editor-fold defaultstate="collapsed" desc="Property RegCare">
     @Column(name = "csRegCare")
     @Documentation(key = "lblRegCare")
-    private int _regCare;
+    private boolean _regCare;
+
+    public boolean getRegCare() {
+        return _regCare;
+    }
+
+    public void setRegCare(boolean regCare) {
+        _regCare = regCare;
+    }
+// </editor-fold>
 
     @Column(name = "csContactPerson")
     @Documentation(key = "lblContactPerson")
@@ -100,7 +111,7 @@ public class ModelIntentionContact implements Serializable {
                 && _street.isEmpty()
                 && _zip.isEmpty()
                 && _town.isEmpty()
-                && _regCare == 0
+                && !_regCare
                 && _contactPerson.isEmpty()
                 && _phone.isEmpty()
                 && _email.isEmpty();
@@ -154,14 +165,6 @@ public class ModelIntentionContact implements Serializable {
         _town = town;
     }
 
-    public int getRegCare() {
-        return _regCare;
-    }
-
-    public void setRegCare(int regCare) {
-        _regCare = regCare;
-    }
-
     public String getContactPerson() {
         return _contactPerson;
     }
@@ -206,7 +209,8 @@ public class ModelIntentionContact implements Serializable {
         if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
-        return true;
+        if (Objects.equals(_id, other._id)){return true;}
+        return _contactTypeId == other._contactTypeId && equalsFunctional(other);
     }
 
     @Override
