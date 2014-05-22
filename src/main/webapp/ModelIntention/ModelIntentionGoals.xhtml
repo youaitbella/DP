@@ -14,7 +14,7 @@
             <div class="inputPart">
                 <h:outputLabel styleClass="label" for="txtHigherGoals" id="lblHigherGoals" value="#{msg.lblModelIntentionHigherGoals}:"/>
                 <h:inputTextarea id="txtHigherGoals" styleClass="areaWideHigh" value="#{editModelIntention.modelIntention.primaryGoals}"
-                                 readonly="#{editModelIntention.readOnly}">
+                                 readonly="#{editModelIntention.readOnly}" required="true">
                     <f:ajax event="blur" render="@this" />
                 </h:inputTextarea>
             </div>

@@ -71,19 +71,19 @@ public class DocumentationUtil {
     private void docElement(Documentation doc, String fieldName, Object rawValue) {
         String name = getName(doc, fieldName);
         if (rawValue instanceof Collection) {
-            addDoc(name, "", doc, 0);
-            documentCollection(doc, (Collection) rawValue);
+            //addDoc(name, "", doc, 0);
+            documentCollection(doc, name, (Collection) rawValue);
         } else {
             String value = translate(rawValue, doc);
             addDoc(name, value, doc, 0);
         }
     }
 
-    private void documentCollection(Documentation doc, Collection collection) {
+    private void documentCollection(Documentation doc, String name, Collection collection) {
         int counter=0;
         for (Object entry : collection) {
             counter++;
-            addDoc(""+counter, getDocForSubObject(entry), doc, 1);
+            addDoc(name + " (" + counter + ")", getDocForSubObject(entry), doc, 1);
         }
     }
 
