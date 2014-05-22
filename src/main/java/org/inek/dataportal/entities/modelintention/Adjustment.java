@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.utils.Documentation;
 
 @Entity
 @Table(name = "Adjustment", schema = "mvh")
@@ -61,6 +62,7 @@ public class Adjustment implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="dateFrom">
     @Column(name = "adDateFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Documentation(key = "lblFrom", omitOnEmpty = true)
     private Date _dateFrom;
 
     public Date getDateFrom() {
@@ -75,6 +77,7 @@ public class Adjustment implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="dateTo">
     @Column(name = "adDateTo")
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Documentation(key = "lblTo", omitOnEmpty = true)
     private Date _dateTo;
 
     public Date getDateTo() {

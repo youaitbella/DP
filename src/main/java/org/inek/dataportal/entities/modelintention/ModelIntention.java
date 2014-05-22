@@ -851,7 +851,7 @@ public class ModelIntention implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "reModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
-    @Documentation(name = "remuneration")
+    @Documentation(key = "headerRemuneration")
     private List<Remuneration> _remunerations;
 
     public List<Remuneration> getRemunerations() {
@@ -889,6 +889,7 @@ public class ModelIntention implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "adModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
+    @Documentation(key = "headerModelIntentionAdjustment")
     private List<Adjustment> _adjustments;
 
     public List<Adjustment> getAdjustments() {

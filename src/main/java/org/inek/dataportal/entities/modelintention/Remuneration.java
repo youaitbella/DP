@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 @Entity
 @Table(name = "Remuneration", schema = "mvh")
@@ -45,6 +46,7 @@ public class Remuneration implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="code">
+    @Documentation(key = "lblRemunerationCode", omitOnEmpty = true)
     @Column(name = "reCode")
     private String _code = "";
 
@@ -58,6 +60,7 @@ public class Remuneration implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="text">
+    @Documentation(key = "lblRemunerationType", omitOnEmpty = true)
     @Column(name = "reText")
     private String _text = "";
 
@@ -71,6 +74,7 @@ public class Remuneration implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="amount">
+    @Documentation(key = "lblRemunerationAmount")
     @Column(name = "reAmount")
     private BigDecimal _amount = new BigDecimal(0d);
 
