@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -31,29 +32,12 @@ public class AcademicSupervision implements Serializable {/*
 
     private static final long serialVersionUID = 1L;
 
+    // <editor-fold defaultstate="collapsed" desc=" Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "asId")
     private Integer _id;
-
-    @Column(name = "asModelIntentionId")
-    private int _modelIntentionId;
-
-    @Column(name = "asRemitter")
-    private String _remitter = "";
-
-    @Column(name = "asContractor")
-    private String _contractor = "";
-
-    @Column(name = "asFrom")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _from;
-
-    @Column(name = "asTo")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _to;
-
-    // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
+    
     public Integer getId() {
         return _id;
     }
@@ -61,15 +45,40 @@ public class AcademicSupervision implements Serializable {/*
     public void setId(Integer id) {
         _id = id;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ModelIntentionId">
+    @Column(name = "asModelIntentionId")
+    private int _modelIntentionId;
+    
+    public int getModelIntentionId() {
+        return _modelIntentionId;
+    }
 
-    public String getRemitter() {
+    public void setModelIntentionId(int modelIntentionId) {
+        _modelIntentionId = modelIntentionId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Remitter">
+    @Column(name = "asRemitter")
+    @Documentation(key = "lblRemitter")
+    private String _remitter = "";
+    
+     public String getRemitter() {
         return _remitter;
     }
 
     public void setRemitter(String remitter) {
         _remitter = remitter;
     }
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Contractor">
+    @Column(name = "asContractor")
+    @Documentation(key = "lblContractorA")
+    private String _contractor = "";
+    
     public String getContractor() {
         return _contractor;
     }
@@ -77,7 +86,14 @@ public class AcademicSupervision implements Serializable {/*
     public void setContractor(String contractor) {
         _contractor = contractor;
     }
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="From">
+    @Column(name = "asFrom")
+    @Documentation(key = "lblFrom", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date _from;
+    
     public Date getAcademicSupFrom() {
         return _from;
     }
@@ -85,21 +101,20 @@ public class AcademicSupervision implements Serializable {/*
     public void setAcademicSupFrom(Date from) {
         _from = from;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="To">
+    @Column(name = "asTo")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @Documentation(key = "lblTo", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
+    private Date _to;
+    
     public Date getAcademicSupTo() {
         return _to;
     }
 
     public void setAcademicSupTo(Date to) {
         _to = to;
-    }
-
-    public int getModelIntentionId() {
-        return _modelIntentionId;
-    }
-
-    public void setModelIntentionId(int modelIntentionId) {
-        _modelIntentionId = modelIntentionId;
     }
     // </editor-fold>
 

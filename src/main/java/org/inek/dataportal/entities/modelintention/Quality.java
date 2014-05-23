@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -66,6 +67,7 @@ public class Quality implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="indicator">
     @Column(name = "qyIndicator")
+    @Documentation(key = "lblQualityIndicator")
     private String _indicator = "";
 
     public String getIndicator() {
@@ -79,6 +81,7 @@ public class Quality implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="description">
     @Column(name = "qyDescription")
+    @Documentation(key = "tabNubPage1")
     private String _description = "";
 
     public String getDescription() {

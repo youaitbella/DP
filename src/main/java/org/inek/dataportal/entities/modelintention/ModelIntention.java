@@ -965,6 +965,7 @@ public class ModelIntention implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
+    @Documentation(key = "headerModelIntentionScientific")
     private List<AcademicSupervision> _academicSupervisions;
     
     public List<AcademicSupervision> getAcademicSupervisions() {
@@ -978,12 +979,14 @@ public class ModelIntention implements Serializable {
     public void setAcademicSupervisions(List<AcademicSupervision> academicSupervisions) {
         _academicSupervisions = academicSupervisions;
     }
-        // </editor-fold>
+    // </editor-fold>
     
 
-    // <editor-fold defaultstate="collapsed" desc="list quality">
+    // <editor-fold defaultstate="collapsed" desc="InternalQuality">
     @Column(name = "miInternalQuality")
+    @Documentation(key = "headerModelIntentionInternQuality")
     private int _internalQuality;
+    
     public int getInternalQuality() {
         return _internalQuality;
     }
@@ -991,9 +994,13 @@ public class ModelIntention implements Serializable {
     public void setInternalQuality(int internalQuality) {
         _internalQuality = internalQuality;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ExternalQuality">
     @Column(name = "miExternalQuality")
+    @Documentation(key = "headerModelIntentionExternQuality")
     private int _externalQuality;
+    
     public int getExternalQuality() {
         return _externalQuality;
     }
@@ -1001,7 +1008,9 @@ public class ModelIntention implements Serializable {
     public void setExternalQuality(int externalQuality) {
         _externalQuality = externalQuality;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Quality">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "qyModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
@@ -1043,21 +1052,7 @@ public class ModelIntention implements Serializable {
     }
 
     
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-
-   
-
-    
+ 
 
     
    
