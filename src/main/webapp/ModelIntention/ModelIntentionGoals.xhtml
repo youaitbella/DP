@@ -13,9 +13,10 @@
 
             <div class="inputPart">
                 <h:outputLabel styleClass="label" for="txtHigherGoals" id="lblHigherGoals" value="#{msg.lblModelIntentionHigherGoals}:"/>
+                <h:message id="msgHigherGoals" for="txtHigherGoals" styleClass="errorMessage"/>
                 <h:inputTextarea id="txtHigherGoals" styleClass="areaWideHigh" value="#{editModelIntention.modelIntention.primaryGoals}"
                                  readonly="#{editModelIntention.readOnly}" required="true">
-                    <f:ajax event="blur" render="@this" />
+                    <f:ajax event="blur" render="@this msgHigherGoals :logout:remaining" />
                 </h:inputTextarea>
             </div>
 
@@ -23,7 +24,7 @@
                 <h:outputLabel styleClass="label" for="txtPatientGoals" id="lblPatientGoals" value="#{msg.lblModelIntentionPatientGoals}:"/>
                 <h:inputTextarea id="txtPatientGoals" styleClass="areaWideHigh" value="#{editModelIntention.modelIntention.patientGoals}"
                                  readonly="#{editModelIntention.readOnly}">
-                    <f:ajax event="blur" render="@this" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
             </div>
 
@@ -31,7 +32,7 @@
                 <h:outputLabel styleClass="label" for="txtProviderGoals" id="lblProviderGoals" value="#{msg.lblModelIntentionProviderGoals}:"/>
                 <h:inputTextarea id="txtProviderGoals" styleClass="areaWideHigh" value="#{editModelIntention.modelIntention.providerGoals}"
                                  readonly="#{editModelIntention.readOnly}">
-                    <f:ajax event="blur" render="@this" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
             </div>
 
@@ -39,7 +40,7 @@
                 <h:outputLabel styleClass="label" for="txtSponsorGoals" id="lblSponsorGoals" value="#{msg.lblModelIntentionSponsorGoals}:"/>
                 <h:inputTextarea id="txtSponsorGoals" styleClass="areaWideHigh" value="#{editModelIntention.modelIntention.sponsorGoals}"
                                  readonly="#{editModelIntention.readOnly}">
-                    <f:ajax event="blur" render="@this" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
             </div>
 
@@ -47,7 +48,7 @@
                 <h:outputLabel styleClass="label" for="txtInvolvedGoals" id="lblInvolvedGoals" value="#{msg.lblModelIntentionInvolvedGoals}:"/>
                 <h:inputTextarea id="txtInvolvedGoals" styleClass="areaWideHigh" value="#{editModelIntention.modelIntention.involvedGoals}"
                                  readonly="#{editModelIntention.readOnly}">
-                    <f:ajax event="blur" render="@this" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
             </div>
         </h:form>

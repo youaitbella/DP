@@ -21,8 +21,8 @@
         </div>
     </h:form>
     <h:form id="costForm" enctype="multipart/form-data">
-        
-        
+
+
         <table class="fullWidth">
             <thead>
                 <tr>
@@ -51,6 +51,7 @@
                                 <h:message id="msgIk#{status.index}" for="ik#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="ik#{status.index}" value="#{cost.ik}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
+                                    <f:validator validatorId="IkValidator"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgIk#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>

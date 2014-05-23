@@ -24,7 +24,7 @@
             <tbody>
                 <c:forEach items="#{editModelIntention.modelIntention.remunerations}" var="remuneration" varStatus="status">
                     <tr>
-                        <td class="colIcon alignTop">
+                        <td class="colIcon alignBottom">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
                                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
@@ -33,19 +33,19 @@
                             </h:commandLink>
                         </td>
 
-                        <td class="col14 alignTop">
+                        <td class="col14 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgCode#{status.index}" for="code#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText id="code#{status.index}" styleClass="fullWidth" value="#{remuneration.code}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.checkRemunerationListener}"/-->
-                                    <f:ajax event="change" render="@this :logout:remaining text#{status.index}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
+                                    <f:ajax event="change" render="@this :logout:remaining msgCode#{status.index}" listener="#{editModelIntention.loadRemunerationListener(remuneration)}"/>
                                     <f:ajax event="blur" render="@this :costForm :logout:remaining msgCode#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
 
-                        <td class="alignTop">
+                        <td class="alignBottom">
                             <h:panelGrid columns="1" styleClass="fullWidth">
                                 <h:message id="msgText#{status.index}" for="text#{status.index}" styleClass="errorMessage"/>
                                 <h:inputTextarea id="text#{status.index}" styleClass="areaWideLow" value="#{remuneration.text}" 
@@ -56,7 +56,7 @@
                             </h:panelGrid>
                         </td>
 
-                        <td class="col14 alignTop">
+                        <td class="col14 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText id="amount#{status.index}" styleClass="fullWidth" value="#{remuneration.amount}" 

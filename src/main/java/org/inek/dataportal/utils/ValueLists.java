@@ -10,8 +10,10 @@ import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.modelintention.AdjustmentType;
 import org.inek.dataportal.enums.Genders;
+import org.inek.dataportal.enums.HospitalType;
 import org.inek.dataportal.enums.InsuranceAffiliation;
 import org.inek.dataportal.enums.MedicalAttribute;
+import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.QualityUsage;
 import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.enums.SettleType;
@@ -158,6 +160,24 @@ public class ValueLists {
         return l.toArray(new SelectItem[l.size()]);
     }
 
+    public SelectItem[] getPiaTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        PiaType[] types = PiaType.values();
+        for (PiaType p : types) {
+            l.add(new SelectItem(p.id(), p.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+
+    public SelectItem[] getHospitalTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        HospitalType[] types = HospitalType.values();
+        for (HospitalType h : types) {
+            l.add(new SelectItem(h.id(), h.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+    
     public List<SelectItem> getInsuranceAffiliation() {
         List<SelectItem> l = new ArrayList<>();
         for (InsuranceAffiliation t : InsuranceAffiliation.values()) {

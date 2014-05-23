@@ -27,7 +27,7 @@
             </h:selectOneMenu>
             <h:message for="idText" id="msgText" styleClass="errorMessage"/>
             <h:inputTextarea styleClass="areaRight70Low #{cc.attrs.SelectElement ge cc.attrs.Threshold ? 'required' : ''}" id="idText" 
-                             value="#{cc.attrs.Text}" 
+                             value="#{cc.attrs.SelectElement ge cc.attrs.Threshold ? cc.attrs.Text : ''}" 
                              readonly="#{cc.attrs.readonly or cc.attrs.SelectElement lt cc.attrs.Threshold}"
                              required="#{cc.attrs.SelectElement ge cc.attrs.Threshold}" requiredMessage="#{msg.msgValueNeeded}" >
                 <f:ajax event="blur" render="@this :logout:remaining msgText" />

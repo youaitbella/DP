@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import org.inek.dataportal.utils.Documentation;
 
 @Entity
@@ -51,6 +52,7 @@ public class Remuneration implements Serializable {
     @Column(name = "reCode")
     private String _code = "";
 
+    @Pattern(regexp = "[A-Z0-9]{8}")
     public String getCode() {
         return _code;
     }

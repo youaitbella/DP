@@ -98,22 +98,22 @@
             <inek:LabeledSelectAndText Label="#{msg.lblSettledDocs}" 
                                        SelectElement="#{editModelIntention.modelIntention.settleMedicType}"
                                        SelectItems="#{valueLists.settledTypes}"
-                                       Text="#{editModelIntention.settleText}"
+                                       Text="#{editModelIntention.modelIntention.settleMedicText}"
                                        Threshold="1" 
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
             <inek:LabeledSelectAndText Label="#{msg.lblPia}" 
                                        SelectElement="#{editModelIntention.modelIntention.piaType}"
-                                       SelectItems="#{editModelIntention.piaTypes}"
-                                       Text="#{editModelIntention.PIAText}" 
+                                       SelectItems="#{valueLists.piaTypes}"
+                                       Text="#{editModelIntention.modelIntention.piaText}" 
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
             <inek:LabeledSelectAndText Label="#{msg.lblHospital}" 
                                        SelectElement="#{editModelIntention.modelIntention.hospitalType}"
-                                       SelectItems="#{editModelIntention.hospitalTypes}"
-                                       Text="#{editModelIntention.hospitalText}"
+                                       SelectItems="#{valueLists.hospitalTypes}"
+                                       Text="#{editModelIntention.modelIntention.hospitalText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        Threshold="2"
                                        />

@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,6 +13,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.Cost;
@@ -20,12 +24,9 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.HospitalType;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.enums.SelfHospitalisationType;
-import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
@@ -64,90 +65,6 @@ public class EditModelIntention extends AbstractEditController {
 
     public void setRegionMiscEnabled(boolean regionMiscEnabled) {
         this._regionMiscEnabled = regionMiscEnabled;
-    }
-
-    public String getSettleText() {
-        if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
-            return "";
-        }
-        return _modelIntention.getSettleMedicText();
-    }
-
-    public void setSettleText(String text) {
-        if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
-            _modelIntention.setSettleMedicText("");
-        } else {
-            _modelIntention.setSettleMedicText(text);
-        }
-    }
-
-    public boolean isSettleTextEnabled() {
-        if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
-            return false;
-        }
-        return true;
-    }
-
-    public SelectItem[] getPiaTypes() {
-        List<SelectItem> l = new ArrayList<>();
-        PiaType[] types = PiaType.values();
-        for (PiaType p : types) {
-            l.add(new SelectItem(p.id(), p.type()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public String getPIAText() {
-        if (_modelIntention.getPiaType() != PiaType.SpecificPIA.id()) {
-            return "";
-        }
-        return _modelIntention.getPiaText();
-    }
-
-    public void setPIAText(String text) {
-        if (_modelIntention.getPiaType() != PiaType.SpecificPIA.id()) {
-            _modelIntention.setPiaText("");
-        } else {
-            _modelIntention.setPiaText(text);
-        }
-    }
-
-    public boolean isPIATextEnabled() {
-        if (_modelIntention.getPiaType() != PiaType.SpecificPIA.id()) {
-            return false;
-        }
-        return true;
-    }
-
-    public SelectItem[] getHospitalTypes() {
-        List<SelectItem> l = new ArrayList<>();
-        HospitalType[] types = HospitalType.values();
-        for (HospitalType h : types) {
-            l.add(new SelectItem(h.id(), h.type()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public String getHospitalText() {
-        if (_modelIntention.getHospitalType() != HospitalType.SpecificHospital.id() && _modelIntention.getHospitalType() != HospitalType.OtherHospital.id()) {
-            return "";
-        }
-        return _modelIntention.getHospitalText();
-    }
-
-    public void setHospitalText(String text) {
-        if (_modelIntention.getHospitalType() != HospitalType.SpecificHospital.id() && _modelIntention.getHospitalType() != HospitalType.OtherHospital.id()) {
-            _modelIntention.setHospitalText("");
-        } else {
-            _modelIntention.setHospitalText(text);
-        }
-    }
-
-    public boolean isHospitalTextEnabled() {
-        if (_modelIntention.getHospitalType() != HospitalType.SpecificHospital.id() && _modelIntention.getHospitalType() != HospitalType.OtherHospital.id()) {
-            return false;
-        }
-        return true;
     }
 
     public SelectItem[] getSelfHospitalisationTypes() {
@@ -189,9 +106,9 @@ public class EditModelIntention extends AbstractEditController {
         _sessionController.beginConversation(_conversation);
         Object miId = Utils.getFlash().get("modelId");
         if (miId == null) {
-            if (_sessionController.isInekUser(Feature.MODEL_INTENTION)){
-            _modelIntention = newModelIntention();
-            }else{
+            if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
+                _modelIntention = newModelIntention();
+            } else {
                 Utils.navigate(Pages.MainApp.URL());
                 return;
             }
@@ -238,6 +155,8 @@ public class EditModelIntention extends AbstractEditController {
         _modelIntention.setQualities(_internalQualityTable.getList());
         _modelIntention.getQualities().addAll(_externalQualityTable.getList());
         removeObsolteTexts();
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<ModelIntention>> violations = validator.validate(_modelIntention);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();
         ensureEmptyEntries();
@@ -273,19 +192,18 @@ public class EditModelIntention extends AbstractEditController {
         if (_modelIntention.getDayPatientTreatmentType() < 2) {
             _modelIntention.setDayPatientTreatmentText("");
         }
-        if (_modelIntention.getInpatientCompensationTreatmentType()< 2) {
+        if (_modelIntention.getInpatientCompensationTreatmentType() < 2) {
             _modelIntention.setInpatientCompensationTreatmentText("");
         }
-        if (_modelIntention.getInpatientCompensationHomeTreatmentType()< 2) {
+        if (_modelIntention.getInpatientCompensationHomeTreatmentType() < 2) {
             _modelIntention.setInpatientCompensationHomeTreatmentText("");
         }
-        if (_modelIntention.getOutpatientTreatmentType()< 2) {
+        if (_modelIntention.getOutpatientTreatmentType() < 2) {
             _modelIntention.setOutpatientTreatmentText("");
         }
-        if (_modelIntention.getOutpatientHomeTreatmentType()< 2) {
+        if (_modelIntention.getOutpatientHomeTreatmentType() < 2) {
             _modelIntention.setOutpatientHomeTreatmentText("");
         }
-
     }
 
     private boolean isValidId(Integer id) {
