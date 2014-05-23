@@ -887,3 +887,7 @@ div.fakeFile {
 	opacity: 0;
 	z-index: 2;
 }
+
+.number {
+    text-align: right;
+}

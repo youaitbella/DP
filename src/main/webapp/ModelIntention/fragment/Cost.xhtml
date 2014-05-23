@@ -96,9 +96,9 @@
                         <td class=" alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth" id="amount#{status.index}" value="#{cost.amount}" 
+                                <h:inputText styleClass="fullWidth number" id="amount#{status.index}" value="#{cost.amount}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:convertNumber  maxFractionDigits="2"/>
+                                    <f:convertNumber  minFractionDigits="2" maxFractionDigits="2" />
                                     <!--f:ajax event="keyup" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
                                 </h:inputText> 
