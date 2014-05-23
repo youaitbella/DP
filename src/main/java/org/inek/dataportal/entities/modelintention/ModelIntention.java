@@ -984,7 +984,7 @@ public class ModelIntention implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="InternalQuality">
     @Column(name = "miInternalQuality")
-    @Documentation(key = "headerModelIntentionInternQuality")
+    //@Documentation(key = "headerModelIntentionInternQuality")
     private int _internalQuality;
     
     public int getInternalQuality() {
@@ -998,7 +998,7 @@ public class ModelIntention implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ExternalQuality">
     @Column(name = "miExternalQuality")
-    @Documentation(key = "headerModelIntentionExternQuality")
+    //@Documentation(key = "headerModelIntentionExternQuality")
     private int _externalQuality;
     
     public int getExternalQuality() {
@@ -1014,6 +1014,7 @@ public class ModelIntention implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "qyModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
+    @Documentation(key = "headerModelIntentionQuality")
     private List<Quality> _qualities;
 
     public List<Quality> getQualities() {
