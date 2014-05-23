@@ -32,13 +32,33 @@ public class ModelIntention implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "miId")
     private Integer _id;
+    
+    public Integer getId() {
+        return _id;
+    }
 
+    public void setId(Integer miId) {
+        this._id = miId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "miAccountId")
     private int _accountId;
+    
+    public Integer getAccountId() {
+        return _accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property code">
     @Documentation(key = "lblModelIntentionCode")
@@ -157,6 +177,10 @@ public class ModelIntention implements Serializable {
     public void setRegion(String region) {
         this._region = region;
     }
+    
+    public String getRegion() {
+        return _region;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property medicalAttributesType">
@@ -187,20 +211,24 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    /// fehlt
     // <editor-fold defaultstate="collapsed" desc="Property insuranceAffiliation">
     @Column(name = "miInsuranceAffiliation")
-    private String _insuranceAffiliation = "";
-    public String getInsuranceAffiliation() {
+    @Documentation(key = "lblModelIntentionHealthInsurance", translateValue = "0=enmNoAttribute;1=enmInsuranceAffiliationNamed")
+    private int _insuranceAffiliation = 0;
+    public int getInsuranceAffiliation() {
         return _insuranceAffiliation;
     }
 
-    public void setInsuranceAffiliation(String insuranceAffiliation) {
+    public void setInsuranceAffiliation(int insuranceAffiliation) {
         _insuranceAffiliation = insuranceAffiliation;
     }
     // </editor-fold>
 
+    // fehlt
     // <editor-fold defaultstate="collapsed" desc="Property miscAttribute">
     @Column(name = "miMiscAttribute")
+    @Documentation(key = "lblMiscAttr",omitOnEmpty = true)
     private String _miscAttribute = "";
     
     public String getMiscAttribute() {
@@ -822,10 +850,7 @@ public class ModelIntention implements Serializable {
         this._miscRemuneration = miscRemuneration;
     }
     // </editor-fold>
-    
-    ///////////////////////////////
-    
-
+        
     // <editor-fold defaultstate="collapsed" desc="Property status">
     @Column(name = "miStatus")
     private int _status = 0;
@@ -1029,36 +1054,7 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getId() {
-        return _id;
-    }
-
-    public void setId(Integer miId) {
-        this._id = miId;
-    }
-
-    public Integer getAccountId() {
-        return _accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this._accountId = accountId;
-    }
     
-    
-
-    public String getRegion() {
-        return _region;
-    }
-
-    
- 
-
-    
-   
-
-    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
