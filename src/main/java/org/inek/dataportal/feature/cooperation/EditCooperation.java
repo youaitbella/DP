@@ -90,7 +90,6 @@ public class EditCooperation extends AbstractEditController {
         _sessionController.beginConversation(_conversation);
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
-        //_logger.log(Level.WARNING, "PartnerAccount {0}", getPartnerAccount());
 
         _isRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
                 _sessionController.getAccountId(),

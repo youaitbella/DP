@@ -17,7 +17,6 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
-import org.inek.dataportal.entities.Announcement;
 import org.inek.dataportal.entities.InekRole;
 import org.inek.dataportal.entities.Log;
 import org.inek.dataportal.entities.account.Account;
@@ -27,7 +26,6 @@ import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.AnnouncementFacade;
 import org.inek.dataportal.facades.DiagnosisFacade;
 import org.inek.dataportal.facades.LogFacade;
 import org.inek.dataportal.facades.PeppFacade;
@@ -48,8 +46,6 @@ public class SessionController implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger _logger = Logger.getLogger("SessionController");
-    @Inject
-    private AnnouncementFacade _announcementFacade;
     @Inject
     private AccountFacade _accountFacade;
     @Inject
@@ -428,14 +424,6 @@ public class SessionController implements Serializable {
         }
         _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{getAccount().getAccountId(), accountId});
         return false;
-    }
-
-    public List<Announcement> getWarnings() {
-        return _announcementFacade.findActiveWarnings(true);
-    }
-
-    public List<Announcement> getAnnouncements() {
-        return _announcementFacade.findActiveWarnings(false);
     }
 
     public String getScript() {

@@ -14,12 +14,12 @@ public class AnnouncementFacade extends AbstractFacade<Announcement> {
         super(Announcement.class);
     }
     
-    public List<Announcement> findActiveWarnings(boolean warning) {
+    public List<Announcement> findActiveWarnings() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Announcement> cq = cb.createQuery(Announcement.class);
         Root request = cq.from(Announcement.class);
         cq.select(request)
-                .where(cb.and(cb.isTrue(request.get("_isActive")), warning? cb.isTrue(request.get("_isWarning")) : cb.isFalse(request.get("_isWarning"))))
+                .where(cb.isTrue(request.get("_isActive")))
                 .orderBy(cb.asc(request.get("_id")));
         return getEntityManager().createQuery(cq).getResultList();
     }

@@ -88,13 +88,15 @@
                         </ul>
                     </h:form>
 
-                    <h:dataTable value="#{sessionController.warnings}" var="a" styleClass="warning" rendered="#{sessionController.warnings.size() gt 0}">
+                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warning" 
+                                 rendered="#{announcementBean.announcements.stream().filter(a->a.warning).toList().size() gt 0}">
                         <h:column>
                             <h:outputText value="#{a.text}"/>
                         </h:column>
                     </h:dataTable>
 
-                    <h:dataTable value="#{sessionController.announcements}" var="a" styleClass="hint" rendered="#{sessionController.announcements.size() gt 0}">
+                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->!a.warning).toList()}" var="a" styleClass="hint" 
+                                 rendered="#{announcementBean.announcements.stream().filter(a->!a.warning).toList().size() gt 0}">
                         <h:column>
                             <h:outputText value="#{a.text}"/>
                         </h:column>

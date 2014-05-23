@@ -5,7 +5,14 @@
 package org.inek.dataportal.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 
@@ -47,7 +54,7 @@ public class CooperationRight implements Serializable {
 
     @Column(name = "corCooperativeRight")
     @Enumerated(EnumType.STRING)
-    private CooperativeRight _cooperativeRight;
+    private CooperativeRight _cooperativeRight = CooperativeRight.None;
 
     public CooperationRight(){}
     public CooperationRight(int ownerId, int partnerId, int ik, Feature feature){
