@@ -43,6 +43,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @Named
 @ConversationScoped
 public class EditModelIntention extends AbstractEditController {
+
     private static final Logger _logger = Logger.getLogger("EditModelIntention");
 
     @Inject private SessionController _sessionController;
@@ -126,8 +127,6 @@ public class EditModelIntention extends AbstractEditController {
             _modelIntention.setSettleMedicText(text);
         }
     }
-
- 
 
     public boolean isSettleTextEnabled() {
         if (_modelIntention.getSettleMedicType() == SettleType.ImpartialDepartment.id()) {
@@ -396,11 +395,11 @@ public class EditModelIntention extends AbstractEditController {
         return _agreedPatiensTable;
     }
 
-    public void addNewAgreedPatients(){
+    public void addNewAgreedPatients() {
         _agreedPatiensTable.addNewEntry();
     }
     // </editor-fold>  
-    
+
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private RemunerationDynamicTable _remunarationTable;
 
@@ -427,10 +426,10 @@ public class EditModelIntention extends AbstractEditController {
         remuneration.setText(type.getText());
     }
 
-    public void addNewRemuneration(){
+    public void addNewRemuneration() {
         _remunarationTable.addNewEntry();
     }
-    
+
     private CostDynamicTable _costTable;
 
     public DynamicTable getCostTable() {
@@ -454,10 +453,10 @@ public class EditModelIntention extends AbstractEditController {
         return true;
     }
 
-    public void addNewCost(){
+    public void addNewCost() {
         _costTable.addNewEntry();
     }
-    
+
     private AdjustmentDynamicTable _adjustmentTable;
 
     public DynamicTable getAdjustmentTable() {
@@ -467,12 +466,11 @@ public class EditModelIntention extends AbstractEditController {
         return _adjustmentTable;
     }
 
-    public void addNewAdjustment(){
+    public void addNewAdjustment() {
         _adjustmentTable.addNewEntry();
     }
-    
-    // </editor-fold>    
 
+    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addNewContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
@@ -495,10 +493,10 @@ public class EditModelIntention extends AbstractEditController {
         return true;
     }
 
-    public void deleteContact(ModelIntentionContact contact){
+    public void deleteContact(ModelIntentionContact contact) {
         _modelIntention.getContacts().remove(contact);
     }
-    
+
     String _contactScript = "";
 
     public void setContactMessage(String msg) {
@@ -520,7 +518,7 @@ public class EditModelIntention extends AbstractEditController {
         return _modelLifeTable;
     }
 
-    public void addNewModelLife(){
+    public void addNewModelLife() {
         _modelLifeTable.addNewEntry();
     }
     // </editor-fold>    
@@ -537,8 +535,12 @@ public class EditModelIntention extends AbstractEditController {
         return _internalQualityTable;
     }
 
-    public void addNewInternalQuality(){
-        _internalQualityTable.addNewEntry();
+    public void addNewQuality(boolean isIntern) {
+        if (isIntern) {
+            _internalQualityTable.addNewEntry();
+        } else {
+            _externalQualityTable.addNewEntry();
+        }
     }
 
     private QualityDynamicTable _externalQualityTable;
@@ -550,10 +552,6 @@ public class EditModelIntention extends AbstractEditController {
             _externalQualityTable = new QualityDynamicTable(getModelIntention(), list, typeId);
         }
         return _externalQualityTable;
-    }
-
-    public void addNewExternalQuality(){
-        _externalQualityTable.addNewEntry();
     }
 
     private List<Quality> getQualities(int typeId) {
@@ -575,11 +573,11 @@ public class EditModelIntention extends AbstractEditController {
         return _academicSupervisionTable;
     }
 
-    public void addNewAcademicSupervision(){
+    public void addNewAcademicSupervision() {
         _academicSupervisionTable.addNewEntry();
     }
     // </editor-fold>    
-   
+
     private void resetDynamicTables() {
         _agreedPatiensTable = null;
         _modelLifeTable = null;
@@ -617,7 +615,9 @@ public class EditModelIntention extends AbstractEditController {
             return;
         }
         boolean weDontNeedEmptyEntriesUntilEventHandlingIsFine = true;
-        if (weDontNeedEmptyEntriesUntilEventHandlingIsFine){return;}
+        if (weDontNeedEmptyEntriesUntilEventHandlingIsFine) {
+            return;
+        }
         getAgreedPatientsTable().ensureEmptyEntry();
         getModelLifeTable().ensureEmptyEntry();
         getRemunerationTable().ensureEmptyEntry();

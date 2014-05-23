@@ -67,7 +67,7 @@
 
         <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddQuality}" 
                        rendered="#{!editModelIntention.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{addNewEntry}"/>
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewQuality(isIntern)}"/>
         </h:commandLink>
 
         <script type="text/javascript">
