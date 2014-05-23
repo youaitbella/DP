@@ -20,10 +20,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
-import org.inek.dataportal.enums.InsuranceAffiliation;
-import org.inek.dataportal.enums.MedicalAttribute;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.Region;
@@ -51,50 +48,6 @@ public class EditModelIntention extends AbstractEditController {
     @Inject private Conversation _conversation;
     private boolean _regionMiscEnabled;
     private ModelIntention _modelIntention;
-
-    public SelectItem[] getGenders() {
-        List<SelectItem> l = new ArrayList<>();
-        Genders[] genders = Genders.values();
-        for (Genders g : genders) {
-            l.add(new SelectItem(g.id(), g.gender()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public SelectItem[] getRegions() {
-        List<SelectItem> l = new ArrayList<>();
-        Region[] regions = Region.values();
-        for (Region r : regions) {
-            l.add(new SelectItem(r.id(), r.region()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public SelectItem[] getMedicalAttributes() {
-        List<SelectItem> l = new ArrayList<>();
-        MedicalAttribute[] attrs = MedicalAttribute.values();
-        for (MedicalAttribute ma : attrs) {
-            l.add(new SelectItem(ma.id(), ma.attribute()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public SelectItem[] getSettledTypes() {
-        List<SelectItem> l = new ArrayList<>();
-        SettleType[] types = SettleType.values();
-        for (SettleType t : types) {
-            l.add(new SelectItem(t.id(), t.type()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
-
-    public List<SelectItem> getInsuranceAffiliation() {
-        List<SelectItem> l = new ArrayList<>();
-        for (InsuranceAffiliation t : InsuranceAffiliation.values()) {
-            l.add(new SelectItem(t.id(), t.type()));
-        }
-        return l;
-    }
 
     @Override
     protected void addTopics() {
@@ -236,7 +189,12 @@ public class EditModelIntention extends AbstractEditController {
         _sessionController.beginConversation(_conversation);
         Object miId = Utils.getFlash().get("modelId");
         if (miId == null) {
+            if (_sessionController.isInekUser(Feature.MODEL_INTENTION)){
             _modelIntention = newModelIntention();
+            }else{
+                Utils.navigate(Pages.MainApp.URL());
+                return;
+            }
         } else {
             _modelIntention = loadModelIntention(miId);
         }
@@ -279,7 +237,7 @@ public class EditModelIntention extends AbstractEditController {
         removeEmptyEntries();
         _modelIntention.setQualities(_internalQualityTable.getList());
         _modelIntention.getQualities().addAll(_externalQualityTable.getList());
-
+        removeObsolteTexts();
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();
         ensureEmptyEntries();
@@ -290,6 +248,44 @@ public class EditModelIntention extends AbstractEditController {
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    private void removeObsolteTexts() {
+        // removes texts of corresponding to selectboxes, if text is not needed
+        if (_modelIntention.getRegionType() < 2) {
+            _modelIntention.setRegion("");
+        }
+        if (_modelIntention.getMedicalAttributesType() < 0) {
+            _modelIntention.setMedicalSpecification("");
+        }
+        if (_modelIntention.getSettleMedicType() < 1) {
+            _modelIntention.setSettleMedicText("");
+        }
+        if (_modelIntention.getPiaType() < 2) {
+            _modelIntention.setPiaText("");
+        }
+        if (_modelIntention.getHospitalType() < 2) {
+            _modelIntention.setHospitalText("");
+        }
+        if (_modelIntention.getInpatientTreatmentType() < 2) {
+            _modelIntention.setInpatientTreatmentText("");
+        }
+        if (_modelIntention.getDayPatientTreatmentType() < 2) {
+            _modelIntention.setDayPatientTreatmentText("");
+        }
+        if (_modelIntention.getInpatientCompensationTreatmentType()< 2) {
+            _modelIntention.setInpatientCompensationTreatmentText("");
+        }
+        if (_modelIntention.getInpatientCompensationHomeTreatmentType()< 2) {
+            _modelIntention.setInpatientCompensationHomeTreatmentText("");
+        }
+        if (_modelIntention.getOutpatientTreatmentType()< 2) {
+            _modelIntention.setOutpatientTreatmentText("");
+        }
+        if (_modelIntention.getOutpatientHomeTreatmentType()< 2) {
+            _modelIntention.setOutpatientHomeTreatmentText("");
+        }
+
     }
 
     private boolean isValidId(Integer id) {

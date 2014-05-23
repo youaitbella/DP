@@ -8,7 +8,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ELContext;
@@ -17,6 +18,7 @@ import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlInputSecret;
@@ -193,6 +195,12 @@ public class Utils {
             Logger.getLogger(EditNubProposal.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+    
+    public static void navigate(String URL) {
+                FacesContext fc = FacesContext.getCurrentInstance();
+                NavigationHandler nav = fc.getApplication().getNavigationHandler();
+                nav.handleNavigation(fc, null, Pages.Login.URL());
     }
 
 }

@@ -57,7 +57,7 @@
             <div class="inputPart">
                 <h:outputLabel styleClass="label30" id="gender" value="#{msg.lblGender}:" />
                 <h:selectOneMenu id="genders" value="#{editModelIntention.modelIntention.sex}" readonly="#{editModelIntention.readOnly}">
-                    <f:selectItems value="#{editModelIntention.genders}" />
+                    <f:selectItems value="#{valueLists.genders}" />
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectOneMenu>
             </div>
@@ -66,14 +66,14 @@
 
             <inek:LabeledSelectAndText Label="#{msg.lblRegionalFeatures}" 
                                        SelectElement="#{editModelIntention.modelIntention.regionType}"
-                                       SelectItems="#{editModelIntention.regions}"
+                                       SelectItems="#{valueLists.regions}"
                                        Text="#{editModelIntention.modelIntention.region}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
             <inek:LabeledSelectAndText Label="#{msg.lblMedicalFeature}" 
                                        SelectElement="#{editModelIntention.modelIntention.medicalAttributesType}"
-                                       SelectItems="#{editModelIntention.medicalAttributes}"
+                                       SelectItems="#{valueLists.medicalAttributes}"
                                        Text="#{editModelIntention.modelIntention.medicalSpecification}" 
                                        readonly="#{editModelIntention.readOnly}"
                                        Threshold="0"
@@ -81,7 +81,7 @@
 
             <h:outputLabel styleClass="label30" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
             <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}" readonly="#{editModelIntention.readOnly}">
-                <f:selectItems value="#{editModelIntention.insuranceAffiliation}" />
+                <f:selectItems value="#{valueLists.insuranceAffiliation}" />
                 <f:ajax event="change" render="@this :logout:remaining" />
             </h:selectOneMenu>
 
@@ -97,7 +97,7 @@
 
             <inek:LabeledSelectAndText Label="#{msg.lblSettledDocs}" 
                                        SelectElement="#{editModelIntention.modelIntention.settleMedicType}"
-                                       SelectItems="#{editModelIntention.settledTypes}"
+                                       SelectItems="#{valueLists.settledTypes}"
                                        Text="#{editModelIntention.settleText}"
                                        Threshold="1" 
                                        readonly="#{editModelIntention.readOnly}"

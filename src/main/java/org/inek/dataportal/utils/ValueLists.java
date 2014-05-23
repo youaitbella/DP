@@ -9,7 +9,12 @@ import javax.inject.Named;
 import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.modelintention.AdjustmentType;
+import org.inek.dataportal.enums.Genders;
+import org.inek.dataportal.enums.InsuranceAffiliation;
+import org.inek.dataportal.enums.MedicalAttribute;
 import org.inek.dataportal.enums.QualityUsage;
+import org.inek.dataportal.enums.Region;
+import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.CostCenterFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
@@ -116,4 +121,50 @@ public class ValueLists {
         }
         return list;
     }
+    
+    public SelectItem[] getGenders() {
+        List<SelectItem> l = new ArrayList<>();
+        Genders[] genders = Genders.values();
+        for (Genders g : genders) {
+            l.add(new SelectItem(g.id(), g.gender()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+
+    public SelectItem[] getRegions() {
+        List<SelectItem> l = new ArrayList<>();
+        Region[] regions = Region.values();
+        for (Region r : regions) {
+            l.add(new SelectItem(r.id(), r.region()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+
+    public SelectItem[] getMedicalAttributes() {
+        List<SelectItem> l = new ArrayList<>();
+        MedicalAttribute[] attrs = MedicalAttribute.values();
+        for (MedicalAttribute ma : attrs) {
+            l.add(new SelectItem(ma.id(), ma.attribute()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+
+    public SelectItem[] getSettledTypes() {
+        List<SelectItem> l = new ArrayList<>();
+        SettleType[] types = SettleType.values();
+        for (SettleType t : types) {
+            l.add(new SelectItem(t.id(), t.type()));
+        }
+        return l.toArray(new SelectItem[l.size()]);
+    }
+
+    public List<SelectItem> getInsuranceAffiliation() {
+        List<SelectItem> l = new ArrayList<>();
+        for (InsuranceAffiliation t : InsuranceAffiliation.values()) {
+            l.add(new SelectItem(t.id(), t.type()));
+        }
+        return l;
+    }
+
+    
 }
