@@ -107,5 +107,61 @@ public class QualityTest {
         assertFalse(instance.hashCode() == other.hashCode());
     }
 
+    @Test
+    public void testObjectsWithDifferentIdsShallBeTreatedAsDifferent() {
+        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
+        Quality instance = new Quality();
+        instance.setId(4711);
+        instance.setTypeId(1);
+        instance.setIndicator("indicator");
+        Quality other = new Quality();
+        other.setId(1);
+        other.setTypeId(1);
+        other.setIndicator("other");
+        assertFalse(instance.equals(other));
+    }
+
+    @Test
+    public void testObjectsWithDifferentIdsShallHaveDifferentHash() {
+        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
+        Quality instance = new Quality();
+        instance.setId(4711);
+        instance.setTypeId(1);
+        instance.setIndicator("indicator");
+        Quality other = new Quality();
+        other.setId(1);
+        other.setTypeId(1);
+        other.setIndicator("other");
+        assertFalse(instance.hashCode() == other.hashCode());
+    }
+
+    @Test
+    public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
+        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
+        Quality instance = new Quality();
+        instance.setId(null);
+        instance.setTypeId(1);
+        instance.setIndicator("indicator");
+        Quality other = new Quality();
+        other.setId(1);
+        other.setTypeId(1);
+        other.setIndicator("other");
+        assertFalse(instance.equals(other));
+    }
+
+    @Test
+    public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
+        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
+        Quality instance = new Quality();
+        instance.setId(null);
+        instance.setTypeId(1);
+        instance.setIndicator("indicator");
+        Quality other = new Quality();
+        other.setId(1);
+        other.setTypeId(1);
+        other.setIndicator("other");
+        assertFalse(instance.hashCode() == other.hashCode());
+    }
+
     
 }
