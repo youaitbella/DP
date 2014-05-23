@@ -211,7 +211,6 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    /// fehlt
     // <editor-fold defaultstate="collapsed" desc="Property insuranceAffiliation">
     @Column(name = "miInsuranceAffiliation")
     @Documentation(key = "lblModelIntentionHealthInsurance", translateValue = "0=enmNoAttribute;1=enmInsuranceAffiliationNamed")
@@ -225,7 +224,6 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    // fehlt
     // <editor-fold defaultstate="collapsed" desc="Property miscAttribute">
     @Column(name = "miMiscAttribute")
     @Documentation(key = "lblMiscAttr",omitOnEmpty = true)

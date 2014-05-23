@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -65,6 +66,7 @@ public class ModelIntentionContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Zip">
     @Column(name = "csZip")
+   // @Pattern(regexp = "\\b((?:0[1-46-9]\\d{3})|(?:[1-357-9]\\d{4})|(?:[4][0-24-9]\\d{3})|(?:[6][013-9]\\d{3}))\\b", message = "Die Eingabe entspricht keiner Postleitzahl.")
     @Documentation(key = "lblPostalCode")
     private String _zip = "";
     public String getZip() {
