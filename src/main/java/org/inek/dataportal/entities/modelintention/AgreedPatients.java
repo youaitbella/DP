@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -37,6 +38,7 @@ public class AgreedPatients implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="patientsFrom">
     @Column(name = "apFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Documentation(key = "lblFrom", omitOnEmpty = true)
     private Date _from;
 
     public Date getPatientsFrom() {
@@ -51,6 +53,7 @@ public class AgreedPatients implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="patientsTo">
     @Column(name = "apTo")
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Documentation(key = "lblTo", omitOnEmpty = true)
     private Date _to;
 
     public Date getPatientsTo() {
@@ -62,9 +65,20 @@ public class AgreedPatients implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="PatientsCount">
     @Column(name = "apPatientsCount")
+    @Documentation(key = "lblPatientsCount", omitOnEmpty = true)
     private int _patientsCount = -1;
+    
+    public Integer getPatientsCount() {
+        return _patientsCount == -1 ? null : _patientsCount;
+    }
 
+    public void setPatientsCount(Integer patientsCount) {
+        _patientsCount = patientsCount == null ? -1 : patientsCount;
+    }
+    // </editor-fold>
+  
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
         return _id;
@@ -73,14 +87,7 @@ public class AgreedPatients implements Serializable {
     public void setId(Integer id) {
         _id = id;
     }
-
-    public Integer getPatientsCount() {
-        return _patientsCount == -1 ? null : _patientsCount;
-    }
-
-    public void setPatientsCount(Integer patientsCount) {
-        _patientsCount = patientsCount == null ? -1 : patientsCount;
-    }
+    
 
     public int getModelIntentionId() {
         return _modelIntentionId;

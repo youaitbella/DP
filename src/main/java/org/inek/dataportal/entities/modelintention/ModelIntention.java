@@ -842,10 +842,24 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="list AgreedPatiens">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
+    @Documentation(key = "lblAgreedPatiens")
     private List<AgreedPatients> _agreedPatients;
+    
+     public List<AgreedPatients> getAgreedPatients() {
+        if (_agreedPatients == null) {
+            _agreedPatients = new ArrayList<>();
+        }
+        return _agreedPatients;
+    }
+
+    public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
+        _agreedPatients = agreedPatients;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="list remuneration">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -1010,16 +1024,7 @@ public class ModelIntention implements Serializable {
 
     
 
-    public List<AgreedPatients> getAgreedPatients() {
-        if (_agreedPatients == null) {
-            _agreedPatients = new ArrayList<>();
-        }
-        return _agreedPatients;
-    }
-
-    public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
-        _agreedPatients = agreedPatients;
-    }
+   
 
     public List<ModelLife> getModelLifes() {
         if (_modelLifes == null) {
