@@ -47,7 +47,7 @@ public class ModelIntention implements Serializable {
 
 
     @Size(max = 8)
-    @Pattern(regexp = "(^$)|([ME](0\\d|1[0-7])A[A-K]\\d{3})")
+    @Pattern(regexp = "(^$)|([ME](0\\d|1[0-7])A[A-K]\\d{3})", message = "Die Eingabe entspricht nicht der Syntax des Kennzeichens.")
     public String getCode() {
         return _code;
     }

@@ -4,16 +4,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.TreeMap;
-import javax.faces.context.FacesContext;
-import java.text.DecimalFormat;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -155,7 +154,7 @@ public class DocumentationUtil {
                 String val = pair.substring(0, pos).trim();
                 String key = pair.substring(pos + 1).trim();
                 if (val.equals(value)) {
-                    String translatedValue = getMessage(key);
+                    String translatedValue = Utils.getMessage(key);
                     if (!translatedValue.startsWith(KeyNotFound)) {
                         return translatedValue;
                     }
@@ -166,19 +165,9 @@ public class DocumentationUtil {
         return value;
     }
 
-    private static String getMessage(String key) {
-        FacesContext ctxt = FacesContext.getCurrentInstance();
-        ResourceBundle messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
-        try {
-            return messageBundle.getString(key);
-        } catch (Exception e) {
-            return KeyNotFound + " " + key;
-        }
-    }
-
     private static String getName(Documentation doc, String defaultName) {
         if (doc.key().length() > 0) {
-            return getMessage(doc.key());
+            return Utils.getMessage(doc.key());
         }
         if (doc.name().length() > 0) {
             return doc.name();
