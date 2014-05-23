@@ -63,7 +63,7 @@ public class Adjustment implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="dateFrom">
     @Column(name = "adDateFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Documentation(key = "lblFrom", omitOnEmpty = true)
+    @Documentation(key = "lblFrom", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
     private Date _dateFrom;
 
     public Date getDateFrom() {
@@ -78,7 +78,7 @@ public class Adjustment implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="dateTo">
     @Column(name = "adDateTo")
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Documentation(key = "lblTo", omitOnEmpty = true)
+    @Documentation(key = "lblTo", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
     private Date _dateTo;
 
     public Date getDateTo() {
@@ -92,7 +92,7 @@ public class Adjustment implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="amount">
     @Column(name = "adAmount")
-    @Documentation(key = "lblCostAmount", omitOnEmpty = true)
+    @Documentation(key = "lblCostAmount", omitOnEmpty = true, isMoneyFormat = true)
     private BigDecimal _amount = new BigDecimal(0d);
 
     public BigDecimal getAmount() {
@@ -104,6 +104,7 @@ public class Adjustment implements Serializable {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="description">
     @Column(name = "adDescription")
     @Documentation(key = "tabNubPage1", omitOnEmpty = true)

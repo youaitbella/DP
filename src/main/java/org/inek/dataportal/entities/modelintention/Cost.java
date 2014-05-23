@@ -60,7 +60,7 @@ public class Cost implements Serializable {
     private int _costTypeId = -1;
 
     @Column(name = "coAmount")
-    @Documentation(key = "lblCostAmount")
+    @Documentation(key = "lblCostAmount", isMoneyFormat = true)
     private BigDecimal _amount = new BigDecimal(0d);
 
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">

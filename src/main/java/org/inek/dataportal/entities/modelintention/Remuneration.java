@@ -75,7 +75,7 @@ public class Remuneration implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="amount">
-    @Documentation(key = "lblRemunerationAmount")
+    @Documentation(key = "lblRemunerationAmount", isMoneyFormat = true)
     @Column(name = "reAmount")
     private BigDecimal _amount = new BigDecimal(0d);
 

@@ -3,6 +3,7 @@ package org.inek.dataportal.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javax.faces.context.FacesContext;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -130,7 +132,16 @@ public class DocumentationUtil {
             return (boolean) rawValue ? "Ja" : "Nein"; // todo: replace by localized message
         }
         if (rawValue instanceof Date) {
-            return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(((Date) rawValue)); // todo: replace by localized message
+            return new SimpleDateFormat(doc.dateFormat()).format(((Date) rawValue)); // todo: replace by localized message
+        }
+        
+        if (rawValue instanceof BigDecimal) {
+            if (doc.isMoneyFormat()){
+                DecimalFormat decim = new DecimalFormat("0.00");
+                return decim.format(rawValue).toString() + " €";
+            } else {
+                return rawValue.toString();
+            }
         }
 
         String value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');

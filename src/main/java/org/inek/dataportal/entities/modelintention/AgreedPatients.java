@@ -38,7 +38,7 @@ public class AgreedPatients implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="patientsFrom">
     @Column(name = "apFrom")
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Documentation(key = "lblFrom", omitOnEmpty = true)
+    @Documentation(key = "lblFrom", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
     private Date _from;
 
     public Date getPatientsFrom() {
@@ -53,7 +53,7 @@ public class AgreedPatients implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="patientsTo">
     @Column(name = "apTo")
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Documentation(key = "lblTo", omitOnEmpty = true)
+    @Documentation(key = "lblTo", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
     private Date _to;
 
     public Date getPatientsTo() {

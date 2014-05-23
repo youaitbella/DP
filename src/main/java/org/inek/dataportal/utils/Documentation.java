@@ -49,4 +49,16 @@ public @interface Documentation {
      * omit documentation if value is empty
      */
     public boolean omitOnEmpty() default false;
+    
+    /**
+     *
+     * @return
+     */
+    public String dateFormat() default "dd.MM.yyyy HH:mm";
+    
+    /**
+     *
+     * @return
+     */
+    public boolean isMoneyFormat() default false;
 }
