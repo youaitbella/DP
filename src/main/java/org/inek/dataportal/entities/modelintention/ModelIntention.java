@@ -921,6 +921,7 @@ public class ModelIntention implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
+    @Documentation(key = "headerModelIntentionLifetime")
     private List<ModelLife> _modelLifes;
 
     // <editor-fold defaultstate="collapsed" desc="ModelIntentionContact">

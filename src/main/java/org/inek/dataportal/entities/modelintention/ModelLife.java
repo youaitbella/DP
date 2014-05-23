@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -39,6 +40,7 @@ public class ModelLife implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="startDate">
     @Column(name = "mlStartDate")
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Documentation(key = "lblLifeTimeStart", omitOnEmpty = true, dateFormat = "dd.MM.yyyy")
     private Date _startDate;
 
     public Date getStartDate() {
@@ -51,6 +53,7 @@ public class ModelLife implements Serializable {
     // </editor-fold>
 
     @Column(name = "mlMonthDuration")
+    @Documentation(key = "lblLifeTimeMonths", omitOnEmpty = true)
     private Integer _monthDuration = -1;
 
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
