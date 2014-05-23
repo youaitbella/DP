@@ -13,13 +13,24 @@
 
             <h2>#{msg.headerAdministrativeData}</h2>
             
-            <inek:LabeledText styleClass="element30" 
+            <!-- 
+            In a first approach we used the following LabeledText without any render condition.
+            Input had been ok, but JSF could not figure out the bean validation.
+            Thus, we need to mutually exclusive render vor Non-InEK and InEK role.
+            For InEK role, the text expression becomes simplified. No bean validation is fine.
+            -->
+            <inek:LabeledText styleClass="element30" rendered="#{!sessionController.isInekUser('MODEL_INTENTION')}"
                               readonly="#{not sessionController.isInekUser('MODEL_INTENTION')}"
                               displayAsLabel="true"
                               Label="#{msg.lblModelIntentionCode}" 
-                              Text="#{sessionController.isInekUser('MODEL_INTENTION') or editModelIntention.modelIntention.code.length() > 0 
+                              Text="#{sessionController.isInekUser('MODEL_INTENTION') or editModelIntention.modelIntention.code.length() gt 0
                                       ? editModelIntention.modelIntention.code 
                                       : msg.lblNotGrantedYet}" />
+            <inek:LabeledText styleClass="element30" rendered="#{sessionController.isInekUser('MODEL_INTENTION')}" 
+                              readonly="#{not sessionController.isInekUser('MODEL_INTENTION')}"
+                              displayAsLabel="true"
+                              Label="#{msg.lblModelIntentionCode}" 
+                              Text="#{editModelIntention.modelIntention.code}" />
             
             <inek:LabeledText Label="#{msg.lblAppellation}" Text="#{editModelIntention.modelIntention.description}" 
                               Required="true" readonly="#{editModelIntention.readOnly}"/>

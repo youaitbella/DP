@@ -14,10 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -46,6 +47,7 @@ public class ModelIntention implements Serializable {
 
 
     @Size(max = 8)
+    @Pattern(regexp = "(^$)|([ME](0\\d|1[0-7])A[A-K]\\d{3})")
     public String getCode() {
         return _code;
     }
