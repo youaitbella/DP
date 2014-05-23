@@ -918,11 +918,24 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="list ModelLife">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
     @Documentation(key = "headerModelIntentionLifetime")
     private List<ModelLife> _modelLifes;
+    
+    public List<ModelLife> getModelLifes() {
+        if (_modelLifes == null) {
+            _modelLifes = new ArrayList<>();
+        }
+        return _modelLifes;
+    }
+
+    public void setModelLifes(List<ModelLife> modelLifes) {
+        _modelLifes = modelLifes;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ModelIntentionContact">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -946,10 +959,25 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="AcademicSupervision">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     private List<AcademicSupervision> _academicSupervisions;
+    
+    public List<AcademicSupervision> getAcademicSupervisions() {
+        if (_academicSupervisions == null) {
+            _academicSupervisions = new ArrayList<>();
+            _academicSupervisions.add(new AcademicSupervision());
+        }
+        return _academicSupervisions;
+    }
+
+    public void setAcademicSupervisions(List<AcademicSupervision> academicSupervisions) {
+        _academicSupervisions = academicSupervisions;
+    }
+        // </editor-fold>
+    
 
     // <editor-fold defaultstate="collapsed" desc="list quality">
     @Column(name = "miInternalQuality")
@@ -1027,30 +1055,13 @@ public class ModelIntention implements Serializable {
 
    
 
-    public List<ModelLife> getModelLifes() {
-        if (_modelLifes == null) {
-            _modelLifes = new ArrayList<>();
-        }
-        return _modelLifes;
-    }
+    
 
-    public void setModelLifes(List<ModelLife> modelLifes) {
-        _modelLifes = modelLifes;
-    }
-
-    public List<AcademicSupervision> getAcademicSupervisions() {
-        if (_academicSupervisions == null) {
-            _academicSupervisions = new ArrayList<>();
-            _academicSupervisions.add(new AcademicSupervision());
-        }
-        return _academicSupervisions;
-    }
-
-    public void setAcademicSupervisions(List<AcademicSupervision> academicSupervisions) {
-        _academicSupervisions = academicSupervisions;
-    }
+    
+   
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
