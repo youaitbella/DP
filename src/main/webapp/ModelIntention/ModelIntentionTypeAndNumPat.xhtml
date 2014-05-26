@@ -12,7 +12,7 @@
         <h:form id="form">
 
             <h2>#{msg.headerAdministrativeData}</h2>
-            
+
             <!-- 
             In a first approach we used the following LabeledText without any render condition.
             Input had been ok, but JSF could not figure out the bean validation.
@@ -31,11 +31,11 @@
                               displayAsLabel="true"
                               Label="#{msg.lblModelIntentionCode}" 
                               Text="#{editModelIntention.modelIntention.code}" />
-            
-            <inek:LabeledText Label="#{msg.lblAppellation}" Text="#{editModelIntention.modelIntention.description}" 
+
+            <inek:LabeledText id="Appelation" Label="#{msg.lblAppellation}" Text="#{editModelIntention.modelIntention.description}" 
                               Required="true" readonly="#{editModelIntention.readOnly}"/>
 
-            
+
             <h2>#{msg.headerPatientTypes}</h2>
             <br/>
             #{msg.msgPatientTypes}
@@ -64,14 +64,16 @@
 
             <inek:LabeledTextarea Label="#{msg.lblPersonalMisc}" Text="#{editModelIntention.modelIntention.miscPatient}" readonly="#{editModelIntention.readOnly}"/>
 
-            <inek:LabeledSelectAndText Label="#{msg.lblRegionalFeatures}" 
+            <inek:LabeledSelectAndText id="region"
+                                       Label="#{msg.lblRegionalFeatures}" 
                                        SelectElement="#{editModelIntention.modelIntention.regionType}"
                                        SelectItems="#{valueLists.regions}"
                                        Text="#{editModelIntention.modelIntention.region}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
-            <inek:LabeledSelectAndText Label="#{msg.lblMedicalFeature}" 
+            <inek:LabeledSelectAndText id="medicalSpecification" 
+                                       Label="#{msg.lblMedicalFeature}" 
                                        SelectElement="#{editModelIntention.modelIntention.medicalAttributesType}"
                                        SelectItems="#{valueLists.medicalAttributes}"
                                        Text="#{editModelIntention.modelIntention.medicalSpecification}" 

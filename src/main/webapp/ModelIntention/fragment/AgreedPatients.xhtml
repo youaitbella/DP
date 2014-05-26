@@ -57,6 +57,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgPatientsCount#{status.index}" for="patientsCount#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText id="patientsCount#{status.index}" value="#{agreedPatients.patientsCount}" 
+                                             styleClass="fullWidth number"
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <!--f:ajax event="keyup" render="@form :logout:remaining" listener="# {editModelIntention.agreedPatientsTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgPatientsCount#{status.index}"/>

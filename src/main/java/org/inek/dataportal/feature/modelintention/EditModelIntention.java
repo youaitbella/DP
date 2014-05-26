@@ -3,7 +3,6 @@ package org.inek.dataportal.feature.modelintention;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -13,9 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.Cost;
@@ -75,7 +71,6 @@ public class EditModelIntention extends AbstractEditController {
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-
     enum ModelIntentionTabs {
 
         tabModelIntTypeAndNumberOfPatients,
@@ -155,8 +150,6 @@ public class EditModelIntention extends AbstractEditController {
         _modelIntention.setQualities(_internalQualityTable.getList());
         _modelIntention.getQualities().addAll(_externalQualityTable.getList());
         removeObsolteTexts();
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<ModelIntention>> violations = validator.validate(_modelIntention);
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();
         ensureEmptyEntries();
@@ -204,6 +197,21 @@ public class EditModelIntention extends AbstractEditController {
         if (_modelIntention.getOutpatientHomeTreatmentType() < 2) {
             _modelIntention.setOutpatientHomeTreatmentText("");
         }
+        if (_modelIntention.getInternalQuality() < 2) {
+            removeQuality(1);
+        }
+        if (_modelIntention.getExternalQuality() < 2) {
+            removeQuality(2);
+        }
+    }
+    
+    private void removeQuality(int type) {
+        for (Iterator<Quality> itr = _modelIntention.getQualities().iterator(); itr.hasNext();) {
+            Quality entry = itr.next();
+            if (entry.getTypeId() == type) {
+                itr.remove();
+            }
+        }
     }
 
     private boolean isValidId(Integer id) {
@@ -218,6 +226,7 @@ public class EditModelIntention extends AbstractEditController {
         return WorkflowStatus.Rejected == _modelIntention.getStatus();
     }
 
+   
     /**
      * requests sealing of a formal request if the form is completely full
      * filled, this function displays a confirmation dialog confirming with "ok"
@@ -229,10 +238,10 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
-//TODO:        if (!requestIsComplete()) {
-//            return getActiveTopic().getOutcome();
-//        }
-        String script = "if (confirm ('" + Utils.getMessage("msgConfirmSeal") + "')) {document.getElementById('form:seal').click();}";
+       if (!requestIsComplete()) {
+           return getActiveTopic().getOutcome();
+        }
+       String script = "if (confirm ('" + Utils.getMessage("msgConfirmSeal") + "')) {document.getElementById('form:seal').click();}";
         _sessionController.setScript(script);
         return null;
     }
@@ -247,6 +256,9 @@ public class EditModelIntention extends AbstractEditController {
     public String seal() {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.InvalidConversation.URL();
+        }
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
         }
         if (_modelIntention.getStatus().getValue() >= 10) {
             return Pages.Error.URL();
@@ -269,9 +281,9 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
-//TODO:        if (!requestIsComplete()) {
-//            return getActiveTopic().getOutcome();
-//        }
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
+        }
         String script = "if (confirm ('" + Utils.getMessage("msgRequestApproval") + "')) {document.getElementById('form:confirmApprovalRequest').click();}";
         _sessionController.setScript(script);
         return null;
@@ -280,6 +292,9 @@ public class EditModelIntention extends AbstractEditController {
     public String confirmApprovalRequest() {
         if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
             return Pages.Error.URL();
+        }
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
         }
         if (_modelIntention.getStatus().getValue() >= 10) {
             return Pages.Error.URL();
@@ -299,6 +314,59 @@ public class EditModelIntention extends AbstractEditController {
         return !_conversation.isTransient();
     }
 
+     // <editor-fold defaultstate="collapsed" desc="CheckElements">
+    String _msg = "";
+    String _elementId = "";
+
+    private boolean requestIsComplete() {
+        _msg = "";
+        String newTopic = "";
+        newTopic = checkField(newTopic, _modelIntention.getDescription(), "lblAppellation", "form:Appelation:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        if (_modelIntention.getRegionType() == 2) {
+            newTopic = checkField(newTopic, _modelIntention.getRegion(), "lblRegionalFeatures", "form:region:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        }
+        if (_modelIntention.getMedicalAttributesType() >= 0) {
+            newTopic = checkField(newTopic, _modelIntention.getMedicalSpecification(), "lblMedicalFeature", "form:medicalSpecification:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        }
+        if (!_msg.isEmpty()) {
+            _msg = Utils.getMessage("infoMissingFields") + "\\r\\n" + _msg;
+            setActiveTopic(newTopic);
+            String script = "alert ('" + _msg + "');";
+            if (!_elementId.isEmpty()) {
+                script += "\r\n document.getElementById('" + _elementId + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return _msg.isEmpty();
+    }
+
+    private String checkField(String newTopic, String value, String msgKey, String elementId, ModelIntentionTabs tab) {
+        if (Utils.isNullOrEmpty(value)) {
+            _msg += "\\r\\n" + Utils.getMessage(msgKey);
+            if (newTopic.isEmpty()) {
+                newTopic = tab.name();
+                _elementId = elementId;
+            }
+        }
+        return newTopic;
+    }
+
+    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, ModelIntentionTabs tab) {
+        if (value == null
+                || minValue != null && value.intValue() < minValue.intValue()
+                || maxValue != null && value.intValue() > maxValue.intValue()) {
+            _msg += "\\r\\n" + Utils.getMessage(msgKey);
+            if (newTopic.isEmpty()) {
+                newTopic = tab.name();
+                _elementId = elementId;
+            }
+        }
+        return newTopic;
+    }
+
+    // </editor-fold>
+    
+    
     // <editor-fold defaultstate="collapsed" desc="tab patients">
     private AgreedPatientsDynamicTable _agreedPatiensTable;
 
