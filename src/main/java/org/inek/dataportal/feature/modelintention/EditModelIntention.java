@@ -422,6 +422,15 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean tryAddCost(Cost cost) {
+        boolean remunerationFound=false;
+        for(Remuneration remuneration : _modelIntention.getRemunerations()){
+            if (cost.getRemunerationCode().equals(remuneration.getCode())){
+                remunerationFound=true;
+            }
+        }
+        if (!remunerationFound){
+            return false;
+        }
         for (Object existing : _costTable.getList()) {
             if (existing instanceof Cost) {
                 if (((Cost) existing).equalsFunctional(cost)) {
