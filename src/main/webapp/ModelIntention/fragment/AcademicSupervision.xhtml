@@ -58,22 +58,24 @@
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
+                                <h:message id="msgAcademicSupFrom#{status.index}" for="academicSupFrom#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText id="academicSupFrom#{status.index}" value="#{supervision.academicSupFrom}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <!-- <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/> -->
-                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{status.index}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgAcademicSupFrom#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
 
                         <td class="alignBottom">
                             <h:panelGrid columns="1">
+                                <h:message id="msgAcademicSupTo#{status.index}" for="academicSupTo#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText id="academicSupTo#{status.index}" value="#{supervision.academicSupTo}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" requiredMessage="#{msg.msgValueNeeded}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
                                     <!-- <f:ajax event="keyup" render="@form :logout:remaining" listener="#{editModelIntention.supervisionTable.checkDynamicListener}"/> -->
-                                    <f:ajax event="blur" render="@this :logout:remaining msgContractor#{status.index}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgAcademicSupTo#{status.index}"/>
                                 </h:inputText> 
                             </h:panelGrid>
                         </td>
