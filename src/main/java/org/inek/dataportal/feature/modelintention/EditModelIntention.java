@@ -328,6 +328,32 @@ public class EditModelIntention extends AbstractEditController {
         if (_modelIntention.getMedicalAttributesType() >= 0) {
             newTopic = checkField(newTopic, _modelIntention.getMedicalSpecification(), "lblMedicalFeature", "form:medicalSpecification:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
+        if (_modelIntention.getSettleMedicType() >= 1) {
+        }
+        if (_modelIntention.getPiaType() >= 2) {
+        }
+        if (_modelIntention.getHospitalType() >= 2) {
+        }
+        if (_modelIntention.getInpatientTreatmentType() >= 2) {
+        }
+        if (_modelIntention.getDayPatientTreatmentType() >= 2) {
+        }
+        if (_modelIntention.getInpatientCompensationTreatmentType() >= 2) {
+        }
+        if (_modelIntention.getInpatientCompensationHomeTreatmentType() >= 2) {
+        }
+        if (_modelIntention.getOutpatientTreatmentType() >= 2) {
+        }
+        if (_modelIntention.getOutpatientHomeTreatmentType() >= 2) {
+        }
+        if (_modelIntention.getInternalQuality() >= 2) {
+            // check, whether at least one quality indicator exists
+        }
+        if (_modelIntention.getExternalQuality() >= 2) {
+        }
+        
+        
+        
         if (!_msg.isEmpty()) {
             _msg = Utils.getMessage("infoMissingFields") + "\\r\\n" + _msg;
             setActiveTopic(newTopic);
