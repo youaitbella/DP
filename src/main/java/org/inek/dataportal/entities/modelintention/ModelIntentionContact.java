@@ -69,6 +69,8 @@ public class ModelIntentionContact implements Serializable {
    // @Pattern(regexp = "\\b((?:0[1-46-9]\\d{3})|(?:[1-357-9]\\d{4})|(?:[4][0-24-9]\\d{3})|(?:[6][013-9]\\d{3}))\\b", message = "Die Eingabe entspricht keiner Postleitzahl.")
     @Documentation(key = "lblPostalCode")
     private String _zip = "";
+    
+    @Pattern(regexp = "^[0-9]{5}$", message = "Die Eingabe entspricht keiner Postleitzahl.")
     public String getZip() {
         return _zip;
     }
