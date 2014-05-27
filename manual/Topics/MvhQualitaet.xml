@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Qualität</title>
   <body>
     <header>
@@ -12,10 +12,11 @@
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Qualität</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Interne Qualitätssicherung</text></para>
-    <list id="21" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="201" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei der Qualitätssicherung haben Sie die Möglichkeit zu wählen, ob sie keine Qualitätssicherung, Qualitätssicherung ohne besondere Indikatoren oder Qualitätssicherung mit diesen Indikatoren betreiben. Wählen Sie letzteres, so müssen Sie die entsprechenden Indikatoren benennen und eine dazugehörige Beschreibung zu diesen eintragen.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Wählen Sie keine oder Qualitätssicherung ohne besondere Indikatoren sind die Felder leer zu übermitteln.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Nach einer Eingabe, erscheinen automatisch zwei neue Felder um weitere Indikatoren eintragen zu können.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Wählen Sie keine oder Qualitätssicherung ohne besondere Indikatoren haben Sie keine Möglichkeit eine zusätzliche Beschreibung zu übermitteln.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um spezielle Indikatoren eintragen zu können, klicken Sie nach der Auswahl </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">Qualitätssicherung mit diesen Indikatoren</text><text styleclass="Bullet Text" translate="true"> auf die daraufhin erscheinende Schaltfläche </text><text styleclass="Button" translate="true">[Qualitätsind. zufügen]</text><text styleclass="Bullet Text" translate="true">. Es erscheinen zwei Textfelder in denen Sie den Indikator benennen und beschreiben können.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um einen weiteren Indikator zu übermitteln, klicken Sie erneut auf die Schaltfläche </text><text styleclass="Button" translate="true">[Qualitätsind. zufügen]</text><text styleclass="Bullet Text" translate="true">.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, klicken Sie auf das Papierkorb Symbol vor dem jeweiligen Eintrag.</text></li>
     </list>
     <para styleclass="Bullet Text"></para>
@@ -23,14 +24,20 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Eingabefelder entsprechen denen der internen Qualitätssicherung</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Wissenschaftliche Begleitung und Auswertung...</text></para>
-    <list id="22" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Zusätzlich zu den Qualitätssicherungsindikatoren haben Sie die Möglichkeit Daten zur wissenschaftlichen Begleitung und Auswertung gemäß § 65 SGB V anzugeben. </text></li>
+    <list id="202" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Zusätzlich zu den Qualitätssicherungsindikatoren haben Sie die Möglichkeit Daten zur wissenschaftlichen Begleitung und Auswertung gemäß § 65 SGB V anzugeben.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Erstellen Sie dazu zunächst einen Datensatz indem Sie auf die Schaltfläche </text><text styleclass="Button" translate="true">[Begleitauftrag zufügen]</text><text styleclass="Bullet Text" translate="true"> klicken.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Tragen Sie die entsprechenden Namen der Auftraggeber und Auftragnehmer in die dafür vorgesehenen Felder ein und geben Sie unter Beginn und Ende das dazugehörige Datum an.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Datum können Sie in Kurzform angeben (z.B. 1.1.14). Dieses wird automatisch in das erwartete Format umgesetzt.</text></li>
     </list>
+    <list id="201" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, klicken Sie auf das Papierkorb Symbol vor dem jeweiligen Eintrag.</text></li>
+    </list>
     <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhQualitätZufügen.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Qualitätsindikator</text></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Allgemeine Schaltflächen</text></para>
-    <list id="23" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="203" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> können Sie Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt dieses ans InEK. Eine Bearbeitung ist nachträglich nicht mehr möglich.</text></li>
     </list>
