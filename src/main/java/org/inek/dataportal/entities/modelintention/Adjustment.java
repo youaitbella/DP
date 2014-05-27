@@ -24,11 +24,11 @@ public class Adjustment implements Serializable {
     @Column(name = "adId")
     private Integer _id;
 
-    public int getId() {
+    public Integer getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         _id = id;
     }
 
