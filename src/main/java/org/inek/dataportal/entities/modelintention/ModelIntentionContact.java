@@ -106,9 +106,22 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblPhone")
     private String _phone = "";
 
+    // <editor-fold defaultstate="collapsed" desc="EMail">
     @Column(name = "csEMail")
     @Documentation(key = "lblMail")
     private String _email = "";
+    
+   // @Pattern(regexp = "^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+    public String getEmail() {
+        return _email;
+    }
+
+    public void setEmail(String email) {
+        _email = email;
+    }
+    // </editor-fold>
+    
+   
 
     public boolean isEmpty() {
         return _ik == -1
@@ -187,13 +200,7 @@ public class ModelIntentionContact implements Serializable {
         _phone = phone;
     }
 
-    public String getEmail() {
-        return _email;
-    }
-
-    public void setEmail(String email) {
-        _email = email;
-    }
+    
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
