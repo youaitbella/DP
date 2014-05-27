@@ -219,7 +219,8 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _modelIntention.getAccountId() != _sessionController.getAccountId();
+        return _modelIntention.getStatus().getValue() >= WorkflowStatus.Provided.getValue()
+                || _modelIntention.getAccountId() != _sessionController.getAccountId();
     }
 
     public boolean isRejectedModelIntention() {
@@ -254,7 +255,7 @@ public class EditModelIntention extends AbstractEditController {
      * @return
      */
     public String seal() {
-        if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
+        if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
         if (!requestIsComplete()) {
@@ -277,34 +278,6 @@ public class EditModelIntention extends AbstractEditController {
         return null;
     }
 
-    public String requestApproval() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
-        if (!requestIsComplete()) {
-            return getActiveTopic().getOutcome();
-        }
-        String script = "if (confirm ('" + Utils.getMessage("msgRequestApproval") + "')) {document.getElementById('form:confirmApprovalRequest').click();}";
-        _sessionController.setScript(script);
-        return null;
-    }
-
-    public String confirmApprovalRequest() {
-        if (!check4validSession() /*TODO: || !requestIsComplete()*/) {
-            return Pages.Error.URL();
-        }
-        if (!requestIsComplete()) {
-            return getActiveTopic().getOutcome();
-        }
-        if (_modelIntention.getStatus().getValue() >= 10) {
-            return Pages.Error.URL();
-        }
-
-        _modelIntention.setStatus(WorkflowStatus.ApprovalRequested.getValue());
-        _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
-        return "";
-    }
-
     /**
      * checks, whether the session is still valid
      *
@@ -321,6 +294,7 @@ public class EditModelIntention extends AbstractEditController {
     private boolean requestIsComplete() {
         _msg = "";
         String newTopic = "";
+        // tab patient
         newTopic = checkField(newTopic, _modelIntention.getDescription(), "lblAppellation", "form:Appelation:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         if (_modelIntention.getRegionType() == 2) {
             newTopic = checkField(newTopic, _modelIntention.getRegion(), "lblRegionalFeatures", "form:region:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
@@ -329,27 +303,42 @@ public class EditModelIntention extends AbstractEditController {
             newTopic = checkField(newTopic, _modelIntention.getMedicalSpecification(), "lblMedicalFeature", "form:medicalSpecification:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
         if (_modelIntention.getSettleMedicType() >= 1) {
+            newTopic = checkField(newTopic, _modelIntention.getSettleMedicText(), "lblSettledDocs", "form:settleMedicText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
         if (_modelIntention.getPiaType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getPiaText(), "lblPiaText", "form:piaText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
         if (_modelIntention.getHospitalType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getHospitalText(), "lblHospital", "form:hospitalText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
+        // tab goals
+        newTopic = checkField(newTopic, _modelIntention.getPrimaryGoals(), "lblModelIntentionHigherGoals", "form:txtHigherGoals", ModelIntentionTabs.tabModelIntGoals);
+        // tab cost
         if (_modelIntention.getInpatientTreatmentType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getInpatientTreatmentText(), "lblInpatientTreatment", "form:inpatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
         }
         if (_modelIntention.getDayPatientTreatmentType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getDayPatientTreatmentText(), "lblDayPatientTreatment", "form:dayPatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
         }
         if (_modelIntention.getInpatientCompensationTreatmentType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getInpatientCompensationTreatmentText(), "lblInpatientCompensationTreatment", "form:inpatientCompensationTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
         }
         if (_modelIntention.getInpatientCompensationHomeTreatmentType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getInpatientCompensationHomeTreatmentText(), "lblInpatientCompensationHomeTreatment", "form:inpatientCompensationHomeTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
         }
         if (_modelIntention.getOutpatientTreatmentType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getOutpatientTreatmentText(), "lblOutpatientTreatment", "form:outpatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
         }
         if (_modelIntention.getOutpatientHomeTreatmentType() >= 2) {
+            newTopic = checkField(newTopic, _modelIntention.getOutpatientHomeTreatmentText(), "lblOutpatientHomeTreatment", "form:outpatientHomeTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
         }
+        // tab structure
+        // tab quality
         if (_modelIntention.getInternalQuality() >= 2) {
-            // check, whether at least one quality indicator exists
+            newTopic = checkQuality(newTopic, 1, "headerModelIntentionInternQuality", "formQualityIntern:qualitySelector");
         }
         if (_modelIntention.getExternalQuality() >= 2) {
+            newTopic = checkQuality(newTopic, 1, "headerModelIntentionExternQuality", "formQualityExtern:qualitySelector");
         }
         
         
@@ -364,6 +353,26 @@ public class EditModelIntention extends AbstractEditController {
             _sessionController.setScript(script);
         }
         return _msg.isEmpty();
+    }
+    private String checkQuality(String newTopic, int type, String msgKey, String elementId) {
+        boolean isFound = false;
+        boolean hasMissingField = false;
+        for(Quality quality : _modelIntention.getQualities()){
+            if (quality.getTypeId() == type){
+                isFound = true;
+                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
+                    hasMissingField = true;
+                }
+            }
+        }
+        if (!isFound || hasMissingField){
+            _msg += "\\r\\n" + Utils.getMessage(msgKey);
+            if (newTopic.isEmpty()) {
+                newTopic = ModelIntentionTabs.tabModelIntQualityAndSupervision.name();
+                _elementId = elementId;
+            }
+        }
+        return newTopic;
     }
 
     private String checkField(String newTopic, String value, String msgKey, String elementId, ModelIntentionTabs tab) {

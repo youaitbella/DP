@@ -16,42 +16,48 @@
             
             <h2>#{msg.headerModelIntentionTreatAreaAndCosts}</h2>
                    
-            <inek:LabeledSelectAndText Label="#{msg.lblInpatientTreatment}" 
+            <inek:LabeledSelectAndText id="inpatientTreatmentText" 
+                                       Label="#{msg.lblInpatientTreatment}" 
                                        SelectElement="#{editModelIntention.modelIntention.inpatientTreatmentType}"
                                        SelectItems="#{valueLists.treatmentTypes}"
                                        Text="#{editModelIntention.modelIntention.inpatientTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
-            <inek:LabeledSelectAndText Label="#{msg.lblDayPatientTreatment}" 
+            <inek:LabeledSelectAndText id="dayPatientTreatmentText" 
+                                       Label="#{msg.lblDayPatientTreatment}" 
                                        SelectElement="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
                                        SelectItems="#{valueLists.treatmentTypes}"
                                        Text="#{editModelIntention.modelIntention.dayPatientTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
-            <inek:LabeledSelectAndText Label="#{msg.lblInpatientCompensationTreatment}" 
+            <inek:LabeledSelectAndText id="inpatientCompensationTreatmentText" 
+                                       Label="#{msg.lblInpatientCompensationTreatment}" 
                                        SelectElement="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
                                        SelectItems="#{valueLists.treatmentTypes}"
                                        Text="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
-            <inek:LabeledSelectAndText Label="#{msg.lblInpatientCompensationHomeTreatment}" 
+            <inek:LabeledSelectAndText id="inpatientCompensationHomeTreatmentText" 
+                                       Label="#{msg.lblInpatientCompensationHomeTreatment}" 
                                        SelectElement="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
                                        SelectItems="#{valueLists.treatmentTypes}"
                                        Text="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
-            <inek:LabeledSelectAndText Label="#{msg.lblOutpatientTreatment}" 
+            <inek:LabeledSelectAndText id="outpatientTreatmentText" 
+                                       Label="#{msg.lblOutpatientTreatment}" 
                                        SelectElement="#{editModelIntention.modelIntention.outpatientTreatmentType}"
                                        SelectItems="#{valueLists.treatmentTypes}"
                                        Text="#{editModelIntention.modelIntention.outpatientTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
-            <inek:LabeledSelectAndText Label="#{msg.lblOutpatientHomeTreatment}" 
+            <inek:LabeledSelectAndText id="outpatientHomeTreatmentText" 
+                                       Label="#{msg.lblOutpatientHomeTreatment}" 
                                        SelectElement="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
                                        SelectItems="#{valueLists.treatmentTypes}"
                                        Text="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"

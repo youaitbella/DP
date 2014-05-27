@@ -11,8 +11,8 @@
 
     <h2>#{qualityHeader}</h2>
 
-    <h:form>
-        <h:selectOneMenu value="#{qualityUsage}">
+    <h:form id="formQuality#{isIntern ? 'Intern' : 'Extern'}">
+        <h:selectOneMenu id="qualitySelector" value="#{qualityUsage}">
             <f:selectItems value="#{valueLists.qualityUsage}" />
             <f:ajax event="change" render="@form :logout:remaining" />
         </h:selectOneMenu>

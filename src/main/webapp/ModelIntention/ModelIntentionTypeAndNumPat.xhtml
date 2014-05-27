@@ -97,7 +97,8 @@
 
             <h2>#{msg.headerAssignmentModelIntention}</h2>
 
-            <inek:LabeledSelectAndText Label="#{msg.lblSettledDocs}" 
+            <inek:LabeledSelectAndText id="settleMedicText" 
+                                       Label="#{msg.lblSettledDocs}" 
                                        SelectElement="#{editModelIntention.modelIntention.settleMedicType}"
                                        SelectItems="#{valueLists.settledTypes}"
                                        Text="#{editModelIntention.modelIntention.settleMedicText}"
@@ -105,14 +106,16 @@
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
-            <inek:LabeledSelectAndText Label="#{msg.lblPia}" 
+            <inek:LabeledSelectAndText id="piaText" 
+                                       Label="#{msg.lblPia}" 
                                        SelectElement="#{editModelIntention.modelIntention.piaType}"
                                        SelectItems="#{valueLists.piaTypes}"
                                        Text="#{editModelIntention.modelIntention.piaText}" 
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
-            <inek:LabeledSelectAndText Label="#{msg.lblHospital}" 
+            <inek:LabeledSelectAndText id="hospitalText" 
+                                       Label="#{msg.lblHospital}" 
                                        SelectElement="#{editModelIntention.modelIntention.hospitalType}"
                                        SelectItems="#{valueLists.hospitalTypes}"
                                        Text="#{editModelIntention.modelIntention.hospitalText}"
