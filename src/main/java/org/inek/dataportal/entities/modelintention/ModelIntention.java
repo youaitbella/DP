@@ -144,8 +144,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblPersonalMisc", omitOnEmpty = true)
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
-
-    @Size(max = 8)
+ 
     public String getMiscPatient() {
         return _miscPatient;
     }
