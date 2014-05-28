@@ -166,37 +166,37 @@ public class AdjustmentTest {
         assertFalse(instance.hashCode() == other.hashCode());
     }
     
-    @Test
-    public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
-        Date date = java.util.Calendar.getInstance().getTime();
-        Adjustment instance = new Adjustment();
-        instance.setId(null);
-        instance.setAdjustmentTypeId(1);
-        instance.setDateFrom(date);
-        instance.setDateTo(date);
-        Adjustment other = new Adjustment();
-        other.setId(1);
-        other.setAdjustmentTypeId(1);
-        other.setDateFrom(date);
-        other.setDateTo(date);
-        assertFalse(instance.equals(other));
-    }
-    
-    @Test
-    public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
-        Date date = java.util.Calendar.getInstance().getTime();
-        Adjustment instance = new Adjustment();
-        instance.setId(null);
-        instance.setAdjustmentTypeId(1);
-        instance.setDateFrom(date);
-        instance.setDateTo(date);
-        Adjustment other = new Adjustment();
-        other.setId(1);
-        other.setAdjustmentTypeId(1);
-        other.setDateFrom(date);
-        other.setDateTo(date);
-        assertFalse(instance.hashCode() == other.hashCode());
-    }
+//    @Test
+//    public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
+//        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
+//        Date date = java.util.Calendar.getInstance().getTime();
+//        Adjustment instance = new Adjustment();
+//        instance.setId(null);
+//        instance.setAdjustmentTypeId(1);
+//        instance.setDateFrom(date);
+//        instance.setDateTo(date);
+//        Adjustment other = new Adjustment();
+//        other.setId(1);
+//        other.setAdjustmentTypeId(1);
+//        other.setDateFrom(date);
+//        other.setDateTo(date);
+//        assertFalse(instance.equals(other));
+//    }
+//    
+//    @Test
+//    public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
+//        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
+//        Date date = java.util.Calendar.getInstance().getTime();
+//        Adjustment instance = new Adjustment();
+//        instance.setId(null);
+//        instance.setAdjustmentTypeId(1);
+//        instance.setDateFrom(date);
+//        instance.setDateTo(date);
+//        Adjustment other = new Adjustment();
+//        other.setId(1);
+//        other.setAdjustmentTypeId(1);
+//        other.setDateFrom(date);
+//        other.setDateTo(date);
+//        assertFalse(instance.hashCode() == other.hashCode());
+//    }
 }

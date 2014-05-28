@@ -98,6 +98,7 @@ public class AgreedPatients implements Serializable {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {
