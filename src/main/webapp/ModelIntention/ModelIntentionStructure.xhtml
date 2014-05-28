@@ -32,7 +32,7 @@
                     <inek:Institute contact="#{contact}" />
                 </div>
             </ui:repeat>
-            <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddContractor}" 
+            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddContractor}" 
                            rendered="#{!editModelIntention.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewContact(1)}"/>
             </h:commandLink>

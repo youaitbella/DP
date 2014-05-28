@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -871,6 +872,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "lblAgreedPatiens")
+    @Valid
     private List<AgreedPatients> _agreedPatients;
     
      public List<AgreedPatients> getAgreedPatients() {
@@ -890,6 +892,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "reModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerRemuneration")
+    @Valid
     private List<Remuneration> _remunerations;
 
     public List<Remuneration> getRemunerations() {
@@ -909,6 +912,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionCost")
+    @Valid
     private List<Cost> _costs;
 
     public List<Cost> getCosts() {
@@ -928,6 +932,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "adModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionAdjustment")
+    @Valid
     private List<Adjustment> _adjustments;
 
     public List<Adjustment> getAdjustments() {
@@ -947,6 +952,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
     @Documentation(key = "headerModelIntentionLifetime")
+    @Valid
     private List<ModelLife> _modelLifes;
     
     public List<ModelLife> getModelLifes() {
@@ -966,6 +972,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionContract")
+    @Valid
     private List<ModelIntentionContact> _contacts;
 
     public List<ModelIntentionContact> getContacts() {
@@ -988,6 +995,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionScientific")
+    @Valid
     private List<AcademicSupervision> _academicSupervisions;
     
     public List<AcademicSupervision> getAcademicSupervisions() {
@@ -1037,6 +1045,7 @@ public class ModelIntention implements Serializable {
     @JoinColumn(name = "qyModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionQuality")
+    @Valid
     private List<Quality> _qualities;
 
     public List<Quality> getQualities() {

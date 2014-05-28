@@ -84,7 +84,7 @@
             </tbody>
         </table>        
 
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddAcademicSupervision}" 
+            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddAcademicSupervision}" 
                        rendered="#{!editModelIntention.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewAcademicSupervision()}"/>
         </h:commandLink>

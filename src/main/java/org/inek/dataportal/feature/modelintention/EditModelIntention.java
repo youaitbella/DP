@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -15,6 +16,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.Cost;
@@ -159,12 +163,15 @@ public class EditModelIntention extends AbstractEditController {
         }
         return Pages.Error.URL();
     }
-    
+
     private boolean saveToDatabase() {
         removeEmptyEntries();
-        _modelIntention.setQualities(_internalQualityTable.getList());
-        _modelIntention.getQualities().addAll(_externalQualityTable.getList());
+        _modelIntention.setQualities(getInternalQualityTable().getList());
+        _modelIntention.getQualities().addAll(getExternalQualityTable().getList());
         removeObsolteTexts();
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<ModelIntention>> violations = validator.validate(_modelIntention);
+        violations.forEach(v -> _logger.log(Level.WARNING, v.getMessage()));
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();
         return isValidId(_modelIntention.getId());
@@ -270,20 +277,20 @@ public class EditModelIntention extends AbstractEditController {
         }
 
         // try to save current state first
-        if (!saveToDatabase()){
+        if (!saveToDatabase()) {
             String script = "alert ('Fehler beim Speichern');";
             _sessionController.setScript(script);
             ensureEmptyEntries();
             return "";
         }
-        
+
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
 
         _modelIntention.setStatus(10 + _modelIntention.getStatus().getValue());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
-        
+
         if (isValidId(_modelIntention.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
             Utils.getFlash().put("targetPage", Pages.ModelIntentionSummary.URL());
@@ -370,20 +377,22 @@ public class EditModelIntention extends AbstractEditController {
         checkAdjustments();
         // tab structure
         checkModelLifes();
+        checkContacs();
         // tab quality
         if (_modelIntention.getInternalQuality() >= 2) {
-            checkQuality(1, "headerModelIntentionInternQuality", "formQualityIntern:qualitySelector");
+            checkQuality(getInternalQualityTable().getList(), "headerModelIntentionInternQuality", "formQualityIntern:qualitySelector");
         }
         if (_modelIntention.getExternalQuality() >= 2) {
-            checkQuality(2, "headerModelIntentionExternQuality", "formQualityExtern:qualitySelector");
+            checkQuality(getExternalQualityTable().getList(), "headerModelIntentionExternQuality", "formQualityExtern:qualitySelector");
         }
+        checkAcademicSupervisions();
     }
 
     private void checkAgreedPatients() {
         boolean hasMissingField = _modelIntention.getAgreedPatients().stream()
-                .anyMatch(a -> a.getPatientsCount() == null 
-                        || a.getPatientsFrom()== null 
-                        || a.getPatientsTo()== null); 
+                .anyMatch(a -> a.getPatientsCount() == null
+                        || a.getPatientsFrom() == null
+                        || a.getPatientsTo() == null);
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("lblAgreedPatiens");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients.name(), ":agreedPatients:addButton");
@@ -404,11 +413,11 @@ public class EditModelIntention extends AbstractEditController {
         Set<String> remunerationCodes = _modelIntention.getRemunerations().stream().map(Remuneration::getCode).collect(Collectors.toSet());
         boolean isEmpty = _modelIntention.getCosts().isEmpty();
         boolean hasMissingField = _modelIntention.getCosts().stream()
-                .anyMatch(c -> c.getIk() == null 
-                        || c.getRemunerationCode().isEmpty() 
-                        || !remunerationCodes.contains(c.getRemunerationCode()) 
-                        || c.getCostCenterId() < 0 
-                        || c.getCostTypeId() < 0 
+                .anyMatch(c -> c.getIk() == null
+                        || c.getRemunerationCode().isEmpty()
+                        || !remunerationCodes.contains(c.getRemunerationCode())
+                        || c.getCostCenterId() < 0
+                        || c.getCostTypeId() < 0
                         || c.getAmount().compareTo(BigDecimal.ZERO) <= 0);
         if (isEmpty || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionCost");
@@ -418,10 +427,10 @@ public class EditModelIntention extends AbstractEditController {
 
     private void checkAdjustments() {
         boolean hasMissingField = _modelIntention.getAdjustments().stream()
-                .anyMatch(a -> a.getAdjustmentTypeId() < 0 
-                        || a.getDateFrom()== null 
-                        || a.getDateTo()== null 
-                        || a.getDescription().isEmpty() 
+                .anyMatch(a -> a.getAdjustmentTypeId() < 0
+                        || a.getDateFrom() == null
+                        || a.getDateTo() == null
+                        || a.getDescription().isEmpty()
                         || a.getAmount().compareTo(BigDecimal.ZERO) <= 0);
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionAdjustment");
@@ -432,33 +441,55 @@ public class EditModelIntention extends AbstractEditController {
     private void checkModelLifes() {
         boolean hasMissingField = _modelIntention.getModelLifes().stream()
                 .anyMatch(m -> m.getMonthDuration() <= 0
-                        || m.getStartDate()== null);
+                        || m.getStartDate() == null);
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionLifetime");
             setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":lifeTime:addButton");
         }
     }
 
-    
-    private void checkQuality(int type, String msgKey, String elementId) {
-        boolean isFound = _modelIntention.getQualities().stream().filter(q -> q.getTypeId() == type)
-                .findAny().isPresent();
-        boolean hasMissingField = _modelIntention.getQualities().stream().filter(q -> q.getTypeId() == type)
+    private void checkContacs() {
+        boolean isTooLess = _modelIntention.getContacts().size() < 2;
+        boolean hasMissingField = _modelIntention.getContacts().stream()
+                .anyMatch(c -> c.getName().isEmpty()
+                        || c.getStreet().isEmpty()
+                        || c.getZip().isEmpty()
+                        || c.getTown().isEmpty()
+                        || c.getContactPerson().isEmpty()
+                        || c.getPhone().isEmpty()
+                        || c.getEmail().isEmpty());
+        if (isTooLess || hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionContract");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":contractors:addButton");
+        }
+    }
+
+    private void checkQuality(List<Quality> qualities, String msgKey, String elementId) {
+
+        boolean hasMissingField = qualities.stream()
                 .anyMatch(q -> q.getIndicator().isEmpty() || q.getDescription().isEmpty());
 // this is Java 7 version        
-//        boolean isFound = false;
 //        boolean hasMissingField = false;
-//        for(Quality quality : _modelIntention.getQualities()){
-//            if (quality.getTypeId() == type){
-//                isFound = true;
+//        for(Quality quality : qualities){
 //                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
 //                    hasMissingField = true;
 //                }
-//            }
 //        }
-        if (!isFound || hasMissingField) {
+        if (qualities.isEmpty() || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage(msgKey);
             setTopicAndElement(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), elementId);
+        }
+    }
+
+    private void checkAcademicSupervisions() {
+        boolean hasMissingField = _modelIntention.getAcademicSupervisions().stream()
+                .anyMatch(a -> a.getContractor().isEmpty()
+                        || a.getRemitter().isEmpty()
+                        || a.getAcademicSupFrom() == null
+                        || a.getAcademicSupTo() == null);
+        if (hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionScientific");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), ":scientific:addButton");
         }
     }
 

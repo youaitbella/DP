@@ -120,7 +120,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblPostalCode")
     private String _zip = "";
     
-    @Pattern(regexp = "^[0-9]{5}$", message = "Die Eingabe entspricht keiner Postleitzahl.")
+    @Pattern(regexp = "^$|^[0-9]{5}$", message = "Die Eingabe entspricht keiner Postleitzahl.")
     public String getZip() {
         return _zip;
     }
