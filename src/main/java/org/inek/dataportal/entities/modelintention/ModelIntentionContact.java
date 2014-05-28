@@ -29,10 +29,20 @@ public class ModelIntentionContact implements Serializable {
         _contactTypeId = contactTypeId;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "csId")
     private Integer _id;
+    
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer _Id) {
+        _id = _Id;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ModelIntentionId">
     @Column(name = "csModelIntentionId")
@@ -48,22 +58,61 @@ public class ModelIntentionContact implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ContactTypeId">
     @Column(name = "csContactTypeId")
-    
     @Documentation(name = "Art", translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", omitOnEmpty = true)
     private int _contactTypeId;
+    
+    public int getContactTypeId() {
+        return _contactTypeId;
+    }
 
+    public void setContactTypeId(int contactTypeId) {
+        _contactTypeId = contactTypeId;
+    }
+     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="IK">
     @Column(name = "csIK")
     @Documentation(key = "lblIK", translateValue = "-1=empty")
     private int _ik = -1;
+    
+     public Integer getIk() {
+        return _ik < 0 ? null : _ik;
+    }
 
+    public void setIk(Integer ik) {
+        _ik = ik == null ? -1 : ik;
+    }
+     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Name">
     @Column(name = "csName")
     @Documentation(key = "lblName")
     private String _name = "";
+    
+    public String getName() {
+        return _name;
+    }
 
+    public void setName(String name) {
+        _name = name;
+    }
+     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Street">
     @Column(name = "csStreet")
     @Documentation(key = "lblStreet")
     private String _street = "";
+    
+    public String getStreet() {
+        return _street;
+    }
+
+    public void setStreet(String street) {
+        _street = street;
+    }
+     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Zip">
     @Column(name = "csZip")
@@ -81,9 +130,19 @@ public class ModelIntentionContact implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Town">
     @Column(name = "csTown")
     @Documentation(key = "lblTown")
     private String _town = "";
+    
+    public String getTown() {
+        return _town;
+    }
+
+    public void setTown(String town) {
+        _town = town;
+    }
+     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property RegCare">
     @Column(name = "csRegCare")
@@ -99,13 +158,33 @@ public class ModelIntentionContact implements Serializable {
     }
 // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ContactPerson">
     @Column(name = "csContactPerson")
     @Documentation(key = "lblContactPerson")
     private String _contactPerson = "";
+    
+    public String getContactPerson() {
+        return _contactPerson;
+    }
 
+    public void setContactPerson(String contactPerson) {
+        _contactPerson = contactPerson;
+    }
+     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Phone">
     @Column(name = "csPhone")
     @Documentation(key = "lblPhone")
     private String _phone = "";
+    
+    public String getPhone() {
+        return _phone;
+    }
+
+    public void setPhone(String phone) {
+        _phone = phone;
+    }
+     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="EMail">
     @Column(name = "csEMail")
@@ -136,74 +215,7 @@ public class ModelIntentionContact implements Serializable {
                 && _email.isEmpty();
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
-    public Integer getId() {
-        return _id;
-    }
-
-    public void setId(Integer _Id) {
-        _id = _Id;
-    }
-
-    public int getContactTypeId() {
-        return _contactTypeId;
-    }
-
-    public void setContactTypeId(int contactTypeId) {
-        _contactTypeId = contactTypeId;
-    }
-
-    public Integer getIk() {
-        return _ik < 0 ? null : _ik;
-    }
-
-    public void setIk(Integer ik) {
-        _ik = ik == null ? -1 : ik;
-    }
-
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        _name = name;
-    }
-
-    public String getStreet() {
-        return _street;
-    }
-
-    public void setStreet(String street) {
-        _street = street;
-    }
-
-    public String getTown() {
-        return _town;
-    }
-
-    public void setTown(String town) {
-        _town = town;
-    }
-
-    public String getContactPerson() {
-        return _contactPerson;
-    }
-
-    public void setContactPerson(String contactPerson) {
-        _contactPerson = contactPerson;
-    }
-
-    public String getPhone() {
-        return _phone;
-    }
-
-    public void setPhone(String phone) {
-        _phone = phone;
-    }
-
-    
-
-    // </editor-fold>
+ 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {
