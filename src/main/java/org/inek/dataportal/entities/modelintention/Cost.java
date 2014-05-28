@@ -45,7 +45,7 @@ public class Cost implements Serializable {
 
     @Column(name = "coCostCenterId")
     
-    @Documentation(key = "lblCostCenter", translateValue = "1=enmCostCenter1;2=enmCostCenter2;3=enmCostCenter3"
+    @Documentation(key = "lblCostCenter", translateValue = "-1=empty;1=enmCostCenter1;2=enmCostCenter2;3=enmCostCenter3"
             + ";4=enmCostCenter4;5=enmCostCenter5;6=enmCostCenter6;7=enmCostCenter7;8=enmCostCenter8"
             + ";9=enmCostCenter9;10=enmCostCenter10;11=enmCostCenter11;12=enmCostCenter21;13=enmCostCenter22"
             + ";14=enmCostCenter23;15=enmCostCenter24;16=enmCostCenter25;17=enmCostCenter26;18=enmCostCenter30"
@@ -54,7 +54,7 @@ public class Cost implements Serializable {
 
     @Column(name = "coCostTypeId")
     
-    @Documentation(key = "lblCostType", translateValue = "0=enmCostType1;100=enmCostType2;110=enmCostType3;120=enmCostType4"
+    @Documentation(key = "lblCostType", translateValue = "-1=empty;0=enmCostType1;100=enmCostType2;110=enmCostType3;120=enmCostType4"
             + ";130=enmCostType5;131=enmCostType6;132=enmCostType7;133=enmCostType8;141=enmCostType9;142=enmCostType10"
             + ";150=enmCostType11;161=enmCostType12;162=enmCostType13;170=enmCostType14;180=enmCostType15")
     private int _costTypeId = -1;

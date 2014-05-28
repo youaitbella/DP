@@ -36,6 +36,7 @@ public class ModelIntentionContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ModelIntentionId">
     @Column(name = "csModelIntentionId")
+   
     private Integer _modelIntentionId;
 
     public Integer getModelIntentionId() {
@@ -53,7 +54,7 @@ public class ModelIntentionContact implements Serializable {
     private int _contactTypeId;
 
     @Column(name = "csIK")
-    @Documentation(key = "lblIK")
+    @Documentation(key = "lblIK", translateValue = "-1=empty")
     private int _ik = -1;
 
     @Column(name = "csName")
