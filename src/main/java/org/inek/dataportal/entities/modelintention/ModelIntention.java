@@ -127,7 +127,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property sex">
-    @Documentation(key = "lblGender", translateValue = "0=enmGenderBoth;1=enmGenderMale;2=enmGenderFemale")
+    @Documentation(key = "lblGender", translateValue = "-1=empty;0=enmGenderBoth;1=enmGenderMale;2=enmGenderFemale")
     @Column(name = "miSex")
     private int _sex = 0;
     
@@ -309,7 +309,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property HospitalType">
-    @Documentation(key = "lblHospital", translateValue = "0=enmHospitalTypeAny;1=enmHospitalTypeModelProject;2=enmHospitalTypeSpecific;3=enmHospitalTypeOther")
+    @Documentation(key = "lblHospital", translateValue = "-1=lblNo;0=enmHospitalTypeAny;1=enmHospitalTypeModelProject;2=enmHospitalTypeSpecific;3=enmHospitalTypeOther")
     @Column(name = "miHospitalType")
     private int _hospitalType;
     
@@ -363,7 +363,27 @@ public class ModelIntention implements Serializable {
         this._miscHospitalisation = miscHospitalisation;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="list AgreedPatiens">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
+    @OrderBy("_id")
+    @Documentation(key = "lblAgreedPatiens")
+    @Valid
+    private List<AgreedPatients> _agreedPatients;
+    
+     public List<AgreedPatients> getAgreedPatients() {
+        if (_agreedPatients == null) {
+            _agreedPatients = new ArrayList<>();
+        }
+        return _agreedPatients;
+    }
 
+    public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
+        _agreedPatients = agreedPatients;
+    }
+    // </editor-fold>
+   
     // <editor-fold defaultstate="collapsed" desc="Property PrimaryGoals">
     @Documentation(key = "lblModelIntentionHigherGoals", omitOnEmpty = true)
     @Column(name = "miPrimaryGoals")
@@ -864,26 +884,6 @@ public class ModelIntention implements Serializable {
 
     public void setStatus(WorkflowStatus status) {
         _status = status.getValue();
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="list AgreedPatiens">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
-    @OrderBy("_id")
-    @Documentation(key = "lblAgreedPatiens")
-    @Valid
-    private List<AgreedPatients> _agreedPatients;
-    
-     public List<AgreedPatients> getAgreedPatients() {
-        if (_agreedPatients == null) {
-            _agreedPatients = new ArrayList<>();
-        }
-        return _agreedPatients;
-    }
-
-    public void setAgreedPatients(List<AgreedPatients> agreedPatients) {
-        _agreedPatients = agreedPatients;
     }
     // </editor-fold>
 
