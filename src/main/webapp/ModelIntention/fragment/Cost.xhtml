@@ -62,7 +62,7 @@
                                 <h:message id="msgRemunerationCode#{status.index}" for="remunerationCode#{status.index}" styleClass="errorMessage"/>
                                 <h:selectOneMenu styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}" 
                                                  required="true" readonly="#{editModelIntention.readOnly}" >
-                                    <f:selectItem itemLabel="---" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{editModelIntention.modelIntention.remunerations.stream().filter(r -> !r.code.isEmpty()).toList()}" 
                                                    var="r" itemLabelEscaped="true"
                                                    itemValue="#{r.code}" itemLabel="#{r.code}" />
@@ -111,7 +111,7 @@
             </tbody>
         </table>        
 
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddCost}" 
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddCost}" 
                        rendered="#{!editModelIntention.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewCost()}"/>
         </h:commandLink>

@@ -58,7 +58,7 @@
             </tbody>
         </table>        
 
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddModelLife}" 
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddModelLife}" 
                        rendered="#{!editModelIntention.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewModelLife()}"/>
         </h:commandLink>

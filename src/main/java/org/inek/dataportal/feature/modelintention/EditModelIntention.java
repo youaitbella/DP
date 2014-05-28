@@ -1,9 +1,12 @@
 package org.inek.dataportal.feature.modelintention;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
@@ -71,6 +74,7 @@ public class EditModelIntention extends AbstractEditController {
         }
         return l.toArray(new SelectItem[l.size()]);
     }
+
     enum ModelIntentionTabs {
 
         tabModelIntTypeAndNumberOfPatients,
@@ -146,20 +150,24 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
+        if (saveToDatabase()) {
+            // CR+LF or LF only will be replaced by "\r\n"
+            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+            ensureEmptyEntries();
+            return "";
+        }
+        return Pages.Error.URL();
+    }
+    
+    private boolean saveToDatabase() {
         removeEmptyEntries();
         _modelIntention.setQualities(_internalQualityTable.getList());
         _modelIntention.getQualities().addAll(_externalQualityTable.getList());
         removeObsolteTexts();
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();
-        ensureEmptyEntries();
-        if (isValidId(_modelIntention.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
-            return null;
-        }
-        return Pages.Error.URL();
+        return isValidId(_modelIntention.getId());
     }
 
     private void removeObsolteTexts() {
@@ -204,7 +212,7 @@ public class EditModelIntention extends AbstractEditController {
             removeQuality(2);
         }
     }
-    
+
     private void removeQuality(int type) {
         for (Iterator<Quality> itr = _modelIntention.getQualities().iterator(); itr.hasNext();) {
             Quality entry = itr.next();
@@ -227,7 +235,6 @@ public class EditModelIntention extends AbstractEditController {
         return WorkflowStatus.Rejected == _modelIntention.getStatus();
     }
 
-   
     /**
      * requests sealing of a formal request if the form is completely full
      * filled, this function displays a confirmation dialog confirming with "ok"
@@ -239,10 +246,10 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
-       if (!requestIsComplete()) {
-           return getActiveTopic().getOutcome();
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
         }
-       String script = "if (confirm ('" + Utils.getMessage("msgConfirmSeal") + "')) {document.getElementById('form:seal').click();}";
+        String script = "if (confirm ('" + Utils.getMessage("msgConfirmSeal") + "')) {document.getElementById('form:seal').click();}";
         _sessionController.setScript(script);
         return null;
     }
@@ -258,16 +265,25 @@ public class EditModelIntention extends AbstractEditController {
         if (!check4validSession()) {
             return Pages.InvalidConversation.URL();
         }
-        if (!requestIsComplete()) {
-            return getActiveTopic().getOutcome();
-        }
         if (_modelIntention.getStatus().getValue() >= 10) {
             return Pages.Error.URL();
         }
 
+        // try to save current state first
+        if (!saveToDatabase()){
+            String script = "alert ('Fehler beim Speichern');";
+            _sessionController.setScript(script);
+            ensureEmptyEntries();
+            return "";
+        }
+        
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
+        }
+
         _modelIntention.setStatus(10 + _modelIntention.getStatus().getValue());
-        removeEmptyEntries();
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
+        
         if (isValidId(_modelIntention.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
             Utils.getFlash().put("targetPage", Pages.ModelIntentionSummary.URL());
@@ -287,65 +303,19 @@ public class EditModelIntention extends AbstractEditController {
         return !_conversation.isTransient();
     }
 
-     // <editor-fold defaultstate="collapsed" desc="CheckElements">
+    // <editor-fold defaultstate="collapsed" desc="CheckElements">
     String _msg = "";
     String _elementId = "";
+    String _nextTopic = "";
 
     private boolean requestIsComplete() {
         _msg = "";
-        String newTopic = "";
-        // tab patient
-        newTopic = checkField(newTopic, _modelIntention.getDescription(), "lblAppellation", "form:Appelation:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
-        if (_modelIntention.getRegionType() == 2) {
-            newTopic = checkField(newTopic, _modelIntention.getRegion(), "lblRegionalFeatures", "form:region:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
-        }
-        if (_modelIntention.getMedicalAttributesType() >= 0) {
-            newTopic = checkField(newTopic, _modelIntention.getMedicalSpecification(), "lblMedicalFeature", "form:medicalSpecification:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
-        }
-        if (_modelIntention.getSettleMedicType() >= 1) {
-            newTopic = checkField(newTopic, _modelIntention.getSettleMedicText(), "lblSettledDocs", "form:settleMedicText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
-        }
-        if (_modelIntention.getPiaType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getPiaText(), "lblPiaText", "form:piaText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
-        }
-        if (_modelIntention.getHospitalType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getHospitalText(), "lblHospital", "form:hospitalText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
-        }
-        // tab goals
-        newTopic = checkField(newTopic, _modelIntention.getPrimaryGoals(), "lblModelIntentionHigherGoals", "form:txtHigherGoals", ModelIntentionTabs.tabModelIntGoals);
-        // tab cost
-        if (_modelIntention.getInpatientTreatmentType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getInpatientTreatmentText(), "lblInpatientTreatment", "form:inpatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
-        }
-        if (_modelIntention.getDayPatientTreatmentType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getDayPatientTreatmentText(), "lblDayPatientTreatment", "form:dayPatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
-        }
-        if (_modelIntention.getInpatientCompensationTreatmentType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getInpatientCompensationTreatmentText(), "lblInpatientCompensationTreatment", "form:inpatientCompensationTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
-        }
-        if (_modelIntention.getInpatientCompensationHomeTreatmentType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getInpatientCompensationHomeTreatmentText(), "lblInpatientCompensationHomeTreatment", "form:inpatientCompensationHomeTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
-        }
-        if (_modelIntention.getOutpatientTreatmentType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getOutpatientTreatmentText(), "lblOutpatientTreatment", "form:outpatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
-        }
-        if (_modelIntention.getOutpatientHomeTreatmentType() >= 2) {
-            newTopic = checkField(newTopic, _modelIntention.getOutpatientHomeTreatmentText(), "lblOutpatientHomeTreatment", "form:outpatientHomeTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
-        }
-        // tab structure
-        // tab quality
-        if (_modelIntention.getInternalQuality() >= 2) {
-            newTopic = checkQuality(newTopic, 1, "headerModelIntentionInternQuality", "formQualityIntern:qualitySelector");
-        }
-        if (_modelIntention.getExternalQuality() >= 2) {
-            newTopic = checkQuality(newTopic, 1, "headerModelIntentionExternQuality", "formQualityExtern:qualitySelector");
-        }
-        
-        
-        
+        _nextTopic = "";
+        checkFields();
+
         if (!_msg.isEmpty()) {
             _msg = Utils.getMessage("infoMissingFields") + "\\r\\n" + _msg;
-            setActiveTopic(newTopic);
+            setActiveTopic(_nextTopic);
             String script = "alert ('" + _msg + "');";
             if (!_elementId.isEmpty()) {
                 script += "\r\n document.getElementById('" + _elementId + "').focus();";
@@ -354,54 +324,168 @@ public class EditModelIntention extends AbstractEditController {
         }
         return _msg.isEmpty();
     }
-    private String checkQuality(String newTopic, int type, String msgKey, String elementId) {
-        boolean isFound = false;
-        boolean hasMissingField = false;
-        for(Quality quality : _modelIntention.getQualities()){
-            if (quality.getTypeId() == type){
-                isFound = true;
-                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
-                    hasMissingField = true;
-                }
-            }
+
+    private void checkFields() {
+        // tab patient
+        checkField(_modelIntention.getDescription(), "lblAppellation", "form:Appelation:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        if (_modelIntention.getRegionType() == 2) {
+            checkField(_modelIntention.getRegion(), "lblRegionalFeatures", "form:region:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
-        if (!isFound || hasMissingField){
-            _msg += "\\r\\n" + Utils.getMessage(msgKey);
-            if (newTopic.isEmpty()) {
-                newTopic = ModelIntentionTabs.tabModelIntQualityAndSupervision.name();
-                _elementId = elementId;
-            }
+        if (_modelIntention.getMedicalAttributesType() >= 0) {
+            checkField(_modelIntention.getMedicalSpecification(), "lblMedicalFeature", "form:medicalSpecification:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
         }
-        return newTopic;
+        if (_modelIntention.getSettleMedicType() >= 1) {
+            checkField(_modelIntention.getSettleMedicText(), "lblSettledDocs", "form:settleMedicText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        }
+        if (_modelIntention.getPiaType() >= 2) {
+            checkField(_modelIntention.getPiaText(), "lblPiaText", "form:piaText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        }
+        if (_modelIntention.getHospitalType() >= 2) {
+            checkField(_modelIntention.getHospitalText(), "lblHospital", "form:hospitalText:idText", ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients);
+        }
+        checkAgreedPatients();
+        // tab goals
+        checkField(_modelIntention.getPrimaryGoals(), "lblModelIntentionHigherGoals", "form:txtHigherGoals", ModelIntentionTabs.tabModelIntGoals);
+        // tab cost
+        if (_modelIntention.getInpatientTreatmentType() >= 2) {
+            checkField(_modelIntention.getInpatientTreatmentText(), "lblInpatientTreatment", "form:inpatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
+        }
+        if (_modelIntention.getDayPatientTreatmentType() >= 2) {
+            checkField(_modelIntention.getDayPatientTreatmentText(), "lblDayPatientTreatment", "form:dayPatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
+        }
+        if (_modelIntention.getInpatientCompensationTreatmentType() >= 2) {
+            checkField(_modelIntention.getInpatientCompensationTreatmentText(), "lblInpatientCompensationTreatment", "form:inpatientCompensationTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
+        }
+        if (_modelIntention.getInpatientCompensationHomeTreatmentType() >= 2) {
+            checkField(_modelIntention.getInpatientCompensationHomeTreatmentText(), "lblInpatientCompensationHomeTreatment", "form:inpatientCompensationHomeTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
+        }
+        if (_modelIntention.getOutpatientTreatmentType() >= 2) {
+            checkField(_modelIntention.getOutpatientTreatmentText(), "lblOutpatientTreatment", "form:outpatientTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
+        }
+        if (_modelIntention.getOutpatientHomeTreatmentType() >= 2) {
+            checkField(_modelIntention.getOutpatientHomeTreatmentText(), "lblOutpatientHomeTreatment", "form:outpatientHomeTreatmentText:idText", ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts);
+        }
+        checkRemunerations();
+        checkCosts();
+        checkAdjustments();
+        // tab structure
+        checkModelLifes();
+        // tab quality
+        if (_modelIntention.getInternalQuality() >= 2) {
+            checkQuality(1, "headerModelIntentionInternQuality", "formQualityIntern:qualitySelector");
+        }
+        if (_modelIntention.getExternalQuality() >= 2) {
+            checkQuality(2, "headerModelIntentionExternQuality", "formQualityExtern:qualitySelector");
+        }
     }
 
-    private String checkField(String newTopic, String value, String msgKey, String elementId, ModelIntentionTabs tab) {
+    private void checkAgreedPatients() {
+        boolean hasMissingField = _modelIntention.getAgreedPatients().stream()
+                .anyMatch(a -> a.getPatientsCount() == null 
+                        || a.getPatientsFrom()== null 
+                        || a.getPatientsTo()== null); 
+        if (hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("lblAgreedPatiens");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients.name(), ":agreedPatients:addButton");
+        }
+    }
+
+    private void checkRemunerations() {
+        boolean isEmpty = _modelIntention.getRemunerations().isEmpty();
+        boolean hasMissingField = _modelIntention.getRemunerations().stream()
+                .anyMatch(r -> r.getCode().isEmpty() || r.getText().isEmpty() || r.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+        if (isEmpty || hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("headerRemuneration");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":remuneration:addButton");
+        }
+    }
+
+    private void checkCosts() {
+        Set<String> remunerationCodes = _modelIntention.getRemunerations().stream().map(Remuneration::getCode).collect(Collectors.toSet());
+        boolean isEmpty = _modelIntention.getCosts().isEmpty();
+        boolean hasMissingField = _modelIntention.getCosts().stream()
+                .anyMatch(c -> c.getIk() == null 
+                        || c.getRemunerationCode().isEmpty() 
+                        || !remunerationCodes.contains(c.getRemunerationCode()) 
+                        || c.getCostCenterId() < 0 
+                        || c.getCostTypeId() < 0 
+                        || c.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+        if (isEmpty || hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionCost");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":costForm:addButton");
+        }
+    }
+
+    private void checkAdjustments() {
+        boolean hasMissingField = _modelIntention.getAdjustments().stream()
+                .anyMatch(a -> a.getAdjustmentTypeId() < 0 
+                        || a.getDateFrom()== null 
+                        || a.getDateTo()== null 
+                        || a.getDescription().isEmpty() 
+                        || a.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+        if (hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionAdjustment");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":adjustmentForm:addButton");
+        }
+    }
+
+    private void checkModelLifes() {
+        boolean hasMissingField = _modelIntention.getModelLifes().stream()
+                .anyMatch(m -> m.getMonthDuration() <= 0
+                        || m.getStartDate()== null);
+        if (hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionLifetime");
+            setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":lifeTime:addButton");
+        }
+    }
+
+    
+    private void checkQuality(int type, String msgKey, String elementId) {
+        boolean isFound = _modelIntention.getQualities().stream().filter(q -> q.getTypeId() == type)
+                .findAny().isPresent();
+        boolean hasMissingField = _modelIntention.getQualities().stream().filter(q -> q.getTypeId() == type)
+                .anyMatch(q -> q.getIndicator().isEmpty() || q.getDescription().isEmpty());
+// this is Java 7 version        
+//        boolean isFound = false;
+//        boolean hasMissingField = false;
+//        for(Quality quality : _modelIntention.getQualities()){
+//            if (quality.getTypeId() == type){
+//                isFound = true;
+//                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
+//                    hasMissingField = true;
+//                }
+//            }
+//        }
+        if (!isFound || hasMissingField) {
+            _msg += "\\r\\n" + Utils.getMessage(msgKey);
+            setTopicAndElement(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), elementId);
+        }
+    }
+
+    private void setTopicAndElement(String newTopic, String elementId) {
+        if (_nextTopic.isEmpty()) {
+            _nextTopic = newTopic;
+            _elementId = elementId;
+        }
+    }
+
+    private void checkField(String value, String msgKey, String elementId, ModelIntentionTabs tab) {
         if (Utils.isNullOrEmpty(value)) {
             _msg += "\\r\\n" + Utils.getMessage(msgKey);
-            if (newTopic.isEmpty()) {
-                newTopic = tab.name();
-                _elementId = elementId;
-            }
+            setTopicAndElement(tab.name(), elementId);
         }
-        return newTopic;
     }
 
-    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, ModelIntentionTabs tab) {
+    private void checkField(Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, ModelIntentionTabs tab) {
         if (value == null
                 || minValue != null && value.intValue() < minValue.intValue()
                 || maxValue != null && value.intValue() > maxValue.intValue()) {
             _msg += "\\r\\n" + Utils.getMessage(msgKey);
-            if (newTopic.isEmpty()) {
-                newTopic = tab.name();
-                _elementId = elementId;
-            }
+            setTopicAndElement(tab.name(), elementId);
         }
-        return newTopic;
     }
 
     // </editor-fold>
-    
-    
     // <editor-fold defaultstate="collapsed" desc="tab patients">
     private AgreedPatientsDynamicTable _agreedPatiensTable;
 
@@ -457,13 +541,13 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean tryAddCost(Cost cost) {
-        boolean remunerationFound=false;
-        for(Remuneration remuneration : _modelIntention.getRemunerations()){
-            if (cost.getRemunerationCode().equals(remuneration.getCode())){
-                remunerationFound=true;
+        boolean remunerationFound = false;
+        for (Remuneration remuneration : _modelIntention.getRemunerations()) {
+            if (cost.getRemunerationCode().equals(remuneration.getCode())) {
+                remunerationFound = true;
             }
         }
-        if (!remunerationFound){
+        if (!remunerationFound) {
             return false;
         }
         for (Object existing : _costTable.getList()) {

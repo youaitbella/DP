@@ -99,7 +99,7 @@
             </tbody>
         </table>        
 
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddAdjustment}" 
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddAdjustment}" 
                        rendered="#{!editModelIntention.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewAdjustment()}"/>
         </h:commandLink>
