@@ -112,20 +112,27 @@ div#wrapper {
         display: none;
     }
 
-    #tblPrint {
-        margin: 1px;
-        margin-top: 20px;
+    #tblPrint, 
+    #tblPrint td table, 
+    #tblPrintSub {
         border-collapse: collapse; 
         padding: 0;
     }
 
-    #tblPrint td, #tblPrint th {
+    #tblPrint {
+        margin: 1px;
+        margin-top: 20px;
+    }
+
+    #tblPrint td, 
+    #tblPrint td table td, 
+    #tblPrintSub td, 
+    #tblPrint th {
         vertical-align: top;
         border-collapse: collapse; 
         border: black dotted 1px;
         padding: 0.2em;
     }
-
 }
 
 

@@ -37,7 +37,7 @@
                     <h:outputText  value="#{msg.lblValue}"/>
                 </f:facet>
                 <h:outputLabel value="#{p.value}" rendered="#{p.level == 0}"/>
-                <h:dataTable value="#{p.value}" var="sub" rendered="#{p.level > 0}" columnClasses="col30, colValue" width="100%">
+                <h:dataTable id="tblPrintSub" value="#{p.value}" var="sub" rendered="#{p.level > 0}" columnClasses="col30, colValue" width="100%">
                     <h:column id="colSubKey">
                         <h:outputLabel value="#{sub.key}"/>
                     </h:column>
