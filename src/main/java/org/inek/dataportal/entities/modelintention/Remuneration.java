@@ -52,7 +52,7 @@ public class Remuneration implements Serializable {
     @Column(name = "reCode")
     private String _code = "";
 
-    @Pattern(regexp = "[A-Z0-9]{8}")
+    @Pattern(regexp = "[A-Z0-9]{8}", message = "Genau 8 Buchstaben/Ziffern erforderlich")
     public String getCode() {
         return _code;
     }

@@ -4,21 +4,26 @@ import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerFactory;
 
 /**
+ * This class decorates (wrapps) the standard exception handler factory
  *
  * @author muellermi
  */
 public class PortalExceptionHandlerFactory extends ExceptionHandlerFactory {
 
-    private final ExceptionHandlerFactory _parent;
+    private final ExceptionHandlerFactory _wrapped;
 
-    public PortalExceptionHandlerFactory(ExceptionHandlerFactory parent) {
-        _parent = parent;
+    public PortalExceptionHandlerFactory(ExceptionHandlerFactory wrapped) {
+        _wrapped = wrapped;
     }
 
     @Override
     public ExceptionHandler getExceptionHandler() {
-        ExceptionHandler result = _parent.getExceptionHandler();
-        result = new PortalExceptionHandler(result);
-        return result;
+        return new PortalExceptionHandler(_wrapped.getExceptionHandler());
     }
+
+    @Override
+    public ExceptionHandlerFactory getWrapped() {
+        return _wrapped;
+    }
+
 }

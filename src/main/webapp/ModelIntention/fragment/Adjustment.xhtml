@@ -54,7 +54,7 @@
                                 <h:inputText styleClass="fullWidth" id="dateFrom#{status.index}" value="#{adjustment.dateFrom}" 
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgdateFrom#{status.index}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgDateFrom#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
@@ -65,7 +65,7 @@
                                 <h:inputText styleClass="fullWidth" id="dateTo#{status.index}" value="#{adjustment.dateTo}" 
                                              required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:converter converterId="FlexibleDateTimeConverter"/>
-                                    <f:ajax event="blur" render="@this :logout:remaining msgdateTo#{status.index}"/>
+                                    <f:ajax event="blur" render="@this :logout:remaining msgDateTo#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>
                         </td>
