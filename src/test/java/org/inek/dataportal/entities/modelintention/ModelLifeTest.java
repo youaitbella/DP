@@ -14,7 +14,7 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdShallBeTreatedAsEqual");
+        System.out.println("testOöbjectsWithSameNonNullIdShallBeTreatedAsEqual");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         ModelLife other = new ModelLife();
