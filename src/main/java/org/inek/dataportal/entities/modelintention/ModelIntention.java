@@ -156,7 +156,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property RegionType">
-    @Documentation(key = "lblRegionalFeatures", translateValue = "0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
+    @Documentation(key = "lblRegionalFeatures", translateValue = "-1=empty;0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
     @Column(name = "miRegionType")
     private Integer _regionType = -1;
     
