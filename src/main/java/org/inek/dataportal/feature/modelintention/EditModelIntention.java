@@ -19,11 +19,14 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import jdk.nashorn.internal.objects.NativeArray;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
+import org.inek.dataportal.entities.modelintention.Adjustment;
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
+import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.enums.Feature;
@@ -426,12 +429,18 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void checkAdjustments() {
-        boolean hasMissingField = _modelIntention.getAdjustments().stream()
-                .anyMatch(a -> a.getAdjustmentTypeId() < 0
-                        || a.getDateFrom() == null
-                        || a.getDateTo() == null
-                        || a.getDescription().isEmpty()
-                        || a.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+//        boolean hasMissingField = _modelIntention.getAdjustments().stream()
+//                .anyMatch(a -> a.getAdjustmentTypeId() < 0
+//                        || a.getDateFrom() == null
+//                        || a.getDateTo() == null
+//                        || a.getDescription().isEmpty()
+//                        || a.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+        boolean hasMissingField = false;
+        for (Adjustment adj : _modelIntention.getAdjustments()){
+            if(adj.getAdjustmentTypeId() < 0 || adj.getDateFrom() == null || adj.getDateTo() == null || adj.getDescription().isEmpty() || adj.getAmount().compareTo(BigDecimal.ZERO) <= 0){
+               hasMissingField = true; 
+            }
+        }
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionAdjustment");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":adjustmentForm:addButton");
@@ -439,9 +448,16 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void checkModelLifes() {
-        boolean hasMissingField = _modelIntention.getModelLifes().stream()
-                .anyMatch(m -> m.getMonthDuration() <= 0
-                        || m.getStartDate() == null);
+//        boolean hasMissingField = _modelIntention.getModelLifes().stream()
+//                .anyMatch(m -> m.getMonthDuration() <= 0
+//                        || m.getStartDate() == null);
+        boolean hasMissingField = false;
+        for(ModelLife ml : _modelIntention.getModelLifes()){
+            if(ml.getMonthDuration() <= 0 || ml.getStartDate() == null){
+                hasMissingField = true;
+            }
+        }
+        
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionLifetime");
             setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":lifeTime:addButton");
@@ -450,14 +466,23 @@ public class EditModelIntention extends AbstractEditController {
 
     private void checkContacs() {
         boolean isTooLess = _modelIntention.getContacts().size() < 2;
-        boolean hasMissingField = _modelIntention.getContacts().stream()
-                .anyMatch(c -> c.getName().isEmpty()
-                        || c.getStreet().isEmpty()
-                        || c.getZip().isEmpty()
-                        || c.getTown().isEmpty()
-                        || c.getContactPerson().isEmpty()
-                        || c.getPhone().isEmpty()
-                        || c.getEmail().isEmpty());
+//        boolean hasMissingField = _modelIntention.getContacts().stream()
+//                .anyMatch(c -> c.getName().isEmpty()
+//                        || c.getStreet().isEmpty()
+//                        || c.getZip().isEmpty()
+//                        || c.getTown().isEmpty()
+//                        || c.getContactPerson().isEmpty()
+//                        || c.getPhone().isEmpty()
+//                        || c.getEmail().isEmpty());
+        boolean hasMissingField = false;
+        for(ModelIntentionContact c : _modelIntention.getContacts()){
+            if (c.getName().isEmpty() || c.getStreet().isEmpty() || c.getZip().isEmpty() 
+                    || c.getTown().isEmpty() || c.getContactPerson().isEmpty() 
+                    || c.getPhone().isEmpty() || c.getEmail().isEmpty()){
+                hasMissingField = true;
+            }
+        }
+        
         if (isTooLess || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionContract");
             setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":contractors:addButton");
@@ -466,15 +491,15 @@ public class EditModelIntention extends AbstractEditController {
 
     private void checkQuality(List<Quality> qualities, String msgKey, String elementId) {
 
-        boolean hasMissingField = qualities.stream()
-                .anyMatch(q -> q.getIndicator().isEmpty() || q.getDescription().isEmpty());
+//        boolean hasMissingField = qualities.stream()
+//                .anyMatch(q -> q.getIndicator().isEmpty() || q.getDescription().isEmpty());
 // this is Java 7 version        
-//        boolean hasMissingField = false;
-//        for(Quality quality : qualities){
-//                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
-//                    hasMissingField = true;
-//                }
-//        }
+        boolean hasMissingField = false;
+        for(Quality quality : qualities){
+                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
+                    hasMissingField = true;
+                }
+        }
         if (qualities.isEmpty() || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage(msgKey);
             setTopicAndElement(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), elementId);
