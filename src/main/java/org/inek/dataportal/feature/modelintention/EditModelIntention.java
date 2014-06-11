@@ -23,6 +23,7 @@ import jdk.nashorn.internal.objects.NativeArray;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.Adjustment;
+import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
@@ -392,10 +393,17 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void checkAgreedPatients() {
-        boolean hasMissingField = _modelIntention.getAgreedPatients().stream()
-                .anyMatch(a -> a.getPatientsCount() == null
-                        || a.getPatientsFrom() == null
-                        || a.getPatientsTo() == null);
+//        boolean hasMissingField = _modelIntention.getAgreedPatients().stream()
+//                .anyMatch(a -> a.getPatientsCount() == null
+//                        || a.getPatientsFrom() == null
+//                        || a.getPatientsTo() == null);
+        boolean hasMissingField = false;
+        for(AgreedPatients pat : _modelIntention.getAgreedPatients()){
+            if(pat.getPatientsCount() == null || pat.getPatientsFrom() == null || pat.getPatientsTo() == null){
+                hasMissingField = true;
+            }
+        }
+            
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("lblAgreedPatiens");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients.name(), ":agreedPatients:addButton");
@@ -404,8 +412,15 @@ public class EditModelIntention extends AbstractEditController {
 
     private void checkRemunerations() {
         boolean isEmpty = _modelIntention.getRemunerations().isEmpty();
-        boolean hasMissingField = _modelIntention.getRemunerations().stream()
-                .anyMatch(r -> r.getCode().isEmpty() || r.getText().isEmpty() || r.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+//        boolean hasMissingField = _modelIntention.getRemunerations().stream()
+//                .anyMatch(r -> r.getCode().isEmpty() || r.getText().isEmpty() || r.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+        boolean hasMissingField = false;
+        for (Remuneration rem : _modelIntention.getRemunerations()){
+            if(rem.getCode().isEmpty() || rem.getText().isEmpty() || rem.getAmount().compareTo(BigDecimal.ZERO) <= 0){
+                hasMissingField = true;
+            }
+        }
+        
         if (isEmpty || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerRemuneration");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":remuneration:addButton");
@@ -415,13 +430,20 @@ public class EditModelIntention extends AbstractEditController {
     private void checkCosts() {
         Set<String> remunerationCodes = _modelIntention.getRemunerations().stream().map(Remuneration::getCode).collect(Collectors.toSet());
         boolean isEmpty = _modelIntention.getCosts().isEmpty();
-        boolean hasMissingField = _modelIntention.getCosts().stream()
-                .anyMatch(c -> c.getIk() == null
-                        || c.getRemunerationCode().isEmpty()
-                        || !remunerationCodes.contains(c.getRemunerationCode())
-                        || c.getCostCenterId() < 0
-                        || c.getCostTypeId() < 0
-                        || c.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+//        boolean hasMissingField = _modelIntention.getCosts().stream()
+//                .anyMatch(c -> c.getIk() == null
+//                        || c.getRemunerationCode().isEmpty()
+//                        || !remunerationCodes.contains(c.getRemunerationCode())
+//                        || c.getCostCenterId() < 0
+//                        || c.getCostTypeId() < 0
+//                        || c.getAmount().compareTo(BigDecimal.ZERO) <= 0);
+        boolean hasMissingField = false;
+        for (Cost ct : _modelIntention.getCosts()){
+            if(ct.getIk() == null || ct.getRemunerationCode().isEmpty() || !remunerationCodes.contains(ct.getRemunerationCode()) || ct.getCostCenterId() < 0 ||
+                    ct.getCostTypeId() < 0 || ct.getAmount().compareTo(BigDecimal.ZERO) <= 0){
+                hasMissingField = true;
+            }
+        }
         if (isEmpty || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionCost");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":costForm:addButton");
