@@ -16,7 +16,9 @@
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Allgemeine Schaltflächen</text></para>
     <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> können Sie Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt dieses ans InEK. Eine Bearbeitung ist nachträglich nicht mehr möglich.</text></li>
+    </list>
+    <list id="10" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt die Angaben ans InEK. Eine Bearbeitung ist nachträglich nur nach Rücksprache mit dem InEK möglich.</text></li>
     </list>
   </body>
 </topic>
