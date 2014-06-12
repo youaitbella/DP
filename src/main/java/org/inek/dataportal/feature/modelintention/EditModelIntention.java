@@ -2,12 +2,12 @@ package org.inek.dataportal.feature.modelintention;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
@@ -19,9 +19,9 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import jdk.nashorn.internal.objects.NativeArray;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
+import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.Adjustment;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.Cost;
@@ -175,7 +175,10 @@ public class EditModelIntention extends AbstractEditController {
         removeObsolteTexts();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<ModelIntention>> violations = validator.validate(_modelIntention);
-        violations.forEach(v -> _logger.log(Level.WARNING, v.getMessage()));
+        //violations.forEach(v -> _logger.log(Level.WARNING, v.getMessage()));
+        for (ConstraintViolation<ModelIntention> v : violations) {
+            _logger.log(Level.WARNING, v.getMessage());
+        }
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();
         return isValidId(_modelIntention.getId());
@@ -398,12 +401,12 @@ public class EditModelIntention extends AbstractEditController {
 //                        || a.getPatientsFrom() == null
 //                        || a.getPatientsTo() == null);
         boolean hasMissingField = false;
-        for(AgreedPatients pat : _modelIntention.getAgreedPatients()){
-            if(pat.getPatientsCount() == null || pat.getPatientsFrom() == null || pat.getPatientsTo() == null){
+        for (AgreedPatients pat : _modelIntention.getAgreedPatients()) {
+            if (pat.getPatientsCount() == null || pat.getPatientsFrom() == null || pat.getPatientsTo() == null) {
                 hasMissingField = true;
             }
         }
-            
+
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("lblAgreedPatiens");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTypeAndNumberOfPatients.name(), ":agreedPatients:addButton");
@@ -415,12 +418,12 @@ public class EditModelIntention extends AbstractEditController {
 //        boolean hasMissingField = _modelIntention.getRemunerations().stream()
 //                .anyMatch(r -> r.getCode().isEmpty() || r.getText().isEmpty() || r.getAmount().compareTo(BigDecimal.ZERO) <= 0);
         boolean hasMissingField = false;
-        for (Remuneration rem : _modelIntention.getRemunerations()){
-            if(rem.getCode().isEmpty() || rem.getText().isEmpty() || rem.getAmount().compareTo(BigDecimal.ZERO) <= 0){
+        for (Remuneration rem : _modelIntention.getRemunerations()) {
+            if (rem.getCode().isEmpty() || rem.getText().isEmpty() || rem.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
                 hasMissingField = true;
             }
         }
-        
+
         if (isEmpty || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerRemuneration");
             setTopicAndElement(ModelIntentionTabs.tabModelIntTreatmentAreasAndCosts.name(), ":remuneration:addButton");
@@ -428,7 +431,11 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void checkCosts() {
-        Set<String> remunerationCodes = _modelIntention.getRemunerations().stream().map(Remuneration::getCode).collect(Collectors.toSet());
+//        Set<String> remunerationCodes = _modelIntention.getRemunerations().stream().map(Remuneration::getCode).collect(Collectors.toSet());
+        Set<String> remunerationCodes = new HashSet<>();
+        for (Remuneration r : _modelIntention.getRemunerations()) {
+            remunerationCodes.add(r.getCode());
+        }
         boolean isEmpty = _modelIntention.getCosts().isEmpty();
 //        boolean hasMissingField = _modelIntention.getCosts().stream()
 //                .anyMatch(c -> c.getIk() == null
@@ -438,9 +445,9 @@ public class EditModelIntention extends AbstractEditController {
 //                        || c.getCostTypeId() < 0
 //                        || c.getAmount().compareTo(BigDecimal.ZERO) <= 0);
         boolean hasMissingField = false;
-        for (Cost ct : _modelIntention.getCosts()){
-            if(ct.getIk() == null || ct.getRemunerationCode().isEmpty() || !remunerationCodes.contains(ct.getRemunerationCode()) || ct.getCostCenterId() < 0 ||
-                    ct.getCostTypeId() < 0 || ct.getAmount().compareTo(BigDecimal.ZERO) <= 0){
+        for (Cost ct : _modelIntention.getCosts()) {
+            if (ct.getIk() == null || ct.getRemunerationCode().isEmpty() || !remunerationCodes.contains(ct.getRemunerationCode()) || ct.getCostCenterId() < 0
+                    || ct.getCostTypeId() < 0 || ct.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
                 hasMissingField = true;
             }
         }
@@ -458,9 +465,9 @@ public class EditModelIntention extends AbstractEditController {
 //                        || a.getDescription().isEmpty()
 //                        || a.getAmount().compareTo(BigDecimal.ZERO) <= 0);
         boolean hasMissingField = false;
-        for (Adjustment adj : _modelIntention.getAdjustments()){
-            if(adj.getAdjustmentTypeId() < 0 || adj.getDateFrom() == null || adj.getDateTo() == null || adj.getDescription().isEmpty() || adj.getAmount().compareTo(BigDecimal.ZERO) <= 0){
-               hasMissingField = true; 
+        for (Adjustment adj : _modelIntention.getAdjustments()) {
+            if (adj.getAdjustmentTypeId() < 0 || adj.getDateFrom() == null || adj.getDateTo() == null || adj.getDescription().isEmpty() || adj.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+                hasMissingField = true;
             }
         }
         if (hasMissingField) {
@@ -474,12 +481,12 @@ public class EditModelIntention extends AbstractEditController {
 //                .anyMatch(m -> m.getMonthDuration() <= 0
 //                        || m.getStartDate() == null);
         boolean hasMissingField = false;
-        for(ModelLife ml : _modelIntention.getModelLifes()){
-            if(ml.getMonthDuration() <= 0 || ml.getStartDate() == null){
+        for (ModelLife ml : _modelIntention.getModelLifes()) {
+            if (ml.getMonthDuration() <= 0 || ml.getStartDate() == null) {
                 hasMissingField = true;
             }
         }
-        
+
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionLifetime");
             setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":lifeTime:addButton");
@@ -497,14 +504,14 @@ public class EditModelIntention extends AbstractEditController {
 //                        || c.getPhone().isEmpty()
 //                        || c.getEmail().isEmpty());
         boolean hasMissingField = false;
-        for(ModelIntentionContact c : _modelIntention.getContacts()){
-            if (c.getName().isEmpty() || c.getStreet().isEmpty() || c.getZip().isEmpty() 
-                    || c.getTown().isEmpty() || c.getContactPerson().isEmpty() 
-                    || c.getPhone().isEmpty() || c.getEmail().isEmpty()){
+        for (ModelIntentionContact c : _modelIntention.getContacts()) {
+            if (c.getName().isEmpty() || c.getStreet().isEmpty() || c.getZip().isEmpty()
+                    || c.getTown().isEmpty() || c.getContactPerson().isEmpty()
+                    || c.getPhone().isEmpty() || c.getEmail().isEmpty()) {
                 hasMissingField = true;
             }
         }
-        
+
         if (isTooLess || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionContract");
             setTopicAndElement(ModelIntentionTabs.tabModelIntStructures.name(), ":contractors:addButton");
@@ -517,10 +524,11 @@ public class EditModelIntention extends AbstractEditController {
 //                .anyMatch(q -> q.getIndicator().isEmpty() || q.getDescription().isEmpty());
 // this is Java 7 version        
         boolean hasMissingField = false;
-        for(Quality quality : qualities){
-                if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()){
-                    hasMissingField = true;
-                }
+        for (Quality quality : qualities) {
+            if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()) {
+                hasMissingField = true;
+                break;
+            }
         }
         if (qualities.isEmpty() || hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage(msgKey);
@@ -529,11 +537,21 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void checkAcademicSupervisions() {
-        boolean hasMissingField = _modelIntention.getAcademicSupervisions().stream()
-                .anyMatch(a -> a.getContractor().isEmpty()
-                        || a.getRemitter().isEmpty()
-                        || a.getAcademicSupFrom() == null
-                        || a.getAcademicSupTo() == null);
+//        boolean hasMissingField = _modelIntention.getAcademicSupervisions().stream()
+//                .anyMatch(a -> a.getContractor().isEmpty()
+//                        || a.getRemitter().isEmpty()
+//                        || a.getAcademicSupFrom() == null
+//                        || a.getAcademicSupTo() == null);
+        boolean hasMissingField = false;
+        for (AcademicSupervision a : _modelIntention.getAcademicSupervisions()) {
+            if (a.getContractor().isEmpty()
+                    || a.getRemitter().isEmpty()
+                    || a.getAcademicSupFrom() == null
+                    || a.getAcademicSupTo() == null) {
+                hasMissingField = true;
+                break;
+            }
+        }
         if (hasMissingField) {
             _msg += "\\r\\n" + Utils.getMessage("headerModelIntentionScientific");
             setTopicAndElement(ModelIntentionTabs.tabModelIntQualityAndSupervision.name(), ":scientific:addButton");
