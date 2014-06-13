@@ -402,7 +402,7 @@ public class EditModelIntention extends AbstractEditController {
 //                        || a.getPatientsTo() == null);
         boolean hasMissingField = false;
         for (AgreedPatients pat : _modelIntention.getAgreedPatients()) {
-            if (pat.getPatientsCount() == null || pat.getPatientsFrom() == null || pat.getPatientsTo() == null) {
+            if (pat.getPatientsCount() == null || pat.getPatientsFrom() == null || pat.getPatientsTo() == null || pat.getPatientsCount() <= 0) {
                 hasMissingField = true;
             }
         }

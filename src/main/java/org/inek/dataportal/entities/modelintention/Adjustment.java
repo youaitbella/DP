@@ -108,7 +108,7 @@ public class Adjustment implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="description">
     @Column(name = "adDescription")
     @Documentation(key = "tabNubPage1", omitOnEmpty = true)
-    private String _description;
+    private String _description = "";
 
     public String getDescription() {
         return _description;
