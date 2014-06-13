@@ -95,7 +95,7 @@ public class ModelLifeTest {
         ModelLife other = new ModelLife();
         other.setStartDate(Helper.dateFromString("2014-02-01"));
         other.setMonthDuration(5);
-        assertTrue(instance.equals(other));
+        assertFalse(instance.equals(other));
     }
     
     
