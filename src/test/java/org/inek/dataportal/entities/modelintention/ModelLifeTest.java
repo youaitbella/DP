@@ -72,8 +72,8 @@ public class ModelLifeTest {
     }
        
     @Test
-    public void testObjectsWithSameNonNullIdDifferentDateSameDurationShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNonNullIdSameDateSameDurationShallBeTreatedAsDifferent");
+    public void testObjectsWithSameNonNullIdDifferentDateSameDurationShallBeTreatedAsEqual() {
+        System.out.println("testObjectsWithSameNonNullIdDifferentDateSameDurationShallBeTreatedAsEqual");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -157,5 +157,7 @@ public class ModelLifeTest {
         other.setMonthDuration(5);
         assertFalse(instance.hashCode() == other.hashCode());
     }  
+    
+    //todo: Insert tests for null ids. 
     
 }

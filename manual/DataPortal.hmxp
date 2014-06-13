@@ -7,7 +7,7 @@
         <export-tasks>
           <export-task name="Exportieren als PDF" format="PDF">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\web\resources\manual\InEK-Datenportal.pdf</task-config-value>
+              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-Datenportal.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="make4include">PDF</task-config-value>
               <task-config-value name="make4status">*</task-config-value>
@@ -167,7 +167,7 @@
       </config-group>
     </config-group>
     <config-group name="pdf">
-      <config-value name="outputfile">..\web\resources\manual\InEK-Datenportal.pdf</config-value>
+      <config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-Datenportal.pdf</config-value>
       <config-value name="template">.\template\WebRequest.mnl</config-value>
       <config-value name="style">0</config-value>
       <config-value name="createoutline">1</config-value>
