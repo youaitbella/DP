@@ -80,6 +80,38 @@ public class ContactTest {
         assertFalse(instance.equals(other));
     }
     
+    @Test
+    public void testObjectsWithNullIdDifferentIKShallBeTreatedAsDifferent() {
+        System.out.println("testObjectsWithNullIdDifferentIKShallBeTreatedAsDifferent");
+        ModelIntentionContact instance = new ModelIntentionContact();
+        instance.setIk(123456789);
+        ModelIntentionContact other = new ModelIntentionContact();
+        other.setIk(123456780);
+        assertFalse(instance.equals(other));
+    }
+    
+    @Test
+    public void testObjectsWithNullIdDifferentTypeShallBeTreatedAsDifferent() {
+        System.out.println("testObjectsWithNullIdDifferentTypeShallBeTreatedAsDifferent");
+        ModelIntentionContact instance = new ModelIntentionContact();
+        instance.setContactTypeId(1);
+        ModelIntentionContact other = new ModelIntentionContact();
+        other.setContactTypeId(2);
+        assertFalse(instance.equals(other));
+    }
+    
+    @Test
+    public void testObjectsWithNullIdDifferentNameShallBeTreatedAsDifferent() {
+        System.out.println("testObjectsWithNullIdDifferentNameShallBeTreatedAsDifferent");
+        ModelIntentionContact instance = new ModelIntentionContact();
+        instance.setName("Test1");
+        ModelIntentionContact other = new ModelIntentionContact();
+        other.setName("Test2");
+        assertFalse(instance.equals(other));
+    }    
+    
+    
+    
     
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
@@ -150,6 +182,33 @@ public class ContactTest {
         assertFalse(instance.hashCode() == other.hashCode());
     }
     
-    //todo: Insert tests for null ids. 
+    public void testObjectsWithNullIdAndDifferentIKShallHaveDifferentHash() {
+        System.out.println("testObjectsWithNullIdAndDifferentIKShallHaveDifferentHash");
+        ModelIntentionContact instance = new ModelIntentionContact();
+        instance.setIk(123456789);
+        ModelIntentionContact other = new ModelIntentionContact();
+        other.setIk(123456780);
+        assertFalse(instance.hashCode() == other.hashCode());
+    }
+ 
+    @Test
+    public void testObjectsWithNullIdAndDifferentTypeShallHaveDifferentHash() {
+        System.out.println("testObjectsWithNullIdAndDifferentTypeShallHaveDifferentHash");
+        ModelIntentionContact instance = new ModelIntentionContact();
+        instance.setContactTypeId(1);
+        ModelIntentionContact other = new ModelIntentionContact();
+        other.setContactTypeId(2);
+        assertFalse(instance.hashCode() == other.hashCode());
+    }    
+
+    @Test
+    public void testObjectsWithNullIdAndDifferentNameShallHaveDifferentHash() {
+        System.out.println("testObjectsWithNullIdAndDifferentNameShallHaveDifferentHash");
+        ModelIntentionContact instance = new ModelIntentionContact();
+        instance.setName("Test1");
+        ModelIntentionContact other = new ModelIntentionContact();
+        other.setName("Test2");
+        assertFalse(instance.hashCode() == other.hashCode());
+    }
     
 }

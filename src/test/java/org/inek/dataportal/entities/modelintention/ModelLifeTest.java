@@ -87,6 +87,20 @@ public class ModelLifeTest {
        
     
     @Test
+    public void testObjectsWithNullIdDifferentDateSameDurationShallBeTreatedAsDifferent() {
+        System.out.println("testObjectsWithNullIdDifferentDateSameDurationShallBeTreatedAsDifferent");
+        ModelLife instance = new ModelLife();
+        instance.setStartDate(Helper.dateFromString("2014-01-01"));
+        instance.setMonthDuration(5);
+        ModelLife other = new ModelLife();
+        other.setStartDate(Helper.dateFromString("2014-02-01"));
+        other.setMonthDuration(5);
+        assertTrue(instance.equals(other));
+    }
+    
+    
+    
+    @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
         System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         ModelLife instance = new ModelLife();
@@ -157,6 +171,18 @@ public class ModelLifeTest {
         other.setMonthDuration(5);
         assertFalse(instance.hashCode() == other.hashCode());
     }  
+ 
+    @Test
+    public void testObjectsWithNullIdAndDifferentDateSameDurationShallHaveDifferentHash() {
+        System.out.println("testObjectsWithNullIdAndDifferentDateSameDurationShallHaveDifferentHash");
+        ModelLife instance = new ModelLife();
+        instance.setStartDate(Helper.dateFromString("2014-01-01"));
+        instance.setMonthDuration(5);
+        ModelLife other = new ModelLife();
+        other.setStartDate(Helper.dateFromString("2014-02-01"));
+        other.setMonthDuration(5);
+        assertFalse(instance.hashCode() == other.hashCode());
+    }    
     
     //todo: Insert tests for null ids. 
     
