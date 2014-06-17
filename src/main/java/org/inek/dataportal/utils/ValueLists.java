@@ -39,6 +39,7 @@ public class ValueLists {
         ensureCostCenters();
         return _costCenters;
     }
+
     private void ensureCostCenters() {
         if (_costCenters == null) {
             List<CostCenter> costCenters = _costCenterFacade.findAll();
@@ -46,16 +47,18 @@ public class ValueLists {
             SelectItem emptyItem = new SelectItem(-1, "");
             emptyItem.setNoSelectionOption(true);
             _costCenters.add(emptyItem);
-            for (CostCenter costCenter : costCenters){
-                _costCenters.add(new SelectItem(costCenter.getId(), costCenter.getCharId() + " " + costCenter.getText()));
+            for (CostCenter costCenter : costCenters) {
+                if (costCenter.getIsPsy()) {
+                    _costCenters.add(new SelectItem(costCenter.getId(), costCenter.getCharId() + " " + costCenter.getText()));
+                }
             }
         }
     }
 
-    public int getCostCenterId(String charId){
+    public int getCostCenterId(String charId) {
         ensureCostCenters();
-        for (SelectItem item : _costCenters){
-            if (item.getLabel().startsWith(charId.toLowerCase() + " ")){
+        for (SelectItem item : _costCenters) {
+            if (item.getLabel().startsWith(charId.toLowerCase() + " ")) {
                 return (int) item.getValue();
             }
         }
@@ -67,6 +70,7 @@ public class ValueLists {
         ensureCostTypes();
         return _costTypes;
     }
+
     private void ensureCostTypes() {
         if (_costTypes == null) {
             List<CostType> costTypes = _costTypeFacade.findAll();
@@ -74,27 +78,28 @@ public class ValueLists {
             SelectItem emptyItem = new SelectItem(-1, "");
             emptyItem.setNoSelectionOption(true);
             _costTypes.add(emptyItem);
-            for (CostType costType : costTypes){
+            for (CostType costType : costTypes) {
                 _costTypes.add(new SelectItem(costType.getId(), costType.getCharId() + " " + costType.getText()));
             }
         }
     }
 
-    public int getCostTypeId(String charId){
+    public int getCostTypeId(String charId) {
         ensureCostTypes();
-        for (SelectItem item : _costTypes){
-            if (item.getLabel().startsWith(charId.toLowerCase() + " ")){
+        for (SelectItem item : _costTypes) {
+            if (item.getLabel().startsWith(charId.toLowerCase() + " ")) {
                 return (int) item.getValue();
             }
         }
         return -1;
     }
-    
+
     List<SelectItem> _adjustmentTypes;
     public synchronized List<SelectItem> getAdjustmentTypes() {
         ensureAdjustmentTypes();
         return _adjustmentTypes;
     }
+
     private void ensureAdjustmentTypes() {
         if (_adjustmentTypes == null) {
             List<AdjustmentType> adjustmentTypes = _adjustmentTypeFacade.findAll();
@@ -102,12 +107,12 @@ public class ValueLists {
             SelectItem emptyItem = new SelectItem(-1, "");
             emptyItem.setNoSelectionOption(true);
             _adjustmentTypes.add(emptyItem);
-            for (AdjustmentType adjustmentType : adjustmentTypes){
+            for (AdjustmentType adjustmentType : adjustmentTypes) {
                 _adjustmentTypes.add(new SelectItem(adjustmentType.getId(), adjustmentType.getText()));
             }
         }
-    }    
-    
+    }
+
     public List getTreatmentTypes() {
         List<SelectItem> list = new ArrayList<>();
         for (TreatmentType val : TreatmentType.values()) {
@@ -115,7 +120,7 @@ public class ValueLists {
         }
         return list;
     }
-    
+
     public List getQualityUsage() {
         List<SelectItem> list = new ArrayList<>();
         for (QualityUsage val : QualityUsage.values()) {
@@ -123,7 +128,7 @@ public class ValueLists {
         }
         return list;
     }
-    
+
     public SelectItem[] getGenders() {
         List<SelectItem> l = new ArrayList<>();
         Genders[] genders = Genders.values();
@@ -177,7 +182,7 @@ public class ValueLists {
         }
         return l.toArray(new SelectItem[l.size()]);
     }
-    
+
     public List<SelectItem> getInsuranceAffiliation() {
         List<SelectItem> l = new ArrayList<>();
         for (InsuranceAffiliation t : InsuranceAffiliation.values()) {
@@ -186,5 +191,4 @@ public class ValueLists {
         return l;
     }
 
-    
 }

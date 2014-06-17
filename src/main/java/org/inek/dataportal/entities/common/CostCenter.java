@@ -12,17 +12,10 @@ import javax.persistence.Table;
 public class CostCenter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @Column (name = "ccId")
     private Integer _id;
-    
-    @Column (name = "ccCharId")
-    private String _charId;
-    
-    @Column (name = "ccText")
-    private String _text;
-    
-    // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
     public int getId() {
         return _id;
     }
@@ -30,6 +23,11 @@ public class CostCenter implements Serializable {
     public void setId(int id) {
         _id = id;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property CharId">
+    @Column (name = "ccCharId")
+    private String _charId;
     
     public String getCharId() {
         return _charId;
@@ -38,6 +36,11 @@ public class CostCenter implements Serializable {
     public void setCharId(String charId) {
         _charId = charId;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column (name = "ccText")
+    private String _text;
     
     public String getText() {
         return _text;
@@ -46,8 +49,32 @@ public class CostCenter implements Serializable {
     public void setText(String text) {
         _text = text;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property IsDrg">
+    @Column (name = "ccIsDrg")
+    private boolean _isDrg;
     
+    public boolean getIsDrg() {
+        return _isDrg;
+    }
+
+    public void setIsDrg(boolean value) {
+        _isDrg = value;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property IsPsy">
+    @Column (name = "ccIsPsy")
+    private boolean _isPsy;
+    
+    public boolean getIsPsy() {
+        return _isPsy;
+    }
+
+    public void setIsPsy(boolean value) {
+        _isPsy = value;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
