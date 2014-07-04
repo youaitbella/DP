@@ -85,7 +85,7 @@ public class Account implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "mapAccountInekRole",
+            name = "mapAccountInekRole", schema = "adm",
             joinColumns = @JoinColumn(name = "aiAccountId"),
             inverseJoinColumns = @JoinColumn(name = "aiInekRoleId"))
     private List<InekRole> _inekRoles;

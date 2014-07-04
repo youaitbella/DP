@@ -13,7 +13,7 @@ import org.inek.dataportal.enums.Feature;
  * @author muellermi
  */
 @Entity
-@Table(name = "listInekRole")
+@Table(name = "listInekRole", schema = "adm")
 public class InekRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
