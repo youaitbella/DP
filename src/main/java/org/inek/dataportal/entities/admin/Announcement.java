@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.admin;
 
 import java.io.Serializable;
 import javax.persistence.*;

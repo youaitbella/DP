@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-import org.inek.dataportal.entities.InekRole;
+import org.inek.dataportal.entities.admin.InekRole;
 
 /**
  *

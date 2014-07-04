@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Log;
+import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.enums.Pages;
 
 /**
