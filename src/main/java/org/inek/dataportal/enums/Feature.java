@@ -15,5 +15,6 @@ public enum Feature {
     ADMIN,
     COOPERATION,
     MODEL_INTENTION,
-    DOCUMENTS;
+    DOCUMENTS,
+    ZERTI;
 }
