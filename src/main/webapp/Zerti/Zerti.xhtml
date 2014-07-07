@@ -27,7 +27,7 @@
             </h1>        
             <div class="tab">
                 <ul class="tab">
-                    <c:forEach items="#{editModelIntention.visibleTopics}" var="topic">
+                    <c:forEach items="#{editZerti.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                             <h:commandLink value="#{topic.title}" action="#{editZerti.changeTabPage(topic.key)}"
                                            immediate="true">
