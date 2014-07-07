@@ -9,6 +9,7 @@ import javax.inject.Named;
 import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.modelintention.AdjustmentType;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
 import org.inek.dataportal.enums.InsuranceAffiliation;
@@ -187,6 +188,17 @@ public class ValueLists {
         List<SelectItem> l = new ArrayList<>();
         for (InsuranceAffiliation t : InsuranceAffiliation.values()) {
             l.add(new SelectItem(t.id(), t.type()));
+        }
+        return l;
+    }
+
+    public List<SelectItem> getFeatures() {
+        List<SelectItem> l = new ArrayList<>();
+        SelectItem emptyItem = new SelectItem(null, "");
+        emptyItem.setNoSelectionOption(true);
+        l.add(emptyItem);
+        for (Feature f : Feature.values()) {
+            l.add(new SelectItem(f, f.name()));
         }
         return l;
     }

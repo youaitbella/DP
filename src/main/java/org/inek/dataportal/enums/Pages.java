@@ -90,6 +90,7 @@ public enum Pages {
     FragmentAcademicSupervision("/ModelIntention/fragment/AcademicSupervision"),
     FragmentQuality("/ModelIntention/fragment/Quality"),
     //
+    NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),
     Error("/common/Error"),

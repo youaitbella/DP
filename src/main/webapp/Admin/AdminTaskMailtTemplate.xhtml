@@ -10,9 +10,44 @@
 
         <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
 
-        <div class="toolBar">
-            <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" />
-        </div>
+        <h:form id="maiTemplateForm">
+            <h:selectOneMenu value="#{adminTask.mailTemplate}">               
+                <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.subject}" itemValue="#{template}" />
+            </h:selectOneMenu>  
+
+
+            <div class="inputPart">
+                <h:outputLabel for="mnuFeature" value="#{msg.lblFeature}"/>
+                <h:selectOneMenu id="mnuFeature" value="#{adminTask.mailTemplate.feature}" disabled="#{adminTask.mailTemplate == null}">               
+                    <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
+                    <f:ajax render="@this msgFeature" />
+                </h:selectOneMenu>  
+                <h:message for="mnuFeature" id="msgFeature" styleClass="errorMessage"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtMailSubject" value="#{msg.lblMailSubject}"/>
+                <h:inputText id="txtMailSubject" value="#{adminTask.mailTemplate.subject}" styleClass="inputwide" disabled="#{adminTask.mailTemplate == null}"> 
+                    <f:ajax render="@this msgMailSubject"/>
+                </h:inputText>
+                <h:message for="txtMailSubject" id="msgMailSubject" styleClass="errorMessage"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtMailBody" value="#{msg.lblMailBody}"/>
+                <h:inputTextarea id="txtMailBody" value="#{adminTask.mailTemplate.body}" styleClass="areaWideHigh" disabled="#{adminTask.mailTemplate == null}">
+                    <f:ajax render="@this msgMailBody"/>
+                </h:inputTextarea>
+                <h:message for="txtMailBody" id="msgMailBody" styleClass="errorMessage"/>
+            </div>
+
+
+            <div class="toolBar">
+                <h:commandLink styleClass="button" value="#{msg.btnNew}" action="#{adminTask.newMailTemplate}" immediate="true" />
+                <h:commandLink styleClass="button" value="#{msg.btnSave}" action="#{adminTask.saveMailTemplate}" immediate="false" disabled="#{adminTask.mailTemplate == null}"/>
+            </div>
+
+        </h:form>
 
     </ui:define>
 </ui:composition>

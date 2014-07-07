@@ -6,8 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
 
 @Entity
@@ -16,8 +20,9 @@ public class MailTemplate implements Serializable {
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "mtId")
-    private Integer _id;
+    private int _id = -1;
     
     public int getId() {
         return _id;
@@ -33,6 +38,7 @@ public class MailTemplate implements Serializable {
     @Enumerated(EnumType.STRING)
     private Feature _feature;
     
+    @NotNull
     public Feature getFeature() {
         return _feature;
     }
@@ -46,6 +52,7 @@ public class MailTemplate implements Serializable {
     @Column (name = "mtSubject")
     private String _subject;
     
+    @Size(min = 1, max = 200)
     public String getSubject() {
         return _subject;
     }
@@ -55,12 +62,11 @@ public class MailTemplate implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-
     // <editor-fold defaultstate="collapsed" desc="Property Body">
     @Column (name = "mtBody")
     private String _body;
     
+    @Size(min = 1)
     public String getBody() {
         return _body;
     }
@@ -74,9 +80,10 @@ public class MailTemplate implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
+//        int hash = 0;
+//        hash += (_id != null ? _id.hashCode() : 0);
+//        return hash;
     }
 
     @Override
@@ -86,10 +93,11 @@ public class MailTemplate implements Serializable {
             return false;
         }
         MailTemplate other = (MailTemplate) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
+//        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
+//            return false;
+//        }
+//        return true;
     }
 
     @Override
