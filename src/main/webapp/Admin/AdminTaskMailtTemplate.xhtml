@@ -2,48 +2,66 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="AdminTask.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="editContent">
 
-        <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
 
         <h:form id="maiTemplateForm">
-            <h:selectOneMenu value="#{adminTask.mailTemplate}">               
-                <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.subject}" itemValue="#{template}" />
+            <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
+            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true">               
+                <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
+                <f:ajax render="@form" />
             </h:selectOneMenu>  
 
+            <hr/>
 
             <div class="inputPart">
                 <h:outputLabel for="mnuFeature" value="#{msg.lblFeature}"/>
-                <h:selectOneMenu id="mnuFeature" value="#{adminTask.mailTemplate.feature}" disabled="#{adminTask.mailTemplate == null}">               
+                <h:message for="mnuFeature" id="msgFeature" styleClass="errorMessage"/>
+                <h:selectOneMenu id="mnuFeature" 
+                                 styleClass="inputwide" 
+                                 value="#{adminTask.mailTemplate.feature}" 
+                                 required="true" 
+                                 disabled="#{adminTask.mailTemplate == null}">               
                     <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
                     <f:ajax render="@this msgFeature" />
                 </h:selectOneMenu>  
-                <h:message for="mnuFeature" id="msgFeature" styleClass="errorMessage"/>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel for="txtMailSubject" value="#{msg.lblMailSubject}"/>
-                <h:inputText id="txtMailSubject" value="#{adminTask.mailTemplate.subject}" styleClass="inputwide" disabled="#{adminTask.mailTemplate == null}"> 
+                <h:message for="txtMailSubject" id="msgMailSubject" styleClass="errorMessage"/>
+                <h:inputText id="txtMailSubject" 
+                             value="#{adminTask.mailTemplate.subject}" 
+                             styleClass="inputwide" 
+                             required="true" 
+                             disabled="#{adminTask.mailTemplate == null}"> 
                     <f:ajax render="@this msgMailSubject"/>
                 </h:inputText>
-                <h:message for="txtMailSubject" id="msgMailSubject" styleClass="errorMessage"/>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel for="txtMailBody" value="#{msg.lblMailBody}"/>
-                <h:inputTextarea id="txtMailBody" value="#{adminTask.mailTemplate.body}" styleClass="areaWideHigh" disabled="#{adminTask.mailTemplate == null}">
+                <h:message for="txtMailBody" id="msgMailBody" styleClass="errorMessage"/>
+                <h:inputTextarea id="txtMailBody" 
+                                 value="#{adminTask.mailTemplate.body}" 
+                                 styleClass="areaHuge" 
+                                 required="true" 
+                                 disabled="#{adminTask.mailTemplate == null}">
                     <f:ajax render="@this msgMailBody"/>
                 </h:inputTextarea>
-                <h:message for="txtMailBody" id="msgMailBody" styleClass="errorMessage"/>
             </div>
 
 
             <div class="toolBar">
                 <h:commandLink styleClass="button" value="#{msg.btnNew}" action="#{adminTask.newMailTemplate}" immediate="true" />
+                <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{adminTask.deleteMailTemplate}" immediate="true">
+                    <cb:confirmDelete/>
+                </h:commandLink>
                 <h:commandLink styleClass="button" value="#{msg.btnSave}" action="#{adminTask.saveMailTemplate}" immediate="false" disabled="#{adminTask.mailTemplate == null}"/>
             </div>
 

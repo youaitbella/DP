@@ -1,7 +1,8 @@
-
 package org.inek.dataportal.feature.admin;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.inek.dataportal.feature.cooperation.*;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -29,6 +31,10 @@ public class AdminTask extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("AdminTask");
 
+    public AdminTask() {
+        _logger.log(Level.INFO, "Ctor AdminTask");
+    }
+
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -40,7 +46,7 @@ public class AdminTask extends AbstractEditController {
     protected void addTopics() {
         addTopic(AdminTaskTabs.tabAdminTaskInekRoles.name(), Pages.AdminTaskInekRoles.URL());
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailtTemplate.URL());
+        addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
     }
 
     enum AdminTaskTabs {
@@ -53,11 +59,11 @@ public class AdminTask extends AbstractEditController {
     @PostConstruct
     private void init() {
         if (!_sessionController.isInekUser(Feature.ADMIN)) {
-                _sessionController.logMessage("Non-authorized access to admin task.");
-                FacesContext fc = FacesContext.getCurrentInstance();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
-                nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
-                return;
+            _sessionController.logMessage("Non-authorized access to admin task.");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            NavigationHandler nav = fc.getApplication().getNavigationHandler();
+            nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
+            return;
         }
         _sessionController.beginConversation(_conversation);
     }
@@ -72,20 +78,15 @@ public class AdminTask extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    private List<MailTemplate> _mailTemplates;
-
-    public List<MailTemplate> getMailTemplates() {
-        if (_mailTemplates == null){
-            _mailTemplates = _mailTemplateFacade.findAll();
-        }
-        return _mailTemplates;
+    public List<SelectItem> getMailTemplates() {
+        List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfos();
+        SelectItem emptyItem = new SelectItem(-1, "");
+        emptyItem.setNoSelectionOption(true);
+        l.add(emptyItem);
+        return l;
     }
 
-    public void setMailTemplates(List<MailTemplate> mailTemplates) {
-        _mailTemplates = mailTemplates;
-    }
-    
-    private MailTemplate _mailTemplate;
+    private MailTemplate _mailTemplate = new MailTemplate();
 
     public MailTemplate getMailTemplate() {
         return _mailTemplate;
@@ -94,16 +95,39 @@ public class AdminTask extends AbstractEditController {
     public void setMailTemplate(MailTemplate mailTemplate) {
         _mailTemplate = mailTemplate;
     }
+
+    private int _templateId = -1;
+
+    public int getTemplateId() {
+        if (_mailTemplate == null) {
+            return -1;
+        }
+        return _mailTemplate.getId();
+    }
+
+    public void setTemplateId(int templateId) {
+        if (templateId != _mailTemplate.getId()) {
+            _mailTemplate = _mailTemplateFacade.find(templateId);
+        }
+    }
+
     // </editor-fold>
-    
     public String newMailTemplate() {
         _mailTemplate = new MailTemplate();
-        return "";
+        return Pages.AdminTaskMailTemplate.RedirectURL();
     }
-    
+
+    public String deleteMailTemplate() {
+        if (_mailTemplate.getId() > 0){
+        _mailTemplateFacade.remove(_mailTemplate);
+        }
+        _mailTemplate = new MailTemplate();
+        return Pages.AdminTaskMailTemplate.RedirectURL();
+    }
+
     public String saveMailTemplate() {
-        _mailTemplateFacade.save(_mailTemplate);
-        return "";
+        _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
+        return Pages.AdminTaskMailTemplate.RedirectURL();
     }
     // </editor-fold>
 

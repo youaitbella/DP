@@ -198,7 +198,7 @@ public class ValueLists {
         emptyItem.setNoSelectionOption(true);
         l.add(emptyItem);
         for (Feature f : Feature.values()) {
-            l.add(new SelectItem(f, f.name()));
+            l.add(new SelectItem(f, f.getDescription()));
         }
         return l;
     }

@@ -103,7 +103,7 @@ public enum Pages {
     AdminApproval("/Admin/approval"),
     AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
-    AdminTaskMailtTemplate("/Admin/AdminTaskMailtTemplate"),
+    AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
     //
     DocumentsEdit("/Documents/DocumentsEdit"),
     DocumentsSummary("/Documents/DocumentsSummary"),
@@ -116,6 +116,10 @@ public enum Pages {
 
     public String URL (){
         return _url + ".xhtml";
+    }
+
+    public String RedirectURL (){
+        return _url + ".xhtml?faces-redirect=true";
     }
 
 }
