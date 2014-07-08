@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -91,6 +92,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblName")
     private String _name = "";
     
+    @Size(max = 100)
     public String getName() {
         return _name;
     }
@@ -105,6 +107,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblStreet")
     private String _street = "";
     
+    @Size(max = 100)
     public String getStreet() {
         return _street;
     }
@@ -135,6 +138,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblTown")
     private String _town = "";
     
+    @Size(max = 50)
     public String getTown() {
         return _town;
     }
@@ -163,6 +167,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblContactPerson")
     private String _contactPerson = "";
     
+    @Size(max = 100)
     public String getContactPerson() {
         return _contactPerson;
     }
@@ -177,6 +182,7 @@ public class ModelIntentionContact implements Serializable {
     @Documentation(key = "lblPhone")
     private String _phone = "";
     
+    @Size(max = 50)
     public String getPhone() {
         return _phone;
     }
@@ -192,6 +198,7 @@ public class ModelIntentionContact implements Serializable {
     private String _email = "";
     
    // @Pattern(regexp = "^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+    @Size(max = 50)
     public String getEmail() {
         return _email;
     }
