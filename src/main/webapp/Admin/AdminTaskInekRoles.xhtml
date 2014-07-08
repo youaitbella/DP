@@ -2,17 +2,82 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="AdminTask.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="editContent">
 
-        <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
+        <h:form id="inekRole">
+            <h2>#{msg.lblAgreedPatiens}</h2>
 
-        <div class="toolBar">
-            <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" />
-        </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="list-header" scope="col"></th>
+                        <th class="list-header" scope="col">#{msg.lblName}</th>
+                        <th class="list-header" scope="col">#{msg.lblFeature}</th>
+                        <th class="list-header" scope="col">#{msg.lblWriteAccess}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="#{adminTask.inekRoles}" var="inekRole" varStatus="status">
+                        <tr>
+                            <td class="colIcon">
+                                <h:commandLink>
+                                    <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                    <cb:confirmDelete/>
+                                    <f:ajax render="@form :logout:remaining" listener="#{adminTask.deleteInekRole(inekRole)}"/>
+                                </h:commandLink>
+                            </td>
+
+                            <td class="alignBottom">
+                                <h:panelGrid columns="1">
+                                    <h:message id="msgInekRoleText#{status.index}" for="inekRoleText#{status.index}" styleClass="errorMessage"/>
+                                    <h:inputText id="inekRoleText#{status.index}" value="#{inekRole.text}" 
+                                                 required="true">
+                                        <f:ajax render="@this :logout:remaining msgInekRoleText#{status.index}"/>
+                                    </h:inputText>
+                                </h:panelGrid>
+                            </td>
+
+                            <td class="alignBottom">
+                                <h:panelGrid columns="1">
+                                    <h:message id="msgInekRoleFeature#{status.index}" for="inekRoleFeature#{status.index}" styleClass="errorMessage"/>
+
+                                    <h:selectOneMenu id="inekRoleFeature#{status.index}" 
+                                                     styleClass="inputwide" 
+                                                     value="#{inekRole.feature}" 
+                                                     required="true">               
+                                        <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
+                                        <f:ajax render="@this :logout:remaining msgInekRoleFeature#{status.index}"/>
+                                    </h:selectOneMenu>  
+                                </h:panelGrid>
+                            </td>
+
+                            <td class="alignBottom">
+                                <h:panelGrid columns="1">
+                                    <h:selectBooleanCheckbox id="inekRoleWrite#{status.index}" value="#{inekRole.writeEnabled}" 
+                                                 styleClass="fullWidth">
+                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                    </h:selectBooleanCheckbox> 
+                                </h:panelGrid>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>        
+
+            <div class="toolBar">
+                <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{adminTask.addNewInekRole}"/>
+                </h:commandLink>
+                <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" />
+            </div>
+
+
+        </h:form>
 
     </ui:define>
 </ui:composition>

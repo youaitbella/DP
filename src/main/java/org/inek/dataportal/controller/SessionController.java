@@ -352,7 +352,7 @@ public class SessionController implements Serializable {
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         for (InekRole role : getAccount().getInekRoles()) {
-            if ((role.isIsWriteEnabled() || !needsWriteAccess)
+            if ((role.isWriteEnabled() || !needsWriteAccess)
                     && (role.getFeature() == Feature.ADMIN || role.getFeature() == requestedFeature)) {
                 return true;
             }

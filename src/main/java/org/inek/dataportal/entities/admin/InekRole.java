@@ -53,11 +53,11 @@ public class InekRole implements Serializable {
         this._feature = feature;
     }
 
-    public boolean isIsWriteEnabled() {
+    public boolean isWriteEnabled() {
         return _isWriteEnabled;
     }
 
-    public void setIsWriteEnabled(boolean isWriteEnabled) {
+    public void setWriteEnabled(boolean isWriteEnabled) {
         this._isWriteEnabled = isWriteEnabled;
     }
 

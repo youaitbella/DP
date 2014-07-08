@@ -16,9 +16,12 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -39,8 +42,6 @@ public class AdminTask extends AbstractEditController {
 
     @Inject
     private SessionController _sessionController;
-    @Inject
-    MailTemplateFacade _mailTemplateFacade;
     @Inject
     private Conversation _conversation;
 
@@ -79,6 +80,9 @@ public class AdminTask extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
+    @Inject
+    MailTemplateFacade _mailTemplateFacade;
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
         List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfos();
@@ -146,10 +150,43 @@ public class AdminTask extends AbstractEditController {
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
-    public void changeListener(AjaxBehaviorEvent event) {
+    public void mailTemplateChangeListener(AjaxBehaviorEvent event) {
         setChanged(true);
     }
 
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
+    @Inject
+    InekRoleFacade _inekRoleFacade;
+
+    private List<InekRole> _inekRoles;
+
+    public List<InekRole> getInekRoles() {
+        if (_inekRoles == null) {
+            _inekRoles = _inekRoleFacade.findAll();
+        }
+        return _inekRoles;
+    }
+
+    public void setInekRoles(List<InekRole> costs) {
+        _inekRoles = costs;
+    }
+
+    public void addNewInekRole() {
+        _inekRoles.add(new InekRole());
+    }
+
+    public String deleteInekRole(InekRole entry) {
+        _inekRoles.remove(entry);
+        return "";
+    }
+
+    public String saveInekRoles() {
+        // todo
+        return Pages.AdminTaskInekRoles.RedirectURL();
+    }
+
+    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab XXX">
     // </editor-fold>
