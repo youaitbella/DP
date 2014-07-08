@@ -12,12 +12,24 @@
 
         <h:form id="maiTemplateForm">
             <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
-            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true">               
+            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true" disabled="#{adminTask.changed}">               
                 <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
                 <f:ajax render="@form" />
             </h:selectOneMenu>  
 
             <hr/>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtTemplateName" value="#{msg.lblName}"/>
+                <h:message for="txtTemplateName" id="msgTemplateName" styleClass="errorMessage"/>
+                <h:inputText id="txtTemplateName" 
+                             value="#{adminTask.mailTemplate.name}" 
+                             styleClass="inputwide" 
+                             required="true" 
+                             disabled="#{adminTask.mailTemplate == null}"> 
+                    <f:ajax render="@this msgTemplateName mnuTemplate" listener="#{adminTask.changeListener}"/>
+                </h:inputText>
+            </div>
 
             <div class="inputPart">
                 <h:outputLabel for="mnuFeature" value="#{msg.lblFeature}"/>
@@ -28,7 +40,7 @@
                                  required="true" 
                                  disabled="#{adminTask.mailTemplate == null}">               
                     <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
-                    <f:ajax render="@this msgFeature" />
+                    <f:ajax render="@this msgFeature mnuTemplate" listener="#{adminTask.changeListener}"/>
                 </h:selectOneMenu>  
             </div>
 
@@ -40,7 +52,7 @@
                              styleClass="inputwide" 
                              required="true" 
                              disabled="#{adminTask.mailTemplate == null}"> 
-                    <f:ajax render="@this msgMailSubject"/>
+                    <f:ajax render="@this msgMailSubject mnuTemplate" listener="#{adminTask.changeListener}"/>
                 </h:inputText>
             </div>
 
@@ -52,13 +64,12 @@
                                  styleClass="areaHuge" 
                                  required="true" 
                                  disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax render="@this msgMailBody"/>
+                    <f:ajax render="@this msgMailBody mnuTemplate" listener="#{adminTask.changeListener}"/>
                 </h:inputTextarea>
             </div>
 
 
             <div class="toolBar">
-                <h:commandLink styleClass="button" value="#{msg.btnNew}" action="#{adminTask.newMailTemplate}" immediate="true" />
                 <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{adminTask.deleteMailTemplate}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>

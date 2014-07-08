@@ -11,6 +11,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +21,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -80,7 +82,7 @@ public class AdminTask extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
         List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfos();
-        SelectItem emptyItem = new SelectItem(-1, "");
+        SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
         emptyItem.setNoSelectionOption(true);
         l.add(emptyItem);
         return l;
@@ -99,16 +101,28 @@ public class AdminTask extends AbstractEditController {
     private int _templateId = -1;
 
     public int getTemplateId() {
-        if (_mailTemplate == null) {
-            return -1;
-        }
         return _mailTemplate.getId();
     }
 
     public void setTemplateId(int templateId) {
         if (templateId != _mailTemplate.getId()) {
-            _mailTemplate = _mailTemplateFacade.find(templateId);
+            if (templateId == -1) {
+                _mailTemplate = new MailTemplate();
+            } else {
+                _mailTemplate = _mailTemplateFacade.find(templateId);
+            }
+            setChanged(false);
         }
+    }
+
+    private boolean _isChanged = false;
+
+    public boolean isChanged() {
+        return _isChanged;
+    }
+
+    public void setChanged(boolean isChanged) {
+        _isChanged = isChanged;
     }
 
     // </editor-fold>
@@ -118,19 +132,25 @@ public class AdminTask extends AbstractEditController {
     }
 
     public String deleteMailTemplate() {
-        if (_mailTemplate.getId() > 0){
-        _mailTemplateFacade.remove(_mailTemplate);
+        if (_mailTemplate.getId() > 0) {
+            _mailTemplateFacade.remove(_mailTemplate);
         }
         _mailTemplate = new MailTemplate();
+        setChanged(false);
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
     public String saveMailTemplate() {
         _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
+        setChanged(false);
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
-    // </editor-fold>
 
+    public void changeListener(AjaxBehaviorEvent event) {
+        setChanged(true);
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab XXX">
     // </editor-fold>
 }

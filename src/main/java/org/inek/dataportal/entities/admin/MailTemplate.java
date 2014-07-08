@@ -32,6 +32,20 @@ public class MailTemplate implements Serializable {
         _id = id;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Name">
+    @Column (name = "mtName")
+    private String _name;
+    
+    @Size(min = 1, max = 50)
+    public String getName() {
+        return _name;
+    }
+
+    public void setName(String name) {
+        _name = name;
+    }
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
     @Column (name = "mtFeature")
