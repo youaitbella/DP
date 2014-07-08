@@ -16,7 +16,7 @@ public enum Feature {
     COOPERATION(8, "Kooperation"),
     MODEL_INTENTION(9, "Modellvorhaben Psy"),
     DOCUMENTS(10, "Dokumente"),
-    ZERTI(11, "Zertifizierung");
+    CERT(11, "Zertifizierung");
 
     private Feature(int id, String description) {
         _id = id;

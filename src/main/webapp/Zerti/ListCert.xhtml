@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>
+        <f:viewParam name="modelId" id="modelId" value="#{flash.modelId}" />
+    </f:metadata>
+
+
+    <inek:ModelIntentionList list="#{modelIntentionList.modelIntentions}"/>
+
+    <div class="inputPart">
+        <h:commandLink styleClass="button" action="#{modelIntentionList.newModelIntention}" 
+                       immediate="true" value="#{msg.btnNewModelIntention}"
+                       rendered="#{sessionController.isInekUser('MODEL_INTENTION')}"/>
+    </div>
+
+</ui:composition>

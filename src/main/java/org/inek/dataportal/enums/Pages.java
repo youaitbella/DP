@@ -90,6 +90,10 @@ public enum Pages {
     FragmentAcademicSupervision("/ModelIntention/fragment/AcademicSupervision"),
     FragmentQuality("/ModelIntention/fragment/Quality"),
     //
+    PartCert("/Zerti/PartZerti"),
+    ListCert("/Zerti/ListZerti"),
+    CertSummary("/Zerti/ZertiSummary"),
+    //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),

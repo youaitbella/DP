@@ -20,6 +20,7 @@ import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.requestsystem.RequestController;
+import org.inek.dataportal.feature.cert.CertController;
 
 /**
  *
@@ -48,6 +49,8 @@ public class FeatureFactory {
                 return new DocumentsController(sessionController);
             case ADMIN:
                 return new AdminController(sessionController);
+            case CERT:
+                return new CertController(sessionController);
         }
         throw new IllegalArgumentException("no such controller");
     }
