@@ -18,34 +18,32 @@
             </h:selectOneMenu>  
             <h:outputLabel rendered="#{!empty adminTask.inekRole}" value="&nbsp; #{adminTask.inekRole.feature.description} (#{adminTask.inekRole.writeEnabled ? 'read/write' : 'read only'})" escape="true" />
 
-            <h:selectOneMenu id="mnuAgentTest" styleClass="inputmedium" value="#{adminTask.inekAcounts}">               
-                <f:selectItems value="#{adminTask.inekAcounts}" var="account" itemLabel="#{account.lastName}, #{account.firstName}" itemValue="#{account.accountId}"/>
-                <f:ajax render="@form" />
-            </h:selectOneMenu>  
-            
-    <h:dataTable rendered="#{!empty adminTask.inekRole}"  headerClass="list-header" id="tblNubProposals" 
-                 value="#{adminTask.inekRole.accounts}" var="map" width="100%"  columnClasses="colIcon, colValue">
-        <h:column id="colDeleteId" >
-            <f:facet name="header">
-                <h:outputText value=""/>
-            </f:facet>
-            <h:commandLink  immediate="true" >
-                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-            </h:commandLink>
-        </h:column>
-        <h:column id="colName">
-            <f:facet name="header">
-                <h:outputText value="Name"/>
-            </f:facet>
-            <h:selectOneMenu id="mnuAgent" styleClass="inputmedium" value="#{adminTask.inekAcounts}">               
-                <f:selectItems value="#{adminTask.inekAcounts}" var="account" itemLabel="#{account.lastName}, #{account.firstName}" itemValue="#{account.accountId}"/>
-                <f:ajax render="@form" />
-            </h:selectOneMenu>  
-        </h:column>
-    </h:dataTable>
-            
-            
+            <h:dataTable rendered="#{!empty adminTask.inekRole}"  headerClass="list-header" id="tblNubProposals" 
+                         value="#{adminTask.inekRole.mappings}" var="map" width="100%"  columnClasses="colIcon, colValue">
+                <h:column id="colDeleteId" >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink  immediate="true" >
+                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                    </h:commandLink>
+                </h:column>
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:selectOneMenu id="mnuAgent" styleClass="inputmedium" value="#{map.accountId}">               
+                        <f:selectItems value="#{adminTask.inekAcounts}" var="account" itemLabel="#{account.lastName}, #{account.firstName}" itemValue="#{account.accountId}"/>
+                        <f:ajax render="@form" />
+                    </h:selectOneMenu>  
+                </h:column>
+            </h:dataTable>
+
+
             <div class="toolBar">
+                <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{adminTask.addNewMapping}"/>
+                </h:commandLink>
                 <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" action="#{adminTask.saveRoleMapping}"/>
             </div>
         </h:form>

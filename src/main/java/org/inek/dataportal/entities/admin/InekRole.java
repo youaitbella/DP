@@ -89,25 +89,25 @@ public class InekRole implements Serializable {
     }
 
     public void setMappings(List<RoleMapping> _mappings) {
-        this._mappings = _mappings;
+        _mappings = _mappings;
     }
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinTable(
-            name = "mapAccountInekRole", schema = "adm",
-            joinColumns = @JoinColumn(name = "aiInekRoleId"),
-            inverseJoinColumns = @JoinColumn(name = "aiAccountId"))
-    private List<Account> _accounts;
-
-    public List<Account> getAccounts() {
-        return _accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        _accounts = accounts;
-    }
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+//    @JoinTable(
+//            name = "mapAccountInekRole", schema = "adm",
+//            joinColumns = @JoinColumn(name = "aiInekRoleId"),
+//            inverseJoinColumns = @JoinColumn(name = "aiAccountId"))
+//    private List<Account> _accounts;
+//
+//    public List<Account> getAccounts() {
+//        return _accounts;
+//    }
+//
+//    public void setAccounts(List<Account> accounts) {
+//        _accounts = accounts;
+//    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">

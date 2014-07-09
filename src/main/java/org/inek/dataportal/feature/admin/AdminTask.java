@@ -20,6 +20,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.admin.RoleMapping;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -190,8 +191,8 @@ public class AdminTask extends AbstractEditController {
         return _inekRoles;
     }
 
-    public void setInekRoles(List<InekRole> costs) {
-        _inekRoles = costs;
+    public void setInekRoles(List<InekRole> roles) {
+        _inekRoles = roles;
     }
 
     public void addNewInekRole() {
@@ -246,7 +247,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     public void setInekRoleId(int id) {
-        _inekRole = findRole(id, _inekRoles);
+        _inekRole = findRole(id, _originalInekRoles);
     }
     
     private boolean _mappingChanged = false;
@@ -259,9 +260,21 @@ public class AdminTask extends AbstractEditController {
         _mappingChanged = isChanged;
     }
     
+    public void addNewMapping() {
+        RoleMapping mapping = new RoleMapping();
+        mapping.setInekRoleId(_inekRole.getId());
+        _inekRole.getMappings().add(mapping);
+    }
+
     public String saveRoleMapping() {
         setMappingChanged(false);
-        // todo: implement
+        for (Iterator<RoleMapping> itr = _inekRole.getMappings().iterator(); itr.hasNext();) {
+            RoleMapping role = itr.next();
+            if (role.getAccountId() == -1) {
+                itr.remove();
+            }
+        }
+        _inekRoleFacade.save(_inekRole);
         return Pages.AdminTaskRoleMapping.RedirectURL();
     }
     
