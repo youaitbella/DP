@@ -25,6 +25,7 @@ public class CertController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(getMsg().getString("lblCert"), Pages.CertSummary.URL());
+        
     }
 
     @Override

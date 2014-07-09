@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.cert;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.AbstractEditController;
 
 /**
@@ -20,6 +21,10 @@ public class EditCert extends AbstractEditController {
     
     @Override
     protected void addTopics() {
-        addTopic(null, null);
+        addTopic(CertTabs.tabCertSystemManagement.name(), Pages.Cert.URL());
+    }
+    
+    private enum CertTabs {
+        tabCertSystemManagement;
     }
 }

@@ -27,7 +27,9 @@
             <h:outputLabel styleClass="label" value="#{msg.infoCert}"/>
 
             <ui:include src="#{sessionTools.pages.ListCert}"/>
-
+            
+            <br/>
+            <h:link styleClass="button" outcome="#{sessionTools.pages.Cert}" value="Systemverwaltung" />
         </h:form>
     </ui:define>
 
