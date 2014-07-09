@@ -2,17 +2,52 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="AdminTask.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="editContent">
 
-        <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
+        <h:form id="inekRole">
 
-        <div class="toolBar">
-            <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" />
-        </div>
+            <h:outputLabel for="mnuInekRole" value="#{msg.lblInekRole}: "/>
+            <h:selectOneMenu id="mnuInekRole" styleClass="inputmedium" value="#{adminTask.inekRoleId}" immediate="true" disabled="#{adminTask.mappingChanged}">               
+                <f:selectItems value="#{adminTask.inekRoles}" var="inekRole" itemLabel="#{inekRole.text}" itemValue="#{inekRole.id}"/>
+                <f:ajax render="@form" />
+            </h:selectOneMenu>  
+            <h:outputLabel rendered="#{!empty adminTask.inekRole}" value="&nbsp; #{adminTask.inekRole.feature.description} (#{adminTask.inekRole.writeEnabled ? 'read/write' : 'read only'})" escape="true" />
 
+            <h:selectOneMenu id="mnuAgentTest" styleClass="inputmedium" value="#{adminTask.inekAcounts}">               
+                <f:selectItems value="#{adminTask.inekAcounts}" var="account" itemLabel="#{account.lastName}, #{account.firstName}" itemValue="#{account.accountId}"/>
+                <f:ajax render="@form" />
+            </h:selectOneMenu>  
+            
+    <h:dataTable rendered="#{!empty adminTask.inekRole}"  headerClass="list-header" id="tblNubProposals" 
+                 value="#{adminTask.inekRole.accounts}" var="map" width="100%"  columnClasses="colIcon, colValue">
+        <h:column id="colDeleteId" >
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink  immediate="true" >
+                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+            </h:commandLink>
+        </h:column>
+        <h:column id="colName">
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:selectOneMenu id="mnuAgent" styleClass="inputmedium" value="#{adminTask.inekAcounts}">               
+                <f:selectItems value="#{adminTask.inekAcounts}" var="account" itemLabel="#{account.lastName}, #{account.firstName}" itemValue="#{account.accountId}"/>
+                <f:ajax render="@form" />
+            </h:selectOneMenu>  
+        </h:column>
+    </h:dataTable>
+            
+            
+            <div class="toolBar">
+                <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" action="#{adminTask.saveRoleMapping}"/>
+            </div>
+        </h:form>
     </ui:define>
 </ui:composition>

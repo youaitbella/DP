@@ -5,7 +5,11 @@
 package org.inek.dataportal.entities.admin;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.Feature;
 
 /**
@@ -15,27 +19,27 @@ import org.inek.dataportal.enums.Feature;
 @Entity
 @Table(name = "listInekRole", schema = "adm")
 public class InekRole implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "irId")
-    private Integer _id;
-    @Column(name = "irText")
-    private String _text;
-    @Column(name = "irFeature")
-    @Enumerated(EnumType.STRING)
-    private Feature _feature;
-    @Column(name = "irIsWriteEnabled")
-    private boolean  _isWriteEnabled;
+    private int _id = -1;
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column(name = "irText")
+    private String _text;
 
     public String getText() {
         return _text;
@@ -44,6 +48,12 @@ public class InekRole implements Serializable {
     public void setText(String text) {
         _text = text;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Feature">
+    @Column(name = "irFeature")
+    @Enumerated(EnumType.STRING)
+    private Feature _feature;
 
     public Feature getFeature() {
         return _feature;
@@ -52,6 +62,11 @@ public class InekRole implements Serializable {
     public void setFeature(Feature feature) {
         this._feature = feature;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property WriteEnabled">
+    @Column(name = "irIsWriteEnabled")
+    private boolean _isWriteEnabled;
 
     public boolean isWriteEnabled() {
         return _isWriteEnabled;
@@ -60,14 +75,52 @@ public class InekRole implements Serializable {
     public void setWriteEnabled(boolean isWriteEnabled) {
         this._isWriteEnabled = isWriteEnabled;
     }
+    // </editor-fold>
 
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Mapping">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "aiInekRoleId", referencedColumnName = "irId")
+    private List<RoleMapping> _mappings;
+
+    public List<RoleMapping> getMappings() {
+        return _mappings;
+    }
+
+    public void setMappings(List<RoleMapping> _mappings) {
+        this._mappings = _mappings;
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Property Accounts">
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinTable(
+            name = "mapAccountInekRole", schema = "adm",
+            joinColumns = @JoinColumn(name = "aiInekRoleId"),
+            inverseJoinColumns = @JoinColumn(name = "aiAccountId"))
+    private List<Account> _accounts;
+
+    public List<Account> getAccounts() {
+        return _accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        _accounts = accounts;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
+        if (_id >= 0) {
+            return _id;
+        }
+        int hash = 7;
+        hash = 17 * hash + this._id;
+        hash = 17 * hash + Objects.hashCode(this._text);
+        hash = 17 * hash + Objects.hashCode(this._feature);
+        hash = 17 * hash + (this._isWriteEnabled ? 1 : 0);
         return hash;
     }
 
@@ -77,10 +130,10 @@ public class InekRole implements Serializable {
             return false;
         }
         InekRole other = (InekRole) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
-            return false;
+        if (_id >= 0 && _id == other._id) {
+            return true;
         }
-        return true;
+        return fullyEquals(other);
     }
 
     @Override
@@ -88,5 +141,21 @@ public class InekRole implements Serializable {
         return "org.inek.entities.Role[id=" + _id + "]";
     }
     // </editor-fold>
-    
+
+    public boolean fullyEquals(InekRole other) {
+        return _id == other._id
+                && _text.equals(other._text)
+                && _feature.equals(other._feature)
+                && _isWriteEnabled == other._isWriteEnabled;
+    }
+
+    public InekRole copy() {
+        InekRole copy = new InekRole();
+        copy.setId(this.getId());
+        copy.setFeature(this.getFeature());
+        copy.setText(this.getText());
+        copy.setWriteEnabled(this.isWriteEnabled());
+        return copy;
+    }
+
 }

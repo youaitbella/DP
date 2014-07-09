@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.admin;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import org.inek.dataportal.feature.cooperation.*;
@@ -16,11 +17,12 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
-import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -115,18 +117,18 @@ public class AdminTask extends AbstractEditController {
             } else {
                 _mailTemplate = _mailTemplateFacade.find(templateId);
             }
-            setChanged(false);
+            setTemplateChanged(false);
         }
     }
 
-    private boolean _isChanged = false;
+    private boolean _templateChanged = false;
 
-    public boolean isChanged() {
-        return _isChanged;
+    public boolean isTemplateChanged() {
+        return _templateChanged;
     }
 
-    public void setChanged(boolean isChanged) {
-        _isChanged = isChanged;
+    public void setTemplateChanged(boolean isChanged) {
+        _templateChanged = isChanged;
     }
 
     // </editor-fold>
@@ -140,30 +142,50 @@ public class AdminTask extends AbstractEditController {
             _mailTemplateFacade.remove(_mailTemplate);
         }
         _mailTemplate = new MailTemplate();
-        setChanged(false);
+        setTemplateChanged(false);
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
     public String saveMailTemplate() {
         _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
-        setChanged(false);
+        setTemplateChanged(false);
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
     public void mailTemplateChangeListener(AjaxBehaviorEvent event) {
-        setChanged(true);
+        setTemplateChanged(true);
     }
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
+    @Inject AccountFacade _accountFacade;
+    
+    private List<Account> _inekAcounts;
+
+    public List<Account> getInekAcounts() {
+        if (_inekAcounts == null){
+            _inekAcounts = _accountFacade.getInekAcounts();
+        }
+        return _inekAcounts;
+    }
+
+    public void setInekAcounts(List<Account> inekAcounts) {
+        _inekAcounts = inekAcounts;
+    }
+    
     @Inject
     InekRoleFacade _inekRoleFacade;
 
+    private List<InekRole> _originalInekRoles;
     private List<InekRole> _inekRoles;
 
     public List<InekRole> getInekRoles() {
         if (_inekRoles == null) {
-            _inekRoles = _inekRoleFacade.findAll();
+            _originalInekRoles = _inekRoleFacade.findAll();
+            _inekRoles = new ArrayList<>();
+            for (InekRole role : _originalInekRoles) {
+                _inekRoles.add(role.copy());
+            }
         }
         return _inekRoles;
     }
@@ -182,12 +204,80 @@ public class AdminTask extends AbstractEditController {
     }
 
     public String saveInekRoles() {
-        // todo
+        for (InekRole role : _inekRoles) {
+            InekRole original = findAndRemoveOriginalRole(role.getId());
+            if (original == null || !role.fullyEquals(original)){
+                _inekRoleFacade.save(role);
+            }
+        }
+        for (InekRole deletedRole : _originalInekRoles) {
+            _inekRoleFacade.remove(deletedRole);
+        }
+        _inekRoles = null;
         return Pages.AdminTaskInekRoles.RedirectURL();
+    }
+
+    private InekRole findAndRemoveOriginalRole(int id) {
+        for (Iterator<InekRole> itr = _originalInekRoles.iterator(); itr.hasNext();) {
+            InekRole role = itr.next();
+            if (role.getId() == id) {
+                itr.remove();
+                return role;
+            }
+        }
+        return null;
+    }
+
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
+    private InekRole _inekRole;
+
+    public InekRole getInekRole() {
+        return _inekRole;
+    }
+
+    public void setInekRole(InekRole inekRole) {
+        _inekRole = inekRole;
+    }
+    
+    public int getInekRoleId() {
+        return _inekRole == null ? -1 : _inekRole.getId();
+    }
+
+    public void setInekRoleId(int id) {
+        _inekRole = findRole(id, _inekRoles);
+    }
+    
+    private boolean _mappingChanged = false;
+
+    public boolean isMappingChanged() {
+        return _mappingChanged;
+    }
+
+    public void setMappingChanged(boolean isChanged) {
+        _mappingChanged = isChanged;
+    }
+    
+    public String saveRoleMapping() {
+        setMappingChanged(false);
+        // todo: implement
+        return Pages.AdminTaskRoleMapping.RedirectURL();
+    }
+    
+    public void mappingChangeListener(AjaxBehaviorEvent event) {
+        setMappingChanged(true);
     }
 
     
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="tab XXX">
-    // </editor-fold>
+
+ private InekRole findRole(int id, List<InekRole> roles) {
+        for (InekRole role : roles) {
+            if (role.getId() == id) {
+                return role;
+            }
+        }
+        return null;
+    }    
 }

@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.account;
 
+import java.util.Calendar;
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,10 @@ import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountChangeMail;
@@ -15,6 +20,7 @@ import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.DropBox;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
@@ -73,6 +79,18 @@ public class AccountFacade extends AbstractFacade<Account> {
         return query.setParameter("ids", ids).getResultList();
     }
 
+    public List<Account> getInekAcounts() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Account> cq = cb.createQuery(Account.class);
+        Root request = cq.from(Account.class);
+        cq.select(request).where(cb.like(request.get("_email"), "%@inek-drg.de"));
+        TypedQuery<Account> query = getEntityManager().createQuery(cq);
+        //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();        
+        //System.out.println(sql);
+        return query.getResultList();
+    }
+
+    
     public Account getAccount(final String mailOrUser, final String password) {
         clearCache();
         if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password)) {

@@ -10,7 +10,6 @@
     <ui:define name="editContent">
 
         <h:form id="inekRole">
-            <h2>#{msg.lblAgreedPatiens}</h2>
 
             <table>
                 <thead>
@@ -73,7 +72,7 @@
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
                     <f:ajax event="click" render="@form :logout:remaining" listener="#{adminTask.addNewInekRole}"/>
                 </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" />
+                <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" action="#{adminTask.saveInekRoles}"/>
             </div>
 
 

@@ -12,7 +12,7 @@
 
         <h:form id="maiTemplateForm">
             <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
-            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true" disabled="#{adminTask.changed}">               
+            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true" disabled="#{adminTask.templateChanged}">               
                 <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
                 <f:ajax render="@form" />
             </h:selectOneMenu>  
