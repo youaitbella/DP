@@ -5,11 +5,12 @@
 package org.inek.dataportal.entities.admin;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
 
 /**
@@ -39,8 +40,9 @@ public class InekRole implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Text">
     @Column(name = "irText")
-    private String _text;
+    private String _text = "";
 
+    @Size(min=1, max = 50)
     public String getText() {
         return _text;
     }
@@ -55,6 +57,7 @@ public class InekRole implements Serializable {
     @Enumerated(EnumType.STRING)
     private Feature _feature;
 
+    @NotNull
     public Feature getFeature() {
         return _feature;
     }
@@ -76,23 +79,25 @@ public class InekRole implements Serializable {
         this._isWriteEnabled = isWriteEnabled;
     }
     // </editor-fold>
-
-    
     
     // <editor-fold defaultstate="collapsed" desc="Property Mapping">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "aiInekRoleId", referencedColumnName = "irId")
     private List<RoleMapping> _mappings;
 
     public List<RoleMapping> getMappings() {
+        if (_mappings == null){
+            _mappings = new ArrayList<>();
+        }
         return _mappings;
     }
 
-    public void setMappings(List<RoleMapping> _mappings) {
-        _mappings = _mappings;
+    public void setMappings(List<RoleMapping> mappings) {
+        _mappings = mappings;
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
 //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 //    @JoinTable(
@@ -144,8 +149,12 @@ public class InekRole implements Serializable {
 
     public boolean fullyEquals(InekRole other) {
         return _id == other._id
-                && _text.equals(other._text)
-                && _feature.equals(other._feature)
+                && (_text == null && other._text == null
+                    || _text != null && other._text != null && _text.equals(other._text)
+                )
+                && (_feature == null && other._feature == null 
+                    || _feature != null && other._feature != null && _feature.equals(other._feature)
+                )
                 && _isWriteEnabled == other._isWriteEnabled;
     }
 

@@ -36,7 +36,7 @@
                                     <h:message id="msgInekRoleText#{status.index}" for="inekRoleText#{status.index}" styleClass="errorMessage"/>
                                     <h:inputText id="inekRoleText#{status.index}" value="#{inekRole.text}" 
                                                  required="true">
-                                        <f:ajax render="@this :logout:remaining msgInekRoleText#{status.index}"/>
+                                        <f:ajax execute="change" render="@this btnSaveRole :logout:remaining msgInekRoleText#{status.index}" listener="#{adminTask.roleChangeListener}"/>
                                     </h:inputText>
                                 </h:panelGrid>
                             </td>
@@ -50,7 +50,7 @@
                                                      value="#{inekRole.feature}" 
                                                      required="true">               
                                         <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
-                                        <f:ajax render="@this :logout:remaining msgInekRoleFeature#{status.index}"/>
+                                        <f:ajax render="@this btnSaveRole :logout:remaining msgInekRoleFeature#{status.index}" listener="#{adminTask.roleChangeListener}"/>
                                     </h:selectOneMenu>  
                                 </h:panelGrid>
                             </td>
@@ -59,7 +59,7 @@
                                 <h:panelGrid columns="1">
                                     <h:selectBooleanCheckbox id="inekRoleWrite#{status.index}" value="#{inekRole.writeEnabled}" 
                                                  styleClass="fullWidth">
-                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                        <f:ajax event="change" render="@this btnSaveRole :logout:remaining" listener="#{adminTask.roleChangeListener}"/>
                                     </h:selectBooleanCheckbox> 
                                 </h:panelGrid>
                             </td>
@@ -72,7 +72,10 @@
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
                     <f:ajax event="click" render="@form :logout:remaining" listener="#{adminTask.addNewInekRole}"/>
                 </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnSave}" immediate="false" action="#{adminTask.saveInekRoles}"/>
+                <h:commandLink styleClass="button" value="#{msg.btnSave}" 
+                               id="btnSaveRole" immediate="false" 
+                               action="#{adminTask.saveInekRoles}"
+                               disabled="#{!adminTask.roleChanged}"/>
             </div>
 
 

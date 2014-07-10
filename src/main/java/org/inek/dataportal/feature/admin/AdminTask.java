@@ -3,7 +3,6 @@ package org.inek.dataportal.feature.admin;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import org.inek.dataportal.feature.cooperation.*;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -17,7 +16,6 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.admin.RoleMapping;
@@ -26,6 +24,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
+import org.inek.dataportal.facades.admin.RoleMappingFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 
@@ -40,7 +39,7 @@ public class AdminTask extends AbstractEditController {
     private static final Logger _logger = Logger.getLogger("AdminTask");
 
     public AdminTask() {
-        _logger.log(Level.INFO, "Ctor AdminTask");
+        //_logger.log(Level.INFO, "Ctor AdminTask");
     }
 
     @Inject
@@ -159,21 +158,16 @@ public class AdminTask extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
-    @Inject AccountFacade _accountFacade;
-    
-    private List<Account> _inekAcounts;
+    private boolean _roleChanged = false;
 
-    public List<Account> getInekAcounts() {
-        if (_inekAcounts == null){
-            _inekAcounts = _accountFacade.getInekAcounts();
-        }
-        return _inekAcounts;
+    public boolean isRoleChanged() {
+        return _roleChanged;
     }
 
-    public void setInekAcounts(List<Account> inekAcounts) {
-        _inekAcounts = inekAcounts;
+    public void setRoleChanged(boolean isChanged) {
+        _roleChanged = isChanged;
     }
-    
+
     @Inject
     InekRoleFacade _inekRoleFacade;
 
@@ -182,10 +176,10 @@ public class AdminTask extends AbstractEditController {
 
     public List<InekRole> getInekRoles() {
         if (_inekRoles == null) {
-            _originalInekRoles = _inekRoleFacade.findAll();
-            _inekRoles = new ArrayList<>();
-            for (InekRole role : _originalInekRoles) {
-                _inekRoles.add(role.copy());
+            _inekRoles = _inekRoleFacade.findAll();
+            _originalInekRoles = new ArrayList<>();
+            for (InekRole role : _inekRoles) {
+                _originalInekRoles.add(role.copy());
             }
         }
         return _inekRoles;
@@ -197,17 +191,19 @@ public class AdminTask extends AbstractEditController {
 
     public void addNewInekRole() {
         _inekRoles.add(new InekRole());
+        setRoleChanged(true);
     }
 
     public String deleteInekRole(InekRole entry) {
         _inekRoles.remove(entry);
+        setRoleChanged(true);
         return "";
     }
 
     public String saveInekRoles() {
         for (InekRole role : _inekRoles) {
             InekRole original = findAndRemoveOriginalRole(role.getId());
-            if (original == null || !role.fullyEquals(original)){
+            if (original == null || !role.fullyEquals(original)) {
                 _inekRoleFacade.save(role);
             }
         }
@@ -215,6 +211,7 @@ public class AdminTask extends AbstractEditController {
             _inekRoleFacade.remove(deletedRole);
         }
         _inekRoles = null;
+        setRoleChanged(false);
         return Pages.AdminTaskInekRoles.RedirectURL();
     }
 
@@ -229,9 +226,30 @@ public class AdminTask extends AbstractEditController {
         return null;
     }
 
+    public void roleChangeListener(AjaxBehaviorEvent event) {
+        setRoleChanged(true);
+    }
+
+
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
+    @Inject
+    AccountFacade _accountFacade;
+
+    private List<SelectItem> _inekAgents;
+
+    public List<SelectItem> getInekAgents() {
+        if (_inekAgents == null) {
+            _inekAgents = _accountFacade.getInekAgents();
+            _inekAgents.add(0, new SelectItem(-1, ""));
+        }
+        return _inekAgents;
+    }
+
+    public void setInekAcounts(List<SelectItem> inekAagents) {
+        _inekAgents = inekAagents;
+    }
+
     private InekRole _inekRole;
 
     public InekRole getInekRole() {
@@ -241,13 +259,37 @@ public class AdminTask extends AbstractEditController {
     public void setInekRole(InekRole inekRole) {
         _inekRole = inekRole;
     }
-    
+
     public int getInekRoleId() {
         return _inekRole == null ? -1 : _inekRole.getId();
     }
 
     public void setInekRoleId(int id) {
-        _inekRole = findRole(id, _originalInekRoles);
+        _inekRole = findRole(id, _inekRoles);
+        _mappings = copyList(_inekRole.getMappings());
+    }
+
+    private List<RoleMapping> copyList(List<RoleMapping> mappings) {
+        // Collections.copy alwas threw an index out of bound, even if sized before :(
+        List<RoleMapping> copy = new ArrayList<>();
+        for (RoleMapping roleMapping : mappings){
+            RoleMapping clone = new RoleMapping();
+            clone.setAccountId(roleMapping.getAccountId());
+            clone.setInekRoleId(roleMapping.getInekRoleId());
+            copy.add(clone);
+        }
+        return copy;
+    }
+
+
+    private List<RoleMapping> _mappings;
+
+    public List<RoleMapping> getMappings() {
+        return _mappings;
+    }
+
+    public void setMappings(List<RoleMapping> mappings) {
+        _mappings = mappings;
     }
     
     private boolean _mappingChanged = false;
@@ -259,38 +301,54 @@ public class AdminTask extends AbstractEditController {
     public void setMappingChanged(boolean isChanged) {
         _mappingChanged = isChanged;
     }
-    
+
     public void addNewMapping() {
         RoleMapping mapping = new RoleMapping();
         mapping.setInekRoleId(_inekRole.getId());
-        _inekRole.getMappings().add(mapping);
+        _mappings.add(mapping);
     }
 
+    public String deleteRoleMapping(RoleMapping entry) {
+        _mappings.remove(entry);
+        setMappingChanged(true);
+        return "";
+    }
+
+    @Inject RoleMappingFacade _mappingFacade;
     public String saveRoleMapping() {
-        setMappingChanged(false);
-        for (Iterator<RoleMapping> itr = _inekRole.getMappings().iterator(); itr.hasNext();) {
-            RoleMapping role = itr.next();
-            if (role.getAccountId() == -1) {
+        List<RoleMapping> former = copyList(_inekRole.getMappings());
+        for (Iterator<RoleMapping> itr = _mappings.iterator(); itr.hasNext();) {
+            RoleMapping mapping = itr.next();
+            if (mapping.getAccountId() == -1 || mapping.getInekRoleId() == -1) {
+                itr.remove();
+            }
+            if (former.contains(mapping)){
+                former.remove(mapping);
                 itr.remove();
             }
         }
-        _inekRoleFacade.save(_inekRole);
+        for (RoleMapping mapping : _mappings){
+            _mappingFacade.persist(mapping);
+        }
+        for (RoleMapping mapping : former){
+            _mappingFacade.remove(mapping);
+        }
+        setMappingChanged(false);
+        _inekRoles = null;
         return Pages.AdminTaskRoleMapping.RedirectURL();
     }
-    
+
     public void mappingChangeListener(AjaxBehaviorEvent event) {
         setMappingChanged(true);
     }
 
-    
     // </editor-fold>
-
- private InekRole findRole(int id, List<InekRole> roles) {
+    private InekRole findRole(int id, List<InekRole> roles) {
         for (InekRole role : roles) {
             if (role.getId() == id) {
                 return role;
             }
         }
         return null;
-    }    
+    }
 }

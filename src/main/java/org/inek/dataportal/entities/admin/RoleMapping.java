@@ -6,7 +6,6 @@ package org.inek.dataportal.entities.admin;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import org.inek.dataportal.entities.account.AccountActivationId;
 
 /**
  *
@@ -19,6 +18,7 @@ public class RoleMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Id
     @Column(name = "aiAccountId")
@@ -47,4 +47,24 @@ public class RoleMapping implements Serializable {
     }
     // </editor-fold>
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this._accountId;
+        hash = 89 * hash + this._inekRoleId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RoleMapping other = (RoleMapping) obj;
+        return _accountId == other._accountId && _inekRoleId == other._inekRoleId;
+    }
+    
 }

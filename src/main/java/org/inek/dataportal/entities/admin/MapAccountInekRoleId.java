@@ -6,7 +6,8 @@ import java.io.Serializable;
  *
  * @author muellermi
  */
-public class MapAccountInekRoleId  implements Serializable {
+public class MapAccountInekRoleId implements Serializable{
+
      int _accountId;
      int _inekRoleId;
 
@@ -27,13 +28,7 @@ public class MapAccountInekRoleId  implements Serializable {
             return false;
         }
         final MapAccountInekRoleId other = (MapAccountInekRoleId) obj;
-        if (this._accountId != other._accountId) {
-            return false;
-        }
-        if (this._inekRoleId != other._inekRoleId) {
-            return false;
-        }
-        return true;
+        return _accountId == other._accountId && _inekRoleId == other._inekRoleId;
     }
     
 }

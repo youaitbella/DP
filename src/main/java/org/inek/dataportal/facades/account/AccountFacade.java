@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.account;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import java.util.Collection;
@@ -7,10 +8,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
@@ -22,6 +25,7 @@ import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.DropBox;
 import org.inek.dataportal.entities.PasswordRequest;
+import org.inek.dataportal.entities.account.Account_;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -88,6 +92,31 @@ public class AccountFacade extends AbstractFacade<Account> {
         //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();        
         //System.out.println(sql);
         return query.getResultList();
+    }
+
+    public List<SelectItem> getInekAgents() {
+//        CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<SelectItem> cQuery = cBuilder.createQuery(SelectItem.class);
+//        Root<Account> accountRoot = cQuery.from(Account.class);
+//        cQuery.select(cBuilder.construct(
+//                SelectItem.class, 
+//                accountRoot.get(Account_._accountId), 
+//                accountRoot.get(Account_._lastName) 
+//        ));
+        CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Object[]> cQuery = cBuilder.createQuery(Object[].class);
+        Root<Account> accountRoot = cQuery.from(Account.class);
+        Path<Integer> idPath = accountRoot.get(Account_._accountId);
+        Path<String> lastNamePath = accountRoot.get(Account_._lastName);
+        Path<String> firstNamePath = accountRoot.get(Account_._firstName);
+        cQuery.select(cBuilder.array(idPath, lastNamePath, firstNamePath));
+        cQuery.where(cBuilder.like(accountRoot.get(Account_._email), "%@inek-drg.de"));
+        List<Object[]> valueArray = getEntityManager().createQuery(cQuery).getResultList();
+        List<SelectItem> agents = new ArrayList<>();
+        for (Object[] values : valueArray){
+            agents.add(new SelectItem(values[0], values[1] + ", " + values[2]));
+        }
+        return agents;
     }
 
     
