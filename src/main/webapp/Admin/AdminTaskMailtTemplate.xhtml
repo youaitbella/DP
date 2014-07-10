@@ -27,7 +27,7 @@
                              styleClass="inputwide" 
                              required="true" 
                              disabled="#{adminTask.mailTemplate == null}"> 
-                    <f:ajax render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                    <f:ajax execute="change" render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -40,8 +40,20 @@
                                  required="true" 
                                  disabled="#{adminTask.mailTemplate == null}">               
                     <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
-                    <f:ajax render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                    <f:ajax execute="change" render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:selectOneMenu>  
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtBcc" value="#{msg.lblBcc}"/>
+                <h:message for="txtBcc" id="msgBcc" styleClass="errorMessage"/>
+                <h:inputText id="txtBcc" 
+                             value="#{adminTask.mailTemplate.bcc}" 
+                             styleClass="inputwide" 
+                             required="false" 
+                             disabled="#{adminTask.mailTemplate == null}"> 
+                    <f:ajax execute="change" render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                </h:inputText>
             </div>
 
             <div class="inputPart">
@@ -52,7 +64,7 @@
                              styleClass="inputwide" 
                              required="true" 
                              disabled="#{adminTask.mailTemplate == null}"> 
-                    <f:ajax render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                    <f:ajax execute="change" render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -64,7 +76,7 @@
                                  styleClass="areaHuge" 
                                  required="true" 
                                  disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                    <f:ajax execute="change" render="@this msgMailBody mnuTemplate  :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:inputTextarea>
             </div>
 

@@ -157,6 +157,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
 
@@ -232,6 +233,7 @@ public class AdminTask extends AbstractEditController {
 
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
     @Inject
     AccountFacade _accountFacade;
@@ -343,6 +345,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     private InekRole findRole(int id, List<InekRole> roles) {
         for (InekRole role : roles) {
             if (role.getId() == id) {

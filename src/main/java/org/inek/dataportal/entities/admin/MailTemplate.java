@@ -62,6 +62,20 @@ public class MailTemplate implements Serializable {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property BCC">
+    @Column (name = "mtBcc")
+    private String _bcc;
+    
+    @Size(max = 100)
+    public String getBcc() {
+        return _bcc;
+    }
+
+    public void setBcc(String value) {
+        _bcc = value;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Subject">
     @Column (name = "mtSubject")
     private String _subject;
