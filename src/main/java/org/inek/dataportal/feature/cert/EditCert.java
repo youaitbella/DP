@@ -21,7 +21,7 @@ public class EditCert extends AbstractEditController {
     
     @Override
     protected void addTopics() {
-        addTopic(CertTabs.tabCertSystemManagement.name(), Pages.Cert.URL());
+        addTopic(CertTabs.tabCertSystemManagement.name(), Pages.CertSystemManagement.URL());
     }
     
     private enum CertTabs {
