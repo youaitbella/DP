@@ -8,6 +8,7 @@ package org.inek.dataportal.mail;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -17,6 +18,8 @@ import javax.mail.internet.MimeMessage;
 import org.inek.dataportal.entities.account.AccountChangeMail;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.PasswordRequest;
+import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.PropertyKey;
 import org.inek.dataportal.utils.PropertyManager;
@@ -28,6 +31,8 @@ import org.inek.dataportal.utils.PropertyManager;
 public class Mailer {
     protected static final Logger _logger = Logger.getLogger("Mailer");
 
+    @Inject MailTemplateFacade _mailTemplateFacade;
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     // place getter and setters here
     // </editor-fold>
@@ -61,6 +66,7 @@ public class Mailer {
     }
     
     public static boolean sendActivationMail(AccountRequest accountRequest) {
+        // todo: MailTemplate template = _mailTemplateFacade.findByName("AccountActivationMail");
         String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + accountRequest.getUser().replace(" ", "%20");
         String body = Utils.getMessage("msgActivate") + "\r\n" + link + "\r\n" + Utils.getMessage("msgActivateInfo");
         body = body.replace("{username}", accountRequest.getUser());

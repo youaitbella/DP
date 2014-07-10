@@ -6,6 +6,8 @@ import org.inek.dataportal.facades.*;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
 
 @Stateless
@@ -33,6 +35,12 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
             result.add(new SelectItem( (int)info[0], (String) info[1] ));
         }
         return result;
+    }
+
+    public MailTemplate findByName(String name) {
+        String statement = "SELECT m FROM MailTemplate m WHERE m._name = :name";
+        TypedQuery<MailTemplate> query = getEntityManager().createQuery(statement, MailTemplate.class);
+        return query.setParameter("name", name).getSingleResult();
     }
     
 }
