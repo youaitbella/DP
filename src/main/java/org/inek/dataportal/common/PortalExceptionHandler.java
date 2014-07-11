@@ -19,7 +19,7 @@ import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
-import javax.mail.MessagingException;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
@@ -152,15 +152,14 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         getWrapped().handle();
     }
 
+    @Inject Mailer _mailer;
     private void SendExeptionMessage(String subject, Throwable exception) {
-        String name = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
-        String msg = "Server: " + name + "\r\n" + exception.getMessage() + "\r\n" ;
+        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+        String msg = "Server: " + name + "\r\n" + exception.getMessage() + "\r\n";
         for (StackTraceElement element : exception.getStackTrace()) {
-            msg += element.toString() + "\r\n" ;
+            msg += element.toString() + "\r\n";
         }
-        try {
-            Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg);
-        } catch (MessagingException ex) {
-        }
+        _mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg);
     }
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -44,6 +45,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         return getEntityManager().createQuery(cq).getResultList();
     }
     
+    @Inject Mailer _mailer;
     public boolean changeMail(int accountId, final String newMail) {
         if (StringUtil.isNullOrEmpty(newMail)) {
             return false;
@@ -60,7 +62,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
             changeMail.setMail(newMail);
             merge(changeMail);
         }
-        if (Mailer.sendMailActivationMail(changeMail)) {
+        if (_mailer.sendMailActivationMail(changeMail)) {
             return true;
         }
         getLogger().log(Level.WARNING, "Could not send mail activation mail for {0}", newMail);

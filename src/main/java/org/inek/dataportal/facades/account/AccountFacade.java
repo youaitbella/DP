@@ -254,6 +254,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return true;
     }
 
+    @Inject Mailer _mailer;
     public boolean requestPassword(final String mail, final String password) {
         if (StringUtil.isNullOrEmpty(mail) || StringUtil.isNullOrEmpty(password)) {
             return false;
@@ -274,7 +275,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             request.setPasswordHash(Crypt.getPasswordHash(password, account.getAccountId()));
             _pwdRequestFacade.merge(request);
         }
-        if (Mailer.sendPasswordActivationMail(request, mail)) {
+        if (_mailer.sendPasswordActivationMail(request, mail)) {
             return true;
         }
         getLogger().log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());

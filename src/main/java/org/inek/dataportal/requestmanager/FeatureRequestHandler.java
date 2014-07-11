@@ -5,11 +5,9 @@
 package org.inek.dataportal.requestmanager;
 
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.mail.MessagingException;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.ContactRole;
@@ -36,7 +34,6 @@ public class FeatureRequestHandler {
     @Inject private ContactRoleFacade _roleFacade;
     @Inject private CustomerFacade _customerFacade;
 
-    
     //@Asynchronous
     public void handleFeatureRequest(Account account) {
         AccountFeatureRequest featureRequest = _facade.findByAccountId(account.getAccountId());
@@ -54,6 +51,7 @@ public class FeatureRequestHandler {
         }
     }
 
+    @Inject Mailer _mailer;
     private boolean sendApprovalRequestMail(Account account, AccountFeatureRequest featureRequest) {
         String link = PropertyManager.INSTANCE.getProperty(PropertyKey.LocalManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
         String body = Utils.getMessage("msgApprove") + "\r\n" + link + "\r\n\r\n";
@@ -64,14 +62,9 @@ public class FeatureRequestHandler {
         body += "Telefon: " + account.getPhone() + "\r\n";
         body += "Firma: " + account.getCompany() + "\r\n";
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
-        body += "IK:    " + account.getIK() + (cust.getIK() != null ? " (im ICMT bekannt)" : "")+ "\r\n";
+        body += "IK:    " + account.getIK() + (cust.getIK() != null ? " (im ICMT bekannt)" : "") + "\r\n";
         String subject = Utils.getMessage("headerFeatureApproval") + " " + account.getEmail();
-        try {
-            Mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ManagerEmail), subject, body);
-        } catch (MessagingException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-            return false;
-        }
-        return true;
+        return _mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ManagerEmail), subject, body);
     }
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -40,6 +41,7 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @Inject Mailer _mailer;
     public boolean createAccountRequest(AccountRequest accountRequest) {
         if (accountRequest.getAccountId() != null) {
             return false;
@@ -51,7 +53,7 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
             getLogger().warning("Failed to store accout request.");
             return false;
         }
-        if (Mailer.sendActivationMail(accountRequest)) {
+        if (_mailer.sendActivationMail(accountRequest)) {
             return true;
         }
         getLogger().log(Level.WARNING, "Could not send activation mail for {0}", accountRequest.getEmail());

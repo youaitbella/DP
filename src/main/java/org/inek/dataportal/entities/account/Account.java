@@ -20,7 +20,7 @@ import org.inek.dataportal.entities.admin.InekRole;
  */
 @Entity
 @Table(name = "Account")
-public class Account implements Serializable {
+public class Account implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -119,26 +119,32 @@ public class Account implements Serializable {
         _user = user;
     }
 
+    @Override
     public String getEmail() {
         return _email;
     }
 
+    @Override
     public void setEmail(String email) {
         _email = email;
     }
 
+    @Override
     public int getGender() {
         return _gender;
     }
 
+    @Override
     public void setGender(int isFemale) {
         _gender = isFemale;
     }
 
+    @Override
     public String getTitle() {
         return _title;
     }
 
+    @Override
     public void setTitle(String title) {
         _title = title;
     }
@@ -191,18 +197,22 @@ public class Account implements Serializable {
         _customerFax = customerFax;
     }
 
+    @Override
     public String getFirstName() {
         return _firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         _firstName = firstName;
     }
 
+    @Override
     public String getLastName() {
         return _lastName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         _lastName = lastName;
     }

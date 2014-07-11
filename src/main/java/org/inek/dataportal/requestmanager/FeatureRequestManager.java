@@ -4,14 +4,12 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import java.io.Serializable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.*;
 import org.inek.dataportal.enums.FeatureState;
@@ -33,13 +31,13 @@ public class FeatureRequestManager implements Serializable {
 
     private static final Logger _logger = Logger.getLogger("FeatureRequestManager");
     private static final long serialVersionUID = 1L;
-    @EJB
+    @Inject
     private AccountFacade _accountFacade;
-    @EJB
+    @Inject
     private AccountFeatureRequestFacade _featureRequestFacade;
-    @EJB
+    @Inject
     private CustomerFacade _customerFacade;
-    @EJB
+    @Inject
     private ContactRoleFacade _roleFacade;
     private AccountFeatureRequest _request;
     private Account _account;
@@ -49,8 +47,8 @@ public class FeatureRequestManager implements Serializable {
         System.out.println("init");
         HttpServletRequest r = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String key = r.getParameter("key");
-        if(Utils.getFlash().containsKey("key")) {
-           key = Utils.getFlash().get("key").toString();
+        if (Utils.getFlash().containsKey("key")) {
+            key = Utils.getFlash().get("key").toString();
         }
         Utils.getFlash().put("key", key);
         _request = _featureRequestFacade.findByApprovalKey(key);
@@ -121,6 +119,7 @@ public class FeatureRequestManager implements Serializable {
         return " (IK well known in ICMT)";
     }
 
+    @Inject Mailer _mailer;
     private void sendApprovalMail(Account account, AccountFeatureRequest featureRequest) {
         // todo: replace hardecoded info by configuration
         String body = "Sehr geehrte" + (account.getGender() == 1 ? " Frau " : "r Herr ") + account.getLastName() + ",\r\n\r\n";
@@ -129,11 +128,7 @@ public class FeatureRequestManager implements Serializable {
         body += "\r\nMit freundlichen Grüßen\r\n";
         body += "Ihre InEK GmbH\r\n";
         String subject = Utils.getMessage("headerFeatureApproval");
-        try {
-            Mailer.sendMail(account.getEmail(), "PortalAnmeldung@datenstelle.de", subject, body);
-        } catch (MessagingException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-        }
+        _mailer.sendMail(account.getEmail(), "PortalAnmeldung@datenstelle.de", subject, body);
     }
 
     private void sendRejectMail(Account account, AccountFeatureRequest featureRequest) {
@@ -143,10 +138,7 @@ public class FeatureRequestManager implements Serializable {
         body += "\r\nMit freundlichen Grüßen\r\n";
         body += "Ihre InEK GmbH\r\n";
         String subject = Utils.getMessage("headerFeatureApproval");
-        try {
-            Mailer.sendMail(account.getEmail(), "PortalAnmeldung@datenstelle.de", subject, body);
-        } catch (MessagingException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-        }
+        _mailer.sendMail(account.getEmail(), "PortalAnmeldung@datenstelle.de", subject, body);
     }
+
 }

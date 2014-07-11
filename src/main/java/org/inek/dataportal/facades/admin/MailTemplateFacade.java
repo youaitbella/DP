@@ -2,12 +2,12 @@ package org.inek.dataportal.facades.admin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.inek.dataportal.facades.*;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
 
 @Stateless
@@ -40,7 +40,12 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
     public MailTemplate findByName(String name) {
         String statement = "SELECT m FROM MailTemplate m WHERE m._name = :name";
         TypedQuery<MailTemplate> query = getEntityManager().createQuery(statement, MailTemplate.class);
-        return query.setParameter("name", name).getSingleResult();
+        try {
+            return query.setParameter("name", name).getSingleResult();
+        } catch (Exception ex){
+            _logger.log(Level.WARNING, "MailTemplate not found: {0}", name);
+        }
+        return null;
     }
     
 }

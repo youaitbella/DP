@@ -8,6 +8,8 @@ package org.inek.dataportal.mail;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,9 +17,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.AccountChangeMail;
 import org.inek.dataportal.entities.account.AccountRequest;
-import org.inek.dataportal.entities.PasswordRequest;
+import org.inek.dataportal.entities.account.Person;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
@@ -28,24 +32,28 @@ import org.inek.dataportal.utils.PropertyManager;
  *
  * @author muellermi
  */
+@Singleton
 public class Mailer {
+
     protected static final Logger _logger = Logger.getLogger("Mailer");
 
-    @Inject MailTemplateFacade _mailTemplateFacade;
-    
+    @Inject
+    MailTemplateFacade _mailTemplateFacade;
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     // place getter and setters here
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     // place this methods here
     // </editor-fold>
-    public static void sendMail(String recipient, String subject, String body) throws MessagingException {
-        sendMail(recipient, "", subject, body);
+    public boolean sendMail(String recipient, String subject, String body) {
+        return sendMail(recipient, "", subject, body);
     }
 
-    public static void sendMail(String recipient, String bcc, String subject, String body) throws MessagingException {
+    public boolean sendMail(String recipient, String bcc, String subject, String body) {
         if (recipient.toLowerCase().endsWith(".test")) {
-            return;
+            // this is just to mock a successful mail
+            return true;
         }
         //String from = "do-not-reply@inek-drg.de";
         String from = "anfragen@datenstelle.de";
@@ -55,58 +63,72 @@ public class Mailer {
         properties.put("mail.smtp.ssl.trust", "*");
         Session session = Session.getDefaultInstance(properties);
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        if (!bcc.isEmpty()){
-            message.setRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
-        }
-        message.setSubject(subject);
-        message.setText(body);
-        Transport.send(message);
-    }
-    
-    public static boolean sendActivationMail(AccountRequest accountRequest) {
-        // todo: MailTemplate template = _mailTemplateFacade.findByName("AccountActivationMail");
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + accountRequest.getUser().replace(" ", "%20");
-        String body = Utils.getMessage("msgActivate") + "\r\n" + link + "\r\n" + Utils.getMessage("msgActivateInfo");
-        body = body.replace("{username}", accountRequest.getUser());
-        body = body.replace("{activationkey}", accountRequest.getActivationKey());
         try {
-            Mailer.sendMail(accountRequest.getEmail(), "PortalAnmeldung@datenstelle.de", Utils.getMessage("headerActivate"), body);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            if (!bcc.isEmpty()) {
+                message.setRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
+            }
+            message.setSubject(subject);
+            message.setText(body);
+            Transport.send(message);
+            return true;
         } catch (MessagingException ex) {
             _logger.log(Level.SEVERE, null, ex);
-            return false;
         }
-        return true;
+        return false;
     }
 
-    public static boolean sendMailActivationMail(AccountChangeMail changeMail) {
+    public boolean sendActivationMail(AccountRequest accountRequest) {
+        MailTemplate template = getMailTemplate("AccountActivationMail");
+        if (template == null) {
+            return false;
+        }
+        String salutation = getFormalSalutation(accountRequest);
+        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + accountRequest.getUser().replace(" ", "%20");
+        String body = template.getBody()
+                .replace("{formalSalutation}", salutation)
+                .replace("{link", link)
+                .replace("{username}", accountRequest.getUser())
+                .replace("{activationkey}", accountRequest.getActivationKey());
+        return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
+    }
+
+    private MailTemplate getMailTemplate(String name) {
+        MailTemplate template = _mailTemplateFacade.findByName(name);
+        if (template == null) {
+            String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+            String msg = "Server: " + serverName + "\r\n Mail template not found: " + name + "\r\n";
+            sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "MailTemplate not found", msg);
+        }
+        return template;
+    }
+
+    private String getFormalSalutation(Person person) {
+        String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationFemale");
+        salutation = salutation.replace("{title}", person.getTitle()).replace("{lastname}", person.getLastName()).replace("  ", " ");
+        return salutation;
+    }
+
+    public boolean sendMailActivationMail(AccountChangeMail changeMail) {
         String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = Utils.getMessage("msgActivateMail") + "\r\n" + link + "\r\n" + Utils.getMessage("msgActivateMailInfo");
         body = body.replace("{mail}", changeMail.getMail());
         body = body.replace("{activationkey}", changeMail.getActivationKey());
-        try {
-            Mailer.sendMail(changeMail.getMail(), Utils.getMessage("headerActivateMail"), body);
-        } catch (MessagingException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+        return sendMail(changeMail.getMail(), Utils.getMessage("headerActivateMail"), body);
+    }
+
+    public boolean sendPasswordActivationMail(PasswordRequest pwdRequest, String mail) {
+        MailTemplate template = getMailTemplate("PasswordActivationMail");
+        if (template == null) {
             return false;
         }
-        return true;
-    }
-    
-    public static boolean sendPasswordActivationMail(PasswordRequest pwdRequest, String mail) {
+//        String salutation = getFormalSalutation(account);
         String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" + pwdRequest.getActivationKey() + "&mail=" + mail;
         String body = Utils.getMessage("msgActivatePwd") + "\r\n" + link + "\r\n" + Utils.getMessage("msgActivatePwdInfo");
         body = body.replace("{mail}", mail);
         body = body.replace("{activationkey}", pwdRequest.getActivationKey());
-        try {
-            Mailer.sendMail(mail, Utils.getMessage("headerActivatePwd"), body);
-        } catch (MessagingException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-            return false;
-        }
-        return true;
+        return sendMail(mail, Utils.getMessage("headerActivatePwd"), body);
     }
 
-    
 }
