@@ -34,10 +34,6 @@ public class FeatureRequestHandler {
     @Inject private ContactRoleFacade _roleFacade;
     @Inject private CustomerFacade _customerFacade;
 
-    public void handleFeatureRequest(Account account) {
-        // todo
-    }
-
     public boolean handleFeatureRequest(Account account, Feature feature) {
         AccountFeatureRequest featureRequest = _facade.findByAccountIdAndFeature(account.getAccountId(), feature);
         if (featureRequest == null) {
