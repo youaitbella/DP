@@ -1,8 +1,5 @@
 package org.inek.dataportal.requestmanager;
 
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountFeature;
-import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -11,13 +8,17 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.entities.*;
+import org.inek.dataportal.entities.ContactRole;
+import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountFeature;
+import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 
@@ -31,14 +32,11 @@ public class FeatureRequestManager implements Serializable {
 
     private static final Logger _logger = Logger.getLogger("FeatureRequestManager");
     private static final long serialVersionUID = 1L;
-    @Inject
-    private AccountFacade _accountFacade;
-    @Inject
-    private AccountFeatureRequestFacade _featureRequestFacade;
-    @Inject
-    private CustomerFacade _customerFacade;
-    @Inject
-    private ContactRoleFacade _roleFacade;
+    @Inject Mailer _mailer;
+    @Inject AccountFacade _accountFacade;
+    @Inject AccountFeatureRequestFacade _featureRequestFacade;
+    @Inject CustomerFacade _customerFacade;
+    @Inject ContactRoleFacade _roleFacade;
     private AccountFeatureRequest _request;
     private Account _account;
 
@@ -77,7 +75,7 @@ public class FeatureRequestManager implements Serializable {
     public String approve() {
         if (_account != null) {
             setNewState(FeatureState.APPROVED);
-            sendApprovalMail(_account, _request);
+            _mailer.sendFeatureRequestAnswer("FeatureApprovalMail", _account, _request);
             _accountFacade.clearCache(Account.class);
             return Pages.AdminApproved.URL();
         }
@@ -87,7 +85,7 @@ public class FeatureRequestManager implements Serializable {
     public String reject() {
         if (_account != null) {
             setNewState(FeatureState.REJECTED);
-            sendRejectMail(_account, _request);
+            _mailer.sendFeatureRequestAnswer("FeatureRejectMail", _account, _request);
             _accountFacade.clearCache(Account.class);
             return Pages.AdminApproved.URL();
         }
@@ -117,28 +115,6 @@ public class FeatureRequestManager implements Serializable {
             return " (New IK)";
         }
         return " (IK well known in ICMT)";
-    }
-
-    @Inject Mailer _mailer;
-    private void sendApprovalMail(Account account, AccountFeatureRequest featureRequest) {
-        // todo: replace hardecoded info by configuration
-        String body = "Sehr geehrte" + (account.getGender() == 1 ? " Frau " : "r Herr ") + account.getLastName() + ",\r\n\r\n";
-        body += "entsprechend Ihrer Anfrage haben wir Ihre Daten geprüft und das DropBox-Verfahren für Sie freigeschaltet.\r\n";
-        body += "Ab sofort können Sie Daten via DropBox, wahlweise mittels DatenDienst oder über das DatenPortal übermitteln.\r\n";
-        body += "\r\nMit freundlichen Grüßen\r\n";
-        body += "Ihre InEK GmbH\r\n";
-        String subject = Utils.getMessage("headerFeatureApproval");
-        _mailer.sendMail(account.getEmail(), "PortalAnmeldung@datenstelle.de", subject, body);
-    }
-
-    private void sendRejectMail(Account account, AccountFeatureRequest featureRequest) {
-        String body = "Sehr geehrte" + (account.getGender() == 1 ? " Frau " : "r Herr ") + account.getLastName() + ",\r\n\r\n";
-        body += "entsprechend Ihrer Anfrage haben wir Ihre Daten geprüft. Entsprechend derzeitigem Sachstand war es jedoch nicht möglich, das DropBox-Verfahren für Sie frei zu schalten.\r\n";
-        body += "Sollten Sie dennoch das DropBox-Verfahren benötigen, so begründen Sie uns dieses bitte per Email an anfragen@datenstelle.de.\r\n";
-        body += "\r\nMit freundlichen Grüßen\r\n";
-        body += "Ihre InEK GmbH\r\n";
-        String subject = Utils.getMessage("headerFeatureApproval");
-        _mailer.sendMail(account.getEmail(), "PortalAnmeldung@datenstelle.de", subject, body);
     }
 
 }

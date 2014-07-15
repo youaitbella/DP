@@ -6,21 +6,22 @@ package org.inek.dataportal.enums;
  */
 public enum Feature {
 
-    ADMIN(1, "Administration"),
-    USER_MAINTENANCE(2, "Stammdaten"),
-    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden"),
-    REQUEST_SYSTEM(4, "Anfrageverfahren"),
-    DROPBOX(5, "DropBox"),
-    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren"),
-    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren"),
-    COOPERATION(8, "Kooperation"),
-    MODEL_INTENTION(9, "Modellvorhaben Psy"),
-    DOCUMENTS(10, "Dokumente"),
-    CERT(11, "Zertifizierung");
+    ADMIN(1, "Administration", false),
+    USER_MAINTENANCE(2, "Stammdaten", false),
+    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", false),
+    REQUEST_SYSTEM(4, "Anfrageverfahren", false),
+    DROPBOX(5, "DropBox", true),
+    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", false),
+    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", false),
+    COOPERATION(8, "Kooperation", false),
+    MODEL_INTENTION(9, "Modellvorhaben Psy", false),
+    DOCUMENTS(10, "Dokumente", false),
+    CERT(11, "Zertifizierung", true);
 
-    private Feature(int id, String description) {
+    private Feature(int id, String description, boolean needsApproval) {
         _id = id;
         _description = description;
+        _needsApproval = needsApproval;
     }
 
     private final int _id;
@@ -33,6 +34,11 @@ public enum Feature {
 
     public String getDescription() {
         return _description;
+    }
+
+    private final boolean _needsApproval;
+    public boolean needsApproval() {
+        return _needsApproval;
     }
 
 }

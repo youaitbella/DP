@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -24,17 +22,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.backingbeans.SessionTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountFeature;
-import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountPwdFacade;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.Utils;
@@ -61,7 +59,7 @@ public class EditUserMaintenance extends AbstractEditController {
         tabUMConfig;
     }
     private static final Logger _logger = Logger.getLogger("EditUserMaintenance");
-    
+
     @Inject private SessionTools _sessionTools;
     @Inject private NubSessionTools _nubSessionTools;
     @Inject private SessionController _sessionController;
@@ -129,17 +127,17 @@ public class EditUserMaintenance extends AbstractEditController {
 
     // </editor-fold>
     @PostConstruct
-    private void init(){
+    private void init() {
         //_logger.log(Level.WARNING, "Init EditUserMaintenance");
         _sessionController.beginConversation(_conversation);
         initOrResetData();
     }
 
     @PreDestroy
-    private void destroy(){
+    private void destroy() {
         //_logger.log(Level.WARNING, "Destroy EditUserMaintenance");
     }
-    
+
     private void initOrResetData() {
 //        String activeTopic = (String) Utils.getFlash().get("activeTopic");
 //        if (activeTopic != null) {
@@ -638,4 +636,5 @@ public class EditUserMaintenance extends AbstractEditController {
         _script = "";
         return script;
     }
+
 }

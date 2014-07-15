@@ -3,33 +3,28 @@ package org.inek.dataportal.entities.account;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import org.inek.dataportal.enums.Feature;
 
 /**
  *
  * @author muellermi
  */
 @Entity
-public class AccountFeatureRequest implements Serializable{
+public class AccountFeatureRequest implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
+    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Id
     @Column(name = "afrAccountId")
     private Integer _accountId;
-    @Column(name = "afrApprovalKey")
-    private String _approvalKey = "";
-    @Column(name = "afrCreationDate")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _creationDate;
-
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public String getApprovalKey() {
-        return _approvalKey;
-    }
-
-    public void setApprovalKey(String approvlaKey) {
-        _approvalKey = approvlaKey;
-    }
-
     public Integer getAccountId() {
         return _accountId;
     }
@@ -37,6 +32,37 @@ public class AccountFeatureRequest implements Serializable{
     public void setAccountId(Integer accountId) {
         _accountId = accountId;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Feature">
+    @Column(name = "afrFeature")
+    @Enumerated(EnumType.STRING)
+    private Feature _feature;
+    public Feature getFeature() {
+        return _feature;
+    }
+
+    public void setFeature(Feature feature) {
+        this._feature = feature;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ApprovalKey">
+    @Column(name = "afrApprovalKey")
+    private String _approvalKey = "";
+    public String getApprovalKey() {
+        return _approvalKey;
+    }
+
+    public void setApprovalKey(String approvlaKey) {
+        _approvalKey = approvlaKey;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CreationDate">
+    @Column(name = "afrCreationDate")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date _creationDate;
 
     public Date getCreationDate() {
         return _creationDate;
@@ -47,7 +73,7 @@ public class AccountFeatureRequest implements Serializable{
     public void tagCreationDate() {
         _creationDate = Calendar.getInstance().getTime();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -73,5 +99,5 @@ public class AccountFeatureRequest implements Serializable{
         return "org.inek.entities.AccountFeatureRequest[id=" + _accountId + "]";
     }
     // </editor-fold>
-   
+
 }

@@ -1,7 +1,6 @@
 package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
-import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -14,14 +13,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountChangeMail;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.AccountRequest;
-import org.inek.dataportal.entities.Customer;
-import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.Account_;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
@@ -84,7 +83,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Account> cq = cb.createQuery(Account.class);
         Root request = cq.from(Account.class);
-        cq.select(request).where(cb.like(request.get("_email"), "%@inek-drg.de"));
+        cq.select(request).where(cb.like(request.get(Account_._email), "%@inek-drg.de"));
         TypedQuery<Account> query = getEntityManager().createQuery(cq);
         //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
         //System.out.println(sql);
@@ -145,19 +144,20 @@ public class AccountFacade extends AbstractFacade<Account> {
             return null;  // let the client crash
         }
 
-        boolean requested = false;
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
-                FeatureState state = accFeature.getFeature() == Feature.DROPBOX ? FeatureState.REQUESTED : FeatureState.SIMPLE;
-                accFeature.setFeatureState(state);
-                requested |= state == FeatureState.REQUESTED;
+                Feature feature = accFeature.getFeature();
+                if (feature.needsApproval()) {
+                    if (_requestHandler.handleFeatureRequest(account, feature)) {
+                        accFeature.setFeatureState(FeatureState.REQUESTED);
+                    }
+                } else {
+                    accFeature.setFeatureState(FeatureState.SIMPLE);
+                }
             }
         }
         Account managedAccount = merge(account);
         setIKNames(managedAccount);
-        if (requested) {
-            _requestHandler.handleFeatureRequest(managedAccount);
-        }
         return managedAccount;
     }
 

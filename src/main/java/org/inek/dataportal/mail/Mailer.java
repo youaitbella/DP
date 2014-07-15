@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountChangeMail;
+import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.account.Person;
 import org.inek.dataportal.entities.admin.MailTemplate;
@@ -41,12 +42,6 @@ public class Mailer {
     @Inject
     MailTemplateFacade _mailTemplateFacade;
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    // place getter and setters here
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-    // place this methods here
-    // </editor-fold>
     public boolean sendMail(String recipient, String subject, String body) {
         return sendMail(recipient, "", subject, body);
     }
@@ -80,6 +75,22 @@ public class Mailer {
         return false;
     }
 
+    public MailTemplate getMailTemplate(String name) {
+        MailTemplate template = _mailTemplateFacade.findByName(name);
+        if (template == null) {
+            String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+            String msg = "Server: " + serverName + "\r\n Mail template not found: " + name + "\r\n";
+            sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "MailTemplate not found", msg);
+        }
+        return template;
+    }
+
+    private String getFormalSalutation(Person person) {
+        String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationFemale");
+        salutation = salutation.replace("{title}", person.getTitle()).replace("{lastname}", person.getLastName()).replace("  ", " ");
+        return salutation;
+    }
+
     public boolean sendActivationMail(AccountRequest accountRequest) {
         MailTemplate template = getMailTemplate("AccountActivationMail");
         if (template == null) {
@@ -104,7 +115,7 @@ public class Mailer {
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
                 .replace("{link", link)
-                .replace("{mail}", changeMail.getMail())
+                .replace("{email}", changeMail.getMail())
                 .replace("{activationkey}", changeMail.getActivationKey());
         return sendMail(changeMail.getMail(), template.getBcc(), template.getSubject(), body);
     }
@@ -120,26 +131,24 @@ public class Mailer {
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{link", link)
-                .replace("{mail}", account.getEmail())
+                .replace("{email}", account.getEmail())
                 .replace("{activationkey}", pwdRequest.getActivationKey());
         return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
 
     }
 
-    private MailTemplate getMailTemplate(String name) {
-        MailTemplate template = _mailTemplateFacade.findByName(name);
+    public boolean sendFeatureRequestAnswer(String templateName, Account account, AccountFeatureRequest featureRequest) {
+        MailTemplate template = getMailTemplate(templateName);
         if (template == null) {
-            String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
-            String msg = "Server: " + serverName + "\r\n Mail template not found: " + name + "\r\n";
-            sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "MailTemplate not found", msg);
+            return false;
         }
-        return template;
-    }
 
-    private String getFormalSalutation(Person person) {
-        String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationFemale");
-        salutation = salutation.replace("{title}", person.getTitle()).replace("{lastname}", person.getLastName()).replace("  ", " ");
-        return salutation;
+        String salutation = getFormalSalutation(account);
+        String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
+        String body = template.getBody()
+                .replace("{formalSalutation}", salutation)
+                .replace("{feature}", featureRequest.getFeature().getDescription());
+        return sendMail(account.getEmail(), template.getBcc(), subject, body);
     }
 
 }
