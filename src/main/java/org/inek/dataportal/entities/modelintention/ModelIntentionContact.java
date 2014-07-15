@@ -35,7 +35,7 @@ public class ModelIntentionContact implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "csId")
     private Integer _id;
-    
+
     public Integer getId() {
         return _id;
     }
@@ -47,7 +47,6 @@ public class ModelIntentionContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ModelIntentionId">
     @Column(name = "csModelIntentionId")
-   
     private Integer _modelIntentionId;
 
     public Integer getModelIntentionId() {
@@ -61,9 +60,10 @@ public class ModelIntentionContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ContactTypeId">
     @Column(name = "csContactTypeId")
+
     @Documentation(name = "Art", translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", omitOnEmpty = true)
     private int _contactTypeId;
-    
+
     public int getContactTypeId() {
         return _contactTypeId;
     }
@@ -72,13 +72,13 @@ public class ModelIntentionContact implements Serializable {
         _contactTypeId = contactTypeId;
     }
      // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="IK">
     @Column(name = "csIK")
     @Documentation(key = "lblIK", translateValue = "-1=empty")
     private int _ik = -1;
-    
-     public Integer getIk() {
+
+    public Integer getIk() {
         return _ik < 0 ? null : _ik;
     }
 
@@ -86,13 +86,13 @@ public class ModelIntentionContact implements Serializable {
         _ik = ik == null ? -1 : ik;
     }
      // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Name">
     @Column(name = "csName")
     @Documentation(key = "lblName")
     private String _name = "";
-    
-    @Size(max = 100)
+
+    @Size(max = 150)
     public String getName() {
         return _name;
     }
@@ -101,12 +101,12 @@ public class ModelIntentionContact implements Serializable {
         _name = name;
     }
      // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Street">
     @Column(name = "csStreet")
     @Documentation(key = "lblStreet")
     private String _street = "";
-    
+
     @Size(max = 100)
     public String getStreet() {
         return _street;
@@ -119,10 +119,10 @@ public class ModelIntentionContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Zip">
     @Column(name = "csZip")
-   // @Pattern(regexp = "\\b((?:0[1-46-9]\\d{3})|(?:[1-357-9]\\d{4})|(?:[4][0-24-9]\\d{3})|(?:[6][013-9]\\d{3}))\\b", message = "Die Eingabe entspricht keiner Postleitzahl.")
+    // @Pattern(regexp = "\\b((?:0[1-46-9]\\d{3})|(?:[1-357-9]\\d{4})|(?:[4][0-24-9]\\d{3})|(?:[6][013-9]\\d{3}))\\b", message = "Die Eingabe entspricht keiner Postleitzahl.")
     @Documentation(key = "lblPostalCode")
     private String _zip = "";
-    
+
     @Pattern(regexp = "^$|^[0-9]{5}$", message = "Die Eingabe entspricht keiner Postleitzahl.")
     public String getZip() {
         return _zip;
@@ -137,7 +137,7 @@ public class ModelIntentionContact implements Serializable {
     @Column(name = "csTown")
     @Documentation(key = "lblTown")
     private String _town = "";
-    
+
     @Size(max = 50)
     public String getTown() {
         return _town;
@@ -166,7 +166,7 @@ public class ModelIntentionContact implements Serializable {
     @Column(name = "csContactPerson")
     @Documentation(key = "lblContactPerson")
     private String _contactPerson = "";
-    
+
     @Size(max = 100)
     public String getContactPerson() {
         return _contactPerson;
@@ -176,12 +176,12 @@ public class ModelIntentionContact implements Serializable {
         _contactPerson = contactPerson;
     }
      // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Phone">
     @Column(name = "csPhone")
     @Documentation(key = "lblPhone")
     private String _phone = "";
-    
+
     @Size(max = 50)
     public String getPhone() {
         return _phone;
@@ -196,8 +196,8 @@ public class ModelIntentionContact implements Serializable {
     @Column(name = "csEMail")
     @Documentation(key = "lblMail")
     private String _email = "";
-    
-   // @Pattern(regexp = "^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+
+    // @Pattern(regexp = "^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
     @Size(max = 50)
     public String getEmail() {
         return _email;
@@ -207,8 +207,6 @@ public class ModelIntentionContact implements Serializable {
         _email = email;
     }
     // </editor-fold>
-    
-   
 
     public boolean isEmpty() {
         return _ik == -1
@@ -222,7 +220,6 @@ public class ModelIntentionContact implements Serializable {
                 && _email.isEmpty();
     }
 
- 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {

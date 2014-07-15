@@ -75,7 +75,7 @@ public class ModelIntentionList {
             _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, UserSet.OtherUsers);
         } else {
             _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(ids, DataSet.All, UserSet.DenotedUsers);
-                // remove entries, if not sealed and only sealed are allowesd visible
+            // remove entries, if not sealed and only sealed are allowesd visible
             // TODO: When switched to Java 8 replace this ugly code by streams with filter
             for (Iterator<EntityInfo> itr = _partnerEntityInfos.iterator(); itr.hasNext();) {
                 EntityInfo entry = itr.next();

@@ -1,7 +1,6 @@
 package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +14,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountChangeMail;
@@ -23,7 +21,6 @@ import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.Customer;
-import org.inek.dataportal.entities.DropBox;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.Account_;
 import org.inek.dataportal.enums.Feature;
@@ -89,7 +86,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         Root request = cq.from(Account.class);
         cq.select(request).where(cb.like(request.get("_email"), "%@inek-drg.de"));
         TypedQuery<Account> query = getEntityManager().createQuery(cq);
-        //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();        
+        //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
         //System.out.println(sql);
         return query.getResultList();
     }
@@ -99,9 +96,9 @@ public class AccountFacade extends AbstractFacade<Account> {
 //        CriteriaQuery<SelectItem> cQuery = cBuilder.createQuery(SelectItem.class);
 //        Root<Account> accountRoot = cQuery.from(Account.class);
 //        cQuery.select(cBuilder.construct(
-//                SelectItem.class, 
-//                accountRoot.get(Account_._accountId), 
-//                accountRoot.get(Account_._lastName) 
+//                SelectItem.class,
+//                accountRoot.get(Account_._accountId),
+//                accountRoot.get(Account_._lastName)
 //        ));
         CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Object[]> cQuery = cBuilder.createQuery(Object[].class);
@@ -113,13 +110,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         cQuery.where(cBuilder.like(accountRoot.get(Account_._email), "%@inek-drg.de"));
         List<Object[]> valueArray = getEntityManager().createQuery(cQuery).getResultList();
         List<SelectItem> agents = new ArrayList<>();
-        for (Object[] values : valueArray){
+        for (Object[] values : valueArray) {
             agents.add(new SelectItem(values[0], values[1] + ", " + values[2]));
         }
         return agents;
     }
 
-    
     public Account getAccount(final String mailOrUser, final String password) {
         clearCache();
         if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password)) {
@@ -275,7 +271,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             request.setPasswordHash(Crypt.getPasswordHash(password, account.getAccountId()));
             _pwdRequestFacade.merge(request);
         }
-        if (_mailer.sendPasswordActivationMail(request, mail)) {
+        if (_mailer.sendPasswordActivationMail(request, account)) {
             return true;
         }
         getLogger().log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());

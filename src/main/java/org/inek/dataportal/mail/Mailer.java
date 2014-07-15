@@ -19,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.PasswordRequest;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountChangeMail;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.account.Person;
@@ -94,6 +95,37 @@ public class Mailer {
         return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
+    public boolean sendMailActivationMail(AccountChangeMail changeMail) {
+        MailTemplate template = getMailTemplate("MailActivationMail");
+        if (template == null) {
+            return false;
+        }
+        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
+        String body = template.getBody()
+                //.replace("{formalSalutation}", salutation)
+                .replace("{link", link)
+                .replace("{mail}", changeMail.getMail())
+                .replace("{activationkey}", changeMail.getActivationKey());
+        return sendMail(changeMail.getMail(), template.getBcc(), template.getSubject(), body);
+    }
+
+    public boolean sendPasswordActivationMail(PasswordRequest pwdRequest, Account account) {
+        MailTemplate template = getMailTemplate("PasswordActivationMail");
+        if (template == null) {
+            return false;
+        }
+        String salutation = getFormalSalutation(account);
+        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
+
+        String body = template.getBody()
+                .replace("{formalSalutation}", salutation)
+                .replace("{link", link)
+                .replace("{mail}", account.getEmail())
+                .replace("{activationkey}", pwdRequest.getActivationKey());
+        return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
+
+    }
+
     private MailTemplate getMailTemplate(String name) {
         MailTemplate template = _mailTemplateFacade.findByName(name);
         if (template == null) {
@@ -108,27 +140,6 @@ public class Mailer {
         String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationFemale");
         salutation = salutation.replace("{title}", person.getTitle()).replace("{lastname}", person.getLastName()).replace("  ", " ");
         return salutation;
-    }
-
-    public boolean sendMailActivationMail(AccountChangeMail changeMail) {
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
-        String body = Utils.getMessage("msgActivateMail") + "\r\n" + link + "\r\n" + Utils.getMessage("msgActivateMailInfo");
-        body = body.replace("{mail}", changeMail.getMail());
-        body = body.replace("{activationkey}", changeMail.getActivationKey());
-        return sendMail(changeMail.getMail(), Utils.getMessage("headerActivateMail"), body);
-    }
-
-    public boolean sendPasswordActivationMail(PasswordRequest pwdRequest, String mail) {
-        MailTemplate template = getMailTemplate("PasswordActivationMail");
-        if (template == null) {
-            return false;
-        }
-//        String salutation = getFormalSalutation(account);
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" + pwdRequest.getActivationKey() + "&mail=" + mail;
-        String body = Utils.getMessage("msgActivatePwd") + "\r\n" + link + "\r\n" + Utils.getMessage("msgActivatePwdInfo");
-        body = body.replace("{mail}", mail);
-        body = body.replace("{activationkey}", pwdRequest.getActivationKey());
-        return sendMail(mail, Utils.getMessage("headerActivatePwd"), body);
     }
 
 }
