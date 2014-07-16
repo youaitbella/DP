@@ -28,18 +28,10 @@ public class AccountFeatureRequestFacade extends AbstractFacade<AccountFeatureRe
     }
 
     public AccountFeatureRequest findByApprovalKey(String key) {
-        return findByField("_approvalKey", key);
-    }
-
-    public AccountFeatureRequest findByAccountId(int accountId) {
-        return findByField("_accountId", accountId);
-    }
-
-    private AccountFeatureRequest findByField(String name, Object value) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountFeatureRequest> query = cb.createQuery(AccountFeatureRequest.class);
         Root<AccountFeatureRequest> root = query.from(AccountFeatureRequest.class);
-        query.select(root).where(cb.equal(root.get(name), value));
+        query.select(root).where(cb.equal(root.get(AccountFeatureRequest_._approvalKey), key));
         TypedQuery<AccountFeatureRequest> q = getEntityManager().createQuery(query);
         try {
             return q.getSingleResult();

@@ -7,9 +7,9 @@ package org.inek.dataportal.utils.timed;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.enums.Feature;
@@ -25,10 +25,11 @@ import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 public class FeatureService {
 
     private static final Logger _logger = Logger.getLogger("FeatureService");
-    @EJB private AccountFacade _accountFacade;
-    @EJB private FeatureRequestHandler _handler;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private FeatureRequestHandler _handler;
 
-    @Schedule(hour = "0", info = "once a day")
+//    @Schedule(hour = "0", info = "once a day")
+    @Schedule(hour = "*", minute = "*/1", info = "once a day")
     public void checkFeatures() {
         _logger.log(Level.INFO, "Start checkFeatures");
         check4requestedFeatures();

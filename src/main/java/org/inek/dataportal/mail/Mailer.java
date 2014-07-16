@@ -100,7 +100,7 @@ public class Mailer {
         String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + accountRequest.getUser().replace(" ", "%20");
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
-                .replace("{link", link)
+                .replace("{link}", link)
                 .replace("{username}", accountRequest.getUser())
                 .replace("{activationkey}", accountRequest.getActivationKey());
         return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
@@ -114,7 +114,7 @@ public class Mailer {
         String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
-                .replace("{link", link)
+                .replace("{link}", link)
                 .replace("{email}", changeMail.getMail())
                 .replace("{activationkey}", changeMail.getActivationKey());
         return sendMail(changeMail.getMail(), template.getBcc(), template.getSubject(), body);
@@ -130,7 +130,7 @@ public class Mailer {
 
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
-                .replace("{link", link)
+                .replace("{link}", link)
                 .replace("{email}", account.getEmail())
                 .replace("{activationkey}", pwdRequest.getActivationKey());
         return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);

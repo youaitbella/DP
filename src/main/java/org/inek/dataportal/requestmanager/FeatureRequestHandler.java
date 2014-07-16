@@ -63,7 +63,7 @@ public class FeatureRequestHandler {
         String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
         String body = template.getBody()
-                .replace("{link", link)
+                .replace("{link}", link)
                 .replace("{feature}", featureRequest.getFeature().getDescription())
                 .replace("{name}", account.getFirstName() + " " + account.getLastName())
                 .replace("{email}", account.getEmail())
