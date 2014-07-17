@@ -4,7 +4,6 @@
  */
 package org.inek.dataportal.common;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -48,117 +47,87 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
 
     @Override
     public void handle() throws FacesException {
-        boolean isHandled = false;
         Iterator<ExceptionQueuedEvent> i = getUnhandledExceptionQueuedEvents().iterator();
-        while (i.hasNext()) {
+        if (!i.hasNext()) {
+            getWrapped().handle();
+            return;
+        }
 
+        FacesContext fc = FacesContext.getCurrentInstance();
+        StringBuilder messageCollector = new StringBuilder();
+        String targetPage = "";
+
+        while (i.hasNext()) {
             ExceptionQueuedEvent event = i.next();
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
             Throwable exception = context.getException();
             if (exception instanceof ViewExpiredException) {
-                ViewExpiredException vee = (ViewExpiredException) exception;
-                FacesContext fc = FacesContext.getCurrentInstance();
+                ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
                 Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
-                try {
-                    if (!vee.getViewId().contains("Login.xhtml")) {
-                        requestMap.put("currentViewId", vee.getViewId());
-                        fc.getViewRoot().setViewId(Pages.SessionTimeout.URL());
-                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
-                        fc.renderResponse();
-                    }
-                } finally {
-                    i.remove();
+                if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
+                    targetPage = Pages.SessionTimeout.RedirectURL();
+                    requestMap.put("currentViewId", viewExpiredExeption.getViewId());
                 }
             } else if (exception instanceof NonexistentConversationException) {
-                FacesContext fc = FacesContext.getCurrentInstance();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
-                try {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", exception);
-                    if (!isHandled) {
-                        SessionController sc = Utils.getBean(SessionController.class);
-                        if (sc != null) {
-                            sc.logout();
-                        }
-                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
-                        fc.getExternalContext().redirect(path + Pages.InvalidConversation.URL());
-//                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
-//                        fc.renderResponse();
-                        isHandled = true;
-                    }
-                } catch (IOException ex) {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
-                } finally {
-                    i.remove();
+                String head = "[PortalExceptionHandler NonexistentConversationException] ";
+                _logger.log(Level.SEVERE, head, exception);
+                collectException(messageCollector, head, exception);
+                if (targetPage.isEmpty()) {
+                    targetPage = Pages.InvalidConversation.RedirectURL();
                 }
             } else if (exception instanceof ELException) {
-                // this might be result of a session time out
-                FacesContext fc = FacesContext.getCurrentInstance();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
-                try {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", exception);
-                    if (!isHandled) {
-                        SessionController sc = Utils.getBean(SessionController.class);
-                        if (sc != null) {
-                            sc.logout();
-                        }
-                        SendExeptionMessage("PortalExceptionHandler " + exception.getClass(), exception);
-                        String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
-                        fc.getExternalContext().redirect(path + Pages.ErrorRedirector.URL());
-//                        nav.handleNavigation(fc, null, Pages.SessionTimeout.URL());
-//                        fc.renderResponse();
-                        isHandled = true;
-                    }
-                } catch (IOException ex) {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
-                } finally {
-                    i.remove();
+                String head = "[PortalExceptionHandler ELException] ";
+                _logger.log(Level.SEVERE, head, exception);
+                collectException(messageCollector, head, exception);
+                if (targetPage.isEmpty()) {
+                    targetPage = Pages.ErrorRedirector.RedirectURL();
                 }
             } else if (exception instanceof FacesException) {
-                FacesContext fc = FacesContext.getCurrentInstance();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
-                try {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler] ", exception);
-                    //String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
-                    //fc.getExternalContext().redirect(path + Pages.ErrorRedirector.URL());
-                    SessionController sc = Utils.getBean(SessionController.class);
-                    if (sc != null) {
-                        sc.logout();
-                    }
-                    SendExeptionMessage("PortalExceptionHandler FacesException", exception);
-                    nav.handleNavigation(fc, null, Pages.Error.URL());
-                    fc.renderResponse();
-//                } catch (IOException ex) {
-//                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", t);
-                } finally {
-                    i.remove();
+                String head = "[PortalExceptionHandler FacesException] ";
+                _logger.log(Level.SEVERE, head, exception);
+                collectException(messageCollector, head, exception);
+                if (targetPage.isEmpty()) {
+                    targetPage = Pages.Error.RedirectURL();
                 }
             } else {
-                FacesContext fc = FacesContext.getCurrentInstance();
                 String msg = exception.getMessage();
                 if (msg == null || !msg.contains("Conversation lock timed out")) {
-                    SendExeptionMessage("PortalExceptionHandler OtherException", exception);
-                }
-                try {
-                    String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
-                    fc.getExternalContext().redirect(path + Pages.Error.URL());
-                } catch (IOException ex) {
-                    _logger.log(Level.SEVERE, "[PortalExceptionHandler IOException] ", exception);
-                } finally {
-                    i.remove();
+                    String head = "[PortalExceptionHandler OtherException] ";
+                    _logger.log(Level.SEVERE, head, exception);
+                    collectException(messageCollector, head, exception);
                 }
             }
+            i.remove();
         }
+        SendExeptionMessage(messageCollector.toString());
+        SessionController sc = Utils.getBean(SessionController.class);
+        if (sc != null) {
+            sc.logout();
+        }
+        NavigationHandler nav = fc.getApplication().getNavigationHandler();
+        //String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
+        //fc.getExternalContext().redirect(path + targetPage);
+        //fc.getViewRoot().setViewId(targetPage);
+        nav.handleNavigation(fc, null, targetPage);
+        fc.renderResponse();
         getWrapped().handle();
     }
 
-    @Inject Mailer _mailer;
-    private void SendExeptionMessage(String subject, Throwable exception) {
-        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
-        String msg = "Server: " + name + "\r\n" + exception.getMessage() + "\r\n";
-        for (StackTraceElement element : exception.getStackTrace()) {
-            msg += element.toString() + "\r\n";
+    private void collectException(StringBuilder collector, String head, Throwable exception) {
+        if (collector.length() > 0) {
+            collector.append("\r\n\r\n--------------------------------\r\n\r\n");
         }
+        collector.append(head).append("\r\n");
+        collector.append(exception.getMessage()).append("\r\n");
+        for (StackTraceElement element : exception.getStackTrace()) {
+            collector.append(element.toString()).append("\r\n");
+        }
+    }
+
+    @Inject Mailer _mailer;
+    private void SendExeptionMessage(String msg) {
+        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+        String subject = "Exception reported by Server " + name;
         _mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg);
     }
 
