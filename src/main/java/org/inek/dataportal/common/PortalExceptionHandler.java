@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import javax.el.ELException;
 import javax.enterprise.context.NonexistentConversationException;
 import javax.faces.FacesException;
-import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
@@ -35,6 +34,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
 
     static final Logger _logger = Logger.getLogger(PortalExceptionHandler.class.getName());
     private final ExceptionHandler _wrapped;
+    @Inject private Mailer _mailer;
 
     PortalExceptionHandler(ExceptionHandler wrapped) {
         _wrapped = wrapped;
@@ -104,12 +104,13 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         if (sc != null) {
             sc.logout();
         }
-        NavigationHandler nav = fc.getApplication().getNavigationHandler();
-        //String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
-        //fc.getExternalContext().redirect(path + targetPage);
-        //fc.getViewRoot().setViewId(targetPage);
-        nav.handleNavigation(fc, null, targetPage);
-        fc.renderResponse();
+        Utils.navigate(targetPage);
+//        NavigationHandler nav = fc.getApplication().getNavigationHandler();
+//        //String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
+//        //fc.getExternalContext().redirect(path + targetPage);
+//        //fc.getViewRoot().setViewId(targetPage);
+//        nav.handleNavigation(fc, null, targetPage);
+        //fc.renderResponse();
         getWrapped().handle();
     }
 
@@ -117,15 +118,24 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         if (collector.length() > 0) {
             collector.append("\r\n\r\n--------------------------------\r\n\r\n");
         }
-        collector.append(head).append("\r\n");
-        collector.append(exception.getMessage()).append("\r\n");
+        collector.append(head).append("\r\n\r\n");
+        collector.append(exception.getMessage()).append("\r\n\r\n");
         for (StackTraceElement element : exception.getStackTrace()) {
             collector.append(element.toString()).append("\r\n");
         }
     }
 
-    @Inject Mailer _mailer;
     private void SendExeptionMessage(String msg) {
+        if (_mailer == null) {
+            SessionController sc = Utils.getBean(SessionController.class);
+            if (sc != null) {
+                _mailer = sc.getMailer();
+            }
+        }
+        if (_mailer == null) {
+            _logger.log(Level.SEVERE, "##### Mailer not injected #####");
+            return;
+        }
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
         String subject = "Exception reported by Server " + name;
         _mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg);

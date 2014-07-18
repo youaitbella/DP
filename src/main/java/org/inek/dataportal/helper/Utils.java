@@ -196,11 +196,11 @@ public class Utils {
         }
         return "";
     }
-    
+
     public static void navigate(String URL) {
-                FacesContext fc = FacesContext.getCurrentInstance();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
-                nav.handleNavigation(fc, null, Pages.Login.URL());
+        FacesContext fc = FacesContext.getCurrentInstance();
+        NavigationHandler nav = fc.getApplication().getNavigationHandler();
+        nav.handleNavigation(fc, null, URL);
     }
 
 }

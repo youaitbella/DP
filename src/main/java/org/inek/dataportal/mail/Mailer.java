@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -35,6 +36,7 @@ import org.inek.dataportal.utils.PropertyManager;
  * @author muellermi
  */
 @Singleton
+@Startup
 public class Mailer {
 
     protected static final Logger _logger = Logger.getLogger("Mailer");

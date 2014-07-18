@@ -32,10 +32,10 @@ import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.feature.admin.AdminController;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -59,6 +59,10 @@ public class SessionController implements Serializable {
     private LogFacade _logFacade;
     @Inject
     private AccountDocumentFacade _accDocFacade;
+    @Inject private Mailer _mailer;
+    public Mailer getMailer() {
+        return _mailer;
+    }
 
     private Account _account;
     private final Topics _topics = new Topics();
@@ -188,7 +192,7 @@ public class SessionController implements Serializable {
             try {
                 System.out.println("old session " + sessionId);
                 //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-                sessionId = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
+                sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
                 System.out.println("new session " + sessionId);
             } catch (Exception ex) {
                 _logger.log(Level.WARNING, "Exception during invalidatesesion");
@@ -216,9 +220,9 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * Login for usage within the portal.
-     * Setup environment after login.
-     * @param mailOrUser 
+     * Login for usage within the portal. Setup environment after login.
+     *
+     * @param mailOrUser
      * @param password
      * @return
      */
@@ -232,11 +236,12 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * General login function. Will be used from UploadServlet (DatenDienst) too.
-     * Thus, perform login only.
+     * General login function. Will be used from UploadServlet (DatenDienst)
+     * too. Thus, perform login only.
+     *
      * @param mailOrUser
      * @param password
-     * @return 
+     * @return
      */
     public boolean login(String mailOrUser, String password) {
         _account = _accountFacade.getAccount(mailOrUser, password);
@@ -263,7 +268,7 @@ public class SessionController implements Serializable {
                 features.put(accFeature.getSequence(), accFeature.getFeature());
             }
         }
-        if (isInekUser(Feature.ADMIN)){
+        if (isInekUser(Feature.ADMIN)) {
             _features.add(FeatureFactory.createController(Feature.ADMIN, _account, this));
         }
         if (!hasMaintenance) {
