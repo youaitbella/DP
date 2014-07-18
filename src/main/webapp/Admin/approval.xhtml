@@ -15,58 +15,62 @@
             <h1>Feature approval</h1>
             <p>
                 <h:outputLabel for="accountId" value="Id:"/>
-                <h:outputText id="accountId" value="#{featureRequestManager.account.accountId}" />   
+                <h:outputText id="accountId" value="#{featureRequestManager.account.accountId}" />
+            </p>
+            <p>
+                <h:outputLabel for="feature" value="Feature:"/>
+                <h:outputText id="feature" value="#{featureRequestManager.feature}" />
             </p>
             <p>
                 <h:outputLabel for="user" value="User:"/>
-                <h:outputText id="user" value="#{featureRequestManager.account.user}" />   
+                <h:outputText id="user" value="#{featureRequestManager.account.user}" />
             </p>
             <p>
                 <h:outputLabel for="firstname" value="First name:"/>
-                <h:outputText id="firstname" value="#{featureRequestManager.account.firstName}" />   
+                <h:outputText id="firstname" value="#{featureRequestManager.account.firstName}" />
             </p>
             <p>
                 <h:outputLabel for="lastname" value="Last name:"/>
-                <h:outputText id="lastname" value="#{featureRequestManager.account.lastName}" />   
+                <h:outputText id="lastname" value="#{featureRequestManager.account.lastName}" />
             </p>
             <p>
                 <h:outputLabel for="role" value="Role:"/>
-                <h:outputText id="role" value="#{featureRequestManager.role}" />   
+                <h:outputText id="role" value="#{featureRequestManager.role}" />
             </p>
             <p>
                 <h:outputLabel for="email" value="Email:"/>
-                <h:outputText id="email" value="#{featureRequestManager.account.email}" />   
+                <h:outputText id="email" value="#{featureRequestManager.account.email}" />
             </p>
             <p>
                 <h:outputLabel for="phone" value="Phone:"/>
-                <h:outputText id="phone" value="#{featureRequestManager.account.phone}" />   
+                <h:outputText id="phone" value="#{featureRequestManager.account.phone}" />
             </p>
             <p>
                 <h:outputLabel for="company" value="Company:"/>
-                <h:outputText id="company" value="#{featureRequestManager.account.company}" />   
+                <h:outputText id="company" value="#{featureRequestManager.account.company}" />
             </p>
             <p>
                 <h:outputLabel for="ik" value="IK:"/>
-                <h:outputText id="ik" value="#{featureRequestManager.account.IK}" />   
-                <h:outputText id="ikKnown" value="#{featureRequestManager.ikKnown}" />   
+                <h:outputText id="ik" value="#{featureRequestManager.account.IK}" />
+                <h:outputText id="ikKnown" value="#{featureRequestManager.ikKnown}" />
             </p>
             <p>
                 <h:outputLabel for="street" value="Street:"/>
-                <h:outputText id="street" value="#{featureRequestManager.account.street}" />   
+                <h:outputText id="street" value="#{featureRequestManager.account.street}" />
             </p>
             <p>
                 <h:outputLabel for="postcode" value="Postal code:"/>
-                <h:outputText id="postcode" value="#{featureRequestManager.account.postalCode}" />   
+                <h:outputText id="postcode" value="#{featureRequestManager.account.postalCode}" />
             </p>
             <p>
                 <h:outputLabel for="town" value="Town:"/>
-                <h:outputText id="town" value="#{featureRequestManager.account.town}" />   
+                <h:outputText id="town" value="#{featureRequestManager.account.town}" />
             </p>
             <p>
                 <h:outputLabel for="custPhone" value="Custumer phone:"/>
-                <h:outputText id="custPhone" value="#{featureRequestManager.account.customerPhone}" />   
+                <h:outputText id="custPhone" value="#{featureRequestManager.account.customerPhone}" />
             </p>
-            
+
 
             <h:commandButton action="#{featureRequestManager.approve}" value="approve" />
             <h:commandButton action="#{featureRequestManager.reject}" value="reject" />

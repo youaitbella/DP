@@ -64,6 +64,10 @@ public class FeatureRequestManager implements Serializable {
         return _account;
     }
 
+    public String getFeature() {
+        return _request.getFeature().getDescription();
+    }
+
     public String getRole() {
         if (_account == null) {
             return "";
@@ -94,7 +98,7 @@ public class FeatureRequestManager implements Serializable {
 
     private void setNewState(FeatureState newState) {
         for (AccountFeature feature : _account.getFeatures()) {
-            if (feature.getFeatureState() == FeatureState.REQUESTED) {
+            if (feature.getFeatureState() == FeatureState.REQUESTED && feature.getFeature() == _request.getFeature()) {
                 feature.setFeatureState(newState);
             }
         }

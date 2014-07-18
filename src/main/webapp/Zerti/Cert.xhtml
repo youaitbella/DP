@@ -23,7 +23,7 @@
             <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
             <!--onkeyup="jsf.ajax.request(this, event, {render:'@form'}; return false"/-->
             <h1>
-                <h:commandLink value="#{msg.nameCert}" action="#{sessionController.navigate(sessionTools.pages.CertSummary)}" immediate="true"/>
+                <h:commandLink value="#{msg.nameCERT}" action="#{sessionController.navigate(sessionTools.pages.CertSummary)}" immediate="true"/>
             </h1>        
             <div class="tab">
                 <ul class="tab">
@@ -37,7 +37,7 @@
                 </ul>
             </div>
         </h:form>
-        
+
         <div class="edit">
             <!--ui:include src="# {editModelIntention.part}"/-->
             <ui:insert name="editContent">Content</ui:insert>
