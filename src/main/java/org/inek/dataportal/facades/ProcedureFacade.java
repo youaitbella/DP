@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.facades;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import org.inek.dataportal.entities.ProcedureInfo;
 
 /**
@@ -67,4 +62,5 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
 //        List<ProcedureInfo> results = q.getResultList();
 //        return results.size() > 0 ? results.get(0).getCode() : "";
     }
+
 }

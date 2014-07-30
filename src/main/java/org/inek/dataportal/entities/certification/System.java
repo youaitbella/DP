@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import org.inek.dataportal.enums.RemunerationSystem;
 
 /**
  *
@@ -34,16 +35,28 @@ public class System implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="RemunerationId">
+//    // <editor-fold defaultstate="collapsed" desc="RemunerationId">
+//    @Column(name = "syRemunerationId")
+//    private int _remunerationId;
+//
+//    public int getRemunerationId() {
+//        return _remunerationId;
+//    }
+//
+//    public void setRemunerationId(int remunerationId) {
+//        _remunerationId = remunerationId;
+//    }
+//    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="RemunerationSystem">
     @Column(name = "syRemunerationId")
     private int _remunerationId;
 
-    public int getRemunerationId() {
-        return _remunerationId;
+    public RemunerationSystem getRemunerationSystem() {
+        return RemunerationSystem.fromId(_remunerationId);
     }
 
-    public void setRemunerationId(int remunerationId) {
-        _remunerationId = remunerationId;
+    public void setRemunerationSystem(RemunerationSystem remunerationSystem) {
+        _remunerationId = remunerationSystem.getId();
     }
     // </editor-fold>
 
