@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.inek.dataportal.feature.cert;
+package org.inek.dataportal.feature.certification;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;

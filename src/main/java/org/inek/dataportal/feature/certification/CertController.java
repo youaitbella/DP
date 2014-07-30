@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.feature.cert;
+package org.inek.dataportal.feature.certification;
 
 import org.inek.dataportal.feature.modelintention.*;
 import org.inek.dataportal.controller.AbstractFeatureController;

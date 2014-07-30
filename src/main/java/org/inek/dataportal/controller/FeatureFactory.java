@@ -20,7 +20,7 @@ import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.requestsystem.RequestController;
-import org.inek.dataportal.feature.cert.CertController;
+import org.inek.dataportal.feature.certification.CertController;
 
 /**
  *

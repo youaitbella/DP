@@ -9,6 +9,7 @@ package org.inek.dataportal.enums;
  * @author muellermi
  */
 public enum Pages {
+
     Login("/login/Login"),
     LoginFinishRegister("/login/FinishRegister"),
     LoginRegister("/login/Register"),
@@ -90,11 +91,11 @@ public enum Pages {
     FragmentAcademicSupervision("/ModelIntention/fragment/AcademicSupervision"),
     FragmentQuality("/ModelIntention/fragment/Quality"),
     //
-    Cert("/Zerti/Cert"),
-    PartCert("/Zerti/PartCert"),
-    ListCert("/Zerti/ListCert"),
-    CertSummary("/Zerti/CertSummary"),
-    CertSystemManagement("/Zerti/CertSystemManagement"),
+    Cert("/Certification/Cert"),
+    PartCert("/Certification/PartCert"),
+    ListCert("/Certification/ListCert"),
+    CertSummary("/Certification/CertSummary"),
+    CertSystemManagement("/Certification/CertSystemManagement"),
     //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
@@ -114,17 +115,17 @@ public enum Pages {
     DocumentsEdit("/Documents/DocumentsEdit"),
     DocumentsSummary("/Documents/DocumentsSummary"),
     ListDocuments("/Documents/ListDocuments");
-    
+
     private final String _url;
-    private Pages(String url){
+    private Pages(String url) {
         _url = url;
     }
 
-    public String URL (){
+    public String URL() {
         return _url + ".xhtml";
     }
 
-    public String RedirectURL (){
+    public String RedirectURL() {
         return _url + ".xhtml?faces-redirect=true";
     }
 
