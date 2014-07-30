@@ -1,15 +1,37 @@
 package org.inek.dataportal.facades.certification;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
+import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.facades.AbstractFacade;
 
 /**
  *
  * @author muellermi
  */
-public class SystemFacade extends AbstractFacade<System> {
+@Stateless
+public class SystemFacade extends AbstractFacade<RemunerationSystem> {
 
     public SystemFacade() {
-        super(System.class);
+        super(RemunerationSystem.class);
+    }
+
+    public RemunerationSystem save(RemunerationSystem system) {
+        if (system.getId() == -1) {
+            persist(system);
+            return system;
+        }
+        return merge(system);
+    }
+
+    public List<SelectItem> getRemunerationSystemInfos() {
+        List<SelectItem> result = new ArrayList<>();
+        for (RemunerationSystem system : findAll()) {
+            result.add(new SelectItem(system.getId(), system.getDisplayName()));
+        }
+        return result;
     }
 
 }

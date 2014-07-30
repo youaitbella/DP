@@ -120,8 +120,8 @@ public class EditRequest extends AbstractEditController {
         addTopic(RequestTabs.tabReqDocuments.name(), Pages.RequestEditDocuments.URL());
     }
 
-    private RequestController getRequestController() {
-        return (RequestController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
+    private RequestSystemController getRequestController() {
+        return (RequestSystemController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
     }
     // <editor-fold defaultstate="collapsed" desc="Tab Background">
     private List<SelectItem> _categoryItems;
@@ -296,7 +296,7 @@ public class EditRequest extends AbstractEditController {
     }
 
     public String takeDocuments() {
-        RequestController reqController = (RequestController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
+        RequestSystemController reqController = (RequestSystemController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
         for (RequestDocument doc : reqController.getDocuments()) {
             RequestDocument existingDoc = findByName(doc.getName());
             if (existingDoc != null) {

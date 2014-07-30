@@ -3,7 +3,6 @@ package org.inek.dataportal.feature.admin;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.inek.dataportal.feature.cooperation.*;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -23,9 +22,10 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.InekRoleFacade;
-import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.admin.RoleMappingFacade;
+import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -42,10 +42,8 @@ public class AdminTask extends AbstractEditController {
         //_logger.log(Level.INFO, "Ctor AdminTask");
     }
 
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private Conversation _conversation;
+    @Inject private SessionController _sessionController;
+    @Inject private Conversation _conversation;
 
     @Override
     protected void addTopics() {
@@ -157,7 +155,6 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
 
@@ -231,9 +228,7 @@ public class AdminTask extends AbstractEditController {
         setRoleChanged(true);
     }
 
-
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
     @Inject
     AccountFacade _accountFacade;
@@ -274,7 +269,7 @@ public class AdminTask extends AbstractEditController {
     private List<RoleMapping> copyList(List<RoleMapping> mappings) {
         // Collections.copy alwas threw an index out of bound, even if sized before :(
         List<RoleMapping> copy = new ArrayList<>();
-        for (RoleMapping roleMapping : mappings){
+        for (RoleMapping roleMapping : mappings) {
             RoleMapping clone = new RoleMapping();
             clone.setAccountId(roleMapping.getAccountId());
             clone.setInekRoleId(roleMapping.getInekRoleId());
@@ -282,7 +277,6 @@ public class AdminTask extends AbstractEditController {
         }
         return copy;
     }
-
 
     private List<RoleMapping> _mappings;
 
@@ -293,7 +287,7 @@ public class AdminTask extends AbstractEditController {
     public void setMappings(List<RoleMapping> mappings) {
         _mappings = mappings;
     }
-    
+
     private boolean _mappingChanged = false;
 
     public boolean isMappingChanged() {
@@ -324,15 +318,15 @@ public class AdminTask extends AbstractEditController {
             if (mapping.getAccountId() == -1 || mapping.getInekRoleId() == -1) {
                 itr.remove();
             }
-            if (former.contains(mapping)){
+            if (former.contains(mapping)) {
                 former.remove(mapping);
                 itr.remove();
             }
         }
-        for (RoleMapping mapping : _mappings){
+        for (RoleMapping mapping : _mappings) {
             _mappingFacade.persist(mapping);
         }
-        for (RoleMapping mapping : former){
+        for (RoleMapping mapping : former) {
             _mappingFacade.remove(mapping);
         }
         setMappingChanged(false);
@@ -345,7 +339,6 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     private InekRole findRole(int id, List<InekRole> roles) {
         for (InekRole role : roles) {
             if (role.getId() == id) {
@@ -354,4 +347,5 @@ public class AdminTask extends AbstractEditController {
         }
         return null;
     }
+
 }

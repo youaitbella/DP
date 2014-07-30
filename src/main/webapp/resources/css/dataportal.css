@@ -112,10 +112,10 @@ div#wrapper {
         display: none;
     }
 
-    #tblPrint, 
-    #tblPrint td table, 
+    #tblPrint,
+    #tblPrint td table,
     #tblPrintSub {
-        border-collapse: collapse; 
+        border-collapse: collapse;
         padding: 0;
     }
 
@@ -124,12 +124,12 @@ div#wrapper {
         margin-top: 20px;
     }
 
-    #tblPrint td, 
-    #tblPrint td table td, 
-    #tblPrintSub td, 
+    #tblPrint td,
+    #tblPrint td table td,
+    #tblPrintSub td,
     #tblPrint th {
         vertical-align: top;
-        border-collapse: collapse; 
+        border-collapse: collapse;
         border: black dotted 1px;
         padding: 0.2em;
     }
@@ -423,6 +423,12 @@ div#wrapper {
     font-weight: bold;
 }
 
+.label15 {
+    font-weight: bold;
+    display:inline-block;
+    width: 15%;
+}
+
 .label30 {
     font-weight: bold;
     display:inline-block;
@@ -595,10 +601,10 @@ select:active, select:focus{
 }
 
 .col05{
-    width: 5%; 
+    width: 5%;
 }
 
-.colIcon{ 
+.colIcon{
     width:16px;
 }
 
@@ -611,7 +617,7 @@ select:active, select:focus{
 }
 
 .colIk, .col11{
-    width: 11%; 
+    width: 11%;
 }
 
 .colValue{
@@ -627,7 +633,7 @@ select:active, select:focus{
 }
 
 .col17{
-    width: 17%; 
+    width: 17%;
 }
 
 .col12{
@@ -754,7 +760,7 @@ span.button{
 }
 
 .sendButton{
-    background-color: #4aa628;  
+    background-color: #4aa628;
     background-image: url("/DataPortal/javax.faces.resource/arrow_go.png.xhtml?ln=Icon/small");
 }
 
@@ -764,7 +770,7 @@ span.button{
 }
 
 .addButton{
-    background-color: #7F9BAF;  
+    background-color: #7F9BAF;
     background-image: url("/DataPortal/javax.faces.resource/add.png.xhtml?ln=Icon/small");
 }
 
@@ -879,20 +885,20 @@ div.modelIntYesNo {
 }
 
 div.uploadFile {
-	position: relative;
+    position: relative;
 }
 
 div.fakeFile {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
 }
 
 .hiddenFile {
-	position: relative;
-	opacity: 0;
-	z-index: 2;
+    position: relative;
+    opacity: 0;
+    z-index: 2;
 }
 
 .number {

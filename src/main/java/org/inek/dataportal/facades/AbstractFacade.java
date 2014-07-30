@@ -1,6 +1,5 @@
 package org.inek.dataportal.facades;
 
-
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -14,7 +13,8 @@ import javax.persistence.criteria.Root;
  * @param <T>
  * @author muellermi
  */
-public abstract class AbstractFacade<T>{
+public abstract class AbstractFacade<T> {
+
     protected static final Logger _logger = Logger.getLogger("Facade");
 
     @PersistenceContext(unitName = "DataPortalPU")
@@ -34,17 +34,17 @@ public abstract class AbstractFacade<T>{
         return _em;
     }
 
-    void setEntityManager (EntityManager em){
+    void setEntityManager(EntityManager em) {
         _em = em;
     }
-    
+
     public void persist(T entity) {
         getEntityManager().persist(entity);
         clearCache();
     }
 
     public T merge(T entity) {
-        T savedEntity=getEntityManager().merge(entity);
+        T savedEntity = getEntityManager().merge(entity);
         clearCache();
         return savedEntity;
     }
@@ -81,17 +81,18 @@ public abstract class AbstractFacade<T>{
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    public void flush(){
+    public void flush() {
         getEntityManager().flush();
     }
-    
-    public void clearCache(){
+
+    public void clearCache() {
         flush();
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
     }
-    
-    public void clearCache(Class clazz){
+
+    public void clearCache(Class clazz) {
         flush();
         getEntityManager().getEntityManagerFactory().getCache().evict(clazz);
     }
+
 }

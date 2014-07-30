@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.enums.RemunerationSystem;
+import org.inek.dataportal.enums.RemunSystem;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.inek.dataportal.enums.RemunerationSystem;
  */
 @Entity
 @Table(name = "System", schema = "crt")
-public class System implements Serializable {
+public class RemunerationSystem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Properties">
     // <editor-fold defaultstate="collapsed" desc="id">
@@ -35,27 +35,25 @@ public class System implements Serializable {
     }
     // </editor-fold>
 
-//    // <editor-fold defaultstate="collapsed" desc="RemunerationId">
-//    @Column(name = "syRemunerationId")
-//    private int _remunerationId;
-//
-//    public int getRemunerationId() {
-//        return _remunerationId;
-//    }
-//
-//    public void setRemunerationId(int remunerationId) {
-//        _remunerationId = remunerationId;
-//    }
-//    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="RemunerationSystem">
+    // <editor-fold defaultstate="collapsed" desc="RemunerationId">
     @Column(name = "syRemunerationId")
     private int _remunerationId;
 
-    public RemunerationSystem getRemunerationSystem() {
-        return RemunerationSystem.fromId(_remunerationId);
+    public int getRemunerationId() {
+        return _remunerationId;
     }
 
-    public void setRemunerationSystem(RemunerationSystem remunerationSystem) {
+    public void setRemunerationId(int remunerationId) {
+        _remunerationId = remunerationId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="RemunerationSystem">
+    public RemunSystem getRemunerationSystem() {
+        return RemunSystem.fromId(_remunerationId);
+    }
+
+    public void setRemunerationSystem(RemunSystem remunerationSystem) {
         _remunerationId = remunerationSystem.getId();
     }
     // </editor-fold>
@@ -88,9 +86,9 @@ public class System implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="YearSystem">
+    // <editor-fold defaultstate="collapsed" desc="Approved">
     @Column(name = "syApproved")
-    private boolean _approved;
+    private boolean _approved = false;
 
     public boolean isApproved() {
         return _approved;
@@ -101,14 +99,27 @@ public class System implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="DisplayName">
+    public String getDisplayName() {
+        String yearInfo;
+        if (_yearData == _yearSystem) {
+            yearInfo = "" + _yearSystem;
+        } else {
+            yearInfo = _yearData + "/" + _yearSystem;
+        }
+
+        return getRemunerationSystem().getName() + " " + yearInfo;
+    }
+    // </editor-fold>
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof System)) {
+        if (!(object instanceof RemunerationSystem)) {
             return false;
         }
-        System other = (System) object;
+        RemunerationSystem other = (RemunerationSystem) object;
         return _id == other._id;
     }
 

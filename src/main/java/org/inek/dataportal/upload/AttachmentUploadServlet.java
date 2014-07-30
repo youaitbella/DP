@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.RequestDocument;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.feature.requestsystem.RequestController;
+import org.inek.dataportal.feature.requestsystem.RequestSystemController;
 
 @WebServlet(urlPatterns = {"/upload/attachment"}, name = "AttachmentUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
@@ -19,7 +19,7 @@ public class AttachmentUploadServlet extends AbstractUploadServlet {
 
     @Override
     protected void stream2Document(String filename, InputStream is) throws IOException {
-        RequestController controller = (RequestController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
+        RequestSystemController controller = (RequestSystemController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
         List<RequestDocument> documents = controller.getDocuments();
         RequestDocument document = findByName(documents, filename);
         if (document == null) {

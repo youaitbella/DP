@@ -13,11 +13,11 @@ import org.inek.dataportal.helper.Topics;
  *
  * @author muellermi
  */
-public class RequestController extends AbstractFeatureController {
+public class RequestSystemController extends AbstractFeatureController {
 
     private List<RequestDocument> _documents;
 
-    public RequestController(SessionController sessionController) {
+    public RequestSystemController(SessionController sessionController) {
         super(sessionController);
     }
 

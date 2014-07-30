@@ -6,6 +6,7 @@ package org.inek.dataportal.feature;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.inek.dataportal.common.SearchConsumer;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
@@ -24,6 +25,10 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
 
     public AbstractEditController() {
         _topics = new Topics();
+    }
+
+    @PostConstruct
+    private void init() {
         addTopics();
     }
 
@@ -52,15 +57,15 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
         _topics.setActive(topic);
     }
 
-    public Topic findTopic(String key){
+    public Topic findTopic(String key) {
         return _topics.findTopic(key);
     }
-    
+
     // </editor-fold>
     private void initTopics() {
         addTopics();
     }
-    
+
     abstract protected void addTopics();
 
     protected void addTopic(String key, String outcome) {
@@ -74,7 +79,7 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
     public String getPart() {
         return _topics.getActiveTopic().getOutcome();
     }
-    
+
     public void changeTab(String newTopic) {
         if (getActiveTopic().getKey().equals(newTopic)) {
             return;
@@ -88,18 +93,23 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
     }
 
     @Override
-    public void addDiagnosis(String code) {}
+    public void addDiagnosis(String code) {
+    }
 
     @Override
-    public void addProcedure(String code) {}
+    public void addProcedure(String code) {
+    }
 
     @Override
-    public void addDrg(String code) {}
+    public void addDrg(String code) {
+    }
 
     @Override
-    public void addPepp(String code) {}
+    public void addPepp(String code) {
+    }
 
     @Override
-    public void addDept(String code) {}
-    
+    public void addDept(String code) {
+    }
+
 }

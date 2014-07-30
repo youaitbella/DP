@@ -17,6 +17,7 @@ import org.inek.dataportal.enums.MedicalAttribute;
 import org.inek.dataportal.enums.PiaType;
 import org.inek.dataportal.enums.QualityUsage;
 import org.inek.dataportal.enums.Region;
+import org.inek.dataportal.enums.RemunSystem;
 import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.CostCenterFacade;
@@ -118,6 +119,14 @@ public class ValueLists {
         List<SelectItem> list = new ArrayList<>();
         for (TreatmentType val : TreatmentType.values()) {
             list.add(new SelectItem(val.id(), val.type()));
+        }
+        return list;
+    }
+
+    public List getRemunerationDomains() {
+        List<SelectItem> list = new ArrayList<>();
+        for (RemunSystem val : RemunSystem.values()) {
+            list.add(new SelectItem(val.getId(), val.getName()));
         }
         return list;
     }

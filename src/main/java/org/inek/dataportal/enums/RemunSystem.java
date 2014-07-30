@@ -4,15 +4,15 @@ package org.inek.dataportal.enums;
  *
  * @author muellermi
  */
-public enum RemunerationSystem {
+public enum RemunSystem {
 
-    Unknown(-1, "???"),
-    DRG(0, "G-DRG"),
-    PEPP(1, "PEPP");
+    Unknown(-1, ""),
+    DRG(0, "G-DRG-System"),
+    PEPP(1, "PEPP-Entgeltsystem");
 
     private final int _id;
     private final String _name;
-    private RemunerationSystem(int id, String name) {
+    private RemunSystem(int id, String name) {
         _id = id;
         _name = name;
     }
@@ -25,13 +25,13 @@ public enum RemunerationSystem {
         return _name;
     }
 
-    public static RemunerationSystem fromId(int value) {
-        for (RemunerationSystem system : RemunerationSystem.values()) {
+    public static RemunSystem fromId(int value) {
+        for (RemunSystem system : RemunSystem.values()) {
             if (system.getId() == value) {
                 return system;
             }
         }
-        return RemunerationSystem.Unknown;
+        return RemunSystem.Unknown;
     }
 
 }

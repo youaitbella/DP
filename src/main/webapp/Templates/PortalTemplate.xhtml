@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -19,15 +19,15 @@
 
     <h:body>
         <div class="noPrint">
-        <!--
-        <style>.input1{width: 12px;}</style>
-        <div  style="border-style: solid; border-color: red; border-width: 1px;">
-            Es wurde eine alte Version des Internet-Explorers festgestellt. Für eine verbesserte Darstellung aktualisieren Sie bitte Ihren Browser. Eine Liste der geprüften Browser entnehmen Sie bitte dem Handbuch des InEK Datenportals.
-        </div>
-        -->
-        <!--[if lt IE 11]>
-            Ihr Browser wurde als Internet-Explorers erkannt. Bitte beachten Sie die Hinweise im Handbuch, Abschnitt "getestete Browser"
-        <![endif]-->
+            <!--
+            <style>.input1{width: 12px;}</style>
+            <div  style="border-style: solid; border-color: red; border-width: 1px;">
+                Es wurde eine alte Version des Internet-Explorers festgestellt. Für eine verbesserte Darstellung aktualisieren Sie bitte Ihren Browser. Eine Liste der geprüften Browser entnehmen Sie bitte dem Handbuch des InEK Datenportals.
+            </div>
+            -->
+            <!--[if lt IE 11]>
+                Ihr Browser wurde als Internet-Explorers erkannt. Bitte beachten Sie die Hinweise im Handbuch, Abschnitt "getestete Browser"
+            <![endif]-->
         </div>
         <div id="wrapper">
             <div id="top">
@@ -56,7 +56,7 @@
                         InEK Datenportal
                     </div>
                     <div class="highlight">
-                        InEK – Institut für das Entgeltsystem im Krankenhaus 
+                        InEK – Institut für das Entgeltsystem im Krankenhaus
                         <span class="small">v#{applicationTools.version}</span>
                     </div>
                 </div>
@@ -83,19 +83,19 @@
                             </ui:repeat>
                             <ui:insert name="navItems">additional navigation items</ui:insert>
                             <li>
-                                <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf">Anwenderhandbuch</a>                            
+                                <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf">Anwenderhandbuch</a>
                             </li>
                         </ul>
                     </h:form>
 
-                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warning" 
+                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warning"
                                  rendered="#{announcementBean.announcements.stream().filter(a->a.warning).toList().size() gt 0}">
                         <h:column>
                             <h:outputText value="#{a.text}"/>
                         </h:column>
                     </h:dataTable>
 
-                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->!a.warning).toList()}" var="a" styleClass="hint" 
+                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->!a.warning).toList()}" var="a" styleClass="hint"
                                  rendered="#{announcementBean.announcements.stream().filter(a->!a.warning).toList().size() gt 0}">
                         <h:column>
                             <h:outputText value="#{a.text}"/>

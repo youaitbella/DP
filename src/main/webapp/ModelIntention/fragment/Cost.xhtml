@@ -20,8 +20,8 @@
             </div>
         </div>
     </h:form>
-    <h:form id="costForm" enctype="multipart/form-data">
 
+    <h:form id="costForm" enctype="multipart/form-data">
 
         <table class="fullWidth">
             <thead>
@@ -49,7 +49,7 @@
                         <td class="colIk alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgIk#{status.index}" for="ik#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth" id="ik#{status.index}" value="#{cost.ik}" 
+                                <h:inputText styleClass="fullWidth" id="ik#{status.index}" value="#{cost.ik}"
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:validator validatorId="IkValidator"/>
                                     <f:ajax event="blur" render="@this :logout:remaining msgIk#{status.index}"/>
@@ -60,10 +60,10 @@
                         <td class="col14 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgRemunerationCode#{status.index}" for="remunerationCode#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}" 
+                                <h:selectOneMenu styleClass="fullWidth" id="remunerationCode#{status.index}" value="#{cost.remunerationCode}"
                                                  required="true" readonly="#{editModelIntention.readOnly}" >
                                     <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{editModelIntention.modelIntention.remunerations.stream().filter(r -> !r.code.isEmpty()).toList()}" 
+                                    <f:selectItems value="#{editModelIntention.modelIntention.remunerations.stream().filter(r -> !r.code.isEmpty()).toList()}"
                                                    var="r" itemLabelEscaped="true"
                                                    itemValue="#{r.code}" itemLabel="#{r.code}" />
                                     <f:ajax event="change" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/>
@@ -75,7 +75,7 @@
                         <td class="col30 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgCostCenter#{status.index}" for="costCenter#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}" 
+                                <h:selectOneMenu styleClass="fullWidth" id="costCenter#{status.index}" value="#{cost.costCenterId}"
                                                  required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:selectItems value="#{valueLists.costCenters}"/>
                                     <f:ajax event="change" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/>
@@ -86,32 +86,32 @@
                         <td class="col30 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgCostType#{status.index}" for="costType#{status.index}" styleClass="errorMessage"/>
-                                <h:selectOneMenu styleClass="fullWidth" id="costType#{status.index}" value="#{cost.costTypeId}" 
+                                <h:selectOneMenu styleClass="fullWidth" id="costType#{status.index}" value="#{cost.costTypeId}"
                                                  required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:selectItems value="#{valueLists.costTypes}" />
                                     <f:ajax event="change" render="costForm :logout:remaining" listener="#{editModelIntention.costTable.checkDynamicListener}"/>
-                                </h:selectOneMenu> 
+                                </h:selectOneMenu>
                             </h:panelGrid>
                         </td>
 
                         <td class=" alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgAmount#{status.index}" for="amount#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText styleClass="fullWidth number" id="amount#{status.index}" value="#{cost.amount}" 
+                                <h:inputText styleClass="fullWidth number" id="amount#{status.index}" value="#{cost.amount}"
                                              required="true" readonly="#{editModelIntention.readOnly}">
                                     <f:convertNumber  minFractionDigits="2" maxFractionDigits="2" />
                                     <!--f:ajax event="keyup" render="costForm :logout:remaining" listener="# {editModelIntention.costTable.checkDynamicListener}"/-->
                                     <f:ajax event="blur" render="@this :logout:remaining msgAmount#{status.index}"/>
-                                </h:inputText> 
+                                </h:inputText>
                             </h:panelGrid>
                         </td>
 
                     </tr>
                 </c:forEach>
             </tbody>
-        </table>        
+        </table>
 
-        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddCost}" 
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddCost}"
                        rendered="#{!editModelIntention.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editModelIntention.addNewCost()}"/>
         </h:commandLink>

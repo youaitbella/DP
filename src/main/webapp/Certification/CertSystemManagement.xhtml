@@ -11,18 +11,100 @@
     <ui:define name="editContent">
         <h:form id="form">
 
-            <h2>Systemmanagement</h2>
+            <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
+            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
+                <f:selectItems value="#{editCert.systems}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+                <f:ajax render="@form" />
+            </h:selectOneMenu>
 
-            Neues System
-            <div class="groupBox">
-                <div class="groupBoxElement">
-                    Systemtyp:
-                    <h:selectOneMenu />
+            <hr/>
+
+            <div class="inputPart">
+                <h:outputLabel for="mnuDomain" value="#{msg.lblDomain}:" styleClass="label15"/>
+                <h:selectOneMenu id="mnuDomain" styleClass="input" value="#{editCert.system.remunerationId}" immediate="true" disabled="#{editCert.systemChanged}">
+                    <f:selectItems value="#{valueLists.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
+                    <f:ajax render="@form msgDomain :actionForm:btnSystemSave :logout:remaining" />
+                </h:selectOneMenu>
+                <h:message for="mnuDomain" id="msgDomain" styleClass="errorMessage"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtYearData" value="#{msg.lblYearData}:" styleClass="label15"/>
+                <h:inputText id="txtYearData"
+                             value="#{editCert.system.yearData}"
+                             styleClass="inputshort"
+                             required="true"
+                             disabled="#{editCert.system == null}">
+                    <f:ajax execute="change" render="@this msgYearData mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                </h:inputText>
+                <h:message for="txtYearData" id="msgYearData" styleClass="errorMessage"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtYearSystem" value="#{msg.lblYearSystem}:" styleClass="label15"/>
+                <h:inputText id="txtYearSystem"
+                             value="#{editCert.system.yearSystem}"
+                             styleClass="inputshort"
+                             required="true"
+                             disabled="#{editCert.system == null}">
+                    <f:ajax execute="change" render="@this msgYearSystem mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                </h:inputText>
+                <h:message for="txtYearSystem" id="msgYearSystem" styleClass="errorMessage"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
+                <h:selectBooleanCheckbox id="chkApproval" value="#{editCert.system.approved}">
+                    <f:ajax execute="change" render="@this mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                </h:selectBooleanCheckbox>
+            </div>
+        </h:form>
+
+        <br/>
+
+        <h:form id="costUploadForm" enctype="multipart/form-data">
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}">
+                    <f:ajax listener="#{certificationUpload.uploadSpec}" render="@form"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}"/>
                 </div>
-                <div class="groupBoxElement">
-                    Systemjahr:
-                    <h:inputText />
+            </div>
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}">
+                    <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}"/>
                 </div>
+            </div>
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}">
+                    <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
+                </div>
+            </div>
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}">
+                    <f:ajax listener="#{certificationUpload.uploadCertificationData()}" render="@form"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"/>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="actionForm">
+            <div class="toolBar">
+                <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
+                    <cb:confirmDelete/>
+                </h:commandLink>
+                <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                               id="btnSystemSave" action="#{editCert.saveSystem}"
+                               immediate="false" disabled="#{editCert.system == null || !editCert.systemChanged}"/>
             </div>
 
         </h:form>

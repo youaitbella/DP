@@ -10,18 +10,11 @@ import org.inek.dataportal.helper.Topics;
  *
  * @author muellermi
  */
-public class UserMaintenanceController extends AbstractFeatureController{
+public class UserMaintenanceController extends AbstractFeatureController {
+
     public UserMaintenanceController(SessionController sessionController) {
         super(sessionController);
     }
-
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    // place getter and setters here
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-    // place this methods here
-    // </editor-fold>
 
     @Override
     protected void addTopics(Topics topics) {
@@ -32,6 +25,5 @@ public class UserMaintenanceController extends AbstractFeatureController{
     public Feature getFeature() {
         return Feature.USER_MAINTENANCE;
     }
-
 
 }

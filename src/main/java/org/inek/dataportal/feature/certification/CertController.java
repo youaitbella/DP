@@ -4,10 +4,8 @@
  */
 package org.inek.dataportal.feature.certification;
 
-import org.inek.dataportal.feature.modelintention.*;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
@@ -24,8 +22,11 @@ public class CertController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblCert"), Pages.CertSummary.URL());
-        
+        if (getSessionController().isInekUser(Feature.CERT)) {
+            topics.addTopic(getMsg().getString("lblCert"), Pages.CertSystemManagement.URL());
+        } else {
+            topics.addTopic(getMsg().getString("lblCert"), Pages.CertCertification.URL());
+        }
     }
 
     @Override
@@ -37,4 +38,5 @@ public class CertController extends AbstractFeatureController {
     public Feature getFeature() {
         return Feature.CERT;
     }
+
 }
