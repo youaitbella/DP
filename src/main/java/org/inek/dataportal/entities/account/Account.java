@@ -11,8 +11,26 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.inek.dataportal.entities.admin.InekRole;
+import org.inek.dataportal.entities.certification.RemunerationSystem;
 
 /**
  *
@@ -83,12 +101,37 @@ public class Account implements Serializable, Person {
     @OrderBy("_ik")
     private List<AccountAdditionalIK> _additionalIKs;
 
+    // <editor-fold defaultstate="collapsed" desc="Property InekRoles">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "mapAccountInekRole", schema = "adm",
             joinColumns = @JoinColumn(name = "aiAccountId"),
             inverseJoinColumns = @JoinColumn(name = "aiInekRoleId"))
     private List<InekRole> _inekRoles;
+    public List<InekRole> getInekRoles() {
+        return _inekRoles;
+    }
+
+    public void setInekRoles(List<InekRole> inekRoles) {
+        _inekRoles = inekRoles;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CertSystems">
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinTable(
+            name = "mapSystemAccount", schema = "crt",
+            joinColumns = @JoinColumn(name = "msaAccountId"),
+            inverseJoinColumns = @JoinColumn(name = "msaSystemId"))
+    private List<RemunerationSystem> _systems;
+    public List<RemunerationSystem> getRemuneratiosSystems() {
+        return _systems;
+    }
+
+    public void setRemuneratiosSystems(List<RemunerationSystem> systems) {
+        _systems = systems;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getAccountId() {
@@ -295,19 +338,12 @@ public class Account implements Serializable, Person {
         return _additionalIKs;
     }
 
-    public List<InekRole> getInekRoles() {
-        return _inekRoles;
-    }
-
-    public void setInekRoles(List<InekRole> inekRoles) {
-        _inekRoles = inekRoles;
-    }
-
     // </editor-fold>
-    
     public Set<Integer> getFullIkList() {
         Set<Integer> iks = new HashSet<>();
-        if (_ik != null && _ik > 0) {iks.add(_ik);}
+        if (_ik != null && _ik > 0) {
+            iks.add(_ik);
+        }
         for (AccountAdditionalIK addIk : getAdditionalIKs()) {
             iks.add(addIk.getIK());
         }
@@ -358,4 +394,5 @@ public class Account implements Serializable, Person {
         return "org.inek.entities.Account[id=" + _accountId + "]";
     }
     // </editor-fold>
+
 }

@@ -11,21 +11,55 @@
     <ui:define name="editContent">
         <h:form id="form">
 
-            <h2>Herstellerseite Zertifizierung</h2>
+            <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
+            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
+                <f:selectItems value="#{editCert.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+                <f:ajax render="@form" />
+            </h:selectOneMenu>
 
-            Neues System
-            <div class="groupBox">
-                <div class="groupBoxElement">
-                    Systemtyp:
-                    <h:selectOneMenu />
+            <hr/>
+
+            <div class="inputPart">
+                <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}"  immediate="true"/>
+            </div>
+            <div class="inputPart">
+                <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
+                <h:inputText id="txtGrouperName"
+                             value="xxx"
+                             styleClass="input"
+                             required="true">
+                    <f:ajax execute="change" render="@this msgGrouperName :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                </h:inputText>
+                <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
+            </div>
+
+
+        </h:form>
+
+        <h:form id="costUploadForm" enctype="multipart/form-data">
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}">
+                    <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
                 </div>
-                <div class="groupBoxElement">
-                    Systemjahr:
-                    <h:inputText />
-                </div>
+            </div>
+        </h:form>
+
+        <h:form id="actionForm">
+            <div class="toolBar">
+                <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                               id="btnSystemSave"
+                               immediate="false" disabled="false"/>
             </div>
 
         </h:form>
+
     </ui:define>
 
 </ui:composition>

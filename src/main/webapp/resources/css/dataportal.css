@@ -704,14 +704,7 @@ img {
     margin-top: -10px;
 }
 
-input.button {
-    min-width: 135px;
-    margin-right: 10px;
-    background-color: #7F9BAF;
-    border-radius: 0.5em;
-}
-
-a.button, a.smallButton, span.button, label.button{
+a.button, a.smallButton, span.button, label.button, input.button{
     display: inline-block;
     margin: 0 10px 0 0;
     padding: 0 5px;
@@ -723,8 +716,12 @@ a.button, a.smallButton, span.button, label.button{
     text-align: center;
 }
 
-a.button{
-    min-width: 120px;
+a.button, label.button, span.button{
+    min-width: 150px;
+}
+
+input.button{
+    min-width: 165px;
 }
 
 a.smallButton{
@@ -741,12 +738,11 @@ a.smallButton{
 }
 
 span.button{
-    min-width: 120px;
     color: gray;
 }
 
 .sendButton, a.addButton{
-    min-width: 120px;
+    min-width: 150px;
     display: inline-block;
     margin: 0 10px 0 0;
     padding: 0 20px 0 5px;

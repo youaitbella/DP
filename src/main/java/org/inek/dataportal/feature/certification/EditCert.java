@@ -1,5 +1,6 @@
 package org.inek.dataportal.feature.certification;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -27,6 +28,7 @@ public class EditCert extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private Conversation _conversation;
+    @Inject SystemFacade _systemFacade;
 
     @PostConstruct
     private void init() {
@@ -52,8 +54,6 @@ public class EditCert extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab SystemManagement">
-    @Inject SystemFacade _systemFacade;
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
         List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
@@ -121,6 +121,19 @@ public class EditCert extends AbstractEditController {
 
     public void systemChangeListener(AjaxBehaviorEvent event) {
         setSystemChanged(true);
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="tab Certification">
+    public List<SelectItem> getSystems4Account() {
+
+        List<SelectItem> list = new ArrayList<>();
+        for (RemunerationSystem system : _sessionController.getAccount().getRemuneratiosSystems()) {
+            if (system.isApproved()) {
+                list.add(new SelectItem(system.getId(), system.getDisplayName()));
+            }
+        }
+        return list;
     }
 
     // </editor-fold>
