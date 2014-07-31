@@ -99,10 +99,39 @@
 
         <h:form id="formManufactorers">
             <h2>#{msg.lblAssignedManufactorers}</h2>
+
+            <h:dataTable rendered="#{!empty editCert.inekRole}"  headerClass="list-header" id="tblNubProposals"
+                         value="#{editCert.mappings}" var="map" columnClasses="colIcon, colValue">
+                <h:column id="colDeleteId" >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink  immediate="true" >
+                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                        <cb:confirmDelete/>
+                        <f:ajax render="@form :logout:remaining" listener="#{editCert.deleteRoleMapping(map)}"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:selectOneMenu id="mnuAgent" value="#{map.accountId}">
+                        <f:selectItems value="#{editCert.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                        <f:ajax event="change" render="@this :inekRole:btnSaveMapping :logout:remaining" listener="#{editCert.systemChangeListener}" />
+                    </h:selectOneMenu>
+                </h:column>
+            </h:dataTable>
+
+
         </h:form>
 
         <h:form id="actionForm">
             <div class="toolBar">
+                <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
+                    <f:ajax event="click" render="formManufactorers :logout:remaining" listener="#{editCert.addNewMapping}"/>
+                </h:commandLink>
                 <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>

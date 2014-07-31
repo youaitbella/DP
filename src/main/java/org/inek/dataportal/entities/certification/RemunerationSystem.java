@@ -1,11 +1,17 @@
 package org.inek.dataportal.entities.certification;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -99,6 +105,23 @@ public class RemunerationSystem implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Mapping">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "msaSystemId", referencedColumnName = "syId")
+    private List<SystemAccountMapping> _mappings;
+
+    public List<SystemAccountMapping> getMappings() {
+        if (_mappings == null) {
+            _mappings = new ArrayList<>();
+        }
+        return _mappings;
+    }
+
+    public void setMappings(List<SystemAccountMapping> mappings) {
+        _mappings = mappings;
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="DisplayName">
     public String getDisplayName() {
         String yearInfo;

@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.certification;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -11,9 +12,14 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.admin.InekRole;
+import org.inek.dataportal.entities.admin.RoleMapping;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.RoleMappingFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -122,8 +128,122 @@ public class EditCert extends AbstractEditController {
     public void systemChangeListener(AjaxBehaviorEvent event) {
         setSystemChanged(true);
     }
-    // </editor-fold>
 
+//***************************************************************************************
+    @Inject
+    AccountFacade _accountFacade;
+    private List<InekRole> _inekRoles;
+
+    private List<SelectItem> _certAccounts;
+
+    public List<SelectItem> getCertAccounts() {
+        if (_certAccounts == null) {
+            List<Account> accounts = _accountFacade.getAcounts4Feature(Feature.CERT);
+            _certAccounts.add(new SelectItem(-1, ""));
+            for (Account account : accounts) {
+                _certAccounts.add(new SelectItem(account.getAccountId(), account.getCompany()));
+            }
+        }
+        return _certAccounts;
+    }
+
+    public void setInekAcounts(List<SelectItem> inekAagents) {
+        _certAccounts = inekAagents;
+    }
+
+    private InekRole _inekRole;
+
+    public InekRole getInekRole() {
+        return _inekRole;
+    }
+
+    public void setInekRole(InekRole inekRole) {
+        _inekRole = inekRole;
+    }
+
+    public int getInekRoleId() {
+        return _inekRole == null ? -1 : _inekRole.getId();
+    }
+
+    public void setInekRoleId(int id) {
+        //_inekRole = findRole(id, _inekRoles);
+        _mappings = copyList(_inekRole.getMappings());
+    }
+
+    private List<RoleMapping> copyList(List<RoleMapping> mappings) {
+        // Collections.copy alwas threw an index out of bound, even if sized before :(
+        List<RoleMapping> copy = new ArrayList<>();
+        for (RoleMapping roleMapping : mappings) {
+            RoleMapping clone = new RoleMapping();
+            clone.setAccountId(roleMapping.getAccountId());
+            clone.setInekRoleId(roleMapping.getInekRoleId());
+            copy.add(clone);
+        }
+        return copy;
+    }
+
+    private List<RoleMapping> _mappings;
+
+    public List<RoleMapping> getMappings() {
+        return _mappings;
+    }
+
+    public void setMappings(List<RoleMapping> mappings) {
+        _mappings = mappings;
+    }
+
+    private boolean _mappingChanged = false;
+
+    public boolean isMappingChanged() {
+        return _mappingChanged;
+    }
+
+    public void setMappingChanged(boolean isChanged) {
+        _mappingChanged = isChanged;
+    }
+
+    public void addNewMapping() {
+        RoleMapping mapping = new RoleMapping();
+        mapping.setInekRoleId(_inekRole.getId());
+        _mappings.add(mapping);
+    }
+
+    public String deleteRoleMapping(RoleMapping entry) {
+        _mappings.remove(entry);
+        setMappingChanged(true);
+        return "";
+    }
+
+    @Inject RoleMappingFacade _mappingFacade;
+    public String saveRoleMapping() {
+        List<RoleMapping> former = copyList(_inekRole.getMappings());
+        for (Iterator<RoleMapping> itr = _mappings.iterator(); itr.hasNext();) {
+            RoleMapping mapping = itr.next();
+            if (mapping.getAccountId() == -1 || mapping.getInekRoleId() == -1) {
+                itr.remove();
+            }
+            if (former.contains(mapping)) {
+                former.remove(mapping);
+                itr.remove();
+            }
+        }
+        for (RoleMapping mapping : _mappings) {
+            _mappingFacade.persist(mapping);
+        }
+        for (RoleMapping mapping : former) {
+            _mappingFacade.remove(mapping);
+        }
+        setMappingChanged(false);
+        _inekRoles = null;
+        return Pages.AdminTaskRoleMapping.RedirectURL();
+    }
+
+    public void mappingChangeListener(AjaxBehaviorEvent event) {
+        setMappingChanged(true);
+    }
+
+//***************************************************************************************
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab Certification">
     public List<SelectItem> getSystems4Account() {
 

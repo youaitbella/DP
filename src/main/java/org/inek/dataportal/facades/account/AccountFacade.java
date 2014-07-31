@@ -115,6 +115,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         return agents;
     }
 
+    public List<Account> getAcounts4Feature(Feature feature) {
+        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._faeture = :feature and (f._featureState = 'APPROVED' or f._featureState = 'SIMPLE')";
+        TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
+        return query.setParameter("feature", feature).getResultList();
+    }
+
     public Account getAccount(final String mailOrUser, final String password) {
         clearCache();
         if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password)) {
