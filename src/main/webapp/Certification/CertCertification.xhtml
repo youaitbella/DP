@@ -21,9 +21,11 @@
 
             <div class="inputPart">
                 <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}"  immediate="true"/>
+                Stand: xx.xx.2014 (implementieren)
             </div>
             <div class="inputPart">
                 <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
+                Stand: xx.xx.2014 (implementieren)
             </div>
 
             <div class="inputPart">
@@ -42,11 +44,12 @@
 
         <h:form id="costUploadForm" enctype="multipart/form-data">
             <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}">
+                <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTestResult}">
                     <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
+                    x. Versuch (implementieren)
                 </div>
             </div>
         </h:form>

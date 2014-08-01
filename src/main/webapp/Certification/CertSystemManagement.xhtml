@@ -69,6 +69,7 @@
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
             </div>
             <div class="uploadFile">
@@ -77,6 +78,7 @@
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
             </div>
             <div class="uploadFile">
@@ -85,6 +87,7 @@
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
             </div>
             <div class="uploadFile">
@@ -93,6 +96,7 @@
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
             </div>
         </h:form>
@@ -100,8 +104,8 @@
         <h:form id="formManufactorers">
             <h2>#{msg.lblAssignedManufactorers}</h2>
 
-            <h:dataTable rendered="#{!empty editCert.inekRole}"  headerClass="list-header" id="tblNubProposals"
-                         value="#{editCert.mappings}" var="map" columnClasses="colIcon, colValue">
+            <h:dataTable rendered="#{!empty editCert.system.mappings}"  headerClass="list-header"
+                         value="#{editCert.system.mappings}" var="map" columnClasses="colIcon, colValue">
                 <h:column id="colDeleteId" >
                     <f:facet name="header">
                         <h:outputText value=""/>
@@ -109,7 +113,7 @@
                     <h:commandLink  immediate="true" >
                         <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                         <cb:confirmDelete/>
-                        <f:ajax render="@form :logout:remaining" listener="#{editCert.deleteRoleMapping(map)}"/>
+                        <f:ajax render="@form :logout:remaining" listener="#{editCert.deleteAccountMapping()}"/>
                     </h:commandLink>
                 </h:column>
 

@@ -8,14 +8,14 @@ import java.io.Serializable;
  */
 public class MapSystemAccount implements Serializable {
 
+    int _systemId;
     int _accountId;
-    int _inekRoleId;
 
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 89 * hash + this._systemId;
         hash = 89 * hash + this._accountId;
-        hash = 89 * hash + this._inekRoleId;
         return hash;
     }
 
@@ -28,7 +28,7 @@ public class MapSystemAccount implements Serializable {
             return false;
         }
         final MapSystemAccount other = (MapSystemAccount) obj;
-        return _accountId == other._accountId && _inekRoleId == other._inekRoleId;
+        return _systemId == other._systemId && _accountId == other._accountId;
     }
 
 }
