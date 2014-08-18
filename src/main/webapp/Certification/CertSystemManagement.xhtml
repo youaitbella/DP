@@ -14,11 +14,11 @@
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
                 <f:selectItems value="#{editCert.systems}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form" />
+                <f:ajax render="@form formManufactorers :logout:remaining" />
             </h:selectOneMenu>
 
             <hr/>
-            
+
             <h2>Systemeinstellungen</h2>
 
             <div class="inputPart">
@@ -63,9 +63,9 @@
         </h:form>
 
         <br/>
-        
+
         <h2>Systemdaten</h2>
-        
+
         <div class="inputpart">
             <h:form id="costUploadForm" enctype="multipart/form-data">
                 <div class="uploadFile">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </h:form>
-            </div>
+        </div>
 
         <h:form id="formManufactorers">
             <h2>#{msg.lblAssignedManufactorers}</h2>

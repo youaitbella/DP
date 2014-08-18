@@ -31,9 +31,11 @@ public class AccountFeature implements Serializable {
     private Integer _id;
     @Column(name = "afSequence")
     private Integer _sequence = 0;
+
     @Column(name = "afFeature")
     @Enumerated(EnumType.STRING)
     private Feature _feature;
+
     @Column(name = "afFeatureState")
     @Enumerated(EnumType.STRING)
     private FeatureState _featureState;

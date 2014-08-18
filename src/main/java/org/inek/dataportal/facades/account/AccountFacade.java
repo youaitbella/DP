@@ -85,8 +85,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         Root request = cq.from(Account.class);
         cq.select(request).where(cb.like(request.get(Account_._email), "%@inek-drg.de"));
         TypedQuery<Account> query = getEntityManager().createQuery(cq);
-        //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-        //System.out.println(sql);
         return query.getResultList();
     }
 
@@ -115,10 +113,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         return agents;
     }
 
-    public List<Account> getAcounts4Feature(Feature feature) {
-        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = 'APPROVED' or f._featureState = 'SIMPLE')";
+    public List<Account> getAccounts4Feature(Feature feature) {
+        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple)";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
-        return query.setParameter("feature", feature).getResultList();
+//        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+//        System.out.println(sql);
+        return query.setParameter("feature", feature).setParameter("approved", FeatureState.APPROVED).setParameter("simple", FeatureState.SIMPLE).getResultList();
     }
 
     public Account getAccount(final String mailOrUser, final String password) {

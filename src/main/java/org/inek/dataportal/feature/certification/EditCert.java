@@ -138,7 +138,8 @@ public class EditCert extends AbstractEditController {
 
     public List<SelectItem> getCertAccounts() {
         if (_certAccounts == null) {
-            List<Account> accounts = _accountFacade.getAcounts4Feature(Feature.CERT);
+            List<Account> accounts = _accountFacade.getAccounts4Feature(Feature.CERT);
+            _certAccounts = new ArrayList<>();
             _certAccounts.add(new SelectItem(-1, ""));
             for (Account account : accounts) {
                 _certAccounts.add(new SelectItem(account.getAccountId(), account.getCompany()));
