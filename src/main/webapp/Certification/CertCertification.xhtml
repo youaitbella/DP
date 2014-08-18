@@ -18,7 +18,7 @@
             </h:selectOneMenu>
 
             <hr/>
-
+            <h2>#{msg.lblDownload}</h2>
             <div class="inputPart">
                 <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}"  immediate="true"/>
                 Stand: xx.xx.2014 (implementieren)
@@ -27,7 +27,10 @@
                 <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
                 Stand: xx.xx.2014 (implementieren)
             </div>
+        </h:form>
 
+        <h2>#{msg.lblUpload}</h2>
+        <h:form id="crtDataUploadForm" enctype="multipart/form-data">
             <div class="inputPart">
                 <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
                 <h:inputText id="txtGrouperName"
@@ -38,11 +41,7 @@
                 </h:inputText>
                 <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
             </div>
-
-
-        </h:form>
-
-        <h:form id="costUploadForm" enctype="multipart/form-data">
+            
             <div class="uploadFile">
                 <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTestResult}">
                     <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
@@ -53,7 +52,8 @@
                 </div>
             </div>
         </h:form>
-
+        
+        <h2/>
         <h:form id="actionForm">
             <div class="toolBar">
                 <h:commandLink styleClass="button" value="#{msg.btnSave}"

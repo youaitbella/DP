@@ -18,6 +18,8 @@
             </h:selectOneMenu>
 
             <hr/>
+            
+            <h2>Systemeinstellungen</h2>
 
             <div class="inputPart">
                 <h:outputLabel for="mnuDomain" value="#{msg.lblDomain}:" styleClass="label15"/>
@@ -61,45 +63,49 @@
         </h:form>
 
         <br/>
-
-        <h:form id="costUploadForm" enctype="multipart/form-data">
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}">
-                    <f:ajax listener="#{certificationUpload.uploadSpec}" render="@form"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}"/>
-                    Stand: xx.xx.2014 (implementieren)
+        
+        <h2>Systemdaten</h2>
+        
+        <div class="inputpart">
+            <h:form id="costUploadForm" enctype="multipart/form-data">
+                <div class="uploadFile">
+                    <h:inputFile styleClass="hiddenFile" id="file" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}">
+                        <f:ajax listener="#{certificationUpload.uploadSpec}" render="@form"/>
+                    </h:inputFile>
+                    <div class="fakeFile">
+                        <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}"/>
+                        Stand: xx.xx.2014 (implementieren)
+                    </div>
                 </div>
-            </div>
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}">
-                    <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}"/>
-                    Stand: xx.xx.2014 (implementieren)
+                <div class="uploadFile">
+                    <h:inputFile styleClass="hiddenFile" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}">
+                        <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form"/>
+                    </h:inputFile>
+                    <div class="fakeFile">
+                        <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}"/>
+                        Stand: xx.xx.2014 (implementieren)
+                    </div>
                 </div>
-            </div>
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}">
-                    <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
-                    Stand: xx.xx.2014 (implementieren)
+                <div class="uploadFile">
+                    <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}">
+                        <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
+                    </h:inputFile>
+                    <div class="fakeFile">
+                        <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
+                        Stand: xx.xx.2014 (implementieren)
+                    </div>
                 </div>
-            </div>
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}">
-                    <f:ajax listener="#{certificationUpload.uploadCertificationData()}" render="@form"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"/>
-                    Stand: xx.xx.2014 (implementieren)
+                <div class="uploadFile">
+                    <h:inputFile styleClass="hiddenFile" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}">
+                        <f:ajax listener="#{certificationUpload.uploadCertificationData()}" render="@form"/>
+                    </h:inputFile>
+                    <div class="fakeFile">
+                        <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"/>
+                        Stand: xx.xx.2014 (implementieren)
+                    </div>
                 </div>
+            </h:form>
             </div>
-        </h:form>
 
         <h:form id="formManufactorers">
             <h2>#{msg.lblAssignedManufactorers}</h2>

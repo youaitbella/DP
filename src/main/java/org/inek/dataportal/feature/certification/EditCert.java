@@ -46,7 +46,7 @@ public class EditCert extends AbstractEditController {
     protected void addTopics() {
         if (_sessionController.isInekUser(Feature.CERT)) {
             addTopic(CertTabs.tabCertSystemManagement.name(), Pages.CertSystemManagement.URL());
-            addTopic(CertTabs.tabCertMail.name(), Pages.CertSystemManagement.URL());
+            addTopic(CertTabs.tabCertMail.name(), Pages.CertMail.URL());
         }
         addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL());
     }
@@ -150,6 +150,7 @@ public class EditCert extends AbstractEditController {
     public void addNewMapping() {
         SystemAccountMapping mapping = new SystemAccountMapping();
         mapping.setAccountId(_sessionController.getAccountId());
+        mapping.setSystemId(_system.getId());
         _system.getMappings().add(mapping);
     }
 

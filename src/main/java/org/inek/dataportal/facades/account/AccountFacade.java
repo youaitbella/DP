@@ -116,7 +116,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public List<Account> getAcounts4Feature(Feature feature) {
-        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._faeture = :feature and (f._featureState = 'APPROVED' or f._featureState = 'SIMPLE')";
+        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = 'APPROVED' or f._featureState = 'SIMPLE')";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
         return query.setParameter("feature", feature).getResultList();
     }

@@ -9,12 +9,97 @@
                 >
 
     <ui:define name="editContent">
-        <h2>Hier Mailverwaltung / -versand implementieren</h2>
+        <h2>Emailversand</h2>
 
-        <h:form id="form">
+        <h:form id="frmEmailSending">
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    Template:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium">
 
+                </h:selectOneMenu> 
+            </div>
+            
+            <br/>
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    Empfängerliste:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectedReceiverList" styleClass="inputmedium">
 
+                </h:selectOneMenu>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    einzelner Empfänger:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectedReceiver" styleClass="inputmedium">
 
+                </h:selectOneMenu>    
+            </div>
+            
+            <br />
+            
+            <div class="inputPart" style="float: right;">
+                <h:button id="btnPreview" styleClass="button" value="Email-Vorschau" />
+                <h:button id="btnSendMails" styleClass="button" value="Emails abschicken" />
+            </div>
+            
+
+        </h:form>
+        
+        <br />
+        
+        <h:form id="frmEmailTemplate">
+            
+            <h2>Email-Template</h2>
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label15">
+                    Templates:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectEditTemplate" styleClass="inputmedium">
+                    
+                </h:selectOneMenu>
+            </div>
+            
+            <br />
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label15">
+                    Bezeichnung:
+                </h:outputLabel>
+                <h:inputText styleClass="inputmedium" id="txtTemplateLabel" />
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label15">
+                    Email-Betreff:
+                </h:outputLabel>
+                <h:inputText styleClass="inputmedium" id="txtEmailHeader" />
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    Email-Inhalt:
+                </h:outputLabel>
+                <h:inputTextarea styleClass="areaHuge" id="txtEmailBody" />
+            </div>
+            
+            <span class="inputpart">
+                Verfügbare Variablen: #Anrede# und #System#
+            </span>
+            
+            <div class="inputPart" style="float: right;">
+                <h:button styleClass="button" id="btnDeleteTemplate" value="Template löschen" />
+                <h:button styleClass="button" id="btnSaveTemplate" value="Template abspeichern" />
+            </div>
+            
+            <div style="clear:both;" />
         </h:form>
 
 
