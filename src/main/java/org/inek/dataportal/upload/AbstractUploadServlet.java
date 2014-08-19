@@ -3,7 +3,6 @@ package org.inek.dataportal.upload;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +32,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         } catch (IOException | ServletException e) {
             _logger.log(Level.WARNING, "FileUploadServlet got Exception: {0}{1}", new Object[]{e.getMessage(), e.getStackTrace()[0].toString()});
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            httpUtil.writeStatus("{\"success\": false, \"message\": \"" + e.getMessage() +  "\"}");
+            httpUtil.writeStatus("{\"success\": false, \"message\": \"" + e.getMessage() + "\"}");
         }
     }
 
@@ -57,25 +56,18 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         }
     }
 
-    public String decodeFilename(String filename){
+    public String decodeFilename(String filename) {
         return filename.replace("%20", " ").replace("%5B", "[").replace("%5D", "]");
     }
-    
-    abstract protected void stream2Document(String filename, InputStream is) throws IOException;
 
-    protected void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buffer = new byte[8192];
-        int n;
-        while ((n = is.read(buffer)) != -1) {
-            os.write(buffer, 0, n);
-        }
-    }
+    abstract protected void stream2Document(String filename, InputStream is) throws IOException;
 
     /**
      * copies an input stream into an array of bytes
+     *
      * @param is
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     protected byte[] stream2blob(InputStream is) throws IOException {
         byte[] buffer = new byte[8192];
@@ -101,4 +93,5 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         }
         return blob;
     }
+
 }

@@ -1,10 +1,11 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipInputStream;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.http.Part;
@@ -29,21 +30,24 @@ public class CertificationUpload {
         _file = file;
     }
 
-    public void uploadSpec() { // todo: implement upload
+    public void uploadSpec(int systemId) { // todo: implement upload
         _logger.log(Level.INFO, "<Spec> uploading file {0}", _file.getName());
         try {
             if (_file != null) {
-                Scanner scanner = new Scanner(_file.getInputStream(),
-                        "UTF-8");
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
+                InputStreamReader reader;
+                if (_file.getName().toLowerCase().endsWith(".zip")) {
+                    ZipInputStream zipreader = new ZipInputStream(_file.getInputStream());
+                } else {
+                    reader = new InputStreamReader(_file.getInputStream(),
+                            "UTF-8");
                 }
+
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
 
-    public void uploadTrainingData() { // todo: implement upload
+    public void uploadTrainingData(int systemId) { // todo: implement upload
         _logger.log(Level.INFO, "<TrainingData> uploading file {0}", _file.getName());
     }
 

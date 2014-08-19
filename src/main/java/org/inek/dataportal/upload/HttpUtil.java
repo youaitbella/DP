@@ -1,6 +1,8 @@
 package org.inek.dataportal.upload;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,14 +52,6 @@ public class HttpUtil {
         return getRequest().getParameter(name);
     }
 
-    public void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buffer = new byte[8192];
-        int n;
-        while ((n = is.read(buffer)) != -1) {
-            os.write(buffer, 0, n);
-        }
-    }
-
     public void writeStatus(String status) {
         try {
             try (PrintWriter pw = getResponse().getWriter()) {
@@ -76,4 +70,5 @@ public class HttpUtil {
     public HttpServletResponse getResponse() {
         return _response;
     }
+
 }

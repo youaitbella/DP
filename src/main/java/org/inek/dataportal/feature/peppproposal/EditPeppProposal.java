@@ -2,8 +2,6 @@ package org.inek.dataportal.feature.peppproposal;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,10 +22,10 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.PeppProposal;
 import org.inek.dataportal.entities.PeppProposalDocument;
 import org.inek.dataportal.entities.ProcedureInfo;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
@@ -37,6 +35,7 @@ import org.inek.dataportal.facades.DiagnosisFacade;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -110,10 +109,10 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     @PreDestroy
-    private void destroy(){
+    private void destroy() {
         //_logger.log(Level.WARNING, "Destroy EditPeppProposal");
     }
-    
+
     private PeppProposal loadPeppProposal(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
@@ -165,7 +164,9 @@ public class EditPeppProposal extends AbstractEditController {
         addTopic(PeppProposalTabs.tabPPCodes.name(), Pages.PeppProposalEditCoding.URL(), false);
         addTopic(PeppProposalTabs.tabPPDocuments.name(), Pages.PeppProposalEditDocuments.URL());
     }
+
     // <editor-fold defaultstate="collapsed" desc="Tab master data">
+
     private List<SelectItem> _categoryItems;
 
     public List<SelectItem> getCategories() {
@@ -255,8 +256,8 @@ public class EditPeppProposal extends AbstractEditController {
         String codes[] = codeString.split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, GlobalVars.PeppProposalSystemYear.getVal()-2, GlobalVars.PeppProposalSystemYear.getVal()-1).equals("")
-                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, GlobalVars.PeppProposalSystemYear.getVal()-2, GlobalVars.PeppProposalSystemYear.getVal()-1).equals("")) {
+            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal() - 1).equals("")
+                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal() - 1).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }
@@ -419,24 +420,15 @@ public class EditPeppProposal extends AbstractEditController {
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + name + "\"");
             ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
             try {
-                copyStream(is, externalContext.getResponseOutputStream());
+                new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
 
             } catch (IOException ex) {
-                Logger.getLogger(EditPeppProposal.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                _logger.log(Level.SEVERE, null, ex);
                 return Pages.Error.URL();
             }
             facesContext.responseComplete();
         }
         return null;
-    }
-
-    private void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buffer = new byte[8192];
-        int n;
-        while ((n = is.read(buffer)) != -1) {
-            os.write(buffer, 0, n);
-        }
     }
 
     private PeppProposalDocument findByName(String name) {
@@ -447,7 +439,9 @@ public class EditPeppProposal extends AbstractEditController {
         }
         return null;
     }
+
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
+
     String _msg = "";
     String _elementId = "";
 
@@ -510,4 +504,5 @@ public class EditPeppProposal extends AbstractEditController {
         return newTopic;
     }
     // </editor-fold>
+
 }

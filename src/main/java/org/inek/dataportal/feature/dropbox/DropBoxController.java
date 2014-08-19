@@ -109,7 +109,7 @@ public class DropBoxController extends AbstractFeatureController {
     private void moveFiles2Target(DropBox dropBox) throws ProcessingException {
         File sourceDir = getUploadDir(dropBox);
         File workingFile = new File(sourceDir.getAbsolutePath() + ".zip");
-        new Compress().compressFiles(sourceDir.listFiles(), workingFile);
+        new StreamHelper().compressFiles(sourceDir.listFiles(), workingFile);
         File targetParent = new File(getUploadRoot(), dropBox.getDropboxType().getFolder());
         targetParent.mkdirs();
         File target;

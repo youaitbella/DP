@@ -6,8 +6,6 @@ package org.inek.dataportal.feature.nub;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,21 +24,21 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
-import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.peppproposal.EditPeppProposal;
+import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.IkValidator;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -635,23 +633,14 @@ public class EditNubProposal extends AbstractEditController {
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + _nubProposal.getName() + ".nub\"");
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-            copyStream(is, externalContext.getResponseOutputStream());
+            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
 
         } catch (IOException ex) {
-            Logger.getLogger(EditPeppProposal.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            _logger.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();
         }
         facesContext.responseComplete();
         return null;
-    }
-
-    private void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buffer = new byte[8192];
-        int n;
-        while ((n = is.read(buffer)) != -1) {
-            os.write(buffer);
-        }
     }
 
 }

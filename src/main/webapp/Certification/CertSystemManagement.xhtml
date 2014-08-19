@@ -70,7 +70,7 @@
             <h:form id="costUploadForm" enctype="multipart/form-data">
                 <div class="uploadFile">
                     <h:inputFile styleClass="hiddenFile" id="file" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}">
-                        <f:ajax listener="#{certificationUpload.uploadSpec}" render="@form"/>
+                        <f:ajax listener="#{certificationUpload.uploadSpec(editCert.systemId)}" render="@form"/>
                     </h:inputFile>
                     <div class="fakeFile">
                         <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}"/>

@@ -4,7 +4,14 @@
  */
 package org.inek.dataportal.helper;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
@@ -14,9 +21,9 @@ import java.util.zip.ZipOutputStream;
  *
  * @author muellermi
  */
-public class Compress {
+public class StreamHelper {
 
-    private final int _BufLen = 2048;
+    private final int _BufLen = 8192;
 
     public void compressFiles(File[] files, File target) throws ProcessingException {
 
@@ -37,11 +44,12 @@ public class Compress {
         }
     }
 
-    private void copyStream(InputStream is, OutputStream os) throws IOException {
+    public void copyStream(InputStream is, OutputStream os) throws IOException {
         byte[] buff = new byte[_BufLen];
         int count;
         while ((count = is.read(buff)) != -1) {
             os.write(buff, 0, count);
         }
     }
+
 }
