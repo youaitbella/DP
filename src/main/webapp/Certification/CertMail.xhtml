@@ -17,8 +17,9 @@
                 <h:outputLabel styleClass="label30">
                     Template:
                 </h:outputLabel>
-                <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium">
-
+                <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium" value="#{certMail.selectedTemplate}">
+                    <f:selectItems value="#{certMail.emailTemplates}"/>
+                    <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectOneMenu> 
             </div>
             
@@ -56,43 +57,9 @@
         
         <h:form id="frmEmailTemplate">
             
-            <h2>Email-Template</h2>
+            <h2>Empfängerliste</h2>
             
-            <div class="inputPart">
-                <h:outputLabel styleClass="label15">
-                    Templates:
-                </h:outputLabel>
-                <h:selectOneMenu id="selectEditTemplate" styleClass="inputmedium">
-                    
-                </h:selectOneMenu>
-            </div>
             
-            <br />
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label15">
-                    Bezeichnung:
-                </h:outputLabel>
-                <h:inputText styleClass="inputmedium" id="txtTemplateLabel" />
-            </div>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label15">
-                    Email-Betreff:
-                </h:outputLabel>
-                <h:inputText styleClass="inputmedium" id="txtEmailHeader" />
-            </div>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    Email-Inhalt:
-                </h:outputLabel>
-                <h:inputTextarea styleClass="areaHuge" id="txtEmailBody" />
-            </div>
-            
-            <span class="inputpart">
-                Verfügbare Variablen: #Anrede# und #System#
-            </span>
             
             <div class="inputPart" style="float: right;">
                 <h:button styleClass="button" id="btnDeleteTemplate" value="Template löschen" />

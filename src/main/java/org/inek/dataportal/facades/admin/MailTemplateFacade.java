@@ -9,6 +9,7 @@ import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.Feature;
 
 @Stateless
 public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
@@ -48,4 +49,14 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         return null;
     }
     
+    public List<MailTemplate> findTemplatesByFeature(Feature f) {
+        String statement = "SELECT m FROM MailTemplate m WHERE m._feature = :feature";
+        TypedQuery<MailTemplate> query = getEntityManager().createQuery(statement, MailTemplate.class);
+        try {
+            return query.setParameter("feature", f).getResultList();
+        } catch (Exception ex){
+            _logger.log(Level.WARNING, "MailTemplate not found: {0}", f);
+        }
+        return null;
+    }
 }
