@@ -133,8 +133,6 @@
                     </h:selectOneMenu>
                 </h:column>
             </h:dataTable>
-
-
         </h:form>
 
         <h:form id="actionForm">
@@ -142,7 +140,10 @@
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
                     <f:ajax event="click" render="formManufactorers :logout:remaining" listener="#{editCert.addNewMapping}"/>
                 </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
+                
+                <hr/>
+                
+                <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>
                 <h:commandLink styleClass="button" value="#{msg.btnSave}"
