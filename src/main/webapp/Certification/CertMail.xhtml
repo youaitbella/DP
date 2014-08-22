@@ -29,8 +29,9 @@
                 <h:outputLabel styleClass="label30">
                     Empfängerliste:
                 </h:outputLabel>
-                <h:selectOneMenu id="selectedReceiverList" styleClass="inputmedium">
-
+                <h:selectOneMenu id="selectedReceiverList" styleClass="inputmedium" value="#{certMail.receiverList}">
+                    <f:selectItems value="#{certMail.receiverLists}"/>
+                    <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectOneMenu>
             </div>
             
@@ -38,8 +39,9 @@
                 <h:outputLabel styleClass="label30">
                     einzelner Empfänger:
                 </h:outputLabel>
-                <h:selectOneMenu id="selectedReceiver" styleClass="inputmedium">
-
+                <h:selectOneMenu id="selectedReceiver" styleClass="inputlong" value="#{certMail.singleReceiver}">
+                    <f:selectItems value="#{certMail.singleReceivers}"/>
+                    <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectOneMenu>    
             </div>
             
