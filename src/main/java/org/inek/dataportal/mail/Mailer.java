@@ -56,7 +56,7 @@ public class Mailer {
         //String from = "do-not-reply@inek-drg.de";
         String from = "anfragen@datenstelle.de";
         Properties properties = System.getProperties();
-        properties.put("mail.smtp.host", "exchangeserver1.d1inek.local");
+        properties.put("mail.smtp.host", "vMailSvr01.d1inek.local");
         properties.put("mail.smtp.connectiontimeout", 1000);
         properties.put("mail.smtp.ssl.trust", "*");
         Session session = Session.getDefaultInstance(properties);
@@ -151,6 +151,29 @@ public class Mailer {
                 .replace("{formalSalutation}", salutation)
                 .replace("{feature}", featureRequest.getFeature().getDescription());
         return sendMail(account.getEmail(), template.getBcc(), subject, body);
+    }
+
+    public void sendWarning(String head, Exception exception) {
+        sendException(Level.WARNING, head, exception);
+    }
+
+    public void sendError(String head, Exception exception) {
+        sendException(Level.WARNING, head, exception);
+    }
+
+    public void sendException(Level level, String head, Exception exception) {
+        _logger.log(level, head, exception);
+
+        StringBuilder msg = new StringBuilder();
+        msg.append(head).append("\r\n\r\n");
+        msg.append(exception.getMessage()).append("\r\n\r\n");
+        for (StackTraceElement element : exception.getStackTrace()) {
+            msg.append(element.toString()).append("\r\n");
+        }
+
+        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+        String subject = "Exception reported by Server " + name;
+        sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg.toString());
     }
 
 }

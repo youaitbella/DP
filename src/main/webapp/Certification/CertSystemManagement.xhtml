@@ -6,6 +6,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 >
 
     <ui:define name="editContent">
@@ -14,7 +15,7 @@
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
                 <f:selectItems value="#{editCert.systems}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form formManufactorers :logout:remaining" />
+                <f:ajax render="@form formManufactorers specUploadForm :logout:remaining" />
             </h:selectOneMenu>
 
             <hr/>
@@ -67,16 +68,18 @@
         <h2>Systemdaten</h2>
 
         <div class="inputpart">
-            <h:form id="costUploadForm" enctype="multipart/form-data">
-                <div class="uploadFile">
-                    <h:inputFile styleClass="hiddenFile" id="file" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}">
-                        <f:ajax listener="#{certificationUpload.uploadSpec(editCert.systemId)}" render="@form"/>
+            <h:form id="specUploadForm" enctype="multipart/form-data" rendered="#{editCert.system != null}">
+                <div>
+                    <h:inputFile styleClass="hide" id="specFile" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}"
+                                 p:contentType="application/pdf" p:fileNamePattern="Spec-Handbuch.*\.pdf" p:maxFileSize="1000000">
+                        <f:ajax listener="#{certificationUpload.uploadSpec(editCert.systemId)}" render="@form msgSpecFile :logout:remaining"/>
+                        <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <div class="fakeFile">
-                        <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}"/>
-                        Stand: xx.xx.2014 (implementieren)
-                    </div>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="getElementById('specUploadForm:specFile').click();"/>
+                    <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
+
                 <div class="uploadFile">
                     <h:inputFile styleClass="hiddenFile" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}">
                         <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form"/>

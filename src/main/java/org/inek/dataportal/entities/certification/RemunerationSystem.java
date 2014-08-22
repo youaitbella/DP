@@ -1,5 +1,6 @@
 package org.inek.dataportal.entities.certification;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.enums.RemunSystem;
+import org.inek.dataportal.utils.PropertyKey;
+import org.inek.dataportal.utils.PropertyManager;
 
 /**
  *
@@ -132,6 +135,14 @@ public class RemunerationSystem implements Serializable {
         }
 
         return getRemunerationSystem().getName() + " " + yearInfo;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="DisplayName">
+    public File getSystemRoot() {
+        File root = new File(PropertyManager.INSTANCE.getProperty(PropertyKey.CertiFolderRoot), "System " + getYearSystem());
+        File systemRoot = new File(root, getDisplayName().replace("/", "_"));
+        return systemRoot;
     }
     // </editor-fold>
 
