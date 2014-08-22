@@ -41,31 +41,29 @@ public class CertificationUpload {
         _file = file;
     }
 
-    public void uploadSpec(int systemId) {
-        Optional<File> uploadFolder = getUploadFolder(systemId, "SpecHandbuch");
-        if (!uploadFolder.isPresent()) {
-            return;
-        }
-
-        String outFile = "Spec-Handbuch_" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".pdf.upload";
-        uploadFile(new File(uploadFolder.get(), outFile));
+    public void uploadSpecManual(int systemId) {
+        uploadSpec(systemId, "SpecHandbuch", "Spec-Handbuch", "pdf");
     }
 
     public void uploadTrainingData(int systemId) {
-        Optional<File> uploadFolder = getUploadFolder(systemId, "Daten");
-        if (!uploadFolder.isPresent()) {
-            return;
-        }
-        String outFile = "Uebungsdaten_" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".zip.upload";
-        uploadFile(new File(uploadFolder.get(), outFile));
+        uploadSpec(systemId, "Daten", "Uebungsdaten", "zip");
     }
 
     public void uploadTestData(int systemId) {
-        _logger.log(Level.INFO, "<TestData> uploading file {0}", _file.getName());
+        uploadSpec(systemId, "Daten", "Testdaten", "zip");
     }
 
     public void uploadCertificationData(int systemId) {
-        _logger.log(Level.INFO, "<CertificationData> uploading file {0}", _file.getName());
+        uploadSpec(systemId, "Daten", "Zertdaten", "zip");
+    }
+
+    private void uploadSpec(int systemId, String folder, String prefix, String extension) {
+        Optional<File> uploadFolder = getUploadFolder(systemId, folder);
+        if (!uploadFolder.isPresent()) {
+            return;
+        }
+        String outFile = prefix + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "." + extension + ".upload";
+        uploadFile(new File(uploadFolder.get(), outFile));
     }
 
     public void uploadTestResult(int systemId, int AccountId) {

@@ -43,12 +43,12 @@ public class FileUploadValidator implements Validator {
         }
 
         if (!checkFileName(component, fileName)) {
-            String msg = Utils.getMessage("msgFileTypeInvalid");
+            String msg = Utils.getMessage("msgFileNameInvalid");
             throw new ValidatorException(new FacesMessage(msg));
         }
 
         if (!checkContentType(component, part.getContentType())) {
-            String msg = Utils.getMessage("msgFileNameInvalid");
+            String msg = Utils.getMessage("msgFileTypeInvalid");
             throw new ValidatorException(new FacesMessage(msg));
         }
 

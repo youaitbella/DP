@@ -69,10 +69,10 @@
 
         <div class="inputpart">
             <h:form id="specUploadForm" enctype="multipart/form-data" rendered="#{editCert.system != null}">
-                <div>
+                <div class="inputPart">
                     <h:inputFile styleClass="hide" id="specFile" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}"
                                  p:contentType="application/pdf" p:fileNamePattern="Spec-Handbuch.*\.pdf" p:maxFileSize="1000000">
-                        <f:ajax listener="#{certificationUpload.uploadSpec(editCert.systemId)}" render="@form msgSpecFile :logout:remaining"/>
+                        <f:ajax listener="#{certificationUpload.uploadSpecManual(editCert.systemId)}" render="@form msgSpecFile :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="getElementById('specUploadForm:specFile').click();"/>
@@ -80,32 +80,37 @@
                     Stand: xx.xx.2014 (implementieren)
                 </div>
 
-                <div class="uploadFile">
-                    <h:inputFile styleClass="hiddenFile" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}">
-                        <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form"/>
+                <div class="inputPart">
+                    <h:inputFile styleClass="hide" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}"
+                                 p:contentType="application/binary" p:fileNamePattern="Uebungsdaten.*\.zip">
+                        <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form msgTrainingFile :logout:remaining"/>
+                        <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <div class="fakeFile">
-                        <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}"/>
-                        Stand: xx.xx.2014 (implementieren)
-                    </div>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}" onclick="getElementById('specUploadForm:trainingFile').click();"/>
+                    <h:message id="msgTrainingFile" for="trainingFile" styleClass="errorMessage"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
-                <div class="uploadFile">
-                    <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}">
-                        <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
+
+                <div class="inputPart">
+                    <h:inputFile styleClass="hide" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}"
+                                 p:contentType="application/binary" p:fileNamePattern="testdaten.*\.zip">
+                        <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form msgTestFile :logout:remaining"/>
+                        <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <div class="fakeFile">
-                        <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
-                        Stand: xx.xx.2014 (implementieren)
-                    </div>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="getElementById('specUploadForm:testFile').click();"/>
+                    <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
-                <div class="uploadFile">
-                    <h:inputFile styleClass="hiddenFile" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}">
-                        <f:ajax listener="#{certificationUpload.uploadCertificationData()}" render="@form"/>
+
+                <div class="inputPart">
+                    <h:inputFile styleClass="hide" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}"
+                                 p:contentType="application/binary" p:fileNamePattern="Zertdaten.*\.zip">
+                        <f:ajax listener="#{certificationUpload.uploadCertificationData(editCert.systemId)}" render="@form msgSpecFile :logout:remaining"/>
+                        <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <div class="fakeFile">
-                        <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"/>
-                        Stand: xx.xx.2014 (implementieren)
-                    </div>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="getElementById('specUploadForm:certFile').click();"/>
+                    <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
+                    Stand: xx.xx.2014 (implementieren)
                 </div>
             </h:form>
         </div>
@@ -143,9 +148,9 @@
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
                     <f:ajax event="click" render="formManufactorers :logout:remaining" listener="#{editCert.addNewMapping}"/>
                 </h:commandLink>
-                
+
                 <hr/>
-                
+
                 <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>
