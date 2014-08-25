@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
@@ -30,6 +32,9 @@ public class CertificationUpload {
 
     private static final Logger _logger = Logger.getLogger("CertificationUpload");
     @Inject SystemFacade _systemFacade;
+
+    @ManagedProperty("#{param.systemId}")
+    private int _systemId;
 
     private Part _file;
 
@@ -53,6 +58,10 @@ public class CertificationUpload {
         uploadSpec(systemId, "Daten", "Testdaten", "zip");
     }
 
+//    public void uploadCertificationData(AjaxBehaviorEvent event) {
+//        uploadSpec(_systemId, "Daten", "Zertdaten", "zip");
+//    }
+//
     public void uploadCertificationData(int systemId) {
         uploadSpec(systemId, "Daten", "Zertdaten", "zip");
     }
@@ -126,7 +135,14 @@ public class CertificationUpload {
      */
     private String getLastFile(File dir, String fileNamePattern) {
         String lastFile = "";
-        for (File file : dir.listFiles(file -> file.isFile() && file.getName().matches(fileNamePattern))) {
+        for (File file : dir.listFiles(new FileFilter() {
+
+            @Override
+            public boolean accept(File file) {
+                return file.isFile() && file.getName().matches(fileNamePattern);
+            }
+
+        })) {
             if (file.getName().compareTo(lastFile) > 0) {
                 lastFile = file.getName();
             }

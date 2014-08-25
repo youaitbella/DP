@@ -70,20 +70,30 @@ public class FileUploadValidator implements Validator {
         return true;
     }
 
+    /**
+     * Checks the content type. If no content type attribute is defined or is
+     * empty, return true. Otherwise return content type is in list of allowed
+     * types
+     *
+     * @param component
+     * @param contentType
+     * @return
+     */
     private boolean checkContentType(UIComponent component, String contentType) {
         if (component.getAttributes().containsKey("contentType")) {
-            return contentType.equals((String) component.getAttributes().get("contentType"));
-        }
-        if (component.getAttributes().containsKey("contentTypes")) {
-            String[] contentTypes = ((String) component.getAttributes().get("contentTypes")).split(";");
-            for (String type : contentTypes) {
+            String contentTypes = (String) component.getAttributes().get("contentType");
+            if (contentType.trim().length() == 0) {
+                return true;
+            }
+
+            for (String type : contentTypes.split(";")) {
                 if (contentType.equals(type.trim())) {
                     return true;
                 }
             }
             return false;
         }
-        return contentType.equals("text/plain");
+        return true;
     }
 
     private boolean checkMinFileSize(UIComponent component, long size) {

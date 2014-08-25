@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
-import org.inek.dataportal.entities.certification.EmailReceiver;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Feature;
@@ -37,49 +36,49 @@ public class CertMail {
 
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
-    
+
     @Inject
     private SystemFacade _systemFacade;
-    
+
     @Inject
     private AccountFacade _accFacade;
-    
+
     @Inject
     private EmailReceiverFacade _emailReceiverFacade;
-    
-    @Inject 
+
+    @Inject
     private EmailReceiverLabelFacade _emailReceiverLabelFacade;
-    
+
     public SelectItem[] getEmailTemplates() {
         List<SelectItem> emailTemplates = new ArrayList<>();
         emailTemplates.add(new SelectItem(""));
         List<MailTemplate> mts = _mailTemplateFacade.findTemplatesByFeature(Feature.CERT);
-        mts.stream().forEach((t) -> {
+        for (MailTemplate t : mts) {
             emailTemplates.add(new SelectItem(t.getName()));
-        });
+        }
         return emailTemplates.toArray(new SelectItem[emailTemplates.size()]);
     }
-    
+
     public SelectItem[] getSystemReceiverLists() {
         List<SelectItem> receiverList = new ArrayList<>();
         receiverList.add(new SelectItem(""));
         List<RemunerationSystem> systems = _systemFacade.findAll();
-        systems.stream().forEach((s) -> {
+        for (RemunerationSystem s : systems) {
             receiverList.add(new SelectItem(s.getDisplayName()));
-        });
+        }
         return receiverList.toArray(new SelectItem[receiverList.size()]);
     }
-    
+
     public SelectItem[] getSingleReceivers() {
         List<SelectItem> singleReceivers = new ArrayList<>();
         singleReceivers.add(new SelectItem(""));
         List<Account> accountsWithCert = _accFacade.getAccounts4Feature(Feature.CERT);
-        accountsWithCert.stream().forEach((acc) -> {
+        for (Account acc : accountsWithCert) {
             singleReceivers.add(new SelectItem(acc.getCompany() + " (" + acc.getEmail() + ")"));
-        });
+        }
         return singleReceivers.toArray(new SelectItem[singleReceivers.size()]);
     }
-    
+
     public SelectItem[] getEmailReceiverLists() {
         List<SelectItem> emailReceivers = new ArrayList<>();
         emailReceivers.add(new SelectItem(""));
@@ -89,7 +88,7 @@ public class CertMail {
         });
         return emailReceivers.toArray(new SelectItem[emailReceivers.size()]);
     }
-    
+
     public void receiverChanged(AjaxBehaviorEvent event) {
         switch (event.getComponent().getId()) {
             case "selectedSystemReceiverList":
@@ -146,4 +145,5 @@ public class CertMail {
     public void setSelectedReceiverNewList(int _selectedReceiverNewList) {
         this._selectedReceiverNewList = _selectedReceiverNewList;
     }
+
 }
