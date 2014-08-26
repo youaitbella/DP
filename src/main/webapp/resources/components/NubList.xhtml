@@ -8,17 +8,14 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- INTERFACE -->
-    <cc:interface>
-        <cc:attribute name="contentType" default=""/>
-        <cc:attribute name="fileNamePattern" default=".*"/>
-        <cc:attribute name="uploadFile"/>
-        <cc:attribute name="uploadMethod"/>
-        <cc:attribute name="uploadParam"/>
+    <cc:interface componentType="org.inek.dataportal.components.NubList">
+        <cc:attribute name="listType"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:dataTable   headerClass="list-header" value="#{nubProposalList.sealedNubProposals}"
+        #{cc.nubType = cc.attrs.listType}
+        <h:dataTable   headerClass="list-header" value="#{cc.nubProposals}"
                        var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colShortCentered, colValue">
             <h:column>
                 <f:facet name="header">

@@ -32,10 +32,8 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class NubProposalList {
 
-    @Inject
-    NubProposalFacade _nubProposalFacade;
-    @Inject
-    SessionController _sessionController;
+    @Inject NubProposalFacade _nubProposalFacade;
+    @Inject SessionController _sessionController;
 
     public List<Triple> getNubProposals() {
         return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
@@ -52,7 +50,7 @@ public class NubProposalList {
      */
     public boolean getNubEnabled() {
         int month = 1 + Calendar.getInstance().get(Calendar.MONTH); // jan=0, thus 1+month
-        return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways  
+        return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways
     }
 
     public boolean getOpenListEnabled() {
@@ -119,7 +117,7 @@ public class NubProposalList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubProposal));
         return Pages.PrintView.URL();
     }
-    
+
     public String getExternalState(int proposalId) {
         NubProposal nubProposal = _nubProposalFacade.find(proposalId);
         return nubProposal.getExternalState();
@@ -164,8 +162,8 @@ public class NubProposalList {
                     && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
                 int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
                         || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
-                        ? WorkflowStatus.ApprovalRequested.getValue()
-                        : 0;
+                                ? WorkflowStatus.ApprovalRequested.getValue()
+                                : 0;
                 //        nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
                 iks.put(right.getIk(), minStatus);
             }
