@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.components.expandingtable;
+package org.inek.dataportal.components;
 
 import java.util.Map;
 import java.util.logging.Level;

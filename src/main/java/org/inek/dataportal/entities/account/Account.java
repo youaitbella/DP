@@ -86,7 +86,7 @@ public class Account implements Serializable, Person {
     private String _customerFax = "";
 
     @Column(name = "acNubConfirmation")
-    private boolean _nubConfirmation = false;
+    private boolean _nubConfirmation = true;
 
     @Column(name = "acMessageCopy")
     private boolean _messageCopy = false;

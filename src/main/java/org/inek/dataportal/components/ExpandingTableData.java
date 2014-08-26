@@ -1,4 +1,4 @@
-package org.inek.dataportal.components.expandingtable;
+package org.inek.dataportal.components;
 
 import java.util.List;
 
