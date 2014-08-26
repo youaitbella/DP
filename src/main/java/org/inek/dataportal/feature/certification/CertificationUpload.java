@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -67,27 +66,38 @@ public class CertificationUpload {
     }
 
     private void uploadSpec(int systemId, String folder, String prefix, String extension) {
-        Optional<File> uploadFolder = getUploadFolder(systemId, folder);
-        if (!uploadFolder.isPresent()) {
+//        Optional<File> uploadFolder = getUploadFolder(systemId, folder);
+//        if (!uploadFolder.isPresent()) {
+//            return;
+//        }
+        File uploadFolder = getUploadFolder(systemId, folder);
+        if (uploadFolder == null) {
             return;
         }
         String outFile = prefix + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "." + extension + ".upload";
-        uploadFile(new File(uploadFolder.get(), outFile));
+//        uploadFile(new File(uploadFolder.get(), outFile));
+        uploadFile(new File(uploadFolder, outFile));
     }
 
     public void uploadTestResult(int systemId, int AccountId) {
-        Optional<File> uploadFolder = getUploadFolder(systemId, "Daten");  // todo: folder depending on account
-        if (!uploadFolder.isPresent()) {
+//        Optional<File> uploadFolder = getUploadFolder(systemId, "Daten");  // todo: folder depending on account
+//        if (!uploadFolder.isPresent()) {
+//            return;
+//        }
+        File uploadFolder = getUploadFolder(systemId, "Daten");  // todo: folder depending on account
+        if (uploadFolder == null) {
             return;
         }
         String prefix = "ErgebnisUebungsdaten_";
-        String lastFile = getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
+//        String lastFile = getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
+        String lastFile = getLastFile(uploadFolder, prefix + "\\d\\.txt");
         int version = 1;
         if (lastFile.startsWith(prefix)) {
             version = 1 + Integer.parseInt(lastFile.substring(prefix.length(), prefix.length() + 1));
         }
         String outFile = prefix + version + ".txt";
-        uploadFile(new File(uploadFolder.get(), outFile));
+//        uploadFile(new File(uploadFolder.get(), outFile));
+        uploadFile(new File(uploadFolder, outFile));
     }
 
     /**
@@ -98,24 +108,43 @@ public class CertificationUpload {
      * @param folderName
      * @return folder if ok, null otherwise
      */
-    private Optional getUploadFolder(int systemId, String folderName) {
+//    private Optional getUploadFolder(int systemId, String folderName) {
+//        if (_file == null) {
+//            return Optional.empty();
+//        }
+//        _logger.log(Level.INFO, "uploading file {0}", _file.getSubmittedFileName());
+//        RemunerationSystem system = _systemFacade.find(systemId);
+//        if (system == null) {
+//            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
+//            return Optional.empty();
+//        }
+//        File folder = new File(system.getSystemRoot(), folderName);
+//        try {
+//            folder.mkdirs();
+//        } catch (Exception ex) {
+//            _logger.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
+//            return Optional.empty();
+//        }
+//        return Optional.of(folder);
+//    }
+    private File getUploadFolder(int systemId, String folderName) {
         if (_file == null) {
-            return Optional.empty();
+            return null;
         }
         _logger.log(Level.INFO, "uploading file {0}", _file.getSubmittedFileName());
         RemunerationSystem system = _systemFacade.find(systemId);
         if (system == null) {
             _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
-            return Optional.empty();
+            return null;
         }
         File folder = new File(system.getSystemRoot(), folderName);
         try {
             folder.mkdirs();
         } catch (Exception ex) {
             _logger.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
-            return Optional.empty();
+            return null;
         }
-        return Optional.of(folder);
+        return folder;
     }
 
     private void uploadFile(File file) {
@@ -133,7 +162,7 @@ public class CertificationUpload {
      * @param dir
      * @param fileNamePattern
      */
-    private String getLastFile(File dir, String fileNamePattern) {
+    private String getLastFile(File dir, final String fileNamePattern) {
         String lastFile = "";
         for (File file : dir.listFiles(new FileFilter() {
 

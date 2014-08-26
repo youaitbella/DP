@@ -83,9 +83,9 @@ public class CertMail {
         List<SelectItem> emailReceivers = new ArrayList<>();
         emailReceivers.add(new SelectItem(""));
         List<MapEmailReceiverLabel> labels = _emailReceiverLabelFacade.findAll();
-        labels.stream().forEach((l) -> {
+        for (MapEmailReceiverLabel l : labels) {
             emailReceivers.add(new SelectItem(l.getLabel()));
-        });
+        }
         return emailReceivers.toArray(new SelectItem[emailReceivers.size()]);
     }
 
