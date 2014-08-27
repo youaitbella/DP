@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.certification;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -28,122 +29,143 @@ import org.inek.dataportal.facades.certification.SystemFacade;
 public class CertMail {
 
     private static final Logger _logger = Logger.getLogger("CertMail");
-    private int _selectedTemplate = 0;
-    private int _receiverList = 0;
-    private int _systemReceiverList = 0;
-    private int _singleReceiver = 0;
-    private int _selectedReceiverNewList = 0;
+    private String _selectedTemplate = "";
+    private String _receiverList = "";
+    private String _systemReceiverList = "";
+    private String _singleReceiver = "";
+    private String _selectedReceiverNewList = "";
+    private String _selectedListEditName = "";
+    private String _receiverListsName = "";
 
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
-
+    
     @Inject
     private SystemFacade _systemFacade;
-
+    
     @Inject
     private AccountFacade _accFacade;
-
+    
     @Inject
     private EmailReceiverFacade _emailReceiverFacade;
-
-    @Inject
+    
+    @Inject 
     private EmailReceiverLabelFacade _emailReceiverLabelFacade;
-
+    
     public SelectItem[] getEmailTemplates() {
         List<SelectItem> emailTemplates = new ArrayList<>();
         emailTemplates.add(new SelectItem(""));
         List<MailTemplate> mts = _mailTemplateFacade.findTemplatesByFeature(Feature.CERT);
-        for (MailTemplate t : mts) {
+        mts.stream().forEach((t) -> {
             emailTemplates.add(new SelectItem(t.getName()));
-        }
+        });
         return emailTemplates.toArray(new SelectItem[emailTemplates.size()]);
     }
-
+    
     public SelectItem[] getSystemReceiverLists() {
         List<SelectItem> receiverList = new ArrayList<>();
         receiverList.add(new SelectItem(""));
         List<RemunerationSystem> systems = _systemFacade.findAll();
-        for (RemunerationSystem s : systems) {
+        systems.stream().forEach((s) -> {
             receiverList.add(new SelectItem(s.getDisplayName()));
-        }
+        });
         return receiverList.toArray(new SelectItem[receiverList.size()]);
     }
-
+    
     public SelectItem[] getSingleReceivers() {
         List<SelectItem> singleReceivers = new ArrayList<>();
         singleReceivers.add(new SelectItem(""));
         List<Account> accountsWithCert = _accFacade.getAccounts4Feature(Feature.CERT);
-        for (Account acc : accountsWithCert) {
+        accountsWithCert.stream().forEach((acc) -> {
             singleReceivers.add(new SelectItem(acc.getCompany() + " (" + acc.getEmail() + ")"));
-        }
+        });
         return singleReceivers.toArray(new SelectItem[singleReceivers.size()]);
     }
-
+    
     public SelectItem[] getEmailReceiverLists() {
         List<SelectItem> emailReceivers = new ArrayList<>();
         emailReceivers.add(new SelectItem(""));
         List<MapEmailReceiverLabel> labels = _emailReceiverLabelFacade.findAll();
-        for (MapEmailReceiverLabel l : labels) {
-            emailReceivers.add(new SelectItem(l.getLabel()));
-        }
+        labels.stream().forEach((rl) -> {
+            emailReceivers.add(new SelectItem(rl.getLabel()));
+        });
         return emailReceivers.toArray(new SelectItem[emailReceivers.size()]);
     }
-
+    
     public void receiverChanged(AjaxBehaviorEvent event) {
         switch (event.getComponent().getId()) {
             case "selectedSystemReceiverList":
-                _receiverList = 0;
-                _singleReceiver = 0;
+                _receiverList = "";
+                _singleReceiver = "";
                 break;
             case "selectedReceiverList":
-                _systemReceiverList = 0;
-                _singleReceiver = 0;
+                _systemReceiverList = "";
+                _singleReceiver = "";
                 break;
             case "selectedReceiver":
-                _systemReceiverList = 0;
-                _receiverList = 0;
+                _systemReceiverList = "";
+                _receiverList = "";
                 break;
         }
     }
+    
+    public void editReceiverListChanged(AjaxBehaviorEvent event) {
+        setReceiverListsName(_selectedListEditName);
+    }
 
-    public int getSelectedTemplate() {
+    public String getSelectedTemplate() {
         return _selectedTemplate;
     }
 
-    public void setSelectedTemplate(int _selectedTemplate) {
+    public void setSelectedTemplate(String _selectedTemplate) {
         this._selectedTemplate = _selectedTemplate;
     }
 
-    public int getReceiverList() {
+    public String getReceiverList() {
         return _receiverList;
     }
 
-    public void setReceiverList(int _receiverList) {
+    public void setReceiverList(String _receiverList) {
         this._receiverList = _receiverList;
     }
 
-    public int getSystemReceiverList() {
+    public String getSystemReceiverList() {
         return _systemReceiverList;
     }
 
-    public void setSystemReceiverList(int _systemReceiverList) {
+    public void setSystemReceiverList(String _systemReceiverList) {
         this._systemReceiverList = _systemReceiverList;
     }
 
-    public int getSingleReceiver() {
+    public String getSingleReceiver() {
         return _singleReceiver;
     }
 
-    public void setSingleReceiver(int _singleReceiver) {
+    public void setSingleReceiver(String _singleReceiver) {
         this._singleReceiver = _singleReceiver;
     }
 
-    public int getSelectedReceiverNewList() {
+    public String getSelectedReceiverNewList() {
         return _selectedReceiverNewList;
     }
 
-    public void setSelectedReceiverNewList(int _selectedReceiverNewList) {
+    public void setSelectedReceiverNewList(String _selectedReceiverNewList) {
         this._selectedReceiverNewList = _selectedReceiverNewList;
     }
 
+    public String getSelectedListEdit() {
+        return _selectedListEditName;
+    }
+
+    public void setSelectedListEdit(String _selectedListEdit) {
+        this._selectedListEditName = _selectedListEdit;
+    }
+
+    public String getReceiverListsName() {
+        return _receiverListsName;
+    }
+
+    public void setReceiverListsName(String _receiverListsName) {
+        this._receiverListsName = _receiverListsName;
+    }
 }

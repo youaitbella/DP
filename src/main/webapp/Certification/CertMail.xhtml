@@ -75,9 +75,9 @@
                 <h:outputLabel styleClass="label30">
                     vorhandene Listen:
                 </h:outputLabel>
-                <h:selectOneMenu id="availableLists" styleClass="inputmedium" value="">
+                <h:selectOneMenu id="availableLists" styleClass="inputmedium" value="#{certMail.selectedListEdit}">
                     <f:selectItems value="#{certMail.emailReceiverLists}"/>
-                    <f:ajax event="change" render="@this :logout:remaining" />
+                    <f:ajax event="change" render="@this receiverListText :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
                 </h:selectOneMenu> 
             </div>
             
@@ -87,14 +87,16 @@
                 <h:outputLabel styleClass="label30">
                     Bezeichnung:
                 </h:outputLabel>
-                <h:inputText styleClass="inputmedium" id="receiverListText" value="" />
+                <h:inputText styleClass="inputmedium" id="receiverListText" value="#{certMail.receiverListsName}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
             </div>
             
             <div class="inputPart">
                 <h:outputLabel styleClass="label30">
                     Empfänger-Auswahl:
                 </h:outputLabel>
-                <h:selectOneMenu id="receiverNewList" styleClass="inputmedium" value="#{certMail.selectedReceiverNewList}">
+                <h:selectOneMenu id="receiverNewList" styleClass="inputlong" value="#{certMail.selectedReceiverNewList}">
                     <f:selectItems value="#{certMail.singleReceivers}"/>
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectOneMenu> 
