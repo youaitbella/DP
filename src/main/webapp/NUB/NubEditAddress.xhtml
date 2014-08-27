@@ -14,7 +14,9 @@
             <h:panelGroup class="inputPart">
                 <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
                 <br />
-                <h:inputText styleClass="input" maxlength="200" id="displayName" value="#{editNubProposal.nubProposal.displayName}"
+                <h:inputText styleClass="input" maxlength="200" id="displayName"
+                             value="#{editNubProposal.nubProposal.displayName}"
+                             title="#{msg.titleAppellation}"
                              readonly="#{editNubProposal.readOnly}">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
@@ -37,7 +39,7 @@
                 styleClass="inputmedium"
                 rendered="#{editNubProposal.ownNub}"
                 id="ikMulti"
-                title="#{msg.titleAppellation}"
+                title="#{msg.titleIK}"
                 required="true"
                 requiredMessage="#{msg.msgValueNeeded}"
                 value="#{editNubProposal.nubProposal.ik}"
@@ -48,11 +50,7 @@
             </h:selectOneMenu>
             <h:inputText styleClass="input" readonly="true" value="#{editNubProposal.nubProposal.ik}" rendered="#{!editNubProposal.ownNub}"/>
             &nbsp;
-            <h:outputLink id="addIkHint"
-                          value="..#{editNubProposal.userMaintenancePage}"
-                          rendered="false">
-                <h:outputText value="#{msg.lblNubHintMoreIks}" />
-            </h:outputLink>
+            <h:outputText value="#{msg.lblNubHintMoreIks}" />
         </div>
 
         <div class="inputPart">

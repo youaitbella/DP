@@ -8,14 +8,13 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- INTERFACE -->
-    <cc:interface componentType="org.inek.dataportal.components.NubList">
+    <cc:interface>
         <cc:attribute name="listType"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        #{cc.nubType = cc.attrs.listType}
-        <h:dataTable   headerClass="list-header" value="#{cc.nubProposals}"
+        <h:dataTable   headerClass="list-header" value="#{nubProposalList.sealedNubProposals}"
                        var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colShortCentered, colValue">
             <h:column>
                 <f:facet name="header">

@@ -20,7 +20,7 @@
         <h:form id="form">
             <h1>
                 <h:commandLink value="#{msg.nameNUB}" action="#{sessionController.navigate(sessionTools.pages.NubSummary)}" immediate="true"/>
-            </h1>        
+            </h1>
             <div class="tab">
                 <ul class="tab">
                     <c:forEach items="#{editNubProposal.visibleTopics}" var="topic">
@@ -45,15 +45,38 @@
                     <h:commandLink styleClass="button" action="#{editNubProposal.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editNubProposal.readOnly}"/>
 
-                    <h:commandLink styleClass="button" action="#{editNubProposal.requestSeal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.nubProposalDisabled}" rendered="#{editNubProposal.sealEnabled and nubProposalList.nubEnabled}" title="#{msg.infoSaveAndClose}"/>
+                    <h:commandLink styleClass="button"
+                                   action="#{editNubProposal.requestSeal()}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   disabled="#{sessionTools.nubProposalDisabled}"
+                                   rendered="#{editNubProposal.sealEnabled and nubProposalList.nubEnabled}"
+                                   title="#{msg.infoSaveAndClose}"/>
+
                     <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
 
-                    <h:commandLink styleClass="sendButton" action="#{editNubProposal.requestApproval()}" value="#{msg.btnRequestApproval}"
-                                   disabled="#{sessionTools.nubProposalDisabled}" rendered="#{editNubProposal.approvalRequestEnabled and nubProposalList.nubEnabled}" title="#{msg.infoSaveAndClose}"/>
-                    <h:commandLink id="confirmApprovalRequest" style="display: none" action="#{editNubProposal.confirmApprovalRequest()}" value="confirmApprovalRequest"/>
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editNubProposal.requestApproval()}"
+                                   value="#{msg.btnRequestApproval}"
+                                   disabled="#{sessionTools.nubProposalDisabled}"
+                                   rendered="#{editNubProposal.approvalRequestEnabled and nubProposalList.nubEnabled}"
+                                   title="#{msg.infoSaveAndClose}"/>
 
-                    <h:commandLink id="btnTemplate" styleClass="button" action="#{editNubProposal.downloadTemplate()}" value="#{msg.btnDownloadTemplate}" immediate="true" disabled="#{editNubProposal.nubProposal.name.length() == 0}"/>
+                    <h:commandLink id="confirmApprovalRequest" style="display: none"
+                                   action="#{editNubProposal.confirmApprovalRequest()}"
+                                   value="confirmApprovalRequest"/>
+
+                    <h:commandLink id="btnTemplate" styleClass="button"
+                                   action="#{editNubProposal.downloadTemplate()}"
+                                   value="#{msg.btnDownloadTemplate}"
+                                   immediate="true"
+                                   disabled="#{editNubProposal.nubProposal.name.length() == 0}"/>
+
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnNewFromNub}"
+                                   rendered="#{nubProposalList.nubEnabled and editNubProposal.nubProposal.dateSealed != null and editNubProposal.ownNub}"
+                                   >
+                        <f:ajax listener="#{editNubProposal.copyNubProposal}"/>
+                    </h:commandLink>
                 </div>
             </div>
 

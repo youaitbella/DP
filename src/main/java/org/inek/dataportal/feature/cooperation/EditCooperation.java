@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -123,7 +124,15 @@ public class EditCooperation extends AbstractEditController {
 
     private void setTopicVisibility(String topicName, Feature feature) {
         Topic topic = findTopic(topicName);
+        if (topic == null) {
+            _logger.log(Level.WARNING, "Unknown topic {0}", topicName);
+            return;
+        }
         AccountFeature accountFeature = _sessionController.findAccountFeature(feature);
+        if (accountFeature == null) {
+            // user has no siuch feature subscribed
+            return;
+        }
         topic.setVisible(!_isRequest && accountFeature.getFeatureState().equals(FeatureState.SIMPLE));
     }
 
@@ -176,8 +185,10 @@ public class EditCooperation extends AbstractEditController {
 
     private void addMissingNubCooperationRights() {
         Topic topic = findTopic(CooperationTabs.tabCooperationNub.name());
-        if (!topic.isVisible()){return;}
-        
+        if (!topic.isVisible()) {
+            return;
+        }
+
         Set<Integer> iks = _sessionController.getAccount().getFullIkList();
 
         for (CooperationRight right : _cooperationRights) {
@@ -200,8 +211,9 @@ public class EditCooperation extends AbstractEditController {
 
     private void addMissingModelIntentionCooperationRights() {
         Topic topic = findTopic(CooperationTabs.tabCooperationModelIntention.name());
-        if (!topic.isVisible()){return;}
-        
+        if (!topic.isVisible()) {
+            return;
+        }
 
         for (CooperationRight right : _cooperationRights) {
             if (right.getFeature() == Feature.MODEL_INTENTION) {
@@ -209,13 +221,13 @@ public class EditCooperation extends AbstractEditController {
                 return;
             }
         }
-            CooperationRight right = new CooperationRight(
-                    _sessionController.getAccountId(),
-                    getPartnerAccount().getAccountId(),
-                    -1,
-                    Feature.MODEL_INTENTION
-            );
-            _cooperationRights.add(right);
+        CooperationRight right = new CooperationRight(
+                _sessionController.getAccountId(),
+                getPartnerAccount().getAccountId(),
+                -1,
+                Feature.MODEL_INTENTION
+        );
+        _cooperationRights.add(right);
     }
 
     public List<SelectItem> getCooperativeRights() {

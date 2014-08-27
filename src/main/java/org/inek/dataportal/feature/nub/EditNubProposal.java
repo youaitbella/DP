@@ -19,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
@@ -38,6 +39,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.IkValidator;
@@ -621,6 +623,24 @@ public class EditNubProposal extends AbstractEditController {
         }
         downloadDocument(getNubController().createTemplate(_nubProposal));
         return null;
+    }
+
+    public void copyNubProposal(AjaxBehaviorEvent event) {
+        NubProposal copy = ObjectUtils.copy(_nubProposal);
+        copy.setNubId(null);
+        copy.setStatus(WorkflowStatus.New);
+        copy.setDateSealed(null);
+        copy.setLastModified(null);
+        copy.setCreationDate(null);
+        copy.setLastChangedBy(_sessionController.getAccountId());
+        copy.setTargetYear(1 + Calendar.getInstance().get(Calendar.YEAR));
+        copy.setPatientsLastYear(_nubProposal.getPatientsThisYear());
+        copy.setPatientsThisYear(_nubProposal.getPatientsFuture());
+        copy.setPatientsFuture("");
+        copy = _nubProposalFacade.saveNubProposal(copy);
+        if (copy.getNubId() != null) {
+            Utils.showMessageInBrowser("NUB erfolgreich angelegt;");
+        }
     }
 
     public String downloadDocument(String document) {

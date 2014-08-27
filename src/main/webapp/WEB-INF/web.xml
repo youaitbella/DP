@@ -7,8 +7,8 @@
     </context-param>
     <context-param>
         <param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
-        <param-value>url</param-value> 
-    </context-param> 
+        <param-value>url</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -22,11 +22,11 @@
 
     <session-config>
         <session-timeout>31</session-timeout>
-        <tracking-mode>COOKIE</tracking-mode> 
+        <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
     <welcome-file-list>
         <welcome-file>login/Login.xhtml</welcome-file>
     </welcome-file-list>
-    
+
 </web-app>

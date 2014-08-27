@@ -27,11 +27,11 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             NubController controller = (NubController) _sessionController.getFeatureController(Feature.NUB);
             byte[] buffer = stream2blob(is);
             String fileText = new String(buffer, "UTF-8");
-            if (fileText.startsWith("NuB Vorschlag")) {
-                // old format
-                _nubFacade.saveNubProposal(controller.createNubProposalFromOldFormat(filename, new String(buffer)));
-                return;
-            }
+//            if (fileText.startsWith("NuB Vorschlag")) {
+//                // old format
+//                _nubFacade.saveNubProposal(controller.createNubProposalFromOldFormat(filename, new String(buffer)));
+//                return;
+//            }
             int pos = fileText.lastIndexOf(NubFieldKey.CheckSum + "=");
             if (pos < 0) {
                 throw new IOException("Formatfehler");
@@ -56,4 +56,5 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
         }
         return null;
     }
+
 }

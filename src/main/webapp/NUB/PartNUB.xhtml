@@ -10,10 +10,18 @@
         <div class="paddingElement">
             <ui:include src="#{sessionTools.pages.ListNub}"/>
             <p>
-                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposal}" 
-                               immediate="true" value="#{msg.btnNewProposal}" disabled="#{!nubProposalList.nubEnabled}"/>
-                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposalFromTemplate}" disabled="#{!nubProposalList.nubEnabled}"
-                               immediate="true" value="#{msg.lblNewFromTemplate}"/>
+                <h:commandLink styleClass="button"
+                               action="#{nubProposalList.newNubProposal}"
+                               immediate="true"
+                               value="#{msg.btnNewProposal}"
+                               disabled="#{!nubProposalList.nubEnabled}"/>
+
+                <h:commandLink styleClass="button"
+                               action="#{nubProposalList.newNubProposalFromTemplate}"
+                               disabled="#{!nubProposalList.nubEnabled}"
+                               immediate="true"
+                               value="#{msg.lblNewFromTemplate}"/>
+
                 <h:outputText rendered="#{!nubProposalList.nubEnabled}" value="#{msg.msgNoNubCreatable}"/>
             </p>
             <br/>

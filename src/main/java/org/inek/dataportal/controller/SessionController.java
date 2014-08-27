@@ -17,21 +17,21 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
-import org.inek.dataportal.entities.admin.InekRole;
-import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.AccountFeature;
+import org.inek.dataportal.entities.admin.InekRole;
+import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.DiagnosisFacade;
-import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
@@ -471,7 +471,7 @@ public class SessionController implements Serializable {
                 return accountFeature;
             }
         }
-        return new AccountFeature();
+        return null;
     }
 
 }
