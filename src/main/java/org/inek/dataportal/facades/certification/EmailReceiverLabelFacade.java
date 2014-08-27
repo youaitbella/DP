@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.certification;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -21,5 +22,14 @@ public class EmailReceiverLabelFacade extends AbstractFacade<MapEmailReceiverLab
             return map;
         }
         return merge(map);
+    }
+    
+    public int findEmailReceiverListByLabel(String label) {
+        String query = "SELECT i FROM MapEmailReceiverLabel i WHERE i._label = :label";
+        List<MapEmailReceiverLabel> list = getEntityManager().createQuery(query, MapEmailReceiverLabel.class).setParameter("label", label).getResultList();
+        if(list.size() > 0) {
+            return list.get(0).getEmailReceiverLabelId();
+        }
+        return -1;
     }
 }

@@ -77,7 +77,7 @@
                 </h:outputLabel>
                 <h:selectOneMenu id="availableLists" styleClass="inputmedium" value="#{certMail.selectedListEdit}">
                     <f:selectItems value="#{certMail.emailReceiverLists}"/>
-                    <f:ajax event="change" render="@this receiverListText :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
+                    <f:ajax event="change" render="@this tblEmailReceiversTemplate receiverListText :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
                 </h:selectOneMenu> 
             </div>
             
@@ -102,15 +102,33 @@
                 </h:selectOneMenu> 
             </div>
             
+            <h:dataTable value="#{certMail.emailReceivers}" headerClass="list-header" id="tblEmailReceiversTemplate"
+                         var="er" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                <h:column id="colDeleteId" >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#" immediate="true" >
+                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                    </h:commandLink>
+                </h:column>
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:outputLabel value="#{certMail.getCompanyNameByAccId(er.accountId)}"/>
+                </h:column>
+            </h:dataTable>
+            
             <div class="inputPart" style="float: right;">
-                <h:button styleClass="button" value="Empfänger hinzufügen" />
+                <h:commandLink styleClass="button" value="Empfänger hinzufügen" action="#{certMail.addReceiverToList}"/>
             </div>
             
             <br style="clear: both;"/><br/>
             
             <div class="inputPart" style="float: right;">
-                <h:button styleClass="button" id="btnDeleteTemplate" value="Empfängerliste löschen" />
-                <h:button styleClass="button" id="btnSaveTemplate" value="Empfängerliste speichern" />
+                <h:commandLink styleClass="button" id="btnDeleteTemplate" value="Empfängerliste löschen" />
+                <h:commandLink styleClass="button" id="btnSaveTemplate" value="Empfängerliste speichern" action="#{certMail.saveReceiverList}"/>
             </div>
             
             <div style="clear:both;" />
