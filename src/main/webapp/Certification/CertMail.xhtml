@@ -77,7 +77,7 @@
                 </h:outputLabel>
                 <h:selectOneMenu id="availableLists" styleClass="inputmedium" value="#{certMail.selectedListEdit}">
                     <f:selectItems value="#{certMail.emailReceiverLists}"/>
-                    <f:ajax event="change" render="@this tblEmailReceiversTemplate receiverListText :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
+                    <f:ajax event="change" render="@form :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
                 </h:selectOneMenu> 
             </div>
             
@@ -102,7 +102,7 @@
                 </h:selectOneMenu> 
             </div>
             
-            <h:dataTable value="#{certMail.emailReceivers}" headerClass="list-header" id="tblEmailReceiversTemplate"
+            <h:dataTable rendered="#{certMail.renderEmailReceiverTable()}" value="#{certMail.emailReceivers}" headerClass="list-header" id="tblEmailReceiversTemplate"
                          var="er" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
                 <h:column id="colDeleteId" >
                     <f:facet name="header">

@@ -58,14 +58,10 @@ public class CertMail implements Serializable {
     public CertMail() {
         _emailReceivers = new ArrayList<>();
     }
-    
-    @PostConstruct
-    public void init() {
-        initEmailReceiversTemplateList();
-    }
 
     private void initEmailReceiversTemplateList() {
-        if(!_selectedListEditName.equals("")) {
+        _emailReceivers.clear();
+        if(_selectedListEditName != null) {
             int receiverListId = _emailReceiverLabelFacade.findEmailReceiverListByLabel(_selectedListEditName);
             _emailReceivers = _emailReceiverFacade.findAllEmailReceiverByListId(receiverListId);
         }
@@ -148,10 +144,33 @@ public class CertMail implements Serializable {
     }
     
     public String saveReceiverList() {
-        _emailReceivers.stream().forEach((er) -> {
-            _emailReceiverFacade.persist(er);
-        });
-        return "";
+        if(_emailReceivers.size() <= 0)
+            return ""; // throw exception here, to print specific message to user.
+        if(_selectedListEditName != null && !_selectedListEditName.isEmpty()) {
+            // Receiverliste existiert schon in der DB
+            int receiverListId = _emailReceiverLabelFacade.findEmailReceiverListByLabel(_selectedListEditName);
+            List<EmailReceiver> existingEmailReceivers = _emailReceiverFacade.findAllEmailReceiverByListId(receiverListId);
+            existingEmailReceivers.stream().filter((er) -> (_emailReceivers.contains(er))).forEach((er) -> {
+                _emailReceivers.remove(er);
+            });
+            _emailReceivers.stream().forEach((er) -> {
+                _emailReceiverFacade.persist(er);
+            });
+        } else {
+            if(_receiverListsName.isEmpty())
+                return ""; // throw exception
+            if(_emailReceiverLabelFacade.findEmailReceiverListByLabel(_receiverListsName) > -1)
+                return ""; // throw exception - listname already in DB
+            MapEmailReceiverLabel label = new MapEmailReceiverLabel();
+            label.setEmailReceiverLabelId(_emailReceiverFacade.getHighestEmailReceiverListId()+1);
+            label.setLabel(_receiverListsName);
+            _emailReceiverLabelFacade.persist(label);
+            int receiverListId = _emailReceiverLabelFacade.findEmailReceiverListByLabel(_receiverListsName);
+            for(EmailReceiver er : _emailReceivers) {
+                _emailReceiverFacade.persist(er);
+            }
+        }
+        return ""; // successfully saved
     }
     
     public String getCompanyNameByAccId(int id) {
@@ -161,6 +180,10 @@ public class CertMail implements Serializable {
     public void editReceiverListChanged(AjaxBehaviorEvent event) {
         setReceiverListsName(_selectedListEditName);
         initEmailReceiversTemplateList();
+    }
+    
+    public boolean renderEmailReceiverTable() {
+        return _emailReceivers.size() > 0;
     }
 
     public String getSelectedTemplate() {

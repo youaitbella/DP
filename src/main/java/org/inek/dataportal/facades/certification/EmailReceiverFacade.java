@@ -26,15 +26,8 @@ public class EmailReceiverFacade extends AbstractFacade<EmailReceiver> {
     }
     
     public List<EmailReceiver> findAllEmailReceiverByListId(int id) {
-        List<EmailReceiver> temp = findAll();
-        List<EmailReceiver> ret = new ArrayList<>();
-        temp.stream().filter((er) -> (er.getAccountId() == id)).forEach((er) -> {
-            ret.add(er);
-        });
-        if(ret.size() > 0) {
-            return ret;
-        }
-        return new ArrayList<>();
+        String query = "SELECT i FROM EmailReceiver i WHERE i._receiverList = :id";
+        return getEntityManager().createQuery(query, EmailReceiver.class).setParameter("id", id).getResultList();
     }
     
     public int getHighestEmailReceiverListId() {
