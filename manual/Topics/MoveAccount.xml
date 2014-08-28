@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Übertragung Benutzerkonto</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Übertragung Benutzerkonto</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Mitarbeiter oder deren Zuständigkeiten wechseln, kann der Wunsch auftreten, ein Benutzerkonto des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> auf einen anderen Anwender zu übertragen. Dies kann wie folgt geschehen, wobei Anwender A das Konto an Anwender B abgibt:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="0" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Arial; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Anwender A gibt Anwender B das Kennwort zum Benutzerkonto bekannt. Bei Bedarf hat Anwender A das Kennwort zuvor geändert.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Anwender A trägt in den Stammdaten die E-Mail-Adresse von Anwender B ein.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Anwender B erhält eine E-Mail zwecks Bestätigung der geänderten Adresse.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Anwender B bestätigt seine Adresse.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Beim nächsten Login ändert Anwender B das Kennwort.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das Benutzerkonto ist nun übertragen.</text></para>
+  </body>
+</topic>

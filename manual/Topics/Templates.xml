@@ -36,8 +36,7 @@
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Zur NUB Liste ]</text><text styleclass="Normal" translate="true"> wechselt zurück in den Bereich NUB. Die neu erzeugten Anfragen finden Sie dort in der Liste der neuen Anfragen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Als besonderen Service können Sie für das Verfahren 2014 nicht nur Vorlagen nutzen, die Sie mit dem </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> erstellt haben, sondern auch Dateien des Verfahrens 2013 hochladen.</text></para>
-    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Normal" translate="true">Vorlagen sind primär dazu gedacht, NUB-Anfragen anderer Anwender verwenden und an die eigenen Anforderungen anpassen zu können. Sie enthalten daher keine Krankenhaus-spezifischen Kennzahlen. Vorlagen werden nicht innerhalb des </text><var styleclass="Normal">&lt;%TITLE%s&gt;</var><text styleclass="Normal" translate="true"> verwaltet, sondern als Datei heruntergeladen, die Sie weitergeben und / oder zu einem späteren Zeitpunkt wieder hochladen können. </text><br/><text styleclass="Normal" translate="true">Sofern es um die Wiederverwendung Ihrer eigenen NUB-Anfragen des Vorjahrs geht, können Sie aus den Daten einer Anfrage eine neue erzeugen - die Kennzahlen (Anzahl Patienten) werden dabei in die passenden Felder übernommen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>
