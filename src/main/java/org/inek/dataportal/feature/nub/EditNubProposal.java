@@ -295,7 +295,7 @@ public class EditNubProposal extends AbstractEditController {
                 .bindTargetPage(Pages.NubEditPage1.URL())
                 .enableCodeType(CodeType.Proc).enableCodeType(CodeType.Drg)
                 .bindCodeType(codeType);
-        return "/common/SearchCode";
+        return Pages.SearchCode.URL();
     }
 
     @Override

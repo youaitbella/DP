@@ -7,7 +7,7 @@ package org.inek.dataportal.common;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -25,7 +25,7 @@ import org.inek.dataportal.enums.GlobalVars;
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@RequestScoped
 public class SearchCode implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,11 +50,11 @@ public class SearchCode implements Serializable {
     }
 
     public void search(ActionEvent e) {
-        getSearchController().search(_searchText, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal()-1);
-        if (getCodeList().isEmpty()){
+        getSearchController().search(_searchText, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal() - 1);
+        if (getCodeList().isEmpty()) {
             _hint = "Keine Ergebnisse zu Ihrer Eingabe gefunden.";
         } else {
-            _hint= "";
+            _hint = "";
         }
     }
 
@@ -103,16 +103,16 @@ public class SearchCode implements Serializable {
     public boolean isSearchPepp() {
         return getSearchController().isEnablePepp();
     }
-    
+
     public boolean isSearchDrg() {
         return getSearchController().isEnableDrg();
     }
-    
-    public String getFirstYear(){
+
+    public String getFirstYear() {
         return "" + (GlobalVars.PeppProposalSystemYear.getVal() - 2);
     }
 
-    public String getLastYear(){
+    public String getLastYear() {
         return "" + (GlobalVars.PeppProposalSystemYear.getVal() - 1);
     }
 
@@ -124,4 +124,5 @@ public class SearchCode implements Serializable {
     public String getTargetPage() {
         return getSearchController().getTargetPage();
     }
+
 }

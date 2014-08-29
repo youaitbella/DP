@@ -105,6 +105,7 @@ public enum Pages {
     SessionTimeoutRedirector("/common/TimeOutRedirector"),
     SessionTimeout("/common/TimeOut"),
     InvalidConversation("/common/InvalidConversation"),
+    SearchCode("/common/SearchCode"),
     //
     AdminError("/Admin/error"),
     AdminApproved("/Admin/approvalcompleted"),

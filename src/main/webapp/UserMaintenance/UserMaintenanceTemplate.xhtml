@@ -25,7 +25,6 @@
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                             <h:commandLink value="#{topic.title}" action="#{editUserMaintenance.changeTabPage(topic.key)}"
                                            immediate="false">
-                                <f:param name="cid" value="#{javax.enterprise.context.conversation.id}"/>
                             </h:commandLink>
                         </li>
 

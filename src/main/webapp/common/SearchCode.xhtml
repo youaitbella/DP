@@ -33,7 +33,7 @@
                     <h:message for="startElement" id="msgSearchText" styleClass="errorMessage"/>
                     <br/>
                     <h:inputText styleClass="inputwide" id="startElement" value="#{searchCode.searchText}"
-                                 required="true" requiredMessage="#{msg.msgValueNeeded}" 
+                                 required="true" requiredMessage="#{msg.msgValueNeeded}"
                                  validator="#{searchCode.checkSearchToken}"
                                  title="#{msg.titleSearch}">
                     </h:inputText>
@@ -42,14 +42,13 @@
                     <h:commandButton styleClass="button" actionListener="#{searchCode.search}" id="btnSearch" value="#{msg.btnSearch}"/>
                     <h:button styleClass="button" outcome="#{searchCode.targetPage}" value="#{msg.btnBack2Input}">
                         <!-- because a standard input submit element is rendered, we need to pass the current conversation (to prevent from creating a new bean) -->
-                        <f:param name="cid" value="#{javax.enterprise.context.conversation.id}"/>
                     </h:button>
                 </p>
                 <p>
                     <br/>
                 </p>
             </h:form>
-            
+
             <h:panelGrid id="hint" rendered="#{searchCode.hint.length() gt 0}">
                 <h:outputLabel value="#{searchCode.hint}"/>
             </h:panelGrid>
