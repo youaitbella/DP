@@ -108,7 +108,7 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#" immediate="true" >
+                    <h:commandLink action="#{certMail.deleteReceiverFromTemplate(er.emailReceiversId, er.accountId)}" immediate="true" >
                         <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                     </h:commandLink>
                 </h:column>

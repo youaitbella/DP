@@ -166,9 +166,9 @@ public class CertMail implements Serializable {
             label.setLabel(_receiverListsName);
             _emailReceiverLabelFacade.persist(label);
             int receiverListId = _emailReceiverLabelFacade.findEmailReceiverListByLabel(_receiverListsName);
-            for(EmailReceiver er : _emailReceivers) {
+            _emailReceivers.stream().forEach((er) -> {
                 _emailReceiverFacade.persist(er);
-            }
+            });
         }
         return ""; // successfully saved
     }
@@ -184,6 +184,20 @@ public class CertMail implements Serializable {
     
     public boolean renderEmailReceiverTable() {
         return _emailReceivers.size() > 0;
+    }
+    
+    public String deleteReceiverFromTemplate(int erId, int accId) {
+        EmailReceiver er = _emailReceiverFacade.find(erId);
+        if(er != null) {
+            _emailReceiverFacade.remove(er);
+            initEmailReceiversTemplateList();
+        }
+        else {
+            _emailReceivers.stream().filter((element) -> (element.getAccountId() == accId)).forEach((element) -> {
+                _emailReceivers.remove(element);
+            });
+        }
+        return "";
     }
 
     public String getSelectedTemplate() {
