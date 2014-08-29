@@ -111,7 +111,6 @@
                              required="#{editUserMaintenance.ikRequired}"
                              maxlength="9"
                              >
-                    <!--required="# {editUserMaintenance.ikRequired}"-->
                     <f:validator validatorId="IkValidator"/>
                     <f:ajax event="blur" render="@this :logout:remaining msgIk"/>
                 </h:inputText>

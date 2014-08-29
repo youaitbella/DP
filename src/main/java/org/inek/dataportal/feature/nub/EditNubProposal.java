@@ -138,7 +138,6 @@ public class EditNubProposal extends AbstractEditController {
     @PostConstruct
     private void init() {
         //_logger.log(Level.WARNING, "Init EditNubProposal");
-        //_sessionController.beginConversation(_conversation);
 
         Object ppId = Utils.getFlash().get("nubId");
         if (ppId == null) {

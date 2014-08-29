@@ -2,10 +2,7 @@ package org.inek.dataportal.feature.certification;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -20,27 +17,19 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
  *
  * @author vohldo, muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditCert extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject private Conversation _conversation;
     @Inject SystemFacade _systemFacade;
-
-    @PostConstruct
-    private void init() {
-        _sessionController.beginConversation(_conversation);
-    }
-
-    @PreDestroy
-    private void destroy() {
-    }
 
     @Override
     protected void addTopics() {

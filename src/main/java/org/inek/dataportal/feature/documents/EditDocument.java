@@ -8,7 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ import org.inek.dataportal.helper.StreamHelper;
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@RequestScoped
 public class EditDocument extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");

@@ -6,7 +6,7 @@ package org.inek.dataportal.login;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -15,9 +15,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.backingbeans.SessionTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountRequestFacade;
@@ -30,7 +30,7 @@ import org.inek.dataportal.helper.faceletvalidators.NameValidator;
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@RequestScoped
 public class Register implements Serializable {
 
     private boolean _approved;
@@ -158,4 +158,5 @@ public class Register implements Serializable {
         String[] strings = Utils.getMessage("msgFinishRegister").split("\\n");
         return strings;
     }
+
 }

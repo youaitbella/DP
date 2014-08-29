@@ -130,7 +130,6 @@ public class EditUserMaintenance extends AbstractEditController {
     @PostConstruct
     private void init() {
         _logger.log(Level.WARNING, "Init EditUserMaintenance");
-//        _sessionController.beginConversation(_conversation);
         initOrResetData();
     }
 

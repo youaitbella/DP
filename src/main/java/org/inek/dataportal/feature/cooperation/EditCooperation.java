@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,13 +31,14 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
  *
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditCooperation extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
@@ -88,7 +88,6 @@ public class EditCooperation extends AbstractEditController {
     @PostConstruct
     private void init() {
         //_logger.log(Level.WARNING, "Init EditCooperation");
-        _sessionController.beginConversation(_conversation);
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
 

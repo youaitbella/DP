@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -22,18 +21,19 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.InekRoleFacade;
-import org.inek.dataportal.facades.admin.RoleMappingFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
+import org.inek.dataportal.facades.admin.RoleMappingFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
  *
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class AdminTask extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("AdminTask");
@@ -68,7 +68,6 @@ public class AdminTask extends AbstractEditController {
             nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
             return;
         }
-        _sessionController.beginConversation(_conversation);
     }
 
     @PreDestroy

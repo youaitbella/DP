@@ -6,20 +6,20 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.Request;
 import org.inek.dataportal.entities.RequestDocument;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.RequestCategory;
 import org.inek.dataportal.facades.RequestFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -27,7 +27,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditRequest extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="fields">
 
@@ -60,7 +60,6 @@ public class EditRequest extends AbstractEditController {
     private void init() {
 
         //_logger.log(Level.WARNING, "Init EditRequest");
-        _sessionController.beginConversation(_conversation);
         Object reqId = Utils.getFlash().get("reqId");
         if (reqId == null) {
             _request = newRequest();
@@ -70,11 +69,10 @@ public class EditRequest extends AbstractEditController {
     }
 
     @PreDestroy
-    private void destroy(){
+    private void destroy() {
         //_logger.log(Level.WARNING, "Destroy EditRequest");
     }
-    
-    
+
     private Request loadRequest(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
@@ -123,6 +121,7 @@ public class EditRequest extends AbstractEditController {
     private RequestSystemController getRequestController() {
         return (RequestSystemController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
     }
+
     // <editor-fold defaultstate="collapsed" desc="Tab Background">
     private List<SelectItem> _categoryItems;
 
@@ -181,6 +180,7 @@ public class EditRequest extends AbstractEditController {
     public void setReasonHeavyEncodingIssue(boolean value) {
         getRequest().setReasonHeavyEncodingIssue(value);
     }
+
     private Boolean _reasonOther = null;
 
     public boolean isReasonOther() {
@@ -324,6 +324,7 @@ public class EditRequest extends AbstractEditController {
         }
         return null;
     }
+
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
     String _msg = "";
     String _script = "";
@@ -408,4 +409,5 @@ public class EditRequest extends AbstractEditController {
         return script;
     }
     // </editor-fold>
+
 }

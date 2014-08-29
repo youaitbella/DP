@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -23,13 +22,14 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
  *
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditDropBox implements Serializable {
 
     private static final Logger _logger = Logger.getLogger("EditDropBox");
@@ -38,24 +38,23 @@ public class EditDropBox implements Serializable {
     @Inject private Conversation _conversation;
     private DropBox _dropBox;
 
-    public EditDropBox    (){
+    public EditDropBox() {
         //System.out.println("ctor EditDropBox");
     }
 
     @PostConstruct
     private void init() {
         //_logger.log(Level.WARNING, "Init EditDropBox");
-        _sessionController.beginConversation(_conversation);
         Object dbId = Utils.getFlash().get("dbId");
         _dropBox = loadDropBox(dbId);
 
     }
 
     @PreDestroy
-    private void destroy(){
+    private void destroy() {
         //_logger.log(Level.WARNING, "Destroy EditDropBox");
     }
-    
+
     private DropBox loadDropBox(Object dbId) {
         DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         try {
@@ -120,9 +119,8 @@ public class EditDropBox implements Serializable {
         }
     }
 
-    public String refresh(){
+    public String refresh() {
         return "";
     }
-       
-    
+
 }

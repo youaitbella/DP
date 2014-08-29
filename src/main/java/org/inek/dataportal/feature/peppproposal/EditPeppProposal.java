@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
@@ -37,6 +36,7 @@ import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -44,7 +44,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditPeppProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditPeppProposal");
@@ -97,7 +97,6 @@ public class EditPeppProposal extends AbstractEditController {
     private void init() {
 
         //_logger.log(Level.WARNING, "Init EditPeppProposal");
-        _sessionController.beginConversation(_conversation);
         Object ppId = Utils.getFlash().get("ppId");
         if (ppId == null) {
             _peppProposal = newPeppProposal();
@@ -166,7 +165,6 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Tab master data">
-
     private List<SelectItem> _categoryItems;
 
     public List<SelectItem> getCategories() {
@@ -441,7 +439,6 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-
     String _msg = "";
     String _elementId = "";
 
