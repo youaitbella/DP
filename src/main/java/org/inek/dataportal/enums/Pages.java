@@ -20,7 +20,6 @@ public enum Pages {
     LoginFinishRequestPwd("/login/FinishRequestPassword"),
     MainApp("/common/MainApp"),
     //
-    UserMaintenance("/UserMaintenance/UserMaintenance"),
     UserMaintenanceMasterData("/UserMaintenance/UserMaintenanceMasterData"),
     UserMaintenanceAdditionalIKs("/UserMaintenance/UserMaintenanceAdditionalIKs"),
     UserMaintenanceFeatures("/UserMaintenance/UserMaintenanceFeatures"),

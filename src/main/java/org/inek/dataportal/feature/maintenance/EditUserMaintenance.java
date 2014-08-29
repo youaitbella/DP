@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -39,6 +39,7 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 import org.inek.dataportal.helper.faceletvalidators.IkValidator;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.Triple;
 
 /**
@@ -46,7 +47,7 @@ import org.inek.dataportal.helper.structures.Triple;
  * @author muellermi
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditUserMaintenance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
@@ -128,14 +129,14 @@ public class EditUserMaintenance extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        //_logger.log(Level.WARNING, "Init EditUserMaintenance");
-        _sessionController.beginConversation(_conversation);
+        _logger.log(Level.WARNING, "Init EditUserMaintenance");
+//        _sessionController.beginConversation(_conversation);
         initOrResetData();
     }
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditUserMaintenance");
+        _logger.log(Level.WARNING, "Destroy EditUserMaintenance");
     }
 
     private void initOrResetData() {

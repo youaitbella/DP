@@ -102,10 +102,6 @@ public class EditModelIntention extends AbstractEditController {
         return _modelIntention;
     }
 
-    public String getUserMaintenancePage() {
-        return Pages.UserMaintenance.URL();
-    }
-
     // </editor-fold>
     @PostConstruct
     private void init() {
@@ -522,7 +518,7 @@ public class EditModelIntention extends AbstractEditController {
 
 //        boolean hasMissingField = qualities.stream()
 //                .anyMatch(q -> q.getIndicator().isEmpty() || q.getDescription().isEmpty());
-// this is Java 7 version        
+// this is Java 7 version
         boolean hasMissingField = false;
         for (Quality quality : qualities) {
             if (quality.getIndicator().isEmpty() || quality.getDescription().isEmpty()) {
@@ -595,7 +591,7 @@ public class EditModelIntention extends AbstractEditController {
     public void addNewAgreedPatients() {
         _agreedPatiensTable.addNewEntry();
     }
-    // </editor-fold>  
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab costs">
     private RemunerationDynamicTable _remunarationTable;
@@ -676,7 +672,7 @@ public class EditModelIntention extends AbstractEditController {
         _adjustmentTable.addNewEntry();
     }
 
-    // </editor-fold>    
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab structure">
     public void addNewContact(int id) {
         ModelIntentionContact contact = new ModelIntentionContact();
@@ -727,7 +723,7 @@ public class EditModelIntention extends AbstractEditController {
     public void addNewModelLife() {
         _modelLifeTable.addNewEntry();
     }
-    // </editor-fold>    
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab quality">
     private QualityDynamicTable _internalQualityTable;
@@ -782,7 +778,7 @@ public class EditModelIntention extends AbstractEditController {
     public void addNewAcademicSupervision() {
         _academicSupervisionTable.addNewEntry();
     }
-    // </editor-fold>    
+    // </editor-fold>
 
     private void resetDynamicTables() {
         _agreedPatiensTable = null;

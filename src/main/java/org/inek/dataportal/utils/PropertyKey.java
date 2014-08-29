@@ -11,7 +11,7 @@ public enum PropertyKey {
     CertiFolderRoot("//vFileserver01/company$/EDV/Projekte/Zertifizierung/Pruefung/"),
     DropBoxTypeId("1"),
     FolderUpload("upload"),
-    ClientVersion("20120101.5"),
+    ClientVersion("20140101.0"),
     ManagerURL("https://daten.inek.org/DataPortal"),
     LocalManagerURL("http://vdataportal01:8080/DataPortal"),
     ExceptionEmail("PortalAdmin@inek-drg.de"),
