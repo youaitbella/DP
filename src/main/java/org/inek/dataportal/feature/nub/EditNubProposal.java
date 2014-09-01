@@ -94,7 +94,7 @@ public class EditNubProposal extends AbstractEditController {
     // </editor-fold>
 
     public EditNubProposal() {
-        //System.out.println("EditNubProposal");
+        _logger.log(Level.WARNING, "ctor EditNubProposal");
         _currentYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
@@ -153,7 +153,7 @@ public class EditNubProposal extends AbstractEditController {
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditCooperation");
+        _logger.log(Level.WARNING, "Destroy EditNubProposal");
     }
 
     private void initMenuMultiIK() {

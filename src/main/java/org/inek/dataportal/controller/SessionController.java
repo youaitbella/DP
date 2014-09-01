@@ -35,6 +35,7 @@ import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
 
 /**
@@ -142,6 +143,7 @@ public class SessionController implements Serializable {
         logMessage("Navigate to " + topic);
         _logger.log(Level.WARNING, "Navigate to {0}", topic);
         endAllConversations();
+        FeatureScopedContextHolder.Instance.destroyAllBeans();
         return topic + "?faces-redirect=true";
     }
 

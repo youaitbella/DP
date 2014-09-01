@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -13,10 +14,19 @@ public enum FeatureScopedContextHolder {
 
     Instance;
 
-    private final Map<Class, FeatureScopedInstance> _beans = new HashMap<>();
+    private final static String FeatureKey = "FeatureScoped";
 
     public Map<Class, FeatureScopedInstance> getBeans() {
-        return _beans;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+        Map<Class, FeatureScopedInstance> featureBeans;
+        if (map.containsKey(FeatureKey)) {
+            featureBeans = (Map<Class, FeatureScopedInstance>) map.get(FeatureKey);
+        } else {
+            featureBeans = new HashMap<>();
+            map.put(FeatureKey, featureBeans);
+        }
+        return featureBeans;
     }
 
     public FeatureScopedInstance getBean(Class type) {
@@ -24,10 +34,14 @@ public enum FeatureScopedContextHolder {
     }
 
     public void putBean(FeatureScopedInstance featureScopedInstance) {
-        for (FeatureScopedInstance inst : _beans.values()) {
+        destroyAllBeans();
+        getBeans().put(featureScopedInstance.bean.getBeanClass(), featureScopedInstance);
+    }
+
+    public void destroyAllBeans() {
+        for (FeatureScopedInstance inst : getBeans().values()) {
             destroyBean(inst);
         }
-        getBeans().put(featureScopedInstance.bean.getBeanClass(), featureScopedInstance);
     }
 
     void destroyBean(FeatureScopedInstance featureScopedInstance) {
@@ -41,4 +55,5 @@ public enum FeatureScopedContextHolder {
         CreationalContext<T> ctx;
         T instance;
     }
+
 }
