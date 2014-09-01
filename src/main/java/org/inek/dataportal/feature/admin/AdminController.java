@@ -10,7 +10,8 @@ import org.inek.dataportal.helper.Topics;
  *
  * @author muellermi
  */
-public class AdminController extends AbstractFeatureController{
+public class AdminController extends AbstractFeatureController {
+
     public AdminController(SessionController sessionController) {
         super(sessionController);
     }
@@ -18,20 +19,17 @@ public class AdminController extends AbstractFeatureController{
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     // place getter and setters here
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     // place this methods here
     // </editor-fold>
-
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("nameADMIN"), Pages.AdminTaskInekRoles.URL());
+        topics.addTopic(getMsg().getString("nameADMIN"), Pages.AdminTaskSystemStatus.URL());
     }
 
     @Override
     public Feature getFeature() {
         return Feature.ADMIN;
     }
-
 
 }

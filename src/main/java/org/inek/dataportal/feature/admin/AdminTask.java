@@ -45,6 +45,7 @@ public class AdminTask extends AbstractEditController {
 
     @Override
     protected void addTopics() {
+        addTopic(AdminTaskTabs.tabAdminTaskSystemStatus.name(), Pages.AdminTaskSystemStatus.URL());
         addTopic(AdminTaskTabs.tabAdminTaskInekRoles.name(), Pages.AdminTaskInekRoles.URL());
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
         addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
@@ -52,6 +53,7 @@ public class AdminTask extends AbstractEditController {
 
     enum AdminTaskTabs {
 
+        tabAdminTaskSystemStatus,
         tabAdminTaskInekRoles,
         tabAdminTaskRoleMapping,
         tabAdminTaskMailTemplate;

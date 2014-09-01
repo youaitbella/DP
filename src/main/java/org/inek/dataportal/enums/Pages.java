@@ -110,6 +110,7 @@ public enum Pages {
     AdminError("/Admin/error"),
     AdminApproved("/Admin/approvalcompleted"),
     AdminApproval("/Admin/approval"),
+    AdminTaskSystemStatus("/Admin/AdminTaskSystemStatus"),
     AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
     AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
