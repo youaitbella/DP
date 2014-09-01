@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,7 +35,6 @@ public class EditRequest extends AbstractEditController {
     private SessionController _sessionController;
     @Inject
     RequestFacade _requestFacade;
-    @Inject private Conversation _conversation;
     private Request _request;
 
     enum RequestTabs {
@@ -263,7 +261,6 @@ public class EditRequest extends AbstractEditController {
             Utils.getFlash().put("headLine", Utils.getMessage("nameREQUEST_SYSTEM"));
             Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_request));
-            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;

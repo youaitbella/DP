@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
@@ -65,7 +64,6 @@ public class EditNubProposal extends AbstractEditController {
     private CustomerFacade _customerFacade;
     @Inject
     NubSessionTools _nubSessionTools;
-    @Inject private Conversation _conversation;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
     private CooperativeRight _supervisorRight;
@@ -486,7 +484,6 @@ public class EditNubProposal extends AbstractEditController {
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubProposal));
-            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;
@@ -604,8 +601,11 @@ public class EditNubProposal extends AbstractEditController {
         copy.setNubId(null);
         copy.setStatus(WorkflowStatus.New);
         copy.setDateSealed(null);
+        copy.setSealedBy(0);
         copy.setLastModified(null);
         copy.setCreationDate(null);
+        copy.setDateOfReview(null);
+        copy.setCreatedBy(_sessionController.getAccountId());
         copy.setLastChangedBy(_sessionController.getAccountId());
         copy.setTargetYear(1 + Calendar.getInstance().get(Calendar.YEAR));
         copy.setPatientsLastYear(_nubProposal.getPatientsThisYear());

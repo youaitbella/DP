@@ -10,15 +10,14 @@
     </ui:define>
 
     <ui:define name="content">
-        <noscript>			
+        <noscript>
             <h2>#{msg.msgEnableScript}</h2>
-        </noscript>  
+        </noscript>
         <h:form id="Login">
-            <!--# {sessionController.endAllConversations()}-->
             <p>
                 <h:outputLabel styleClass="label" for="email" value="#{msg.lblEmailOrUser}:"/>
                 <br/>
-                <h:inputText styleClass="input" id="email" value="#{login.emailOrUser}" 
+                <h:inputText styleClass="input" id="email" value="#{login.emailOrUser}"
                              title="#{msg.titleEmailOrUser}"
                              required="true" requiredMessage="#{msg.msgValueNeeded}"/>
                 <h:message for="email" errorClass="errorMessage"/>
@@ -45,9 +44,9 @@
             <br/>
             <br/>
             <p>
-                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet? 
+                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet?
                 <br/>
-                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a> 
+                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a>
                 und lesen Sie das <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf">Anwenderhandbuch</a>.
             </p>
 

@@ -28,13 +28,13 @@ public class FeatureScopedContext implements Context, Serializable {
     public <T> T get(Contextual<T> contextual, CreationalContext<T> creationalContext) {
         Bean bean = (Bean) contextual;
         if (_contextHolder.getBeans().containsKey(bean.getBeanClass())) {
-            return (T) _contextHolder.getBean(bean.getBeanClass()).instance;
+            return (T) _contextHolder.getBean(bean.getBeanClass()).getInstance();
         } else {
             T t = (T) bean.create(creationalContext);
             FeatureScopedInstance customInstance = new FeatureScopedInstance();
-            customInstance.bean = bean;
-            customInstance.ctx = creationalContext;
-            customInstance.instance = t;
+            customInstance.setBean(bean);
+            customInstance.setCtx(creationalContext);
+            customInstance.setInstance(t);
             _contextHolder.putBean(customInstance);
             return t;
         }
@@ -44,7 +44,7 @@ public class FeatureScopedContext implements Context, Serializable {
     public <T> T get(Contextual<T> contextual) {
         Bean bean = (Bean) contextual;
         if (_contextHolder.getBeans().containsKey(bean.getBeanClass())) {
-            return (T) _contextHolder.getBean(bean.getBeanClass()).instance;
+            return (T) _contextHolder.getBean(bean.getBeanClass()).getInstance();
         } else {
             return null;
         }

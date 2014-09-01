@@ -23,7 +23,7 @@ public class SessionCounter implements HttpSessionListener {
     }
 
     @Override
-    public void sessionDestroyed(HttpSessionEvent se) {
+    public void sessionDestroyed(HttpSessionEvent event) {
         _count--;
     }
 

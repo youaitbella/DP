@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -35,7 +34,6 @@ public class EditDropBox implements Serializable {
     private static final Logger _logger = Logger.getLogger("EditDropBox");
     @Inject private SessionController _sessionController;
     @Inject private DropBoxFacade _dropBoxFacade;
-    @Inject private Conversation _conversation;
     private DropBox _dropBox;
 
     public EditDropBox() {
@@ -110,7 +108,6 @@ public class EditDropBox implements Serializable {
     public String sealDropBox() {
         DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         try {
-            _sessionController.endConversation(_conversation);
             dropBoxController.sealDropBox(_dropBoxFacade, _dropBox);
             return Pages.DropBoxUpload.URL();
         } catch (ProcessingException e) {

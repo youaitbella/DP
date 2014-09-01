@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -43,7 +42,6 @@ public class AdminTask extends AbstractEditController {
     }
 
     @Inject private SessionController _sessionController;
-    @Inject private Conversation _conversation;
 
     @Override
     protected void addTopics() {

@@ -10,8 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -39,6 +37,7 @@ import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -46,14 +45,13 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author vohldo/schlappajo
  */
 @Named
-@ConversationScoped
+@FeatureScoped
 public class EditModelIntention extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditModelIntention");
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
-    @Inject private Conversation _conversation;
     private boolean _regionMiscEnabled;
     private ModelIntention _modelIntention;
 
@@ -106,7 +104,6 @@ public class EditModelIntention extends AbstractEditController {
     @PostConstruct
     private void init() {
         //_logger.log(Level.WARNING, "Init EditModelIntation");
-        _sessionController.beginConversation(_conversation);
         Object miId = Utils.getFlash().get("modelId");
         if (miId == null) {
             if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
@@ -289,7 +286,6 @@ public class EditModelIntention extends AbstractEditController {
             Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
             Utils.getFlash().put("targetPage", Pages.ModelIntentionSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_modelIntention));
-            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;

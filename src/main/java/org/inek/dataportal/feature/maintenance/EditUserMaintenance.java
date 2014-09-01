@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -68,7 +67,6 @@ public class EditUserMaintenance extends AbstractEditController {
     @Inject private AccountPwdFacade _accountPwdFacade;
     @Inject private CustomerFacade _customerFacade;
     @Inject private AccountChangeMailFacade _accountChangeMailFacade;
-    @Inject private Conversation _conversation;
     private String _user;
     private String _email;
     private Account _accountWorkingCopy;

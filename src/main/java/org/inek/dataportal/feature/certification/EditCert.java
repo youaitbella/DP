@@ -2,7 +2,6 @@ package org.inek.dataportal.feature.certification;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.Conversation;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -28,7 +27,6 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 public class EditCert extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
-    @Inject private Conversation _conversation;
     @Inject SystemFacade _systemFacade;
 
     @Override

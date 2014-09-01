@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -47,7 +46,6 @@ public class EditCooperation extends AbstractEditController {
     @Inject CooperationRequestFacade _cooperationRequestFacade;
     @Inject CooperationFacade _cooperationFacade;
     @Inject AccountFacade _accountFacade;
-    @Inject private Conversation _conversation;
     private Account _partnerAccount;
     private boolean _isRequest;
 

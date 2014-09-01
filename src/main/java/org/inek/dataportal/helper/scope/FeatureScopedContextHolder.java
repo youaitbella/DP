@@ -35,7 +35,7 @@ public enum FeatureScopedContextHolder {
 
     public void putBean(FeatureScopedInstance featureScopedInstance) {
         destroyAllBeans();
-        getBeans().put(featureScopedInstance.bean.getBeanClass(), featureScopedInstance);
+        getBeans().put(featureScopedInstance.getBean().getBeanClass(), featureScopedInstance);
     }
 
     public void destroyAllBeans() {
@@ -45,15 +45,40 @@ public enum FeatureScopedContextHolder {
     }
 
     void destroyBean(FeatureScopedInstance featureScopedInstance) {
-        getBeans().remove(featureScopedInstance.bean.getBeanClass());
-        featureScopedInstance.bean.destroy(featureScopedInstance.instance, featureScopedInstance.ctx);
+        getBeans().remove(featureScopedInstance.getBean().getBeanClass());
+        featureScopedInstance.getBean().destroy(featureScopedInstance.getInstance(), featureScopedInstance.getCtx());
     }
 
     public static class FeatureScopedInstance<T> {
 
-        Bean<T> bean;
-        CreationalContext<T> ctx;
-        T instance;
+        private Bean<T> _bean;
+        private CreationalContext<T> _context;
+        private T _instance;
+
+        public Bean<T> getBean() {
+            return _bean;
+        }
+
+        public void setBean(Bean<T> bean) {
+            _bean = bean;
+        }
+
+        public CreationalContext<T> getCtx() {
+            return _context;
+        }
+
+        public void setCtx(CreationalContext<T> ctx) {
+            _context = ctx;
+        }
+
+        public T getInstance() {
+            return _instance;
+        }
+
+        public void setInstance(T instance) {
+            _instance = instance;
+        }
+
     }
 
 }

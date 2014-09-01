@@ -23,26 +23,28 @@ import org.inek.dataportal.helper.Utils;
 @Named
 @RequestScoped
 public class RequestController implements Serializable {
+
     private static final Logger _logger = Logger.getLogger("RequestController");
 
     @Inject private SessionController _sessionController;
 
     /**
      * This method should be called by every page during
-     * @param e 
+     *
+     * @param e
      */
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String viewId = facesContext.getViewRoot().getViewId();
         if (viewId.equals(Pages.SessionTimeoutRedirector.URL())) {
             // The template displays the logged in user. This view will be created _before_ tryLogout is called.
-            // To ensure the user is logged-out when displaying error or timeout, 
+            // To ensure the user is logged-out when displaying error or timeout,
             // we first call these redirectors, log out and redirect to the target pages
             tryLogout();
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             return;
         }
-        if(viewId.equals(Pages.InvalidConversation.URL())) {
+        if (viewId.equals(Pages.InvalidConversation.URL())) {
             tryLogout();
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.InvalidConversation.URL());
             return;
@@ -69,12 +71,15 @@ public class RequestController implements Serializable {
             _sessionController.logout();
         }
     }
-    
-        public void forceLoginIfNotInternal(ComponentSystemEvent e) {
-            if (_sessionController.isInternalClient()){return;}
-            _logger.log(Level.WARNING, "Attempt to call admin page from ip: {0}", Utils.getClientIP());
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            tryLogout();
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
+
+    public void forceLoginIfNotInternal(ComponentSystemEvent e) {
+        if (_sessionController.isInternalClient()) {
+            return;
         }
+        _logger.log(Level.WARNING, "Attempt to call admin page from ip: {0}", Utils.getClientIP());
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        tryLogout();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
+    }
+
 }

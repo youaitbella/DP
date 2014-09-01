@@ -11,14 +11,15 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.feature.modelintention.EditModelIntention;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.ValueLists;
 
 @Named
 @RequestScoped
 public class ModelIntentionUpload {
 
-    @Inject EditModelIntention _modelIntention;
-    @Inject ValueLists _valueLists;
+    private EditModelIntention _modelIntention;
+    @Inject private ValueLists _valueLists;
     private static final Logger _logger = Logger.getLogger("ModelIntentionUpload");
     private Part _file;
 
@@ -28,6 +29,16 @@ public class ModelIntentionUpload {
 
     public void setFile(Part file) {
         _file = file;
+    }
+
+    /**
+     * @return the _modelIntention
+     */
+    public EditModelIntention getModelIntention() {
+        if (_modelIntention == null) {
+            _modelIntention = (EditModelIntention) FeatureScopedContextHolder.Instance.getBean(EditModelIntention.class).getInstance();
+        }
+        return _modelIntention;
     }
 
     public void uploadCosts() {
@@ -45,12 +56,12 @@ public class ModelIntentionUpload {
                         countFail++;
                     }
                 }
-                _modelIntention.getCostTable().setMessage(String.format(Utils.getMessage("msgLinesUploaded"), countSuccess, countFail));
+                getModelIntention().getCostTable().setMessage(String.format(Utils.getMessage("msgLinesUploaded"), countSuccess, countFail));
 
                 //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload successfully"));
             }
         } catch (IOException | NoSuchElementException e) {
-            _modelIntention.getCostTable().setMessage(Utils.getMessage("msgUploadFailed"));
+            getModelIntention().getCostTable().setMessage(Utils.getMessage("msgUploadFailed"));
             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload failed!"));
         }
     }
@@ -70,7 +81,7 @@ public class ModelIntentionUpload {
                 cost.setAmount(new BigDecimal(tokens[4].replace(",", ".")));
             } catch (NumberFormatException ex) {
             }
-            return _modelIntention.tryAddCost(cost);
+            return getModelIntention().tryAddCost(cost);
         }
         return false;
     }
@@ -90,10 +101,10 @@ public class ModelIntentionUpload {
                         countFail++;
                     }
                 }
-                _modelIntention.setContactMessage(String.format(Utils.getMessage("msgLinesUploaded"), countSuccess, countFail));
+                getModelIntention().setContactMessage(String.format(Utils.getMessage("msgLinesUploaded"), countSuccess, countFail));
             }
         } catch (IOException | NoSuchElementException e) {
-            _modelIntention.setContactMessage(Utils.getMessage("msgUploadFailed"));
+            getModelIntention().setContactMessage(Utils.getMessage("msgUploadFailed"));
         }
     }
 
@@ -128,7 +139,7 @@ public class ModelIntentionUpload {
             contact.setPhone(tokens[8]);
             contact.setEmail(tokens[9]);
 
-            return _modelIntention.tryAddContact(contact);
+            return getModelIntention().tryAddContact(contact);
         }
         return false;
     }

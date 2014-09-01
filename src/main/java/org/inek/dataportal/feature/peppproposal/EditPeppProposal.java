@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
@@ -58,7 +57,6 @@ public class EditPeppProposal extends AbstractEditController {
     private DiagnosisFacade _diagnosisFacade;
     @Inject
     private PeppProposalFacade _peppProposalFacade;
-    @Inject private Conversation _conversation;
     private String _script;
     private PeppProposal _peppProposal;
 
@@ -363,7 +361,6 @@ public class EditPeppProposal extends AbstractEditController {
             msg = String.format(msg, _peppProposal.getExternalId(), GlobalVars.PeppProposalSystemYear.getVal());
             String script = "alert ('" + msg + "');";
             _sessionController.setScript(script);
-            _sessionController.endConversation(_conversation);
             return Pages.PrintView.URL();
         }
         return null;

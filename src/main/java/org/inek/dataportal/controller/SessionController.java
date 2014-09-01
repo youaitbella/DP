@@ -179,6 +179,7 @@ public class SessionController implements Serializable {
     public String logout() {
         if (_account != null) {
             endAllConversations();
+            FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage("Logout");
             _account = null;
             _topics.clear();
@@ -194,8 +195,9 @@ public class SessionController implements Serializable {
         if (sessionId.length() > 0) {
             try {
                 System.out.println("old session " + sessionId);
-                //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-                sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
+                FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                sessionId = retrieveSessionId();
                 System.out.println("new session " + sessionId);
             } catch (Exception ex) {
                 _logger.log(Level.WARNING, "Exception during invalidatesesion");
@@ -230,7 +232,9 @@ public class SessionController implements Serializable {
      * @return
      */
     public boolean loginAndSetTopics(String mailOrUser, String password) {
-        invalidateSession();
+        String sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
+        System.out.println("new session " + sessionId);
+        //invalidateSession();
         login(mailOrUser, password);
         initFeatures();
         setTopics();
