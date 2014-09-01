@@ -40,4 +40,10 @@ public class EmailReceiverFacade extends AbstractFacade<EmailReceiver> {
         }
         return max;
     }
+    
+    public boolean deleteAllEmailReceiverByListId(int id) {
+        String query = "DELETE FROM EmailReceiver er WHERE er._receiverList = :id";
+        int deleted = getEntityManager().createQuery(query, EmailReceiver.class).setParameter("id", id).executeUpdate();
+        return deleted > 0;
+    }
 }

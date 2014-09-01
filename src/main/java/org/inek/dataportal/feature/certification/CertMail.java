@@ -125,6 +125,8 @@ public class CertMail implements Serializable {
     }
     
     public String addReceiverToList() {
+        if(_selectedReceiverNewList.equals(""))
+            return ""; // throw exception here.
         String userEmail = _selectedReceiverNewList.substring(_selectedReceiverNewList.indexOf('(')+1, _selectedReceiverNewList.length()-1);
         EmailReceiver er = new EmailReceiver();
         er.setAccountId(_accFacade.findByMailOrUser(userEmail).getAccountId());
@@ -165,12 +167,25 @@ public class CertMail implements Serializable {
             label.setEmailReceiverLabelId(_emailReceiverFacade.getHighestEmailReceiverListId()+1);
             label.setLabel(_receiverListsName);
             _emailReceiverLabelFacade.persist(label);
-            int receiverListId = _emailReceiverLabelFacade.findEmailReceiverListByLabel(_receiverListsName);
             _emailReceivers.stream().forEach((er) -> {
                 _emailReceiverFacade.persist(er);
             });
         }
+        initEmailReceiversTemplateList();
         return ""; // successfully saved
+    }
+    
+    public String deleteReceiverList() {
+        if(_selectedListEditName.equals("")) {
+           return ""; // throw exception here. 
+        }
+        MapEmailReceiverLabel erl = _emailReceiverLabelFacade.find(_emailReceiverLabelFacade.findEmailReceiverListByLabel(_selectedListEditName));
+        int erId = erl.getEmailReceiverLabelId();
+        if(!_emailReceiverFacade.deleteAllEmailReceiverByListId(erId))
+            return ""; // throw exception here.
+        _emailReceiverLabelFacade.remove(erl);
+        _emailReceivers.clear();
+        return "";
     }
     
     public String getCompanyNameByAccId(int id) {
@@ -193,11 +208,16 @@ public class CertMail implements Serializable {
             initEmailReceiversTemplateList();
         }
         else {
-            _emailReceivers.stream().filter((element) -> (element.getAccountId() == accId)).forEach((element) -> {
-                _emailReceivers.remove(element);
-            });
+            if(accId != -1) {
+                for(EmailReceiver element : _emailReceivers) {
+                    if(element.getAccountId() == accId) {
+                        _emailReceivers.remove(element);
+                        break;
+                    }
+                }
+            }
         }
-        return "";
+        return "#";
     }
 
     public String getSelectedTemplate() {
