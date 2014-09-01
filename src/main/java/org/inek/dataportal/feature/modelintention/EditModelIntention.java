@@ -151,9 +151,6 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public String save() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         if (saveToDatabase()) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -253,9 +250,6 @@ public class EditModelIntention extends AbstractEditController {
      * @return
      */
     public String requestSeal() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
@@ -272,9 +266,6 @@ public class EditModelIntention extends AbstractEditController {
      * @return
      */
     public String seal() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         if (_modelIntention.getStatus().getValue() >= 10) {
             return Pages.Error.URL();
         }
@@ -302,15 +293,6 @@ public class EditModelIntention extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return null;
-    }
-
-    /**
-     * checks, whether the session is still valid
-     *
-     * @return
-     */
-    private boolean check4validSession() {
-        return !_conversation.isTransient();
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">

@@ -364,9 +364,6 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public String save() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         _nubProposal.setLastChangedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
@@ -459,9 +456,6 @@ public class EditNubProposal extends AbstractEditController {
      * @return
      */
     public String requestSeal() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
@@ -478,7 +472,7 @@ public class EditNubProposal extends AbstractEditController {
      * @return
      */
     public String seal() {
-        if (!check4validSession() || !requestIsComplete()) {
+        if (!requestIsComplete()) {
             return Pages.Error.URL();
         }
         if (_nubProposal.getStatus().getValue() >= 10) {
@@ -499,9 +493,6 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public String requestApproval() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
@@ -511,7 +502,7 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public String confirmApprovalRequest() {
-        if (!check4validSession() || !requestIsComplete()) {
+        if (!requestIsComplete()) {
             return Pages.Error.URL();
         }
         if (_nubProposal.getStatus().getValue() >= 10) {
@@ -523,15 +514,6 @@ public class EditNubProposal extends AbstractEditController {
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         return "";
-    }
-
-    /**
-     * checks, whether the session is still valid
-     *
-     * @return
-     */
-    private boolean check4validSession() {
-        return !_conversation.isTransient();
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
@@ -613,9 +595,6 @@ public class EditNubProposal extends AbstractEditController {
 
     // </editor-fold>
     public String downloadTemplate() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         downloadDocument(getNubController().createTemplate(_nubProposal));
         return null;
     }

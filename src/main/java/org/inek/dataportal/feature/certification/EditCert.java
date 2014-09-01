@@ -36,8 +36,11 @@ public class EditCert extends AbstractEditController {
         if (_sessionController.isInekUser(Feature.CERT)) {
             addTopic(CertTabs.tabCertSystemManagement.name(), Pages.CertSystemManagement.URL());
             addTopic(CertTabs.tabCertMail.name(), Pages.CertMail.URL());
+            addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL()); // todo: uncomment
         }
+        //todo: uncomment next line and remove link to announcement
         addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL());
+        //addTopic(CertTabs.tabCertification.name(), "/Certification/CertAnnouncement.xhtml");
     }
 
     private enum CertTabs {

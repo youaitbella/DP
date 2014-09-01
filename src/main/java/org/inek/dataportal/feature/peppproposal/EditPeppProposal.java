@@ -309,9 +309,6 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     public String save() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
 
         if (isValidId(getPeppProposal().getPeppProposalId())) {
@@ -335,9 +332,6 @@ public class EditPeppProposal extends AbstractEditController {
      * @return
      */
     public String requestPeppProposalSeal() {
-        if (!check4validSession()) {
-            return Pages.Error.URL();
-        }
         if (!peppProposalIsComplete()) {
             return null;
         }
@@ -354,9 +348,6 @@ public class EditPeppProposal extends AbstractEditController {
      * @return
      */
     public String sealPeppProposal() {
-        if (!check4validSession()) {
-            return Pages.Error.URL();
-        }
         if (!peppProposalIsComplete()) {
             return null;
         }
@@ -376,15 +367,6 @@ public class EditPeppProposal extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return null;
-    }
-
-    /**
-     * checks, whether the session is still valid
-     *
-     * @return
-     */
-    private boolean check4validSession() {
-        return !_conversation.isTransient();
     }
 
     public String takeDocuments() {

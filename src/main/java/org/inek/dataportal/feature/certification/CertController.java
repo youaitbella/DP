@@ -25,7 +25,10 @@ public class CertController extends AbstractFeatureController {
         if (getSessionController().isInekUser(Feature.CERT)) {
             topics.addTopic(getMsg().getString("lblCert"), Pages.CertSystemManagement.URL());
         } else {
-            topics.addTopic(getMsg().getString("lblCert"), Pages.CertCertification.URL());
+            //todo: uncomment next line and remove link to announcement
+            //topics.addTopic(getMsg().getString("lblCert"), Pages.CertCertification.URL());
+            topics.addTopic(getMsg().getString("lblCert"), "/Certification/CertAnnouncement.xhtml");
+
         }
     }
 

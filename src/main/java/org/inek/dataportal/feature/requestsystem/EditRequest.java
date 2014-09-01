@@ -215,9 +215,6 @@ public class EditRequest extends AbstractEditController {
 
     // </editor-fold>
     public String save() {
-        if (!check4validSession()) {
-            return Pages.InvalidConversation.URL();
-        }
         _request = _requestFacade.saveRequest(_request);
 
         if (isValidId(_request.getRequestId())) {
@@ -241,9 +238,6 @@ public class EditRequest extends AbstractEditController {
      * @return
      */
     public String requestSeal() {
-        if (!check4validSession()) {
-            return Pages.Error.URL();
-        }
         if (!requestIsComplete()) {
             return null;
         }
@@ -259,9 +253,6 @@ public class EditRequest extends AbstractEditController {
      * @return
      */
     public String seal() {
-        if (!check4validSession()) {
-            return Pages.Error.URL();
-        }
         if (!requestIsComplete()) {
             return null;
         }
@@ -280,19 +271,7 @@ public class EditRequest extends AbstractEditController {
 
     public String delete() {
         // todo: implement
-        if (!check4validSession()) {
-            return Pages.Error.URL();
-        }
         return Pages.MainApp.URL();
-    }
-
-    /**
-     * checks, whether the session is still valid
-     *
-     * @return
-     */
-    private boolean check4validSession() {
-        return !_conversation.isTransient();
     }
 
     public String takeDocuments() {
