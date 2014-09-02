@@ -58,7 +58,7 @@
             <br />
             
             <div class="inputPart" style="float: right;">
-                <h:button id="btnPreview" styleClass="button" value="Email-Vorschau" />
+                <h:commandLink id="btnPreview" styleClass="button" value="Email-Vorschau" action="#{certMail.showPreview}"/>
                 <h:button id="btnSendMails" styleClass="button" value="Emails abschicken" />
             </div>
             
@@ -133,7 +133,31 @@
             
             <div style="clear:both;" />
         </h:form>
-
+        
+        <h:panelGroup rendered="#{certMail.previewEnabled()}">
+            <h2>
+                Email-Vorschau
+            </h2>
+            <h:form id="frmEmailPreview">
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label15" value="Empfänger:" />
+                    <h:selectOneMenu id="selectEmailReceiverPreview" styleClass="inputmedium" value="#{certMail.selectedEmailAddressPreview}">
+                        <f:selectItems value="#{certMail.emailAddressForPreview}" />
+                        <f:ajax event="change" render="@form :logout:remaining" listener="#{certMail.changedPreviewReceiver}"/>
+                    </h:selectOneMenu>
+                </div>
+                
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label15" value="Betreff:" />
+                    <h:inputText styleClass="inputlong" id="previewSubject" value="#{certMail.previewSubject}" readonly="true"/>
+                </div>
+                
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label15" value="Inhalt:" />
+                    <h:inputTextarea styleClass="areaHuge" id="previewBody" value="#{certMail.previewBody}" readonly="true"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
 
     </ui:define>
 

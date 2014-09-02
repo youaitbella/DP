@@ -33,5 +33,14 @@ public class SystemFacade extends AbstractFacade<RemunerationSystem> {
         }
         return result;
     }
-
+    
+    public RemunerationSystem findRemunerationSystemByName(String name) {
+        List<RemunerationSystem> rs = findAll();
+        for(RemunerationSystem element : rs) {
+            if(element.getDisplayName().equals(name)) {
+                return element;
+            }
+        }
+        return null;
+    }
 }

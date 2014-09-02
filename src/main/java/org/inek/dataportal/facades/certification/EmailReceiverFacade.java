@@ -1,6 +1,5 @@
 package org.inek.dataportal.facades.certification;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.certification.EmailReceiver;

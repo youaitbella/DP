@@ -15,8 +15,8 @@ import org.inek.dataportal.helper.Utils;
 public enum Genders {
     
         NoAttribute(0, "enmNoAttribute"),
-        Male(1, "enmGenderMale"),
-        Female(2, "enmGenderFemale");
+        Male(2, "enmGenderMale"),
+        Female(1, "enmGenderFemale");
 
         private final int _id;
         private final String _textId;
