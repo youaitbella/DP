@@ -7,16 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**
  * This class is used to upload files during the certification process. All
@@ -31,9 +33,7 @@ public class CertificationUpload {
 
     private static final Logger _logger = Logger.getLogger("CertificationUpload");
     @Inject SystemFacade _systemFacade;
-
-    @ManagedProperty("#{param.systemId}")
-    private int _systemId;
+    @Inject SessionController _sessionController;
 
     private Part _file;
 
@@ -45,59 +45,83 @@ public class CertificationUpload {
         _file = file;
     }
 
-    public void uploadSpecManual(int systemId) {
-        uploadSpec(systemId, "SpecHandbuch", "Spec-Handbuch", "pdf");
+    public void uploadSpec(int systemId) {
+        uploadCertFile(systemId, "Spec", "Grouper-Spezifikation", "exe");
     }
 
     public void uploadTrainingData(int systemId) {
-        uploadSpec(systemId, "Daten", "Uebungsdaten", "zip");
+        uploadCertFile(systemId, "Daten", "Uebungsdaten", "zip");
     }
 
     public void uploadTestData(int systemId) {
-        uploadSpec(systemId, "Daten", "Testdaten", "zip");
+        uploadCertFile(systemId, "Daten", "Testdaten", "zip");
     }
 
-//    public void uploadCertificationData(AjaxBehaviorEvent event) {
-//        uploadSpec(_systemId, "Daten", "Zertdaten", "zip");
-//    }
-//
     public void uploadCertificationData(int systemId) {
-        uploadSpec(systemId, "Daten", "Zertdaten", "zip");
+        uploadCertFile(systemId, "Daten", "Zertdaten", "zip");
     }
 
-    private void uploadSpec(int systemId, String folder, String prefix, String extension) {
-//        Optional<File> uploadFolder = getUploadFolder(systemId, folder);
-//        if (!uploadFolder.isPresent()) {
-//            return;
-//        }
-        File uploadFolder = getUploadFolder(systemId, folder);
-        if (uploadFolder == null) {
+    public void uploadCertFile(int systemId, String folder, String fileNameBase, String extension) {
+        RemunerationSystem system = getSystem(systemId);
+        if (system == null) {
             return;
         }
-        String outFile = prefix + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "." + extension + ".upload";
-//        uploadFile(new File(uploadFolder.get(), outFile));
-        uploadFile(new File(uploadFolder, outFile));
+
+        Optional<File> uploadFolder = getUploadFolder(system, folder);
+        if (!uploadFolder.isPresent()) {
+            return;
+        }
+        String outFile = fileNameBase + "_" + system.getFileName() + "_(" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ")." + extension + ".upload";
+        uploadFile(new File(uploadFolder.get(), outFile));
+        EditCert editCert = (EditCert) FeatureScopedContextHolder.Instance.getBean(EditCert.class).getInstance();
+        editCert.setSystemChanged(true);
+    }
+
+    private RemunerationSystem getSystem(int systemId) {
+        if (systemId < 0) {
+            return null;
+        }
+        RemunerationSystem system = _systemFacade.find(systemId);
+        if (system == null) {
+            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
+        }
+        return system;
+    }
+
+    public String getCertFile(int systemId, String folder, String fileNameBase, String extension) {
+        RemunerationSystem system = getSystem(systemId);
+        if (system == null) {
+            return "";
+        }
+
+        Optional<File> uploadFolder = getUploadFolder(system, folder);
+        if (!uploadFolder.isPresent()) {
+            return "";
+        }
+
+        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_\\(\\d{4}-\\d{2}-\\d{2}\\)." + extension + "(\\.upload)?";
+        String fileName = getLastFile(uploadFolder.get(), fileNamePattern);
+        return fileName.replace(".upload", " [ungespeichert]");
     }
 
     public void uploadTestResult(int systemId, int AccountId) {
-//        Optional<File> uploadFolder = getUploadFolder(systemId, "Daten");  // todo: folder depending on account
-//        if (!uploadFolder.isPresent()) {
-//            return;
-//        }
-        File uploadFolder = getUploadFolder(systemId, "Daten");  // todo: folder depending on account
-        if (uploadFolder == null) {
+        RemunerationSystem system = _systemFacade.find(systemId);
+        if (system == null) {
+            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
+            return;
+        }
+        Optional<File> uploadFolder = getUploadFolder(system, "Daten");  // todo: folder depending on account
+        if (!uploadFolder.isPresent()) {
             return;
         }
         String prefix = "ErgebnisUebungsdaten_";
-//        String lastFile = getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
-        String lastFile = getLastFile(uploadFolder, prefix + "\\d\\.txt");
+        String lastFile = getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
         int version = 1;
         if (lastFile.startsWith(prefix)) {
             version = 1 + Integer.parseInt(lastFile.substring(prefix.length(), prefix.length() + 1));
         }
         String outFile = prefix + version + ".txt";
-//        uploadFile(new File(uploadFolder.get(), outFile));
-        uploadFile(new File(uploadFolder, outFile));
+        uploadFile(new File(uploadFolder.get(), outFile));
     }
 
     /**
@@ -108,46 +132,22 @@ public class CertificationUpload {
      * @param folderName
      * @return folder if ok, null otherwise
      */
-//    private Optional getUploadFolder(int systemId, String folderName) {
-//        if (_file == null) {
-//            return Optional.empty();
-//        }
-//        _logger.log(Level.INFO, "uploading file {0}", _file.getSubmittedFileName());
-//        RemunerationSystem system = _systemFacade.find(systemId);
-//        if (system == null) {
-//            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
-//            return Optional.empty();
-//        }
-//        File folder = new File(system.getSystemRoot(), folderName);
-//        try {
-//            folder.mkdirs();
-//        } catch (Exception ex) {
-//            _logger.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
-//            return Optional.empty();
-//        }
-//        return Optional.of(folder);
-//    }
-    private File getUploadFolder(int systemId, String folderName) {
-        if (_file == null) {
-            return null;
-        }
-        _logger.log(Level.INFO, "uploading file {0}", _file.getSubmittedFileName());
-        RemunerationSystem system = _systemFacade.find(systemId);
-        if (system == null) {
-            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
-            return null;
-        }
+    private Optional getUploadFolder(RemunerationSystem system, String folderName) {
         File folder = new File(system.getSystemRoot(), folderName);
         try {
             folder.mkdirs();
         } catch (Exception ex) {
             _logger.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
-            return null;
+            return Optional.empty();
         }
-        return folder;
+        return Optional.of(folder);
     }
 
     private void uploadFile(File file) {
+        if (_file == null) {
+            return;
+        }
+        _logger.log(Level.INFO, "uploading file {0}", _file.getSubmittedFileName());
         try (InputStream inStream = _file.getInputStream();
                 FileOutputStream fos = new FileOutputStream(file)) {
             new StreamHelper().copyStream(inStream, fos);
@@ -164,9 +164,9 @@ public class CertificationUpload {
      */
     private String getLastFile(File dir, final String fileNamePattern) {
         String lastFile = "";
+        File[] files = dir.listFiles();
         for (File file : dir.listFiles(new FileFilter() {
 
-            @Override
             public boolean accept(File file) {
                 return file.isFile() && file.getName().matches(fileNamePattern);
             }

@@ -18,7 +18,7 @@ public class SessionCounter implements HttpSessionListener {
     }
 
     @Override
-    public void sessionCreated(HttpSessionEvent se) {
+    public void sessionCreated(HttpSessionEvent event) {
         _count++;
     }
 

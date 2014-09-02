@@ -9,29 +9,49 @@
 
     <!-- INTERFACE -->
     <cc:interface>
+        <cc:attribute name="buttonText" />
         <cc:attribute name="contentType" default=""/>
         <cc:attribute name="fileNamePattern" default=".*"/>
-        <cc:attribute name="uploadFile"/>
-        <cc:attribute name="uploadMethod"/>
-        <cc:attribute name="uploadParam"/>
+        <cc:attribute name="maxFileSize" default="10000000"/>
+        <cc:attribute name="minFileSize" default="1"/>
+        <cc:attribute name="systemId"/>
+        <cc:attribute name="folder"/>
+        <cc:attribute name="fileBaseName"/>
+        <cc:attribute name="extension"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
         <h:form id="uploadForm" enctype="multipart/form-data">
-            <h:inputFile styleClass="hide" id="uploadFile" value="#{cc.attrs.uploadFile}" title="#{msg.btnUploadCert}"
-                         p:contentType="#{cc.attrs.contentType}" p:fileNamePattern="#{cc.attrs.fileNamePattern}">
-                <!--onchange="uploadFile('# {cc.clientId}:uploadForm:uploadFile');"-->
-                <f:param name="systemId" value="#{cc.attrs.uploadParam}"/>
-                <f:ajax listener="#{certificationUpload.uploadCertificationData(cc.attrs.uploadParam)}" render="@form msgUploadFile :logout:remaining">
-                </f:ajax>
+            #{cc.attrs.fileNamePattern}
+            <h:inputFile styleClass="hide"
+                         id="uploadFile"
+                         value="#{certificationUpload.file}"
+                         title="#{msg.btnUploadCert}"
+                         p:contentType="#{cc.attrs.contentType}"   <!-- passthrough attributes will be empty :( -->
+                         p:fileNamePattern="#{cc.attrs.fileNamePattern}"
+                         p:maxFileSize="#{cc.attrs.maxFileSize}"
+                         p:minFileSize="#{cc.attrs.minFileSize}">
+                         <f:ajax listener="#{certificationUpload.uploadCertFile(cc.attrs.systemId, cc.attrs.folder, cc.attrs.fileBaseName, cc.attrs.extension)}"
+                    render="@form msgUploadFile :logout:remaining"/>
                 <f:validator validatorId="FileUploadValidator"/>
             </h:inputFile>
-            <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"
+            <h:outputLabel styleClass="button" value="#{cc.attrs.buttonText}"
                            onclick="getElementById('#{cc.clientId}:uploadForm:uploadFile').click();"/>
-            <progress id="progressBar" style="display: none;" value="0" max="100"></progress>
             <h:message id="msgUploadFile" for="uploadFile" styleClass="errorMessage"/>
         </h:form>
     </cc:implementation>
 </html>
+
+<!--
+usage:
+
+        <inek:Upload buttonText="#{msg.btnUploadSpec}"
+                     contentType="application/binary"
+                     fileNamePattern="Grouper-Spezifikation_mit_Handbuch.*\.exe"
+                     systemId="#{editCert.systemId}"
+                     folder="Spec"
+                     fileBaseName="Grouper-Spezifikation_mit_Handbuch"
+                     extension="exe"/>
+-->

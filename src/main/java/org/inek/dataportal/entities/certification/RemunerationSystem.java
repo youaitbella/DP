@@ -138,10 +138,16 @@ public class RemunerationSystem implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="DisplayName">
+    // <editor-fold defaultstate="collapsed" desc="FileName">
+    public String getFileName() {
+        return getDisplayName().replace("/", "_");
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
     public File getSystemRoot() {
         File root = new File(PropertyManager.INSTANCE.getProperty(PropertyKey.CertiFolderRoot), "System " + getYearSystem());
-        File systemRoot = new File(root, getDisplayName().replace("/", "_"));
+        File systemRoot = new File(root, getFileName());
         return systemRoot;
     }
     // </editor-fold>

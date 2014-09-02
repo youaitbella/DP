@@ -62,6 +62,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
             Throwable exception = context.getException();
             if (exception instanceof ViewExpiredException) {
+                _logger.log(Level.SEVERE, "[View expired]", exception);
                 ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
                 Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
                 if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
@@ -105,12 +106,6 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             sc.logout();
         }
         Utils.navigate(targetPage);
-//        NavigationHandler nav = fc.getApplication().getNavigationHandler();
-//        //String path = ((HttpServletRequest) fc.getExternalContext().getRequest()).getContextPath();
-//        //fc.getExternalContext().redirect(path + targetPage);
-//        //fc.getViewRoot().setViewId(targetPage);
-//        nav.handleNavigation(fc, null, targetPage);
-        //fc.renderResponse();
         getWrapped().handle();
     }
 
@@ -126,6 +121,9 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private void SendExeptionMessage(String msg) {
+        if (msg.isEmpty()) {
+            return;
+        }
         if (_mailer == null) {
             SessionController sc = Utils.getBean(SessionController.class);
             if (sc != null) {

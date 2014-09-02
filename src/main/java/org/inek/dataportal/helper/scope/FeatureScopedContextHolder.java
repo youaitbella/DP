@@ -29,6 +29,12 @@ public enum FeatureScopedContextHolder {
         return featureBeans;
     }
 
+    /**
+     * Gets the FeaturedScoped bean of the given type for the session, if any
+     *
+     * @param type
+     * @return
+     */
     public FeatureScopedInstance getBean(Class type) {
         return getBeans().get(type);
     }
@@ -52,9 +58,6 @@ public enum FeatureScopedContextHolder {
     public static class FeatureScopedInstance<T> {
 
         private Bean<T> _bean;
-        private CreationalContext<T> _context;
-        private T _instance;
-
         public Bean<T> getBean() {
             return _bean;
         }
@@ -63,6 +66,7 @@ public enum FeatureScopedContextHolder {
             _bean = bean;
         }
 
+        private CreationalContext<T> _context;
         public CreationalContext<T> getCtx() {
             return _context;
         }
@@ -71,6 +75,7 @@ public enum FeatureScopedContextHolder {
             _context = ctx;
         }
 
+        private T _instance;
         public T getInstance() {
             return _instance;
         }

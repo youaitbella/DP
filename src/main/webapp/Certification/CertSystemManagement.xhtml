@@ -16,7 +16,7 @@
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
                 <f:selectItems value="#{editCert.systems}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form formManufactorers uploadForm :logout:remaining" />
+                <f:ajax render="@all :systemData :logout:remaining" />
             </h:selectOneMenu>
 
             <hr/>
@@ -66,106 +66,95 @@
 
         <br/>
 
-        <h2>Systemdaten</h2>
+        <h:panelGroup id="systemData" rendered="#{editCert.system.id > 0}">
+            <h2>Systemdaten</h2>
 
-        <div class="inputpart">
-
-
-            <h:form id="uploadForm" enctype="multipart/form-data" rendered="#{editCert.system != null}">
+            <h:form id="uploadForm" enctype="multipart/form-data" >
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="specFile" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}"
-                                 p:contentType="application/pdf" p:fileNamePattern="Spec-Handbuch.*\.pdf" p:maxFileSize="1000000">
-                        <f:ajax listener="#{certificationUpload.uploadSpecManual(editCert.systemId)}" render="@form msgSpecFile :logout:remaining"/>
+                                 p:contentType="application/x-sdlc" p:fileNamePattern="Grouper-Spezifikation.*\.exe" p:maxFileSize="10000000">
+                        <f:ajax listener="#{certificationUpload.uploadCertFile(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"
+                                render="@form actionForm :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="getElementById('uploadForm:specFile').click();"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
-                    Stand: xx.xx.2014 (implementieren)
-                </div>
-
-                <div class="inputPart">
-                    <h:inputFile styleClass="hide" id="trainingFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTraining}"
-                                 p:contentType="application/binary" p:fileNamePattern="Uebungsdaten.*\.zip">
-                        <f:ajax listener="#{certificationUpload.uploadTrainingData}" render="@form msgTrainingFile :logout:remaining"/>
-                        <f:validator validatorId="FileUploadValidator"/>
-                    </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTraining}" onclick="getElementById('uploadForm:trainingFile').click();"/>
-                    <h:message id="msgTrainingFile" for="trainingFile" styleClass="errorMessage"/>
-                    Stand: xx.xx.2014 (implementieren)
+                    <h:outputLabel value="#{certificationUpload.getCertFile(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}"
-                                 p:contentType="application/binary" p:fileNamePattern="testdaten.*\.zip">
-                        <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form msgTestFile :logout:remaining"/>
+                                 p:contentType="application/binary" p:fileNamePattern="Testdaten.*\.zip" p:maxFileSize="1000000000">
+                        <f:ajax listener="#{certificationUpload.uploadCertFile(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"
+                                render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="getElementById('uploadForm:testFile').click();"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
-                    Stand: xx.xx.2014 (implementieren)
+                    <h:outputLabel value="#{certificationUpload.getCertFile(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}"
-                                 onchange="uploadFile();"
-                                 p:contentTypes="application/binary;text/plain" p:fileNamePattern="Zertdaten.*\.(zip|txt)">
-                        <f:ajax listener="#{certificationUpload.uploadCertificationData(editCert.systemId)}" render="@form msgSpecFile :logout:remaining"/>
+                                 p:contentType="application/binary" p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
+                        <f:ajax listener="#{certificationUpload.uploadCertFile(editCert.systemId, 'Daten', 'Zertdaten', 'zip')}"
+                                render="@form :actionForm :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="getElementById('uploadForm:certFile').click();"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
-                    Stand: xx.xx.2014 (implementieren)
+                    <h:outputLabel value="#{certificationUpload.getCertFile(editCert.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
                 </div>
+
             </h:form>
-        </div>
 
-        <hr/>
-        <inek:Upload uploadFile="#{certificationUpload.file}" uploadMethod="#{certificationUpload.uploadCertificationData}" uploadParam="#{editCert.systemId}"/>
-        <hr/>
+            <br/>
 
-        <h:form id="formManufactorers">
-            <h2>#{msg.lblAssignedManufactorers}</h2>
+            <h:form id="formManufactorers">
+                <h2>#{msg.lblAssignedManufactorers}</h2>
 
-            <h:dataTable rendered="#{!empty editCert.system.mappings}"  headerClass="list-header"
-                         value="#{editCert.system.mappings}" var="map" columnClasses="colIcon, colValue">
-                <h:column id="colDeleteId" >
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <h:commandLink  immediate="true" >
-                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-                        <cb:confirmDelete/>
-                        <f:ajax render="@form :logout:remaining" listener="#{editCert.deleteAccountMapping()}"/>
-                    </h:commandLink>
-                </h:column>
+                <h:dataTable rendered="#{!empty editCert.system.mappings}"  headerClass="list-header"
+                             value="#{editCert.system.mappings}" var="map" columnClasses="colIcon, colValue">
+                    <h:column id="colDeleteId" >
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink  immediate="true" >
+                            <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                            <cb:confirmDelete/>
+                            <f:ajax render="@form :logout:remaining" listener="#{editCert.deleteAccountMapping()}"/>
+                        </h:commandLink>
+                    </h:column>
 
-                <h:column id="colName">
-                    <f:facet name="header">
-                        <h:outputText value="Name"/>
-                    </f:facet>
-                    <h:selectOneMenu id="mnuAgent" value="#{map.accountId}">
-                        <f:selectItems value="#{editCert.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                        <f:ajax event="change" render="@this :inekRole:btnSaveMapping :logout:remaining" listener="#{editCert.systemChangeListener}" />
-                    </h:selectOneMenu>
-                </h:column>
-            </h:dataTable>
-        </h:form>
+                    <h:column id="colName">
+                        <f:facet name="header">
+                            <h:outputText value="Name"/>
+                        </f:facet>
+                        <h:selectOneMenu id="mnuAgent" value="#{map.accountId}">
+                            <f:selectItems value="#{editCert.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                            <f:ajax event="change" render="@this :inekRole:btnSaveMapping :logout:remaining" listener="#{editCert.systemChangeListener}" />
+                        </h:selectOneMenu>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
 
-        <h:form id="actionForm">
-            <div class="toolBar">
+            <h:form id="addForm">
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
                     <f:ajax event="click" render="formManufactorers :logout:remaining" listener="#{editCert.addNewMapping}"/>
                 </h:commandLink>
 
-                <hr/>
+            </h:form>
+            <hr/>
+        </h:panelGroup>
 
-                <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
-                    <cb:confirmDelete/>
-                </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                               id="btnSystemSave" action="#{editCert.saveSystem}"
-                               immediate="false" disabled="#{editCert.system == null || !editCert.systemChanged}"/>
-            </div>
+        <h:form id="actionForm">
+
+            <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
+                <cb:confirmDelete/>
+            </h:commandLink>
+            <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                           id="btnSystemSave" action="#{editCert.saveSystem}"
+                           immediate="false" disabled="#{editCert.system == null || !editCert.systemChanged}"/>
 
         </h:form>
     </ui:define>
