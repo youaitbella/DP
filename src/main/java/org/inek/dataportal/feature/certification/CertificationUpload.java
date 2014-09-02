@@ -1,7 +1,6 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,6 +70,8 @@ public class CertificationUpload {
         if (!uploadFolder.isPresent()) {
             return;
         }
+        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
+        deleteFiles(uploadFolder.get(), fileNamePattern);
         String outFile = fileNameBase + "_" + system.getFileName() + "_(" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ")." + extension + ".upload";
         uploadFile(new File(uploadFolder.get(), outFile));
         EditCert editCert = (EditCert) FeatureScopedContextHolder.Instance.getBean(EditCert.class).getInstance();
@@ -164,19 +165,18 @@ public class CertificationUpload {
      */
     private String getLastFile(File dir, final String fileNamePattern) {
         String lastFile = "";
-        File[] files = dir.listFiles();
-        for (File file : dir.listFiles(new FileFilter() {
-
-            public boolean accept(File file) {
-                return file.isFile() && file.getName().matches(fileNamePattern);
-            }
-
-        })) {
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
             if (file.getName().compareTo(lastFile) > 0) {
                 lastFile = file.getName();
             }
         }
         return lastFile;
+    }
+
+    private void deleteFiles(File dir, final String fileNamePattern) {
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
+            file.delete();
+        }
     }
 
 }

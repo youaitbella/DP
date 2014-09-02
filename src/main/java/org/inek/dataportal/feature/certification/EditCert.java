@@ -1,5 +1,6 @@
 package org.inek.dataportal.feature.certification;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -110,8 +111,20 @@ public class EditCert extends AbstractEditController {
 
     public String saveSystem() {
         _system = _systemFacade.save(_system);
+        persistFiles(new File(_system.getSystemRoot(), "Spec"));
+        persistFiles(new File(_system.getSystemRoot(), "Daten"));
         setSystemChanged(false);
         return Pages.CertSystemManagement.RedirectURL();
+    }
+
+    private void persistFiles(File dir) {
+        if (!dir.exists()) {
+            return;
+        }
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().endsWith(".upload"))) {
+            File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
+            file.renameTo(target);
+        }
     }
 
     public void systemChangeListener(AjaxBehaviorEvent event) {
