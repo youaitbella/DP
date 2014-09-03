@@ -20,12 +20,12 @@
             <hr/>
             <h2>#{msg.lblDownload}</h2>
             <div class="inputPart">
-                <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}"  immediate="true"/>
-                Stand: xx.xx.2014 (implementieren)
+                <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true" action="#{editCert.download(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
             </div>
             <div class="inputPart">
                 <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
-                Stand: xx.xx.2014 (implementieren)
+                <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"/>
             </div>
         </h:form>
 
@@ -41,18 +41,18 @@
                 </h:inputText>
                 <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
             </div>
-            
+
             <div class="uploadFile">
                 <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTestResult}">
                     <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
-                    x. Versuch (implementieren)
+
                 </div>
             </div>
         </h:form>
-        
+
         <h2/>
         <h:form id="actionForm">
             <div class="toolBar">

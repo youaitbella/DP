@@ -23,7 +23,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class StreamHelper {
 
-    private final int _BufLen = 8192;
+    public static final int BufLen = 8192;
 
     public void compressFiles(File[] files, File target) throws ProcessingException {
 
@@ -33,7 +33,7 @@ public class StreamHelper {
                     CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
                     ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
                 for (File file : files) {
-                    try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), _BufLen)) {
+                    try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), BufLen)) {
                         compressedOut.putNextEntry(new ZipEntry(file.getName()));
                         copyStream(is, compressedOut);
                     }
@@ -45,7 +45,7 @@ public class StreamHelper {
     }
 
     public void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buff = new byte[_BufLen];
+        byte[] buff = new byte[BufLen];
         int count;
         while ((count = is.read(buff)) != -1) {
             os.write(buff, 0, count);

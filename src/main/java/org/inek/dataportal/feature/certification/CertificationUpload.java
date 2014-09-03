@@ -89,19 +89,23 @@ public class CertificationUpload {
         return system;
     }
 
-    public String getCertFile(int systemId, String folder, String fileNameBase, String extension) {
+    public File getCertFile(int systemId, String folder, String fileNameBase, String extension) {
         RemunerationSystem system = getSystem(systemId);
         if (system == null) {
-            return "";
+            return null;
         }
 
         Optional<File> uploadFolder = getUploadFolder(system, folder);
         if (!uploadFolder.isPresent()) {
-            return "";
+            return null;
         }
 
         String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_\\(\\d{4}-\\d{2}-\\d{2}\\)." + extension + "(\\.upload)?";
-        String fileName = getLastFile(uploadFolder.get(), fileNamePattern);
+        return getLastFile(uploadFolder.get(), fileNamePattern);
+    }
+
+    public String getCertFileName(int systemId, String folder, String fileNameBase, String extension) {
+        String fileName = getCertFile(systemId, folder, fileNameBase, extension).getName();
         return fileName.replace(".upload", " [ungespeichert]");
     }
 
@@ -116,10 +120,11 @@ public class CertificationUpload {
             return;
         }
         String prefix = "ErgebnisUebungsdaten_";
-        String lastFile = getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
+        File lastFile = getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
+        String lastFileName = lastFile.getName();
         int version = 1;
-        if (lastFile.startsWith(prefix)) {
-            version = 1 + Integer.parseInt(lastFile.substring(prefix.length(), prefix.length() + 1));
+        if (lastFileName.startsWith(prefix)) {
+            version = 1 + Integer.parseInt(lastFileName.substring(prefix.length(), prefix.length() + 1));
         }
         String outFile = prefix + version + ".txt";
         uploadFile(new File(uploadFolder.get(), outFile));
@@ -163,11 +168,11 @@ public class CertificationUpload {
      * @param dir
      * @param fileNamePattern
      */
-    private String getLastFile(File dir, final String fileNamePattern) {
-        String lastFile = "";
+    private File getLastFile(File dir, final String fileNamePattern) {
+        File lastFile = new File("");
         for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
-            if (file.getName().compareTo(lastFile) > 0) {
-                lastFile = file.getName();
+            if (file.getName().compareTo(lastFile.getName()) > 0) {
+                lastFile = file;
             }
         }
         return lastFile;
