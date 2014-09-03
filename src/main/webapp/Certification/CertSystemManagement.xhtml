@@ -79,7 +79,7 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="getElementById('uploadForm:specFile').click();"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{certificationUpload.getCertFile(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
                 </div>
 
                 <div class="inputPart">
@@ -91,7 +91,7 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="getElementById('uploadForm:testFile').click();"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{certificationUpload.getCertFile(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"/>
                 </div>
 
                 <div class="inputPart">
@@ -103,7 +103,7 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="getElementById('uploadForm:certFile').click();"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{certificationUpload.getCertFile(editCert.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
                 </div>
 
             </h:form>

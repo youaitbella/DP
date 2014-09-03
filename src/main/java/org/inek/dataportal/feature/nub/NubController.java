@@ -5,12 +5,11 @@
 package org.inek.dataportal.feature.nub;
 
 import java.util.Calendar;
-import java.util.Map;
 import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
 import org.inek.dataportal.enums.Pages;
@@ -73,8 +72,8 @@ public class NubController extends AbstractFeatureController {
         appendLine(sb, NubFieldKey.DRGs, nubProposal.getDrgs());
         appendLine(sb, NubFieldKey.WhyNotRepresented, nubProposal.getWhyNotRepresented());
         appendLine(sb, NubFieldKey.RequestedEarlierOther, "" + nubProposal.getRequestedEarlierOther());
-        String content = sb.toString(); 
-        appendLine(sb, NubFieldKey.CheckSum, Utils.getChecksum(content + "Length=" + content.length()));// add length as invisible "salt" before calculating checksum. 
+        String content = sb.toString();
+        appendLine(sb, NubFieldKey.CheckSum, Utils.getChecksum(content + "Length=" + content.length()));// add length as invisible "salt" before calculating checksum.
         return sb.toString();
     }
 
@@ -175,10 +174,12 @@ public class NubController extends AbstractFeatureController {
                     break;
             }
         }
-        if (proposal.getHelperId() == proposal.getAccountId()){
+        if (proposal.getHelperId() == proposal.getAccountId()) {
             // no entry for own template
             proposal.setFormFillHelper("");
         }
+        proposal.setCreatedBy(getSessionController().getAccountId());
+        proposal.setLastChangedBy(getSessionController().getAccountId());
         return proposal;
     }
 
@@ -189,7 +190,7 @@ public class NubController extends AbstractFeatureController {
     public NubProposal createNubProposalFromOldFormat(String filename, String template) {
         NubProposal proposal = createNubProposal();
         int extPos = filename.lastIndexOf(".");
-        proposal.setDisplayName(extPos > 0 ? filename.substring(0, extPos) :filename);
+        proposal.setDisplayName(extPos > 0 ? filename.substring(0, extPos) : filename);
         String[] lines = template.replace("\r", "").split("[\\n]"); // split at CRLF or LF only
         int i = 0;
         while (i < lines.length) {
@@ -303,8 +304,10 @@ public class NubController extends AbstractFeatureController {
         proposal.setLastName(account.getLastName());
         proposal.setRoleId(account.getRoleId());
         proposal.setStreet(account.getStreet());
-        String postalCode=account.getPostalCode().replaceAll("[\\D]", "");
-        if (postalCode.length() > 5){postalCode="";}
+        String postalCode = account.getPostalCode().replaceAll("[\\D]", "");
+        if (postalCode.length() > 5) {
+            postalCode = "";
+        }
         proposal.setPostalCode(postalCode);
         proposal.setTown(account.getTown());
         String phone = account.getPhone();

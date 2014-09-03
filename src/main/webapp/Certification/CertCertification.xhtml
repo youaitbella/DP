@@ -12,20 +12,21 @@
         <h:form id="form">
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
-                <f:selectItems value="#{editCert.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form" />
+            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}" immediate="true" disabled="#{certCertification.systemChanged}">
+                <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+                <f:ajax render="@form :logout:remaining" />
             </h:selectOneMenu>
 
             <hr/>
+
             <h2>#{msg.lblDownload}</h2>
             <div class="inputPart">
-                <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true" action="#{editCert.download(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
-                <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true" action="#{certCertification.download(certCertification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                <h:outputLabel value="#{certificationUpload.getCertFileName(certCertification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
             </div>
             <div class="inputPart">
                 <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
-                <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"/>
+                <h:outputLabel value="#{certificationUpload.getCertFileName(certCertification.systemId, 'Daten', 'Testdaten', 'zip')}"/>
             </div>
         </h:form>
 
@@ -37,7 +38,7 @@
                              value="xxx"
                              styleClass="input"
                              required="true">
-                    <f:ajax execute="change" render="@this msgGrouperName :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                    <f:ajax execute="change" render="@this msgGrouperName :actionForm:btnSystemSave :logout:remaining" listener="#{certCertification.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
             </div>

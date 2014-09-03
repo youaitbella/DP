@@ -510,7 +510,7 @@ public class EditNubProposal extends AbstractEditController {
         _nubProposal.setStatus(WorkflowStatus.ApprovalRequested);
         _nubProposal.setLastChangedBy(_sessionController.getAccountId());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
-        
+
         return "";
     }
 
@@ -608,6 +608,7 @@ public class EditNubProposal extends AbstractEditController {
         copy.setDateOfReview(null);
         copy.setExternalState("");
         copy.setByEmail(false);
+        copy.setErrorText("");
         copy.setCreatedBy(_sessionController.getAccountId());
         copy.setLastChangedBy(_sessionController.getAccountId());
         copy.setTargetYear(1 + Calendar.getInstance().get(Calendar.YEAR));

@@ -1,15 +1,12 @@
 package org.inek.dataportal.feature.certification;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -23,7 +20,6 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -39,6 +35,16 @@ public class EditCert extends AbstractEditController {
 
     @Inject private SessionController _sessionController;
     @Inject SystemFacade _systemFacade;
+
+    @PostConstruct
+    private void init() {
+        _logger.log(Level.WARNING, "Init EditCert");
+    }
+
+    @PreDestroy
+    private void destroy() {
+        _logger.log(Level.WARNING, "Destroy EditCert");
+    }
 
     @Override
     protected void addTopics() {
@@ -180,37 +186,5 @@ public class EditCert extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab Certification">
-    public List<SelectItem> getSystems4Account() {
-
-        List<SelectItem> list = new ArrayList<>();
-        for (RemunerationSystem system : _sessionController.getAccount().getRemuneratiosSystems()) {
-            if (system.isApproved()) {
-                list.add(new SelectItem(system.getId(), system.getDisplayName()));
-            }
-        }
-        return list;
-    }
-
-    public String download(int systemId, String folder, String fileNameBase, String extension) {
-        CertificationUpload certUpload = Utils.getBean(CertificationUpload.class);
-        File file = certUpload.getCertFile(systemId, folder, fileNameBase, extension);
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        try {
-            try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), StreamHelper.BufLen)) {
-                //FileInputStream is = new FileInputStream(file);
-                externalContext.setResponseHeader("Content-Type", "text/plain");
-                externalContext.setResponseHeader("Content-Length", "");
-                externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + file.getName() + "\"");
-                new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
-            }
-        } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
-        }
-        facesContext.responseComplete();
-        return "";
-    }
-
     // </editor-fold>
 }

@@ -105,6 +105,9 @@ public class CertificationUpload {
     }
 
     public String getCertFileName(int systemId, String folder, String fileNameBase, String extension) {
+        if (systemId <= 0) {
+            return "";
+        }
         String fileName = getCertFile(systemId, folder, fileNameBase, extension).getName();
         return fileName.replace(".upload", " [ungespeichert]");
     }
