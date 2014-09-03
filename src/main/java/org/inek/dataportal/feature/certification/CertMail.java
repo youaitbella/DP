@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.account.Account;
@@ -28,7 +32,7 @@ import org.inek.dataportal.facades.certification.SystemFacade;
  * @author muellermi
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class CertMail implements Serializable {
     
     private static final Logger _logger = Logger.getLogger("CertMail");
@@ -39,11 +43,11 @@ public class CertMail implements Serializable {
     private String _selectedEmailAddressPreview = "";
     private String _previewSubject = "";
     private String _previewBody = "";
+    private UIComponent _previewButton;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Email receiver lists - fields.">
     private String _selectedTemplate = "";
-    private String _receiverList = "";
     private String _systemReceiverList = "";
     private String _singleReceiver = "";
     private String _selectedReceiverNewList = "";
@@ -126,18 +130,28 @@ public class CertMail implements Serializable {
     public void receiverChanged(AjaxBehaviorEvent event) {
         switch (event.getComponent().getId()) {
             case "selectedSystemReceiverList":
-                _receiverList = "";
+                _selectedListEditName = "";
                 _singleReceiver = "";
+                _receiverListsName = "";
+                _emailReceivers.clear();
                 break;
-            case "selectedReceiverList":
+            case "availableLists":
                 _systemReceiverList = "";
                 _singleReceiver = "";
                 break;
             case "selectedReceiver":
                 _systemReceiverList = "";
-                _receiverList = "";
+                _selectedListEditName = "";
+                _receiverListsName = "";
+                _emailReceivers.clear();
                 break;
         }
+    }
+    
+    public void editReceiverListChanged(AjaxBehaviorEvent event) {
+        setReceiverListsName(_selectedListEditName);
+        receiverChanged(event);
+        initEmailReceiversTemplateList();
     }
     
     public void changedPreviewReceiver(AjaxBehaviorEvent event) {
@@ -155,11 +169,6 @@ public class CertMail implements Serializable {
             int receiverListId = _emailReceiverLabelFacade.findEmailReceiverListByLabel(_selectedListEditName);
             _emailReceivers = _emailReceiverFacade.findAllEmailReceiverByListId(receiverListId);
         }
-    }
-    
-    public void editReceiverListChanged(AjaxBehaviorEvent event) {
-        setReceiverListsName(_selectedListEditName);
-        initEmailReceiversTemplateList();
     }
     
     public String addReceiverToList() {
@@ -265,20 +274,32 @@ public class CertMail implements Serializable {
         _emailList.clear();
         if(_systemReceiverList != null){
             buildEmailListBySystemName();
-        } else if(_receiverList != null){
+        } else if(_selectedListEditName != null){
             buildEmailListByReceiverList();
         } else if(_singleReceiver != null) {
             _emailList.add(_singleReceiver.substring(_singleReceiver.indexOf('(')+1, _singleReceiver.lastIndexOf(')')));
         }
+        if(!checkForAvailableEmailReceivers())
+            return "";
         _selectedEmailAddressPreview = _emailList.get(0);
         _previewEnabled = true;
         buildPreviewEmail();
         return "";
     }
 
+    private boolean checkForAvailableEmailReceivers() throws ValidatorException {
+        if(_emailList.size() <= 0) {
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            ctx.addMessage(_previewButton.getClientId(ctx), new FacesMessage("Es gibt keine Emailempfänger für die ausgewählte Liste!"));
+            _previewEnabled = false;
+            return false;
+        }
+        return true;
+    }
+
     private void buildEmailListByReceiverList() {
         List<EmailReceiver> list = _emailReceiverFacade.findAllEmailReceiverByListId(
-                _emailReceiverLabelFacade.findEmailReceiverListByLabel(_receiverList));
+                _emailReceiverLabelFacade.findEmailReceiverListByLabel(_selectedListEditName));
         list.stream().map((er) -> _accFacade.find(er.getAccountId()).getEmail()).forEach((email) -> {
             _emailList.add(email);
         });
@@ -293,19 +314,20 @@ public class CertMail implements Serializable {
     }
 
     private boolean inputVerificationOfEmailReceivers() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
         if (_selectedTemplate == null) {
-            return true; // throw exception here
+            ctx.addMessage(_previewButton.getClientId(ctx), new FacesMessage("Bitte wählen Sie ein Template aus!"));
+            return true;
         }
-        return _systemReceiverList == null && _receiverList == null && _singleReceiver == null;
+        if(_systemReceiverList == null && _selectedListEditName == null && _singleReceiver == null) {
+            ctx.addMessage(_previewButton.getClientId(ctx), new FacesMessage("Bitte wählen Sie eine Empfängerliste aus!"));
+            return true;
+        }
+        return false;
     }
     
     public void buildPreviewEmail() {
-        String receiver = _selectedEmailAddressPreview;
-        Account receiverAccount = _accFacade.findByMailOrUser(receiver);
-        String title = receiverAccount.getTitle().equals("") ? "" : " " + receiverAccount.getTitle();
-        boolean isFemale = true;
-        if(receiverAccount.getGender() == Genders.Male.id()) isFemale = false;
-        String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + receiverAccount.getLastName() + ",";
+        String salutation = buildEmailSalutation();
         String version = "";
         if(_systemReceiverList != null) {
             version = _systemReceiverList;
@@ -313,6 +335,16 @@ public class CertMail implements Serializable {
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
         _previewSubject = mt.getSubject().replace("{version}",version);
         _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation);
+    }
+
+    private String buildEmailSalutation() {
+        String receiver = _selectedEmailAddressPreview;
+        Account receiverAccount = _accFacade.findByMailOrUser(receiver);
+        String title = receiverAccount.getTitle().equals("") ? "" : " " + receiverAccount.getTitle();
+        boolean isFemale = true;
+        if(receiverAccount.getGender() == Genders.Male.id()) isFemale = false;
+        String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + receiverAccount.getLastName() + ",";
+        return salutation;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
@@ -322,14 +354,6 @@ public class CertMail implements Serializable {
 
     public void setSelectedTemplate(String _selectedTemplate) {
         this._selectedTemplate = _selectedTemplate;
-    }
-
-    public String getReceiverList() {
-        return _receiverList;
-    }
-
-    public void setReceiverList(String _receiverList) {
-        this._receiverList = _receiverList;
     }
 
     public String getSystemReceiverList() {
@@ -402,6 +426,14 @@ public class CertMail implements Serializable {
 
     public void setPreviewBody(String _previewBody) {
         this._previewBody = _previewBody;
+    }
+    
+    public UIComponent getPreviewButton() {
+        return _previewButton;
+    }
+
+    public void setPreviewButton(UIComponent _previewButton) {
+        this._previewButton = _previewButton;
     }
     //</editor-fold>
 }

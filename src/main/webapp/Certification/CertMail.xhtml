@@ -31,57 +31,29 @@
                 </h:outputLabel>
                 <h:selectOneMenu id="selectedSystemReceiverList" styleClass="inputmedium" value="#{certMail.systemReceiverList}">
                     <f:selectItems value="#{certMail.systemReceiverLists}"/>
-                    <f:ajax event="change" render="@this selectedReceiverList selectedReceiver :logout:remaining" listener="#{certMail.receiverChanged}" />
+                    <f:ajax event="change" render="@form availableLists tblEmailReceiversTemplate receiverListText selectedReceiver :logout:remaining" listener="#{certMail.receiverChanged}" />
                 </h:selectOneMenu>
             </div>
             
+            <!--<div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    eigene Empfängerliste:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectedReceiverList" styleClass="inputmedium" value="# {certMail.receiverList}">
+                    <f:selectItems value="# {certMail.emailReceiverLists}"/>
+                    <f:ajax event="change" render="@this selectedSystemReceiverList selectedReceiver :logout:remaining" listener="# {certMail.receiverChanged}"/>
+                </h:selectOneMenu>
+            </div>-->
+            <br />
             <div class="inputPart">
                 <h:outputLabel styleClass="label30">
                     eigene Empfängerliste:
                 </h:outputLabel>
-                <h:selectOneMenu id="selectedReceiverList" styleClass="inputmedium" value="#{certMail.receiverList}">
-                    <f:selectItems value="#{certMail.emailReceiverLists}"/>
-                    <f:ajax event="change" render="@this selectedSystemReceiverList selectedReceiver :logout:remaining" listener="#{certMail.receiverChanged}"/>
-                </h:selectOneMenu>
-            </div>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    einzelner Empfänger:
-                </h:outputLabel>
-                <h:selectOneMenu id="selectedReceiver" styleClass="inputlong" value="#{certMail.singleReceiver}">
-                    <f:selectItems value="#{certMail.singleReceivers}"/>
-                    <f:ajax event="change" render="@this selectedReceiverList selectedSystemReceiverList :logout:remaining" listener="#{certMail.receiverChanged}"/>
-                </h:selectOneMenu>    
-            </div>
-            
-            <br />
-            
-            <div class="inputPart" style="float: right;">
-                <h:commandLink id="btnPreview" styleClass="button" value="Email-Vorschau" action="#{certMail.showPreview}"/>
-                <h:button id="btnSendMails" styleClass="button" value="Emails abschicken" />
-            </div>
-            
-
-        </h:form>
-        
-        <br />
-        
-        <h:form id="frmEmailTemplate">
-            
-            <h2>Empfängerliste</h2>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    vorhandene Listen:
-                </h:outputLabel>
                 <h:selectOneMenu id="availableLists" styleClass="inputmedium" value="#{certMail.selectedListEdit}">
                     <f:selectItems value="#{certMail.emailReceiverLists}"/>
-                    <f:ajax event="change" render="@form :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
+                    <f:ajax event="change" render="@form selectedReceiver selectedSystemReceiverList :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
                 </h:selectOneMenu> 
             </div>
-            
-            <br/>
             
             <div class="inputPart">
                 <h:outputLabel styleClass="label30">
@@ -124,15 +96,40 @@
                 <h:commandLink styleClass="button" value="Empfänger hinzufügen" action="#{certMail.addReceiverToList}"/>
             </div>
             
-            <br style="clear: both;"/><br/>
+            <br style="clear: right;"/>
             
             <div class="inputPart" style="float: right;">
                 <h:commandLink styleClass="button" id="btnDeleteTemplate" value="Empfängerliste löschen" action="#{certMail.deleteReceiverList}"/>
                 <h:commandLink styleClass="button" id="btnSaveTemplate" value="Empfängerliste speichern" action="#{certMail.saveReceiverList}"/>
             </div>
             
-            <div style="clear:both;" />
+            <br style="clear: right;"/>
+            <br/>
+            
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    einzelner Empfänger:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectedReceiver" styleClass="inputlong" value="#{certMail.singleReceiver}">
+                    <f:selectItems value="#{certMail.singleReceivers}"/>
+                    <f:ajax event="change" render="@form availableLists tblEmailReceiversTemplate receiverListText selectedSystemReceiverList :logout:remaining" listener="#{certMail.receiverChanged}"/>
+                </h:selectOneMenu>    
+            </div>
+            
+            <br />
+            
+            <div class="inputPart" style="text-align: center; width:99%;">
+                <h:message for="btnPreview" styleClass="errorMessage" style="border: red solid thin; padding: 3px"/>
+            </div>
+            
+            <div class="inputPart" style="float: right;">
+                <h:commandLink id="btnPreview" styleClass="button" value="Email-Vorschau" action="#{certMail.showPreview}" binding="#{certMail.previewButton}"/>
+                <h:button id="btnSendMails" styleClass="button" value="Emails abschicken" />
+            </div>
+            <div style="clear: both;"/>
         </h:form>
+        
+        <br />
         
         <h:panelGroup rendered="#{certMail.previewEnabled()}">
             <h2>
