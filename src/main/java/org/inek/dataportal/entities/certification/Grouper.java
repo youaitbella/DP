@@ -19,6 +19,8 @@ import javax.persistence.Temporal;
 @IdClass(GrouperId.class)
 public class Grouper implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     // <editor-fold defaultstate="collapsed" desc="Property SystemId">
     @Id
     @Column(name = "grSystemId")
@@ -28,7 +30,7 @@ public class Grouper implements Serializable {
     }
 
     public void setSystemId(int systemId) {
-        this._systemId = systemId;
+        _systemId = systemId;
     }
     // </editor-fold>
 
@@ -97,7 +99,6 @@ public class Grouper implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property TestError1">
-    @Id
     @Column(name = "grTestError1")
     private int _testError1;
     public int getTestError1() {
@@ -136,7 +137,6 @@ public class Grouper implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property TestError2">
-    @Id
     @Column(name = "grTestError2")
     private int _testError2;
     public int getTestError2() {
@@ -175,7 +175,6 @@ public class Grouper implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property TestError3">
-    @Id
     @Column(name = "grTestError3")
     private int _testError3;
     public int getTestError3() {
@@ -214,7 +213,6 @@ public class Grouper implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CertError1">
-    @Id
     @Column(name = "grCertError1")
     private int _certError1;
     public int getCertError1() {
@@ -253,7 +251,6 @@ public class Grouper implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CertError2">
-    @Id
     @Column(name = "grCertError2")
     private int _certError2;
     public int getCertError2() {
