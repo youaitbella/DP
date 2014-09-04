@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -12,7 +11,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.certification.EmailReceiver;
@@ -31,8 +29,6 @@ import org.inek.dataportal.facades.certification.SystemFacade;
  *
  * @author muellermi
  */
-@Named
-@RequestScoped
 public class CertMail implements Serializable {
     
     private static final Logger _logger = Logger.getLogger("CertMail");
@@ -57,30 +53,32 @@ public class CertMail implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Injections">
-    @Inject
-    private MailTemplateFacade _mailTemplateFacade;
-    
-    @Inject
     private SystemFacade _systemFacade;
     
-    @Inject
     private AccountFacade _accFacade;
     
-    @Inject
     private EmailReceiverFacade _emailReceiverFacade;
-    
-    @Inject 
+     
     private EmailReceiverLabelFacade _emailReceiverLabelFacade;
     
-    @Inject
     private MailTemplateFacade _emailTemplateFacade;
     //</editor-fold>
+    
+    public CertMail(MailTemplateFacade mailTemplateFacade, SystemFacade systemFacade, AccountFacade accFacade, 
+            EmailReceiverFacade erFacade, EmailReceiverLabelFacade erlFacade) {
+        _emailReceivers = new ArrayList<>();
+        _systemFacade = systemFacade;
+        _accFacade = accFacade;
+        _emailReceiverLabelFacade = erlFacade;
+        _emailReceiverFacade = erFacade;
+        _emailTemplateFacade = mailTemplateFacade;
+    }
     
     //<editor-fold defaultstate="collapsed" desc="SelectItems">
     public SelectItem[] getEmailTemplates() {
         List<SelectItem> emailTemplates = new ArrayList<>();
         emailTemplates.add(new SelectItem(""));
-        List<MailTemplate> mts = _mailTemplateFacade.findTemplatesByFeature(Feature.CERT);
+        List<MailTemplate> mts = _emailTemplateFacade.findTemplatesByFeature(Feature.CERT);
         mts.stream().forEach((t) -> {
             emailTemplates.add(new SelectItem(t.getName()));
         });
@@ -158,10 +156,6 @@ public class CertMail implements Serializable {
         buildPreviewEmail();
     }
     //</editor-fold>
-    
-    public CertMail() {
-        _emailReceivers = new ArrayList<>();
-    }
 
     private void initEmailReceiversTemplateList() {
         _emailReceivers.clear();
