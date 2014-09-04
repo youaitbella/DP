@@ -8,14 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Pages;
@@ -27,26 +22,16 @@ import org.inek.dataportal.helper.Utils;
  *
  * @author muellermi
  */
-@Named
-@RequestScoped
 public class CertCertification {
 
     private static final Logger _logger = Logger.getLogger("CertCertification");
 
-    @Inject private SessionController _sessionController;
-    @Inject SystemFacade _systemFacade;
+    private final SessionController _sessionController;
+    private final SystemFacade _systemFacade;
 
-    @PostConstruct
-    private void init() {
-        _logger.log(Level.WARNING, "Init CertCertification");
-//        int systemId = (int) Utils.getFlash().get("systemId");
-//        setSystemId(systemId);
-    }
-
-    @PreDestroy
-    private void destroy() {
-        _logger.log(Level.WARNING, "Destroy CertCertification");
-        Utils.getFlash().put("systemId", _system.getId());
+    public CertCertification(SessionController sessionController, SystemFacade systemFacade) {
+        _sessionController = sessionController;
+        _systemFacade = systemFacade;
     }
 
     private RemunerationSystem _system = new RemunerationSystem();

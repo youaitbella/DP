@@ -36,6 +36,18 @@ public class EditCert extends AbstractEditController {
     @Inject private SessionController _sessionController;
     @Inject SystemFacade _systemFacade;
 
+    private CertCertification _certification;
+    public CertCertification getCertification() {
+        if (_certification == null) {
+            _certification = new CertCertification(_sessionController, _systemFacade);
+        }
+        return _certification;
+    }
+
+    public void setCertification(CertCertification certification) {
+        _certification = certification;
+    }
+
     @PostConstruct
     private void init() {
         _logger.log(Level.WARNING, "Init EditCert");

@@ -6,64 +6,63 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 >
 
     <ui:define name="editContent">
-        <h:form id="form">
+        <h:form id="form" enctype="multipart/form-data">
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}" immediate="true" disabled="#{certCertification.systemChanged}">
-                <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.certification.systemId}" immediate="true" disabled="#{editCert.certification.systemChanged}">
+                <f:selectItems value="#{editCert.certification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
                 <f:ajax render="@form :logout:remaining" />
             </h:selectOneMenu>
 
-            <hr/>
+            <div id="systemData" jsf:rendered="#{editCert.certification.systemId > 0}">
+                <hr/>
 
-            <h2>#{msg.lblDownload}</h2>
-            <div class="inputPart">
-                <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true" action="#{certCertification.download(certCertification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
-                <h:outputLabel value="#{certificationUpload.getCertFileName(certCertification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
-            </div>
-            <div class="inputPart">
-                <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
-                <h:outputLabel value="#{certificationUpload.getCertFileName(certCertification.systemId, 'Daten', 'Testdaten', 'zip')}"/>
-            </div>
-        </h:form>
-
-        <h2>#{msg.lblUpload}</h2>
-        <h:form id="crtDataUploadForm" enctype="multipart/form-data">
-            <div class="inputPart">
-                <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
-                <h:inputText id="txtGrouperName"
-                             value="xxx"
-                             styleClass="input"
-                             required="true">
-                    <f:ajax execute="change" render="@this msgGrouperName :actionForm:btnSystemSave :logout:remaining" listener="#{certCertification.systemChangeListener}"/>
-                </h:inputText>
-                <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
-            </div>
-
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTestResult}">
-                    <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
-
+                <h2>#{msg.lblDownload}</h2>
+                <div class="inputPart">
+                    <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true" action="#{editCert.certification.download(editCert.certification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.certification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
                 </div>
+                <div class="inputPart">
+                    <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.certification.systemId, 'Daten', 'Testdaten', 'zip')}"/>
+                </div>
+
+                <h2>#{msg.lblUpload}</h2>
+
+                <div class="inputPart">
+                    <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
+                    <h:inputText id="txtGrouperName"
+                                 value="xxx"
+                                 styleClass="input"
+                                 required="true">
+                        <f:ajax execute="change" render="@this msgGrouperName :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.certification.systemChangeListener}"/>
+                    </h:inputText>
+                    <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
+                </div>
+
+                <div class="uploadFile">
+                    <h:inputFile styleClass="hiddenFile" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTestResult}">
+                        <f:ajax listener="#{certificationUpload.uploadTestData}" render="@form"/>
+                    </h:inputFile>
+                    <div class="fakeFile">
+                        <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}"/>
+
+                    </div>
+                </div>
+
+                <h2/>
+                <div class="toolBar">
+                    <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                                   id="btnSystemSave"
+                                   immediate="false" disabled="false"/>
+                </div>
+
             </div>
         </h:form>
-
-        <h2/>
-        <h:form id="actionForm">
-            <div class="toolBar">
-                <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                               id="btnSystemSave"
-                               immediate="false" disabled="false"/>
-            </div>
-
-        </h:form>
-
     </ui:define>
 
 </ui:composition>

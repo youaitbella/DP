@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.feature.modelintention;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,6 +9,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import org.inek.dataportal.entities.modelintention.Cost;
+import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.feature.modelintention.EditModelIntention;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
