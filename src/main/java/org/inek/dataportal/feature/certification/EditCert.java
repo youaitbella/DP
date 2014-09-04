@@ -50,10 +50,10 @@ public class EditCert extends AbstractEditController {
         }
         return _certification;
     }
-    
+
     private CertMail _certMail;
     public CertMail getCertMail() {
-        if(_certMail == null) {
+        if (_certMail == null) {
             _certMail = new CertMail(_mtFacade, _systemFacade, _accFacade, _erFacade, _erlFacade);
         }
         return _certMail;
@@ -78,11 +78,9 @@ public class EditCert extends AbstractEditController {
         if (_sessionController.isInekUser(Feature.CERT)) {
             addTopic(CertTabs.tabCertSystemManagement.name(), Pages.CertSystemManagement.URL());
             addTopic(CertTabs.tabCertMail.name(), Pages.CertMail.URL());
-            addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL()); // todo: uncomment
+            addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL());
         }
-        //todo: uncomment next line and remove link to announcement
         addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL());
-        //addTopic(CertTabs.tabCertification.name(), "/Certification/CertAnnouncement.xhtml");
     }
 
     private enum CertTabs {
