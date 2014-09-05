@@ -31,7 +31,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author vohldo, muellermi
  */
 @Named
-@FeatureScoped(name = "xyz")
+@FeatureScoped(name = "Certification")
 public class EditCert extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditCert");
@@ -43,24 +43,12 @@ public class EditCert extends AbstractEditController {
     @Inject private EmailReceiverFacade _erFacade;
     @Inject private EmailReceiverLabelFacade _erlFacade;
 
-    private CertCertification _certification;
-    public CertCertification getCertification() {
-        if (_certification == null) {
-            _certification = new CertCertification(_sessionController, _systemFacade);
-        }
-        return _certification;
-    }
-
     private CertMail _certMail;
     public CertMail getCertMail() {
         if (_certMail == null) {
             _certMail = new CertMail(_mtFacade, _systemFacade, _accFacade, _erFacade, _erlFacade);
         }
         return _certMail;
-    }
-
-    public void setCertification(CertCertification certification) {
-        _certification = certification;
     }
 
     @PostConstruct
