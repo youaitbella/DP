@@ -76,6 +76,34 @@ public class Mailer {
         }
         return false;
     }
+    
+    public boolean sendMailFrom(String from, String recipient, String bcc, String subject, String body) {
+        if (recipient.toLowerCase().endsWith(".test")) {
+            // this is just to mock a successful mail
+            return true;
+        }
+        //String from = "do-not-reply@inek-drg.de";
+        Properties properties = System.getProperties();
+        properties.put("mail.smtp.host", "vMailSvr01.d1inek.local");
+        properties.put("mail.smtp.connectiontimeout", 1000);
+        properties.put("mail.smtp.ssl.trust", "*");
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(from));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            if (!bcc.isEmpty()) {
+                message.setRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
+            }
+            message.setSubject(subject);
+            message.setText(body);
+            Transport.send(message);
+            return true;
+        } catch (MessagingException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public MailTemplate getMailTemplate(String name) {
         MailTemplate template = _mailTemplateFacade.findByName(name);

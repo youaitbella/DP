@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.certification;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -11,7 +12,9 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountChangeMail_;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.certification.EmailReceiver;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
@@ -24,11 +27,15 @@ import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverLabelFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
+import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
  * @author muellermi
  */
+@Named
+@FeatureScoped(name = "Certification")
 public class CertMail implements Serializable {
     
     private static final Logger _logger = Logger.getLogger("CertMail");
@@ -40,6 +47,7 @@ public class CertMail implements Serializable {
     private String _previewSubject = "";
     private String _previewBody = "";
     private UIComponent _previewButton;
+    private HashMap<String,Boolean> _emailSentSuccess = new HashMap<>();
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Email receiver lists - fields.">
@@ -53,25 +61,27 @@ public class CertMail implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Injections">
+    @Inject 
     private SystemFacade _systemFacade;
     
+    @Inject
     private AccountFacade _accFacade;
     
+    @Inject
     private EmailReceiverFacade _emailReceiverFacade;
-     
+    
+    @Inject
     private EmailReceiverLabelFacade _emailReceiverLabelFacade;
     
+    @Inject
     private MailTemplateFacade _emailTemplateFacade;
+    
+    @Inject
+    private Mailer _mailer;
     //</editor-fold>
     
-    public CertMail(MailTemplateFacade mailTemplateFacade, SystemFacade systemFacade, AccountFacade accFacade, 
-            EmailReceiverFacade erFacade, EmailReceiverLabelFacade erlFacade) {
+    public CertMail() {
         _emailReceivers = new ArrayList<>();
-        _systemFacade = systemFacade;
-        _accFacade = accFacade;
-        _emailReceiverLabelFacade = erlFacade;
-        _emailReceiverFacade = erFacade;
-        _emailTemplateFacade = mailTemplateFacade;
     }
     
     //<editor-fold defaultstate="collapsed" desc="SelectItems">
@@ -144,6 +154,7 @@ public class CertMail implements Serializable {
                 _emailReceivers.clear();
                 break;
         }
+        _previewEnabled = false;
     }
     
     public void editReceiverListChanged(AjaxBehaviorEvent event) {
@@ -237,6 +248,10 @@ public class CertMail implements Serializable {
         return _emailReceivers.size() > 0;
     }
     
+    public boolean renderEmailSentSuccessTable() {
+        return _emailSentSuccess.size() > 0;
+    }
+    
     public String deleteReceiverFromTemplate(int erId, int accId) {
         EmailReceiver er = _emailReceiverFacade.find(erId);
         if(er != null) {
@@ -321,7 +336,7 @@ public class CertMail implements Serializable {
     }
     
     public void buildPreviewEmail() {
-        String salutation = buildEmailSalutation();
+        String salutation = buildEmailSalutation(_selectedEmailAddressPreview);
         String version = "";
         if(_systemReceiverList != null) {
             version = _systemReceiverList;
@@ -331,14 +346,32 @@ public class CertMail implements Serializable {
         _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation);
     }
 
-    private String buildEmailSalutation() {
-        String receiver = _selectedEmailAddressPreview;
+    private String buildEmailSalutation(String receiverEmail) {
+        String receiver = receiverEmail;
         Account receiverAccount = _accFacade.findByMailOrUser(receiver);
         String title = receiverAccount.getTitle().equals("") ? "" : " " + receiverAccount.getTitle();
         boolean isFemale = true;
         if(receiverAccount.getGender() == Genders.Male.id()) isFemale = false;
         String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + receiverAccount.getLastName() + ",";
         return salutation;
+    }
+    
+    public String sendMailsToAllReceivers() {
+        _emailSentSuccess.clear();
+        MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
+        String version = _systemReceiverList == null ? "" : _systemReceiverList;
+        for(String emailAddress : _emailList) {
+            String salutation = buildEmailSalutation(emailAddress);
+            String subject = mt.getSubject().replace("{version}", version);
+            String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation);
+            try {
+                _mailer.sendMailFrom("Zertifizierung2014@inek-drg.de",emailAddress, mt.getBcc(), subject, body);
+                _emailSentSuccess.put(emailAddress, true);
+            } catch(Exception ex) {
+                _emailSentSuccess.put(emailAddress, false);
+            }
+        }
+        return "";
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
@@ -428,6 +461,10 @@ public class CertMail implements Serializable {
 
     public void setPreviewButton(UIComponent _previewButton) {
         this._previewButton = _previewButton;
+    }
+    
+    public HashMap<String, Boolean> getEmailSentSuccess() {
+        return _emailSentSuccess;
     }
     //</editor-fold>
 }
