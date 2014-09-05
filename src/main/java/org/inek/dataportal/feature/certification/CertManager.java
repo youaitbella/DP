@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.entities.certification.SystemAccountMapping;
 import org.inek.dataportal.enums.Feature;
@@ -33,6 +34,17 @@ public class CertManager {
     @Inject private SystemFacade _systemFacade;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
+    public List<SelectItem> getXSystems() {
+        List<SelectItem> list = new ArrayList<>();
+        for (RemunerationSystem system : _systemFacade.findAll()) {
+            list.add(new SelectItem(system, system.getDisplayName()));
+        }
+        SelectItem emptyItem = new SelectItem(new RemunerationSystem(), Utils.getMessage("itemNewEntry"));
+        emptyItem.setNoSelectionOption(true);
+        list.add(emptyItem);
+        return list;
+    }
+
     public List<SelectItem> getSystems() {
         List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
@@ -126,17 +138,17 @@ public class CertManager {
             _certAccounts = new ArrayList<>();
             _certAccounts.add(new SelectItem(-1, ""));
             for (Account account : accounts) {
-                _certAccounts.add(new SelectItem(account.getAccountId(), account.getCompany()));
+                _certAccounts.add(new SelectItem(account.getAccountId(), account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
             }
         }
         return _certAccounts;
     }
 
-    public void addNewMapping() {
-        SystemAccountMapping mapping = new SystemAccountMapping();
-        mapping.setAccountId(_sessionController.getAccountId());
-        mapping.setSystemId(_system.getId());
-        _system.getMappings().add(mapping);
+    public void addNewGrouper() {
+        Grouper grouper = new Grouper();
+        grouper.setSystemId(_system.getId());
+        setSystemChanged(true);
+        _system.getGrouperList().add(grouper);
     }
 
     public String deleteAccountMapping() {

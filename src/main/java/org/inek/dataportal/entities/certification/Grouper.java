@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 @Table(name = "Grouper", schema = "crt")
 @IdClass(GrouperId.class)
 public class Grouper implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property SystemId">
@@ -49,7 +49,7 @@ public class Grouper implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "grName")
-    private String _name;
+    private String _name = "";
     public String getName() {
         return _name;
     }

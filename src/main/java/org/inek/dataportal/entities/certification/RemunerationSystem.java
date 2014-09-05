@@ -108,6 +108,23 @@ public class RemunerationSystem implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="List Grouper">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "grSystemId", referencedColumnName = "syId")
+    private List<Grouper> _grouperList;
+
+    public List<Grouper> getGrouperList() {
+        if (_grouperList == null) {
+            _grouperList = new ArrayList<>();
+        }
+        return _grouperList;
+    }
+
+    public void setGrouperList(List<Grouper> grouperList) {
+        _grouperList = grouperList;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Mapping">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "msaSystemId", referencedColumnName = "syId")
@@ -123,8 +140,8 @@ public class RemunerationSystem implements Serializable {
     public void setMappings(List<SystemAccountMapping> mappings) {
         _mappings = mappings;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="DisplayName">
     public String getDisplayName() {
         String yearInfo;
