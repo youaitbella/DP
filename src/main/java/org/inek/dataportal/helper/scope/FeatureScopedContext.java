@@ -8,8 +8,6 @@ import java.io.Serializable;
 import javax.enterprise.context.spi.Context;
 import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder.FeatureScopedInstance;
 
 /**
  *
@@ -26,28 +24,12 @@ public class FeatureScopedContext implements Context, Serializable {
 
     @Override
     public <T> T get(Contextual<T> contextual, CreationalContext<T> creationalContext) {
-        Bean bean = (Bean) contextual;
-        if (_contextHolder.getBeans().containsKey(bean.getBeanClass())) {
-            return (T) _contextHolder.getBean(bean.getBeanClass()).getInstance();
-        } else {
-            T t = (T) bean.create(creationalContext);
-            FeatureScopedInstance customInstance = new FeatureScopedInstance();
-            customInstance.setBean(bean);
-            customInstance.setCtx(creationalContext);
-            customInstance.setInstance(t);
-            _contextHolder.putBean(customInstance);
-            return t;
-        }
+        return _contextHolder.get(contextual, creationalContext);
     }
 
     @Override
     public <T> T get(Contextual<T> contextual) {
-        Bean bean = (Bean) contextual;
-        if (_contextHolder.getBeans().containsKey(bean.getBeanClass())) {
-            return (T) _contextHolder.getBean(bean.getBeanClass()).getInstance();
-        } else {
-            return null;
-        }
+        return _contextHolder.get(contextual);
     }
 
     @Override

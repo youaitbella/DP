@@ -2,6 +2,7 @@ package org.inek.dataportal.helper.scope;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.faces.context.FacesContext;
@@ -16,17 +17,29 @@ public enum FeatureScopedContextHolder {
 
     private final static String FeatureKey = "FeatureScoped";
 
-    public Map<Class, FeatureScopedInstance> getBeans() {
+    public Map<String, FeatureScopedInstance> getFeatureScopedMap() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
-        Map<Class, FeatureScopedInstance> featureBeans;
+        Map<String, FeatureScopedInstance> featureBeans;
         if (map.containsKey(FeatureKey)) {
-            featureBeans = (Map<Class, FeatureScopedInstance>) map.get(FeatureKey);
+            featureBeans = (Map<String, FeatureScopedInstance>) map.get(FeatureKey);
         } else {
             featureBeans = new HashMap<>();
             map.put(FeatureKey, featureBeans);
         }
         return featureBeans;
+    }
+
+    private String getScopeKey(Bean bean) {
+        return getScopeKey(bean.getBeanClass());
+    }
+
+    private String getScopeKey(Class type) {
+        String className = type.getSimpleName(); // named beans will be accessed by their simple name. Thus, this is sufficient.
+        FeatureScoped scope = (FeatureScoped) type.getAnnotation(FeatureScoped.class);
+        String scopeName = scope.name().isEmpty() ? className : scope.name();
+        String key = scopeName + "|" + className;
+        return key;
     }
 
     /**
@@ -35,24 +48,52 @@ public enum FeatureScopedContextHolder {
      * @param type
      * @return
      */
-    public FeatureScopedInstance getBean(Class type) {
-        return getBeans().get(type);
+    public <T> T getBean(Class<T> type) {
+        return (T) getFeatureScopedMap().get(getScopeKey(type)).getBean();
     }
 
     public void putBean(FeatureScopedInstance featureScopedInstance) {
         destroyAllBeans();
-        getBeans().put(featureScopedInstance.getBean().getBeanClass(), featureScopedInstance);
+        String key = getScopeKey(featureScopedInstance.getBean());
+        getFeatureScopedMap().put(key, featureScopedInstance);
     }
 
     public void destroyAllBeans() {
-        for (FeatureScopedInstance inst : getBeans().values()) {
+        for (FeatureScopedInstance inst : getFeatureScopedMap().values()) {
             destroyBean(inst);
         }
     }
 
-    void destroyBean(FeatureScopedInstance featureScopedInstance) {
-        getBeans().remove(featureScopedInstance.getBean().getBeanClass());
+    private void destroyBean(FeatureScopedInstance featureScopedInstance) {
+        String key = getScopeKey(featureScopedInstance.getBean());
+        getFeatureScopedMap().remove(key);
         featureScopedInstance.getBean().destroy(featureScopedInstance.getInstance(), featureScopedInstance.getCtx());
+    }
+
+    public <T> T get(Contextual<T> contextual, CreationalContext<T> creationalContext) {
+        Bean bean = (Bean) contextual;
+        String key = getScopeKey(bean);
+        if (getFeatureScopedMap().containsKey(key)) {
+            return (T) getBean(bean.getBeanClass());
+        } else {
+            T t = (T) bean.create(creationalContext);
+            FeatureScopedInstance customInstance = new FeatureScopedInstance();
+            customInstance.setBean(bean);
+            customInstance.setCtx(creationalContext);
+            customInstance.setInstance(t);
+            putBean(customInstance);
+            return t;
+        }
+    }
+
+    public <T> T get(Contextual<T> contextual) {
+        Bean bean = (Bean) contextual;
+        String key = getScopeKey(bean);
+        if (getFeatureScopedMap().containsKey(key)) {
+            return (T) getBean(bean.getBeanClass());
+        } else {
+            return null;
+        }
     }
 
     public static class FeatureScopedInstance<T> {

@@ -19,4 +19,7 @@ import javax.inject.Scope;
 @Retention(value = RUNTIME)
 @Scope
 public @interface FeatureScoped {
+
+    public String name() default "";
+
 }

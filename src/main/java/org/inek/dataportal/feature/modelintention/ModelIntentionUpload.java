@@ -11,7 +11,6 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
-import org.inek.dataportal.feature.modelintention.EditModelIntention;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.ValueLists;
@@ -38,7 +37,7 @@ public class ModelIntentionUpload {
      */
     public EditModelIntention getModelIntention() {
         if (_modelIntention == null) {
-            _modelIntention = (EditModelIntention) FeatureScopedContextHolder.Instance.getBean(EditModelIntention.class).getInstance();
+            _modelIntention = (EditModelIntention) FeatureScopedContextHolder.Instance.getBean(EditModelIntention.class);
         }
         return _modelIntention;
     }

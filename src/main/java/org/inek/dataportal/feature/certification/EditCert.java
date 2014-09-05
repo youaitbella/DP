@@ -31,7 +31,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author vohldo, muellermi
  */
 @Named
-@FeatureScoped
+@FeatureScoped(name = "xyz")
 public class EditCert extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditCert");
@@ -209,7 +209,5 @@ public class EditCert extends AbstractEditController {
         return "";
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="tab Certification">
     // </editor-fold>
 }
