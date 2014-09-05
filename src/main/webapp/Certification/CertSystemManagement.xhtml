@@ -14,8 +14,8 @@
         <h:form id="form">
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{editCert.systemId}" immediate="true" disabled="#{editCert.systemChanged}">
-                <f:selectItems value="#{editCert.systems}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certManager.systemId}" immediate="true" disabled="#{certManager.systemChanged}">
+                <f:selectItems value="#{certManager.systems}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
                 <f:ajax render="@all :systemData :logout:remaining" />
             </h:selectOneMenu>
 
@@ -25,7 +25,7 @@
 
             <div class="inputPart">
                 <h:outputLabel for="mnuDomain" value="#{msg.lblDomain}:" styleClass="label15"/>
-                <h:selectOneMenu id="mnuDomain" styleClass="input" value="#{editCert.system.remunerationId}" immediate="true" disabled="#{editCert.systemChanged}">
+                <h:selectOneMenu id="mnuDomain" styleClass="input" value="#{certManager.system.remunerationId}" immediate="true" disabled="#{certManager.systemChanged}">
                     <f:selectItems value="#{valueLists.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
                     <f:ajax render="@form msgDomain :actionForm:btnSystemSave :logout:remaining" />
                 </h:selectOneMenu>
@@ -35,11 +35,11 @@
             <div class="inputPart">
                 <h:outputLabel for="txtYearData" value="#{msg.lblYearData}:" styleClass="label15"/>
                 <h:inputText id="txtYearData"
-                             value="#{editCert.system.yearData}"
+                             value="#{certManager.system.yearData}"
                              styleClass="inputshort"
                              required="true"
-                             disabled="#{editCert.system == null}">
-                    <f:ajax execute="change" render="@this msgYearData mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                             disabled="#{certManager.system == null}">
+                    <f:ajax execute="change" render="@this msgYearData mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtYearData" id="msgYearData" styleClass="errorMessage"/>
             </div>
@@ -47,63 +47,63 @@
             <div class="inputPart">
                 <h:outputLabel for="txtYearSystem" value="#{msg.lblYearSystem}:" styleClass="label15"/>
                 <h:inputText id="txtYearSystem"
-                             value="#{editCert.system.yearSystem}"
+                             value="#{certManager.system.yearSystem}"
                              styleClass="inputshort"
                              required="true"
-                             disabled="#{editCert.system == null}">
-                    <f:ajax execute="change" render="@this msgYearSystem mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                             disabled="#{certManager.system == null}">
+                    <f:ajax execute="change" render="@this msgYearSystem mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtYearSystem" id="msgYearSystem" styleClass="errorMessage"/>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
-                <h:selectBooleanCheckbox id="chkApproval" value="#{editCert.system.approved}">
-                    <f:ajax execute="change" render="@this mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{editCert.systemChangeListener}"/>
+                <h:selectBooleanCheckbox id="chkApproval" value="#{certManager.system.approved}">
+                    <f:ajax execute="change" render="@this mnuSystem :actionForm:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>
         </h:form>
 
         <br/>
 
-        <h:panelGroup id="systemData" rendered="#{editCert.system.id > 0}">
+        <h:panelGroup id="systemData" rendered="#{certManager.system.id > 0}">
             <h2>Systemdaten</h2>
 
             <h:form id="uploadForm" enctype="multipart/form-data" >
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="specFile" value="#{certificationUpload.file}" title="#{msg.btnUploadSpec}"
                                  p:contentType="application/x-sdlc" p:fileNamePattern="Grouper-Spezifikation.*\.exe" p:maxFileSize="10000000">
-                        <f:ajax listener="#{certificationUpload.uploadCertFile(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"
+                        <f:ajax listener="#{certificationUpload.uploadCertFile(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"
                                 render="@form actionForm :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="getElementById('uploadForm:specFile').click();"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="testFile" value="#{certificationUpload.file}" title="#{msg.btnUploadTest}"
                                  p:contentType="application/binary" p:fileNamePattern="Testdaten.*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certificationUpload.uploadCertFile(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"
+                        <f:ajax listener="#{certificationUpload.uploadCertFile(certManager.systemId, 'Daten', 'Testdaten', 'zip')}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="getElementById('uploadForm:testFile').click();"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Daten', 'Testdaten', 'zip')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(certManager.systemId, 'Daten', 'Testdaten', 'zip')}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="certFile" value="#{certificationUpload.file}" title="#{msg.btnUploadCert}"
                                  p:contentType="application/binary" p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certificationUpload.uploadCertFile(editCert.systemId, 'Daten', 'Zertdaten', 'zip')}"
+                        <f:ajax listener="#{certificationUpload.uploadCertFile(certManager.systemId, 'Daten', 'Zertdaten', 'zip')}"
                                 render="@form :actionForm :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="getElementById('uploadForm:certFile').click();"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{certificationUpload.getCertFileName(editCert.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
+                    <h:outputLabel value="#{certificationUpload.getCertFileName(certManager.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
                 </div>
 
             </h:form>
@@ -113,8 +113,8 @@
             <h:form id="formManufactorers">
                 <h2>#{msg.lblAssignedManufactorers}</h2>
 
-                <h:dataTable rendered="#{!empty editCert.system.mappings}"  headerClass="list-header"
-                             value="#{editCert.system.mappings}" var="map" columnClasses="colIcon, colValue">
+                <h:dataTable rendered="#{!empty certManager.system.mappings}"  headerClass="list-header"
+                             value="#{certManager.system.mappings}" var="map" columnClasses="colIcon, colValue">
                     <h:column id="colDeleteId" >
                         <f:facet name="header">
                             <h:outputText value=""/>
@@ -122,7 +122,7 @@
                         <h:commandLink  immediate="true" >
                             <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                             <cb:confirmDelete/>
-                            <f:ajax render="@form :logout:remaining" listener="#{editCert.deleteAccountMapping()}"/>
+                            <f:ajax render="@form :logout:remaining" listener="#{certManager.deleteAccountMapping()}"/>
                         </h:commandLink>
                     </h:column>
 
@@ -131,8 +131,8 @@
                             <h:outputText value="Name"/>
                         </f:facet>
                         <h:selectOneMenu id="mnuAgent" value="#{map.accountId}">
-                            <f:selectItems value="#{editCert.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                            <f:ajax event="change" render="@this :inekRole:btnSaveMapping :logout:remaining" listener="#{editCert.systemChangeListener}" />
+                            <f:selectItems value="#{certManager.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                            <f:ajax event="change" render="@this :inekRole:btnSaveMapping :logout:remaining" listener="#{certManager.systemChangeListener}" />
                         </h:selectOneMenu>
                     </h:column>
                 </h:dataTable>
@@ -140,7 +140,7 @@
 
             <h:form id="addForm">
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
-                    <f:ajax event="click" render="formManufactorers :logout:remaining" listener="#{editCert.addNewMapping}"/>
+                    <f:ajax event="click" render="formManufactorers :logout:remaining" listener="#{certManager.addNewMapping}"/>
                 </h:commandLink>
 
             </h:form>
@@ -149,12 +149,12 @@
 
         <h:form id="actionForm">
 
-            <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{editCert.deleteSystem}" immediate="true">
+            <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
             <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                           id="btnSystemSave" action="#{editCert.saveSystem}"
-                           immediate="false" disabled="#{editCert.system == null || !editCert.systemChanged}"/>
+                           id="btnSystemSave" action="#{certManager.saveSystem}"
+                           immediate="false" disabled="#{certManager.system == null || !certManager.systemChanged}"/>
 
         </h:form>
     </ui:define>

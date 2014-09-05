@@ -74,8 +74,8 @@ public class CertificationUpload {
         deleteFiles(uploadFolder.get(), fileNamePattern);
         String outFile = fileNameBase + "_" + system.getFileName() + "_(" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ")." + extension + ".upload";
         uploadFile(new File(uploadFolder.get(), outFile));
-        EditCert editCert = (EditCert) FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        editCert.setSystemChanged(true);
+        CertManager certManager = (CertManager) FeatureScopedContextHolder.Instance.getBean(CertManager.class);
+        certManager.setSystemChanged(true);
     }
 
     private RemunerationSystem getSystem(int systemId) {
