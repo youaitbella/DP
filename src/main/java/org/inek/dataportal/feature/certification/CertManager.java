@@ -52,12 +52,12 @@ public class CertManager {
         return list;
     }
 
-    public List<SelectItem> getSystems() {
+    public SelectItem[] getSystems() {
         List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
         emptyItem.setNoSelectionOption(true);
         list.add(emptyItem);
-        return list;
+        return list.toArray(new SelectItem[list.size()]);
     }
 
     private RemunerationSystem _system = new RemunerationSystem();

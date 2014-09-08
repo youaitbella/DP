@@ -13,17 +13,19 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountChangeMail_;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.certification.EmailLog;
 import org.inek.dataportal.entities.certification.EmailReceiver;
+import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
-import org.inek.dataportal.entities.certification.SystemAccountMapping;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
+import org.inek.dataportal.facades.certification.EmailLogFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverLabelFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
@@ -39,6 +41,7 @@ import org.inek.dataportal.mail.Mailer;
 public class CertMail implements Serializable {
     
     private static final Logger _logger = Logger.getLogger("CertMail");
+    private static String SenderEmailAddress = "Zertifizierung2014@inek-drg.de"; // TODO: Load sender email from template.
     
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;
@@ -78,6 +81,12 @@ public class CertMail implements Serializable {
     
     @Inject
     private Mailer _mailer;
+    
+    @Inject
+    private EmailLogFacade _emailLogFacade;
+    
+    @Inject
+    private SessionController _sessionController;
     //</editor-fold>
     
     public CertMail() {
@@ -316,8 +325,8 @@ public class CertMail implements Serializable {
 
     private void buildEmailListBySystemName() {
         RemunerationSystem rs = _systemFacade.findRemunerationSystemByName(_systemReceiverList);
-        List<SystemAccountMapping> map = rs.getMappings();
-        map.stream().map((am) -> _accFacade.find(am.getAccountId()).getEmail()).forEach((email) -> {
+        List<Grouper> grouperList = rs.getGrouperList();
+        grouperList.stream().map((gr) -> _accFacade.find(gr.getAccountId()).getEmail()).forEach((email) -> {
             _emailList.add(email);
         });
     }
@@ -365,13 +374,25 @@ public class CertMail implements Serializable {
             String subject = mt.getSubject().replace("{version}", version);
             String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation);
             try {
-                _mailer.sendMailFrom("Zertifizierung2014@inek-drg.de",emailAddress, mt.getBcc(), subject, body);
+                _mailer.sendMailFrom(SenderEmailAddress,emailAddress, mt.getBcc(), subject, body);
+                createEmailLogEntry(version, mt, emailAddress);
                 _emailSentSuccess.put(emailAddress, true);
             } catch(Exception ex) {
                 _emailSentSuccess.put(emailAddress, false);
             }
         }
         return "";
+    }
+
+    private void createEmailLogEntry(String version, MailTemplate mt, String emailAddress) {
+        EmailLog log = new EmailLog();
+        if(!version.equals("")) {
+            log.setSystemId(_systemFacade.findRemunerationSystemByName(version).getId());
+        }
+        log.setTemplateId(mt.getId());
+        log.setReceiverAccountId(_accFacade.findByMailOrUser(emailAddress).getAccountId());
+        log.setSenderAccountId(_sessionController.getAccountId());
+        _emailLogFacade.persist(log);
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
