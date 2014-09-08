@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -15,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Pages;
@@ -22,6 +24,7 @@ import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**
  *
@@ -95,12 +98,22 @@ public class CertCertification {
         return list;
     }
 
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _file = file;
+    }
+
     public String download(int systemId, String folder, String fileNameBase, String extension) {
         if (systemId <= 0) {
             return "";
         }
-        CertificationUpload certUpload = Utils.getBean(CertificationUpload.class);
-        File file = certUpload.getCertFile(systemId, folder, fileNameBase, extension);
+        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        File file = editCert.getCertFile(systemId, folder, fileNameBase, extension);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         try {
@@ -116,6 +129,28 @@ public class CertCertification {
         }
         facesContext.responseComplete();
         return "";
+    }
+
+    public void uploadTestResult(int systemId, int AccountId) {
+        RemunerationSystem system = _systemFacade.find(systemId);
+        if (system == null) {
+            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
+            return;
+        }
+        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        Optional<File> uploadFolder = editCert.getUploadFolder(system, "Daten");  // todo: folder depending on account
+        if (!uploadFolder.isPresent()) {
+            return;
+        }
+        String prefix = "ErgebnisUebungsdaten_";
+        File lastFile = editCert.getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
+        String lastFileName = lastFile.getName();
+        int version = 1;
+        if (lastFileName.startsWith(prefix)) {
+            version = 1 + Integer.parseInt(lastFileName.substring(prefix.length(), prefix.length() + 1));
+        }
+        String outFile = prefix + version + ".txt";
+        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
     }
 
 }

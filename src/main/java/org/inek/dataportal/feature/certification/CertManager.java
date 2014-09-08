@@ -1,13 +1,17 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
@@ -19,6 +23,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**
  *
@@ -160,6 +165,51 @@ public class CertManager {
         _system.getMappings().remove(entry);
         setSystemChanged(true);
         return "";
+    }
+
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _file = file;
+    }
+
+    public void uploadSpec(int systemId) {
+        uploadCertFile(systemId, "Spec", "Grouper-Spezifikation", "exe");
+    }
+
+    public void uploadTrainingData(int systemId) {
+        uploadCertFile(systemId, "Daten", "Uebungsdaten", "zip");
+    }
+
+    public void uploadTestData(int systemId) {
+        uploadCertFile(systemId, "Daten", "Testdaten", "zip");
+    }
+
+    public void uploadCertificationData(int systemId) {
+        uploadCertFile(systemId, "Daten", "Zertdaten", "zip");
+    }
+
+    public void uploadCertFile(int systemId, String folder, String fileNameBase, String extension) {
+        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        RemunerationSystem system = editCert.getSystem(systemId);
+        if (system == null) {
+            return;
+        }
+
+        Optional<File> uploadFolder = editCert.getUploadFolder(system, folder);
+        if (!uploadFolder.isPresent()) {
+            return;
+        }
+        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
+        editCert.deleteFiles(uploadFolder.get(), fileNamePattern);
+        String outFile = fileNameBase + "_" + system.getFileName() + "_(" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ")." + extension + ".upload";
+        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
+        CertManager certManager = (CertManager) FeatureScopedContextHolder.Instance.getBean(CertManager.class);
+        certManager.setSystemChanged(true);
     }
 
 }
