@@ -11,12 +11,12 @@ import org.inek.dataportal.helper.Utils;
  *
  * @author muellermi
  */
-@FacesBehavior(value = "confirmDelete")
-public class ConfirmDeleteBehaviour extends ClientBehaviorBase {
+@FacesBehavior(value = "confirmCancel")
+public class ConfirmCancelBehaviour extends ClientBehaviorBase {
 
     @Override
     public String getScript(ClientBehaviorContext behaviorContext) {
-        return "return confirm('" + Utils.getMessage("msgConfirmDelete") + "');";
+        return "return confirm('" + Utils.getMessage("msgConfirmCancel") + "');";
     }
 
     @Override

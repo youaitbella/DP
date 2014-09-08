@@ -4,9 +4,12 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -16,7 +19,6 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
-import org.inek.dataportal.entities.certification.SystemAccountMapping;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -116,12 +118,23 @@ public class CertManager {
         return Pages.CertSystemManagement.RedirectURL();
     }
 
+    public String cancelSystem() {
+        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        editCert.deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
+        editCert.deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
+        setSystemChanged(false);
+        return Pages.CertSystemManagement.RedirectURL();
+    }
+
     private void persistFiles(File dir) {
         if (!dir.exists()) {
             return;
         }
         for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().endsWith(".upload"))) {
             File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
+            if (target.exists()) {
+                target.delete();
+            }
             file.renameTo(target);
         }
     }
@@ -130,14 +143,18 @@ public class CertManager {
         setSystemChanged(true);
     }
 
-    //***************************************************************************************
-    // account for system
-    @Inject
-    AccountFacade _accountFacade;
+    @Inject AccountFacade _accountFacade;
 
     private List<SelectItem> _certAccounts;
 
     public List<SelectItem> getCertAccounts() {
+        ensureCertAccounts();
+        Set<Integer> grouperAccountIds = new HashSet<>();
+        _system.getGrouperList().stream().filter(g -> g.getAccountId() > 0).mapToInt(g -> g.getAccountId()).forEach(i -> grouperAccountIds.add(i));
+        return _certAccounts.stream().filter(i -> !grouperAccountIds.contains((int) i.getValue())).collect(Collectors.toList());
+    }
+
+    private void ensureCertAccounts() {
         if (_certAccounts == null) {
             List<Account> accounts = _accountFacade.getAccounts4Feature(Feature.CERT);
             _certAccounts = new ArrayList<>();
@@ -146,7 +163,15 @@ public class CertManager {
                 _certAccounts.add(new SelectItem(account.getAccountId(), account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
             }
         }
-        return _certAccounts;
+    }
+
+    public String getAccountDisplayName(int accountId) {
+        ensureCertAccounts();
+        Optional<SelectItem> item = _certAccounts.stream().filter(i -> (int) i.getValue() == accountId).findAny();
+        if (item.isPresent()) {
+            return item.get().getLabel();
+        }
+        return "???";
     }
 
     public void addNewGrouper() {
@@ -156,13 +181,8 @@ public class CertManager {
         _system.getGrouperList().add(grouper);
     }
 
-    public String deleteAccountMapping() {
-        //todo
-        return "";
-    }
-
-    public String deleteAccountMapping(SystemAccountMapping entry) {
-        _system.getMappings().remove(entry);
+    public String deleteGrouper(Grouper grouper) {
+        _system.getGrouperList().remove(grouper);
         setSystemChanged(true);
         return "";
     }

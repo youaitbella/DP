@@ -116,6 +116,7 @@ public class EditCert extends AbstractEditController {
      *
      * @param dir
      * @param fileNamePattern
+     * @return
      */
     public File getLastFile(File dir, final String fileNamePattern) {
         File lastFile = new File("");

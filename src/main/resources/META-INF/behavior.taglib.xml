@@ -13,6 +13,13 @@
     </tag>
 
     <tag>
+        <tag-name>confirmCancel</tag-name>
+        <behavior>
+            <behavior-id>confirmCancel</behavior-id>
+        </behavior>
+    </tag>
+
+    <tag>
         <tag-name>confirmSeal</tag-name>
         <behavior>
             <behavior-id>confirmSeal</behavior-id>

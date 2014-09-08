@@ -67,13 +67,13 @@
                 <h2>Systemdaten</h2>
 
                 <div class="inputPart">
-                    <h:inputFile styleClass="button" id="specFile" value="#{certManager.file}" title="#{msg.btnUploadSpec}"
+                    <h:inputFile styleClass="hide" id="specFile" value="#{certManager.file}" title="#{msg.btnUploadSpec}"
                                  p:contentType="application/x-sdlc" p:fileNamePattern="Grouper-Spezifikation.*\.exe" p:maxFileSize="10000000">
                         <f:ajax listener="#{certManager.uploadCertFile(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="getElementById(form:specFile).click()"/>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
                     <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
                 </div>
@@ -85,7 +85,7 @@
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="getElementById('testFile').click();"/>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
                     <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Testdaten', 'zip')}"/>
                 </div>
@@ -93,11 +93,11 @@
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="certFile" value="#{certManager.file}" title="#{msg.btnUploadCert}"
                                  p:contentType="application/binary" p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certManager.uploadCertFile(certManager.systemId, 'Daten', ':systemDataZertdaten', 'zip')}"
+                        <f:ajax listener="#{certManager.uploadCertFile(certManager.systemId, 'Daten', 'Zertdaten', 'zip')}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="getElementById(':form:certFile').click();"/>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
                     <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
                 </div>
@@ -116,7 +116,7 @@
                         <h:commandLink  immediate="true" >
                             <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                             <cb:confirmDelete/>
-                            <f:ajax render="@form :logout:remaining" listener="#{certManager.deleteAccountMapping()}"/>
+                            <f:ajax render="@form :logout:remaining" listener="#{certManager.deleteGrouper(grouper)}"/>
                         </h:commandLink>
                     </h:column>
 
@@ -124,10 +124,11 @@
                         <f:facet name="header">
                             <h:outputText value="Name"/>
                         </f:facet>
-                        <h:selectOneMenu id="mnuAgent" value="#{grouper.accountId}">
+                        <h:selectOneMenu styleClass="inputlong" id="mnuAgent" value="#{grouper.accountId}" rendered="#{grouper.accountId le 0}">
                             <f:selectItems value="#{certManager.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                             <f:ajax event="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}" />
                         </h:selectOneMenu>
+                        <h:outputText styleClass="inputlong" rendered="#{grouper.accountId gt 0}" value="#{certManager.getAccountDisplayName(grouper.accountId)}"/>
                     </h:column>
                 </h:dataTable>
 
@@ -143,7 +144,13 @@
             </h:commandLink>
             <h:commandLink styleClass="button" value="#{msg.btnSave}"
                            id="btnSystemSave" action="#{certManager.saveSystem}"
-                           immediate="false" disabled="#{certManager.system == null || !certManager.systemChanged}"/>
+                           immediate="false"
+                           disabled="#{certManager.system == null || !certManager.systemChanged}"/>
+            <h:commandLink styleClass="button" value="#{msg.btnCancel}"
+                           action="#{certManager.cancelSystem}"
+                           immediate="true" onclick="">
+                <cb:confirmCancel/>
+            </h:commandLink>
 
         </h:form>
     </ui:define>

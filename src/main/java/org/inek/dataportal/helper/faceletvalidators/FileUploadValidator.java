@@ -30,6 +30,9 @@ public class FileUploadValidator implements Validator {
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         Part part = (Part) value;
+        if (part == null) {
+            return;
+        }
 
         String fileName = part.getSubmittedFileName();
         if (fileName.length() == 0) {

@@ -6,7 +6,6 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -16,15 +15,26 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "Grouper", schema = "crt")
-@IdClass(GrouperId.class)
 public class Grouper implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // <editor-fold defaultstate="collapsed" desc="Property SystemId">
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
+    @Column(name = "grId")
+    private int _id;
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Property SystemId">
     @Column(name = "grSystemId")
-    private int _systemId;
+    private int _systemId = -1;
     public int getSystemId() {
         return _systemId;
     }
@@ -35,9 +45,8 @@ public class Grouper implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Id
     @Column(name = "grAccountId")
-    private int _accountId;
+    private int _accountId = -1;
     public int getAccountId() {
         return _accountId;
     }
@@ -292,7 +301,7 @@ public class Grouper implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GrouperId other = (GrouperId) obj;
+        final Grouper other = (Grouper) obj;
         return _systemId == other._systemId && _accountId == other._accountId;
     }
     // </editor-fold>

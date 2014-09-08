@@ -33,8 +33,6 @@ function updateSessionTimer() {
     remainingElement.innerHTML = "" + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
 }
 
-function setFocus(id) {
-}
 
 function setFocus(id) {
     var element = document.getElementById(id);
@@ -49,6 +47,15 @@ function setFocus(id) {
             break;
         }
     }
+}
+
+function clickElementById(id) {
+    var element = document.getElementById(id);
+    if (element) {
+        element.click();
+        return;
+    }
+    alert('Could not find element ' + id);
 }
 
 
