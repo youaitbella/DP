@@ -108,7 +108,7 @@
                 <h2>#{msg.lblAssignedManufactorers}</h2>
 
                 <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
-                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, col60, col28">
+                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, colValue">
                     <h:column id="colDeleteId" >
                         <f:facet name="header">
                             <h:outputText value=""/>
@@ -120,7 +120,7 @@
                         </h:commandLink>
                     </h:column>
 
-                    <h:column id="colName">
+                    <h:column id="colName" class="col60">
                         <f:facet name="header">
                             <h:outputText value="Name"/>
                         </f:facet>
@@ -135,12 +135,16 @@
 
                     <h:column id="colPass">
                         <f:facet name="header">
-                            <h:outputText value="Kennwort"/>
+                            <h:outputText value="Kennwortabfrage"/>
                         </f:facet>
                         <h:outputText rendered="#{grouper.accountId gt 0 and grouper.passwordRequest ne null}"
-                                      styleClass="inputlong" value="#{grouper.passwordRequest}"/>
-                        <h:outputText rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
-                                      styleClass="inputlong" value="datum"/>
+                                      value="#{grouper.passwordRequest}">
+                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                        </h:outputText>
+                        <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
+                                       styleClass="button" value="Setze Datum">
+                            <f:ajax execute="click" render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
+                        </h:commandLink>
                     </h:column>
                 </h:dataTable>
 
@@ -155,12 +159,13 @@
                 <cb:confirmDelete/>
             </h:commandLink>
             <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                           id="btnSystemSave" action="#{certManager.saveSystem}"
+                           id="btnSystemSave"
                            immediate="false"
-                           disabled="#{certManager.system == null || !certManager.systemChanged}"/>
+                           disabled="#{certManager.system == null || !certManager.systemChanged}"
+                           action="#{certManager.saveSystem}"/>
             <h:commandLink styleClass="button" value="#{msg.btnCancel}"
-                           action="#{certManager.cancelSystem}"
-                           immediate="true" onclick="">
+                           immediate="true"
+                           action="#{certManager.cancelSystem}">
                 <cb:confirmCancel/>
             </h:commandLink>
 

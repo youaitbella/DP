@@ -108,6 +108,19 @@ public class RemunerationSystem implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc=" Property Password">
+    @Column(name = "syPassword")
+    private String _password = "";
+
+    public String getPassword() {
+        return _password;
+    }
+
+    public void setPassword(String password) {
+        _password = password;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="List Grouper">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "grSystemId", referencedColumnName = "syId")
@@ -122,23 +135,6 @@ public class RemunerationSystem implements Serializable {
 
     public void setGrouperList(List<Grouper> grouperList) {
         _grouperList = grouperList;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Mapping">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "msaSystemId", referencedColumnName = "syId")
-    private List<SystemAccountMapping> _mappings;
-
-    public List<SystemAccountMapping> getMappings() {
-        if (_mappings == null) {
-            _mappings = new ArrayList<>();
-        }
-        return _mappings;
-    }
-
-    public void setMappings(List<SystemAccountMapping> mappings) {
-        _mappings = mappings;
     }
     // </editor-fold>
 

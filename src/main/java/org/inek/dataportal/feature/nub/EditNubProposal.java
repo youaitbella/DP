@@ -480,7 +480,19 @@ public class EditNubProposal extends AbstractEditController {
 
         _nubProposal.setStatus(_nubProposal.getStatus() == WorkflowStatus.Rejected ? WorkflowStatus.ReProvided : WorkflowStatus.Provided);
         _nubProposal.setSealedBy(_sessionController.getAccountId());
-        _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
+        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
+        if (_nubProposal.getTargetYear() < targetYear) {
+            // data from last year, not sealed so far
+            // we need a new id, thus delete old and create new nub request
+            NubProposal copy = ObjectUtils.copy(_nubProposal);
+            copy.setNubId(null);
+            copy.setTargetYear(targetYear);
+            _nubProposalFacade.remove(_nubProposal);
+            _nubProposal = _nubProposalFacade.saveNubProposal(copy);
+        } else {
+            _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
+        }
+
         if (isValidId(_nubProposal.getNubId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());

@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.certification;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -52,12 +53,12 @@ public class CertManager {
         return list;
     }
 
-    public SelectItem[] getSystems() {
+    public List<SelectItem> getSystems() {
         List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
         emptyItem.setNoSelectionOption(true);
         list.add(emptyItem);
-        return list.toArray(new SelectItem[list.size()]);
+        return list;
     }
 
     private RemunerationSystem _system = new RemunerationSystem();
@@ -122,7 +123,7 @@ public class CertManager {
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
         editCert.deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
         editCert.deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
-        setSystemChanged(false);
+        setSystemId(_system.getId());
         return Pages.CertSystemManagement.RedirectURL();
     }
 
@@ -185,6 +186,10 @@ public class CertManager {
         _system.getGrouperList().remove(grouper);
         setSystemChanged(true);
         return "";
+    }
+
+    public void passwordRequest(Grouper grouper) {
+        grouper.setPasswordRequest(Calendar.getInstance().getTime());
     }
 
     private Part _file;
