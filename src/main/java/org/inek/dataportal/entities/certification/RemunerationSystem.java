@@ -71,7 +71,7 @@ public class RemunerationSystem implements Serializable {
     @Column(name = "syYearData")
     private int _yearData;
 
-    @Min(2010) @Max(2030)
+    @Min(value = 2010) @Max(2030)
     public int getYearData() {
         return _yearData;
     }

@@ -2,7 +2,6 @@ package org.inek.dataportal.entities.certification;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +24,7 @@ public class Grouper implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "grId")
-    private int _id;
+    private int _id = -1;
     public int getId() {
         return _id;
     }
@@ -112,7 +111,7 @@ public class Grouper implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property TestError1">
     @Column(name = "grTestError1")
-    private int _testError1;
+    private int _testError1 = -1;
     public int getTestError1() {
         return _testError1;
     }
@@ -150,7 +149,7 @@ public class Grouper implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property TestError2">
     @Column(name = "grTestError2")
-    private int _testError2;
+    private int _testError2 = -1;
     public int getTestError2() {
         return _testError2;
     }
@@ -188,7 +187,7 @@ public class Grouper implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property TestError3">
     @Column(name = "grTestError3")
-    private int _testError3;
+    private int _testError3 = -1;
     public int getTestError3() {
         return _testError3;
     }
@@ -226,7 +225,7 @@ public class Grouper implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CertError1">
     @Column(name = "grCertError1")
-    private int _certError1;
+    private int _certError1 = -1;
     public int getCertError1() {
         return _certError1;
     }
@@ -264,7 +263,7 @@ public class Grouper implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CertError2">
     @Column(name = "grCertError2")
-    private int _certError2;
+    private int _certError2 = -1;
     public int getCertError2() {
         return _certError2;
     }
@@ -290,9 +289,12 @@ public class Grouper implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals">
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(_systemId);
-        hash = 73 * hash + Objects.hashCode(_accountId);
+        int hash = 7;
+        hash = 29 * hash + _id;
+        if (_id <= 0) {
+            hash = 29 * hash + _systemId;
+            hash = 29 * hash + _accountId;
+        }
         return hash;
     }
 
@@ -305,6 +307,9 @@ public class Grouper implements Serializable {
             return false;
         }
         final Grouper other = (Grouper) obj;
+        if (_id > 0) {
+            return _id == other._id;
+        }
         return _systemId == other._systemId && _accountId == other._accountId;
     }
     // </editor-fold>

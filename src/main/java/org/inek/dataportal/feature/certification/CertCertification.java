@@ -13,13 +13,16 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
@@ -38,6 +41,7 @@ public class CertCertification {
 
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
+    @Inject private GrouperFacade _grouperFacade;
 
     @PostConstruct
     private void init() {
@@ -47,41 +51,6 @@ public class CertCertification {
     @PreDestroy
     private void destroy() {
         _logger.log(Level.WARNING, "Destroy CertCertification");
-    }
-
-    private RemunerationSystem _system = new RemunerationSystem();
-
-    public RemunerationSystem getSystem() {
-        return _system;
-    }
-
-    public void setSystem(RemunerationSystem system) {
-        _system = system;
-    }
-
-    public int getSystemId() {
-        return _system.getId();
-    }
-
-    public void setSystemId(int templateId) {
-        if (templateId != _system.getId()) {
-            if (templateId == -1) {
-                _system = new RemunerationSystem();
-            } else {
-                _system = _systemFacade.find(templateId);
-            }
-            setSystemChanged(false);
-        }
-    }
-
-    private boolean _systemChanged = false;
-
-    public boolean isSystemChanged() {
-        return _systemChanged;
-    }
-
-    public void setSystemChanged(boolean isChanged) {
-        _systemChanged = isChanged;
     }
 
     public List<SelectItem> getSystems4Account() {
@@ -96,6 +65,45 @@ public class CertCertification {
         emptyItem.setNoSelectionOption(true);
         list.add(emptyItem);
         return list;
+    }
+
+    private Grouper _grouper = new Grouper();
+
+    public Grouper getGrouper() {
+        return _grouper;
+    }
+
+    public void setGrouper(Grouper grouper) {
+        _grouper = grouper;
+    }
+
+    public int getSystemId() {
+        return _grouper.getSystemId();
+    }
+
+    public void setSystemId(int systemId) {
+        if (systemId != _grouper.getId()) {
+            if (systemId <= 0) {
+                _grouper = new Grouper();
+            } else {
+                _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
+            }
+            setGrouperChanged(false);
+        }
+    }
+
+    private boolean _grouperChanged = false;
+
+    public boolean isGrouperChanged() {
+        return _grouperChanged;
+    }
+
+    public void setGrouperChanged(boolean isChanged) {
+        _grouperChanged = isChanged;
+    }
+
+    public void grouperChangeListener(AjaxBehaviorEvent event) {
+        setGrouperChanged(true);
     }
 
     private Part _file;
@@ -131,26 +139,89 @@ public class CertCertification {
         return "";
     }
 
-    public void uploadTestResult(int systemId, int AccountId) {
-        RemunerationSystem system = _systemFacade.find(systemId);
+    public String getNextUpload() {
+        if (_grouper.getId() < 0) {
+            return "";
+        }
+        if (_grouper.getTestUpload1() == null) {
+            return "TestDaten v1";
+        }
+        if (_grouper.getTestUpload2() == null && _grouper.getTestError1() > 0) {
+            return "TestDaten v2";
+        }
+        if (_grouper.getTestUpload3() == null && _grouper.getTestError2() > 0) {
+            return "TestDaten v3";
+        }
+        if (_grouper.getTestUpload3() != null && _grouper.getTestError3() > 0) {
+            return "";
+        }
+        if (_grouper.getCertUpload1() == null && (_grouper.getTestError1() == 0 || _grouper.getTestError2() == 0 || _grouper.getTestError2() == 0)) {
+            return "ZertDaten v1";
+        }
+        if (_grouper.getCertUpload2() == null && _grouper.getCertError1() > 0) {
+            return "ZertDaten v2";
+        }
+        return "";
+    }
+
+    public void uploadTestResult() {
+        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
         if (system == null) {
-            _logger.log(Level.WARNING, "upload, missing system with id {0}", systemId);
+            _logger.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystemId());
             return;
         }
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        Optional<File> uploadFolder = editCert.getUploadFolder(system, "Daten");  // todo: folder depending on account
-        if (!uploadFolder.isPresent()) {
+        Optional<File> uploadFolderBase = editCert.getUploadFolder(system, "Daten");  // todo: folder depending on account
+        if (!uploadFolderBase.isPresent()) {
             return;
         }
-        String prefix = "ErgebnisUebungsdaten_";
-        File lastFile = editCert.getLastFile(uploadFolder.get(), prefix + "\\d\\.txt");
-        String lastFileName = lastFile.getName();
-        int version = 1;
-        if (lastFileName.startsWith(prefix)) {
-            version = 1 + Integer.parseInt(lastFileName.substring(prefix.length(), prefix.length() + 1));
+        String prefix = getNextUpload();
+        File uploadFolder = new File(uploadFolderBase.get(), "" + _sessionController.getAccountId());
+        String outFile = prefix + ".zip";
+        editCert.uploadFile(_file, new File(uploadFolder, outFile));
+    }
+
+    public String saveGrouper() {
+        _grouper = _grouperFacade.merge(_grouper);
+        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
+        persistFiles(new File(system.getSystemRoot(), "Spec"));
+        persistFiles(new File(system.getSystemRoot(), "Daten"));
+        setGrouperChanged(false);
+        return Pages.CertCertification.RedirectURL();
+    }
+
+    public String cancelSystem() {
+        cleanupUploadFiles();
+        setSystemId(_grouper.getSystemId());
+        return Pages.CertCertification.RedirectURL();
+    }
+
+    private void cleanupUploadFiles() {
+        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
+        deleteFiles(new File(system.getSystemRoot(), "Spec"), ".*\\.upload");
+        deleteFiles(new File(system.getSystemRoot(), "Daten"), ".*\\.upload");
+    }
+
+    public void deleteFiles(File dir, final String fileNamePattern) {
+        if (!dir.exists()) {
+            return;
         }
-        String outFile = prefix + version + ".txt";
-        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
+            file.delete();
+        }
+    }
+
+    private void persistFiles(File dir) {
+        if (!dir.exists()) {
+            return;
+        }
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().endsWith(".upload"))) {
+            File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
+            if (target.exists()) {
+                target.delete();
+            }
+            file.renameTo(target);
+        }
     }
 
 }

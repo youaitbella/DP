@@ -59,6 +59,10 @@ public class EditCert extends AbstractEditController {
     }
 
     public File getCertFile(int systemId, String folder, String fileNameBase, String extension) {
+        return getCertFile(systemId, folder, fileNameBase, extension, false);
+    }
+
+    public File getCertFile(int systemId, String folder, String fileNameBase, String extension, boolean includeUpload) {
         RemunerationSystem system = getSystem(systemId);
         if (system == null) {
             return null;
@@ -69,15 +73,21 @@ public class EditCert extends AbstractEditController {
             return null;
         }
 
-        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_\\(\\d{4}-\\d{2}-\\d{2}\\)." + extension + "(\\.upload)?";
+        String fileNamePattern = fileNameBase + "_" + system.getFileName()
+                + "_\\(\\d{4}-\\d{2}-\\d{2}\\)." + extension
+                + (includeUpload ? "(\\.upload)?" : "");
         return getLastFile(uploadFolder.get(), fileNamePattern);
     }
 
     public String getCertFileName(int systemId, String folder, String fileNameBase, String extension) {
+        return getCertFileName(systemId, folder, fileNameBase, extension, false);
+    }
+
+    public String getCertFileName(int systemId, String folder, String fileNameBase, String extension, boolean includeUpload) {
         if (systemId <= 0) {
             return "";
         }
-        String fileName = getCertFile(systemId, folder, fileNameBase, extension).getName();
+        String fileName = getCertFile(systemId, folder, fileNameBase, extension, includeUpload).getName();
         return fileName.replace(".upload", " [ungespeichert]");
     }
 
@@ -138,12 +148,6 @@ public class EditCert extends AbstractEditController {
             new StreamHelper().copyStream(inStream, fos);
         } catch (IOException e) {
             _logger.log(Level.WARNING, "upload exception: {0}", e.getMessage());
-        }
-    }
-
-    public void deleteFiles(File dir, final String fileNamePattern) {
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
-            file.delete();
         }
     }
 

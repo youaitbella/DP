@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.annotation.PreDestroy;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -40,19 +42,14 @@ public class CertManager {
 
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
+    @Inject private GrouperFacade _grouperFacade;
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public List<SelectItem> getXSystems() {
-        List<SelectItem> list = new ArrayList<>();
-        for (RemunerationSystem system : _systemFacade.findAll()) {
-            list.add(new SelectItem(system, system.getDisplayName()));
-        }
-        SelectItem emptyItem = new SelectItem(new RemunerationSystem(), Utils.getMessage("itemNewEntry"));
-        emptyItem.setNoSelectionOption(true);
-        list.add(emptyItem);
-        return list;
+    @PreDestroy
+    private void preDestroy() {
+        cleanupUploadFiles();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
         List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
@@ -77,6 +74,9 @@ public class CertManager {
 
     public void setSystemId(int templateId) {
         if (templateId != _system.getId()) {
+            if (_system.getId() > 0) {
+                cleanupUploadFiles();
+            }
             if (templateId == -1) {
                 _system = new RemunerationSystem();
             } else {
@@ -112,7 +112,14 @@ public class CertManager {
     }
 
     public String saveSystem() {
+        // due to problems on save (grouper lost), we save the grouper separated
+        // it still saved one  together with the system :(
+        //List<Grouper> grouperList = _system.getGrouperList();
         _system = _systemFacade.save(_system);
+//        for (Grouper grouper : grouperList) {
+//            grouper.setSystemId(_system.getId());
+//            _grouperFacade.merge(grouper);
+//        }
         persistFiles(new File(_system.getSystemRoot(), "Spec"));
         persistFiles(new File(_system.getSystemRoot(), "Daten"));
         setSystemChanged(false);
@@ -120,11 +127,23 @@ public class CertManager {
     }
 
     public String cancelSystem() {
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        editCert.deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
-        editCert.deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
+        cleanupUploadFiles();
         setSystemId(_system.getId());
         return Pages.CertSystemManagement.RedirectURL();
+    }
+
+    private void cleanupUploadFiles() {
+        deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
+        deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
+    }
+
+    public void deleteFiles(File dir, final String fileNamePattern) {
+        if (!dir.exists()) {
+            return;
+        }
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
+            file.delete();
+        }
     }
 
     private void persistFiles(File dir) {
@@ -230,7 +249,7 @@ public class CertManager {
             return;
         }
         String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
-        editCert.deleteFiles(uploadFolder.get(), fileNamePattern);
+        deleteFiles(uploadFolder.get(), fileNamePattern);
         String outFile = fileNameBase + "_" + system.getFileName() + "_(" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ")." + extension + ".upload";
         editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
         CertManager certManager = (CertManager) FeatureScopedContextHolder.Instance.getBean(CertManager.class);

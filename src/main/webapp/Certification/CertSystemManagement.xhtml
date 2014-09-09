@@ -61,6 +61,17 @@
                     <f:ajax execute="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtPassword" value="#{msg.lblPassword}:" styleClass="label15"/>
+                <h:inputText id="txtPassword"
+                             value="#{certManager.system.password}"
+                             styleClass="inputmedium"
+                             disabled="#{certManager.system == null}">
+                    <f:ajax execute="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                </h:inputText>
+            </div>
+
             <br/>
 
             <div jsf:rendered="#{certManager.system.id > 0}">
@@ -75,7 +86,7 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe', true)}"/>
                 </div>
 
                 <div class="inputPart">
@@ -87,7 +98,7 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Testdaten', 'zip')}"/>
+                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Testdaten', 'zip', true)}"/>
                 </div>
 
                 <div class="inputPart">
@@ -99,7 +110,7 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Zertdaten', 'zip')}"/>
+                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Zertdaten', 'zip', true)}"/>
                 </div>
 
 
@@ -135,14 +146,14 @@
 
                     <h:column id="colPass">
                         <f:facet name="header">
-                            <h:outputText value="Kennwortabfrage"/>
+                            <h:outputText value="#{msg.lblPasswordRequest}"/>
                         </f:facet>
                         <h:outputText rendered="#{grouper.accountId gt 0 and grouper.passwordRequest ne null}"
                                       value="#{grouper.passwordRequest}">
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </h:outputText>
                         <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
-                                       styleClass="button" value="Setze Datum">
+                                       styleClass="button" value="#{msg.btnSetDate}">
                             <f:ajax execute="click" render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
                         </h:commandLink>
                     </h:column>
