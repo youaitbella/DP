@@ -19,7 +19,7 @@
                 </h:outputLabel>
                 <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium" value="#{certMail.selectedTemplate}">
                     <f:selectItems value="#{certMail.emailTemplates}"/>
-                    <f:ajax event="change" render="@this :logout:remaining" />
+                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.receiverChanged}"/>
                 </h:selectOneMenu> 
             </div>
             
@@ -156,20 +156,24 @@
             <br />
             
             <h:dataTable rendered="#{certMail.renderEmailSentSuccessTable()}" value="#{certMail.emailSentSuccess}" headerClass="list-header" id="tblEmailSentSuccess"
-                         var="ess" width="100%" rowClasses="row1, row2" columnClasses="colValue, colValue">
-                <h:column id="colDeleteId" >
+                         var="ess" width="100%" rowClasses="row1, row2" columnClasses="colValue, colValue, colValue">
+                <h:column id="colMailAddress" >
                     <f:facet name="header">
                         <h:outputText value="Email-Addresse"/>
                     </f:facet>
-                    <h:outputLabel value="#{ess.keySet().iterator().next()}"/>
+                    <h:outputLabel value="#{ess.value1}"/>
                 </h:column>
-                <h:column id="colName">
+                <h:column id="colBCC">
+                    <f:facet name="header">
+                        <h:outputText value="BCC-Addresse"/>
+                    </f:facet>
+                    <h:outputLabel value="#{ess.value2}"/>
+                </h:column>
+                <h:column id="colSentState">
                     <f:facet name="header">
                         <h:outputText value="Sende-Status"/>
                     </f:facet>
-                    <h:outputLabel>
-                        #{ess.values().iterator().next() ? "Erfolgreich" : "Fehlgeschlagen"}
-                    </h:outputLabel>
+                    <h:outputLabel value="#{ess.value3}"/>
                 </h:column>
             </h:dataTable>
             
