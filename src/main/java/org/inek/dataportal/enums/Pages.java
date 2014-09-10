@@ -96,6 +96,7 @@ public enum Pages {
     CertSummary("/Certification/CertSummary"),
     CertSystemManagement("/Certification/CertSystemManagement"),
     CertMail("/Certification/CertMail"),
+    CertMailTemplate("/Certification/CertMailTemplate"),
     CertCertification("/Certification/CertCertification"),
     //
     NotAllowed("/common/NotAllowed"),

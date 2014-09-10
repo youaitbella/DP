@@ -45,6 +45,7 @@ public class EditCert extends AbstractEditController {
     protected void addTopics() {
         if (_sessionController.isInekUser(Feature.CERT)) {
             addTopic(CertTabs.tabCertSystemManagement.name(), Pages.CertSystemManagement.URL());
+            addTopic(CertTabs.tabCertMailTemplate.name(), Pages.CertMailTemplate.URL());
             addTopic(CertTabs.tabCertMail.name(), Pages.CertMail.URL());
             addTopic(CertTabs.tabCertification.name(), Pages.CertCertification.URL());
         }
@@ -54,6 +55,7 @@ public class EditCert extends AbstractEditController {
     private enum CertTabs {
 
         tabCertSystemManagement,
+        tabCertMailTemplate,
         tabCertMail,
         tabCertification;
     }
