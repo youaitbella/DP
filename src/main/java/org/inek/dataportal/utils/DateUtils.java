@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,4 +25,17 @@ public class DateUtils {
         calendar.add(Calendar.MINUTE, offset);
         return calendar.getTime();
     }
+
+    public static String todayAnsi() {
+        return today("yyyy-MM-dd");
+    }
+
+    public static String todayGerman() {
+        return today("dd.MM.yyyy");
+    }
+
+    public static String today(String format) {
+        return new SimpleDateFormat(format).format(new Date());
+    }
+
 }

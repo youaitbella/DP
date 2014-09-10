@@ -24,13 +24,13 @@
                 <h2>#{msg.lblDownload}</h2>
                 <div class="inputPart">
                     <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true"
-                                   action="#{certCertification.download(certCertification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"/>
+                                   action="#{certCertification.downloadSpec}"/>
+                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.systemId, false)}"/>
                 </div>
                 <div class="inputPart">
                     <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"
-                                   action="#{certCertification.download(certCertification.systemId, 'Daten', 'Testdaten', 'zip')}"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.systemId, 'Daten', 'Testdaten', 'zip')}"/>
+                                   action="#{certCertification.downloadTest}"/>
+                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.systemId, false)}"/>
                 </div>
 
                 <h2>#{msg.lblUpload}</h2>
@@ -44,10 +44,16 @@
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUpload} #{certCertification.nextUpload}" onclick="clickElementById('form:testResult');"/>
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', '#{certCertification.nextUpload}', 'zip', true)}"/>
+                    <h:outputLabel value="#{certCertification.resultFileName}"/>
                 </div>
 
-                <br/>
+                <div class="inputPart" jsf:rendered="#{certCertification.resultFileName.endsWith('[ungespeichert]')}">
+                    <h:commandLink id="btnConfirmFile" styleClass="button" value="#{msg.btnSave}"
+                                   actionListener="#{certCertification.saveOther}"
+                                   immediate="true" disabled="false"/>
+                </div>
+
+                <h2>#{msg.lblOther}</h2>
 
                 <div class="inputPart">
                     <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
@@ -55,16 +61,16 @@
                                  value="#{certCertification.grouper.name}"
                                  styleClass="input"
                                  required="true">
-                        <f:ajax execute="change" render="@this msgGrouperName :actionForm:btnSystemSave :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
+                        <f:ajax execute="change" render="@this msgGrouperName :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
                     </h:inputText>
                     <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
                 </div>
 
 
                 <div class="toolBar">
-                    <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                                   id="btnSystemSave"
-                                   immediate="false" disabled="false"/>
+                    <h:commandLink id="btnSaveOther" styleClass="button" value="#{msg.btnSave}"
+                                   actionListener="#{certCertification.saveOther}"
+                                   immediate="true" disabled="false"/>
                 </div>
 
             </div>

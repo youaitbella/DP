@@ -1,10 +1,8 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +27,7 @@ import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -225,15 +224,11 @@ public class CertManager {
         uploadCertFile(systemId, "Spec", "Grouper-Spezifikation", "exe");
     }
 
-    public void uploadTrainingData(int systemId) {
-        uploadCertFile(systemId, "Daten", "Uebungsdaten", "zip");
-    }
-
     public void uploadTestData(int systemId) {
         uploadCertFile(systemId, "Daten", "Testdaten", "zip");
     }
 
-    public void uploadCertificationData(int systemId) {
+    public void uploadCertData(int systemId) {
         uploadCertFile(systemId, "Daten", "Zertdaten", "zip");
     }
 
@@ -250,7 +245,7 @@ public class CertManager {
         }
         String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
         deleteFiles(uploadFolder.get(), fileNamePattern);
-        String outFile = fileNameBase + "_" + system.getFileName() + "_(" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ")." + extension + ".upload";
+        String outFile = fileNameBase + "_" + system.getFileName() + "_(" + DateUtils.todayAnsi() + ")." + extension + ".upload";
         editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
         CertManager certManager = (CertManager) FeatureScopedContextHolder.Instance.getBean(CertManager.class);
         certManager.setSystemChanged(true);

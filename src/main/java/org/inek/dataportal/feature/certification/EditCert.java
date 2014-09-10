@@ -60,10 +60,6 @@ public class EditCert extends AbstractEditController {
         tabCertification;
     }
 
-    public File getCertFile(int systemId, String folder, String fileNameBase, String extension) {
-        return getCertFile(systemId, folder, fileNameBase, extension, false);
-    }
-
     public File getCertFile(int systemId, String folder, String fileNameBase, String extension, boolean includeUpload) {
         RemunerationSystem system = getSystem(systemId);
         if (system == null) {
@@ -83,6 +79,18 @@ public class EditCert extends AbstractEditController {
 
     public String getCertFileName(int systemId, String folder, String fileNameBase, String extension) {
         return getCertFileName(systemId, folder, fileNameBase, extension, false);
+    }
+
+    public String getSpecFileName(int systemId, boolean includeUpload) {
+        return getCertFileName(systemId, "Spec", "Grouper-Spezifikation", "exe", includeUpload);
+    }
+
+    public String getTestFileName(int systemId, boolean includeUpload) {
+        return getCertFileName(systemId, "Daten", "Testdaten", "zip", includeUpload);
+    }
+
+    public String getCertFileName(int systemId, boolean includeUpload) {
+        return getCertFileName(systemId, "Daten", "Zertdaten", "zip", includeUpload);
     }
 
     public String getCertFileName(int systemId, String folder, String fileNameBase, String extension, boolean includeUpload) {

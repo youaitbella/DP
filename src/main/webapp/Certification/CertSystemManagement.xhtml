@@ -80,37 +80,37 @@
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="specFile" value="#{certManager.file}" title="#{msg.btnUploadSpec}"
                                  p:contentType="application/x-sdlc" p:fileNamePattern="Grouper-Spezifikation.*\.exe" p:maxFileSize="10000000">
-                        <f:ajax listener="#{certManager.uploadCertFile(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe')}"
+                        <f:ajax listener="#{certManager.uploadSpec(systemId)}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Spec', 'Grouper-Spezifikation', 'exe', true)}"/>
+                    <h:outputLabel value="#{editCert.getSpecFileName(certManager.systemId, true)}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="testFile" value="#{certManager.file}" title="#{msg.btnUploadTest}"
                                  p:contentType="application/binary" p:fileNamePattern="Testdaten.*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certManager.uploadCertFile(certManager.systemId, 'Daten', 'Testdaten', 'zip')}"
+                        <f:ajax listener="#{certManager.uploadTestData(systemId)}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Testdaten', 'zip', true)}"/>
+                    <h:outputLabel value="#{editCert.getTestFileName(certManager.systemId, true)}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="certFile" value="#{certManager.file}" title="#{msg.btnUploadCert}"
                                  p:contentType="application/binary" p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certManager.uploadCertFile(certManager.systemId, 'Daten', 'Zertdaten', 'zip')}"
+                        <f:ajax listener="#{certManager.uploadCertData(systemId)}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, 'Daten', 'Zertdaten', 'zip', true)}"/>
+                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, true)}"/>
                 </div>
 
 

@@ -32,8 +32,8 @@ public class Grouper implements Serializable {
     public void setId(int id) {
         _id = id;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property SystemId">
     @Column(name = "grSystemId")
     private int _systemId = -1;
@@ -80,6 +80,32 @@ public class Grouper implements Serializable {
 
     public void setPasswordRequest(Date passwordRequest) {
         _passwordRequest = passwordRequest;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DownloadSpec">
+    @Column(name = "grDownloadSpec")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date _downloadSpec;
+    public Date getDownloadSpec() {
+        return _downloadSpec;
+    }
+
+    public void setDownloadSpec(Date downloadSpec) {
+        _downloadSpec = downloadSpec;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DownloadTest">
+    @Column(name = "grDownloadTest")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date _downloadTest;
+    public Date getDownloadTest() {
+        return _downloadTest;
+    }
+
+    public void setDownloadTest(Date downloadTest) {
+        _downloadTest = downloadTest;
     }
     // </editor-fold>
 
@@ -207,6 +233,19 @@ public class Grouper implements Serializable {
 
     public void setCertUpload1(Date date) {
         _certUpload1 = date;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DownloadCert">
+    @Column(name = "grDownloadCert")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date _downloadCert;
+    public Date getDownloadCert() {
+        return _downloadCert;
+    }
+
+    public void setDownloadCert(Date downloadCert) {
+        _downloadCert = downloadCert;
     }
     // </editor-fold>
 

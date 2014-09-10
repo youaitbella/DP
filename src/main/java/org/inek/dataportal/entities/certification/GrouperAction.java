@@ -57,10 +57,10 @@ public class GrouperAction implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property PasswordRequest">
+    // <editor-fold defaultstate="collapsed" desc="Property TimeStamp">
     @Column(name = "gaTimeStamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _timeStamp;
+    private Date _timeStamp = new Date();
     public Date getTimeStamp() {
         return _timeStamp;
     }
