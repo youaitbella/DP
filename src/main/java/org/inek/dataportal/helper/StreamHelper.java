@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.Adler32;
+import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -36,6 +38,33 @@ public class StreamHelper {
                     try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), BufLen)) {
                         compressedOut.putNextEntry(new ZipEntry(file.getName()));
                         copyStream(is, compressedOut);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            throw new ProcessingException(ex);
+        }
+    }
+
+    public void unzipArchive(File archive, File dir) throws ProcessingException {
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        if (!dir.isDirectory()) {
+            throw new ProcessingException(dir.getAbsolutePath() + " is not a valid directory");
+        }
+
+        try {
+            try (
+                    FileInputStream fis = new FileInputStream(archive);
+                    CheckedInputStream checksum = new CheckedInputStream(fis, new Adler32());
+                    ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
+                ZipEntry entry;
+                while ((entry = zis.getNextEntry()) != null) {
+                    File file = new File(dir, entry.getName());
+                    try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), BufLen)) {
+                        copyStream(zis, dest);
+                        dest.flush();
                     }
                 }
             }

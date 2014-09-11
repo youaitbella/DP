@@ -1,5 +1,7 @@
 package org.inek.dataportal.feature.certification;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +9,10 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
@@ -17,6 +23,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
+import static org.inek.dataportal.helper.StreamHelper.BufLen;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
@@ -154,8 +161,28 @@ public class EditCert extends AbstractEditController {
         }
         _logger.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
         try (InputStream inStream = uploadFile.getInputStream();
-                FileOutputStream fos = new FileOutputStream(target)) {
-            new StreamHelper().copyStream(inStream, fos);
+                BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BufLen)) {
+            new StreamHelper().copyStream(inStream, dest);
+        } catch (IOException e) {
+            _logger.log(Level.WARNING, "upload exception: {0}", e.getMessage());
+        }
+    }
+
+    public void uploadAndUnzipFile(Part uploadFile, File target) {
+        if (uploadFile == null) {
+            return;
+        }
+        _logger.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
+        try (InputStream inStream = uploadFile.getInputStream();
+                CheckedInputStream checksum = new CheckedInputStream(inStream, new Adler32());
+                ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BufLen)) {
+                    new StreamHelper().copyStream(zis, dest);
+                    dest.flush();
+                }
+            }
         } catch (IOException e) {
             _logger.log(Level.WARNING, "upload exception: {0}", e.getMessage());
         }

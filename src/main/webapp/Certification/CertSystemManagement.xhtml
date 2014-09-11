@@ -17,7 +17,7 @@
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certManager.systemId}" immediate="true" disabled="#{certManager.systemChanged}">
                 <f:selectItems value="#{certManager.systems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax execute="change" render="@form :logout:remaining" />
+                <f:ajax render="@form :logout:remaining" />
             </h:selectOneMenu>
 
             <h2>Systemeinstellungen</h2>
@@ -38,7 +38,7 @@
                              styleClass="inputshort"
                              required="true"
                              disabled="#{certManager.system == null}">
-                    <f:ajax execute="change" render="@this msgYearData mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this msgYearData mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtYearData" id="msgYearData" styleClass="errorMessage"/>
             </div>
@@ -50,7 +50,7 @@
                              styleClass="inputshort"
                              required="true"
                              disabled="#{certManager.system == null}">
-                    <f:ajax execute="change" render="@this msgYearSystem mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this msgYearSystem mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtYearSystem" id="msgYearSystem" styleClass="errorMessage"/>
             </div>
@@ -58,7 +58,7 @@
             <div class="inputPart">
                 <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkApproval" value="#{certManager.system.approved}">
-                    <f:ajax execute="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>
 
@@ -68,7 +68,7 @@
                              value="#{certManager.system.password}"
                              styleClass="inputmedium"
                              disabled="#{certManager.system == null}">
-                    <f:ajax execute="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -154,7 +154,7 @@
                         </h:outputText>
                         <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
                                        styleClass="button" value="#{msg.btnSetDate}">
-                            <f:ajax execute="click" render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
+                            <f:ajax render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
                         </h:commandLink>
                     </h:column>
                 </h:dataTable>
@@ -169,11 +169,11 @@
             <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
-            <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                           id="btnSystemSave"
-                           immediate="false"
-                           disabled="#{certManager.system == null || !certManager.systemChanged}"
-                           action="#{certManager.saveSystem}"/>
+            <h:commandButton styleClass="button" value="#{msg.btnSave}"
+                             id="btnSystemSave"
+                             immediate="false"
+                             disabled="#{certManager.system == null || !certManager.systemChanged}"
+                             action="#{certManager.saveSystem}"/>
             <h:commandLink styleClass="button" value="#{msg.btnCancel}"
                            immediate="true"
                            action="#{certManager.cancelSystem}">

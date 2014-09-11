@@ -122,13 +122,13 @@ public class CertManager {
         persistFiles(new File(_system.getSystemRoot(), "Spec"));
         persistFiles(new File(_system.getSystemRoot(), "Daten"));
         setSystemChanged(false);
-        return Pages.CertSystemManagement.RedirectURL();
+        return "";
     }
 
     public String cancelSystem() {
         cleanupUploadFiles();
         setSystemId(_system.getId());
-        return Pages.CertSystemManagement.RedirectURL();
+        return "";
     }
 
     private void cleanupUploadFiles() {

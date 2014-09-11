@@ -259,15 +259,6 @@ public class CertCertification {
         }
     }
 
-    public String saveGrouper() {
-        _grouper = _grouperFacade.merge(_grouper);
-        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
-        persistFiles(new File(system.getSystemRoot(), "Spec"));
-        persistFiles(new File(system.getSystemRoot(), "Daten"));
-        setGrouperChanged(false);
-        return Pages.CertCertification.RedirectURL();
-    }
-
     public void saveOther(ActionEvent event) {
         String id = event.getComponent().getClientId();
         if (id.equals("form:btnConfirmFile")) {
@@ -303,6 +294,7 @@ public class CertCertification {
         if (fileName.startsWith("ZertDaten v2")) {
             _grouper.setCertUpload2(new Date());
         }
+        persistFiles(uploadFolder.get());
     }
 
     public void save() {
