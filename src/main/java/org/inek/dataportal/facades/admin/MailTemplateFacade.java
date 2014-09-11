@@ -37,6 +37,18 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         }
         return result;
     }
+    
+    public List<SelectItem> getMailTemplateInfosByFeature(Feature f) {
+        String statement = "SELECT m._id, m._name FROM MailTemplate m WHERE m._feature = :feature";
+        Query query = getEntityManager().createQuery(statement);
+        List data = query.setParameter("feature", f).getResultList();
+        List<SelectItem> result = new ArrayList<>();
+        for (Object x : data){
+            Object[] info = (Object[]) x;
+            result.add(new SelectItem( (int)info[0], (String) info[1] ));
+        }
+        return result;
+    }
 
     public MailTemplate findByName(String name) {
         String statement = "SELECT m FROM MailTemplate m WHERE m._name = :name";

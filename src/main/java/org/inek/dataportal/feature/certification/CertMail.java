@@ -350,12 +350,13 @@ public class CertMail implements Serializable {
     public void buildPreviewEmail() {
         String salutation = buildEmailSalutation(_selectedEmailAddressPreview);
         String version = "";
+        String company = _accFacade.findByMailOrUser(_selectedEmailAddressPreview).getCompany();
         if(_systemReceiverList != null) {
             version = _systemReceiverList;
         }
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
-        _previewSubject = mt.getSubject().replace("{version}",version);
-        _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation);
+        _previewSubject = mt.getSubject().replace("{version}",version).replace("{company}", company);
+        _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation).replace("{company}", company);
     }
 
     private String buildEmailSalutation(String receiverEmail) {
@@ -374,8 +375,9 @@ public class CertMail implements Serializable {
         String version = _systemReceiverList == null ? "" : _systemReceiverList;
         for(String emailAddress : _emailList) {
             String salutation = buildEmailSalutation(emailAddress);
-            String subject = mt.getSubject().replace("{version}", version);
-            String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation);
+            String company = _accFacade.findByMailOrUser(emailAddress).getCompany();
+            String subject = mt.getSubject().replace("{version}", version).replace("{company}", company);
+            String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation).replace("{company}", company);
             try {
                 _mailer.sendMailFrom(SenderEmailAddress,emailAddress, mt.getBcc(), subject, body);
                 createEmailLogEntry(version, mt, emailAddress);
