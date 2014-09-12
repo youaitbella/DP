@@ -28,18 +28,8 @@
                              styleClass="inputwide"
                              required="true"
                              disabled="#{certMailTemplate.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
+                    <f:ajax render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
-            </div>
-
-            <div class="inputPart">
-                <h:outputLabel for="mnuFeature" value="#{msg.lblFeature}"/>
-                <h:message for="mnuFeature" id="msgFeature" styleClass="errorMessage"/>
-                <h:selectOneMenu id="mnuFeature"
-                                 styleClass="inputwide"
-                                 value="#{certMailTemplate.mailTemplate.feature}"
-                                 required="true"
-                                 disabled="#{certMailTemplate.mailTemplate == null}" />
             </div>
 
             <div class="inputPart">
@@ -50,7 +40,7 @@
                              styleClass="inputwide"
                              required="false"
                              disabled="#{certMailTemplate.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
+                    <f:ajax render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -62,7 +52,7 @@
                              styleClass="inputwide"
                              required="true"
                              disabled="#{certMailTemplate.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
+                    <f:ajax render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -74,7 +64,7 @@
                                  styleClass="areaHuge"
                                  required="true"
                                  disabled="#{certMailTemplate.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
+                    <f:ajax render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputTextarea>
             </div>
 

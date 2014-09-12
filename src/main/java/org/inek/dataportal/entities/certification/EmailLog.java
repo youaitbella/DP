@@ -93,6 +93,17 @@ public class EmailLog implements Serializable {
         this._sent = _sent;
     }
     
+    @Column(name = "elType")
+    private int _type = -1;
+
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int _type) {
+        this._type = _type;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -42,12 +41,6 @@ public class CertMailTemplate implements Serializable {
     
     public MailTemplate getMailTemplate() {
         return _mailTemplate;
-    }
-    
-    public List<SelectItem> getAreas() {
-        List<SelectItem> list = new ArrayList<>();
-        list.add(new SelectItem(Feature.CERT.getDescription()));
-        return list;
     }
 
     public void setMailTemplate(MailTemplate mailTemplate) {
@@ -85,7 +78,7 @@ public class CertMailTemplate implements Serializable {
     public String newMailTemplate() {
         _mailTemplate = new MailTemplate();
         _mailTemplate.setFeature(Feature.CERT);
-        return Pages.AdminTaskMailTemplate.RedirectURL();
+        return "";
     }
 
     public String deleteMailTemplate() {
@@ -94,13 +87,13 @@ public class CertMailTemplate implements Serializable {
         }
         _mailTemplate = new MailTemplate();
         setTemplateChanged(false);
-        return Pages.AdminTaskMailTemplate.RedirectURL();
+        return "";
     }
 
     public String saveMailTemplate() {
         _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
         setTemplateChanged(false);
-        return Pages.AdminTaskMailTemplate.RedirectURL();
+        return "";
     }
 
     public void mailTemplateChangeListener(AjaxBehaviorEvent event) {
