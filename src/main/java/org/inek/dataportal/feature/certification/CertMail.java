@@ -352,7 +352,7 @@ public class CertMail implements Serializable {
     }
 
     public void buildPreviewEmail() {
-        String receipient = GetReceipient(_selectedEmailAddressPreview);
+        String receipient = getReceipient(_selectedEmailAddressPreview);
         String salutation = buildEmailSalutation(receipient);
         String version = "";
         String company = _accFacade.findByMailOrUser(receipient).getCompany();
@@ -364,10 +364,18 @@ public class CertMail implements Serializable {
         _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation).replace("{company}", company);
     }
 
-    private String GetReceipient(String receipientList) {
-        String[] receipients = receipientList.split(";");
+    private String getReceipient(String adressInfo) {
+        String[] receipients = adressInfo.split(";");
         String receipient = receipients[0];
         return receipient;
+    }
+
+    private String getCC(String adressInfo) {
+        int pos = adressInfo.indexOf(";");
+        if (pos < 0) {
+            return "";
+        }
+        return adressInfo.substring(pos + 1);
     }
 
     private String buildEmailSalutation(String receiverEmail) {
@@ -387,13 +395,13 @@ public class CertMail implements Serializable {
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
         String version = _systemReceiverList == null ? "" : _systemReceiverList;
         for (String emailAddressInfo : _emailList) {
-            String emailAddress = GetReceipient(emailAddressInfo);
+            String emailAddress = getReceipient(emailAddressInfo);
             String salutation = buildEmailSalutation(emailAddress);
             String company = _accFacade.findByMailOrUser(emailAddress).getCompany();
             String subject = mt.getSubject().replace("{version}", version).replace("{company}", company);
             String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation).replace("{company}", company);
             try {
-                _mailer.sendMailFrom(SenderEmailAddress, emailAddressInfo, mt.getBcc(), subject, body);
+                _mailer.sendMailFrom(SenderEmailAddress, emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body);
                 createEmailLogEntry(version, mt, emailAddress);
                 _emailSentInfoDataTable.add(new Triple(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
             } catch (Exception ex) {
