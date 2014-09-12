@@ -66,7 +66,19 @@ public class Grouper implements Serializable {
     }
 
     public void setName(String name) {
-        this._name = name;
+        _name = name;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property EmailCopy">
+    @Column(name = "grEmailCopy")
+    private String _emailCopy = "";
+    public String getEmailCopy() {
+        return _emailCopy;
+    }
+
+    public void setEmailCopy(String emailCopy) {
+        _emailCopy = emailCopy;
     }
     // </editor-fold>
 

@@ -51,8 +51,12 @@ public class Mailer {
     public boolean sendMail(String recipient, String bcc, String subject, String body) {
         return sendMailFrom("anfragen@datenstelle.de", recipient, bcc, subject, body);
     }
-    
+
     public boolean sendMailFrom(String from, String recipient, String bcc, String subject, String body) {
+        return sendMailFrom(from, recipient, "", bcc, subject, body);
+    }
+
+    public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body) {
         if (recipient.toLowerCase().endsWith(".test")) {
             // this is just to mock a successful mail
             return true;
@@ -66,10 +70,9 @@ public class Mailer {
         MimeMessage message = new MimeMessage(session);
         try {
             message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            if (!bcc.isEmpty()) {
-                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
-            }
+            addReceipients(message, recipient, Message.RecipientType.TO);
+            addReceipients(message, cc, Message.RecipientType.CC);
+            addReceipients(message, bcc, Message.RecipientType.BCC);
             message.setSubject(subject);
             message.setText(body);
             Transport.send(message);
@@ -78,6 +81,17 @@ public class Mailer {
             _logger.log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    private void addReceipients(MimeMessage message, String recipients, Message.RecipientType rType) throws MessagingException {
+        if (recipients == null) {
+            return;
+        }
+        for (String recipient : recipients.split(";")) {
+            if (!recipient.trim().isEmpty()) {
+                message.addRecipient(rType, new InternetAddress(recipient.trim()));
+            }
+        }
     }
 
     public MailTemplate getMailTemplate(String name) {

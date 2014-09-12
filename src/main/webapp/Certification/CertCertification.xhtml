@@ -68,6 +68,17 @@
                     <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
                 </div>
 
+                <div class="inputPart">
+                    <h:outputLabel for="txtEmailCopy" value="#{msg.lblEmailCopy}:" styleClass="label15"/>
+                    <h:inputText id="txtEmailCopy"
+                                 value="#{certCertification.grouper.emailCopy}"
+                                 styleClass="input"
+                                 required="true">
+                        <f:ajax render="@this msgEmailCopy :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
+                    </h:inputText>
+                    <h:message for="txtEmailCopy" id="msgEmailCopy" styleClass="errorMessage"/>
+                </div>
+
 
                 <div class="toolBar">
                     <h:commandLink id="btnSaveOther" styleClass="button" value="#{msg.btnSave}"
