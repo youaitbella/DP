@@ -208,6 +208,7 @@ public class CertManager {
 
     public void passwordRequest(Grouper grouper) {
         grouper.setPasswordRequest(Calendar.getInstance().getTime());
+        setSystemChanged(true);
     }
 
     private Part _file;
@@ -221,18 +222,19 @@ public class CertManager {
     }
 
     public void uploadSpec(int systemId) {
-        uploadCertFile(systemId, "Spec", "Grouper-Spezifikation", "exe");
+        uploadCertFile("Spec", "Grouper-Spezifikation", "exe");
     }
 
     public void uploadTestData(int systemId) {
-        uploadCertFile(systemId, "Daten", "Testdaten", "zip");
+        uploadCertFile("Daten", "Testdaten", "zip");
     }
 
     public void uploadCertData(int systemId) {
-        uploadCertFile(systemId, "Daten", "Zertdaten", "zip");
+        uploadCertFile("Daten", "Zertdaten", "zip");
     }
 
-    public void uploadCertFile(int systemId, String folder, String fileNameBase, String extension) {
+    public void uploadCertFile(String folder, String fileNameBase, String extension) {
+        int systemId = _system.getId();
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
         RemunerationSystem system = editCert.getSystem(systemId);
         if (system == null) {

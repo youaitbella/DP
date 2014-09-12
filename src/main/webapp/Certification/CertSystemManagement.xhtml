@@ -169,11 +169,11 @@
             <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
-            <h:commandButton styleClass="button" value="#{msg.btnSave}"
-                             id="btnSystemSave"
-                             immediate="false"
-                             disabled="#{certManager.system == null || !certManager.systemChanged}"
-                             action="#{certManager.saveSystem}"/>
+            <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                           id="btnSystemSave"
+                           immediate="false"
+                           disabled="#{certManager.system == null || !certManager.systemChanged}"
+                           action="#{certManager.saveSystem}"/>
             <h:commandLink styleClass="button" value="#{msg.btnCancel}"
                            immediate="true"
                            action="#{certManager.cancelSystem}">
