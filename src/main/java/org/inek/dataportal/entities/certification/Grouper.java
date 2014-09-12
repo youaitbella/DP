@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.enums.CertStatus;
 
 /**
  *
@@ -55,6 +56,18 @@ public class Grouper implements Serializable {
 
     public void setAccountId(int accountId) {
         _accountId = accountId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CertStatus">
+    @Column(name = "grCertStatus")
+    private int _certStatus = -1;
+    public CertStatus getCertStatus() {
+        return CertStatus.fromStatus(_certStatus);
+    }
+
+    public void setCertStatus(CertStatus certStatus) {
+        _certStatus = certStatus.getStatus();
     }
     // </editor-fold>
 

@@ -429,6 +429,12 @@ div#wrapper {
     width: 15%;
 }
 
+.label20 {
+    font-weight: bold;
+    display:inline-block;
+    width: 20%;
+}
+
 .label30 {
     font-weight: bold;
     display:inline-block;

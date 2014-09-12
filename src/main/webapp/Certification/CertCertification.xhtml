@@ -37,7 +37,8 @@
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="testResult" value="#{certCertification.file}" title="#{msg.btnUploadTestResult}"
-                                 p:contentType="application/binary" p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
+                                 p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
+                                 p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
                         <f:ajax listener="#{certCertification.uploadTestResult}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
@@ -72,8 +73,7 @@
                     <h:outputLabel for="txtEmailCopy" value="#{msg.lblEmailCopy}:" styleClass="label15"/>
                     <h:inputText id="txtEmailCopy"
                                  value="#{certCertification.grouper.emailCopy}"
-                                 styleClass="input"
-                                 required="true">
+                                 styleClass="input">
                         <f:ajax render="@this msgEmailCopy :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
                     </h:inputText>
                     <h:message for="txtEmailCopy" id="msgEmailCopy" styleClass="errorMessage"/>
