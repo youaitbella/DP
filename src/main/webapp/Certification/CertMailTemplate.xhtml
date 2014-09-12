@@ -11,11 +11,8 @@
     <ui:define name="editContent">
         <h2>Email-Template</h2>
 
-        <h:form id="maiTemplateForm">
        <h:form id="maiTemplateForm">
             <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
-            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true" disabled="#{adminTask.templateChanged}">
-                <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
             <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{certMailTemplate.templateId}" immediate="true" disabled="#{certMailTemplate.templateChanged}">
                 <f:selectItems value="#{certMailTemplate.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
                 <f:ajax render="@form" />
@@ -27,12 +24,9 @@
                 <h:outputLabel for="txtTemplateName" value="#{msg.lblName}"/>
                 <h:message for="txtTemplateName" id="msgTemplateName" styleClass="errorMessage"/>
                 <h:inputText id="txtTemplateName"
-                             value="#{adminTask.mailTemplate.name}"
                              value="#{certMailTemplate.mailTemplate.name}"
                              styleClass="inputwide"
                              required="true"
-                             disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                              disabled="#{certMailTemplate.mailTemplate == null}">
                     <f:ajax execute="change" render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
@@ -43,28 +37,18 @@
                 <h:message for="mnuFeature" id="msgFeature" styleClass="errorMessage"/>
                 <h:selectOneMenu id="mnuFeature"
                                  styleClass="inputwide"
-                                 value="#{adminTask.mailTemplate.feature}"
                                  value="#{certMailTemplate.mailTemplate.feature}"
                                  required="true"
-                                 disabled="#{adminTask.mailTemplate == null}">
-                    <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
-                    <f:ajax execute="change" render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
-                                 disabled="#{certMailTemplate.mailTemplate == null}">
-                    <f:selectItems value="#{certMailTemplate.areas}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
-                    <f:ajax execute="change" render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
-                </h:selectOneMenu>
+                                 disabled="#{certMailTemplate.mailTemplate == null}" />
             </div>
 
             <div class="inputPart">
                 <h:outputLabel for="txtBcc" value="#{msg.lblBcc}"/>
                 <h:message for="txtBcc" id="msgBcc" styleClass="errorMessage"/>
                 <h:inputText id="txtBcc"
-                             value="#{adminTask.mailTemplate.bcc}"
                              value="#{certMailTemplate.mailTemplate.bcc}"
                              styleClass="inputwide"
                              required="false"
-                             disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                              disabled="#{certMailTemplate.mailTemplate == null}">
                     <f:ajax execute="change" render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
@@ -74,12 +58,9 @@
                 <h:outputLabel for="txtMailSubject" value="#{msg.lblMailSubject}"/>
                 <h:message for="txtMailSubject" id="msgMailSubject" styleClass="errorMessage"/>
                 <h:inputText id="txtMailSubject"
-                             value="#{adminTask.mailTemplate.subject}"
                              value="#{certMailTemplate.mailTemplate.subject}"
                              styleClass="inputwide"
                              required="true"
-                             disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                              disabled="#{certMailTemplate.mailTemplate == null}">
                     <f:ajax execute="change" render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
@@ -89,12 +70,9 @@
                 <h:outputLabel for="txtMailBody" value="#{msg.lblMailBody}"/>
                 <h:message for="txtMailBody" id="msgMailBody" styleClass="errorMessage"/>
                 <h:inputTextarea id="txtMailBody"
-                                 value="#{adminTask.mailTemplate.body}"
                                  value="#{certMailTemplate.mailTemplate.body}"
                                  styleClass="areaHuge"
                                  required="true"
-                                 disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax execute="change" render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                                  disabled="#{certMailTemplate.mailTemplate == null}">
                     <f:ajax execute="change" render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputTextarea>
@@ -102,13 +80,10 @@
 
 
             <div class="toolBar">
-                <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{adminTask.deleteMailTemplate}" immediate="true">
                 <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{certMailTemplate.deleteMailTemplate}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>
                 <h:commandLink styleClass="button" value="#{msg.btnSave}"
-                               id="btnMailTemplateSave" action="#{adminTask.saveMailTemplate}"
-                               immediate="false" disabled="#{adminTask.mailTemplate == null || !adminTask.templateChanged}"/>
                                id="btnMailTemplateSave" action="#{certMailTemplate.saveMailTemplate}"
                                immediate="false" disabled="#{certMailTemplate.mailTemplate == null || !certMailTemplate.templateChanged}"/>
             </div>
