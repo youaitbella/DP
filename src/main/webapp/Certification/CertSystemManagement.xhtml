@@ -91,7 +91,8 @@
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="testFile" value="#{certManager.file}" title="#{msg.btnUploadTest}"
-                                 p:contentType="application/binary" p:fileNamePattern="Testdaten.*\.zip" p:maxFileSize="1000000000">
+                                 p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
+                                 p:fileNamePattern="Testdaten.*\.zip" p:maxFileSize="1000000000">
                         <f:ajax listener="#{certManager.uploadTestData(systemId)}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
@@ -103,7 +104,8 @@
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="certFile" value="#{certManager.file}" title="#{msg.btnUploadCert}"
-                                 p:contentType="application/binary" p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
+                                 p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
+                                 p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
                         <f:ajax listener="#{certManager.uploadCertData(systemId)}"
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>

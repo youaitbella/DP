@@ -24,6 +24,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.GrouperAction;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.enums.CertStatus;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.certification.GrouperActionFacade;
 import org.inek.dataportal.facades.certification.GrouperFacade;
@@ -266,6 +267,23 @@ public class CertCertification {
         if (id.equals("form:btnConfirmFile")) {
             setUploadTime();
             _mailer.sendMail("edv.zert@inek-drg.de", "Upload Ergebnis", _sessionController.getAccount().getCompany());
+            switch (_grouper.getCertStatus().getStatus()) {
+                case 1:
+                    _grouper.setCertStatus(CertStatus.TestUpload1);
+                    break;
+                case 11:
+                    _grouper.setCertStatus(CertStatus.TestUpload2);
+                    break;
+                case 13:
+                    _grouper.setCertStatus(CertStatus.TestUpload3);
+                    break;
+                case 20:
+                    _grouper.setCertStatus(CertStatus.CertUpload1);
+                    break;
+                case 31:
+                    _grouper.setCertStatus(CertStatus.CertUpload2);
+                    break;
+            }
         }
         save();
     }

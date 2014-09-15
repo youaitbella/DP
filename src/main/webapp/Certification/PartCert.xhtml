@@ -5,9 +5,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition>
         <h2>
-            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.CertSummary)}" value="#{msg.lblCert}" immediate="true"/>
+            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.CertCertification)}" value="#{msg.lblCert}" immediate="true"/>
         </h2>
-        <ui:include src="#{sessionTools.pages.ListCert}"/>
+        <!--ui:include src="# {sessionTools.pages.ListCert}"/-->
     </ui:composition>
 </html>
 

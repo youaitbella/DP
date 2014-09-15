@@ -19,23 +19,31 @@
                 <f:ajax render="@form :logout:remaining" />
             </h:selectOneMenu>
 
-            <div id="systemData" jsf:rendered="#{certCertification.grouper.id > 0}">
+            <div id="systemData" jsf:rendered="#{certCertification.grouper.id ge 0}">
 
                 <h2>#{msg.lblDownload}</h2>
+
                 <div class="inputPart">
                     <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true"
                                    action="#{certCertification.downloadSpec}"/>
                     <h:outputLabel value="#{editCert.getSpecFileName(certCertification.systemId, false)}"/>
                 </div>
+
                 <div class="inputPart">
                     <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"
                                    action="#{certCertification.downloadTest}"/>
                     <h:outputLabel value="#{editCert.getTestFileName(certCertification.systemId, false)}"/>
                 </div>
 
+                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status ge 20}">
+                    <h:commandLink styleClass="button" value="#{msg.btnDownloadCert}"  immediate="true"
+                                   action="#{certCertification.downloadCert}"/>
+                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.systemId, false)}"/>
+                </div>
+
                 <h2>#{msg.lblUpload}</h2>
 
-                <div class="inputPart">
+                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status eq 1 or certCertification.grouper.certStatus.status eq 11 or certCertification.grouper.certStatus.status eq 13 or certCertification.grouper.certStatus.status eq 20 or certCertification.grouper.certStatus.status eq 31}">
                     <h:inputFile styleClass="hide" id="testResult" value="#{certCertification.file}" title="#{msg.btnUploadTestResult}"
                                  p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
                                  p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">

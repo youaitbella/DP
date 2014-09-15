@@ -63,19 +63,32 @@ public class Mailer {
         return sendMailFrom(from, recipient, "", bcc, subject, body);
     }
 
+    /**
+     *
+     * @param from
+     * @param recipient one or more addresses, separated by semicolon
+     * @param cc none, one or more addresses, separated by semicolon
+     * @param bcc none, one or more addresses, separated by semicolon
+     * @param subject
+     * @param body
+     * @param files
+     * @return
+     */
     public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body, String... files) {
         if (recipient.toLowerCase().endsWith(".test")) {
             // this is just to mock a successful mail
             return true;
         }
-        //String from = "do-not-reply@inek-drg.de";
-        Properties properties = System.getProperties();
-        properties.put("mail.smtp.host", "vMailSvr01.d1inek.local");
-        properties.put("mail.smtp.connectiontimeout", 1000);
-        properties.put("mail.smtp.ssl.trust", "*");
-        Session session = Session.getDefaultInstance(properties);
-        MimeMessage message = new MimeMessage(session);
         try {
+            if (recipient.isEmpty()) {
+                throw new MessagingException("missing rereipient");
+            }
+            Properties properties = System.getProperties();
+            properties.put("mail.smtp.host", "vMailSvr01.d1inek.local");
+            properties.put("mail.smtp.connectiontimeout", 1000);
+            properties.put("mail.smtp.ssl.trust", "*");
+            Session session = Session.getDefaultInstance(properties);
+            MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             addReceipients(message, recipient, Message.RecipientType.TO);
             addReceipients(message, cc, Message.RecipientType.CC);
