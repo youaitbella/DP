@@ -98,6 +98,7 @@ public enum Pages {
     CertMail("/Certification/CertMail"),
     CertMailTemplate("/Certification/CertMailTemplate"),
     CertCertification("/Certification/CertCertification"),
+    CertGrouperResults("/Certification/CertGrouperResults"),
     //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),

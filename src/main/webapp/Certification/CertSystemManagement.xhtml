@@ -119,7 +119,7 @@
                 <h2>#{msg.lblAssignedManufactorers}</h2>
 
                 <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
-                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, colValue">
+                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, colValue, colValue">
                     <h:column id="colDeleteId" >
                         <f:facet name="header">
                             <h:outputText value=""/>
@@ -155,6 +155,15 @@
                         <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
                                        styleClass="button" value="#{msg.btnSetDate}">
                             <f:ajax render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
+                        </h:commandLink>
+                    </h:column>
+                    
+                    <h:column id="colResults">
+                        <f:facet name="header">
+                            <h:outputText value="Ergebnisse"/>
+                        </f:facet>
+                        <h:commandLink styleClass="button" value="Ergebnis" action="#{certGrouperResults.showResults(grouper)}">
+                            <f:ajax render="@form :logout:remaining"/>
                         </h:commandLink>
                     </h:column>
                 </h:dataTable>
