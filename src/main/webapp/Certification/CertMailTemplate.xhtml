@@ -31,7 +31,15 @@
                     <f:ajax render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
-
+            
+            <div class="inputPart">
+                <h:outputLabel for="mnuEmailType" value="Email-Typ"/>
+                <h:selectOneMenu id="mnuEmailType" styleClass="inputwide" value="#{certMailTemplate.emailType}" immediate="true" disabled="#{certMailTemplate.templateChanged}">
+                    <f:selectItems value="#{certMailTemplate.emailTypes}"/>
+                    <f:ajax render="@form :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
+                </h:selectOneMenu>
+            </div>
+            
             <div class="inputPart">
                 <h:outputLabel for="txtBcc" value="#{msg.lblBcc}"/>
                 <h:message for="txtBcc" id="msgBcc" styleClass="errorMessage"/>

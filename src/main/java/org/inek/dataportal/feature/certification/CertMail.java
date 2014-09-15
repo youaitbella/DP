@@ -417,6 +417,7 @@ public class CertMail implements Serializable {
             log.setSystemId(_systemFacade.findRemunerationSystemByName(version).getId());
         }
         log.setTemplateId(mt.getId());
+        log.setType(mt.getType());
         log.setReceiverAccountId(_accFacade.findByMailOrUser(emailAddress).getAccountId());
         log.setSenderAccountId(_sessionController.getAccountId());
         _emailLogFacade.persist(log);

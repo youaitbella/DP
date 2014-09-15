@@ -1,7 +1,6 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -9,6 +8,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
@@ -26,6 +26,8 @@ public class CertMailTemplate implements Serializable {
     
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
+    
+    private int _emailType = -1;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     
@@ -35,6 +37,10 @@ public class CertMailTemplate implements Serializable {
         emptyItem.setNoSelectionOption(true);
         l.add(emptyItem);
         return l;
+    }
+    
+    public List<SelectItem> getEmailTypes() {
+        return CertMailType.getSelectItems();
     }
 
     private MailTemplate _mailTemplate = new MailTemplate();
@@ -59,6 +65,7 @@ public class CertMailTemplate implements Serializable {
                 _mailTemplate = new MailTemplate();
             } else {
                 _mailTemplate = _mailTemplateFacade.find(templateId);
+                _emailType = _mailTemplate.getType();
             }
             setTemplateChanged(false);
         }
@@ -73,11 +80,18 @@ public class CertMailTemplate implements Serializable {
     public void setTemplateChanged(boolean isChanged) {
         _templateChanged = isChanged;
     }
+    
+    public String getEmailType() {
+        return CertMailType.getTypeFromId(_emailType);
+    }
+
+    public void setEmailType(String emailType) {
+        _emailType = CertMailType.getTypeFromLabel(emailType);
+    }
 
     // </editor-fold>
     public String newMailTemplate() {
         _mailTemplate = new MailTemplate();
-        _mailTemplate.setFeature(Feature.CERT);
         return "";
     }
 
@@ -91,6 +105,8 @@ public class CertMailTemplate implements Serializable {
     }
 
     public String saveMailTemplate() {
+        _mailTemplate.setFeature(Feature.CERT);
+        _mailTemplate.setType(_emailType);
         _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
         setTemplateChanged(false);
         return "";

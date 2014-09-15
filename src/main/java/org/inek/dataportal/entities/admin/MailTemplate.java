@@ -64,7 +64,7 @@ public class MailTemplate implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property BCC">
     @Column (name = "mtBcc")
-    private String _bcc = "Mailversand@inek-drg.de";
+    private String _bcc = "";
     
     @Size(max = 100)
     public String getBcc() {
@@ -101,6 +101,19 @@ public class MailTemplate implements Serializable {
 
     public void setBody(String body) {
         _body = body;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Type">
+    @Column(name = "mtMailTypeId")
+    private int _type = 0;
+
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int _type) {
+        this._type = _type;
     }
     // </editor-fold>
     
