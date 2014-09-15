@@ -5,19 +5,26 @@
 //../Licenses/license-default.txt
 package org.inek.dataportal.mail;
 
+import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.Account;
@@ -56,7 +63,7 @@ public class Mailer {
         return sendMailFrom(from, recipient, "", bcc, subject, body);
     }
 
-    public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body) {
+    public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body, String... files) {
         if (recipient.toLowerCase().endsWith(".test")) {
             // this is just to mock a successful mail
             return true;
@@ -74,13 +81,29 @@ public class Mailer {
             addReceipients(message, cc, Message.RecipientType.CC);
             addReceipients(message, bcc, Message.RecipientType.BCC);
             message.setSubject(subject);
-            message.setText(body);
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(body);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            for (String file : files) {
+                addAttachment(multipart, file);
+            }
+            message.setContent(multipart);
             Transport.send(message);
             return true;
         } catch (MessagingException ex) {
             _logger.log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    private static void addAttachment(Multipart multipart, String filename) throws MessagingException {
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(filename);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        File file = new File(filename);
+        messageBodyPart.setFileName(file.getName());
+        multipart.addBodyPart(messageBodyPart);
     }
 
     private void addReceipients(MimeMessage message, String recipients, Message.RecipientType rType) throws MessagingException {

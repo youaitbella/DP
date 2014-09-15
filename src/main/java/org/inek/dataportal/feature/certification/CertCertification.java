@@ -32,6 +32,7 @@ import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -259,10 +260,12 @@ public class CertCertification {
         }
     }
 
+    @Inject Mailer _mailer;
     public void saveOther(ActionEvent event) {
         String id = event.getComponent().getClientId();
         if (id.equals("form:btnConfirmFile")) {
             setUploadTime();
+            _mailer.sendMail("edv.zert@inek-drg.de", "Upload Ergebnis", _sessionController.getAccount().getCompany());
         }
         save();
     }

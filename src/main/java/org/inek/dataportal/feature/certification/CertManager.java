@@ -19,6 +19,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.enums.CertStatus;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -208,6 +209,7 @@ public class CertManager {
 
     public void passwordRequest(Grouper grouper) {
         grouper.setPasswordRequest(Calendar.getInstance().getTime());
+        grouper.setCertStatus(CertStatus.PasswordRequested);
         setSystemChanged(true);
     }
 
