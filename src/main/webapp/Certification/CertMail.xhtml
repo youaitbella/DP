@@ -118,6 +118,17 @@
             
             <br />
             
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    Anhang:
+                </h:outputLabel>
+                <h:inputText id="txtAttachment" value="#{certMail.attachement}" styleClass="inputlong">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText> 
+            </div>
+            
+            <br />
+            
             <div class="inputPart" style="text-align: center; width:99%;">
                 <h:message for="btnPreview" styleClass="errorMessage" style="border: red solid thin; padding: 3px"/>
             </div>
@@ -152,8 +163,14 @@
                     <h:outputLabel styleClass="label15" value="Inhalt:" />
                     <h:inputTextarea styleClass="areaHuge" id="previewBody" value="#{certMail.previewBody}" readonly="true"/>
                 </div>
+                
+                <h:panelGroup rendered="#{certMail.renderAttachementText()}" style="float: left;">
+                    <h:outputLabel id="lblAttachement" style="color: darkgreen; font-weight: bolder; font-size: 10pt;">
+                        #{certMail.attachement}
+                    </h:outputLabel>
+                </h:panelGroup>
             </h:form>
-            <br />
+            <br style="clear: both;"/>
             
             <h:dataTable rendered="#{certMail.renderEmailSentSuccessTable()}" value="#{certMail.emailSentSuccess}" headerClass="list-header" id="tblEmailSentSuccess"
                          var="ess" width="100%" rowClasses="row1, row2" columnClasses="colValue, colValue, colValue">

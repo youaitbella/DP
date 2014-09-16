@@ -49,6 +49,7 @@ public class CertMail implements Serializable {
     private String _selectedEmailAddressPreview = "";
     private String _previewSubject = "";
     private String _previewBody = "";
+    private String _attachement = "";
     private UIComponent _previewButton;
     private Triple<String, String, String> _emailSentInformation = new Triple<>();
     private List<Triple> _emailSentInfoDataTable = new ArrayList<>();
@@ -268,6 +269,10 @@ public class CertMail implements Serializable {
     public boolean renderEmailSentSuccessTable() {
         return _emailSentInfoDataTable.size() > 0;
     }
+    
+    public boolean renderAttachementText() {
+        return !_attachement.isEmpty();
+    }
 
     public String deleteReceiverFromTemplate(int erId, int accId) {
         EmailReceiver er = _emailReceiverFacade.find(erId);
@@ -361,7 +366,9 @@ public class CertMail implements Serializable {
         }
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
         _previewSubject = mt.getSubject().replace("{version}", version).replace("{company}", company);
-        _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation).replace("{company}", company);
+        _previewBody = mt.getBody().replace("{version}", version).replace("{salutation}", salutation)
+                .replace("{company}", company)
+                .replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
     }
 
     private String getReceipient(String adressInfo) {
@@ -399,9 +406,11 @@ public class CertMail implements Serializable {
             String salutation = buildEmailSalutation(emailAddress);
             String company = _accFacade.findByMailOrUser(emailAddress).getCompany();
             String subject = mt.getSubject().replace("{version}", version).replace("{company}", company);
-            String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation).replace("{company}", company);
+            String body = mt.getBody().replace("{version}", version).replace("{salutation}", salutation)
+                    .replace("{company}", company)
+                    .replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
             try {
-                _mailer.sendMailFrom(SenderEmailAddress, emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body);
+                _mailer.sendMailFrom(SenderEmailAddress, emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement);
                 createEmailLogEntry(version, mt, emailAddress);
                 _emailSentInfoDataTable.add(new Triple(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
             } catch (Exception ex) {
@@ -514,6 +523,14 @@ public class CertMail implements Serializable {
 
     public List<Triple> getEmailSentSuccess() {
         return _emailSentInfoDataTable;
+    }
+    
+    public String getAttachement() {
+        return _attachement;
+    }
+
+    public void setAttachement(String _attachement) {
+        this._attachement = _attachement;
     }
     //</editor-fold>
 

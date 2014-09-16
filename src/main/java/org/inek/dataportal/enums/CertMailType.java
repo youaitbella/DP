@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.enums;
 
 import java.util.ArrayList;
@@ -16,8 +11,10 @@ import javax.faces.model.SelectItem;
 public enum CertMailType {
     Opening(1, "Eröffnungs-Email"),
     Information(2, "Informations-Email"),
-    Error(3, "Fehleranzahl-Email"),
-    Pass(4,"Zertifiziert-Email");
+    ErrorTest(3, "Fehler-Testphase"),
+    PassedTest(4,"Testphase-Bestanden"),
+    ErrorCert(5,"Fehler-Zertifizierungphase"),
+    Certified(6,"Zertifiziert-Email");
     
 
     private CertMailType(int id, String label) {

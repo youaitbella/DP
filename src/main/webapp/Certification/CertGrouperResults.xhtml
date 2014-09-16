@@ -9,15 +9,25 @@
                 >
 
     <ui:define name="editContent">
-        <h2>
+        <h1>
             #{certGrouperResults.systemName} - #{certGrouperResults.companyName}
-        </h2>
+        </h1><br/>
         
-        <h:panelGroup rendered="#{certGrouperResults.certified}" style="text-align: center; border: red solid 2px; padding: 5px;">
-            <span style="color: red;">
-                Dieser Grouper ist zertifiziert!
-            </span>
+        <h:panelGroup rendered="#{certGrouperResults.hasNotDeliveredData()}" style="width: 100%; text-align: center;">
+            <div style="border: red solid 3px; padding: 5px; font-weight: bold;">
+                Dieser Hersteller hat noch keine Daten für das ausgewählte System übermittelt.
+            </div>
         </h:panelGroup>
+        
+        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData()}">
+            <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
+                #{certGrouperResults.certState}
+            </span>
+            <br/>
+            <h2>Grouper-Emails</h2>
+            
+        </h:panelGroup>
+        
         
     </ui:define>
 
