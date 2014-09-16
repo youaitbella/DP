@@ -268,7 +268,13 @@ public class CertCertification {
         String id = event.getComponent().getClientId();
         if (id.equals("form:btnConfirmFile")) {
             setPersistUploadFile();
-            _mailer.sendMail("edv.zert@inek-drg.de", "Upload Ergebnis", _sessionController.getAccount().getCompany());
+            String msg = "Account: " + _sessionController.getAccountId() + "\\r\\n";
+            msg += _sessionController.getAccount().getCompany() + "\\r\\n";
+            RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
+            if (system != null) {
+                msg += system.getDisplayName();
+            }
+            _mailer.sendMail("edv.zert@inek-drg.de", "Upload Ergebnis", msg);
         }
         save();
     }
