@@ -93,6 +93,7 @@ public class CertCertification {
                 _grouper = new Grouper();
             } else {
                 _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
+                _file = null;
                 cleanupUploadFiles();
             }
             setGrouperChanged(false);
@@ -174,29 +175,26 @@ public class CertCertification {
         return "";
     }
 
-    public String getNextUpload() {
-        if (_grouper.getId() < 0) {
-            return "";
+    public String getExpectedFileName() {
+        switch (_grouper.getCertStatus()) {
+            case PasswordRequested:
+            case TestUpload1:
+                return "TestDaten v1";
+            case TestFailed1:
+            case TestUpload2:
+                return "TestDaten v2";
+            case TestFailed2:
+            case TestUpload3:
+                return "TestDaten v3";
+            case TestSucceed:
+            case CertUpload1:
+                return "ZertDaten v1";
+            case CertFailed1:
+            case CertUpload2:
+                return "ZertDaten v2";
+            default:
+                return "";
         }
-        if (_grouper.getTestUpload1() == null) {
-            return "TestDaten v1";
-        }
-        if (_grouper.getTestUpload2() == null && _grouper.getTestError1() > 0) {
-            return "TestDaten v2";
-        }
-        if (_grouper.getTestUpload3() == null && _grouper.getTestError2() > 0) {
-            return "TestDaten v3";
-        }
-        if (_grouper.getTestUpload3() != null && _grouper.getTestError3() > 0) {
-            return "";
-        }
-        if (_grouper.getCertUpload1() == null && (_grouper.getTestError1() == 0 || _grouper.getTestError2() == 0 || _grouper.getTestError2() == 0)) {
-            return "ZertDaten v1";
-        }
-        if (_grouper.getCertUpload2() == null && _grouper.getCertError1() > 0) {
-            return "ZertDaten v2";
-        }
-        return "";
     }
 
     public String getResultFileName() {
@@ -205,9 +203,13 @@ public class CertCertification {
             return "";
         }
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        String fileNamePattern = getNextUpload() + ".zip(\\.upload)?";
+        String fileNamePattern = getExpectedFileName() + ".zip(\\.upload)?";
         File file = editCert.getLastFile(uploadFolder.get(), fileNamePattern);
-        return file.getName().replace(".upload", " [ungespeichert]");
+        String prefix = "";
+        if (_file != null && !_file.getSubmittedFileName().isEmpty()) {
+            prefix = _file.getSubmittedFileName() + " geladen als ";
+        }
+        return prefix + file.getName().replace(".upload", " [ungespeichert]");
     }
 
     public void uploadTestResult() {
@@ -216,7 +218,7 @@ public class CertCertification {
         if (!uploadFolder.isPresent()) {
             return;
         }
-        String prefix = getNextUpload();
+        String prefix = getExpectedFileName();
         String outFile = prefix + ".zip.upload";
         editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
         logAction("Upload " + _file.getSubmittedFileName() + " -> " + outFile);
@@ -265,57 +267,49 @@ public class CertCertification {
     public void saveOther(ActionEvent event) {
         String id = event.getComponent().getClientId();
         if (id.equals("form:btnConfirmFile")) {
-            setUploadTime();
+            setPersistUploadFile();
             _mailer.sendMail("edv.zert@inek-drg.de", "Upload Ergebnis", _sessionController.getAccount().getCompany());
-            switch (_grouper.getCertStatus().getStatus()) {
-                case 1:
-                    _grouper.setCertStatus(CertStatus.TestUpload1);
-                    break;
-                case 11:
-                    _grouper.setCertStatus(CertStatus.TestUpload2);
-                    break;
-                case 13:
-                    _grouper.setCertStatus(CertStatus.TestUpload3);
-                    break;
-                case 20:
-                    _grouper.setCertStatus(CertStatus.CertUpload1);
-                    break;
-                case 31:
-                    _grouper.setCertStatus(CertStatus.CertUpload2);
-                    break;
-            }
         }
         save();
     }
 
-    private void setUploadTime() {
+    private void setPersistUploadFile() {
         Optional<File> uploadFolder = getUploadFolder();
         if (!uploadFolder.isPresent()) {
             return;
         }
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        String targetName = getNextUpload() + ".zip";
-        String fileName = targetName + ".upload";
+        String fileName = getExpectedFileName() + ".zip.upload";
         File file = editCert.getLastFile(uploadFolder.get(), fileName);
         if (!file.getName().equals(fileName)) {
             return;
         }
         if (fileName.startsWith("TestDaten v1")) {
             _grouper.setTestUpload1(new Date());
+            _grouper.setCertStatus(CertStatus.TestUpload1);
         }
         if (fileName.startsWith("TestDaten v2")) {
             _grouper.setTestUpload2(new Date());
+            _grouper.setCertStatus(CertStatus.TestUpload2);
         }
         if (fileName.startsWith("TestDaten v3")) {
             _grouper.setTestUpload3(new Date());
+            _grouper.setCertStatus(CertStatus.TestUpload3);
         }
         if (fileName.startsWith("ZertDaten v1")) {
             _grouper.setCertUpload1(new Date());
+            _grouper.setCertStatus(CertStatus.CertUpload1);
         }
         if (fileName.startsWith("ZertDaten v2")) {
             _grouper.setCertUpload2(new Date());
+            _grouper.setCertStatus(CertStatus.CertUpload2);
         }
-        persistFiles(uploadFolder.get());
+        File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
+        if (target.exists()) {
+            target.delete();
+        }
+        _file = null;
+        file.renameTo(target);
     }
 
     public void save() {
@@ -338,19 +332,6 @@ public class CertCertification {
         }
         for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
             file.delete();
-        }
-    }
-
-    private void persistFiles(File dir) {
-        if (!dir.exists()) {
-            return;
-        }
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().endsWith(".upload"))) {
-            File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
-            if (target.exists()) {
-                target.delete();
-            }
-            file.renameTo(target);
         }
     }
 

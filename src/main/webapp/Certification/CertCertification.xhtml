@@ -43,7 +43,7 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status eq 1 or certCertification.grouper.certStatus.status eq 11 or certCertification.grouper.certStatus.status eq 13 or certCertification.grouper.certStatus.status eq 20 or certCertification.grouper.certStatus.status eq 31}">
+                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
                     <h:inputFile styleClass="hide" id="testResult" value="#{certCertification.file}" title="#{msg.btnUploadTestResult}"
                                  p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
                                  p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
@@ -51,9 +51,14 @@
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUpload} #{certCertification.nextUpload}" onclick="clickElementById('form:testResult');"/>
+                    <h:outputLabel styleClass="button" value="#{msg.btnUpload} #{certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
+                </div>
+
+                <div class="inputPart">
                     <h:outputLabel value="#{certCertification.resultFileName}"/>
+                    <h:outputLabel rendered="#{certCertification.grouper.certStatus eq 'TestUpload1' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'CertUpload1' or certCertification.grouper.certStatus eq 'CertUpload2'}"
+                                   value=" #{msg.lblUnderTest}"/>
                 </div>
 
                 <div class="inputPart" jsf:rendered="#{certCertification.resultFileName.endsWith('[ungespeichert]')}">
