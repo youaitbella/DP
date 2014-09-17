@@ -111,6 +111,9 @@ public class Mailer {
     }
 
     private static void addAttachment(Multipart multipart, String filename) throws MessagingException {
+        if (filename.isEmpty()) {
+            return;
+        }
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));

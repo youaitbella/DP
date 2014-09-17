@@ -268,8 +268,8 @@ public class CertCertification {
         String id = event.getComponent().getClientId();
         if (id.equals("form:btnConfirmFile")) {
             setPersistUploadFile();
-            String msg = "Account: " + _sessionController.getAccountId() + "\\r\\n";
-            msg += _sessionController.getAccount().getCompany() + "\\r\\n";
+            String msg = "Account: " + _sessionController.getAccountId() + "\r\n";
+            msg += _sessionController.getAccount().getCompany() + "\r\n";
             RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
             if (system != null) {
                 msg += system.getDisplayName();
