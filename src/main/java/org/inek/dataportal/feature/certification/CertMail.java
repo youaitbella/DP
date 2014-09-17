@@ -410,7 +410,8 @@ public class CertMail implements Serializable {
                     .replace("{company}", company)
                     .replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
             try {
-                _mailer.sendMailFrom(SenderEmailAddress, emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement);
+                if(!_mailer.sendMailFrom(SenderEmailAddress, emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement))
+                    throw new Exception("Fehler bei Mailversand!");
                 createEmailLogEntry(version, mt, emailAddress);
                 _emailSentInfoDataTable.add(new Triple(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
             } catch (Exception ex) {

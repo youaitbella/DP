@@ -26,6 +26,14 @@
             <br/>
             <h2>Grouper-Emails</h2>
             
+            <div class="inputPart">
+                <h:outputLabel styleClass="label20" id="lblEmailTemplate" for="slctEmailTemplate" value="Email-Template:" /> 
+                <h:selectOneMenu id="slctEmailTemplate" value="" styleClass="inputmedium">
+                    <f:selectItems value="#{certGrouperResults.templates}"/>
+                    <f:ajax event="change" render="@form :logout:remaining" />
+                </h:selectOneMenu>
+            </div>
+            
         </h:panelGroup>
         
         
