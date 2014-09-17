@@ -11,7 +11,50 @@
                 >
 
     <ui:define name="editContent">
+        <h:outputStylesheet name="fileuploader.css" library="css"/>
+        <h:outputScript name="fileuploader.js" library="script"/>
+        <!--script>
+            var fileCounter = 0;
+            function createUploader(act, loc) {
+                var uploader = new qq.FileUploader({
+                    element: document.getElementById('file-uploader'),
+                    action: '/DataPortal/upload/grouper',
+                    debug: true,
+                    allowedExtensions: ['zip'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                    onSubmit: function (id, fileName) {
+                        fileCounter++;
+                    },
+                    onCancel: function (id, fileName) {
+                        fileCounter-#-;
+                        if (fileCounter == 0) {
+                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
+                        }
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        fileCounter-#-;
+                        if (fileCounter == 0) {
+                            // To display the uploaded file, we need to refresh the page.
+                            // Window location would force a non-JSF navigation, ignoring our existing conversation
+                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
+                            // Thus, let JS click an element to get a JSF refresh
+                            document.getElementById('form:refresh').click();
+                        }
+                    },
+                    template: '<div class="qq-uploader">' +
+                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                            '<div class="qq-upload-button"># {msg.btnUpload} #{certCertification.expectedFileName}</div>' +
+                            '<ul class="qq-upload-list"></ul>' +
+                            '</div>'
+                });
+            }
+            window.onload = createUploader;
+        </script-->
         <h:form id="form" enctype="multipart/form-data">
+            <!--div id="file-uploader">
+                <noscript>
+                    <p>Please enable JavaScript to use file uploader.</p>
+                </noscript>
+            </div-->
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}" immediate="true" disabled="#{certCertification.grouperChanged}">
