@@ -19,7 +19,7 @@
             </div>
         </h:panelGroup>
         
-        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData()}">
+        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()}">
             <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
                 #{certGrouperResults.certState}
             </span>
@@ -33,6 +33,13 @@
                     <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
             </div>
+            
+            <br/>
+            
+            <h:panelGroup styleClass="inputPart" rendered="#{certGrouperResults.containsErrorInLatestUpload()}">
+                <h:outputLabel styleClass="label20" id="lblErrors" for="txtErrors" value="Anzahl-Fehler:" />
+                <h:inputText readonly="true" styleClass="inputshort" id="txtErrors" value="#{certGrouperResults.numberOfErrors}" />
+            </h:panelGroup>
             
         </h:panelGroup>
         

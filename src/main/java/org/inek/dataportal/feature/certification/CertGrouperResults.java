@@ -126,7 +126,31 @@ public class CertGrouperResults {
         return "Zertifizierungsstatus: " + _grouper.getCertStatus().getLabel();
     }
     
-    public boolean renderErrorField() {
+    public boolean containsErrorInLatestUpload() {
         return getNumberOfErrors() > 0;
+    }
+    
+    public boolean hasReceivedEmailToCurrentState() {
+        CertMailType mailType = null; 
+        switch(_grouper.getCertStatus()) {
+            case CertFailed1:
+            case CertFailed2:
+                mailType = CertMailType.ErrorCert;
+                break;
+            case TestFailed1:
+            case TestFailed2:
+            case TestFailed3:
+                mailType = CertMailType.ErrorTest;
+                break;
+            case TestSucceed:
+                mailType = CertMailType.PassedTest;
+                break;
+            case CertSucceed:
+                mailType = CertMailType.Certified;
+                break;
+        }
+        if(mailType == null)
+            return false;
+        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getId(), mailType.getId()).size() > 0;
     }
 }
