@@ -19,13 +19,24 @@
             </div>
         </h:panelGroup>
         
+        <h:panelGroup rendered="#{certGrouperResults.hasReceivedEmailToCurrentState()}" style="width: 100%">
+            <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
+                #{certGrouperResults.certState}
+            </span>
+            <br/>
+            <h2>Grouper-Emails</h2>
+            <br />
+            <div style="border: red solid 3px; padding: 5px; font-weight: bold; text-align: center;">
+                Der Hersteller hat bereits eine Email zu dem momentanen Status erhalten.
+            </div>
+        </h:panelGroup>
+        
         <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()}">
             <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
                 #{certGrouperResults.certState}
             </span>
             <br/>
             <h2>Grouper-Emails</h2>
-            
             <div class="inputPart">
                 <h:outputLabel styleClass="label20" id="lblEmailTemplate" for="slctEmailTemplate" value="Email-Template:" /> 
                 <h:selectOneMenu id="slctEmailTemplate" value="" styleClass="inputmedium">

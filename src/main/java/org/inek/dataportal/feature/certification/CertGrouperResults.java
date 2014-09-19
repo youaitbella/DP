@@ -151,6 +151,6 @@ public class CertGrouperResults {
         }
         if(mailType == null)
             return false;
-        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getId(), mailType.getId()).size() > 0;
+        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), mailType.getId()).size() > 0;
     }
 }
