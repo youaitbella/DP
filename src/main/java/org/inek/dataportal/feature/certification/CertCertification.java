@@ -269,12 +269,12 @@ public class CertCertification {
         if (id.equals("form:btnConfirmFile")) {
             setPersistUploadFile();
             String msg = "Account: " + _sessionController.getAccountId() + "\r\n";
-            msg += _sessionController.getAccount().getCompany() + "\r\n";
+            msg += _sessionController.getAccount().getCompany() + "\r\n\r\n";
             RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
             if (system != null) {
                 msg += system.getDisplayName();
             }
-            _mailer.sendMail("edv.zert@inek-drg.de", "Upload Ergebnis", msg);
+            _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis", msg);
         }
         save();
     }

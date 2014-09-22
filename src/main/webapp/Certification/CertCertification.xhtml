@@ -13,48 +13,7 @@
     <ui:define name="editContent">
         <h:outputStylesheet name="fileuploader.css" library="css"/>
         <h:outputScript name="fileuploader.js" library="script"/>
-        <!--script>
-            var fileCounter = 0;
-            function createUploader(act, loc) {
-                var uploader = new qq.FileUploader({
-                    element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/grouper',
-                    debug: true,
-                    allowedExtensions: ['zip'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                    onSubmit: function (id, fileName) {
-                        fileCounter++;
-                    },
-                    onCancel: function (id, fileName) {
-                        fileCounter-#-;
-                        if (fileCounter == 0) {
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                        }
-                    },
-                    onComplete: function (id, fileName, responseJSON) {
-                        fileCounter-#-;
-                        if (fileCounter == 0) {
-                            // To display the uploaded file, we need to refresh the page.
-                            // Window location would force a non-JSF navigation, ignoring our existing conversation
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                            // Thus, let JS click an element to get a JSF refresh
-                            document.getElementById('form:refresh').click();
-                        }
-                    },
-                    template: '<div class="qq-uploader">' +
-                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                            '<div class="qq-upload-button"># {msg.btnUpload} #{certCertification.expectedFileName}</div>' +
-                            '<ul class="qq-upload-list"></ul>' +
-                            '</div>'
-                });
-            }
-            window.onload = createUploader;
-        </script-->
         <h:form id="form" enctype="multipart/form-data">
-            <!--div id="file-uploader">
-                <noscript>
-                    <p>Please enable JavaScript to use file uploader.</p>
-                </noscript>
-            </div-->
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}" immediate="true" disabled="#{certCertification.grouperChanged}">
@@ -97,6 +56,23 @@
                     <h:outputLabel styleClass="button" value="#{msg.btnUpload} #{certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
                 </div>
+
+                <!-- ### Test ############################################################################################-->
+                <h:inputFile styleClass="hide" id="uploadFile" value="#{cc.attrs.uploadFile}" title="#{msg.btnUploadCert}"
+                             p:contentType="#{cc.attrs.contentType}" p:fileNamePattern="#{cc.attrs.fileNamePattern}">
+                    <!--onchange="uploadFile('# {cc.clientId}:uploadForm:uploadFile');"-->
+                    <f:param name="systemId" value="#{cc.attrs.uploadParam}"/>
+                    <f:ajax listener="#{certificationUpload.uploadCertificationData(cc.attrs.uploadParam)}" render="@form msgUploadFile :logout:remaining">
+                    </f:ajax>
+                    <f:validator validatorId="FileUploadValidator"/>
+                </h:inputFile>
+                <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}"
+                               onclick="getElementById('#{cc.clientId}:uploadForm:uploadFile').click();"/>
+                <progress id="progressBar" style="display: none;" value="0" max="100"></progress>
+                <h:message id="msgUploadFile" for="uploadFile" styleClass="errorMessage"/>
+                <!-- ### Test ############################################################################################-->
+
+
 
                 <div class="inputPart">
                     <h:outputLabel value="#{certCertification.resultFileName}"/>
