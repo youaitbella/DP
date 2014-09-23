@@ -39,19 +39,45 @@
             <h2>Grouper-Emails</h2>
             <div class="inputPart">
                 <h:outputLabel styleClass="label20" id="lblEmailTemplate" for="slctEmailTemplate" value="Email-Template:" /> 
-                <h:selectOneMenu id="slctEmailTemplate" value="" styleClass="inputmedium">
+                <h:selectOneMenu id="slctEmailTemplate" styleClass="inputmedium" value="#{certGrouperResults.selectedTemplate}">
                     <f:selectItems value="#{certGrouperResults.templates}"/>
-                    <f:ajax event="change" render="@form :logout:remaining" />
+                    <f:ajax event="change" render="@form txtBCC :logout:remaining" />
                 </h:selectOneMenu>
             </div>
-            
-            <br/>
             
             <h:panelGroup styleClass="inputPart" rendered="#{certGrouperResults.containsErrorInLatestUpload()}">
                 <h:outputLabel styleClass="label20" id="lblErrors" for="txtErrors" value="Anzahl-Fehler:" />
                 <h:inputText readonly="true" styleClass="inputshort" id="txtErrors" value="#{certGrouperResults.numberOfErrors}" />
             </h:panelGroup>
             
+            <div class="inputPart">
+                <h:outputLabel id="lblReceivers" for="txtReceivers" value="Empfänger:" styleClass="label20"/>
+                <h:inputText id="txtReceivers" readonly="true" styleClass="inputlong" value="#{certGrouperResults.reiceiver}"/>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblCC" for="txtCC" value="CC:" styleClass="label20"/>
+                <h:inputText id="txtCC" readonly="true" styleClass="inputlong" value="#{certGrouperResults.CC}"/>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblBCC" for="txtBCC" value="BCC:" styleClass="label20"/>
+                <h:inputText id="txtBCC" readonly="true" styleClass="inputlong" value="#{certGrouperResults.BCC}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblAttach" for="txtAttach" value="BCC:" styleClass="label20"/>
+                <h:inputText id="txtAttach" readonly="true" styleClass="inputlong" value="#{certGrouperResults.attachement}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblBody" for="txtBody" value="BCC:" styleClass="label20"/>
+                <h:inputTextarea readonly="true" id="txtBody" styleClass="areaHuge" value="" />
+            </div>
         </h:panelGroup>
         
         
