@@ -1,22 +1,31 @@
 package org.inek.dataportal.feature.certification;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.admin.Log_;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.certification.EmailLog;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.CertStatus;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.certification.EmailLogFacade;
+import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -31,6 +40,10 @@ public class CertGrouperResults {
     private int _runs = 0;
     private String _selectedTemplate = "";
     private String _attachement = "";
+    // Certificate Email
+    private String _receiverEmailCertificate = "";
+    private String _templateEmailCertificate = "";
+    // -----------------
     
     @Inject
     private AccountFacade _accFacade;
@@ -43,6 +56,15 @@ public class CertGrouperResults {
     
     @Inject
     private EmailLogFacade _elFacade;
+    
+    @Inject
+    private Mailer _mailer;
+    
+    @Inject
+    private SessionController _sessionController;
+    
+    @Inject
+    private GrouperFacade _grouperFacade;
     
     public String showResults(Grouper grouper) {
         _grouper = grouper;
@@ -64,6 +86,22 @@ public class CertGrouperResults {
     
     public String getEmailReceiver() {
         return _accFacade.find(_grouper.getAccountId()).getEmail();
+    }
+
+    public String getReceiverEmailCertificate() {
+        return _receiverEmailCertificate;
+    }
+
+    public void setReceiverEmailCertificate(String _receiverEmailCertificate) {
+        this._receiverEmailCertificate = _receiverEmailCertificate;
+    }
+
+    public String getTemplateEmailCertificate() {
+        return _templateEmailCertificate;
+    }
+
+    public void setTemplateEmailCertificate(String _templateEmailCertificate) {
+        this._templateEmailCertificate = _templateEmailCertificate;
     }
     
     public boolean hasNotDeliveredData() {
@@ -214,5 +252,104 @@ public class CertGrouperResults {
         if(_selectedTemplate.equals(""))
             return "";
         return _mtFacade.findByName(_selectedTemplate).getBody().replace("{}", ""); //TODO
+    }
+    
+    public boolean isCertified() {
+        return _grouper.getCertStatus() == CertStatus.CertSucceed;
+    }
+     
+    public boolean hasReceivedCertificationEmail() {
+        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).size() > 0;
+    }
+    
+    public List<SelectItem> getInternalCertEmailReceivers() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(""));
+        List<Account> accs = _accFacade.getAccounts4Feature(Feature.CERT);
+        for(Account acc : accs) {
+            if(acc.getEmail().endsWith("@inek-drg.de")) {
+                items.add(new SelectItem(acc.getEmail()));
+            }
+        }
+        return items;
+    }
+    
+    public List<SelectItem> getEmailTemplatesCertificate() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(""));
+        List<MailTemplate> templates = _mtFacade.findTemplatesByFeature(Feature.CERT);
+        for(MailTemplate mt : templates) {
+            if(mt.getType() == CertMailType.Certificate.getId()) {
+                items.add(new SelectItem(mt.getName()));
+            }
+        }
+        return items;
+    }
+    
+    public String getEmailCertificateSubject() {
+        if(_templateEmailCertificate.isEmpty())
+            return "";
+        String subject = _mtFacade.findByName(_templateEmailCertificate).getSubject();
+        subject = subject.replace("{company}", _accFacade.find(_grouper.getAccountId()).getCompany());
+        subject = subject.replace("{system}", _sysFacade.find(_grouper.getSystemId()).getDisplayName());
+        return subject;
+    }
+    
+    public String getEmailCertificateBody() {
+        if(_templateEmailCertificate.isEmpty() || _receiverEmailCertificate.isEmpty())
+            return "";
+        String body = _mtFacade.findByName(_templateEmailCertificate).getBody();
+        body = body.replace("{salutation}", buildEmailSalutation(_receiverEmailCertificate));
+        body = body.replace("{company}", _accFacade.find(_grouper.getAccountId()).getCompany());
+        body = body.replace("{product}", _grouper.getName());
+        body = body.replace("{system}", _sysFacade.find(_grouper.getSystemId()).getDisplayName());
+        body = body.replace("{certdate}", new SimpleDateFormat("dd.MM.yyyy").format(getCertDate()));
+        body = body.replace("{name}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
+        return body;
+    }
+    
+    private String buildEmailSalutation(String receiverEmail) {
+        String receiver = receiverEmail;
+        Account receiverAccount = _accFacade.findByMailOrUser(receiver);
+        String title = receiverAccount.getTitle().equals("") ? "" : " " + receiverAccount.getTitle();
+        boolean isFemale = true;
+        if (receiverAccount.getGender() == Genders.Male.id()) {
+            isFemale = false;
+        }
+        String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + receiverAccount.getLastName() + ",";
+        return salutation;
+    }
+    
+    private Date getCertDate() {
+        if(_grouper.getCertError1() == 0) {
+            return _grouper.getCertCheck1();
+        } else if(_grouper.getCertError2() == 0) {
+            return _grouper.getCertCheck2();
+        }
+        return new Date();
+    }
+    
+    public boolean enableSendCertificateEmailButton() {
+        if(getEmailCertificateSubject().isEmpty() || getEmailCertificateBody().isEmpty())
+            return false;
+        return true;
+    }
+    
+    public String sendCertificateEmail() {
+        EmailLog el = new EmailLog();
+        String bcc = _mtFacade.findByName(_templateEmailCertificate).getBcc();
+        if(_mailer.sendMailFrom(CertMail.SenderEmailAddress, _receiverEmailCertificate, bcc, getEmailCertificateSubject(), getEmailCertificateBody())) {
+           el.setType(CertMailType.Certificate.getId());
+           el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getAccountId());
+           el.setSenderAccountId(_sessionController.getAccountId());
+           el.setSent(new Date());
+           el.setSystemId(_grouper.getSystemId());
+           el.setTemplateId(_mtFacade.findByName(_templateEmailCertificate).getId());
+           _grouper.setCertStatus(CertStatus.CertificationPassed);
+           _grouper.setCertification(new Date());
+           _elFacade.persist(el);
+           _grouperFacade.merge(_grouper);
+        }
+        return "";
     }
 }

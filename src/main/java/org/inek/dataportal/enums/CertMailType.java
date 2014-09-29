@@ -14,7 +14,8 @@ public enum CertMailType {
     ErrorTest(3, "Fehler-Testphase"),
     PassedTest(4,"Testphase-Bestanden"),
     ErrorCert(5,"Fehler-Zertifizierungphase"),
-    Certified(6,"Zertifiziert-Email");
+    Certified(6,"Zertifiziert-Email"),
+    Certificate(7,"Zertifikat-Email");
     
 
     private CertMailType(int id, String label) {

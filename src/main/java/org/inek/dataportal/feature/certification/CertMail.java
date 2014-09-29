@@ -41,7 +41,7 @@ import org.inek.dataportal.mail.Mailer;
 public class CertMail implements Serializable {
 
     private static final Logger _logger = Logger.getLogger("CertMail");
-    private static String SenderEmailAddress = "Zertifizierung2015@inek-drg.de"; // TODO: Load sender email from template.
+    public static String SenderEmailAddress = "Zertifizierung2015@inek-drg.de"; // TODO: Load sender email from template.
 
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;

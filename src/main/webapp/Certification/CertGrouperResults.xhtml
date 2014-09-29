@@ -31,7 +31,8 @@
             </div>
         </h:panelGroup>
         
-        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()}">
+        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()
+                                  and not certGrouperResults.certified}">
             <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
                 #{certGrouperResults.certState}
             </span>
@@ -68,18 +69,57 @@
             </div>
             
             <div class="inputPart">
-                <h:outputLabel id="lblAttach" for="txtAttach" value="BCC:" styleClass="label20"/>
+                <h:outputLabel id="lblAttach" for="txtAttach" value="Anhang:" styleClass="label20"/>
                 <h:inputText id="txtAttach" readonly="true" styleClass="inputlong" value="#{certGrouperResults.attachement}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </div>
             
             <div class="inputPart">
-                <h:outputLabel id="lblBody" for="txtBody" value="BCC:" styleClass="label20"/>
+                <h:outputLabel id="lblBody" for="txtBody" value="Inhalt:" styleClass="label20"/>
                 <h:inputTextarea readonly="true" id="txtBody" styleClass="areaHuge" value="" />
             </div>
         </h:panelGroup>
         
+        <h:panelGroup rendered="#{certGrouperResults.hasReceivedCertificationEmail()}">
+            <div style="border: red solid 3px; padding: 5px; font-weight: bold; text-align: center;">
+                Dieser Hersteller hat die Zertifizierung für dieses System bereits komplett abgeschlossen.
+                Die Zertifikats-Email wurde verschickt!
+            </div>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{certGrouperResults.certified and not certGrouperResults.hasReceivedCertificationEmail()}">
+            <h2>
+                Zertifikat-Email
+            </h2>
+            <h:form id="frmEmailCertificate">
+                <div class="inputPart">
+                <h:outputLabel id="lblEmailTemplateCertificate" for="txtEmailTemplateCertificate" styleClass="label20" value="Template:" />
+                <h:selectOneMenu id="txtEmailTemplateCertificate" styleClass="inputlong" value="#{certGrouperResults.templateEmailCertificate}">
+                    <f:ajax render="@form :logout:remaining" />
+                    <f:selectItems value="#{certGrouperResults.emailTemplatesCertificate}" />
+                </h:selectOneMenu>
+                </div>
+                <div class="inputPart">
+                    <h:outputLabel id="lblEmailReceiverCertificate" for="txtEmailReceiverCertificate" styleClass="label20" value="Empfänger:" />
+                    <h:selectOneMenu id="txtEmailReceiverCertificate" styleClass="inputlong" value="#{certGrouperResults.receiverEmailCertificate}">
+                        <f:ajax render="@form :logout:remaining" />
+                        <f:selectItems value="#{certGrouperResults.internalCertEmailReceivers}" />
+                    </h:selectOneMenu>
+                </div>
+                <div class="inputPart">
+                    <h:outputLabel id="lblEmailCertificateSubject" for="txtEmailCertificateSubject" styleClass="label20" value="Betreff:" />
+                    <h:inputText readonly="true" id="txtEmailCertificateSubject" styleClass="inputlong" value="#{certGrouperResults.emailCertificateSubject}"/>
+                </div>
+                <div class="inputpart">
+                    <h:outputLabel id="lblEmailCertificateBody" for="txtEmailCertificateBody" styleClass="label20" value="Inhalt:" />
+                    <h:inputTextarea id="txtEmailCertificateBody" styleClass="areaHuge" value="#{certGrouperResults.emailCertificateBody}" readonly="true"/>
+                </div>
+                <div class="inputPart">
+                    <h:commandLink disabled="#{not certGrouperResults.enableSendCertificateEmailButton()}" styleClass="button" value="Absenden" action="#{certGrouperResults.sendCertificateEmail()}" />
+                </div>
+            </h:form>
+        </h:panelGroup>
         
     </ui:define>
 
