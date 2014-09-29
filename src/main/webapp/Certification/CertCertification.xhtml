@@ -57,12 +57,12 @@
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
                 </div>
 
-                <!-- ### Test ############################################################################################-->
-                <h:inputFile styleClass="hide" id="uploadFile" value="#{cc.attrs.uploadFile}" title="#{msg.btnUploadCert}"
-                             p:contentType="#{cc.attrs.contentType}" p:fileNamePattern="#{cc.attrs.fileNamePattern}">
-                    <!--onchange="uploadFile('# {cc.clientId}:uploadForm:uploadFile');"-->
-                    <f:param name="systemId" value="#{cc.attrs.uploadParam}"/>
-                    <f:ajax listener="#{certificationUpload.uploadCertificationData(cc.attrs.uploadParam)}" render="@form msgUploadFile :logout:remaining">
+                <!-- ### Test ############################################################################################->
+                <h:inputFile styleClass="hide" id="uploadFile" value="# {certCertification.file}" title="# {msg.btnUploadCert}"
+                             p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
+                             p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000"
+                             onchange="uploadFile('# {certCertification.file}');">
+                    <f:ajax listener="# {uploadTestResult}" render="@form msgUploadFile :logout:remaining">
                     </f:ajax>
                     <f:validator validatorId="FileUploadValidator"/>
                 </h:inputFile>
@@ -70,7 +70,7 @@
                                onclick="getElementById('#{cc.clientId}:uploadForm:uploadFile').click();"/>
                 <progress id="progressBar" style="display: none;" value="0" max="100"></progress>
                 <h:message id="msgUploadFile" for="uploadFile" styleClass="errorMessage"/>
-                <!-- ### Test ############################################################################################-->
+                <!- ### Test ############################################################################################-->
 
 
 

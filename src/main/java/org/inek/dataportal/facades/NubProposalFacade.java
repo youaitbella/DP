@@ -16,7 +16,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.helper.structures.ProposalInfo;
 
 /**
  *
@@ -68,7 +68,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         Query query = getEntityManager().createQuery(sql, NubProposal.class);
         query.setParameter("accountId", accountId);
         query.setParameter("isComplete", isComplete);
-        return ((Long)query.getSingleResult()).intValue();
+        return ((Long) query.getSingleResult()).intValue();
     }
 
     public NubProposal saveNubProposal(NubProposal nubProposal) {
@@ -81,23 +81,24 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
 
     /**
      * A list of NUB infos for display usage, e.g. lists
+     *
      * @param accountId
      * @param dataSet
-     * @return 
+     * @return
      */
-    public List<Triple> getNubProposalInfos(int accountId, DataSet dataSet) {
+    public List<ProposalInfo> getNubProposalInfos(int accountId, DataSet dataSet) {
         List<NubProposal> proposals = findAll(accountId, dataSet);
-        List<Triple> proposalInfos = new ArrayList<>(); 
-        for (NubProposal proposal : proposals){
-            String displayName = proposal.getDisplayName().trim().length() == 0 
-                    ? proposal.getName() 
+        List<ProposalInfo> proposalInfos = new ArrayList<>();
+        for (NubProposal proposal : proposals) {
+            String displayName = proposal.getDisplayName().trim().length() == 0
+                    ? proposal.getName()
                     : proposal.getDisplayName();
-            proposalInfos.add(new Triple(proposal.getNubId(), displayName, proposal.getStatus()));
+            proposalInfos.add(new ProposalInfo(proposal.getNubId(), displayName, proposal.getTargetYear(), proposal.getStatus()));
         }
         return proposalInfos;
     }
-   
-    public List<Triple> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus) {
+
+    public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus) {
         String sql = "SELECT p FROM NubProposal p "
                 + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
                 + "ORDER BY p._nubId DESC";
@@ -107,15 +108,22 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
         List<NubProposal> proposals = query.getResultList();
-        List<Triple> proposalInfos = new ArrayList<>(); 
-        for (NubProposal proposal : proposals){
-            String displayName = proposal.getDisplayName().trim().length() == 0 
-                    ? proposal.getName() 
+        List<ProposalInfo> proposalInfos = new ArrayList<>();
+        for (NubProposal proposal : proposals) {
+            String displayName = proposal.getDisplayName().trim().length() == 0
+                    ? proposal.getName()
                     : proposal.getDisplayName();
-            proposalInfos.add(new Triple(proposal.getNubId(), displayName, proposal.getStatus()));
+            proposalInfos.add(new ProposalInfo(proposal.getNubId(), displayName, proposal.getTargetYear(), proposal.getStatus()));
         }
         return proposalInfos;
     }
 
-    
+    public List<Integer> findAccountIdForIk(int ik) {
+        String sql = "SELECT DISTINCT p._accountId FROM NubProposal p WHERE p._ik = :ik  ";
+        Query query = getEntityManager().createQuery(sql);
+        query.setParameter("ik", ik);
+        List<Integer> accountIds = query.getResultList();
+        return accountIds;
+    }
+
 }

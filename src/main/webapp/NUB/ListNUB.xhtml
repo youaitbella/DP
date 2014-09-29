@@ -11,7 +11,7 @@
         <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
     </f:metadata>
 
-    <h:dataTable rendered="#{nubProposalList.openListEnabled}"  headerClass="list-header" id="tblNubProposals" 
+    <h:dataTable rendered="#{nubProposalList.openListEnabled}"  headerClass="list-header" id="tblNubProposals"
                  value="#{nubProposalList.nubProposals}" var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
         <h:column id="colPrintId" >
             <f:facet name="header">
@@ -34,7 +34,7 @@
                 <h:outputText value=""/>
             </f:facet>
             <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" immediate="true" >
-                <h:graphicImage alt="Status" name="#{nub.value3.icon}" library="Icon/small" title="#{nub.value3.value == 1 ? nubProposalList.getRejectReason(nub.value1): nub.value3.description}" value=""  rendered="#{nub.value3.icon.length() gt 0}"/>
+                <h:graphicImage alt="Status" name="#{nub.status.icon}" library="Icon/small" title="#{nub.status.value == 1 ? nubProposalList.getRejectReason(nub.value1): nub.status.description}" value=""  rendered="#{nub.status.icon.length() gt 0}"/>
             </h:commandLink>
         </h:column>
         <h:column id="colName">
@@ -44,10 +44,10 @@
             <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2.equals('') ? msg.txtEmpty : nub.value2}" immediate="true"/>
         </h:column>
     </h:dataTable>
-    
+
     <h:commandLink id="deleteNubProposal" style="display: none"
                    action="#{nubProposalList.deleteNubProposal(flash.nubId)}"
                    value="delete #{flash.nubId}">
     </h:commandLink>
-    
+
 </ui:composition>

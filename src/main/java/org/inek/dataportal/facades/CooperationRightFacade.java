@@ -61,7 +61,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @return
      */
     public List<CooperationRight> getAchievedCooperationRights(int accountId, Feature feature) {
-        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId > 0 and cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
+//        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId > 0 and cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
+        String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
                 .setParameter("accountId", accountId)
@@ -70,7 +71,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
-        if (ik == null){return CooperativeRight.None;}
+        if (ik == null) {
+            return CooperativeRight.None;
+        }
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = :ownerId "
@@ -101,7 +104,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @return
      */
     public boolean hasSupervisor(Feature feature, Integer ik) {
-        if (ik == null){return false;}
+        if (ik == null) {
+            return false;
+        }
         String query = "SELECT cor FROM CooperationRight cor "
                 + "WHERE cor._ownerId = -1 "
                 + "and cor._ik = :ik "
@@ -131,7 +136,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public CooperativeRight getSupervisorRight(Feature feature, Integer ik, int accountId) {
-        if (ik == null){return CooperativeRight.None;}
+        if (ik == null) {
+            return CooperativeRight.None;
+        }
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = -1 "
@@ -152,9 +159,13 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public Set<Integer> isSupervisorFor(Feature feature, Account account) {
-        if (account == null){return new HashSet<>();}
+        if (account == null) {
+            return new HashSet<>();
+        }
         Set<Integer> iks = account.getFullIkList();
-        if (iks.isEmpty()){return new HashSet<>();}
+        if (iks.isEmpty()) {
+            return new HashSet<>();
+        }
         String inIk = "";
         for (int ik : iks) {
             inIk += (inIk.length() > 0 ? ", " : "") + ik;

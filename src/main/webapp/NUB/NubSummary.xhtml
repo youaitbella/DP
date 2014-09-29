@@ -31,42 +31,30 @@
                 <c:forEach items="#{nubProposalList.partnersForEdit}" var="partner" rendered="#{nubProposalList.partnersForEdit.size() > 0}">
                     <h:panelGroup rendered="#{nubProposalList.getNubProposalsForEditFromPartner(partner.accountId).size() gt 0}">
                         <p>
-                            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
                         </p>
                         <h:dataTable   headerClass="list-header" value="#{nubProposalList.getNubProposalsForEditFromPartner(partner.accountId)}"
                                        var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
                             <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{nubProposalList.printNubProposal(nub.value1)}" immediate="true" >
+                                <h:commandLink action="#{nubProposalList.printNubProposal(nub.id)}" immediate="true" >
                                     <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
                                 </h:commandLink>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.value1)}" immediate="true" rendered="false">
+                                <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.id)}" immediate="true" rendered="false">
                                     <h:graphicImage alt="löschen" name="delete.png"
                                                     library="Icon/small" title="Löschen}" value=""/>
                                 </h:commandLink>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" immediate="true" rendered="#{nub.value3.icon.length() gt 0}">
-                                    <h:graphicImage alt="Status" name="#{nub.value3.icon}" library="Icon/small" title="#{nub.value3.value == 1 ? nubProposalList.getRejectReason(nub.value1) : nub.value3.description}" value=""/>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" immediate="true" rendered="#{nub.status.icon.length() gt 0}">
+                                    <h:graphicImage alt="Status" name="#{nub.status.icon}" library="Icon/small" title="#{nub.status.value == 1 ? nubProposalList.getRejectReason(nub.id) : nub.status.description}" value=""/>
                                 </h:commandLink>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Name"/>
-                                </f:facet>
-                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2}" immediate="true"/>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" value="#{nub.name}" immediate="true"/>
                             </h:column>
                         </h:dataTable>
                     </h:panelGroup>
@@ -82,8 +70,7 @@
             </p>
 
             <h:panelGroup rendered="#{nubProposalList.sealedNubProposals.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.infoSealedNUB}"/>
+                <h:outputLabel styleClass="label marginTop" value="#{msg.infoSealedNUB}"/>
                 <inek:NubList listType="PrivateDisplay"/>
             </h:panelGroup>
 
@@ -93,9 +80,9 @@
                 <c:forEach items="#{nubProposalList.partnersForDisplay}" var="partner" rendered="#{nubProposalList.partnersForDisplay.size() > 0}">
                     <h:panelGroup rendered="#{nubProposalList.getNubProposalsForDisplayFromPartner(partner.accountId).size() gt 0}">
                         <p>
-                            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
                         </p>
                         <h:dataTable   headerClass="list-header" value="#{nubProposalList.getNubProposalsForDisplayFromPartner(partner.accountId)}"
                                        var="nub" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
@@ -103,7 +90,7 @@
                                 <f:facet name="header">
                                     <h:outputText value=""/>
                                 </f:facet>
-                                <h:commandLink action="#{nubProposalList.printNubProposal(nub.value1)}" immediate="true" >
+                                <h:commandLink action="#{nubProposalList.printNubProposal(nub.id)}" immediate="true" >
                                     <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
                                 </h:commandLink>
                             </h:column>
@@ -111,7 +98,7 @@
                                 <f:facet name="header">
                                     <h:outputText value=""/>
                                 </f:facet>
-                                <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.value1)}" immediate="true" rendered="false">
+                                <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.id)}" immediate="true" rendered="false">
                                     <h:graphicImage alt="löschen" name="delete.png"
                                                     library="Icon/small" title="Löschen}" value=""/>
                                 </h:commandLink>
@@ -120,15 +107,33 @@
                                 <f:facet name="header">
                                     <h:outputText value=""/>
                                 </f:facet>
-                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" immediate="true" rendered="#{nub.value3.icon.length() gt 0}">
-                                    <h:graphicImage alt="Status" name="#{nub.value3.icon}" library="Icon/small" title="#{nub.value3.value == 1 ? nubProposalList.getRejectReason(nub.value1): nub.value3.description}" value=""/>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" immediate="true" rendered="#{nub.status.icon.length() gt 0}">
+                                    <h:graphicImage alt="Status" name="#{nub.status.icon}" library="Icon/small" title="#{nub.status.value == 1 ? nubProposalList.getRejectReason(nub.id): nub.status.description}" value=""/>
                                 </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="ID"/>
+                                </f:facet>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" value="N#{nub.id}" immediate="true"/>
+                            </h:column>
+                            <h:column id="state">
+                                <f:facet name="header">
+                                    <h:outputText value="NUB-Status"/>
+                                </f:facet>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" value="#{nubProposalList.getExternalState(nub.id)}" immediate="true"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Jahr"/>
+                                </f:facet>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" value="#{nub.year}" immediate="true"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="Name"/>
                                 </f:facet>
-                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2}" immediate="true"/>
+                                <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" value="#{nub.name}" immediate="true"/>
                             </h:column>
 
                         </h:dataTable>

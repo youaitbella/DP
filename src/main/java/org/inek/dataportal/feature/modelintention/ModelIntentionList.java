@@ -93,7 +93,7 @@ public class ModelIntentionList {
         for (EntityInfo info : _partnerEntityInfos) {
             ids.add(info.getAccountId());
         }
-        _partners = ids.isEmpty() ? new ArrayList<Account>() : _accountFacade.getAccountsForIds(ids);
+        _partners = _accountFacade.getAccountsForIds(ids);
     }
 
     public String newModelIntention() {
