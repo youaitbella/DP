@@ -20,7 +20,6 @@ public abstract class AbstractUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HttpUtil httpUtil = new HttpUtil(request, response);
-
         try {
             if (httpUtil.isMultipartRequest()) {
                 doMultipart(httpUtil);
@@ -39,7 +38,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
     private void doSingleUpload(HttpUtil httpUtil) throws IOException {
         String filename = httpUtil.getRequest().getHeader("X-File-Name");
         try (InputStream is = httpUtil.getRequest().getInputStream()) {
-            stream2Document(decodeFilename(filename), is);
+            stream2Document(decodeFilename(filename), is, httpUtil);
         }
     }
 
@@ -51,7 +50,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
             Map<String, String> params = httpUtil.getParams(part);
             String filename = new File(params.get("filename")).getName();  // get rid of absolute path (some IE versions will yield the absoltute path)
             try (InputStream is = part.getInputStream()) {
-                stream2Document(decodeFilename(filename), is);
+                stream2Document(decodeFilename(filename), is, httpUtil);
             }
         }
     }
@@ -60,7 +59,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         return filename.replace("%20", " ").replace("%5B", "[").replace("%5D", "]");
     }
 
-    abstract protected void stream2Document(String filename, InputStream is) throws IOException;
+    abstract protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException;
 
     /**
      * copies an input stream into an array of bytes

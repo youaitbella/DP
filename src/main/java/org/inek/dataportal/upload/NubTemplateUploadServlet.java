@@ -22,7 +22,7 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
     @Inject NubProposalFacade _nubFacade;
 
     @Override
-    protected void stream2Document(String filename, InputStream is) throws IOException {
+    protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         try {
             NubController controller = (NubController) _sessionController.getFeatureController(Feature.NUB);
             byte[] buffer = stream2blob(is);

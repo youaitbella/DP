@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.ContactRole;
 
 @Stateless
@@ -16,8 +17,9 @@ public class ContactRoleFacade extends AbstractFacade<ContactRole> {
     public List<ContactRole> findAllExtern() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ContactRole> cq = cb.createQuery(ContactRole.class);
-        cq.select(cq.from(ContactRole.class));
-        return getEntityManager().createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS").getResultList();
+        Root request = cq.from(ContactRole.class);
+        cq.select(request).where(cb.isTrue(request.get("_externVisible")));
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
 }

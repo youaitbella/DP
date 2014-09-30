@@ -18,7 +18,7 @@ public class PeppProposalUploadServlet extends AbstractUploadServlet {
     @Inject SessionController _sessionController;
 
     @Override
-    protected void stream2Document(String filename, InputStream is) throws IOException {
+    protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         PeppProposalController controller = (PeppProposalController) _sessionController.getFeatureController(Feature.PEPP_PROPOSAL);
         List<PeppProposalDocument> documents = controller.getDocuments();
         PeppProposalDocument document = findByName(documents, filename);
@@ -38,4 +38,5 @@ public class PeppProposalUploadServlet extends AbstractUploadServlet {
         }
         return null;
     }
+
 }

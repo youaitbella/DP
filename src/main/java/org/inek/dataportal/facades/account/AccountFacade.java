@@ -16,7 +16,6 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.entities.account.Account;
-//import org.inek.dataportal.entities.account.Account_;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountChangeMail;
 import org.inek.dataportal.entities.account.AccountFeature;
@@ -74,9 +73,13 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public List<Account> getAccountsForIds(Collection<Integer> ids) {
+        if (ids.isEmpty()) {
+            return new ArrayList<>();
+        }
         String statement = "SELECT a FROM Account a WHERE a._accountId in :ids";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
-        return query.setParameter("ids", ids).getResultList();
+        List<Account> accounts = query.setParameter("ids", ids).getResultList();
+        return accounts;
     }
 
     public List<Account> getInekAcounts() {

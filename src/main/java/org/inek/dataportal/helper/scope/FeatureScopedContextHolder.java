@@ -30,6 +30,11 @@ public enum FeatureScopedContextHolder {
         return (T) getFeatureScopedMap().get(key).getInstance();
     }
 
+    public <T> T getBean(Class<T> type, Map<String, FeatureScopedInstance> featureBeans) {
+        String key = getScopeKey(type);
+        return (T) featureBeans.get(key).getInstance();
+    }
+
     /**
      * Destroys all FeatureScoped beans from the current session. Use full to
      * cleanup at logout time or session end

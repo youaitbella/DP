@@ -34,6 +34,7 @@ import org.inek.dataportal.helper.Utils;
 @Named
 @SessionScoped
 public class SessionTools implements Serializable {
+
     @Inject private SessionController _sesssionController;
     private List<SelectItem> _roleItems;
     private List<SelectItem> _customerTypeItems;
@@ -43,9 +44,7 @@ public class SessionTools implements Serializable {
     @Inject private ContactRoleFacade _contactRoleFacade;
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private DropBoxTypeFacade _dropBoxTypeFacade;
-    
-    
-    
+
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
     }
@@ -63,7 +62,7 @@ public class SessionTools implements Serializable {
     public List<SelectItem> getContactRoleItems() {
         if (_roleItems == null) {
             _roleItems = new ArrayList<>();
-            List<ContactRole> roles = _contactRoleFacade.findAll();
+            List<ContactRole> roles = _contactRoleFacade.findAllExtern();
             _roleItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
             for (ContactRole role : roles) {
                 _roleItems.add(new SelectItem(role.getId(), role.getText()));
@@ -96,6 +95,7 @@ public class SessionTools implements Serializable {
             }
         }
     }
+
     private Map<Integer, DropBoxType> _dropBoxTypes;
 
     public DropBoxType getDropBoxType(int id) {
@@ -152,20 +152,21 @@ public class SessionTools implements Serializable {
         items[2] = new SelectItem("2", Utils.getMessage("salutationMale"));
         return items;
     }
-    
+
     public String formatDate(XMLGregorianCalendar calendar, String format) {
         return new SimpleDateFormat(format).format(calendar.toGregorianCalendar().getTime());
     }
-    
-    public boolean isPeppProposalDisabled(){
+
+    public boolean isPeppProposalDisabled() {
         return false;
     }
-    
-    public boolean isNubProposalDisabled(){
+
+    public boolean isNubProposalDisabled() {
         return false;
     }
-    
+
     public boolean isModelIntentionDisabled() {
         return false;
-    }    
+    }
+
 }

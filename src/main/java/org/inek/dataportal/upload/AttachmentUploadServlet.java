@@ -18,7 +18,7 @@ public class AttachmentUploadServlet extends AbstractUploadServlet {
     @Inject SessionController _sessionController;
 
     @Override
-    protected void stream2Document(String filename, InputStream is) throws IOException {
+    protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         RequestSystemController controller = (RequestSystemController) _sessionController.getFeatureController(Feature.REQUEST_SYSTEM);
         List<RequestDocument> documents = controller.getDocuments();
         RequestDocument document = findByName(documents, filename);

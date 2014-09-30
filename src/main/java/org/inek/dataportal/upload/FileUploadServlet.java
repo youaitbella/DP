@@ -20,7 +20,7 @@ public class FileUploadServlet extends AbstractUploadServlet {
     SessionController _sessionController;
 
     @Override
-    protected void stream2Document(String filename, InputStream is) throws IOException {
+    protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         File dir = ((DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX)).getUploadDir();
         dir.mkdirs();
         try (FileOutputStream fos = new FileOutputStream(new File(dir, filename))) {

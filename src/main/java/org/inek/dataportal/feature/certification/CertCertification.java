@@ -213,19 +213,30 @@ public class CertCertification {
     }
 
     public void uploadTestResult() {
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        Optional<File> uploadFolder = getUploadFolder();
+
+//        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+//        Optional<File> uploadFolder = getUploadFolder();
+//        if (!uploadFolder.isPresent()) {
+//            return;
+//        }
+//        String prefix = getExpectedFileName();
+//        String outFile = prefix + ".zip.upload";
+//        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
+//        logAction("Upload " + _file.getSubmittedFileName() + " -> " + outFile);
+    }
+
+    public String getUploadFileName(EditCert editCert) {
+        Optional<File> uploadFolder = getUploadFolder(editCert);
         if (!uploadFolder.isPresent()) {
-            return;
+            return "";
         }
         String prefix = getExpectedFileName();
         String outFile = prefix + ".zip.upload";
-        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
-        logAction("Upload " + _file.getSubmittedFileName() + " -> " + outFile);
+        return new File(uploadFolder.get(), outFile).getAbsolutePath();
     }
 
     @Inject GrouperActionFacade _actionFacade;
-    private void logAction(String message) {
+    public void logAction(String message) {
         GrouperAction action = new GrouperAction();
         action.setAccountId(_grouper.getAccountId());
         action.setSystemId(_grouper.getSystemId());
@@ -235,6 +246,10 @@ public class CertCertification {
 
     private Optional<File> getUploadFolder() {
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        return getUploadFolder(editCert);
+    }
+
+    private Optional<File> getUploadFolder(EditCert editCert) {
         RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
         if (system == null) {
             _logger.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystemId());

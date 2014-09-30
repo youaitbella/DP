@@ -100,18 +100,29 @@ function setCaretPosition(id, pos) {
 function uploadFile(elementId) {
     var file = document.getElementById(elementId).files[0];
     // check file.name, file.size
-    if (file.type !== "text/plain") {
+//    if (file.type !== "text/plain") {
+//        alert("Unzulässiger Dateityp");
+//        return false;
+//    }
+    if (!file.name.endsWith(".zip")) {
         alert("Unzulässiger Dateityp");
         return false;
     }
+
+    var fd = new FormData();
+    fd.append("fileToUpload", file);
     updateProgress(0);
     showProgressBar();
-    var fd = new FormData();
-    fd.append("uploadFile", file);
+
     var xhr = new XMLHttpRequest();
     xhr.upload.addEventListener("progress", uploadProgress, false);
-    xhr.open("POST", "UploadServlet");
+    xhr.addEventListener("load", uploadComplete, false);
+    xhr.open("POST", "upload/CertUploadServlet");
     xhr.send(fd);
+}
+
+function uploadComplete(evt) {
+    alert("Upload erfolgreich. Wenn es sich um die korrekte Datei handelt, speichern Sie dies bitte.");
 }
 
 function uploadProgress(evt) {
@@ -122,13 +133,14 @@ function uploadProgress(evt) {
 }
 
 var updateProgress = function (value) {
-    document.getElementById("progressBar").value = value;
+    var pBar = document.getElementById("progressBar");
+    pBar.value = value;
 }
 
 function hideProgressBar() {
-    document.getElementById("progressBar").style.display = "none";
+    document.getElementById("progressBar").style.visibility = "hidden";
 }
 
 function showProgressBar() {
-    document.getElementById("progressBar").style.display = "inline";
+    document.getElementById("progressBar").style.visibility = "visible";
 }
