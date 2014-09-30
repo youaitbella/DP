@@ -12,19 +12,15 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "listRole", catalog="CallCenterDB", schema="dbo")
+@Table(name = "listRole", catalog = "CallCenterDB", schema = "dbo")
 public class ContactRole implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roId")
     private Integer _id;
-    @Column(name = "roText")
-    private String _text;
-    @Column(name = "roPriority")
-    private int _priority;
-
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getId() {
         return _id;
     }
@@ -32,7 +28,11 @@ public class ContactRole implements Serializable {
     public void setId(Integer id) {
         _id = id;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column(name = "roText")
+    private String _text;
     public String getText() {
         return _text;
     }
@@ -40,6 +40,11 @@ public class ContactRole implements Serializable {
     public void setText(String text) {
         _text = text;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Priority">
+    @Column(name = "roPriority")
+    private int _priority;
 
     public int getPriority() {
         return _priority;
@@ -50,6 +55,18 @@ public class ContactRole implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Extern">
+    @Column(name = "roIsExternVisible")
+    private boolean _externVisible;
+    public boolean isExternVisible() {
+        return _externVisible;
+    }
+
+    public void setExternVisible(boolean externVisible) {
+        _externVisible = externVisible;
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -75,5 +92,5 @@ public class ContactRole implements Serializable {
         return "org.inek.entities.Role[id=" + _id + "]";
     }
     // </editor-fold>
-    
+
 }

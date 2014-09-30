@@ -17,7 +17,7 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.printNubProposal(nub.value1)}" immediate="true" >
+            <h:commandLink action="#{nubProposalList.printNubProposal(nub.id)}" immediate="true" >
                 <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
             </h:commandLink>
         </h:column>
@@ -25,7 +25,7 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.value1)}" immediate="true" >
+            <h:commandLink action="#{nubProposalList.requestDeleteNubProposal(nub.id)}" immediate="true" >
                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
             </h:commandLink>
         </h:column>
@@ -33,15 +33,15 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" immediate="true" >
-                <h:graphicImage alt="Status" name="#{nub.status.icon}" library="Icon/small" title="#{nub.status.value == 1 ? nubProposalList.getRejectReason(nub.value1): nub.status.description}" value=""  rendered="#{nub.status.icon.length() gt 0}"/>
+            <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" immediate="true" >
+                <h:graphicImage alt="Status" name="#{nub.status.icon}" library="Icon/small" title="#{nub.status.value == 1 ? nubProposalList.getRejectReason(nub.id): nub.status.description}" value=""  rendered="#{nub.status.icon.length() gt 0}"/>
             </h:commandLink>
         </h:column>
         <h:column id="colName">
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:commandLink action="#{nubProposalList.editNubProposal(nub.value1)}" value="#{nub.value2.equals('') ? msg.txtEmpty : nub.value2}" immediate="true"/>
+            <h:commandLink action="#{nubProposalList.editNubProposal(nub.id)}" value="#{nub.name.equals('') ? msg.txtEmpty : nub.name}" immediate="true"/>
         </h:column>
     </h:dataTable>
 
