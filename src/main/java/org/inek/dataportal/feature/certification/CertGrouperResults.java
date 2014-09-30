@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.admin.Log_;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.certification.EmailLog;
 import org.inek.dataportal.entities.certification.Grouper;
@@ -118,6 +117,7 @@ public class CertGrouperResults {
     
     public List<SelectItem> getTemplates() {
         List<SelectItem> temp = new ArrayList<>();
+        temp.add(new SelectItem(""));
         List<MailTemplate> mts = _mtFacade.findTemplatesByFeature(Feature.CERT);
         switch(_grouper.getCertStatus()) {
             case TestFailed1:
@@ -235,7 +235,7 @@ public class CertGrouperResults {
     }
     
     public String getBCC() {
-        if(_selectedTemplate.equals(""))
+        if(_selectedTemplate.isEmpty())
             return "";
         return _mtFacade.findByName(_selectedTemplate).getBcc();
     }
@@ -246,12 +246,6 @@ public class CertGrouperResults {
 
     public void setAttachement(String _attachement) {
         this._attachement = _attachement;
-    }
-    
-    public String getBody() {
-        if(_selectedTemplate.equals(""))
-            return "";
-        return _mtFacade.findByName(_selectedTemplate).getBody().replace("{}", ""); //TODO
     }
     
     public boolean isCertified() {
@@ -351,5 +345,21 @@ public class CertGrouperResults {
            _grouperFacade.merge(_grouper);
         }
         return "";
+    }
+    
+    public String getSubject() {
+        if(_selectedTemplate.isEmpty())
+            return "";
+        String subject = _mtFacade.findByName(_selectedTemplate).getSubject();
+        // TODO: replaces.
+        return subject;
+    }
+    
+    public String getBody() {
+        if(_selectedTemplate.isEmpty())
+            return "";
+        String body = _mtFacade.findByName(_selectedTemplate).getBody();
+        // TODO: replaces.
+        return body;
     }
 }
