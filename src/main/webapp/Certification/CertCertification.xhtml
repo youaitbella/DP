@@ -11,6 +11,56 @@
                 >
 
     <ui:define name="editContent">
+        <script>
+            function uploadFile(elementId) {
+                var file = document.getElementById(elementId).files[0];
+                // check file.name, file.size
+//    if (file.type !== "text/plain") {
+//        alert("Unzulässiger Dateityp");
+//        return false;
+//    }
+                if (!file.name.endsWith(".zip")) {
+                    alert("Unzulässiger Dateityp");
+                    return false;
+                }
+
+                var fd = new FormData();
+                fd.append("fileToUpload", file);
+                updateProgress(0);
+                showProgressBar();
+
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener("progress", uploadProgress, false);
+                xhr.addEventListener("load", uploadComplete, false);
+                xhr.open("POST", "upload/CertUploadServlet");
+                xhr.send(fd);
+            }
+
+            function uploadComplete(evt) {
+                //jsf.ajax.request(this, event, {render: 'form :logout:remaining'});
+            }
+
+            function uploadProgress(evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                    updateProgress(percentComplete);
+                }
+            }
+
+            var updateProgress = function (value) {
+                var pBar = document.getElementById("progressBar");
+                pBar.value = value;
+            }
+
+            function hideProgressBar() {
+                document.getElementById("progressBar").style.visibility = "hidden";
+            }
+
+            function showProgressBar() {
+                document.getElementById("progressBar").style.visibility = "visible";
+            }
+
+        </script>
         <h:form id="form" enctype="multipart/form-data" >
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
@@ -44,14 +94,9 @@
                 <h2>#{msg.lblUpload}</h2>
 
                 <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
-                    <h:inputFile styleClass="hide" id="testResult" value="#{certCertification.file}" title="#{msg.btnUploadTestResult}"
-                                 p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
-                                 p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000"
-                                 onchange="uploadFile('form:testResult');">
-                        <!--f:validator validatorId="FileUploadValidator"/-->
-                        <f:ajax listener="#{certCertification.uploadTestResult}"
-                                render="@form :logout:remaining"/>
-                    </h:inputFile>
+                    <input id="form:testResult" type="file" name="form:testResult" class="hide" title="Upload Testergebnisse"
+                           onchange="uploadFile('form:testResult');
+                                   jsf.ajax.request(this, event, {render: 'form :logout:remaining', delay: '1000'});" />
                     <h:outputLabel styleClass="button" value="#{msg.btnUpload} #{certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
                     <progress id="progressBar" style="visibility: hidden;" value="0" max="100"></progress>
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>

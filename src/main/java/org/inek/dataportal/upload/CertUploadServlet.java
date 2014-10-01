@@ -31,6 +31,14 @@ public class CertUploadServlet extends AbstractUploadServlet {
     @Inject
     SessionController _sessionController;
 
+//    @Override
+//    protected void showFileName(String filename, HttpUtil httpUtil) {
+//        HttpSession session = httpUtil.getRequest().getSession();
+//        Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+//                = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
+//        CertCertification certBean = FeatureScopedContextHolder.Instance.getBean(CertCertification.class, map);
+//        certBean.setFile(filename);
+//    }
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         HttpSession session = httpUtil.getRequest().getSession();
@@ -46,8 +54,8 @@ public class CertUploadServlet extends AbstractUploadServlet {
         try (FileOutputStream fos = new FileOutputStream(target)) {
             new StreamHelper().copyStream(is, fos);
         }
+        certBean.setFile(filename);
         certBean.logAction("Finish Upload " + filename + " -> " + target);
-
     }
 
 }

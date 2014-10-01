@@ -254,7 +254,6 @@ var qq = qq || {};
  * Creates upload button, validates upload, but doesn't create file list or dd.
  */
 qq.FileUploaderBasic = function (o) {
-    alert("create upload");
     this._options = {
         // set to true to see the server response
         debug: false,

@@ -19,7 +19,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.GrouperAction;
@@ -93,7 +92,7 @@ public class CertCertification {
                 _grouper = new Grouper();
             } else {
                 _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
-                _file = null;
+                _file = "";
                 cleanupUploadFiles();
             }
             setGrouperChanged(false);
@@ -114,13 +113,13 @@ public class CertCertification {
         setGrouperChanged(true);
     }
 
-    private Part _file;
+    private String _file = "";
 
-    public Part getFile() {
+    public String getFile() {
         return _file;
     }
 
-    public void setFile(Part file) {
+    public void setFile(String file) {
         _file = file;
     }
 
@@ -206,23 +205,10 @@ public class CertCertification {
         String fileNamePattern = getExpectedFileName() + ".zip(\\.upload)?";
         File file = editCert.getLastFile(uploadFolder.get(), fileNamePattern);
         String prefix = "";
-        if (_file != null && !_file.getSubmittedFileName().isEmpty()) {
-            prefix = _file.getSubmittedFileName() + " geladen als ";
+        if (_file != null && !_file.isEmpty()) {
+            prefix = _file + " geladen als ";
         }
         return prefix + file.getName().replace(".upload", " [ungespeichert]");
-    }
-
-    public void uploadTestResult() {
-
-//        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-//        Optional<File> uploadFolder = getUploadFolder();
-//        if (!uploadFolder.isPresent()) {
-//            return;
-//        }
-//        String prefix = getExpectedFileName();
-//        String outFile = prefix + ".zip.upload";
-//        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
-//        logAction("Upload " + _file.getSubmittedFileName() + " -> " + outFile);
     }
 
     public String getUploadFileName(EditCert editCert) {
@@ -329,7 +315,7 @@ public class CertCertification {
         if (target.exists()) {
             target.delete();
         }
-        _file = null;
+        _file = "";
         file.renameTo(target);
     }
 
