@@ -38,7 +38,6 @@ public class CertGrouperResults {
     private Grouper _grouper;
     private int _runs = 0;
     private String _selectedTemplate = "";
-    private String _attachement = "";
     // Certificate Email
     private String _receiverEmailCertificate = "";
     private String _templateEmailCertificate = "";
@@ -153,23 +152,18 @@ public class CertGrouperResults {
             switch(_grouper.getCertStatus()) {
                 case TestFailed1:
                     errors = _grouper.getTestError1();
-                    _runs = 1;
                     break;
                 case TestFailed2:
                     errors = _grouper.getTestError2();
-                    _runs = 2;
                     break;
                 case TestFailed3:
                     errors = _grouper.getTestError3();
-                    _runs = 3;
                     break;
                 case CertFailed1:
                     errors = _grouper.getCertError1();
-                    _runs = 1;
                     break;
                 case CertFailed2:
                     errors = _grouper.getCertError2();
-                    _runs = 2;
                     break;
             }
         }
@@ -239,13 +233,17 @@ public class CertGrouperResults {
             return "";
         return _mtFacade.findByName(_selectedTemplate).getBcc();
     }
-
+    
     public String getAttachement() {
-        return _attachement;
-    }
-
-    public void setAttachement(String _attachement) {
-        this._attachement = _attachement;
+        String filename = ""; // TODO!!
+        if(lookForNumberOfRuns() == 1) {
+            filename = "TestDaten v" + _runs + "_Diff.xls";
+        } else {
+            filename = "ZertDaten v" + _runs + "_Diff.xls";
+        }
+        return "\\\\vFileserver01\\company$\\EDV\\Projekte\\Zertifizierung\\Pruefung"
+                + "\\System 2015\\PEPP-Entgeltsystem 2013_2015\\Ergebnis\\" + _grouper.getAccountId()
+                + "\\" + filename;
     }
     
     public boolean isCertified() {
@@ -350,16 +348,42 @@ public class CertGrouperResults {
     public String getSubject() {
         if(_selectedTemplate.isEmpty())
             return "";
+        lookForNumberOfRuns();
         String subject = _mtFacade.findByName(_selectedTemplate).getSubject();
-        // TODO: replaces.
+        subject = subject.replace("{system}", _sysFacade.find(_grouper.getSystemId()).getDisplayName());
+        subject = subject.replace("{run}", _runs + "");
         return subject;
     }
     
     public String getBody() {
         if(_selectedTemplate.isEmpty())
             return "";
+        String errors = getNumberOfErrors() == 1 ? "1 Fall" : getNumberOfErrors() + " Fällen";
         String body = _mtFacade.findByName(_selectedTemplate).getBody();
-        // TODO: replaces.
+        body = body.replace("{salutation}", buildEmailSalutation(_accFacade.find(_grouper.getAccountId()).getEmail()));
+        body = body.replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
+        body = body.replace("{system}", _sysFacade.find(_grouper.getSystemId()).getDisplayName());
+        body = body.replace("{errors}", errors);
         return body;
+    }
+    
+    private int lookForNumberOfRuns() {
+        int type = 1;
+        if(_grouper.getTestError1() != -1) {
+            _runs = 0;
+            _runs++;
+        }
+        if(_grouper.getTestError2() != -1)
+            _runs++;
+        if(_grouper.getTestError3() != -1)
+            _runs++;
+        if(_grouper.getCertError1() != -1) {
+            _runs = 0;
+            type = 2;
+            _runs++;
+        }
+        if(_grouper.getCertError2() != -1)
+            _runs++;
+        return type;
     }
 }

@@ -47,7 +47,7 @@
                     </h:selectOneMenu>
                 </div>
 
-                <h:panelGroup styleClass="inputPart" rendered="#{certGrouperResults.containsErrorInLatestUpload()}">
+                <h:panelGroup style="display: block;" styleClass="inputPart" rendered="#{certGrouperResults.containsErrorInLatestUpload()}">
                     <h:outputLabel styleClass="label20" id="lblErrors" for="txtErrors" value="Anzahl-Fehler:" />
                     <h:inputText readonly="true" styleClass="inputshort" id="txtErrors" value="#{certGrouperResults.numberOfErrors}" />
                 </h:panelGroup>
