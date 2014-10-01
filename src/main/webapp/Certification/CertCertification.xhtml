@@ -11,62 +11,19 @@
                 >
 
     <ui:define name="editContent">
-        <script>
-            function uploadFile(elementId) {
-                var file = document.getElementById(elementId).files[0];
-                // check file.name, file.size
-//    if (file.type !== "text/plain") {
-//        alert("Unzulässiger Dateityp");
-//        return false;
-//    }
-                if (!file.name.endsWith(".zip")) {
-                    alert("Unzulässiger Dateityp");
-                    return false;
-                }
-
-                var fd = new FormData();
-                fd.append("fileToUpload", file);
-                updateProgress(0);
-                showProgressBar();
-
-                var xhr = new XMLHttpRequest();
-                xhr.upload.addEventListener("progress", uploadProgress, false);
-                xhr.addEventListener("load", uploadComplete, false);
-                xhr.open("POST", "upload/CertUploadServlet");
-                xhr.send(fd);
-            }
-
-            function uploadComplete(evt) {
-                //jsf.ajax.request(this, event, {render: 'form :logout:remaining'});
-            }
-
-            function uploadProgress(evt) {
-                if (evt.lengthComputable) {
-                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                    updateProgress(percentComplete);
-                }
-            }
-
-            var updateProgress = function (value) {
-                var pBar = document.getElementById("progressBar");
-                pBar.value = value;
-            }
-
-            function hideProgressBar() {
-                document.getElementById("progressBar").style.visibility = "hidden";
-            }
-
-            function showProgressBar() {
-                document.getElementById("progressBar").style.visibility = "visible";
-            }
-
-        </script>
+        <h:outputStylesheet name="fileuploader.css" library="css"/>
+        <h:outputScript name="fileuploader.js" library="script" target="head"/>
         <h:form id="form" enctype="multipart/form-data" >
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}" immediate="true" disabled="#{certCertification.grouperChanged}">
+            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
+                             immediate="true" disabled="#{certCertification.grouperChanged}"
+                             onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});
+                                     setTimeout(function () {
+                                         document.getElementById('form:refresh').click();
+                                     }, 200);
+                             ">
                 <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form :logout:remaining" />
             </h:selectOneMenu>
 
             <div id="systemData" jsf:rendered="#{certCertification.grouper.id ge 0}">
@@ -93,14 +50,61 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
+                <div id="uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
+                    <script>
+                        var fileCounter = 0;
+                        function createUploader(act, loc) {
+                            var uploader = new qq.FileUploader({
+                                element: document.getElementById('file-uploader'),
+                                action: '/DataPortal/upload/CertUploadServlet',
+                                debug: true,
+                                allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                                onSubmit: function (id, fileName) {
+                                    fileCounter++;
+                                },
+                                onCancel: function (id, fileName) {
+                                    fileCounter--;
+                                    if (fileCounter == 0) {
+                                        //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
+                                    }
+                                },
+                                onComplete: function (id, fileName, responseJSON) {
+                                    fileCounter--;
+                                    if (fileCounter == 0) {
+                                        // To display the uploaded file, we need to refresh the page.
+                                        // Window location would force a non-JSF navigation, ignoring our existing conversation
+                                        //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
+                                        // Thus, let JS click an element to get a JSF refresh
+                                        document.getElementById('form:refresh').click();
+                                    }
+                                },
+                                template: '<div class="qq-uploader">' +
+                                        '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                                        '<div class="qq-upload-button">#{msg.btnUpload} #{certCertification.expectedFileName}</div>' +
+                                        '<ul class="qq-upload-list"></ul>' +
+                                        '</div>'
+                            });
+                        }
+                        window.onload = createUploader;
+                    </script>
+                    <div id="file-uploader">
+                        <noscript>
+                            <p>Please enable JavaScript to use file uploader.</p>
+                            <!-- or put a simple form for upload here -->
+                        </noscript>
+                    </div>
+                </div>
+                <!-- next comes a hidden element to force a JSF conform refresh -->
+                <h:commandLink id="refresh" style="display: none" action="#{editCert.refresh}" value="refresh"/>
+
+                <!--div class="inputPart" jsf:rendered="# {certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
                     <input id="form:testResult" type="file" name="form:testResult" class="hide" title="Upload Testergebnisse"
                            onchange="uploadFile('form:testResult');
                                    jsf.ajax.request(this, event, {render: 'form :logout:remaining', delay: '1000'});" />
-                    <h:outputLabel styleClass="button" value="#{msg.btnUpload} #{certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
+                    <h:outputLabel styleClass="button" value="# {msg.btnUpload} # {certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
                     <progress id="progressBar" style="visibility: hidden;" value="0" max="100"></progress>
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
-                </div>
+                </div-->
 
 
                 <div class="inputPart">

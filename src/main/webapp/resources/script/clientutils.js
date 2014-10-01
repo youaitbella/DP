@@ -97,3 +97,68 @@ function setCaretPosition(id, pos) {
     }
 }
 
+function uploadFile(elementId) {
+    //alert(doesSupportXMLHttpRequest());
+    var file = document.getElementById(elementId).files[0];
+    // check file.name, file.size
+//    if (file.type !== "text/plain") {
+//        alert("Unzulässiger Dateityp");
+//        return false;
+//    }
+    if (!file.name.endsWith(".zip")) {
+        alert("Unzulässiger Dateityp");
+        return false;
+    }
+
+    var fd = new FormData();
+    fd.append("fileToUpload", file);
+    updateProgress(0);
+    showProgressBar();
+
+    var xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener("progress", uploadProgress, false);
+    //xhr.upload.onprogress = uploadProgress;
+    xhr.addEventListener("load", uploadComplete, false);
+    xhr.open("POST", "upload/CertUploadServlet", true);
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhr.setRequestHeader("X-File-Name", encodeURIComponent(file.name));
+    xhr.setRequestHeader("Content-Type", "application/octet-stream");
+    xhr.send(file);
+
+
+}
+
+doesSupportXMLHttpRequest = function () {
+    var input = document.createElement('input');
+    input.type = 'file';
+
+    return (
+            'multiple' in input &&
+            typeof File != "undefined" &&
+            typeof (new XMLHttpRequest()).upload != "undefined");
+};
+
+function uploadComplete(evt) {
+    //jsf.ajax.request(this, event, {render: 'form :logout:remaining'});
+}
+
+function uploadProgress(evt) {
+    if (evt.lengthComputable) {
+        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+        updateProgress(percentComplete);
+    }
+}
+
+var updateProgress = function (value) {
+    var pBar = document.getElementById("progressBar");
+    pBar.value = value;
+}
+
+function hideProgressBar() {
+    document.getElementById("progressBar").style.visibility = "hidden";
+}
+
+function showProgressBar() {
+    document.getElementById("progressBar").style.visibility = "visible";
+}
+

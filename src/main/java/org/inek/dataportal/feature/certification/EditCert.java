@@ -188,4 +188,8 @@ public class EditCert extends AbstractEditController {
         }
     }
 
+    public String refresh() {
+        return "";
+    }
+
 }
