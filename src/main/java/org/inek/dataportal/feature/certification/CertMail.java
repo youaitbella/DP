@@ -20,6 +20,7 @@ import org.inek.dataportal.entities.certification.EmailReceiver;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -101,7 +102,8 @@ public class CertMail implements Serializable {
         emailTemplates.add(new SelectItem(""));
         List<MailTemplate> mts = _emailTemplateFacade.findTemplatesByFeature(Feature.CERT);
         mts.stream().forEach((t) -> {
-            emailTemplates.add(new SelectItem(t.getName()));
+            if(t.getType() == CertMailType.Information.getId() || t.getType() == CertMailType.Opening.getId())
+                emailTemplates.add(new SelectItem(t.getName()));
         });
         return emailTemplates.toArray(new SelectItem[emailTemplates.size()]);
     }

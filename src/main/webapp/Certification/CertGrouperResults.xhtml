@@ -13,6 +13,12 @@
             #{certGrouperResults.systemName} - #{certGrouperResults.companyName}
         </h1><br/>
         
+        <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
+            #{certGrouperResults.certState}
+        </span>
+        
+        <hr/>
+        
         <h:panelGroup rendered="#{certGrouperResults.hasNotDeliveredData()}" style="width: 100%; text-align: center;">
             <div style="border: red solid 3px; padding: 5px; font-weight: bold;">
                 Dieser Hersteller hat noch keine Daten für das ausgewählte System übermittelt.
@@ -20,10 +26,6 @@
         </h:panelGroup>
         
         <h:panelGroup rendered="#{certGrouperResults.hasReceivedEmailToCurrentState()}" style="width: 100%">
-            <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
-                #{certGrouperResults.certState}
-            </span>
-            <br/>
             <h2>Grouper-Emails</h2>
             <br />
             <div style="border: red solid 3px; padding: 5px; font-weight: bold; text-align: center;">
@@ -32,11 +34,7 @@
         </h:panelGroup>
         
         <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()
-                                  and not certGrouperResults.certified}">
-            <span style="font-weight: bolder; font-size: 11pt; color: dodgerblue;">
-                #{certGrouperResults.certState}
-            </span>
-            <br/>
+                                  and not certGrouperResults.renderEnterErrorAndCheckDateFields()}">
             <h2>Grouper-Emails</h2>
             <h:form id="frmMail">
                 <div class="inputPart">
@@ -69,12 +67,13 @@
                     </h:inputText>
                 </div>
 
-                <div class="inputPart">
+                <h:panelGroup rendered="#{certGrouperResults.needsAttachement()}" styleClass="inputPart">
                     <h:outputLabel id="lblAttach" for="txtAttach" value="Anhang:" styleClass="label20"/>
-                    <h:inputText id="txtAttach" readonly="true" styleClass="inputlong" value="#{certGrouperResults.attachement}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </div>
+                    <h:inputText id="txtAttach" styleClass="inputlong" value="#{certGrouperResults.attachement}">
+                        <f:ajax event="blur" render="@this fileExists :logout:remaining" />
+                    </h:inputText>&nbsp;
+                    <h:graphicImage id="fileExists" library="Icon/small" name="#{certGrouperResults.attachementExists()}" />
+                </h:panelGroup>
 
                 <div class="inputPart">
                     <h:outputLabel id="lblSubject" for="txtSubject" value="Betreff:" styleClass="label20"/>
@@ -85,17 +84,21 @@
                     <h:outputLabel id="lblBody" for="txtBody" value="Inhalt:" styleClass="label20"/>
                     <h:inputTextarea readonly="true" id="txtBody" styleClass="areaHuge" value="#{certGrouperResults.body}" />
                 </div>
+                
+                <div class="inputPart">
+                    <h:commandLink styleClass="button" value="Absenden" action="#{certGrouperResults.sendMail()}" />
+                </div>
             </h:form>
         </h:panelGroup>
         
-        <h:panelGroup rendered="#{certGrouperResults.hasReceivedCertificationEmail()}">
+        <h:panelGroup rendered="#{certGrouperResults.renderCertificationFinished()}">
             <div style="border: red solid 3px; padding: 5px; font-weight: bold; text-align: center;">
                 Dieser Hersteller hat die Zertifizierung für dieses System bereits komplett abgeschlossen.
                 Die Zertifikats-Email wurde verschickt!
             </div>
         </h:panelGroup>
         
-        <h:panelGroup rendered="#{certGrouperResults.certified and not certGrouperResults.hasReceivedCertificationEmail()}">
+        <h:panelGroup rendered="#{certGrouperResults.renderReceivedCertificationEmail()}">
             <h2>
                 Zertifikat-Email
             </h2>
@@ -124,6 +127,26 @@
                 </div>
                 <div class="inputPart">
                     <h:commandLink disabled="#{not certGrouperResults.enableSendCertificateEmailButton()}" styleClass="button" value="Absenden" action="#{certGrouperResults.sendCertificateEmail()}" />
+                </div>
+            </h:form>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{certGrouperResults.renderEnterErrorAndCheckDateFields()}" styleClass="inputPart">
+            <h:form id="frmEnterErrrorAndData">
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label20" value="Fehler:" />
+                    <h:inputText styleClass="inputshort" value="#{certGrouperResults.numErrors}">
+                        <f:ajax event="blur" render="@form :logout:remaining" />
+                    </h:inputText>
+                </div>
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label20" value="Geprüft am:" />
+                    <h:inputText readonly="true" styleClass="inputmedium" value="#{certGrouperResults.formattedDateChecked}">
+                        <f:ajax event="blur" render="@form :logout:remaining" />
+                    </h:inputText>
+                </div>
+                <div class="inputPart">
+                    <h:commandLink styleClass="button" value="Eintragen" action="#{certGrouperResults.enterErrorAndDate()}" />
                 </div>
             </h:form>
         </h:panelGroup>

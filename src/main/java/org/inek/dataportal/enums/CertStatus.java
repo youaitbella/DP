@@ -18,13 +18,11 @@ public enum CertStatus {
     TestUpload2(12, "Testphase Versuch 2 - Daten hochgeladen"),
     TestFailed2(13, "Testphase Versuch 2 - Fehlerhaft"),
     TestUpload3(14, "Testphase Versuch 3 - Daten hochgeladen"),
-    TestFailed3(15, "Testphase Versuch 3 - Fehlerhaft"),
     TestSucceed(20, "Testphase erfolgreich bestanden"),
     CertUpload1(30, "Zertiphase Versuch 1 - Daten hochgeladen"),
     CertFailed1(31, "Zertiphase Versuch 1 - Fehlerhaft"),
     CertUpload2(32, "Zertiphase Versuch 2 - Daten hochgeladen"),
-    CertFailed2(33, "Zertiphase Versuch 2 - Fehlerhaft"),
-    CertSucceed(40, "Zertiphase erfolgreich bstanden"),
+    CertSucceed(40, "Zertiphase erfolgreich bestanden"),
     CertificationFailed(80, "Grouper NICHT zertifiziert"),
     CertificationPassed(90, "Grouper zertifiziert");
 

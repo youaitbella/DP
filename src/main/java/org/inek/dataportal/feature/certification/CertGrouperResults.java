@@ -1,10 +1,12 @@
 package org.inek.dataportal.feature.certification;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,10 +40,13 @@ public class CertGrouperResults {
     private Grouper _grouper;
     private int _runs = 0;
     private String _selectedTemplate = "";
+    private String _attachement = "";
     // Certificate Email
     private String _receiverEmailCertificate = "";
     private String _templateEmailCertificate = "";
     // -----------------
+    private int _numErrors = 0;
+    private Date _dateChecked = new Date();
     
     @Inject
     private AccountFacade _accFacade;
@@ -94,6 +99,24 @@ public class CertGrouperResults {
         this._receiverEmailCertificate = _receiverEmailCertificate;
     }
 
+    public int getNumErrors() {
+        return _numErrors;
+    }
+
+    public void setNumErrors(int _numErrors) {
+        this._numErrors = _numErrors;
+    }
+
+    public Date getDateChecked() {
+        _dateChecked = new Date();
+        return _dateChecked;
+    }
+    
+    public String getFormattedDateChecked() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        return sdf.format(getDateChecked());
+    }
+
     public String getTemplateEmailCertificate() {
         return _templateEmailCertificate;
     }
@@ -121,11 +144,9 @@ public class CertGrouperResults {
         switch(_grouper.getCertStatus()) {
             case TestFailed1:
             case TestFailed2:
-            case TestFailed3:
                 addTemplatesToList(temp, mts, CertMailType.ErrorTest);
                 break;
             case CertFailed1:
-            case CertFailed2:
                 addTemplatesToList(temp, mts, CertMailType.ErrorCert);
                 break;
             case TestSucceed:
@@ -156,14 +177,8 @@ public class CertGrouperResults {
                 case TestFailed2:
                     errors = _grouper.getTestError2();
                     break;
-                case TestFailed3:
-                    errors = _grouper.getTestError3();
-                    break;
                 case CertFailed1:
                     errors = _grouper.getCertError1();
-                    break;
-                case CertFailed2:
-                    errors = _grouper.getCertError2();
                     break;
             }
         }
@@ -190,20 +205,12 @@ public class CertGrouperResults {
                 numofMails = 1;
                 mailType = CertMailType.ErrorCert;
                 break;
-            case CertFailed2:
-                numofMails = 2;
-                mailType = CertMailType.ErrorCert;
-                break;
             case TestFailed1:
                 numofMails = 1;
                 mailType = CertMailType.ErrorTest;
                 break;
             case TestFailed2:
                 numofMails = 2;
-                mailType = CertMailType.ErrorTest;
-                break;
-            case TestFailed3:
-                numofMails = 3;
                 mailType = CertMailType.ErrorTest;
                 break;
             case TestSucceed:
@@ -235,23 +242,32 @@ public class CertGrouperResults {
     }
     
     public String getAttachement() {
-        String filename = ""; // TODO!!
+        if(_attachement.isEmpty())
+            _attachement = buildAttachementString();
+        return _attachement;
+    }
+    
+    public void setAttachement(String attachment) {
+        _attachement = attachment;
+    }
+    
+    private String buildAttachementString() {
+        String filename = "";
         if(lookForNumberOfRuns() == 1) {
             filename = "TestDaten v" + _runs + "_Diff.xls";
         } else {
             filename = "ZertDaten v" + _runs + "_Diff.xls";
         }
+        String folderSystemName = _sysFacade.find(_grouper.getSystemId()).getDisplayName().replace("/", "_");
         return "\\\\vFileserver01\\company$\\EDV\\Projekte\\Zertifizierung\\Pruefung"
-                + "\\System 2015\\PEPP-Entgeltsystem 2013_2015\\Ergebnis\\" + _grouper.getAccountId()
+                + "\\System 2015\\"+ folderSystemName +"\\Ergebnis\\" + _grouper.getAccountId()
                 + "\\" + filename;
     }
-    
-    public boolean isCertified() {
-        return _grouper.getCertStatus() == CertStatus.CertSucceed;
-    }
      
-    public boolean hasReceivedCertificationEmail() {
-        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).size() > 0;
+    public boolean renderReceivedCertificationEmail() {
+        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
+                && _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certified.getId()).size() > 0
+                && _grouper.getCertStatus() == CertStatus.CertSucceed;
     }
     
     public List<SelectItem> getInternalCertEmailReceivers() {
@@ -385,5 +401,100 @@ public class CertGrouperResults {
         if(_grouper.getCertError2() != -1)
             _runs++;
         return type;
+    }
+    
+    public boolean renderEnterErrorAndCheckDateFields() {
+        switch(_grouper.getCertStatus()) {
+            case CertUpload1:
+            case CertUpload2:
+            case TestUpload1:
+            case TestUpload2:
+            case TestUpload3:
+                return true;
+        }
+        return false;
+    }
+    
+    public String enterErrorAndDate() {
+        switch(_grouper.getCertStatus()) {
+            case TestUpload1:
+                _grouper.setTestError1(_numErrors);
+                _grouper.setTestCheck1(_dateChecked);
+                if(_numErrors == 0) {
+                    _grouper.setCertStatus(CertStatus.TestSucceed);
+                } else {
+                    _grouper.setCertStatus(CertStatus.TestFailed1);
+                }
+                break;
+            case TestUpload2:
+                _grouper.setTestError2(_numErrors);
+                _grouper.setTestCheck2(_dateChecked);
+                if(_numErrors == 0) {
+                    _grouper.setCertStatus(CertStatus.TestSucceed);
+                } else {
+                    _grouper.setCertStatus(CertStatus.TestFailed2);
+                }
+                break;
+            case TestUpload3:
+                _grouper.setTestError3(_numErrors);
+                _grouper.setTestCheck3(_dateChecked);
+                if(_numErrors == 0) {
+                    _grouper.setCertStatus(CertStatus.TestSucceed);
+                } else {
+                    _grouper.setCertStatus(CertStatus.CertificationFailed);
+                }
+                break;
+            case CertUpload1:
+                _grouper.setCertError1(_numErrors);
+                _grouper.setCertCheck1(_dateChecked);
+                if(_numErrors == 0) {
+                    _grouper.setCertStatus(CertStatus.CertSucceed);
+                } else {
+                    _grouper.setCertStatus(CertStatus.CertFailed1);
+                }
+                break;
+            case CertUpload2:
+                _grouper.setCertError2(_numErrors);
+                _grouper.setCertCheck2(_dateChecked);
+                if(_numErrors == 0) {
+                    _grouper.setCertStatus(CertStatus.CertSucceed);
+                } else {
+                    _grouper.setCertStatus(CertStatus.CertificationFailed);
+                }
+                break;
+        }
+        _grouper = _grouperFacade.merge(_grouper);
+        return "";
+    }
+    
+    public String attachementExists() {
+        File f = new File(getAttachement());
+        if(f.exists())
+            return "tick.png";
+        return "cross.png";
+    }
+    
+    public boolean needsAttachement() {
+        return getNumErrors() > 0;
+    }
+    
+    public String sendMail() {
+        if(!needsAttachement())
+            _attachement = "";
+        if(_mailer.sendMailFrom(CertMail.SenderEmailAddress, getReiceiver(), getCC(), getBCC(), getSubject(), getBody(), _attachement)) {
+            EmailLog el = new EmailLog();
+            el.setReceiverAccountId(_accFacade.findByMailOrUser(getReiceiver()).getAccountId());
+            el.setSenderAccountId(_sessionController.getAccount().getAccountId());
+            el.setSent(new Date());
+            el.setSystemId(_grouper.getSystemId());
+            el.setTemplateId(_mtFacade.findByName(_selectedTemplate).getId());
+            el.setType(_mtFacade.findByName(_selectedTemplate).getType());
+            _elFacade.persist(el);
+        }
+        return "";
+    }
+    
+    public boolean renderCertificationFinished() {
+        return _grouper.getCertStatus() == CertStatus.CertificationPassed;
     }
 }
