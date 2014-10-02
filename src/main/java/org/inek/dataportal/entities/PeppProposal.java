@@ -28,99 +28,99 @@ public class PeppProposal implements Serializable {
 
     @Column(name = "ppStatus")
     private int _status;
-    
+
     @Documentation(key = "lblAppellation")
     @Column(name = "ppName")
     private String _name = "";
-    
+
     @Documentation(key = "lblCategory")
     @Column(name = "ppCategory")
     @Enumerated(EnumType.STRING)
     private PeppProposalCategory _category = PeppProposalCategory.UNKNOWN;
-    
+
     @Column(name = "ppCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _creationDate = null;
-    
+
     @Column(name = "ppDateSealed")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _dateSealed = null;
-    
+
     @Column(name = "ppLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
-    
+
     @Documentation(key = "lblProposalRequestor")
     @Column(name = "ppInstitute")
     private String _institute = "";
-    
+
     @Column(name = "ppGender")
     private int _gender;
-    
+
     @Documentation(key = "lblTitle")
     @Column(name = "ppTitle")
     private String _title = "";
-    
+
     @Documentation(key = "lblFirstName")
     @Column(name = "ppFirstName")
     private String _firstName = "";
-    
+
     @Documentation(key = "lblLastName")
     @Column(name = "ppLastName")
     private String _lastName = "";
-    
+
     @Documentation(key = "lblDivision")
     @Column(name = "ppDivision")
     private String _division = "";
-    
+
     @Documentation(key = "lblContactRole")
     @Column(name = "ppRoleId")
     private Integer _roleId = -1;
-    
+
     @Documentation(key = "lblStreet")
     @Column(name = "ppStreet")
     private String _street = "";
-    
+
     @Documentation(key = "lblPostalCode")
     @Column(name = "ppPostalCode")
     private String _postalCode = "";
-    
+
     @Documentation(key = "lblTown")
     @Column(name = "ppTown")
     private String _town = "";
-    
+
     @Documentation(key = "lblPhone")
     @Column(name = "ppPhone")
     private String _phone = "";
-    
+
     @Documentation(key = "lblFax")
     @Column(name = "ppFax")
     private String _fax = "";
-    
+
     @Documentation(key = "lblEMail")
     @Column(name = "ppEmail")
     private String _email = "";
-    
+
     @Documentation(key = "lblProblem")
     @Column(name = "ppProblem")
     private String _problem = "";
-    
+
     @Documentation(key = "lblSolution")
     @Column(name = "ppSolution")
     private String _solution = "";
-    
+
     @Documentation(name = "PEPP")
     @Column(name = "ppPepp")
     private String _pepp = "";
-    
+
     @Documentation(name = "Diagnos(en), Kode(s)")
     @Column(name = "ppDiagCodes")
     private String _diagCodes = "";
-    
+
     @Documentation(name = "Diagnos(en), Text")
     @Column(name = "ppDiags")
     private String _diags = "";
-    
+
     @Documentation(name = "Prozedur(en), Kode(s)")
     @Column(name = "ppProcCodes")
     private String _procCodes = "";
@@ -135,21 +135,21 @@ public class PeppProposal implements Serializable {
     @Documentation(name = "Prozedur(en), Text")
     @Column(name = "ppProcs")
     private String _procs = "";
-    
+
     @Column(name = "ppCodingPolicy")
     private String _codingPolicy = "";
-    
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ppdPeppProposalId", referencedColumnName = "ppId")
     private List<PeppProposalDocument> _documents = new ArrayList<>();
-    
+
     @Documentation(name = "Dokumente, Post")
     @Column(name = "ppDocumentsOffline")
     private String _documentsOffline = "";
-    
+
     @Column(name = "ppAnonymousData")
     private Boolean _anonymousData = false;
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "ppcPeppProposalId", referencedColumnName = "ppId")
     private List<PeppProposalComment> _comments = new ArrayList<>();

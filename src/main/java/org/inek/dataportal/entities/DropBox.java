@@ -36,7 +36,7 @@ public class DropBox implements Serializable {
     @Column(name = "dbValidUntil")
     @Temporal(value = javax.persistence.TemporalType.TIMESTAMP)
     private Date _validUntil;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dbiDropBoxId", referencedColumnName = "dbId")
     @OrderBy("_name")
     private List<DropBoxItem> _items;
@@ -160,4 +160,5 @@ public class DropBox implements Serializable {
         return "org.inek.entities.DropBox[id=" + _dropBoxId + "]";
     }
     // </editor-fold>
+
 }

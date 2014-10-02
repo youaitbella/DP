@@ -122,7 +122,7 @@ public class RemunerationSystem implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="List Grouper">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "grSystemId", referencedColumnName = "syId")
     private List<Grouper> _grouperList;
 

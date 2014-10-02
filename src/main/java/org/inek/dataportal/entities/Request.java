@@ -15,18 +15,19 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "Request")
 public class Request implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reId")
     private Integer _requestId;
-    
+
     @Column(name = "reAccountId")
     private Integer _accountId;
-    
+
     @Column(name = "reIsComplete")
     private boolean _isComplete;
-    
+
     @Documentation(name = "Benennung")
     @Column(name = "reName")
     private String _name = "";
@@ -34,46 +35,46 @@ public class Request implements Serializable {
     @Documentation(name = "Institut")
     @Column(name = "reInstitute")
     private String _institute = "";
-    
+
     @Column(name = "reGender")
     private int _gender;
-    
+
     @Documentation(name = "Titel")
     @Column(name = "reTitle")
     private String _title = "";
-    
+
     @Documentation(name = "Vorname")
     @Column(name = "reFirstName")
     private String _firstName = "";
-    
+
     @Documentation(name = "Name")
     @Column(name = "reLastName")
     private String _lastName = "";
-    
+
     @Documentation(name = "Abteilung")
     @Column(name = "reDivision")
     private String _division = "";
-    
+
     @Documentation(name = "Straße")
     @Column(name = "reStreet")
     private String _street = "";
-    
+
     @Documentation(name = "Postleitzahl")
     @Column(name = "rePostalCode")
     private String _postalCode = "";
-    
+
     @Documentation(name = "Ort")
     @Column(name = "reTown")
     private String _town = "";
-    
+
     @Documentation(name = "Telefon")
     @Column(name = "rePhone")
     private String _phone = "";
-    
+
     @Documentation(name = "Telefax")
     @Column(name = "reFax")
     private String _fax = "";
-    
+
     @Documentation(name = "E-Mail")
     @Column(name = "reEmail")
     private String _email = "";
@@ -108,8 +109,8 @@ public class Request implements Serializable {
     private Integer _relevanceHospitals = -1;
     @Column(name = "reRelevanceReason")
     private String _relevanceReason = "";
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "rdRequestId", referencedColumnName="reId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rdRequestId", referencedColumnName = "reId")
     private List<RequestDocument> _documents;
     @Column(name = "reDocumentsOffline")
     private String _documentsOffline = "";
@@ -121,9 +122,8 @@ public class Request implements Serializable {
     @Column(name = "reLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
-    
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
 
+    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getRequestId() {
         return _requestId;
     }
@@ -131,6 +131,7 @@ public class Request implements Serializable {
     public void setRequestId(Integer id) {
         _requestId = id;
     }
+
     public Integer getAccountId() {
         return _accountId;
     }
@@ -398,8 +399,8 @@ public class Request implements Serializable {
     public Date getCreationDate() {
         return _creationDate;
     }
-    
-    public void setCreationDate(Date date){
+
+    public void setCreationDate(Date date) {
         _creationDate = date;
     }
 
@@ -407,11 +408,8 @@ public class Request implements Serializable {
         return _lastModified;
     }
 
-
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -438,47 +436,47 @@ public class Request implements Serializable {
     }
 
     // </editor-fold>
-
     @PostLoad
     @PostPersist
     @PostUpdate
     public void gotData() {
         convert2null();
     }
-    
+
     @PrePersist
-    private void prepareCreate(){
+    private void prepareCreate() {
         _creationDate = Calendar.getInstance().getTime();
         prepareUpdate();
     }
+
     @PreUpdate
     private void prepareUpdate() {
         _lastModified = Calendar.getInstance().getTime();
         convertNull();
     }
 
-    private void convert2null(){
-        if (_relevanceCurrent != null && _relevanceCurrent < 0){
+    private void convert2null() {
+        if (_relevanceCurrent != null && _relevanceCurrent < 0) {
             _relevanceCurrent = null;
         }
-        if (_relevancePast != null && _relevancePast < 0){
+        if (_relevancePast != null && _relevancePast < 0) {
             _relevancePast = null;
         }
-        if (_relevanceHospitals != null && _relevanceHospitals < 0){
+        if (_relevanceHospitals != null && _relevanceHospitals < 0) {
             _relevanceHospitals = null;
         }
     }
 
-    private void convertNull(){
-        if (_relevanceCurrent == null){
+    private void convertNull() {
+        if (_relevanceCurrent == null) {
             _relevanceCurrent = -1;
         }
-        if (_relevancePast == null){
+        if (_relevancePast == null) {
             _relevancePast = -1;
         }
-        if (_relevanceHospitals == null){
+        if (_relevanceHospitals == null) {
             _relevanceHospitals = -1;
         }
     }
-    
+
 }

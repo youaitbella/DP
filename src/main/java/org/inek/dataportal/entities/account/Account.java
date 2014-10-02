@@ -91,12 +91,12 @@ public class Account implements Serializable, Person {
     @Column(name = "acMessageCopy")
     private boolean _messageCopy = false;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")
     private List<AccountFeature> _features;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "aaiAccountId", referencedColumnName = "acId")
     @OrderBy("_ik")
     private List<AccountAdditionalIK> _additionalIKs;

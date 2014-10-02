@@ -50,12 +50,12 @@ public class CertCertification {
 
     @PostConstruct
     private void init() {
-        _logger.log(Level.WARNING, "Init CertCertification");
+        // _logger.log(Level.WARNING, "Init CertCertification");
     }
 
     @PreDestroy
     private void destroy() {
-        _logger.log(Level.WARNING, "Destroy CertCertification");
+        // _logger.log(Level.WARNING, "Destroy CertCertification");
     }
 
     public List<SelectItem> getSystems4Account() {
@@ -93,7 +93,7 @@ public class CertCertification {
             } else {
                 _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
                 _file = "";
-                cleanupUploadFiles();
+                //cleanupUploadFiles();
             }
             setGrouperChanged(false);
         }
@@ -340,6 +340,10 @@ public class CertCertification {
         for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
             file.delete();
         }
+    }
+
+    public String refresh() {
+        return "";
     }
 
 }

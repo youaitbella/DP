@@ -21,7 +21,7 @@
                              onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});
                                      setTimeout(function () {
                                          document.getElementById('form:refresh').click();
-                                     }, 200);
+                                     }, 300);
                              ">
                 <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
             </h:selectOneMenu>
@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <!-- next comes a hidden element to force a JSF conform refresh -->
-                <h:commandLink id="refresh" style="display: none" action="#{editCert.refresh}" value="refresh"/>
+                <h:commandLink id="refresh" style="display: none" action="#{certCertification.refresh}" value="refresh"/>
 
                 <!--div class="inputPart" jsf:rendered="# {certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
                     <input id="form:testResult" type="file" name="form:testResult" class="hide" title="Upload Testergebnisse"

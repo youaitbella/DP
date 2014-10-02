@@ -38,7 +38,7 @@ public class ModelIntention implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "miId")
     private Integer _id;
-    
+
     public Integer getId() {
         return _id;
     }
@@ -51,7 +51,7 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "miAccountId")
     private int _accountId;
-    
+
     public Integer getAccountId() {
         return _accountId;
     }
@@ -66,8 +66,8 @@ public class ModelIntention implements Serializable {
     @Column(name = "miCode")
     private String _code = "";
 
-
     @Size(max = 8)
+
     @Pattern(regexp = "(^$)|([ME](0\\d|1[0-7])A[A-K]\\d{3})", message = "Die Eingabe entspricht nicht der Syntax des Kennzeichens.")
     public String getCode() {
         return _code;
@@ -97,7 +97,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblAgeFrom", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
-    
+
     @Min(-1)
     @Max(124)
     public Integer getAgeYearsFrom() {
@@ -113,7 +113,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblAgeTo", translateValue = "-1=empty", omitOnEmpty = true)
     @Column(name = "miAgeYearsTo")
     private int _ageYearsTo = -1;
-    
+
     @Min(-1)
     @Max(124)
     public Integer getAgeYearsTo() {
@@ -130,8 +130,8 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblGender", translateValue = "-1=empty;0=enmGenderBoth;1=enmGenderMale;2=enmGenderFemale")
     @Column(name = "miSex")
     private int _sex = 0;
-    
-   // @Size(min = 1, max = 50)
+
+    // @Size(min = 1, max = 50)
     public int getSex() {
         return _sex;
     }
@@ -145,7 +145,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblPersonalMisc", omitOnEmpty = true)
     @Column(name = "miMiscPatient")
     private String _miscPatient = "";
- 
+
     public String getMiscPatient() {
         return _miscPatient;
     }
@@ -154,12 +154,12 @@ public class ModelIntention implements Serializable {
         this._miscPatient = miscPatient;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property RegionType">
     @Documentation(key = "lblRegionalFeatures", translateValue = "-1=empty;0=enmRegionGer;1=enmRegionState;2=enmRegionMisc")
     @Column(name = "miRegionType")
     private Integer _regionType = -1;
-    
+
     public Integer getRegionType() {
         return _regionType;
     }
@@ -168,16 +168,16 @@ public class ModelIntention implements Serializable {
         this._regionType = _regionType;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property region">
-    @Documentation(key = "empty",omitOnEmpty = true)
+    @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miRegion")
     private String _region = "";
 
     public void setRegion(String region) {
         this._region = region;
     }
-    
+
     public String getRegion() {
         return _region;
     }
@@ -187,7 +187,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblMedicalFeature", translateValue = "0=enmMedAttrMainDia;1=enmMedAttrPracticeArea;2=enmMedAttrMisc")
     @Column(name = "miMedicalAttributesType")
     private int _medicalAttributesType;
-    
+
     public int getMedicalAttributesType() {
         return _medicalAttributesType;
     }
@@ -201,7 +201,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miMedicalSpecification")
     private String _medicalSpecification = "";
-    
+
     public String getMedicalSpecification() {
         return _medicalSpecification;
     }
@@ -213,6 +213,7 @@ public class ModelIntention implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property insuranceAffiliation">
     @Column(name = "miInsuranceAffiliation")
+
     @Documentation(key = "lblModelIntentionHealthInsurance", translateValue = "0=enmNoAttribute;1=enmInsuranceAffiliationNamed")
     private int _insuranceAffiliation = 0;
     public int getInsuranceAffiliation() {
@@ -226,9 +227,9 @@ public class ModelIntention implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property miscAttribute">
     @Column(name = "miMiscAttribute")
-    @Documentation(key = "lblMiscAttr",omitOnEmpty = true)
+    @Documentation(key = "lblMiscAttr", omitOnEmpty = true)
     private String _miscAttribute = "";
-    
+
     public String getMiscAttribute() {
         return _miscAttribute;
     }
@@ -241,7 +242,7 @@ public class ModelIntention implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Agreement">
     @Column(name = "miAgreement")
     private boolean _agreement = false;
-    
+
     @NotNull
     public boolean isAgreement() {
         return _agreement;
@@ -256,7 +257,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblSettledDocs", translateValue = "0=enmSettleTypeImpDep;1=enmSettleTypeDepDocs;2=enmSettleTypeMiscDocs")
     @Column(name = "miSettleMedicType")
     private int _settleMedicType = 0;
-    
+
     public int getSettleMedicType() {
         return _settleMedicType;
     }
@@ -270,7 +271,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miSettleMedicText")
     private String _settleMedicText = "";
-    
+
     public String getSettleMedicText() {
         return _settleMedicText;
     }
@@ -284,7 +285,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblPia", translateValue = "0=enmPiaTypeAny;1=enmPiaTypeIntegrated;2=enmPiaTypeContract;3=enmPiaTypeSpecific")
     @Column(name = "miPIAType")
     private int _piaType = 0;
-    
+
     public int getPiaType() {
         return _piaType;
     }
@@ -298,11 +299,11 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miPIAText")
     private String _piaText = "";
-    
+
     public String getPiaText() {
         return _piaText;
     }
-    
+
     public void setPiaText(String piaText) {
         this._piaText = piaText;
     }
@@ -312,7 +313,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblHospital", translateValue = "-1=lblNo;0=enmHospitalTypeAny;1=enmHospitalTypeModelProject;2=enmHospitalTypeSpecific;3=enmHospitalTypeOther")
     @Column(name = "miHospitalType")
     private int _hospitalType;
-    
+
     public int getHospitalType() {
         return _hospitalType;
     }
@@ -326,7 +327,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miHospitalText")
     private String _hospitalText = "";
-    
+
     public String getHospitalText() {
         return _hospitalText;
     }
@@ -340,7 +341,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblSelfHospitalisation", translateValue = "0=enmSelfHospitalisationTypePossible;1=enmSelfHospitalisationTypeEmergency;2=enmSelfHospitalisationTypeImpossible")
     @Column(name = "miSelfHospitalisationType")
     private int _selfHospitalisationType = 0;
-    
+
     public int getSelfHospitalisationType() {
         return _selfHospitalisationType;
     }
@@ -354,7 +355,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "empty", omitOnEmpty = true)
     @Column(name = "miMiscHospitalisation")
     private String _miscHospitalisation = "";
-    
+
     public String getMiscHospitalisation() {
         return _miscHospitalisation;
     }
@@ -363,16 +364,16 @@ public class ModelIntention implements Serializable {
         this._miscHospitalisation = miscHospitalisation;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="list AgreedPatiens">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "apModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "lblAgreedPatiens")
     @Valid
     private List<AgreedPatients> _agreedPatients;
-    
-     public List<AgreedPatients> getAgreedPatients() {
+
+    public List<AgreedPatients> getAgreedPatients() {
         if (_agreedPatients == null) {
             _agreedPatients = new ArrayList<>();
         }
@@ -383,12 +384,12 @@ public class ModelIntention implements Serializable {
         _agreedPatients = agreedPatients;
     }
     // </editor-fold>
-   
+
     // <editor-fold defaultstate="collapsed" desc="Property PrimaryGoals">
     @Documentation(key = "lblModelIntentionHigherGoals", omitOnEmpty = true)
     @Column(name = "miPrimaryGoals")
     private String _primaryGoals = "";
-    
+
     public String getPrimaryGoals() {
         return _primaryGoals;
     }
@@ -402,7 +403,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblModelIntentionPatientGoals", omitOnEmpty = true)
     @Column(name = "miPatientGoals")
     private String _patientGoals = "";
-    
+
     public String getPatientGoals() {
         return _patientGoals;
     }
@@ -416,7 +417,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblModelIntentionProviderGoals", omitOnEmpty = true)
     @Column(name = "miProviderGoals")
     private String _providerGoals = "";
-    
+
     public String getProviderGoals() {
         return _providerGoals;
     }
@@ -430,7 +431,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblModelIntentionSponsorGoals", omitOnEmpty = true)
     @Column(name = "miSponsorGoals")
     private String _sponsorGoals = "";
-    
+
     public String getSponsorGoals() {
         return _sponsorGoals;
     }
@@ -444,7 +445,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblModelIntentionInvolvedGoals", omitOnEmpty = true)
     @Column(name = "miInvolvedGoals")
     private String _involvedGoals = "";
-    
+
     public String getInvolvedGoals() {
         return _involvedGoals;
     }
@@ -635,7 +636,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblCaseManagement", omitOnEmpty = true)
     @Column(name = "miCaseManagement")
     private String _caseManagement = "";
-    
+
     public String getCaseManagement() {
         return _caseManagement;
     }
@@ -649,7 +650,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblTeamBasedInnovations", omitOnEmpty = true)
     @Column(name = "miTeamBasedInnovations")
     private String _teamBasedInnovations = "";
-    
+
     public String getTeamBasedInnovations() {
         return _teamBasedInnovations;
     }
@@ -663,7 +664,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblCrossSectoralSupply", omitOnEmpty = true)
     @Column(name = "miCrossSectoralSupply")
     private String _crossSectoralSupply = "";
-    
+
     public String getCrossSectoralSupply() {
         return _crossSectoralSupply;
     }
@@ -677,7 +678,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblHomeTreatment", omitOnEmpty = true)
     @Column(name = "miHomeTreatment")
     private String _homeTreatment = "";
-    
+
     public String getHomeTreatment() {
         return _homeTreatment;
     }
@@ -691,7 +692,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblMisc", omitOnEmpty = true)
     @Column(name = "miMiscSpecialPatientConcept")
     private String _miscSpecialPatientConcept = "";
-    
+
     public String getMiscSpecialPatientConcept() {
         return _miscSpecialPatientConcept;
     }
@@ -705,7 +706,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblSpecialPsyTherapy", omitOnEmpty = true)
     @Column(name = "miSpecialPsyTherapy")
     private String _specialPsyTherapy = "";
-    
+
     public String getSpecialPsyTherapy() {
         return _specialPsyTherapy;
     }
@@ -719,7 +720,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblSpecialMedicalMethod", omitOnEmpty = true)
     @Column(name = "miSpecialMedicalMethod")
     private String _specialMedicalMethod = "";
-    
+
     public String getSpecialMedicalMethod() {
         return _specialMedicalMethod;
     }
@@ -733,7 +734,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblOtherSpecialMedicalMethod", omitOnEmpty = true)
     @Column(name = "miOtherSpecialTherapyMethod")
     private String _otherSpecialTherapyMethod = "";
-    
+
     public String getOtherSpecialTherapyMethod() {
         return _otherSpecialTherapyMethod;
     }
@@ -747,7 +748,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblMisc", omitOnEmpty = true)
     @Column(name = "miMiscSpecificActivityContent")
     private String _miscSpecificActivityContent = "";
-    
+
     public String getMiscSpecificActivityContent() {
         return _miscSpecificActivityContent;
     }
@@ -756,12 +757,12 @@ public class ModelIntention implements Serializable {
         this._miscSpecificActivityContent = miscSpecificActivityContent;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property  SingleRemuneration">
     @Documentation(key = "lblSingleRefund", omitOnEmpty = true)
     @Column(name = "miSingleRemuneration")
     private String _singleRemuneration = "";
-    
+
     public String getSingleRemuneration() {
         return _singleRemuneration;
     }
@@ -770,12 +771,12 @@ public class ModelIntention implements Serializable {
         this._singleRemuneration = singleRemuneration;
     }
     // </editor-fold>
-   
+
     // <editor-fold defaultstate="collapsed" desc="Property  DayPackage">
     @Documentation(key = "lblDayPackage", omitOnEmpty = true)
     @Column(name = "miDayPackage")
     private String _dayPackage = "";
-    
+
     public String getDayPackage() {
         return _dayPackage;
     }
@@ -789,7 +790,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblCasePackage", omitOnEmpty = true)
     @Column(name = "miCasePackage")
     private String _casePackage = "";
-    
+
     public String getCasePackage() {
         return _casePackage;
     }
@@ -803,7 +804,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblQuarterPackage", omitOnEmpty = true)
     @Column(name = "miQuarterPackage")
     private String _quarterPackage = "";
-    
+
     public String getQuarterPackage() {
         return _quarterPackage;
     }
@@ -817,7 +818,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblComplexPackage", omitOnEmpty = true)
     @Column(name = "miComplexPackage")
     private String _complexPackage = "";
-    
+
     public String getComplexPackage() {
         return _complexPackage;
     }
@@ -831,7 +832,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblPeppRemuneration", omitOnEmpty = true)
     @Column(name = "miPEPPRemuneration")
     private String _peppRemuneration = "";
-    
+
     public String getPeppRemuneration() {
         return _peppRemuneration;
     }
@@ -845,7 +846,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblReginalBudget", omitOnEmpty = true)
     @Column(name = "miRegionalBudget")
     private String _regionalBudget = "";
-    
+
     public String getRegionalBudget() {
         return _regionalBudget;
     }
@@ -859,7 +860,7 @@ public class ModelIntention implements Serializable {
     @Documentation(key = "lblMiscRefund", omitOnEmpty = true)
     @Column(name = "miMiscRemuneration")
     private String _miscRemuneration = "";
-    
+
     public String getMiscRemuneration() {
         return _miscRemuneration;
     }
@@ -868,7 +869,7 @@ public class ModelIntention implements Serializable {
         this._miscRemuneration = miscRemuneration;
     }
     // </editor-fold>
-        
+
     // <editor-fold defaultstate="collapsed" desc="Property status">
     @Column(name = "miStatus")
     private int _status = 0;
@@ -888,7 +889,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="list remuneration">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "reModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerRemuneration")
@@ -908,7 +909,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="list costs">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "coModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionCost")
@@ -928,7 +929,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="list adjustments">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "adModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionAdjustment")
@@ -948,13 +949,13 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="list ModelLife">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "mlModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_startDate")
     @Documentation(key = "headerModelIntentionLifetime")
     @Valid
     private List<ModelLife> _modelLifes;
-    
+
     public List<ModelLife> getModelLifes() {
         if (_modelLifes == null) {
             _modelLifes = new ArrayList<>();
@@ -968,7 +969,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ModelIntentionContact">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "csModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionContract")
@@ -991,13 +992,13 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="AcademicSupervision">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "asModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionScientific")
     @Valid
     private List<AcademicSupervision> _academicSupervisions;
-    
+
     public List<AcademicSupervision> getAcademicSupervisions() {
         if (_academicSupervisions == null) {
             _academicSupervisions = new ArrayList<>();
@@ -1010,13 +1011,12 @@ public class ModelIntention implements Serializable {
         _academicSupervisions = academicSupervisions;
     }
     // </editor-fold>
-    
 
     // <editor-fold defaultstate="collapsed" desc="InternalQuality">
     @Column(name = "miInternalQuality")
     //@Documentation(key = "headerModelIntentionInternQuality")
     private int _internalQuality;
-    
+
     public int getInternalQuality() {
         return _internalQuality;
     }
@@ -1030,7 +1030,7 @@ public class ModelIntention implements Serializable {
     @Column(name = "miExternalQuality")
     //@Documentation(key = "headerModelIntentionExternQuality")
     private int _externalQuality;
-    
+
     public int getExternalQuality() {
         return _externalQuality;
     }
@@ -1041,7 +1041,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Quality">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "qyModelIntentionId", referencedColumnName = "miId")
     @OrderBy("_id")
     @Documentation(key = "headerModelIntentionQuality")
@@ -1060,8 +1060,6 @@ public class ModelIntention implements Serializable {
     }
     // </editor-fold>
 
-    
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
