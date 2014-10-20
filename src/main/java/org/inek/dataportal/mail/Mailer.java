@@ -143,7 +143,7 @@ public class Mailer {
         return template;
     }
 
-    private String getFormalSalutation(Person person) {
+    public String getFormalSalutation(Person person) {
         String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationMale");
         salutation = salutation.replace("{title}", person.getTitle()).replace("{lastname}", person.getLastName()).replace("  ", " ");
         return salutation;

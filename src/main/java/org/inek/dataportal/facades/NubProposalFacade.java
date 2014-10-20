@@ -5,8 +5,11 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -63,14 +66,6 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return query.getResultList();
     }
 
-    public int count(int accountId, boolean isComplete) {
-        String sql = "SELECT COUNT(p) FROM NubProposal p WHERE p._accountId = :accountId and p._isComplete = :isComplete";
-        Query query = getEntityManager().createQuery(sql, NubProposal.class);
-        query.setParameter("accountId", accountId);
-        query.setParameter("isComplete", isComplete);
-        return ((Long) query.getSingleResult()).intValue();
-    }
-
     public NubProposal saveNubProposal(NubProposal nubProposal) {
         if (nubProposal.getNubId() == null) {
             persist(nubProposal);
@@ -124,6 +119,27 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         query.setParameter("ik", ik);
         List<Integer> accountIds = query.getResultList();
         return accountIds;
+    }
+
+    public Map<Integer, Integer> countOpenPerIk() {
+        return NubProposalFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
+    }
+
+    public Map<Integer, Integer> countOpenPerIk(int targetYear) {
+        String jql = "SELECT p._accountId, COUNT(p) FROM NubProposal p JOIN Account a WHERE p._accountId = a._accountId and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
+        Query query = getEntityManager().createQuery(jql);
+        query.setParameter("targetYear", targetYear);
+        //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+        //System.out.println(sql);
+        List data = query.getResultList();
+        Map<Integer, Integer> result = new HashMap<>();
+        for (Object x : data) {
+            Object[] info = (Object[]) x;
+            int accountId = (int) info[0];
+            int count = (int) (long) info[1];
+            result.put(accountId, count);
+        }
+        return result;
     }
 
 }

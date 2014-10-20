@@ -81,11 +81,10 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         return query.getResultList();
     }
 
-    public int count(int accountId, boolean isComplete) {
-        String sql = "SELECT COUNT(m) FROM ModelIntention m WHERE m._accountId = :accountId"; // removed "AND isComplete"
+    public int count(int accountId) {
+        String sql = "SELECT COUNT(m) FROM ModelIntention m WHERE m._accountId = :accountId";
         Query query = getEntityManager().createQuery(sql, ModelIntention.class);
         query.setParameter("accountId", accountId);
-        // removed "AND isComplete"
         return ((Long) query.getSingleResult()).intValue();
     }
 

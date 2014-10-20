@@ -41,8 +41,9 @@ public class Utils {
     private static final Logger _logger = Logger.getLogger(Utils.class.getName());
 
     public static String getMessage(String key) {
-        FacesContext ctxt = FacesContext.getCurrentInstance();
-        ResourceBundle messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
+        //FacesContext ctxt = FacesContext.getCurrentInstance();
+        //ResourceBundle messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
+        ResourceBundle messageBundle = ResourceBundle.getBundle("org.inek.dataportal.messages");
         return messageBundle.getString(key);
     }
 
