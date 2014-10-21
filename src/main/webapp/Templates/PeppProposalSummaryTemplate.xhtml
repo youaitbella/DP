@@ -9,18 +9,18 @@
 
     <ui:define name="navItems">
         <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/> 
+            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
         </li>
     </ui:define>
 
     <ui:define name="content">
         <h:form id="form">
             <h1>#{msg.lblPeppProposal}</h1>
-            <h:panelGroup class="tab" rendered="#{drgProposalFacade.inekUser}">
+            <h:panelGroup class="tab" rendered="#{peppProposalFacade.inekUser}">
                 <ul class="tab">
-                    <ui:repeat  value="#{drgProposalFacade.topics}" var="topic">
+                    <ui:repeat  value="#{peppProposalFacade.topics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{drgProposalFacade.changeTabPage(topic.key)}"
+                            <h:commandLink value="#{topic.title}" action="#{peppProposalFacade.changeTabPage(topic.key)}"
                                            immediate="true">
                             </h:commandLink>
                         </li>
