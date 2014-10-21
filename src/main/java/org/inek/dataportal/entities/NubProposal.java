@@ -6,13 +6,19 @@
 package org.inek.dataportal.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -59,9 +65,9 @@ public class NubProposal implements Serializable {
     @Documentation(key = "lblIK")
     @Column(name = "nubIk")
     private Integer _ik = -1;
-    
+
     @Column(name = "nubIkName")
-    private String _ikName="";
+    private String _ikName = "";
 
     //@Documentation(name="Anrede")
     @Column(name = "nubGender")
@@ -110,39 +116,39 @@ public class NubProposal implements Serializable {
     @Documentation(key = "lblEMail")
     @Column(name = "nubEmail")
     private String _email = "";
-    
+
     @Documentation(key = "lblFillHelper")
     @Column(name = "nubFormFillHelper")
     private String _formFillHelper = "";
-    
+
     @Documentation(key = "lblAppellation")
     @Column(name = "nubName")
     private String _name = "";
-    
+
     @Documentation(key = "lblAltAppellation")
     @Column(name = "nubAltName")
     private String _altName = "";
-    
+
     @Documentation(key = "lblDescription")
     @Column(name = "nubDescription")
     private String _description = "";
-    
+
     @Documentation(key = "lblIndication")
     @Column(name = "nubIndication")
     private String _indication = "";
-    
+
     @Documentation(key = "lblNubReplacementPrint")
     @Column(name = "nubReplacement")
     private String _replacement = "";
-    
+
     @Documentation(key = "lblWhatsNew")
     @Column(name = "nubWhatsNew")
     private String _whatsNew = "";
-    
+
     @Documentation(key = "lblLos")
     @Column(name = "nubLos")
     private String _los = "";
-    
+
     @Documentation(key = "lblInGermanySince")
     @Column(name = "nubInGermanySince")
     private String _inGermanySince = "";
@@ -152,7 +158,7 @@ public class NubProposal implements Serializable {
 
     @Column(name = "nubInGermanyMonth")
     private int _inGermanyMonth;
-    
+
     @Documentation(key = "lblMedApproved")
     @Column(name = "nubMedApproved")
     private String _medApproved = "";
@@ -168,7 +174,7 @@ public class NubProposal implements Serializable {
 
     @Column(name = "nubMedCountryName")
     private String _medCountryName = "";
-    
+
     @Documentation(key = "lblMethodInHouse")
     @Column(name = "nubInHouseSince")
     private String _inHouseSince = "";
@@ -178,87 +184,100 @@ public class NubProposal implements Serializable {
 
     @Column(name = "nubInHouseMonth")
     private int _inHouseMonth;
-    
+
     @Documentation(key = "lblMethodInHouses")
     @Column(name = "nubHospitalCount")
-    private String _hospitalCount="";
-    
+    private String _hospitalCount = "";
+
     @Documentation(key = "lblPatientsLastYear")
     @Column(name = "nubPatientsLastYear")
     private String _patientsLastYear = "";
-    
+
     @Documentation(key = "lblPatientsThisYear")
     @Column(name = "nubPatientsThisYear")
     private String _patientsThisYear = "";
-    
+
     @Documentation(key = "lblPatientsFuture")
     @Column(name = "nubPatientsFuture")
     private String _patientsFuture = "";
-    
+
     @Documentation(key = "lblAddCosts")
     @Column(name = "nubAddCosts")
     private String _addCosts = "";
-    
+
     @Documentation(key = "lblWhyNotRepresented")
     @Column(name = "nubWhyNotRepresented")
     private String _whyNotRepresented = "";
-    
+
     @Documentation(key = "lblRequestedEarlierSelf")
     @Column(name = "nubRequestedEarlierSelf")
     private boolean _isRequestedEarlierSelf;
-    
+
     @Documentation(key = "lblRequestedEarlierOther")
     @Column(name = "nubRequestedEarlierOther")
     private boolean _isRequestedEarlierOther;
-    
+
     @Documentation(key = "lblNubProceduresPrint")
     @Column(name = "nubOps")
     private String _procedures = "";
-    
+
     @Documentation(key = "lblDrgs")
     @Column(name = "nubDrgs")
     private String _drgs = "";
 
     @Column(name = "nubHelperId")
     private int _helperId;
-    
+
     @Documentation(key = "lblProxyIkPrint")
     @Column(name = "nubProxyIKs")
     private String _proxyIKs = "";
-    
+
     @Column(name = "nubDateOfReview")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _dateOfReview;
-    
+
     @Documentation(key = "lblProcedures")
     @Column(name = "nubProcs")
     private String _procs = "";
-    
+
     @Documentation(key = "lblNubErrorText", omitOnEmpty = true)
     @Column(name = "nubErrorText")
     private String _errorText = "";
-    
+
     @Column(name = "nubByEmail")
     private boolean _byEmail;
-    
+
     @Column(name = "nubCreatedBy")
     private int _createdBy;
-    
+
     @Column(name = "nubLastChangedBy")
     private int _lastChangedBy;
-    
+
     @Column(name = "nubSealedBy")
     private int _sealedBy;
-    
+
     @Column(name = "nubDisplayName")
     private String _displayName = "";
-    
+
     @Column(name = "nubUserComment")
     private String _userComment = "";
-    
-    @Documentation (key="lblNubStatus", rank = 20)
+
+    @Documentation(key = "lblNubStatus", rank = 20)
     @Column(name = "nubExternalStatus")
     private String _externalState = "";
+
+    // <editor-fold defaultstate="collapsed" desc="Property Documents">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "npdNubProposalId", referencedColumnName = "nubId")
+    private List<NubProposalDocument> _documents = new ArrayList<>();
+    public List<NubProposalDocument> getDocuments() {
+        return _documents;
+    }
+
+    public void setDocuments(List<NubProposalDocument> documents) {
+        _documents = documents;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getNubId() {
@@ -273,8 +292,8 @@ public class NubProposal implements Serializable {
         return _targetYear;
     }
 
-    public void setTargetYear(int _targetYear) {
-        this._targetYear = _targetYear;
+    public void setTargetYear(int targetYear) {
+        _targetYear = targetYear;
     }
 
     public Integer getAccountId() {
@@ -285,7 +304,7 @@ public class NubProposal implements Serializable {
         _accountId = accountId;
     }
 
-    @Documentation(name="Bearbeitungsstatus", rank = 10)
+    @Documentation(name = "Bearbeitungsstatus", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_status);
     }
@@ -335,7 +354,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setIkName(String hospitalName) {
-        this._ikName = hospitalName;
+        _ikName = hospitalName;
     }
 
     public int getGender() {
@@ -663,7 +682,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setProcs(String procs) {
-        this._procs = procs;
+        _procs = procs;
     }
 
     public String getDrgs() {
@@ -678,8 +697,8 @@ public class NubProposal implements Serializable {
         return _helperId;
     }
 
-    public void setHelperId(int _helperId) {
-        this._helperId = _helperId;
+    public void setHelperId(int helperId) {
+        _helperId = helperId;
     }
 
     public String getProxyIKs() {
@@ -687,7 +706,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setProxyIKs(String proxyIKs) {
-        this._proxyIKs = proxyIKs;
+        _proxyIKs = proxyIKs;
     }
 
     public Date getDateOfReview() {
@@ -695,7 +714,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setDateOfReview(Date dateOfReview) {
-        this._dateOfReview = dateOfReview;
+        _dateOfReview = dateOfReview;
     }
 
     public String getErrorText() {
@@ -703,7 +722,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setErrorText(String errorText) {
-        this._errorText = errorText;
+        _errorText = errorText;
     }
 
     public boolean isByEmail() {
@@ -711,7 +730,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setByEmail(boolean byMail) {
-        this._byEmail = byMail;
+        _byEmail = byMail;
     }
 
     public int getCreatedBy() {
@@ -719,7 +738,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setCreatedBy(int createdBy) {
-        this._createdBy = createdBy;
+        _createdBy = createdBy;
     }
 
     public int getLastChangedBy() {
@@ -727,7 +746,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setLastChangedBy(int lastChangedBy) {
-        this._lastChangedBy = lastChangedBy;
+        _lastChangedBy = lastChangedBy;
     }
 
     public int getSealedBy() {
@@ -735,7 +754,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setSealedBy(int sealedBy) {
-        this._sealedBy = sealedBy;
+        _sealedBy = sealedBy;
     }
 
     public String getDisplayName() {
@@ -743,7 +762,7 @@ public class NubProposal implements Serializable {
     }
 
     public void setDisplayName(String displayName) {
-        this._displayName = displayName;
+        _displayName = displayName;
     }
 
     public String getUserComment() {
@@ -751,15 +770,15 @@ public class NubProposal implements Serializable {
     }
 
     public void setUserComment(String userComment) {
-        this._userComment = userComment;
+        _userComment = userComment;
     }
 
     public String getExternalState() {
         return _externalState;
     }
 
-    public void setExternalState(String _externalState) {
-        this._externalState = _externalState;
+    public void setExternalState(String externalState) {
+        _externalState = externalState;
     }
 
     // </editor-fold>

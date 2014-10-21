@@ -5,7 +5,7 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.PeppProposalDocument;
+import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;

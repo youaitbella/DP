@@ -5,7 +5,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.PeppProposal;
+import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.PeppProposalFacade;

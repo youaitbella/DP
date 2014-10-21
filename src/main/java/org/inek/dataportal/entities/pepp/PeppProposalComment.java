@@ -1,9 +1,10 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.pepp;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
+import org.inek.dataportal.entities.Request;
 
 /**
  *

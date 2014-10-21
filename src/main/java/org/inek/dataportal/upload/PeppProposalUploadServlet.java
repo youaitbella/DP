@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.PeppProposalDocument;
+import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 

@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.pepp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import org.inek.dataportal.entities.ProcedureInfo;
 import org.inek.dataportal.enums.PeppProposalCategory;
 import org.inek.dataportal.utils.Documentation;
 

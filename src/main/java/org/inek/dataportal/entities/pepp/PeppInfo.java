@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.pepp;
 
 import java.io.Serializable;
 import javax.persistence.Column;

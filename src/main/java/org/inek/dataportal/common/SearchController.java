@@ -9,7 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.DiagnosisInfo;
-import org.inek.dataportal.entities.PeppInfo;
+import org.inek.dataportal.entities.pepp.PeppInfo;
 import org.inek.dataportal.entities.ProcedureInfo;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.facades.DiagnosisFacade;

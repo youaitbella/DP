@@ -1,7 +1,8 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.pepp;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import org.inek.dataportal.entities.Request;
 
 /**
  *
