@@ -25,6 +25,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
 @RequestScoped
@@ -33,19 +34,15 @@ public class DrgProposalList {
     @Inject DrgProposalFacade _drgProposalFacade;
     @Inject SessionController _sessionController;
 
-//    public List<ProposalInfo> getDrgProposals() {
-//        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
-//       // return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId());
-//  //      return null;
-//    }
+
     
      public List<Triple> getDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
     }
 
-    public List<ProposalInfo> getSealedDrgProposals() {
-   //     return _drgProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
-         return null;
+    public List<Triple> getSealedDrgProposals() {
+        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
+         
     }
 
     /**
@@ -59,7 +56,6 @@ public class DrgProposalList {
     }
 
     public boolean getOpenListEnabled() {
-        //return getNubEnabled() && getNubProposals().size() > 0;
         return getDrgProposals().size() > 0;
     }
 
@@ -105,12 +101,10 @@ public class DrgProposalList {
 
     public String printDrgProposal(int proposalId) {
         DrgProposal drgProposal = _drgProposalFacade.find(proposalId);
-
-//        String headLine = Utils.getMessage("nameNUB")
-//                + (drgProposal.getStatus().getValue() >= WorkflowStatus.Provided.getValue() ? " N" + drgProposal.getDrgId() : "");
-//        Utils.getFlash().put("headLine", headLine);
-//        Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
-//        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(drgProposal));
+        String headLine = Utils.getMessage("nameDRG_PROPOSAL") + " " + drgProposal.getExternalId();
+        Utils.getFlash().put("headLine", headLine);
+        Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
+        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(drgProposal));
         return Pages.PrintView.URL();
     }
 
