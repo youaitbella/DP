@@ -10,11 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import javax.inject.Inject;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.feature.certification.CertCertification;
 import org.inek.dataportal.feature.certification.EditCert;
 import org.inek.dataportal.helper.StreamHelper;
@@ -27,9 +25,6 @@ import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 @WebServlet(urlPatterns = {"/upload/CertUploadServlet", "/Certification/upload/CertUploadServlet"}, name = "CertUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
 public class CertUploadServlet extends AbstractUploadServlet {
-
-    @Inject
-    SessionController _sessionController;
 
 //    @Override
 //    protected void showFileName(String filename, HttpUtil httpUtil) {

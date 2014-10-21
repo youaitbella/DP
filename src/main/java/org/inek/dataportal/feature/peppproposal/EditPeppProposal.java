@@ -20,10 +20,10 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.pepp.PeppProposal;
-import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.entities.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.pepp.PeppProposal;
+import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
@@ -189,7 +189,7 @@ public class EditPeppProposal extends AbstractEditController {
         if (cat == null) {
             return;
         }
-        
+
         findTopic(PeppProposalTabs.tabPPCodes.name()).setVisible(cat.equals(PeppProposalCategory.CODES) || cat.equals(PeppProposalCategory.SYSTEM));
     }
 
@@ -398,7 +398,6 @@ public class EditPeppProposal extends AbstractEditController {
             ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
             try {
                 new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
-
             } catch (IOException ex) {
                 _logger.log(Level.SEVERE, null, ex);
                 return Pages.Error.URL();

@@ -5,49 +5,49 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 template="NubEdit.xhtml">
     <ui:define name="editContent">
         <h:outputStylesheet name="fileuploader.css" library="css"/>
         <h:outputScript name="fileuploader.js" library="script"/>
-        <c:if test="#{!editNubProposal.readOnly}">
-            <script>
-                var fileCounter = 0;
-                function createUploader() {
-                    var uploader = new qq.FileUploader({
-                        element: document.getElementById('file-uploader'),
-                        action: '/DataPortal/upload/peppproposal',
-                        debug: true,
-                        allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                        onSubmit: function (id, fileName) {
-                            fileCounter++;
-                        },
-                        onCancel: function (id, fileName) {
-                            fileCounter--;
-                            if (fileCounter === 0) {
-                            }
-                        },
-                        onComplete: function (id, fileName, responseJSON) {
-                            fileCounter--;
-                            if (fileCounter === 0) {
-                                document.getElementById("form:takeDocuments").click();
-                            }
-                        },
-                        template: '<div class="qq-uploader">' +
-                                '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                                '<div class="qq-upload-button">Datei hochladen</div>' +
-                                '<ul class="qq-upload-list"></ul>' +
-                                '</div>'
-                    });
-                }
-                window.onload = createUploader;
-            </script>
-        </c:if>
+        <script jsf:rendered = "#{editNubProposal.nubProposal.status.value lt 5}">
+            var fileCounter = 0;
+            function createUploader() {
+                var uploader = new qq.FileUploader({
+                    element: document.getElementById('file-uploader'),
+                    action: '/DataPortal/upload/nubproposal',
+                    debug: true,
+                    allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                    onSubmit: function (id, fileName) {
+                        fileCounter++;
+                    },
+                    onCancel: function (id, fileName) {
+                        fileCounter--;
+                        if (fileCounter === 0) {
+                        }
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        fileCounter--;
+                        if (fileCounter === 0) {
+                            document.getElementById('form:refresh').click();
+                        }
+                    },
+                    template: '<div class="qq-uploader">' +
+                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                            '<div class="qq-upload-button">Datei hochladen</div>' +
+                            '<ul class="qq-upload-list"></ul>' +
+                            '</div>'
+                });
+            }
+            window.onload = createUploader;
+        </script>
+        <h1>Dokumente</h1>
         <div class="inputPart">
             <h:panelGroup rendered="#{editNubProposal.nubProposal.documents.size() > 0}">
                 <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
                 <h:dataTable  headerClass="list-header" id="tblDropBoxes"
                               value="#{editNubProposal.nubProposal.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-                    <h:column id="colDeleteId" rendered="#{editNubProposal.nubProposal.status == 0}">
+                    <h:column id="colDeleteId" rendered="#{editNubProposal.nubProposal.status.value lt 10}">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
@@ -65,6 +65,7 @@
             </h:panelGroup>
 
         </div>
+
         <div class="inputPart">
             <div id="file-uploader">
                 <noscript>
@@ -73,11 +74,8 @@
                 </noscript>
             </div>
 
-            <!-- Invisible button to transfer uploaded documents into nubProposal. Will be "clicked" by code when upload is complete -->
-            <h:commandButton id="takeDocuments" value="takeDocuments"
-                             style="display: none"
-                             action="#{editNubProposal.takeDocuments}" immediate="true">
-            </h:commandButton>
+            <!-- next comes a hidden element to force a JSF conform refresh -->
+            <h:commandLink id="refresh" style="display: none" action="#{editNubProposal.refresh}" value="refresh"/>
 
         </div>
 

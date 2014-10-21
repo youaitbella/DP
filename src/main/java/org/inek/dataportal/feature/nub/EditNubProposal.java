@@ -4,8 +4,6 @@
  */
 package org.inek.dataportal.feature.nub;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
@@ -24,7 +21,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.NubProposalDocument;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.CodeType;
@@ -38,7 +37,6 @@ import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
-import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.IkValidator;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -54,16 +52,11 @@ public class EditNubProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
 
-    @Inject
-    private ProcedureFacade _procedureFacade;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private NubProposalFacade _nubProposalFacade;
-    @Inject
-    private CustomerFacade _customerFacade;
-    @Inject
-    NubSessionTools _nubSessionTools;
+    @Inject private ProcedureFacade _procedureFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private NubProposalFacade _nubProposalFacade;
+    @Inject private CustomerFacade _customerFacade;
+    @Inject private NubSessionTools _nubSessionTools;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
     private CooperativeRight _supervisorRight;
@@ -75,7 +68,7 @@ public class EditNubProposal extends AbstractEditController {
         addTopic(NubProposalTabs.tabNubPage2.name(), Pages.NubEditPage2.URL());
         addTopic(NubProposalTabs.tabNubPage3.name(), Pages.NubEditPage3.URL());
         addTopic(NubProposalTabs.tabNubPage4.name(), Pages.NubEditPage4.URL());
-        addTopic(NubProposalTabs.tabNubPageDocuments.name(), Pages.NubEditPage4.URL());
+        addTopic(NubProposalTabs.tabNubPageDocuments.name(), Pages.NubEditPageDocuments.URL());
     }
 
     enum NubProposalTabs {
@@ -528,6 +521,35 @@ public class EditNubProposal extends AbstractEditController {
         return "";
     }
 
+    public String deleteDocument(String name) {
+        NubProposalDocument existingDoc = findDocumentByName(name);
+        if (existingDoc != null) {
+            _nubProposal.getDocuments().remove(existingDoc);
+        }
+        return null;
+    }
+
+    public String downloadDocument(String name) {
+        Document document = findDocumentByName(name);
+        if (document != null) {
+            return Utils.downloadDocument(document);
+        }
+        return null;
+    }
+
+    public NubProposalDocument findDocumentByName(String name) {
+        for (NubProposalDocument document : _nubProposal.getDocuments()) {
+            if (document.getName().equals(name)) {
+                return document;
+            }
+        }
+        return null;
+    }
+
+    public String refresh() {
+        return "";
+    }
+
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
     String _msg = "";
     String _elementId = "";
@@ -607,7 +629,8 @@ public class EditNubProposal extends AbstractEditController {
 
     // </editor-fold>
     public String downloadTemplate() {
-        downloadDocument(getNubController().createTemplate(_nubProposal));
+        String content = getNubController().createTemplate(_nubProposal);
+        Utils.downloadDocument(content, _nubProposal.getName() + ".nub\"");
         return null;
     }
 
@@ -633,26 +656,6 @@ public class EditNubProposal extends AbstractEditController {
         if (copy.getNubId() != null) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt;");
         }
-    }
-
-    public String downloadDocument(String document) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-
-        try {
-            byte[] buffer = document.getBytes("UTF-8");
-            externalContext.setResponseHeader("Content-Type", "text/plain");
-            externalContext.setResponseHeader("Content-Length", "" + buffer.length);
-            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + _nubProposal.getName() + ".nub\"");
-            ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
-
-        } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
-        }
-        facesContext.responseComplete();
-        return null;
     }
 
 }

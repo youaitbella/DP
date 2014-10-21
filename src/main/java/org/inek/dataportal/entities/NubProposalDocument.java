@@ -8,7 +8,7 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-public class NubProposalDocument implements Serializable {
+public class NubProposalDocument implements Serializable, Document {
 
     private static final long serialVersionUID = 1L;
 
@@ -17,7 +17,7 @@ public class NubProposalDocument implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "npdId")
     private int _id = -1;
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
@@ -29,7 +29,7 @@ public class NubProposalDocument implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property NubProposalId">
     @Column(name = "npdNubProposalId")
     private int _nubProposalId = -1;
-    public Integer getNubProposalId() {
+    public int getNubProposalId() {
         return _nubProposalId;
     }
 
@@ -42,10 +42,12 @@ public class NubProposalDocument implements Serializable {
     @Column(name = "npdName")
     private String _name = "";
 
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public void setName(String name) {
         _name = name;
     }
@@ -56,10 +58,12 @@ public class NubProposalDocument implements Serializable {
     @Column(name = "npdContent")
     private byte[] _content;
 
+    @Override
     public byte[] getContent() {
         return _content;
     }
 
+    @Override
     public void setContent(byte[] content) {
         _content = content;
     }

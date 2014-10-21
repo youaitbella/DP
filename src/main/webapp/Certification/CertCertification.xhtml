@@ -50,7 +50,7 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div id="uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
+                <div id="uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
                     <script>
                         var fileCounter = 0;
                         function createUploader(act, loc) {
@@ -85,9 +85,9 @@
                                         '</div>'
                             });
                         }
-                        window.onload = createUploader;
+                        //window.onload = createUploader;
                     </script>
-                    <div id="file-uploader">
+                    <div id="file-uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
                         <noscript>
                             <p>Please enable JavaScript to use file uploader.</p>
                             <!-- or put a simple form for upload here -->
@@ -109,7 +109,7 @@
 
                 <div class="inputPart">
                     <h:outputLabel value="#{certCertification.resultFileName}"/>
-                    <h:outputLabel rendered="#{certCertification.grouper.certStatus eq 'TestUpload1' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'CertUpload1' or certCertification.grouper.certStatus eq 'CertUpload2'}"
+                    <h:outputLabel rendered="#{certCertification.grouper.certStatus eq 'TestUpload1' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'TestUpload3' or certCertification.grouper.certStatus eq 'CertUpload1' or certCertification.grouper.certStatus eq 'CertUpload2'}"
                                    value=" #{msg.lblUnderTest}"/>
                 </div>
 

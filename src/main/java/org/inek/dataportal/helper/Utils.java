@@ -29,6 +29,7 @@ import javax.faces.context.PartialResponseWriter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.nub.EditNubProposal;
 
@@ -202,6 +203,43 @@ public class Utils {
         FacesContext fc = FacesContext.getCurrentInstance();
         NavigationHandler nav = fc.getApplication().getNavigationHandler();
         nav.handleNavigation(fc, null, URL);
+    }
+
+    public static String downloadDocument(Document document) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        externalContext.setResponseHeader("Content-Type", "application/octet-stream");
+        externalContext.setResponseHeader("Content-Length", "" + document.getContent().length);
+        externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + document.getName() + "\"");
+        ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
+        try {
+            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+            return Pages.Error.URL();
+        }
+        facesContext.responseComplete();
+        return "";
+    }
+
+    public static String downloadDocument(String document, String name) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+
+        try {
+            byte[] buffer = document.getBytes("UTF-8");
+            externalContext.setResponseHeader("Content-Type", "text/plain");
+            externalContext.setResponseHeader("Content-Length", "" + buffer.length);
+            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + name);
+            ByteArrayInputStream is = new ByteArrayInputStream(buffer);
+            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
+
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+            return Pages.Error.URL();
+        }
+        facesContext.responseComplete();
+        return "";
     }
 
 }

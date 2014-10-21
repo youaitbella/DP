@@ -2,6 +2,7 @@ package org.inek.dataportal.entities.pepp;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.Request;
 
 /**
@@ -9,7 +10,7 @@ import org.inek.dataportal.entities.Request;
  * @author muellermi
  */
 @Entity
-public class PeppProposalDocument implements Serializable {
+public class PeppProposalDocument implements Serializable, Document {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,7 +40,6 @@ public class PeppProposalDocument implements Serializable {
         _name = name;
     }
 
-    
     public byte[] getContent() {
         return _content;
     }
@@ -75,4 +75,5 @@ public class PeppProposalDocument implements Serializable {
         return "org.inek.entities.PeppProposalDocument[id=" + _peppProposalDocumentId + "]";
     }
     // </editor-fold>
+
 }
