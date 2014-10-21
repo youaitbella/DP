@@ -71,7 +71,13 @@ public class CertGrouperResults {
     
     public String showResults(Grouper grouper) {
         _grouper = grouper;
-        
+        _attachement = "";
+        _numErrors = 0;
+        _receiverEmailCertificate = "";
+        _selectedTemplate = "";
+        _templateEmailCertificate = "";
+        _runs = 0;
+        _dateChecked = new Date();
         return Pages.CertGrouperResults.RedirectURL();
     }
     

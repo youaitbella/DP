@@ -1,8 +1,11 @@
 package org.inek.dataportal.entities.certification;
 
+import com.sun.javafx.scene.control.TableColumnComparatorBase;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -130,6 +133,7 @@ public class RemunerationSystem implements Serializable {
         if (_grouperList == null) {
             _grouperList = new ArrayList<>();
         }
+        Collections.sort(_grouperList, (Grouper o1, Grouper o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
         return _grouperList;
     }
 
