@@ -20,9 +20,8 @@
                              immediate="true" disabled="#{certCertification.grouperChanged}"
                              onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});
                                      setTimeout(function () {
-                                         document.getElementById('form:refresh').click();
-                                     }, 300);
-                             ">
+                                         createUploader();
+                                     }, 300);">
                 <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
             </h:selectOneMenu>
 
@@ -50,49 +49,11 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div id="uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
-                    <script>
-                        var fileCounter = 0;
-                        function createUploader(act, loc) {
-                            var uploader = new qq.FileUploader({
-                                element: document.getElementById('file-uploader'),
-                                action: '/DataPortal/upload/CertUploadServlet',
-                                debug: true,
-                                allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                                onSubmit: function (id, fileName) {
-                                    fileCounter++;
-                                },
-                                onCancel: function (id, fileName) {
-                                    fileCounter--;
-                                    if (fileCounter == 0) {
-                                        //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                                    }
-                                },
-                                onComplete: function (id, fileName, responseJSON) {
-                                    fileCounter--;
-                                    if (fileCounter == 0) {
-                                        // To display the uploaded file, we need to refresh the page.
-                                        // Window location would force a non-JSF navigation, ignoring our existing conversation
-                                        //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                                        // Thus, let JS click an element to get a JSF refresh
-                                        document.getElementById('form:refresh').click();
-                                    }
-                                },
-                                template: '<div class="qq-uploader">' +
-                                        '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                                        '<div class="qq-upload-button">#{msg.btnUpload} #{certCertification.expectedFileName}</div>' +
-                                        '<ul class="qq-upload-list"></ul>' +
-                                        '</div>'
-                            });
-                        }
-                        //window.onload = createUploader;
-                    </script>
-                    <div id="file-uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
-                        <noscript>
-                            <p>Please enable JavaScript to use file uploader.</p>
-                            <!-- or put a simple form for upload here -->
-                        </noscript>
-                    </div>
+                <div id="file-uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
+                    <noscript>
+                        <p>Please enable JavaScript to use file uploader.</p>
+                        <!-- or put a simple form for upload here -->
+                    </noscript>
                 </div>
                 <!-- next comes a hidden element to force a JSF conform refresh -->
                 <h:commandLink id="refresh" style="display: none" action="#{certCertification.refresh}" value="refresh"/>
@@ -152,7 +113,43 @@
                 </div>
 
             </div>
+            <script jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
+                //createUploader();
+            </script>
         </h:form>
+        <script>
+            var fileCounter = 0;
+            function createUploader(act, loc) {
+                    var uploader = new qq.FileUploader({                     element: document.getElementById('file-uploader'),
+                    action: '/DataPortal/upload/CertUploadServlet',
+                    debug: true,
+                    allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                    onSubmit: function (id, fileName) {
+                        fileCounter++;
+                        },
+                    onCancel: function (id, fileName) {
+                        fileCounter--;
+                        if (fileCounter == 0) {
+                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
+                        }
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        fileCounter--;                         if (fileCounter == 0) {
+                            // To display the uploaded file, we need to refresh the page.
+                            // Window location would force a non-JSF navigation, ignoring our existing conversation
+                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
+                            // Thus, let JS click an element to get a JSF refresh
+                            document.getElementById('form:refresh').click();
+                        }
+                    },
+                    template: '<div class="qq-uploader">' +
+                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                            '<div class="qq-upload-button">#{msg.btnUpload} #{certCertification.expectedFileName}</div>' +
+                                                '<ul class="qq-upload-list"></ul>' +
+                            '</div>'
+                                                });
+            }
+        </script>
     </ui:define>
 
 </ui:composition>
