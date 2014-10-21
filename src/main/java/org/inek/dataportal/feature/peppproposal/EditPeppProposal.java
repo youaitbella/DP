@@ -189,7 +189,7 @@ public class EditPeppProposal extends AbstractEditController {
         if (cat == null) {
             return;
         }
-        //findTopic(PeppProposalTabs.tabPPPolicy.name()).setVisible(cat.equals(PeppProposalCategory.POLICY));
+        
         findTopic(PeppProposalTabs.tabPPCodes.name()).setVisible(cat.equals(PeppProposalCategory.CODES) || cat.equals(PeppProposalCategory.SYSTEM));
     }
 

@@ -169,4 +169,8 @@ public class SessionTools implements Serializable {
         return false;
     }
 
+    
+    public boolean isDrgProposalDisabled(){
+        return true;
+    }
 }

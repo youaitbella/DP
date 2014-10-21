@@ -21,6 +21,7 @@ import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.requestsystem.RequestSystemController;
 import org.inek.dataportal.feature.certification.CertController;
+import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 
 /**
  *
@@ -39,6 +40,8 @@ public class FeatureFactory {
                 return new RequestSystemController(sessionController);
             case PEPP_PROPOSAL:
                 return new PeppProposalController(sessionController);
+            case DRG_PROPOSAL:
+                return new DrgProposalController(sessionController);    
             case DROPBOX:
                 return new DropBoxController(sessionController);
             case COOPERATION:

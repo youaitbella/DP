@@ -1,0 +1,228 @@
+package org.inek.dataportal.feature.drgproposal;
+
+//import org.inek.dataportal.feature.drg.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.CooperationRight;
+import org.inek.dataportal.entities.DrgProposal;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.enums.CooperativeRight;
+import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.CooperationFacade;
+import org.inek.dataportal.facades.CooperationRightFacade;
+import org.inek.dataportal.facades.DrgProposalFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.ProposalInfo;
+import org.inek.dataportal.helper.structures.Triple;
+
+@Named
+@RequestScoped
+public class DrgProposalList {
+
+    @Inject DrgProposalFacade _drgProposalFacade;
+    @Inject SessionController _sessionController;
+
+//    public List<ProposalInfo> getDrgProposals() {
+//        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
+//       // return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId());
+//  //      return null;
+//    }
+    
+     public List<Triple> getDrgProposals() {
+        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
+    }
+
+    public List<ProposalInfo> getSealedDrgProposals() {
+   //     return _drgProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
+         return null;
+    }
+
+    /**
+     * Nub may be created and send during Sept. and Oct.
+     *
+     * @return
+     */
+    public boolean getDrgEnabled() {
+        int month = 1 + Calendar.getInstance().get(Calendar.MONTH); // jan=0, thus 1+month
+        return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways
+    }
+
+    public boolean getOpenListEnabled() {
+        //return getNubEnabled() && getNubProposals().size() > 0;
+        return getDrgProposals().size() > 0;
+    }
+
+    
+
+    public String newDrgProposal() {
+        return Pages.DrgProposalEditAddress.RedirectURL();
+    }
+
+   
+
+    public String editDrgProposal(int proposalId) {
+        Utils.getFlash().put("drgId", proposalId);
+        return Pages.DrgProposalEditAddress.RedirectURL();
+    }
+
+    public String requestDeleteDrgProposal(int proposalId) {
+        Utils.getFlash().put("drgId", proposalId);
+        DrgProposal proposal = _drgProposalFacade.find(proposalId);
+        if (_sessionController.isMyAccount(proposal.getAccountId())) {
+//            String msg = proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
+//            String script = "if (confirm ('" + proposal.getName().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteNubProposal').click();}";
+//            _sessionController.setScript(script);
+        }
+        return "";
+    }
+
+    public String deleteDrgProposal(int proposalId) {
+        DrgProposal proposal = _drgProposalFacade.find(proposalId);
+        if (proposal == null) {
+            return "";
+        }
+//        if (_sessionController.isMyAccount(proposal.getAccountId())) {
+//            if (proposal.getStatus().getValue() <= 9) {
+//                _drgProposalFacade.remove(proposal);
+//            } else {
+//                proposal.setStatus(WorkflowStatus.Retired);
+//                _drgProposalFacade.saveNubProposal(proposal);
+//            }
+//        }
+        return "";
+    }
+
+    public String printDrgProposal(int proposalId) {
+        DrgProposal drgProposal = _drgProposalFacade.find(proposalId);
+
+//        String headLine = Utils.getMessage("nameNUB")
+//                + (drgProposal.getStatus().getValue() >= WorkflowStatus.Provided.getValue() ? " N" + drgProposal.getDrgId() : "");
+//        Utils.getFlash().put("headLine", headLine);
+//        Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
+//        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(drgProposal));
+        return Pages.PrintView.URL();
+    }
+
+    
+
+    // <editor-fold defaultstate="collapsed" desc="Cooperation">
+    @Inject AccountFacade _accountFacade;
+    @Inject CooperationFacade _cooperationFacade;
+    @Inject CooperationRightFacade _cooperationRightFacade;
+   // @Inject DrgSessionTools _drgSessionTools;
+    private List<CooperationRight> _cooperationRights;
+    private List<Account> _partners4Edit;
+    private List<Account> _partners4List;
+
+//    public List<Account> getPartnersForEdit() {
+//        if (_partners4Edit == null) {
+//            ensureAchievedCooperationRights();
+//            Set<Integer> ids = new HashSet<>();
+//            for (CooperationRight right : _cooperationRights) {
+//                if (right.getOwnerId() == -1
+//                        && (right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
+//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor)) {
+//                    ids.addAll(_drgProposalFacade.findAccountIdForIk(right.getIk()));
+//                }
+//                if (right.getOwnerId() >= 0
+//                        && (right.getCooperativeRight() == CooperativeRight.ReadOnly
+//                        || right.getCooperativeRight() == CooperativeRight.ReadWrite
+//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal
+//                        || right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
+//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor)) {
+//                    ids.add(right.getOwnerId());
+//                }
+//            }
+//            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
+//            _partners4Edit = _accountFacade.getAccountsForIds(ids);
+//        }
+//        return _partners4Edit;
+//    }
+
+    public List<ProposalInfo> getDrgProposalsForEditFromPartner(int partnerId) {
+        ensureAchievedCooperationRights();
+        Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();
+        List<ProposalInfo> drgs = new ArrayList<>();
+        for (CooperationRight right : _cooperationRights) {
+            if ((right.getOwnerId() == partnerId || right.getOwnerId() == -1)
+                    && partnerIKs.contains(right.getIk())
+                    && right.getCooperativeRight() != CooperativeRight.None
+                    && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
+                int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
+                                ? WorkflowStatus.ApprovalRequested.getValue()
+                                : 0;
+//                nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
+            }
+        }
+
+        return drgs;
+    }
+
+//    public List<Account> getPartnersForDisplay() {
+//        if (_partners4List == null) {
+//            ensureAchievedCooperationRights();
+//            Set<Integer> ids = new HashSet<>();
+//            for (CooperationRight right : _cooperationRights) {
+//                if (right.getCooperativeRight() != CooperativeRight.None) {
+//                    if (right.getOwnerId() == -1) {
+//                        ids.addAll(_drgProposalFacade.findAccountIdForIk(right.getIk()));
+//                    } else {
+//                        ids.add(right.getOwnerId());
+//                    }
+//                }
+//            }
+//            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
+//            _partners4List = _accountFacade.getAccountsForIds(ids);
+//        }
+//        return _partners4List;
+//    }
+
+    public List<ProposalInfo> getDrgProposalsForDisplayFromPartner(int partnerId) {
+        ensureAchievedCooperationRights();
+        List<ProposalInfo> drgs = new ArrayList<>();
+        Set<Integer> iks = new HashSet<>();
+
+//        for (CooperationRight right : _cooperationRights) {
+//            if (right.getOwnerId() == partnerId
+//                    && right.getCooperativeRight() != CooperativeRight.None) {
+//                iks.add(right.getIk());
+//                nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999));
+//            }
+//        }
+
+        // add managed iks
+        for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
+            if (_cooperationRightFacade.isSupervisor(Feature.DRG_PROPOSAL, ik, _sessionController.getAccountId())) {
+                iks.add(ik);
+            }
+        }
+
+//        for (Integer ik : iks) {
+//            nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, ik, 10, 999));
+//        }
+
+        return drgs;
+    }
+
+    private void ensureAchievedCooperationRights() {
+        if (_cooperationRights == null) {
+            _cooperationRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), Feature.DRG_PROPOSAL);
+        }
+    }
+// </editor-fold>
+
+}

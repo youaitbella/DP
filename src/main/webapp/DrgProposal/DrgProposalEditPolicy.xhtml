@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                >
+    <p>
+        <h:outputLabel styleClass="label" for="codingPolicy" value="#{msg.lblCodingPolicy}:"/>
+        <h:message for="codingPolicy" id="msgCodingPolicy" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideLow" id="codingPolicy" value="#{editDrgProposal.drgProposal.codingPolicy}"
+                     readonly="#{editDrgProposal.readOnly}"
+                          required="false" requiredMessage="#{msg.msgValueNeeded}">
+            <f:ajax event="blur" render="@this :logout:remaining msgCodingPolicy"/>
+        </h:inputTextarea>
+    </p>
+
+</ui:composition>
+

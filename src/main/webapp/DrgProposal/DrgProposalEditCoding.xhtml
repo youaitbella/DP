@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:inek="http://java.sun.com/jsf/composite/org/inek"
+                >
+    <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
+    
+    <h:panelGroup styleClass="inputPart" rendered="#{editDrgProposal.system}">
+        <h:outputLabel styleClass="label" for="drg" value="#{msg.lblReferencedDrg}:"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="drg" value="#{editDrgProposal.drgProposal.drg}"
+                          readonly="#{editDrgProposal.readOnly}"
+                          required="false" requiredMessage="#{msg.msgValueNeeded}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgDrg"/>
+        </h:inputTextarea>
+        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}" 
+                         immediate="true" value="#{msg.btnCallSearch}"/>
+        <h:message for="drg" id="msgDrg" styleClass="errorMessage"/>
+        <hr/>
+    </h:panelGroup>
+
+    <div class="inputPart marginTop fullWidth floatContainer">
+        <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
+        <br/>
+        <h:inputTextarea styleClass="areaNarrowLow" id="drgDiags" 
+                         readonly="#{editDrgProposal.readOnly}"
+                         value="#{editDrgProposal.drgProposal.diagCodes}" 
+                         validator="#{editDrgProposal.checkDiagnosisCodes}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this msgCheckDiags"/>
+        </h:inputTextarea>
+        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag}" 
+                         immediate="true" value="#{msg.btnCallSearch}"/>
+        <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagFreetext}"/>
+        <h:message for="diags" id="msgDiags" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideLow" id="diags" 
+                          readonly="#{editDrgProposal.readOnly}"
+                          value="#{editDrgProposal.drgProposal.diags}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgDiags"/>
+        </h:inputTextarea>
+    </div>
+    <hr/>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="drgProcs" value="#{msg.lblProcRelated}"/>
+        <br/>
+        <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="drgProcs" 
+                         readonly="#{editDrgProposal.readOnly}"
+                         value="#{editDrgProposal.drgProposal.procCodes}" 
+                         validator="#{editDrgProposal.checkProcedureCodes}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this msgCheckProcs"/>
+        </h:inputTextarea>
+        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}" 
+                         immediate="true" value="#{msg.btnCallSearch}"/>
+        <h:message for="drgProcs" id="msgCheckProcs" styleClass="errorMessage"/>
+    </div>
+
+    <!--inek:expandingTable /-->
+    
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="procs" value="#{msg.lblProcFreetext}"/>
+        <h:message for="procs" id="msgProcs" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideLow" id="procs" 
+                          readonly="#{editDrgProposal.readOnly}"
+                          value="#{editDrgProposal.drgProposal.procs}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgProcs"/>
+        </h:inputTextarea>
+    </div>
+
+    <div class="inpuPart">
+
+    </div>
+</ui:composition>
+

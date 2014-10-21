@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/DrgProposalSummaryTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                >
+
+    <ui:define name="summaryContent">
+            <h:panelGroup class="paddingElement">
+
+                <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
+                <p>
+                    <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true"/>
+                </p>
+
+                <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
+
+                    <h:dataTable   headerClass="list-header" value="#{drgProposalList.sealedDrgProposals}"
+                                  var="r" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colId, colValue">
+                        <h:column id="colPrintId" >
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:commandLink action="#{drgProposalList.printDrgProposal(r.value1)}" immediate="true" >
+                                <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblId}"/>
+                            </f:facet>
+                            <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="P#{r.value1}" immediate="true"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblAppellation}"/>
+                            </f:facet>
+                            <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="#{r.value2}" immediate="true"/>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:panelGroup>
+            </h:panelGroup>
+    </ui:define>
+
+</ui:composition>

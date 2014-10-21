@@ -17,3 +17,4 @@ public enum PeppProposalCategory {
     SUPPLEMENTARY,   // Vorschlag zum Zusatzentgelt
     OTHER;          // Sonstiger Vorschlag
 }
+
