@@ -119,7 +119,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public List<Account> getAccounts4Feature(Feature feature) {
-        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple)";
+        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple) ORDER BY a._company";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
 //        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
 //        System.out.println(sql);

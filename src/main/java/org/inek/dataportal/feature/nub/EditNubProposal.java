@@ -75,6 +75,7 @@ public class EditNubProposal extends AbstractEditController {
         addTopic(NubProposalTabs.tabNubPage2.name(), Pages.NubEditPage2.URL());
         addTopic(NubProposalTabs.tabNubPage3.name(), Pages.NubEditPage3.URL());
         addTopic(NubProposalTabs.tabNubPage4.name(), Pages.NubEditPage4.URL());
+        //addTopic(NubProposalTabs.tabNubPageDocuments.name(), Pages.NubEditPage4.URL());
     }
 
     enum NubProposalTabs {
@@ -83,7 +84,8 @@ public class EditNubProposal extends AbstractEditController {
         tabNubPage1,
         tabNubPage2,
         tabNubPage3,
-        tabNubPage4;
+        tabNubPage4,
+        tabNubPageDocuments;
     }
     // <editor-fold defaultstate="collapsed" desc="fields">
     private int _currentYear;
