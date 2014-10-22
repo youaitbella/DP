@@ -4,40 +4,26 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                template="DrgProposalEdit.xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:inek="http://java.sun.com/jsf/composite/org/inek"
                 >
-    <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
+    <ui:define name="editContent">
     
-    <h:panelGroup styleClass="inputPart" rendered="#{editDrgProposal.system}">
+    
+   
         <h:outputLabel styleClass="label" for="drg" value="#{msg.lblReferencedDrg}:"/>
         <br/>
-        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="drg" value="#{editDrgProposal.drgProposal.drg}"
+        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="drg" value="#{editDrgProposal.drgProposal.ops}"
                           readonly="#{editDrgProposal.readOnly}"
                           required="false" requiredMessage="#{msg.msgValueNeeded}">
             <f:validateLength maximum="500"/>
             <f:ajax event="blur" render="@this :logout:remaining msgDrg"/>
         </h:inputTextarea>
-        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}" 
+        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}" 
                          immediate="true" value="#{msg.btnCallSearch}"/>
         <h:message for="drg" id="msgDrg" styleClass="errorMessage"/>
-        <hr/>
-    </h:panelGroup>
-
-    <div class="inputPart marginTop fullWidth floatContainer">
-        <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
-        <br/>
-        <h:inputTextarea styleClass="areaNarrowLow" id="drgDiags" 
-                         readonly="#{editDrgProposal.readOnly}"
-                         value="#{editDrgProposal.drgProposal.diagCodes}" 
-                         validator="#{editDrgProposal.checkDiagnosisCodes}">
-            <f:validateLength maximum="500"/>
-            <f:ajax event="blur" render="@this msgCheckDiags"/>
-        </h:inputTextarea>
-        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag}" 
-                         immediate="true" value="#{msg.btnCallSearch}"/>
-        <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
-    </div>
+    
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagFreetext}"/>
@@ -45,7 +31,7 @@
         <br/>
         <h:inputTextarea  styleClass="areaWideLow" id="diags" 
                           readonly="#{editDrgProposal.readOnly}"
-                          value="#{editDrgProposal.drgProposal.diags}">
+                          value="#{editDrgProposal.drgProposal.opsText}">
             <f:validateLength maximum="500"/>
             <f:ajax event="blur" render="@this :logout:remaining msgDiags"/>
         </h:inputTextarea>
@@ -57,7 +43,7 @@
         <br/>
         <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="drgProcs" 
                          readonly="#{editDrgProposal.readOnly}"
-                         value="#{editDrgProposal.drgProposal.procCodes}" 
+                         value="#{editDrgProposal.drgProposal.procs}" 
                          validator="#{editDrgProposal.checkProcedureCodes}">
             <f:validateLength maximum="500"/>
             <f:ajax event="blur" render="@this msgCheckProcs"/>
@@ -75,7 +61,7 @@
         <br/>
         <h:inputTextarea  styleClass="areaWideLow" id="procs" 
                           readonly="#{editDrgProposal.readOnly}"
-                          value="#{editDrgProposal.drgProposal.procs}">
+                          value="#{editDrgProposal.drgProposal.procsText}">
             <f:validateLength maximum="500"/>
             <f:ajax event="blur" render="@this :logout:remaining msgProcs"/>
         </h:inputTextarea>
@@ -84,5 +70,6 @@
     <div class="inpuPart">
 
     </div>
+     </ui:define>
 </ui:composition>
 
