@@ -2,13 +2,18 @@ package org.inek.dataportal.entities.certification;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CertStatus;
 
 /**
@@ -59,6 +64,16 @@ public class Grouper implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Account">
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "grAccountId", updatable = false, insertable = false)
+    private Account _account;
+
+    public Account getAccount() {
+        return _account;
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Property CertStatus">
     @Column(name = "grCertStatus")
     private int _certStatus = -1;
@@ -79,7 +94,7 @@ public class Grouper implements Serializable {
     }
 
     public void setName(String name) {
-        _name = name;
+        _name = name.trim();
     }
     // </editor-fold>
 

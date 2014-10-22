@@ -109,6 +109,9 @@
       <topicref type="topic" id="415156892773417" build="ALL" modified="2013-08-29T16:59:11.060Z" icon="0" href="nubAddCosts">
         <caption translate="true">Mehrkosten</caption>
       </topicref>
+      <topicref type="topic" id="419344619748611" build="ALL" modified="2014-10-22T13:00:21.154Z" icon="0" href="Dokumente">
+        <caption translate="true">Dokumente</caption>
+      </topicref>
       <topicref type="topic" id="415166777941354" build="ALL" modified="2013-08-30T11:25:35.981Z" icon="0" href="Templates">
         <caption translate="true">Vorlagen</caption>
       </topicref>

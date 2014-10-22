@@ -31,6 +31,7 @@ public class NubProposalUploadServlet extends AbstractUploadServlet {
         if (document == null) {
             document = new NubProposalDocument();
             document.setName(filename);
+            document.setNubProposalId(editNub.getNubProposal().getNubId());
             documents.add(document);
         }
         document.setContent(stream2blob(is));

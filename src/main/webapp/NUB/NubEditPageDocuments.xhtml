@@ -10,7 +10,7 @@
     <ui:define name="editContent">
         <h:outputStylesheet name="fileuploader.css" library="css"/>
         <h:outputScript name="fileuploader.js" library="script"/>
-        <script jsf:rendered = "#{editNubProposal.nubProposal.status.value lt 5}">
+        <script>
             var fileCounter = 0;
             function createUploader() {
                 var uploader = new qq.FileUploader({
@@ -39,9 +39,15 @@
                             '</div>'
                 });
             }
-            window.onload = createUploader;
         </script>
-        <h1>Dokumente</h1>
+
+        <h1>#{msg.lblDocuments}</h1>
+        <div>
+            <br/>
+            #{msg.lblDocumentsOnline}
+            <br/>
+            <br/>
+        </div>
         <div class="inputPart">
             <h:panelGroup rendered="#{editNubProposal.nubProposal.documents.size() > 0}">
                 <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
@@ -66,17 +72,15 @@
 
         </div>
 
-        <div class="inputPart">
+        <div class="inputPart" jsf:rendered = "#{editNubProposal.nubProposal.status.value lt 5}">
             <div id="file-uploader">
-                <noscript>
-                    <div class="inputPart">Please enable JavaScript to use the file upload.</div>
-                    <!-- or put a simple form for upload here -->
-                </noscript>
+                <script>
+                    createUploader();
+                </script>
             </div>
 
             <!-- next comes a hidden element to force a JSF conform refresh -->
             <h:commandLink id="refresh" style="display: none" action="#{editNubProposal.refresh}" value="refresh"/>
-
         </div>
 
     </ui:define>

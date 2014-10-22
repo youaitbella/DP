@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.certification;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -81,6 +82,8 @@ public class CertManager {
                 _system = new RemunerationSystem();
             } else {
                 _system = _systemFacade.find(templateId);
+                Collections.sort(_system.getGrouperList(), (Grouper o1, Grouper o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
+
             }
             setSystemChanged(false);
         }

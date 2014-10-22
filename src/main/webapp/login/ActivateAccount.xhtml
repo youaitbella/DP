@@ -10,9 +10,6 @@
     </ui:define>
 
     <ui:define name="content">
-        <noscript>			
-            <h2>#{msg.msgEnableScript}</h2>
-        </noscript>  
         <h:form id="Login">
             <h:outputLabel value="#{msg.msgAccountActivation}" />
             <br />
@@ -23,8 +20,8 @@
                 <h:inputText styleClass="input" id="txtGUID" value="#{activateAccount.guid}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                     <f:ajax event="blur" render="@this msgGuid" />
                 </h:inputText>
-            </div>          
-            
+            </div>
+
             <div class="inputPart">
                 <h:outputLabel id="lblPassword" for="password" styleClass="label" value="#{msg.lblNewPassword}:"/>
                 <h:message id="msgPassword" for="password" styleClass="errorMessage"/>
@@ -33,7 +30,7 @@
                     <f:ajax event="blur" render="@this msgPassword"/>
                 </h:inputSecret>
             </div>
-            
+
             <div class="inputPart">
                 <h:outputLabel id="lblPasswordRepeat" for="txtPasswordRepeat" styleClass="label" value="#{msg.lblRepeatPassword}:"/>
                 <h:message id="msgPasswordRepeat" for="txtPasswordRepeat" styleClass="errorMessage"/>
@@ -42,9 +39,9 @@
                     <f:ajax event="blur" render="@this msgPasswordRepeat" />
                 </h:inputSecret>
             </div>
-            
+
             <br />
-            
+
             <p>
                 <h:selectBooleanCheckbox id="approval" value="#{register.approved}" required="true" validator="#{register.checkApproval}">
                     <f:ajax event="blur" render="@this msgApproval"/>
@@ -53,19 +50,19 @@
                 <br/>
                 <h:message id="msgApproval" for="approval" styleClass="errorMessage"/>
             </p>
-            
+
             <br />
             <p>
                 <h:outputLabel styleClass="label" value="#{msg.msgActivateDPAccess}"/>
                 <br/>
                 <h:commandLink styleClass="button" action="#{activateAccount.activateAndLogin}" immediate="false" value="#{msg.btnActivateAndLogin}"/>
             </p>
-            
+
             <br/>
             <p>
-                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet? 
+                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet?
                 <br/>
-                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a> 
+                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a>
                 und lesen Sie das <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf">Anwenderhandbuch</a>.
             </p>
 
