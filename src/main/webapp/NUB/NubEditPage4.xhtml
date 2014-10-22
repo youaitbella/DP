@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
 
-    <ui:define name="editContent">    
+    <ui:define name="editContent">
 
         <h2>#{msg.tabNubPage4}</h2>
 
@@ -41,15 +41,14 @@
             <h:outputLabel styleClass="label" value="#{msg.lblNubAlreadySended}"/>
             <br/>
             <div class="inputPart" style="margin-left: 28px;">
-                <h:selectBooleanCheckbox id="byYourHospital" value="#{editNubProposal.nubProposal.isRequestedEarlierSelf}" readonly="#{editNubProposal.readOnly}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                </h:selectBooleanCheckbox>&nbsp;
-                <h:outputLabel id="byYourHospitalLabel" value="#{msg.lblByYourHospital}"/>
-                <br/>
-                <h:selectBooleanCheckbox id="byOtherHospital" value="#{editNubProposal.nubProposal.requestedEarlierOther}" readonly="#{editNubProposal.readOnly}">
+                <h:selectBooleanCheckbox id="byYourHospital" value="#{editNubProposal.nubProposal.isRequestedEarlierSelf}" readonly="#{editNubProposal.readOnly}" styleClass="marginRight">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:selectBooleanCheckbox>
-                &nbsp;
+                <h:outputLabel id="byYourHospitalLabel" value="#{msg.lblByYourHospital}"/>
+                <br/>
+                <h:selectBooleanCheckbox id="byOtherHospital" value="#{editNubProposal.nubProposal.requestedEarlierOther}" readonly="#{editNubProposal.readOnly}" styleClass="marginRight">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:selectBooleanCheckbox>
                 <h:outputLabel id="byOtherHospitalLabel" value="#{msg.lblByOtherHospital}"/>
             </div>
         </div>

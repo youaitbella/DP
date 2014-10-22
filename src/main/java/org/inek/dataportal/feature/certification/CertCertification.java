@@ -278,6 +278,7 @@ public class CertCertification {
             _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis", msg);
         }
         save();
+        setGrouperChanged(false);
     }
 
     private void setPersistUploadFile() {

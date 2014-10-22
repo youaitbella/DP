@@ -67,7 +67,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
     }
 
     public NubProposal saveNubProposal(NubProposal nubProposal) {
-        if (nubProposal.getNubId() == null) {
+        if (nubProposal.getNubId() == -1) {
             persist(nubProposal);
             return nubProposal;
         }

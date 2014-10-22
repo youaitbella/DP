@@ -278,11 +278,11 @@ qq.FileUploaderBasic = function (o) {
         },
         // messages
         messages: {
-            typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-            sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-            minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-            emptyError: "{file} is empty, please select files again without it.",
-            onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+            typeError: "{file} hat eine ungültige Datei-Erweiterung. Nur {extensions} sind erlaubt.",
+            sizeError: "{file} ist zu groß. Die Maximalgröße beträgt {sizeLimit}.",
+            minSizeError: "{file} ist zu klein. Die Minimalgröße beträgt {minSizeLimit}.",
+            emptyError: "{file} ist leer. Bitte selektieren Sie erneu ohne diese Datei.",
+            onLeave: "Die Dateien werden zurzeit hochgeladen. Wenn Sie jetzt die Seite verlassen, wird der Upload abgebrochen."
         },
         showMessage: function (message) {
             alert(message);

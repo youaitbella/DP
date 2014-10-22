@@ -49,7 +49,7 @@
                         <h:outputLabel styleClass="label" for="password" value="#{msg.lblPassword}:"/>
                         <h:message for="password" id="msgPassword" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputSecret styleClass="input" id="password" value="#{register.password}" required="true" requiredMessage="#{msg.msgValueNeeded}" 
+                        <h:inputSecret styleClass="input" id="password" value="#{register.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"
                                        redisplay="true" maxlength="50">
                             <f:ajax event="blur" render="@this msgPassword"/>
                         </h:inputSecret>
@@ -58,7 +58,7 @@
                         <h:outputLabel styleClass="label" for="repeatPassword" value="#{msg.lblRepeatPassword}:"/>
                         <h:message id="msgRepeatPassword" for="repeatPassword" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputSecret styleClass="input" id="repeatPassword" value="#{register.repeatPassword}" required="true" requiredMessage="#{msg.msgValueNeeded}" 
+                        <h:inputSecret styleClass="input" id="repeatPassword" value="#{register.repeatPassword}" required="true" requiredMessage="#{msg.msgValueNeeded}"
                                        redisplay="true" maxlength="50"
                                        validator="#{register.checkPassword}">
                             <f:ajax event="blur" render="@this msgRepeatPassword"/>
@@ -70,7 +70,7 @@
                                 <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
                                 <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                                 <br/>
-                                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{register.accountRequest.gender}" 
+                                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{register.accountRequest.gender}"
                                                  required="true" requiredMessage="#{msg.msgChooseEntryShort}">
                                     <f:selectItems value="#{sessionTools.genderItems}"/>
                                     <f:ajax event="blur" render="@this msgGender"/>
@@ -87,7 +87,7 @@
                         <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
                         <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="firstname" value="#{register.accountRequest.firstName}" 
+                        <h:inputText styleClass="input" id="firstname" value="#{register.accountRequest.firstName}"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                             <f:ajax event="blur" render="@this msgFirstname"/>
                         </h:inputText>
@@ -96,7 +96,7 @@
                         <h:outputLabel styleClass="label" for="lasttname" value="#{msg.lblLastName}:"/>
                         <h:message id="msgLastname" for="lasttname" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="lasttname" value="#{register.accountRequest.lastName}" 
+                        <h:inputText styleClass="input" id="lasttname" value="#{register.accountRequest.lastName}"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                             <f:ajax event="blur" render="@this msgLastname"/>
                         </h:inputText>
@@ -124,7 +124,7 @@
                         <h:outputLabel styleClass="label" for="company" value="#{msg.lblCompany}:"/>
                         <h:message id="msgCompany" for="company" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="company" value="#{register.accountRequest.company}" 
+                        <h:inputText styleClass="input" id="company" value="#{register.accountRequest.company}"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}"
                                      maxlength="200">
                             <f:ajax event="blur" render="@this msgCompany"/>
@@ -134,7 +134,7 @@
                         <h:outputLabel styleClass="label" id="lblCustomerType" for="customerType" value="#{msg.lblCustomerType}:"/>
                         <h:message id="msgCustomerType" for="customerType" styleClass="errorMessage"/>
                         <br/>
-                        <h:selectOneMenu styleClass="input" id="customerType" value="#{register.accountRequest.customerTypeId}" 
+                        <h:selectOneMenu styleClass="input" id="customerType" value="#{register.accountRequest.customerTypeId}"
                                          required="true" requiredMessage="#{msg.lblChooseEntry}">
                             <f:selectItems value="#{sessionTools.customerTypeItems}"/>
                             <f:ajax event="blur" render="@this msgCustomerType lblIk ik"/>
@@ -144,7 +144,7 @@
                         <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
                         <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="ik" value="#{register.accountRequest.IK}" 
+                        <h:inputText styleClass="input" id="ik" value="#{register.accountRequest.IK}"
                                      required="#{register.ikRequired}" requiredMessage="#{msg.msgValueNeeded}" maxlength="9">
                             <f:validator validatorId="IkValidator"/>
                             <f:ajax event="blur" render="@this msgIk"/>
@@ -154,7 +154,7 @@
                         <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
                         <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="street" value="#{register.accountRequest.street}" 
+                        <h:inputText styleClass="input" id="street" value="#{register.accountRequest.street}"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                             <f:ajax event="blur" render="@this msgStreet"/>
                         </h:inputText>
@@ -163,7 +163,7 @@
                         <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
                         <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="zip" value="#{register.accountRequest.postalCode}" 
+                        <h:inputText styleClass="input" id="zip" value="#{register.accountRequest.postalCode}"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="10">
                             <f:ajax event="blur" render="@this msgZip"/>
                         </h:inputText>
@@ -172,7 +172,7 @@
                         <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
                         <h:message id="msgTown" for="town" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="town" value="#{register.accountRequest.town}" 
+                        <h:inputText styleClass="input" id="town" value="#{register.accountRequest.town}"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                             <f:ajax event="blur" render="@this msgTown"/>
                         </h:inputText>
@@ -199,7 +199,7 @@
                     <h:outputText value="#{msg.dataPrivacyStatement}"/>
                 </p>
                 <p>
-                    <h:selectBooleanCheckbox id="approval" value="#{register.approved}" required="true" validator="#{register.checkApproval}">
+                    <h:selectBooleanCheckbox id="approval" value="#{register.approved}" required="true" validator="#{register.checkApproval}" styleClass="marginRight">
                         <f:ajax event="blur" render="@this msgApproval"/>
                     </h:selectBooleanCheckbox>
                     <h:outputLabel for="approval" value="#{msg.agreementMsg}"/>
@@ -210,9 +210,9 @@
                 <p>
                     <h:outputLabel styleClass="label" for="securityQuestion" value="#{msg.lblSecurityQuestion}:"/>
                     <br/>
-                    <h:outputText value="#{sessionTools.securityQuestion}"/>
-                    <h:inputText styleClass="inputsmall" id="securityQuestion" 
-                                 validator="#{sessionTools.checkSecurityQuestion}" 
+                    <h:outputText value="#{sessionTools.securityQuestion}" styleClass="marginRight"/>
+                    <h:inputText styleClass="inputsmall" id="securityQuestion"
+                                 validator="#{sessionTools.checkSecurityQuestion}"
                                  required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="5">
                         <f:ajax event="blur" render="@this msgSecurityQuestion"/>
                     </h:inputText>

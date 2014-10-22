@@ -115,14 +115,12 @@ public class CertManager {
     }
 
     public String saveSystem() {
-        // due to problems on save (grouper lost), we save the grouper separated
-        // it still saved one  together with the system :(
-        //List<Grouper> grouperList = _system.getGrouperList();
+        for (Grouper grouper : _system.getGrouperList()) {
+            if (grouper.getId() == -1) {
+                copyEmail(grouper);
+            }
+        }
         _system = _systemFacade.save(_system);
-//        for (Grouper grouper : grouperList) {
-//            grouper.setSystemId(_system.getId());
-//            _grouperFacade.merge(grouper);
-//        }
         persistFiles(new File(_system.getSystemRoot(), "Spec"));
         persistFiles(new File(_system.getSystemRoot(), "Daten"));
         setSystemChanged(false);
@@ -170,6 +168,11 @@ public class CertManager {
 
     private List<SelectItem> _certAccounts;
 
+    /**
+     * Get a list of manufactorers who are not assigned yet
+     *
+     * @return
+     */
     public List<SelectItem> getCertAccounts() {
         ensureCertAccounts();
         Set<Integer> grouperAccountIds = new HashSet<>();
@@ -256,6 +259,16 @@ public class CertManager {
         editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
         CertManager certManager = (CertManager) FeatureScopedContextHolder.Instance.getBean(CertManager.class);
         certManager.setSystemChanged(true);
+    }
+
+    private void copyEmail(Grouper newGrouper) {
+        Grouper source = newGrouper;
+        for (Grouper grouper : _grouperFacade.findByAccountId(newGrouper.getAccountId())) {
+            if (grouper.getId() > source.getId()) {
+                source = grouper;
+            }
+        }
+        newGrouper.setEmailCopy(source.getEmailCopy());
     }
 
 }

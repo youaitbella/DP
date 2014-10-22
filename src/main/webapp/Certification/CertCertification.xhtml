@@ -19,7 +19,7 @@
                 var uploader = new qq.FileUploader({element: document.getElementById('file-uploader'),
                     action: '/DataPortal/upload/CertUploadServlet',
                     debug: true,
-                    allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                    allowedExtensions: ['zip'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
                     onSubmit: function (id, fileName) {
                         fileCounter++;
                     },
@@ -124,7 +124,7 @@
                                  value="#{certCertification.grouper.name}"
                                  styleClass="input"
                                  required="true">
-                        <f:ajax render="@this msgGrouperName :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
+                        <f:ajax render="@this msgGrouperName mnuSystem :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
                     </h:inputText>
                     <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
                 </div>
@@ -134,7 +134,7 @@
                     <h:inputText id="txtEmailCopy"
                                  value="#{certCertification.grouper.emailCopy}"
                                  styleClass="input">
-                        <f:ajax render="@this msgEmailCopy :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
+                        <f:ajax render="@this msgEmailCopy mnuSystem :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
                     </h:inputText>
                     <h:message for="txtEmailCopy" id="msgEmailCopy" styleClass="errorMessage"/>
                 </div>
@@ -143,13 +143,13 @@
                 <div class="toolBar">
                     <h:commandLink id="btnSaveOther" styleClass="button" value="#{msg.btnSave}"
                                    actionListener="#{certCertification.saveOther}"
-                                   immediate="true" disabled="false"/>
+                                   immediate="true" disabled="false">
+                        <f:ajax render="@this mnuSystem :logout:remaining"/>
+                    </h:commandLink>
                 </div>
 
             </div>
         </h:form>
-        <script>
-        </script>
     </ui:define>
 
 </ui:composition>

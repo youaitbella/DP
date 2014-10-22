@@ -359,6 +359,9 @@ public class EditNubProposal extends AbstractEditController {
 
     public String save() {
         _nubProposal.setLastChangedBy(_sessionController.getAccountId());
+        if (_nubProposal.getStatus() == WorkflowStatus.Unknown) {
+            _nubProposal.setStatus(WorkflowStatus.New);
+        }
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         if (isValidId(_nubProposal.getNubId())) {
@@ -480,7 +483,7 @@ public class EditNubProposal extends AbstractEditController {
             // data from last year, not sealed so far
             // we need a new id, thus delete old and create new nub request
             NubProposal copy = ObjectUtils.copy(_nubProposal);
-            copy.setNubId(null);
+            copy.setNubId(-1);
             copy.setTargetYear(targetYear);
             _nubProposalFacade.remove(_nubProposal);
             _nubProposal = _nubProposalFacade.saveNubProposal(copy);
@@ -636,7 +639,7 @@ public class EditNubProposal extends AbstractEditController {
 
     public void copyNubProposal(AjaxBehaviorEvent event) {
         NubProposal copy = ObjectUtils.copy(_nubProposal);
-        copy.setNubId(null);
+        copy.setNubId(-1);
         copy.setStatus(WorkflowStatus.New);
         copy.setDateSealed(null);
         copy.setSealedBy(0);
@@ -653,7 +656,7 @@ public class EditNubProposal extends AbstractEditController {
         copy.setPatientsThisYear(_nubProposal.getPatientsFuture());
         copy.setPatientsFuture("");
         copy = _nubProposalFacade.saveNubProposal(copy);
-        if (copy.getNubId() != null) {
+        if (copy.getNubId() != -1) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt;");
         }
     }

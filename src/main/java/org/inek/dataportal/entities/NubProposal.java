@@ -38,7 +38,7 @@ public class NubProposal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nubId")
-    private Integer _nubId;
+    private int _nubId = -1;
 
     @Column(name = "nubTargetYear")
     private int _targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
@@ -47,7 +47,7 @@ public class NubProposal implements Serializable {
     private Integer _accountId;
 
     @Column(name = "nubStatus")
-    private int _status;
+    private int _status = -1;
 
     @Column(name = "nubCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -280,11 +280,11 @@ public class NubProposal implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getNubId() {
+    public int getNubId() {
         return _nubId;
     }
 
-    public void setNubId(Integer nubId) {
+    public void setNubId(int nubId) {
         _nubId = nubId;
     }
 
@@ -785,9 +785,7 @@ public class NubProposal implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_nubId != null ? _nubId.hashCode() : 0);
-        return hash;
+        return _nubId;
     }
 
     @Override
@@ -797,10 +795,7 @@ public class NubProposal implements Serializable {
             return false;
         }
         NubProposal other = (NubProposal) object;
-        if ((_nubId == null && other.getNubId() != null) || (_nubId != null && !_nubId.equals(other.getNubId()))) {
-            return false;
-        }
-        return true;
+        return _nubId == other._nubId;
     }
 
     @Override
