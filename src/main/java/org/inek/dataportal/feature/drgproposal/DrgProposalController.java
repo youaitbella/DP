@@ -4,9 +4,12 @@
  */
 package org.inek.dataportal.feature.drgproposal;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.DrgProposal;
+import org.inek.dataportal.entities.DrgProposalDocument;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -17,6 +20,8 @@ import org.inek.dataportal.helper.Topics;
  * @author muellermi
  */
 public class DrgProposalController extends AbstractFeatureController {
+    
+    private List<DrgProposalDocument> _documents;
 
     public DrgProposalController(SessionController sessionController) {
         super(sessionController);
@@ -37,19 +42,15 @@ public class DrgProposalController extends AbstractFeatureController {
         return Feature.DRG_PROPOSAL;
     }
 
-    /**
-     * creates a new NubProposal pre-populated with master data
-     *
-     * @return
-     */
-    public DrgProposal createDrgProposal() {
-        Account account = getSessionController().getAccount();
-        DrgProposal proposal = new DrgProposal();
-        proposal.setAccountId(account.getAccountId());
-//        proposal.setIk(account.getIK());
-//        proposal.setIkName(account.getCompany());
-       // populateMasterData(proposal, account);
-        return proposal;
+    public List<DrgProposalDocument> getDocuments() {       
+        if (_documents == null) {
+            _documents = new ArrayList<>();
+        }
+        return _documents;
+    }
+
+    public void setDocuments(List<DrgProposalDocument> documents) {
+        _documents = documents;
     }
 
   

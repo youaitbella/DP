@@ -210,9 +210,9 @@ public class EditDrgProposal extends AbstractEditController {
     public String searchProc() {
         return searchCode(CodeType.Proc);
     }
-
-    public String searchPepp() {
-        return searchCode(CodeType.Pepp);
+    
+    public String searchDrg() {
+        return searchCode(CodeType.Drg);
     }
 
     public String searchCode(CodeType codeType) {
@@ -304,6 +304,14 @@ public class EditDrgProposal extends AbstractEditController {
     public boolean isReadOnly() {
         return getDrgProposal().getStatus() > 0;
     }
+    
+    public boolean isAnonymousData() {
+        return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
+    }
+
+    public void setAnonymousData(boolean value) {
+        getDrgProposal().setAnonymousData(value);
+    }
 
     public String save() {
         _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
@@ -367,14 +375,16 @@ public class EditDrgProposal extends AbstractEditController {
 
     public String takeDocuments() {
         DrgProposalController ppController = (DrgProposalController) _sessionController.getFeatureController(Feature.DRG_PROPOSAL);
-//        for (DrgProposalDocument doc : ppController.getDocuments()) {
-//            DrgProposalDocument existingDoc = findByName(doc.getName());
-//            if (existingDoc != null) {
-//                getDrgProposal().getDocuments().remove(existingDoc);
-//            }
-//            getDrgProposal().getDocuments().add(doc);
-//        }
-//        ppController.getDocuments().clear();
+        
+        for (DrgProposalDocument doc : ppController.getDocuments()) {
+            DrgProposalDocument existingDoc = findByName(doc.getName());
+            if (existingDoc != null) {
+                getDrgProposal().getDocuments().remove(existingDoc);
+            }
+            getDrgProposal().getDocuments().add(doc);
+        }
+        ppController.getDocuments().clear();
+        
         return null;
     }
 
@@ -439,8 +449,8 @@ public class EditDrgProposal extends AbstractEditController {
         newTopic = checkField(newTopic, drgProposal.getSolution(), "lblSuggestedSolution", "form:solution", DrgProposalTabs.tabPPSolution);
         if (drgProposal.getDocuments() != null && drgProposal.getDocuments().size() > 0
                 || drgProposal.getDocumentsOffline() != null && drgProposal.getDocumentsOffline().length() > 0) {
-           // newTopic = checkField(newTopic, drgProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
-             newTopic = checkField(newTopic, "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
+            newTopic = checkField(newTopic, drgProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
+           //  newTopic = checkField(newTopic, "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
         }
 
         if (!_msg.isEmpty()) {

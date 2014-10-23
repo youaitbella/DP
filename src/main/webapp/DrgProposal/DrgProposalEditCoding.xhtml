@@ -20,7 +20,7 @@
             <f:validateLength maximum="500"/>
             <f:ajax event="blur" render="@this :logout:remaining msgDrg"/>
         </h:inputTextarea>
-        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}" 
+        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}" 
                          immediate="true" value="#{msg.btnCallSearch}"/>
         <h:message for="drg" id="msgDrg" styleClass="errorMessage"/>
     

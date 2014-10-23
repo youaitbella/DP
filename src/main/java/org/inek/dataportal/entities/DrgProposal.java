@@ -164,7 +164,8 @@ public class DrgProposal implements Serializable {
     @Column(name = "prDocumentationOffline")
     private String _documentsOffline = "";
     
-   
+    @Column(name = "prAnonymousData")
+    private Boolean _anonymousData = false;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "drgcDrgProposalId", referencedColumnName = "prId")
@@ -220,6 +221,14 @@ public class DrgProposal implements Serializable {
         _category = category;
     }
 
+    public Boolean isAnonymousData() {
+        return _anonymousData;
+    }
+
+    public void setAnonymousData(Boolean anonymousData) {
+        _anonymousData = anonymousData;
+    }
+    
     public int getStatus() {
         return _status;
     }

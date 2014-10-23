@@ -4,8 +4,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                template="DrgProposalEdit.xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="editContent">
     <h:outputStylesheet name="fileuploader.css" library="css"/>
     <h:outputScript name="fileuploader.js" library="script"/>
     <c:if test="#{!editDrgProposal.readOnly}">
@@ -100,6 +102,6 @@
         <h:outputLabel for="anonymousData" value="#{msg.lblAnonymousData}"/>
         <h:message for="anonymousData" id="msgAnonymousData" styleClass="errorMessage"/>
     </div>
-
+</ui:define>
 </ui:composition>
 
