@@ -20,6 +20,12 @@ public abstract class AbstractFacade<T> {
     @PersistenceContext(unitName = "DataPortalPU")
     private EntityManager _em;
 
+// If EM should not be container managed
+//    @PostConstruct
+//    private void init() {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataPortalPU");
+//        _em = emf.createEntityManager();
+//    }
     private final Class<T> _entityClass;
 
     public AbstractFacade(Class<T> entityClass) {

@@ -72,7 +72,7 @@ public class NubReminder {
 
     private String getOpenNubs(Account account) {
         StringBuilder sb = new StringBuilder();
-        List<NubProposal> requests = _nubFacade.findAll(account.getAccountId(), DataSet.OpenOnly);
+        List<NubProposal> requests = _nubFacade.findAll(account.getAccountId(), DataSet.OpenOnly, "");
         boolean needsApproval = false;
         for (NubProposal request : requests) {
             String displayName = request.getDisplayName().trim();

@@ -104,7 +104,8 @@ public class Mailer {
             message.setContent(multipart);
             Transport.send(message);
             return true;
-        } catch (MessagingException ex) {
+        } catch (Exception ex) { // catch all, not only MessagingException
+            _logger.log(Level.SEVERE, "Mailer failed");
             _logger.log(Level.SEVERE, null, ex);
         }
         return false;

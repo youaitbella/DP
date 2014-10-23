@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.helper.structures.ProposalInfo;
@@ -32,7 +33,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         super(NubProposal.class);
     }
 
-    public List<NubProposal> findAll(int accountId, DataSet dataSet) {
+    public List<NubProposal> findAll(int accountId, DataSet dataSet, String filter) {
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
             return Collections.EMPTY_LIST;
@@ -54,7 +55,12 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
             cq.select(request).where(status).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
+//            if (!filter.isEmpty()) {
+//                Predicate isFiltered = cb.or(cb.like(request.get("_name"), filter), cb.like(request.get("_displayName"), filter));
+//                cq.select(request).where(cb.and(isAccount, status, isFiltered)).orderBy(order);
+//            } else {
             cq.select(request).where(cb.and(isAccount, status)).orderBy(order);
+//            }
         }
         return getEntityManager().createQuery(cq).getResultList();
     }
@@ -79,10 +85,11 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
      *
      * @param accountId
      * @param dataSet
+     * @param filter
      * @return
      */
-    public List<ProposalInfo> getNubProposalInfos(int accountId, DataSet dataSet) {
-        List<NubProposal> proposals = findAll(accountId, dataSet);
+    public List<ProposalInfo> getNubProposalInfos(int accountId, DataSet dataSet, String filter) {
+        List<NubProposal> proposals = findAll(accountId, dataSet, filter);
         List<ProposalInfo> proposalInfos = new ArrayList<>();
         for (NubProposal proposal : proposals) {
             String displayName = proposal.getDisplayName().trim().length() == 0
@@ -93,15 +100,22 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return proposalInfos;
     }
 
-    public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus) {
+    public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus, String filter) {
         String sql = "SELECT p FROM NubProposal p "
                 + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
+                + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
                 + "ORDER BY p._nubId DESC";
         Query query = getEntityManager().createQuery(sql, NubProposal.class);
         query.setParameter("accountId", accountId);
         query.setParameter("ik", ik);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
+        if (!filter.isEmpty()) {
+            query.setParameter("filter1", filter);
+            query.setParameter("filter2", filter);
+        }
+        String generatedSql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+        System.out.println(generatedSql);
         List<NubProposal> proposals = query.getResultList();
         List<ProposalInfo> proposalInfos = new ArrayList<>();
         for (NubProposal proposal : proposals) {

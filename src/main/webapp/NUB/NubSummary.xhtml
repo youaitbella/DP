@@ -23,11 +23,20 @@
 
             <h1>#{msg.lblNUB}</h1>
 
+            <div class="inputPart">
+                <h:outputLabel for="txtFilter" styleClass="label" value="#{msg.lblFilter}"/>
+                <h:inputText id="txtFilter" value="#{nubSessionTools.nubFilter}">
+                    <f:ajax/>
+                </h:inputText>
+                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}" action="#{nubProposalList.refresh()}" immediate="true">
+                </h:commandLink>
+            </div>
+
             <ui:include src="#{sessionTools.pages.ListNub}"/>
 
             <h:panelGroup rendered="#{nubProposalList.partnersForEdit.size() > 0}">
                 <br/>
-                <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
+                <h:outputLabel styleClass="label" value="#{msg.lblNubFromPartner}"/>
                 <c:forEach items="#{nubProposalList.partnersForEdit}" var="partner" rendered="#{nubProposalList.partnersForEdit.size() > 0}">
                     <h:panelGroup rendered="#{nubProposalList.getNubProposalsForEditFromPartner(partner.accountId).size() gt 0}">
                         <p>

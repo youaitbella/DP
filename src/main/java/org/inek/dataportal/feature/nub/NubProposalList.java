@@ -32,12 +32,29 @@ public class NubProposalList {
     @Inject NubProposalFacade _nubProposalFacade;
     @Inject SessionController _sessionController;
 
+    private List<ProposalInfo> _openNubs;
+    private List<ProposalInfo> _sealedNubs;
+
     public List<ProposalInfo> getNubProposals() {
-        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
+        if (_openNubs == null) {
+            _openNubs = _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly, getFilter());
+        }
+        return _openNubs;
     }
 
     public List<ProposalInfo> getSealedNubProposals() {
-        return _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
+        if (_sealedNubs == null) {
+            _sealedNubs = _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly, getFilter());
+        }
+        return _sealedNubs;
+    }
+
+    private String getFilter() {
+        String filter = _nubSessionTools.getNubFilter();
+        if (!filter.isEmpty() && !filter.contains("%")) {
+            filter = "%" + filter + "%";
+        }
+        return filter;
     }
 
     /**
@@ -62,6 +79,10 @@ public class NubProposalList {
             reason += " Grund: " + proposal.getErrorText();
         }
         return reason;
+    }
+
+    public String refresh() {
+        return "";
     }
 
     public String newNubProposal() {
@@ -169,7 +190,7 @@ public class NubProposalList {
                         || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
                                 ? WorkflowStatus.ApprovalRequested.getValue()
                                 : 0;
-                nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
+                nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9, getFilter()));
             }
         }
 
@@ -204,7 +225,7 @@ public class NubProposalList {
             if (right.getOwnerId() == partnerId
                     && right.getCooperativeRight() != CooperativeRight.None) {
                 iks.add(right.getIk());
-                nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999));
+                //nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999, getFilter()));
             }
         }
 
@@ -216,7 +237,7 @@ public class NubProposalList {
         }
 
         for (Integer ik : iks) {
-            nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, ik, 10, 999));
+            nubs.addAll(_nubProposalFacade.findForAccountAndIk(partnerId, ik, 10, 999, getFilter()));
         }
 
         return nubs;

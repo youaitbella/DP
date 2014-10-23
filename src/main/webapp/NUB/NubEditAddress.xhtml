@@ -245,7 +245,9 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="" value="#{msg.lblExternalHelp}" />
             <br/>
-            <h:inputTextarea id="extText" styleClass="areaWideLow" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.formFillHelper}">
+            <h:inputTextarea id="extText" styleClass="areaWideLow"
+                             readonly="#{editNubProposal.readOnly}"
+                             value="#{editNubProposal.nubProposal.formFillHelper}">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
@@ -253,13 +255,16 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="userComment" value="#{msg.lblUserComment}:" />
             <br />
-            <h:inputTextarea id="userComment" styleClass="areaWideLow" value="#{editNubProposal.nubProposal.userComment}">
+            <h:inputTextarea id="userComment" styleClass="areaWideLow"
+                             readonly="#{editNubProposal.readOnly}"
+                             value="#{editNubProposal.nubProposal.userComment}">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
 
         <div class="toolBar  floatContainer">
-            <h:commandLink styleClass="button" action="#{editNubProposal.reloadMaster}" value="#{msg.btnReloadMaster}" immediate="true"
+            <h:commandLink styleClass="button" action="#{editNubProposal.reloadMaster}"
+                           value="#{msg.btnReloadMaster}" immediate="true"
                            rendered="#{!editNubProposal.readOnly}">
                 <f:ajax render="@form"/>
             </h:commandLink>

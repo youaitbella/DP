@@ -8,8 +8,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -34,14 +34,14 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         criteria = cb.and(criteria, cb.isFalse(request.get("_isComplete")));
         criteria = cb.and(criteria, cb.greaterThan(request.get("_validUntil"), Calendar.getInstance().getTime()));
         Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
-        if (isClosed){
+        if (isClosed) {
             cq.select(request).where(cb.and(isAccount, cb.not(criteria))).orderBy(cb.desc(request.get("_dropBoxId")));
-        }else{
+        } else {
             cq.select(request).where(cb.and(isAccount, criteria)).orderBy(cb.asc(request.get("_dropBoxId")));
         }
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
+
     public List<DropBox> findInvalid() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -49,8 +49,8 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         cq.select(request).where(cb.and(cb.isFalse(request.get("_isComplete")), cb.lessThan(request.get("_validUntil"), Calendar.getInstance().getTime())));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
-    public DropBox getDropBoxByDir(String dir){
+
+    public DropBox getDropBoxByDir(String dir) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> query = cb.createQuery(DropBox.class);
         Root<DropBox> root = query.from(DropBox.class);
@@ -62,7 +62,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
             return null;
         }
     }
-    
+
     public void deleteDropBox(DropBox dropbox) {
         if (dropbox.getDropBoxId() != null) {
             remove(dropbox);
@@ -77,7 +77,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
             return merge(dropbox);
         }
     }
-    
+
     public DropBox createDropBox(DropBox dropbox) {
         if (dropbox.getDropBoxId() != null) {
             _logger.log(Level.SEVERE, "attempt to create an existing dropbox");
@@ -94,5 +94,14 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         }
         return dropbox;
     }
-    
+
+    @Schedule(hour = "1")
+    private void cleanDropBoxes() {
+        List<DropBox> dropboxes = findInvalid();
+        for (DropBox dropbox : dropboxes) {
+            _logger.log(Level.WARNING, "Clean DroBox {0}", dropbox.getDropBoxId());
+            remove(dropbox);
+        }
+    }
+
 }

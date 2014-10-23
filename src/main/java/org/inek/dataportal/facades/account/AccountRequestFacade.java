@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -20,14 +22,14 @@ import org.inek.dataportal.mail.Mailer;
 @Stateless
 public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
 
-    public AccountRequestFacade (){
+    public AccountRequestFacade() {
         super(AccountRequest.class);
     }
 
     public AccountRequest findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM AccountRequest a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
-        List<AccountRequest> list =  getEntityManager().createQuery(query, AccountRequest.class).setParameter("mailOrUser", mailOrUser).getResultList();
-        if (list.size() == 1){
+        List<AccountRequest> list = getEntityManager().createQuery(query, AccountRequest.class).setParameter("mailOrUser", mailOrUser).getResultList();
+        if (list.size() == 1) {
             return list.get(0);
         }
         return null;
@@ -61,6 +63,14 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
         return false;
 
     }
-    
-    
+
+    @Schedule(hour = "2")
+    private void cleanAccountRequests() {
+        List<AccountRequest> requests = findRequestsOlderThan(DateUtils.getDateWithDayOffset(-3));
+        for (AccountRequest request : requests) {
+            _logger.log(Level.WARNING, "Clean request {0}, {1}", new Object[]{request.getAccountId(), request.getUser()});
+            remove(request);
+        }
+    }
+
 }

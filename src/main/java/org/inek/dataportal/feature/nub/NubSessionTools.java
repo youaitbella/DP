@@ -26,6 +26,15 @@ public class NubSessionTools implements Serializable {
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;
 
+    private String _nubFilter = "";
+    public String getNubFilter() {
+        return _nubFilter;
+    }
+
+    public void setNubFilter(String nubFilter) {
+        _nubFilter = nubFilter;
+    }
+
     // Seal own NUB is a marker, whether a NUB may be sealed by the owner (true)
     // or by a supervisor only (false)
     // It is used in coopearative environment
