@@ -24,8 +24,8 @@
             <h1>#{msg.lblNUB}</h1>
 
             <div class="inputPart">
-                <h:outputLabel for="txtFilter" styleClass="label" value="#{msg.lblFilter}"/>
-                <h:inputText id="txtFilter" value="#{nubSessionTools.nubFilter}">
+                <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubSessionTools.nubFilter}">
                     <f:ajax/>
                 </h:inputText>
                 <h:commandLink styleClass="button" value="#{msg.btnRefreshList}" action="#{nubProposalList.refresh()}" immediate="true">

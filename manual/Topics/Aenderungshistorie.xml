@@ -8,9 +8,14 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Im folgenden finden Sie größere Änderungen am </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> seit November 2012 in umgekehrter chronologischer Reihenfolge.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">24.10.2014</text></para>
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die Liste der NUB-Anfragen kann nach einem Suchbegriff gefiltert werden</text></li>
+    </list>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">22.10.2014</text></para>
     <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Zu NUB-Anfragen können ergänzende Dokumente hochgeladen werden.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Zu NUB-Anfragen können ergänzende Dokumente hochgeladen werden</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">08.09.2014</text></para>

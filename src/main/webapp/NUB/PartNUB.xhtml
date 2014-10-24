@@ -8,6 +8,7 @@
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.NubSummary)}" value="#{msg.lblNUB}" immediate="true"/>
         </h2>
         <div class="paddingElement">
+            #{nubSessionTools.nubFilter=""}
             <ui:include src="#{sessionTools.pages.ListNub}"/>
             <p>
                 <h:commandLink styleClass="button"

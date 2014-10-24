@@ -67,7 +67,7 @@ public class NubReminder {
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{listOpenNUB}", getOpenNubs(account));
-        return _mailer.sendMail(account.getEmail() + ".test", template.getBcc(), template.getSubject(), body);
+        return _mailer.sendMailFrom("nub@inek-drg.de", account.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
     private String getOpenNubs(Account account) {

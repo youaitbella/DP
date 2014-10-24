@@ -13,7 +13,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Darüber hinaus ist es möglich, ein zweistufiges Verfahren zu erzwingen: Für jedes Institutskennzeichen (IK) können ein oder mehrere Supervisor eingerichtet werden. Die Bereitstellung von Daten für das InEK ist dann erst nach Prüfung und Freigabe durch einen Supervisor möglich. Damit entspricht dieses Verfahren der Kooperation, als wenn dort jeder Anwender, der Daten für diese IK bearbeitet, dem Supervisor (Partner) eines der Rechte</text></para>
     <para styleclass="Normal"></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="37" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anzeige komplett erfasster Daten zur Bereitstellung an das InEK durch den Partner</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Wie vor mit Bearbeitungsmöglichkeit</text></li>
     </list>
@@ -21,5 +21,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">eingeräumt hätte. Weitere Informationen zu diesen Rechten finden Sie im Abschnitt </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Ein IK-Supervisor muss durch das InEK eingerichtet werden. Sofern Sie diese Funktion benötigen, senden Sie bitte eine entsprechende schriftliche Anfrage an das InEK. Das InEK wird diesen Wunsch prüfen und den IK-Supervisor nach Rückfrage und Autorisierung durch die Krankenhausleitung einrichten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Falls Sie als IK-Supervisor einem Kooperationspartner das Recht der Supervision einräumen, treten Sie damit das Recht, die Daten ans InEK zu senden für Ihre eigenen Anfragen an Ihren Partner ab. Sie können dann nur NUB-Anfragen der betreffenden IK, die von anderen Personen erfasst wurden, an das InEK senden.</text></para>
   </body>
 </topic>

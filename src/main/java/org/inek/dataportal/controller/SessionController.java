@@ -435,10 +435,16 @@ public class SessionController implements Serializable {
     }
 
     public boolean isMyAccount(int accountId) {
+        return isMyAccount(accountId, true);
+    }
+
+    public boolean isMyAccount(int accountId, boolean log) {
         if (getAccount().getAccountId() == accountId) {
             return true;
         }
-        _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{getAccount().getAccountId(), accountId});
+        if (log) {
+            _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{getAccount().getAccountId(), accountId});
+        }
         return false;
     }
 

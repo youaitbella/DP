@@ -87,7 +87,7 @@ public class EditNubProposal extends AbstractEditController {
     // </editor-fold>
 
     public EditNubProposal() {
-        _logger.log(Level.WARNING, "ctor EditNubProposal");
+        //_logger.log(Level.WARNING, "ctor EditNubProposal");
         _currentYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
@@ -192,7 +192,7 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     private boolean isOwnNub(NubProposal nubProposal) {
-        return _sessionController.isMyAccount(nubProposal.getAccountId());
+        return _sessionController.isMyAccount(nubProposal.getAccountId(), false);
     }
 
     private void ensureCooperativeRight(NubProposal nubProposal) {
@@ -272,7 +272,7 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isExternalStateVisible() {
-        return _nubProposal.getExternalState() != "";
+        return !_nubProposal.getExternalState().isEmpty();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Codes">
@@ -359,9 +359,6 @@ public class EditNubProposal extends AbstractEditController {
 
     public String save() {
         _nubProposal.setLastChangedBy(_sessionController.getAccountId());
-        if (_nubProposal.getStatus() == WorkflowStatus.Unknown) {
-            _nubProposal.setStatus(WorkflowStatus.New);
-        }
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         if (isValidId(_nubProposal.getNubId())) {
@@ -638,6 +635,7 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public void copyNubProposal(AjaxBehaviorEvent event) {
+        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         NubProposal copy = ObjectUtils.copy(_nubProposal);
         copy.setNubId(-1);
         copy.setStatus(WorkflowStatus.New);
@@ -651,10 +649,27 @@ public class EditNubProposal extends AbstractEditController {
         copy.setErrorText("");
         copy.setCreatedBy(_sessionController.getAccountId());
         copy.setLastChangedBy(_sessionController.getAccountId());
-        copy.setTargetYear(1 + Calendar.getInstance().get(Calendar.YEAR));
-        copy.setPatientsLastYear(_nubProposal.getPatientsThisYear());
-        copy.setPatientsThisYear(_nubProposal.getPatientsFuture());
-        copy.setPatientsFuture("");
+        if (copy.getTargetYear() == targetYear - 1) {
+            // from previous year
+            copy.setTargetYear(targetYear);
+            copy.setPatientsLastYear(_nubProposal.getPatientsThisYear());
+            copy.setPatientsThisYear(_nubProposal.getPatientsFuture());
+            copy.setPatientsFuture("");
+        } else if (copy.getTargetYear() < targetYear) {
+            // elder
+            copy.setTargetYear(targetYear);
+            copy.setPatientsLastYear("");
+            copy.setPatientsThisYear("");
+            copy.setPatientsFuture("");
+        } else {
+            // from partner
+            copy.setPatientsLastYear("");
+            copy.setPatientsThisYear("");
+            copy.setPatientsFuture("");
+            copy.setHelperId(copy.getAccountId());
+            copy.setAccountId(_sessionController.getAccountId());
+            getNubController().populateMasterData(copy, _sessionController.getAccount());
+        }
         copy = _nubProposalFacade.saveNubProposal(copy);
         if (copy.getNubId() != -1) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt;");

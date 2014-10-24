@@ -291,13 +291,13 @@ public class NubController extends AbstractFeatureController {
         Account account = getSessionController().getAccount();
         NubProposal proposal = new NubProposal();
         proposal.setAccountId(account.getAccountId());
-        proposal.setIk(account.getIK());
-        proposal.setIkName(account.getCompany());
         populateMasterData(proposal, account);
         return proposal;
     }
 
     public void populateMasterData(NubProposal proposal, Account account) {
+        proposal.setIk(account.getIK());
+        proposal.setIkName(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());
         proposal.setFirstName(account.getFirstName());

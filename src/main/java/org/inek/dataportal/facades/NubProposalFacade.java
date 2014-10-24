@@ -20,6 +20,7 @@ import javax.persistence.criteria.Root;
 import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 
 /**
@@ -55,12 +56,12 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
             cq.select(request).where(status).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
-//            if (!filter.isEmpty()) {
-//                Predicate isFiltered = cb.or(cb.like(request.get("_name"), filter), cb.like(request.get("_displayName"), filter));
-//                cq.select(request).where(cb.and(isAccount, status, isFiltered)).orderBy(order);
-//            } else {
-            cq.select(request).where(cb.and(isAccount, status)).orderBy(order);
-//            }
+            if (!filter.isEmpty()) {
+                Predicate isFiltered = cb.or(cb.like(request.get("_name"), filter), cb.like(request.get("_displayName"), filter));
+                cq.select(request).where(cb.and(isAccount, status, isFiltered)).orderBy(order);
+            } else {
+                cq.select(request).where(cb.and(isAccount, status)).orderBy(order);
+            }
         }
         return getEntityManager().createQuery(cq).getResultList();
     }
@@ -73,6 +74,10 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
     }
 
     public NubProposal saveNubProposal(NubProposal nubProposal) {
+        if (nubProposal.getStatus() == WorkflowStatus.Unknown) {
+            nubProposal.setStatus(WorkflowStatus.New);
+        }
+
         if (nubProposal.getNubId() == -1) {
             persist(nubProposal);
             return nubProposal;
