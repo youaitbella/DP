@@ -10,25 +10,40 @@
         <h:outputLabel styleClass="label" value="#{msg.lblEMailMessages}" />
         <div class="groupBox">
             <p>
-            <div class="groupBoxElement">
-                <h:selectBooleanCheckbox id="nubConfirmation" value="#{editUserMaintenance.account.nubConfirmation}" disabled="#{!editUserMaintenance.featureNub}" />
-                <h:outputLabel for="nubConfirmation" value="#{msg.lblNubConfirmation}" />
-            </div>
+                <div class="groupBoxElement">
+                    <h:selectBooleanCheckbox id="nubConfirmation"
+                                             styleClass="marginRight"
+                                             value="#{editUserMaintenance.account.nubConfirmation}"
+                                             disabled="#{!editUserMaintenance.featureNub}" />
+                    <h:outputLabel for="nubConfirmation" value="#{msg.lblNubConfirmation}" />
+                </div>
             </p>
             <p>
-            <div class="groupBoxElement">
-                <h:selectBooleanCheckbox id="messageCopy" value="#{editUserMaintenance.account.messageCopy}" disabled="#{!editUserMaintenance.featureCoop}" />
-                <h:outputLabel for="messageCopy" value="#{msg.lblMessageCopy}" />
-            </div>
+                <div class="groupBoxElement">
+                    <h:selectBooleanCheckbox id="nubInformation"
+                                             styleClass="marginRight"
+                                             value="#{editUserMaintenance.account.nubInformationMail}"
+                                             disabled="#{!editUserMaintenance.featureNub}" />
+                    <h:outputLabel for="nubInformation" value="#{msg.lblNubInformation}" />
+                </div>
+            </p>
+            <p>
+                <div class="groupBoxElement">
+                    <h:selectBooleanCheckbox id="messageCopy"
+                                             styleClass="marginRight"
+                                             value="#{editUserMaintenance.account.messageCopy}"
+                                             disabled="#{!editUserMaintenance.featureCoop}" />
+                    <h:outputLabel for="messageCopy" value="#{msg.lblMessageCopy}" />
+                </div>
             </p>
         </div>
-        
+
         <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
         <div class="toolBar">
             <h:commandLink styleClass="button" action="#{editUserMaintenance.save}" value="#{msg.btnSave}" immediate="false" />
             <h:commandLink styleClass="button" action="#{editUserMaintenance.discardChanges}" value="#{msg.btnDiscard}" immediate="true" />
         </div>
-        
+
     </ui:define>
 </ui:composition>
 

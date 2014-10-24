@@ -73,7 +73,7 @@
 
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnNewFromNub}"
-                                   rendered="#{nubProposalList.nubEnabled and (editNubProposal.nubProposal.dateSealed != null and editNubProposal.ownNub or editNubProposal.nubProposal.dateSealed == null and !editNubProposal.ownNub)}"
+                                   rendered="#{nubProposalList.nubEnabled and (editNubProposal.nubProposal.dateSealed != null or !editNubProposal.ownNub)}"
                                    >
                         <f:ajax listener="#{editNubProposal.copyNubProposal}"/>
                     </h:commandLink>

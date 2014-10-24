@@ -48,18 +48,12 @@ public class SessionController implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger _logger = Logger.getLogger("SessionController");
-    @Inject
-    private AccountFacade _accountFacade;
-    @Inject
-    private ProcedureFacade _procedureFacade;
-    @Inject
-    private DiagnosisFacade _diagnosisFacade;
-    @Inject
-    private PeppFacade _peppFacade;
-    @Inject
-    private LogFacade _logFacade;
-    @Inject
-    private AccountDocumentFacade _accDocFacade;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private ProcedureFacade _procedureFacade;
+    @Inject private DiagnosisFacade _diagnosisFacade;
+    @Inject private PeppFacade _peppFacade;
+    @Inject private LogFacade _logFacade;
+    @Inject private AccountDocumentFacade _accDocFacade;
     @Inject private Mailer _mailer;
     public Mailer getMailer() {
         return _mailer;

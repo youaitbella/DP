@@ -53,7 +53,9 @@ public class NubReminder {
         Map<Integer, Integer> accounts = _nubFacade.countOpenPerIk();
         for (int accountId : accounts.keySet()) {
             Account account = _accountFacade.find(accountId);
-            sendReminderMail(account);
+            if (account.isNubInformationMail()) {
+                sendReminderMail(account);
+            }
         }
     }
 
@@ -67,7 +69,7 @@ public class NubReminder {
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{listOpenNUB}", getOpenNubs(account));
-        return _mailer.sendMailFrom("nub@inek-drg.de", account.getEmail(), template.getBcc(), template.getSubject(), body);
+        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", account.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
     private String getOpenNubs(Account account) {

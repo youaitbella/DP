@@ -91,6 +91,16 @@ public class Account implements Serializable, Person {
     @Column(name = "acMessageCopy")
     private boolean _messageCopy = false;
 
+    @Column(name = "acNubInformationMail")
+    private boolean _nubInformationMail = true;
+    public boolean isNubInformationMail() {
+        return _nubInformationMail;
+    }
+
+    public void setNubInformationMail(boolean nubInformationMail) {
+        _nubInformationMail = nubInformationMail;
+    }
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")

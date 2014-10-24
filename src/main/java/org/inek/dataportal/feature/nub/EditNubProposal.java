@@ -35,6 +35,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
@@ -634,6 +635,7 @@ public class EditNubProposal extends AbstractEditController {
         return null;
     }
 
+    @Inject AccountFacade _accountFacade;
     public void copyNubProposal(AjaxBehaviorEvent event) {
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         NubProposal copy = ObjectUtils.copy(_nubProposal);
@@ -649,26 +651,27 @@ public class EditNubProposal extends AbstractEditController {
         copy.setErrorText("");
         copy.setCreatedBy(_sessionController.getAccountId());
         copy.setLastChangedBy(_sessionController.getAccountId());
-        if (copy.getTargetYear() == targetYear - 1) {
-            // from previous year
-            copy.setTargetYear(targetYear);
-            copy.setPatientsLastYear(_nubProposal.getPatientsThisYear());
-            copy.setPatientsThisYear(_nubProposal.getPatientsFuture());
-            copy.setPatientsFuture("");
-        } else if (copy.getTargetYear() < targetYear) {
-            // elder
-            copy.setTargetYear(targetYear);
-            copy.setPatientsLastYear("");
-            copy.setPatientsThisYear("");
-            copy.setPatientsFuture("");
-        } else {
+        copy.setTargetYear(targetYear);
+        if (copy.getAccountId() != _sessionController.getAccountId()) {
             // from partner
             copy.setPatientsLastYear("");
             copy.setPatientsThisYear("");
             copy.setPatientsFuture("");
             copy.setHelperId(copy.getAccountId());
+            Account partner = _accountFacade.find(copy.getAccountId());
+            copy.setFormFillHelper("Koperationspartner: " + partner.getCompany());
             copy.setAccountId(_sessionController.getAccountId());
             getNubController().populateMasterData(copy, _sessionController.getAccount());
+        } else if (copy.getTargetYear() == targetYear - 1) {
+            // from previous year
+            copy.setPatientsLastYear(_nubProposal.getPatientsThisYear());
+            copy.setPatientsThisYear(_nubProposal.getPatientsFuture());
+            copy.setPatientsFuture("");
+        } else {
+            // elder
+            copy.setPatientsLastYear("");
+            copy.setPatientsThisYear("");
+            copy.setPatientsFuture("");
         }
         copy = _nubProposalFacade.saveNubProposal(copy);
         if (copy.getNubId() != -1) {
