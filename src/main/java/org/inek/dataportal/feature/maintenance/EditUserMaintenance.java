@@ -391,6 +391,7 @@ public class EditUserMaintenance extends AbstractEditController {
     public String save() {
         if (isMasterdataChanged()) {
             mergeMasterData();
+            _features = null; // force reload on / after save
             _sessionController.saveAccount();
             _nubSessionTools.clearCache();
         }

@@ -267,7 +267,12 @@ public class AccountFacade extends AbstractFacade<Account> {
             return false;
         }
         Account account = findByMailOrUser(mail);
-        if (account == null || account.isDeactivated()) {
+        if (account == null) {
+            _logger.log(Level.INFO, "Password request for unknown account {0}", mail);
+            return false;
+        }
+        if (account.isDeactivated()) {
+            _logger.log(Level.INFO, "Password request for deactivated account {0}", mail);
             return false;
         }
         PasswordRequest request = _pwdRequestFacade.find(account.getAccountId());

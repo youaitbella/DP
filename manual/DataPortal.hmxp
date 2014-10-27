@@ -336,7 +336,9 @@ document.write('</frameset>');
   </config>
   <xi:include parse="xml" href="Maps/table_of_contents.xml"/>
   <project-files>
-    <file href="Topics/*.xml" build="ALL" filetype="topic"/>
+    <file href="Topics/*.xml" build="ALL" filetype="topic">
+      <file-mod href="GrouperCertification.xml" build="USER1"/>
+    </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>
 </helpproject>
