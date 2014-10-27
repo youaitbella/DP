@@ -10,6 +10,9 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">So wird beispielsweise der Inhalt des alten Feldes &quot;Wie viele Patienten planen Sie im Jahr 2014 mit dieser Methode zu behandeln?&quot; zum Inhalt des aktuellen Feldes &quot;Wie viele Patienten wurden in Ihrem Krankenhaus in 2014 mit dieser Methode behandelt?&quot;. Möglicherweise weicht die Zahl der behandelten Patienten von der ursprünglichen Planung ab, so dass hier eine Kontrolle und ggf. Korrektur erforderlich wird.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Button" translate="true">[In neue NUB übernehmen]</text><text styleclass="Normal" translate="true"> ist auch verfügbar in Anfragen von Kooperationspartnern, die noch nicht an das InEK gesendet wurden. So können Sie die Anfragen Ihrer Partner übernehmen. Dabei werden automatisch Ihre Stammdaten eingetragen</text></para>
+    <para styleclass="Image Caption"><image src="NubCopy.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Übernahme in neue NUB-Anfrage</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Darüber hinaus ist &#160;</text><text styleclass="Button" translate="true">[In neue NUB übernehmen]</text><text styleclass="Normal" translate="true"> auch in Anfragen von Kooperationspartnern verfügbar. So können Sie die Anfragen Ihrer Partner übernehmen. Dabei werden automatisch Ihre Stammdaten eingetragen.</text></para>
   </body>
 </topic>

@@ -84,10 +84,6 @@
                     <script>
                         createUploader("#{msg.btnUpload} #{certCertification.expectedFileName}");
                     </script>
-                    <noscript>
-                        <p>Bitte schalten Sie in Ihrem Browser JavaScrip ein.</p>
-                        <!-- or put a simple form for upload here -->
-                    </noscript>
                 </div>
                 <!-- next comes a hidden element to force a JSF conform refresh -->
                 <h:commandLink id="refresh" style="display: none" action="#{certCertification.refresh}" value="refresh"/>
@@ -139,12 +135,11 @@
                     <h:message for="txtEmailCopy" id="msgEmailCopy" styleClass="errorMessage"/>
                 </div>
 
-
                 <div class="toolBar">
                     <h:commandLink id="btnSaveOther" styleClass="button" value="#{msg.btnSave}"
                                    actionListener="#{certCertification.saveOther}"
                                    immediate="true" disabled="false">
-                        <f:ajax render="@this mnuSystem :logout:remaining"/>
+                        <f:ajax render="@form :logout:remaining"/>
                     </h:commandLink>
                 </div>
 

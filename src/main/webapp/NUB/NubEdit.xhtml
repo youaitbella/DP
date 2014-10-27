@@ -45,7 +45,7 @@
                     <h:commandLink styleClass="button" action="#{editNubProposal.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editNubProposal.readOnly}"/>
 
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="sendButton"
                                    action="#{editNubProposal.requestSeal()}"
                                    value="#{msg.btnSaveAndClose}"
                                    disabled="#{sessionTools.nubProposalDisabled}"

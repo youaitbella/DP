@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.requestmanager;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -70,7 +71,7 @@ public class FeatureRequestHandler {
                 .replace("{role}", _roleFacade.find(account.getRoleId()).getText())
                 .replace("{phone}", account.getPhone())
                 .replace("{company}", account.getCompany())
-                .replace("{ik}", account.getIK() + (cust.getIK() != null ? " (im ICMT bekannt)" : ""));
+                .replace("{ik}", account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
         String mailAddress = PropertyManager.INSTANCE.getProperty(PropertyKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
