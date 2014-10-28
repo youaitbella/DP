@@ -4,7 +4,7 @@
                 template="/Templates/PortalTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
-    
+
     <ui:define name="navItems">
     </ui:define>
 
@@ -13,8 +13,9 @@
         <br/>
         Die Seite, die Sie angewählt haben ist entweder unbekannt oder nicht erlaubt. Bitte melden Sie sich erneut an.
         <br/>
-        <h:button styleClass="button" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
-
+        <div class="inpuPart">
+            <h:button styleClass="button" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
+        </div>
     </ui:define>
 
 </ui:composition>

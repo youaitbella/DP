@@ -25,7 +25,10 @@
                 <h:inputSecret styleClass="input" id="password" value="#{login.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"/>
                 <h:message for="password" errorClass="errorMessage"/>
             </p>
-            Kennwort vergessen? Als registrierter Anwender können Sie dies <a href="/DataPortal/login/RequestPassword.xhtml" title="Neues Kennwort anfordern (nur für registrierte Anwender)">hier anfordern</a>.
+            Kennwort vergessen? Als registrierter Anwender können Sie ein
+            <a href="/DataPortal/login/RequestPassword.xhtml" title="Neues Kennwort anfordern (nur für registrierte Anwender)" class="label">
+                neues Kennwort anfordern
+            </a>.
             <br/>
             <h:outputText styleClass="errorMessage" value="#{login.loginMessage}"/>
             <p>

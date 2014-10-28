@@ -25,6 +25,7 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.PropertyKey;
 import org.inek.dataportal.utils.PropertyManager;
+import org.jboss.weld.exceptions.WeldException;
 
 /**
  *
@@ -69,10 +70,11 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     targetPage = Pages.SessionTimeout.RedirectURL();
                     requestMap.put("currentViewId", viewExpiredExeption.getViewId());
                 }
-            } else if (exception instanceof NonexistentConversationException) {
+            } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException // todo: exception instanceof WeldException is fine in direct window, but does not work here.
+                    || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")) {   // check for exception's name as workarround
                 String head = "[PortalExceptionHandler NonexistentConversationException] ";
                 _logger.log(Level.SEVERE, head, exception);
-                collectException(messageCollector, head, exception);
+                // we don't like to get this reported: collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
                     targetPage = Pages.InvalidConversation.RedirectURL();
                 }
