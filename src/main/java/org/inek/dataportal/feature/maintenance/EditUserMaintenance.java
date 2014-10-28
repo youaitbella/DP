@@ -391,7 +391,6 @@ public class EditUserMaintenance extends AbstractEditController {
     public String save() {
         if (isMasterdataChanged()) {
             mergeMasterData();
-            _features = null; // force reload on / after save
             _sessionController.saveAccount();
             _nubSessionTools.clearCache();
         }
@@ -411,6 +410,7 @@ public class EditUserMaintenance extends AbstractEditController {
         if (mergeFeaturesIfModified()) {
             _sessionController.saveAccount();
         }
+        _features = null; // force reload on / after save
         setActiveTopic(UserMaintenaceTabs.tabUMFeatures.name());
         return "";
     }

@@ -3,7 +3,8 @@ package org.inek.dataportal.facades;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.inject.Named;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.criteria.*;
 import org.inek.dataportal.entities.Request;
 import org.inek.dataportal.helper.structures.Pair;
@@ -19,6 +20,7 @@ public class RequestFacade extends AbstractFacade<Request> {
         super(Request.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Request> findAll(int accountId, boolean isSealed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Request> cq = cb.createQuery(Request.class);
@@ -36,16 +38,16 @@ public class RequestFacade extends AbstractFacade<Request> {
         cq.select(request).where(cb.and(isAccount, sealed)).orderBy(order);
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
+
     public List<Pair> getRequestInfos(int accountId, boolean isSealed) {
         List<Request> requests = findAll(accountId, isSealed);
-        List<Pair> requestInfos = new ArrayList<>(); 
-        for (Request request : requests){
+        List<Pair> requestInfos = new ArrayList<>();
+        for (Request request : requests) {
             requestInfos.add(new Pair(request.getRequestId(), request.getName()));
         }
         return requestInfos;
     }
-    
+
     public Request saveRequest(Request request) {
         if (request.getRequestId() == null) {
             persist(request);
@@ -53,5 +55,5 @@ public class RequestFacade extends AbstractFacade<Request> {
         }
         return merge(request);
     }
-   
+
 }

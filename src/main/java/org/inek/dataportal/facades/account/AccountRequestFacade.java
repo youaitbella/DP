@@ -6,6 +6,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,6 +28,7 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
         super(AccountRequest.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public AccountRequest findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM AccountRequest a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
         List<AccountRequest> list = getEntityManager().createQuery(query, AccountRequest.class).setParameter("mailOrUser", mailOrUser).getResultList();
@@ -35,6 +38,7 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
         return null;
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<AccountRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cq = cb.createQuery(AccountRequest.class);

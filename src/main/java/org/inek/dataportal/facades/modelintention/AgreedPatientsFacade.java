@@ -2,6 +2,8 @@ package org.inek.dataportal.facades.modelintention;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.facades.AbstractFacade;
 
@@ -12,6 +14,7 @@ public class AgreedPatientsFacade extends AbstractFacade<AgreedPatients> {
         super(AgreedPatients.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public AgreedPatients findAgreedPatientsByModelIntentionId(int miId) {
         String query = "SELECT a FROM AgreedPatients a WHERE a._modelIntentionId = :miId";
         List<AgreedPatients> list = getEntityManager().createQuery(query, AgreedPatients.class).setParameter("miId", miId).getResultList();

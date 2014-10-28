@@ -12,11 +12,11 @@ import org.inek.dataportal.utils.Crypt;
 @Stateless
 public class AccountPwdFacade extends AbstractFacade<AccountPwd> {
 
-    public AccountPwdFacade (){
+    public AccountPwdFacade() {
         super(AccountPwd.class);
     }
 
-        public Boolean changePassword(int accountId, String oldPwd, String newPwd) {
+    public Boolean changePassword(int accountId, String oldPwd, String newPwd) {
         AccountPwd accountPwd = find(accountId);
         if (accountPwd != null && isCorrectPassword(accountId, oldPwd)) {
             accountPwd.setPasswordHash(Crypt.getPasswordHash(newPwd, accountId));
@@ -28,12 +28,7 @@ public class AccountPwdFacade extends AbstractFacade<AccountPwd> {
 
     public boolean isCorrectPassword(int accountId, final String password) {
         AccountPwd accountPwd = find(accountId);
-        // temporarily check for old hash style too
-        if (accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId))) {
-            return true;
-        }
-        return false;
+        return accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId));
     }
- 
-        
+
 }

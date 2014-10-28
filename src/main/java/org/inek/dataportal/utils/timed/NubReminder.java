@@ -15,6 +15,7 @@ import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 
 /**
@@ -29,6 +30,7 @@ public class NubReminder {
     @Inject private AccountFacade _accountFacade;
     @Inject private NubProposalFacade _nubFacade;
     @Inject Mailer _mailer;
+    @Inject ConfigFacade _config;
 
 //    @Schedule(hour = "*", minute = "*/1", info = "every minute") // use this for testing purpose
 //    public void remindSealTest() {
@@ -49,6 +51,10 @@ public class NubReminder {
      * one week and one day before the official end of delivery
      */
     public void remindSeal() {
+        if (!_config.read("RemindNubSeal", false)) {
+            _logger.log(Level.INFO, "RemindNubSeal is not enabled");
+            return;
+        }
         _logger.log(Level.INFO, "Start remindSeal");
         Map<Integer, Integer> accounts = _nubFacade.countOpenPerIk();
         for (int accountId : accounts.keySet()) {

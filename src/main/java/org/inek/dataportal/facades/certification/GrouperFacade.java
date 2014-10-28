@@ -3,6 +3,8 @@ package org.inek.dataportal.facades.certification;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.facades.AbstractFacade;
 
@@ -17,16 +19,19 @@ public class GrouperFacade extends AbstractFacade<Grouper> {
         super(Grouper.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Grouper> findBySystemId(int systemId) {
         String query = "SELECT g FROM Grouper g WHERE g._systemId = :id";
         return getEntityManager().createQuery(query, Grouper.class).setParameter("id", systemId).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Grouper> findByAccountId(int accountId) {
         String query = "SELECT g FROM Grouper g WHERE g._accountId = :id";
         return getEntityManager().createQuery(query, Grouper.class).setParameter("id", accountId).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Grouper findByAccountAndSystemId(int accountId, int systemId) {
         String query = "SELECT g FROM Grouper g WHERE g._accountId = :accId and g._systemId = :sysId";
         try {

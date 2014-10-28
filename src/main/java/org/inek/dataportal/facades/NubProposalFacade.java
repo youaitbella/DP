@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -34,6 +35,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         super(NubProposal.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<NubProposal> findAll(int accountId, DataSet dataSet, String filter) {
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
@@ -66,6 +68,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<NubProposal> findAll(int accountId) {
         String sql = "SELECT p FROM NubProposal p WHERE p._accountId = :accountId ORDER BY p._nubId DESC";
         Query query = getEntityManager().createQuery(sql, NubProposal.class);
@@ -93,6 +96,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
      * @param filter
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ProposalInfo> getNubProposalInfos(int accountId, DataSet dataSet, String filter) {
         List<NubProposal> proposals = findAll(accountId, dataSet, filter);
         List<ProposalInfo> proposalInfos = new ArrayList<>();
@@ -105,6 +109,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return proposalInfos;
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus, String filter) {
         String sql = "SELECT p FROM NubProposal p "
                 + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
@@ -119,8 +124,6 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
             query.setParameter("filter1", filter);
             query.setParameter("filter2", filter);
         }
-        String generatedSql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-        System.out.println(generatedSql);
         List<NubProposal> proposals = query.getResultList();
         List<ProposalInfo> proposalInfos = new ArrayList<>();
         for (NubProposal proposal : proposals) {
@@ -132,6 +135,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return proposalInfos;
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Integer> findAccountIdForIk(int ik) {
         String sql = "SELECT DISTINCT p._accountId FROM NubProposal p WHERE p._ik = :ik  ";
         Query query = getEntityManager().createQuery(sql);
@@ -140,10 +144,12 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return accountIds;
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Map<Integer, Integer> countOpenPerIk() {
         return NubProposalFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Map<Integer, Integer> countOpenPerIk(int targetYear) {
         String jql = "SELECT p._accountId, COUNT(p) FROM NubProposal p JOIN Account a WHERE p._accountId = a._accountId and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
         Query query = getEntityManager().createQuery(jql);

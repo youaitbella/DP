@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,15 +20,17 @@ import org.inek.dataportal.utils.StringUtil;
 @Stateless
 public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
 
-    public AccountChangeMailFacade (){
+    public AccountChangeMailFacade() {
         super(AccountChangeMail.class);
     }
-    
+
     /**
      * Delivers all change mail requests older than the given date
+     *
      * @param date
-     * @return 
+     * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<AccountChangeMail> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountChangeMail> cq = cb.createQuery(AccountChangeMail.class);
@@ -34,7 +38,8 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         cq.select(request).where(cb.lessThan(request.get("_creationDate"), date));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
+
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<AccountChangeMail> findByActivationKey(String key, String mail) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountChangeMail> cq = cb.createQuery(AccountChangeMail.class);
@@ -44,7 +49,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         cq.select(request).where(cb.and(isKey, isMail));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
+
     @Inject Mailer _mailer;
     public boolean changeMail(int accountId, final String newMail) {
         if (StringUtil.isNullOrEmpty(newMail)) {
@@ -69,5 +74,5 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         remove(changeMail);
         return false;
     }
-    
+
 }

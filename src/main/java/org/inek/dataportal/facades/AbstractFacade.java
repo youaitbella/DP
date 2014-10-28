@@ -2,6 +2,8 @@ package org.inek.dataportal.facades;
 
 import java.util.List;
 import java.util.logging.Logger;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -59,10 +61,12 @@ public abstract class AbstractFacade<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public T find(Object id) {
         return getEntityManager().find(_entityClass, id);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findAll() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(_entityClass);
@@ -70,6 +74,7 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS").getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findRange(int[] range) {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(_entityClass));
@@ -79,6 +84,7 @@ public abstract class AbstractFacade<T> {
         return q.getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public int count() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         Root<T> rt = cq.from(_entityClass);

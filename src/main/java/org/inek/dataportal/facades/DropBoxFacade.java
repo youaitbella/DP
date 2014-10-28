@@ -10,6 +10,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -26,6 +28,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         super(DropBox.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<DropBox> findAll(int accountId, boolean isClosed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -42,6 +45,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<DropBox> findInvalid() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -50,6 +54,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public DropBox getDropBoxByDir(String dir) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> query = cb.createQuery(DropBox.class);

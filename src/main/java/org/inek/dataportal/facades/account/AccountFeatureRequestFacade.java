@@ -5,6 +5,8 @@
 package org.inek.dataportal.facades.account;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,7 +14,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
-//import org.inek.dataportal.entities.account.AccountFeatureRequest_;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
 
@@ -27,6 +28,7 @@ public class AccountFeatureRequestFacade extends AbstractFacade<AccountFeatureRe
         super(AccountFeatureRequest.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public AccountFeatureRequest findByApprovalKey(String key) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountFeatureRequest> query = cb.createQuery(AccountFeatureRequest.class);
@@ -40,6 +42,7 @@ public class AccountFeatureRequestFacade extends AbstractFacade<AccountFeatureRe
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public AccountFeatureRequest findByAccountIdAndFeature(int accountId, Feature feature) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountFeatureRequest> query = cb.createQuery(AccountFeatureRequest.class);

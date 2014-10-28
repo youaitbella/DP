@@ -2,6 +2,8 @@ package org.inek.dataportal.facades;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,6 +16,7 @@ public class ContactRoleFacade extends AbstractFacade<ContactRole> {
         super(ContactRole.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ContactRole> findAllExtern() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ContactRole> cq = cb.createQuery(ContactRole.class);

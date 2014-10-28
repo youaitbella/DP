@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import javax.ejb.EJB;
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -18,7 +18,6 @@ import org.inek.dataportal.entities.DrgProposalComment;
 //import org.inek.dataportal.entities.PeppProposal;
 //import org.inek.dataportal.entities.PeppProposalComment;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
@@ -30,13 +29,11 @@ import org.inek.dataportal.utils.KeyValueLevel;
 @Stateless
 public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
-    
-    
-
     public DrgProposalFacade() {
         super(DrgProposal.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
@@ -100,7 +97,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
             comment.setInitials(getInitials(comment.getAccountId()));
         }
         return proposal;
-                       
+
     }
 
     private Map<Integer, String> _accountInitials = new HashMap<>();
@@ -127,5 +124,4 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 //        //_commentFacade.clearCache(PeppProposal.class);
 //        return true;
 //    }
-
 }

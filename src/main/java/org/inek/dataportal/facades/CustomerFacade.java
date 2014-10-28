@@ -1,6 +1,8 @@
 package org.inek.dataportal.facades;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,8 +21,11 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         super(Customer.class);
     }
 
-    public Customer getCustomerByIK(Integer ik){
-        if (ik == null) {return new Customer();}
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Customer getCustomerByIK(Integer ik) {
+        if (ik == null) {
+            return new Customer();
+        }
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Customer> query = cb.createQuery(Customer.class);
         Root<Customer> root = query.from(Customer.class);
@@ -31,7 +36,7 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         } catch (NoResultException e) {
             return new Customer();
         }
-        
+
     }
-    
+
 }

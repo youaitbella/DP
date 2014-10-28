@@ -233,7 +233,6 @@ public class Utils {
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + name);
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);
             new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
-
         } catch (IOException ex) {
             _logger.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();

@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.entities.CooperationRight;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -24,6 +26,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param feature
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, Feature feature) {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._feature = :feature";
         return getEntityManager()
@@ -33,6 +36,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId) {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId";
         return getEntityManager()
@@ -42,6 +46,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId, Feature feature) {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId and cor._feature = :feature";
         return getEntityManager()
@@ -60,6 +65,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param feature
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<CooperationRight> getAchievedCooperationRights(int accountId, Feature feature) {
 //        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId > 0 and cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
@@ -70,6 +76,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
         if (ik == null) {
             return CooperativeRight.None;
@@ -103,6 +110,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param ik
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean hasSupervisor(Feature feature, Integer ik) {
         if (ik == null) {
             return false;
@@ -135,6 +143,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
 
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public CooperativeRight getSupervisorRight(Feature feature, Integer ik, int accountId) {
         if (ik == null) {
             return CooperativeRight.None;
@@ -158,6 +167,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Set<Integer> isSupervisorFor(Feature feature, Account account) {
         if (account == null) {
             return new HashSet<>();

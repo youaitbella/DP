@@ -1,9 +1,10 @@
 package org.inek.dataportal.facades;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -23,12 +24,13 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
     }
 
     /**
-     * returns a list with info of all accounts who requested 
-     * a cooperation with the given accountId
+     * returns a list with info of all accounts who requested a cooperation with
+     * the given accountId
      *
      * @param accountId Id of requested account
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Account> getCooperationRequestors(int accountId) {
         String query = "SELECT acId, acLastModified, acIsDeactivated, "
                 + "acUser, acMail, acGender, acTitle, acFirstName, "
@@ -50,10 +52,12 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
 
     /**
      * finds
+     *
      * @param requestorId
      * @param requestedId
-     * @return 
+     * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public CooperationRequest findCooperationRequest(int requestorId, int requestedId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CooperationRequest> cq = cb.createQuery(CooperationRequest.class);
@@ -68,31 +72,34 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
 
     /**
      * Checks whether cooperation request (in any direction) exists
+     *
      * @param partner1Id
      * @param partner2Id
-     * @return 
+     * @return
      */
     public boolean existsAnyCooperationRequest(int partner1Id, int partner2Id) {
-        return findCooperationRequest(partner1Id, partner2Id) != null || 
-                findCooperationRequest(partner2Id, partner1Id) != null;
+        return findCooperationRequest(partner1Id, partner2Id) != null
+                || findCooperationRequest(partner2Id, partner1Id) != null;
     }
-    
+
     /**
      * removes cooperation requests, in both directions
+     *
      * @param partner1Id
-     * @param partner2Id 
+     * @param partner2Id
      */
     public void removeAnyCooperationRequest(int partner1Id, int partner2Id) {
         CooperationRequest cooperationRequest = findCooperationRequest(partner1Id, partner2Id);
-        if (cooperationRequest != null){
+        if (cooperationRequest != null) {
             remove(cooperationRequest);
         }
         cooperationRequest = findCooperationRequest(partner2Id, partner1Id);
-        if (cooperationRequest != null){
+        if (cooperationRequest != null) {
             remove(cooperationRequest);
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<CooperationRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CooperationRequest> cq = cb.createQuery(CooperationRequest.class);
@@ -101,5 +108,4 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    
 }

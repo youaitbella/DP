@@ -2,6 +2,8 @@ package org.inek.dataportal.facades;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.entities.ProcedureInfo;
 
 /**
@@ -19,6 +21,7 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
         return findAll(pattern, 0, 0);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ProcedureInfo> findAll(String pattern, int firstYear, int lastYear) {
         String[] parts = pattern.toLowerCase().split("(\\s|,})");
         StringBuilder where = new StringBuilder();
@@ -42,6 +45,7 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
         return getEntityManager().createQuery(query, ProcedureInfo.class).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public String findProcedure(String code, int firstYear, int lastYear) {
         StringBuilder where = new StringBuilder();
         where.append("(p._code = :code or p._codeShort = :code)");
