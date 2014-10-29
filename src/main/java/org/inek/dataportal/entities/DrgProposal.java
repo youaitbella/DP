@@ -154,9 +154,9 @@ public class DrgProposal implements Serializable {
 
    
     
-   
+ 
     
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "drgdDrgProposalId", referencedColumnName = "prId")
     private List<DrgProposalDocument> _documents = new ArrayList<>();
     

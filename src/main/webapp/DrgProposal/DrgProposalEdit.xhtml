@@ -38,7 +38,7 @@
                     <h:commandLink styleClass="button" action="#{editDrgProposal.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editDrgProposal.readOnly}"/>
                     <h:commandLink styleClass="sendButton" action="#{editDrgProposal.requestDrgProposalSeal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.peppProposalDisabled}" rendered="#{!editDrgProposal.readOnly}" title="#{msg.infoSaveAndClose}"/>
+                                   disabled="#{sessionTools.drgProposalDisabled}" rendered="#{!editDrgProposal.readOnly}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="seal" style="display: none" action="#{editDrgProposal.sealDrgProposal()}" value="seal"/>
                 </div>
             </div>

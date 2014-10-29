@@ -217,10 +217,10 @@ public class EditDrgProposal extends AbstractEditController {
 
     public String searchCode(CodeType codeType) {
         _sessionController.getSearchController().bindSearchConsumer(this)
-                .bindTargetPage(Pages.DrgProposalEdit.URL())
+                .bindTargetPage(Pages.DrgProposalEditCoding.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Drg)
                 .bindCodeType(codeType);
-        return "/common/SearchCode";
+        return Pages.SearchCode.URL();
     }
 
     @Override
@@ -450,7 +450,7 @@ public class EditDrgProposal extends AbstractEditController {
         if (drgProposal.getDocuments() != null && drgProposal.getDocuments().size() > 0
                 || drgProposal.getDocumentsOffline() != null && drgProposal.getDocumentsOffline().length() > 0) {
             newTopic = checkField(newTopic, drgProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
-           //  newTopic = checkField(newTopic, "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
+           
         }
 
         if (!_msg.isEmpty()) {
@@ -489,6 +489,8 @@ public class EditDrgProposal extends AbstractEditController {
         }
         return newTopic;
     }
+       
+    
     // </editor-fold>
 
 }

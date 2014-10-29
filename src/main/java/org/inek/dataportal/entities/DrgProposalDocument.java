@@ -1,14 +1,16 @@
 package org.inek.dataportal.entities;
-
+//import org.inek.dataportal.entities.Document;
 import java.io.Serializable;
 import javax.persistence.*;
+import org.inek.dataportal.entities.Document;
+import org.inek.dataportal.entities.Request;
 
 /**
  *
  * @author muellermi
  */
 @Entity
-public class DrgProposalDocument implements Serializable {
+public class DrgProposalDocument implements Serializable,Document {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -21,6 +23,8 @@ public class DrgProposalDocument implements Serializable {
     @Column(name = "drgdContent")
     private byte[] _content;
 
+    
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getDrgProposalDocumentId() {
         return _drgProposalDocumentId;
