@@ -1,8 +1,10 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.drg;
 //import org.inek.dataportal.entities.Document;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.inek.dataportal.entities.Document;
+import org.inek.dataportal.entities.Document;
+import org.inek.dataportal.entities.Request;
 import org.inek.dataportal.entities.Request;
 
 /**

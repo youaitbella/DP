@@ -20,8 +20,8 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.DrgProposal;
-import org.inek.dataportal.entities.DrgProposalDocument;
+import org.inek.dataportal.entities.drg.DrgProposal;
+import org.inek.dataportal.entities.drg.DrgProposalDocument;
 
 import org.inek.dataportal.entities.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;

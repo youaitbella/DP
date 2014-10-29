@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.CooperationRight;
-import org.inek.dataportal.entities.DrgProposal;
+import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
