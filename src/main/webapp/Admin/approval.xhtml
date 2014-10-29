@@ -5,6 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <f:metadata>
         <f:event type="preRenderView" listener="#{requestController.forceLoginIfNotInternal}"/>
+        <f:viewParam name="key" id="key" value="#{flash.key}" />
     </f:metadata>
     <h:head>
         <title>Feature approval</title>

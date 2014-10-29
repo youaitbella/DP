@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
