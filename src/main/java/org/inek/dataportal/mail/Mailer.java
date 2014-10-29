@@ -156,7 +156,8 @@ public class Mailer {
             return false;
         }
         String salutation = getFormalSalutation(accountRequest);
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + accountRequest.getUser().replace(" ", "%20");
+        String codedUser = Utils.encodeUrl(accountRequest.getUser());
+        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + codedUser;
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{link}", link)

@@ -71,7 +71,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     requestMap.put("currentViewId", viewExpiredExeption.getViewId());
                 }
             } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException // todo: exception instanceof WeldException is fine in direct window, but does not work here.
-                    || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")) {   // check for exception's name as workarround
+                    || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException") // check for exception's name as workarround
+                    || exception instanceof FacesException && exception.getMessage().contains("WELD-000049:")) {
                 String head = "[PortalExceptionHandler NonexistentConversationException] ";
                 _logger.log(Level.SEVERE, head, exception);
                 // we don't like to get this reported: collectException(messageCollector, head, exception);

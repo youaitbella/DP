@@ -121,7 +121,7 @@ public class EditNubProposal extends AbstractEditController {
                 }
             } else {
                 _nubProposal.setIkName(c.getName());
-                if (_nubProposal.getIk().intValue() == _sessionController.getAccount().getIK().intValue()) {
+                if (_sessionController.getAccount().getIK() != null && _nubProposal.getIk().intValue() == _sessionController.getAccount().getIK()) {
                     _nubProposal.setIkName(_sessionController.getAccount().getCompany());
                 }
             }

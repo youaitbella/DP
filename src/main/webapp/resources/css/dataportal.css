@@ -149,23 +149,30 @@ div#wrapper {
     }
 
     .hint,
-    .warning{
+    .warning,
+    .warningWide{
         box-sizing: border-box;
         margin-top: 1em;
         display: inline-block;
-        width: 270px;
         border-style: ridge;
         border-width: 5px;
         border-radius: 0.5em;
         padding: 5px;
     }
 
+    .warningWide{
+        border-color: red;
+        width: 100%;
+    }
+
     .warning{
         border-color: red;
+        width: 270px;
     }
 
     .hint{
         border-color: #7F9BAF;
+        width: 270px;
     }
 
     .right {

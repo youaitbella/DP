@@ -6,6 +6,9 @@ package org.inek.dataportal.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.MissingResourceException;
@@ -239,6 +242,24 @@ public class Utils {
         }
         facesContext.responseComplete();
         return "";
+    }
+
+    public static String encodeUrl(String url) {
+        try {
+            return URLEncoder.encode(url, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            _logger.log(Level.WARNING, ex.getMessage());
+            return url;
+        }
+    }
+
+    public static String decodeUrl(String url) {
+        try {
+            return URLDecoder.decode(url, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            _logger.log(Level.WARNING, ex.getMessage());
+            return url;
+        }
     }
 
 }

@@ -250,8 +250,26 @@ public class SessionController implements Serializable {
             logMessage("Login failed");
             return false;
         }
-        logMessage("Login");
+        logMessage("Login (" + Utils.getUserAgent() + ")");
+//        logMessage("Login");
         return true;
+    }
+
+    public boolean isElderInternetExplorer() {
+        String userAgent = Utils.getUserAgent();
+        String search = "compatible; MSIE";
+        int pos = userAgent.indexOf(search);
+        if (pos < 0) {
+            return false;
+        }
+        int posAfter = userAgent.indexOf(";", pos + search.length());
+        String versionString = userAgent.substring(pos + search.length(), posAfter).trim();
+        try {
+            Float version = Float.parseFloat(versionString);
+            return version < 9.0;
+        } catch (NumberFormatException ex) {
+            return true;
+        }
     }
 
     private void initFeatures() {
