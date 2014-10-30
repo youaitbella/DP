@@ -256,6 +256,54 @@ public class CertGrouperResults {
         _attachement = attachment;
     }
     
+    public String getTest1Check() {
+        if(_grouper.getTestCheck1() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestCheck1());
+    }
+    
+    public String getTest2Check() {
+        if(_grouper.getTestCheck2() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestCheck2());
+    }
+    
+    public String getTest3Check() {
+        if(_grouper.getTestCheck3() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestCheck3());
+    }
+    
+    public String getTest1Error() {
+        return _grouper.getTestError1()+"";
+    }
+    
+    public String getTest2Error() {
+        return _grouper.getTestError2()+"";
+    }
+    
+    public String getTest3Error() {
+        return _grouper.getTestError3()+"";
+    }
+    
+    public String getTestUpload1() {
+        if(_grouper.getTestUpload1() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload1());
+    }
+    
+    public String getTestUpload2() {
+        if(_grouper.getTestUpload2() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload2());
+    }
+    
+    public String getTestUpload3() {
+        if(_grouper.getTestUpload3() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload3());
+    }
+    
     private String buildAttachementString() {
         String filename = "";
         if(lookForNumberOfRuns() == 1) {

@@ -38,6 +38,43 @@
                 Dieser Hersteller hat die Zertifizierung für dieses System bereits komplett abgeschlossen.
                 Die Zertifikats-Email wurde verschickt!
             </div>
+            <br />
+            <div class="inputPart">
+                <h:outputLabel id="lblUploadedTest1" styleClass="label20" value="Testdaten 1 hochgeladen:" />
+                <h:inputText readonly="true" id="txtUploadedTest1" styleClass="inputmedium" value="#{certGrouperResults.testUpload1}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblSentTest1" styleClass="label20" value="Testdaten 1 geprüft:" />
+                <h:inputText readonly="true" id="txtSentTest1" styleClass="inputmedium" value="#{certGrouperResults.test1Check}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblErrorTest1" styleClass="label20" value="Testdaten 1 Fehler:" />
+                <h:inputText readonly="true" id="txtErrorTest1" styleClass="inputshort" value="#{certGrouperResults.test1Error}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblUploadedTest2" styleClass="label20" value="Testdaten 2 hochgeladen:" />
+                <h:inputText readonly="true" id="txtUploadedTest2" styleClass="inputmedium" value="#{certGrouperResults.testUpload2}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblSentTest2" styleClass="label20" value="Testdaten 2 geprüft:" />
+                <h:inputText readonly="true" id="txtSentTest2" styleClass="inputmedium" value="#{certGrouperResults.test2Check}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblErrorTest2" styleClass="label20" value="Testdaten 2 Fehler:" />
+                <h:inputText readonly="true" id="txtErrorTest2" styleClass="inputshort" value="#{certGrouperResults.test2Error}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblUploadedTest3" styleClass="label20" value="Testdaten 3 hochgeladen:" />
+                <h:inputText readonly="true" id="txtUploadedTest3" styleClass="inputmedium" value="#{certGrouperResults.testUpload3}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblSentTest3" styleClass="label20" value="Testdaten 3 geprüft:" />
+                <h:inputText readonly="true" id="txtSentTest3" styleClass="inputmedium" value="#{certGrouperResults.test3Check}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblErrorTest3" styleClass="label20" value="Testdaten 3 Fehler:" />
+                <h:inputText readonly="true" id="txtErrorTest3" styleClass="inputshort" value="#{certGrouperResults.test3Error}" />
+            </div>
         </h:panelGroup>
         
         <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()
