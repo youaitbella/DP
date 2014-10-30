@@ -5,10 +5,8 @@
  */
 package org.inek.dataportal.system;
 
-import java.util.HashSet;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.SessionTrackingMode;
 import javax.servlet.annotation.WebListener;
 
 /**
@@ -20,9 +18,9 @@ public class PortalServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        HashSet<SessionTrackingMode> modes = new HashSet<>();
-        modes.add(SessionTrackingMode.COOKIE);
-        //sce.getServletContext().setSessionTrackingModes(modes);
+//        HashSet<SessionTrackingMode> modes = new HashSet<>();
+//        modes.add(SessionTrackingMode.COOKIE);
+//        sce.getServletContext().setSessionTrackingModes(modes);
     }
 
     @Override

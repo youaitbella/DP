@@ -72,6 +72,11 @@ public class NubProposalList {
      */
     public boolean getNubEnabled() {
         int month = 1 + Calendar.getInstance().get(Calendar.MONTH); // jan=0, thus 1+month
+        if (month == 11 && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) < 4) {
+            //in 2014 allow till next monday
+            // todo: other years
+            return true;
+        }
         return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways
     }
 
