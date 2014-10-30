@@ -21,7 +21,7 @@
     </servlet-mapping>
 
     <session-config>
-        <session-timeout>46</session-timeout>
+        <session-timeout>31</session-timeout>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
@@ -38,4 +38,8 @@
         <error-code>404</error-code>
         <location>/common/NotAllowed.xhtml</location>
     </error-page>
+
+    <!--listener>
+        <listener-class>org.inek.dataportal.admin.SessionCounter</listener-class>
+    </listener-->
 </web-app>

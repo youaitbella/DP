@@ -83,6 +83,7 @@ public class CertCertification {
     }
 
     public int getSystemId() {
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3660); // session timeout extended to 1 hour + 1 minute (this provides enough time for an upload
         return _grouper.getSystemId();
     }
 

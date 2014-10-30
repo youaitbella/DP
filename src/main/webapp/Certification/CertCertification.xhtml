@@ -51,9 +51,10 @@
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
-                             immediate="true" disabled="#{certCertification.grouperChanged}"
-                             onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});">
+                             immediate="true" disabled="#{certCertification.grouperChanged}">
+                <!--onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});"-->
                 <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+                <f:ajax render="@form :logout:remaining"/>
             </h:selectOneMenu>
 
             <div id="systemData" jsf:rendered="#{certCertification.grouper.id ge 0}">

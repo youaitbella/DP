@@ -40,7 +40,7 @@ public enum FeatureScopedContextHolder {
      * cleanup at logout time or session end
      */
     public void destroyAllBeans() {
-        destroyAllOtherBeans("");
+        destroyAllBeansExcept("");
     }
 
     /**
@@ -103,8 +103,12 @@ public enum FeatureScopedContextHolder {
         return key;
     }
 
-    private void destroyAllOtherBeans(String scopeNameToKeep) {
+    private void destroyAllBeansExcept(String scopeNameToKeep) {
         Map<String, FeatureScopedInstance> featureMap = getFeatureScopedMap();
+        destroyAllBeansExcept(featureMap, scopeNameToKeep);
+    }
+
+    public void destroyAllBeansExcept(Map<String, FeatureScopedInstance> featureMap, String scopeNameToKeep) {
         Set<String> keys = new HashSet<>(featureMap.keySet());  // need a copy to avoid concurrent changes!
         keys.stream().filter((key) -> !(key.startsWith(scopeNameToKeep + "|"))).forEach((key) -> {
             FeatureScopedInstance inst = featureMap.get(key);
@@ -122,7 +126,7 @@ public enum FeatureScopedContextHolder {
     }
 
     private void putBean(FeatureScopedInstance featureScopedInstance) {
-        destroyAllOtherBeans(getScopeName(featureScopedInstance));
+        destroyAllBeansExcept(getScopeName(featureScopedInstance));
         String key = getScopeKey(featureScopedInstance.getBean());
         getFeatureScopedMap().put(key, featureScopedInstance);
     }

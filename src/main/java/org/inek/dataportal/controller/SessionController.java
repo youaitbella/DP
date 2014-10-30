@@ -181,18 +181,18 @@ public class SessionController implements Serializable {
             _parts.clear();
             invalidateSession();
         }
-        return Pages.Login.URL() + "?faces-redirect=true";
+        return Pages.Login.URL();// + "?faces-redirect=true";
     }
 
     private void invalidateSession() {
         String sessionId = retrieveSessionId();
         if (sessionId.length() > 0) {
             try {
-                System.out.println("old session " + sessionId);
+                _logger.log(Level.INFO, "old session {0}", sessionId);
                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                 FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 sessionId = retrieveSessionId();
-                System.out.println("new session " + sessionId);
+                _logger.log(Level.INFO, "new session {0}", sessionId);
             } catch (Exception ex) {
                 _logger.log(Level.WARNING, "Exception during invalidatesesion");
             }
@@ -251,7 +251,10 @@ public class SessionController implements Serializable {
             return false;
         }
         logMessage("Login (" + Utils.getUserAgent() + ")");
-//        logMessage("Login");
+//        HashSet<SessionTrackingMode> modes = new HashSet<>();
+//        modes.add(SessionTrackingMode.URL);
+//        ServletContext ctxt = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+//        ctxt.setSessionTrackingModes(modes);
         return true;
     }
 

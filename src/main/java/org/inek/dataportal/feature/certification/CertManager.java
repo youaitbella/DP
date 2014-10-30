@@ -47,6 +47,7 @@ public class CertManager {
 
     @PreDestroy
     private void preDestroy() {
+        System.out.println("Destroy CertManager");
         cleanupUploadFiles();
     }
 
