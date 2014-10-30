@@ -7,10 +7,8 @@ package org.inek.dataportal.feature.nub;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -146,11 +144,10 @@ public class EditNubProposal extends AbstractEditController {
         //ensureEmptyEntry(_peppProposal.getProcedures());
     }
 
-    @PreDestroy
-    private void destroy() {
-        _logger.log(Level.WARNING, "Destroy EditNubProposal");
-    }
-
+//    @PreDestroy
+//    private void destroy() {
+//        _logger.log(Level.WARNING, "Destroy EditNubProposal");
+//    }
     private void initMenuMultiIK() {
         Account acc = _sessionController.getAccount();
         List<AccountAdditionalIK> addIks = _sessionController.getAccount().getAdditionalIKs();
@@ -209,8 +206,6 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     private NubProposal newNubProposal() {
-        Account account = _sessionController.getAccount();
-        Integer ik = account.getIK();
         NubProposal proposal = getNubController().createNubProposal();
         return proposal;
     }
@@ -638,6 +633,7 @@ public class EditNubProposal extends AbstractEditController {
     @Inject AccountFacade _accountFacade;
     public void copyNubProposal(AjaxBehaviorEvent event) {
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
+        int targetAccountId = _sessionController.getAccountId();
         NubProposal copy = ObjectUtils.copy(_nubProposal);
         copy.setNubId(-1);
         copy.setStatus(WorkflowStatus.New);
@@ -649,10 +645,9 @@ public class EditNubProposal extends AbstractEditController {
         copy.setExternalState("");
         copy.setByEmail(false);
         copy.setErrorText("");
-        copy.setCreatedBy(_sessionController.getAccountId());
-        copy.setLastChangedBy(_sessionController.getAccountId());
-        copy.setTargetYear(targetYear);
-        if (copy.getAccountId() != _sessionController.getAccountId()) {
+        copy.setCreatedBy(targetAccountId);
+        copy.setLastChangedBy(targetAccountId);
+        if (copy.getAccountId() != targetAccountId) {
             // from partner
             copy.setPatientsLastYear("");
             copy.setPatientsThisYear("");
@@ -673,6 +668,7 @@ public class EditNubProposal extends AbstractEditController {
             copy.setPatientsThisYear("");
             copy.setPatientsFuture("");
         }
+        copy.setTargetYear(targetYear);
         copy = _nubProposalFacade.saveNubProposal(copy);
         if (copy.getNubId() != -1) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt;");

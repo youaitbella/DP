@@ -257,6 +257,9 @@ public class SessionController implements Serializable {
 
     public boolean isElderInternetExplorer() {
         String userAgent = Utils.getUserAgent();
+        if (userAgent == null) {
+            return false;
+        }
         String search = "compatible; MSIE";
         int pos = userAgent.indexOf(search);
         if (pos < 0) {
@@ -375,6 +378,9 @@ public class SessionController implements Serializable {
      * is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
+        if (getAccount() == null || getAccount().getInekRoles() == null) {
+            return false;
+        }
         for (InekRole role : getAccount().getInekRoles()) {
             if ((role.isWriteEnabled() || !needsWriteAccess)
                     && (role.getFeature() == Feature.ADMIN || role.getFeature() == requestedFeature)) {

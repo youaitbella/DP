@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,6 +33,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class NubProposalList {
 
+    private static final Logger _logger = Logger.getLogger("NubProposalList");
 //    public NubProposalList() {
 //        System.out.println("ctor NubProposalList");
 //    }
@@ -106,6 +109,10 @@ public class NubProposalList {
     public String requestDeleteNubProposal(int proposalId) {
         Utils.getFlash().put("nubId", proposalId);
         NubProposal proposal = _nubProposalFacade.find(proposalId);
+        if (proposal == null) {
+            _logger.log(Level.INFO, "Could not find nubRequest with id {0}.", proposalId);
+            return "";
+        }
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
             String msg = proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
             String script = "if (confirm ('" + proposal.getName().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteNubProposal').click();}";

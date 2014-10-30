@@ -21,10 +21,12 @@
 
     <h:body>
         <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
-            Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
-            Bekanntermaßen kann dies (insbesondere bei Versionen kleiner 9) zu unerwarteten Fehlern ("Abstürzen") führen.
-            Empfehlung: Aktualisieren Sie Ihren Internet Explorer (ab Version 11) oder nutzen Sie einen anderen modernen Browser.
-            Bitte beachten Sie die entsprechenden Hinweise im Handbuch.
+            <h4>
+                Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
+                Bekanntermaßen kann dies (insbesondere bei Versionen kleiner 9) zu unerwarteten Fehlern ("Abstürzen") führen.
+                Empfehlung: Aktualisieren Sie Ihren Internet Explorer (mind. Version 11) oder nutzen Sie einen anderen modernen Browser.
+                Bitte beachten Sie die entsprechenden Hinweise im Handbuch.
+            </h4>
         </div>
         <div id="wrapper">
             <div id="top">
@@ -59,10 +61,6 @@
                 </div>
             </div>
             <div class="defloat"></div>
-
-            <noscript>
-                <h1 class="warningWide">#{msg.msgEnableScript}</h1>
-            </noscript>
 
             <div id="content">
                 <div class="navi">
@@ -106,6 +104,9 @@
 
 
                 <div class="right">
+                    <noscript>
+                        <h3 class="warningWide">#{msg.msgEnableScript}</h3>
+                    </noscript>
                     <ui:insert name="content">Content</ui:insert>
                 </div>
                 <div class="defloat"></div>

@@ -20,7 +20,7 @@ import org.inek.dataportal.facades.CooperationRightFacade;
 @Named @SessionScoped
 public class NubSessionTools implements Serializable {
 
-    protected static final Logger _logger = Logger.getLogger("NubSessionTools");
+    private static final Logger _logger = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
 
     @Inject private CooperationRightFacade _cooperationRightFacade;

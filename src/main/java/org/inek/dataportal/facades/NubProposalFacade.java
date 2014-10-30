@@ -96,7 +96,6 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
      * @param filter
      * @return
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ProposalInfo> getNubProposalInfos(int accountId, DataSet dataSet, String filter) {
         List<NubProposal> proposals = findAll(accountId, dataSet, filter);
         List<ProposalInfo> proposalInfos = new ArrayList<>();
@@ -144,7 +143,6 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return accountIds;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Map<Integer, Integer> countOpenPerIk() {
         return NubProposalFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
     }
