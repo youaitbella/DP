@@ -1,11 +1,14 @@
-package org.inek.dataportal.admin;
+package org.inek.dataportal.system;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**
  *
@@ -29,10 +32,10 @@ public class SessionCounter implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
-//        HttpSession session = event.getSession();
-//        Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
-//                = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
-//        FeatureScopedContextHolder.Instance.destroyAllBeansExcept(map, "");
+        HttpSession session = event.getSession();
+        Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+                = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
+        FeatureScopedContextHolder.Instance.destroyAllBeansExcept(map, "");
         _logger.log(Level.INFO, "Session destroyed");
         _count.decrementAndGet();
     }

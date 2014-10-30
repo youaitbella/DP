@@ -109,6 +109,9 @@ public enum FeatureScopedContextHolder {
     }
 
     public void destroyAllBeansExcept(Map<String, FeatureScopedInstance> featureMap, String scopeNameToKeep) {
+        if (featureMap == null || featureMap.isEmpty()) {
+            return;
+        }
         Set<String> keys = new HashSet<>(featureMap.keySet());  // need a copy to avoid concurrent changes!
         keys.stream().filter((key) -> !(key.startsWith(scopeNameToKeep + "|"))).forEach((key) -> {
             FeatureScopedInstance inst = featureMap.get(key);

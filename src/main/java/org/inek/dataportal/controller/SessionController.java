@@ -15,7 +15,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.admin.SessionCounter;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
@@ -37,6 +36,7 @@ import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.system.SessionCounter;
 
 /**
  *
@@ -251,10 +251,6 @@ public class SessionController implements Serializable {
             return false;
         }
         logMessage("Login (" + Utils.getUserAgent() + ")");
-//        HashSet<SessionTrackingMode> modes = new HashSet<>();
-//        modes.add(SessionTrackingMode.URL);
-//        ServletContext ctxt = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-//        ctxt.setSessionTrackingModes(modes);
         return true;
     }
 
