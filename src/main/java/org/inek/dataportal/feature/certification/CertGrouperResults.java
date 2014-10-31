@@ -71,7 +71,7 @@ public class CertGrouperResults {
     public String showResults(Grouper grouper) {
         _grouper = grouper;
         _attachement = "";
-        _numErrors = 0;
+        _numErrors = getNumberOfErrors();
         _receiverEmailCertificate = "";
         _selectedTemplate = "";
         _templateEmailCertificate = "";
@@ -528,7 +528,7 @@ public class CertGrouperResults {
     }
     
     public boolean needsAttachement() {
-        return getNumErrors() > 0;
+        return getNumberOfErrors() > 0;
     }
     
     public String sendMail() {
