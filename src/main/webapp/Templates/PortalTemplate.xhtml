@@ -114,7 +114,7 @@
                                 }
                                 window.onload = test;
                             </script>
-                            <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick"/>
+                            <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
                         </div>
                         <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
                             <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
