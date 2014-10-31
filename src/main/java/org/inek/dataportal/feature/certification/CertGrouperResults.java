@@ -275,14 +275,20 @@ public class CertGrouperResults {
     }
     
     public String getTest1Error() {
+        if(_grouper.getTestError1() == -1)
+            return "";
         return _grouper.getTestError1()+"";
     }
     
     public String getTest2Error() {
+        if(_grouper.getTestError2() == -1)
+            return "";
         return _grouper.getTestError2()+"";
     }
     
     public String getTest3Error() {
+        if(_grouper.getTestError3() == -1)
+            return "";
         return _grouper.getTestError3()+"";
     }
     
@@ -302,6 +308,68 @@ public class CertGrouperResults {
         if(_grouper.getTestUpload3() == null)
             return "";
         return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload3());
+    }
+    
+    public String getCert1Check() {
+        if(_grouper.getCertCheck1()== null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertCheck1());
+    }
+    
+    public String getCert2Check() {
+        if(_grouper.getCertCheck2()== null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertCheck2());
+    }
+    
+    public String getCertUpload1() {
+        if(_grouper.getCertUpload1()== null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertUpload1());
+    }
+    
+    public String getCertUpload2() {
+        if(_grouper.getCertUpload2()== null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertUpload2());
+    }
+    
+    public String getCert1Error() {
+        if(_grouper.getCertError1() == -1)
+            return "";
+        return _grouper.getCertError1()+"";
+    }
+    
+    public String getCert2Error() {
+        if(_grouper.getCertError2() == -1)
+            return "";
+        return _grouper.getCertError2()+"";
+    }
+    
+    public String getCertMailDate() {
+        if(_grouper.getCertification() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertification());
+    }
+    
+    public String getDownloadSpec() {
+        if(_grouper.getDownloadSpec() == null)
+            return "";
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getDownloadSpec());
+    }
+    
+    public String getDownloadTest() {
+        if(_grouper.getDownloadTest() == null) {
+            return "";
+        }
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getDownloadTest());
+    }
+    
+    public String getDownloadCert() {
+        if(_grouper.getDownloadCert()== null) {
+            return "";
+        }
+        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getDownloadCert());
     }
     
     private String buildAttachementString() {

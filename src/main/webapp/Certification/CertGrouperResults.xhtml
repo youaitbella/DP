@@ -28,17 +28,30 @@
         <h:panelGroup rendered="#{certGrouperResults.hasReceivedEmailToCurrentState()}" style="width: 100%">
             <h2>Grouper-Emails</h2>
             <br />
-            <div style="border: red solid 3px; padding: 5px; font-weight: bold; text-align: center;">
+            <div style="border: green solid 3px; padding: 5px; font-weight: bold; text-align: center;">
                 Der Hersteller hat bereits eine Email zu dem momentanen Status erhalten.
             </div>
         </h:panelGroup>
         
         <h:panelGroup rendered="#{certGrouperResults.renderCertificationFinished()}">
-            <div style="border: red solid 3px; padding: 5px; font-weight: bold; text-align: center;">
+            <div style="border: green solid 3px; padding: 5px; font-weight: bold; text-align: center;">
                 Dieser Hersteller hat die Zertifizierung für dieses System bereits komplett abgeschlossen.
                 Die Zertifikats-Email wurde verschickt!
             </div>
-            <br />
+            <h2>Übersicht</h2>
+            <div class="inputPart">
+                <h:outputLabel id="lblDownloadSpec" styleClass="label20" value="Spec heruntergeladen:" />
+                <h:inputText readonly="true" id="txtDownloadSpec" styleClass="inputmedium" value="#{certGrouperResults.downloadSpec}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblDownloadTest" styleClass="label20" value="Testdaten heruntergeladen:" />
+                <h:inputText readonly="true" id="txtDownloadTest" styleClass="inputmedium" value="#{certGrouperResults.downloadTest}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblDownloadCert" styleClass="label20" value="Zertidaten heruntergeladen:" />
+                <h:inputText readonly="true" id="txtDownloadCert" styleClass="inputmedium" value="#{certGrouperResults.downloadCert}" />
+            </div>
+            <br/>
             <div class="inputPart">
                 <h:outputLabel id="lblUploadedTest1" styleClass="label20" value="Testdaten 1 hochgeladen:" />
                 <h:inputText readonly="true" id="txtUploadedTest1" styleClass="inputmedium" value="#{certGrouperResults.testUpload1}" />
@@ -74,6 +87,35 @@
             <div class="inputPart">
                 <h:outputLabel id="lblErrorTest3" styleClass="label20" value="Testdaten 3 Fehler:" />
                 <h:inputText readonly="true" id="txtErrorTest3" styleClass="inputshort" value="#{certGrouperResults.test3Error}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblUploadedCert1" styleClass="label20" value="Zertidaten 1 hochgeladen:" />
+                <h:inputText readonly="true" id="txtUploadedCert1" styleClass="inputmedium" value="#{certGrouperResults.certUpload1}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblSentCert1" styleClass="label20" value="Zertidaten 1 geprüft:" />
+                <h:inputText readonly="true" id="txtSentCert1" styleClass="inputmedium" value="#{certGrouperResults.cert1Check}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblErrorCert1" styleClass="label20" value="Zertidaten 1 Fehler:" />
+                <h:inputText readonly="true" id="txtErrorCert1" styleClass="inputshort" value="#{certGrouperResults.cert1Error}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblUploadedCert2" styleClass="label20" value="Zertidaten 2 hochgeladen:" />
+                <h:inputText readonly="true" id="txtUploadedCert2" styleClass="inputmedium" value="#{certGrouperResults.certUpload2}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblSentCert2" styleClass="label20" value="Zertidaten 2 geprüft:" />
+                <h:inputText readonly="true" id="txtSentCert2" styleClass="inputmedium" value="#{certGrouperResults.cert2Check}" />
+            </div>
+            <div class="inputPart">
+                <h:outputLabel id="lblErrorCert2" styleClass="label20" value="Zertidaten 2 Fehler:" />
+                <h:inputText readonly="true" id="txtErrorCert2" styleClass="inputshort" value="#{certGrouperResults.cert2Error}" />
+            </div>
+            <br/>
+            <div class="inputPart">
+                <h:outputLabel id="lblCertificate" styleClass="label20" value="Zertifikats-Email:" />
+                <h:inputText readonly="true" id="txtCertificate" styleClass="inputmedium" value="#{certGrouperResults.certMailDate}" />
             </div>
         </h:panelGroup>
         
