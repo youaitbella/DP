@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -266,20 +265,22 @@ public class CertCertification {
     }
 
     @Inject Mailer _mailer;
-    public void saveOther(ActionEvent event) {
-        String id = event.getComponent().getClientId();
-        if (id.equals("form:btnConfirmFile")) {
-            setPersistUploadFile();
-            String msg = "Account: " + _sessionController.getAccountId() + "\r\n";
-            msg += _sessionController.getAccount().getCompany() + "\r\n\r\n";
-            RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
-            if (system != null) {
-                msg += system.getDisplayName();
-            }
-            _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis", msg);
+    public String saveFile() {
+        setPersistUploadFile();
+        String msg = "Account: " + _sessionController.getAccountId() + "\r\n";
+        msg += _sessionController.getAccount().getCompany() + "\r\n\r\n";
+        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
+        if (system != null) {
+            msg += system.getDisplayName();
         }
+        _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis", msg);
+        return saveOther();
+    }
+
+    public String saveOther() {
         save();
         setGrouperChanged(false);
+        return "";
     }
 
     private void setPersistUploadFile() {

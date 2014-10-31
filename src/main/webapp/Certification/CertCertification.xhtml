@@ -107,7 +107,7 @@
 
                 <div class="inputPart" jsf:rendered="#{certCertification.resultFileName.endsWith('[ungespeichert]')}">
                     <h:commandLink id="btnConfirmFile" styleClass="button" value="#{msg.btnSave}"
-                                   actionListener="#{certCertification.saveOther}"
+                                   action="#{certCertification.saveFile}"
                                    immediate="true" disabled="false">
                         <f:ajax render="@form :logout:remaining"/>
                     </h:commandLink>
@@ -121,7 +121,7 @@
                                  value="#{certCertification.grouper.name}"
                                  styleClass="input"
                                  required="true">
-                        <f:ajax render="@this msgGrouperName mnuSystem :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
+                        <f:ajax render=":logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
                     </h:inputText>
                     <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
                 </div>
@@ -138,8 +138,8 @@
 
                 <div class="toolBar">
                     <h:commandLink id="btnSaveOther" styleClass="button" value="#{msg.btnSave}"
-                                   actionListener="#{certCertification.saveOther}"
-                                   immediate="true" disabled="false">
+                                   action="#{certCertification.saveOther}"
+                                   immediate="false" disabled="false">
                         <f:ajax render="@form :logout:remaining"/>
                     </h:commandLink>
                 </div>
