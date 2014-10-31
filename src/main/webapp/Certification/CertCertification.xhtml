@@ -120,7 +120,7 @@
                     <h:inputText id="txtGrouperName"
                                  value="#{certCertification.grouper.name}"
                                  styleClass="input"
-                                 required="true">
+                                 required="false">
                         <f:ajax render=":logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
                     </h:inputText>
                     <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>

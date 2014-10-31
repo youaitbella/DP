@@ -471,6 +471,7 @@ public class EditNubProposal extends AbstractEditController {
 
         _nubProposal.setStatus(_nubProposal.getStatus() == WorkflowStatus.Rejected ? WorkflowStatus.ReProvided : WorkflowStatus.Provided);
         _nubProposal.setSealedBy(_sessionController.getAccountId());
+        _nubProposal.setDateSealed(Calendar.getInstance().getTime());
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         if (_nubProposal.getTargetYear() < targetYear) {
             // data from last year, not sealed so far
@@ -512,6 +513,7 @@ public class EditNubProposal extends AbstractEditController {
 
         _nubProposal.setStatus(WorkflowStatus.ApprovalRequested);
         _nubProposal.setLastChangedBy(_sessionController.getAccountId());
+        _nubProposal.setDateSealed(Calendar.getInstance().getTime());
         _nubProposal = _nubProposalFacade.saveNubProposal(_nubProposal);
 
         return "";

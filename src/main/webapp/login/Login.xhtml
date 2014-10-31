@@ -3,6 +3,7 @@
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/Templates/PortalTemplate.xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
 
@@ -10,6 +11,7 @@
     </ui:define>
 
     <ui:define name="content">
+
         <h:form id="Login">
             <p>
                 <h:outputLabel styleClass="label" for="email" value="#{msg.lblEmailOrUser}:"/>

@@ -7,11 +7,9 @@ package org.inek.dataportal.login;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.enums.Pages;
 
 /**
@@ -77,17 +75,18 @@ public class Login implements Serializable {
 
     // </editor-fold>
     public String login() {
+        _sessionController.setTestPerformed(true);
         // todo: replace boolean value by something configurable
         if (false) {
             _sessionController.setScript("alert('Aufgrund von Wartungsarbeiten ist derzeit kein Zugang möglich');");
-            return null;
+            return "";
         }
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
             _loginMessage = "Name bzw. Email und / oder Kennwort sind ungültig";
-            return null;
+            return "";
         }
         _loginMessage = "";
         return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
     }
-     
+
 }

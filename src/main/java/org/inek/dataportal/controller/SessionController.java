@@ -504,4 +504,28 @@ public class SessionController implements Serializable {
         return null;
     }
 
+    private boolean _testPerformed = false;
+    public boolean isTestPerformed() {
+        return _testPerformed;
+    }
+
+    public void setTestPerformed(boolean testPerformed) {
+        _testPerformed = testPerformed;
+    }
+
+    private boolean _clickable = false;
+    public boolean isClickable() {
+        return _clickable;
+    }
+
+    public void setClickable(boolean clickable) {
+        _clickable = clickable;
+    }
+
+    public String testClick() {
+        _clickable = true;
+        setTestPerformed(true);
+        return Pages.Login.URL();
+    }
+
 }

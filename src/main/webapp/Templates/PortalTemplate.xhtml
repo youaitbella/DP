@@ -43,7 +43,6 @@
                             <h:form id="logout">
                                 <h:outputLabel styleClass="label" value="#{msg.lblWelcome} #{sessionController.user}"/>
                                 <h:outputLabel styleClass="light" value="(#{msg.lblAutoLogout}"/>
-                                &nbsp;
                                 <h:outputText id="remaining" styleClass="light" value="#{sessionController.remainingTime}"/>
                                 <h:outputLabel styleClass="light" value="s)"/>
                                 <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
@@ -107,6 +106,20 @@
                     <noscript>
                         <h3 class="warningWide">#{msg.msgEnableScript}</h3>
                     </noscript>
+                    <h:form id="browsertest">
+                        <div jsf:rendered="#{!sessionController.testPerformed}">
+                            <script>
+                                function test() {
+                                    document.getElementById('browsertest:testclick').click();
+                                }
+                                window.onload = test;
+                            </script>
+                            <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick"/>
+                        </div>
+                        <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
+                            <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
+                        </div>
+                    </h:form>
                     <ui:insert name="content">Content</ui:insert>
                 </div>
                 <div class="defloat"></div>
