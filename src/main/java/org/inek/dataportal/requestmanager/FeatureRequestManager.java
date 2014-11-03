@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
@@ -66,6 +65,9 @@ public class FeatureRequestManager implements Serializable {
     }
 
     public String getFeature() {
+        if (_request == null || _request.getFeature() == null) {
+            return "<unknown or handled feature request>";
+        }
         return _request.getFeature().getDescription();
     }
 
