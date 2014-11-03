@@ -88,7 +88,7 @@
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:outputLabel value="#{certMail.getCompanyNameByAccId(er.accountId)}"/>
+                    <h:outputLabel value="#{certMail.getCompanyNameByAccId(er.accountId)} - #{certMail.getAccountName(er.accountId)}"/>
                 </h:column>
             </h:dataTable>
             

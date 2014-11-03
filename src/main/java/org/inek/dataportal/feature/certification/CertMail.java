@@ -398,6 +398,10 @@ public class CertMail implements Serializable {
         String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + receiverAccount.getLastName() + ",";
         return salutation;
     }
+    
+    public String getAccountName(int accId) {
+        return _accFacade.find(accId).getFirstName() + " " + _accFacade.find(accId).getLastName();
+    }
 
     public String sendMailsToAllReceivers() {
         _emailSentInfoDataTable.clear();
