@@ -126,6 +126,7 @@ public enum Pages {
     AdminError("/Admin/error"),
     AdminApproved("/Admin/approvalcompleted"),
     AdminApproval("/Admin/approval"),
+    AdminApprovalNone("/Admin/approvalNone"),
     AdminTaskSystemStatus("/Admin/AdminTaskSystemStatus"),
     AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),

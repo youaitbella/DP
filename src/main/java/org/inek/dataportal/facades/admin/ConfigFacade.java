@@ -3,6 +3,7 @@ package org.inek.dataportal.facades.admin;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.admin.Config;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.AbstractFacade;
 
 /**
@@ -26,6 +27,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     public String read(String key, String defaultVal) {
         Config config = find(key);
         if (config == null) {
+            save(key, defaultVal);
             return defaultVal;
         }
         return config.getValue();
@@ -38,6 +40,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     public boolean read(String key, boolean defaultVal) {
         Config config = find(key);
         if (config == null) {
+            save(key, defaultVal);
             return defaultVal;
         }
         return Boolean.parseBoolean(config.getValue());
@@ -50,6 +53,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     public int read(String key, int defaultVal) {
         Config config = find(key);
         if (config == null) {
+            save(key, defaultVal);
             return defaultVal;
         }
         try {
@@ -59,11 +63,20 @@ public class ConfigFacade extends AbstractFacade<Config> {
         }
     }
 
-    @Schedule(hour = "*", minute = "*", second = "*/10")
-    private void test() {
-        save("test", true);
-        boolean result = read("test", false);
-        assert (result);
+    @Schedule(month = "9", dayOfMonth = "1", hour = "0")
+    private void enableNub() {
+        save(ConfigKey.IsNubCreateEnabled.name(), true);
+        save(ConfigKey.IsNubSendEnabled.name(), true);
+    }
+
+    @Schedule(month = "11", dayOfMonth = "4", hour = "0")
+    private void disableCreateNub() {
+        save(ConfigKey.IsNubCreateEnabled.name(), false);
+    }
+
+    @Schedule(month = "11", dayOfMonth = "5", hour = "0")
+    private void disableSendNub() {
+        save(ConfigKey.IsNubSendEnabled.name(), false);
     }
 
 }

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.entities.NubProposal;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubProposalFacade;
@@ -51,7 +52,7 @@ public class NubReminder {
      * one week and one day before the official end of delivery
      */
     public void remindSeal() {
-        if (!_config.read("RemindNubSeal", false)) {
+        if (!_config.read(ConfigKey.RemindNubSeal.name(), false)) {
             _logger.log(Level.INFO, "RemindNubSeal is not enabled");
             return;
         }

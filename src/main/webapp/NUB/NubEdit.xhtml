@@ -48,8 +48,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editNubProposal.requestSeal()}"
                                    value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.nubProposalDisabled}"
-                                   rendered="#{editNubProposal.sealEnabled and nubProposalList.nubEnabled}"
+                                   rendered="#{sessionController.isEnabled('IsNubSendEnabled') and editNubProposal.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}"/>
 
                     <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
@@ -57,8 +56,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editNubProposal.requestApproval()}"
                                    value="#{msg.btnRequestApproval}"
-                                   disabled="#{sessionTools.nubProposalDisabled}"
-                                   rendered="#{editNubProposal.approvalRequestEnabled and nubProposalList.nubEnabled}"
+                                   rendered="#{sessionController.isEnabled('IsNubSendEnabled') and editNubProposal.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}"/>
 
                     <h:commandLink id="confirmApprovalRequest" style="display: none"
@@ -73,7 +71,7 @@
 
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnNewFromNub}"
-                                   rendered="#{nubProposalList.nubEnabled and (editNubProposal.nubProposal.dateSealed != null or !editNubProposal.ownNub)}"
+                                   rendered="#{sessionController.isEnabled('IsNubCreateEnabled') and (editNubProposal.nubProposal.dateSealed != null or !editNubProposal.ownNub)}"
                                    >
                         <f:ajax listener="#{editNubProposal.copyNubProposal}"/>
                     </h:commandLink>

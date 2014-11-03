@@ -22,6 +22,7 @@ import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.Log;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
@@ -30,6 +31,7 @@ import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.ProcedureFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
@@ -526,6 +528,36 @@ public class SessionController implements Serializable {
         _clickable = true;
         setTestPerformed(true);
         return Pages.Login.URL();
+    }
+
+    @Inject private ConfigFacade _config;
+    private final Map<ConfigKey, Boolean> _boolConfig = new HashMap<>();
+
+    /**
+     * Reads a configuration value either from DB or cache and returns it. Once
+     * a value is read, it will be cached until the end of the current session.
+     * This reduece DB traffic. Any change during the session (except setEnabled
+     * for the same session) will be ignored.
+     *
+     * @param config
+     * @return
+     */
+    public boolean isEnabled(ConfigKey config) {
+        if (_boolConfig.containsKey(config)) {
+            return _boolConfig.get(config);
+        }
+        boolean value = _config.read(config.name(), false);
+        _boolConfig.put(config, value);
+        return value;
+    }
+
+    public boolean isEnabled(String key) {
+        return isEnabled(ConfigKey.valueOf(key));
+    }
+
+    public void setEnabled(ConfigKey config, boolean value) {
+        _config.save(config.name(), value);
+        _boolConfig.put(config, value);
     }
 
 }

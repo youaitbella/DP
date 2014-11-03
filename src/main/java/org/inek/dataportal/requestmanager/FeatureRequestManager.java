@@ -1,13 +1,15 @@
 package org.inek.dataportal.requestmanager;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.FacesException;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
@@ -19,7 +21,6 @@ import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
-import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 
 /**
@@ -42,13 +43,7 @@ public class FeatureRequestManager implements Serializable {
 
     @PostConstruct
     private void init() {
-        System.out.println("init");
-        HttpServletRequest r = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String key = r.getParameter("key");
-        if (Utils.getFlash().containsKey("key")) {
-            key = Utils.getFlash().get("key").toString();
-        }
-        Utils.getFlash().put("key", key);
+        String key = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("key");
         _request = _featureRequestFacade.findByApprovalKey(key);
         if (_request == null) {
             _account = null;
@@ -71,6 +66,10 @@ public class FeatureRequestManager implements Serializable {
         return _request.getFeature().getDescription();
     }
 
+    public boolean isRequestFound() {
+        return _request != null;
+    }
+
     public String getRole() {
         if (_account == null) {
             return "";
@@ -83,10 +82,23 @@ public class FeatureRequestManager implements Serializable {
         if (_account != null) {
             setNewState(FeatureState.APPROVED);
             _mailer.sendFeatureRequestAnswer("FeatureApprovalMail", _account, _request);
-            _accountFacade.clearCache(Account.class);
-            return Pages.AdminApproved.URL();
+            _accountFacade.clearCache();
+            return (redirect(Pages.AdminApproved.URL()));
         }
-        return Pages.AdminError.URL();
+        return (redirect(Pages.AdminError.URL()));
+    }
+
+    public String redirect(String url) throws FacesException {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+
+        ExternalContext extContext = ctx.getExternalContext();
+        String target = extContext.encodeActionURL(ctx.getApplication().getViewHandler().getActionURL(ctx, url));
+        try {
+            extContext.redirect(target);
+        } catch (IOException ex) {
+            throw new FacesException(ex);
+        }
+        return "";
     }
 
     public String reject() {
@@ -94,9 +106,9 @@ public class FeatureRequestManager implements Serializable {
             setNewState(FeatureState.REJECTED);
             _mailer.sendFeatureRequestAnswer("FeatureRejectMail", _account, _request);
             _accountFacade.clearCache(Account.class);
-            return Pages.AdminApproved.URL();
+            return redirect(Pages.AdminApproved.URL());
         }
-        return Pages.AdminError.URL();
+        return redirect(Pages.AdminError.URL());
     }
 
     private void setNewState(FeatureState newState) {

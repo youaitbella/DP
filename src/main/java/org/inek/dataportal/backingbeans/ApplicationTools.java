@@ -11,10 +11,15 @@ import javax.inject.Named;
 
 @Named @ApplicationScoped
 public class ApplicationTools {
-    Properties _properties;
-    
+
+    private Properties _properties;
+
     private static final Logger _logger = Logger.getLogger("ApplicationTools");
 
+    /**
+     *
+     * @return the application version as created at compile time
+     */
     public String getVersion() {
         ensureProjectProperties();
         return _properties.getProperty("version", "0");
