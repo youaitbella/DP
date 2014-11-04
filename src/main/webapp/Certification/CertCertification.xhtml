@@ -81,6 +81,9 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
+                <div id="file-uploader" jsf:rendered="#{((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and empty certCertification.grouper.name)}">
+                    #{msg.msgGrouperNameRequired}
+                </div>
                 <div id="file-uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
                     <script>
                         createUploader("#{msg.btnUpload} #{certCertification.expectedFileName}");
