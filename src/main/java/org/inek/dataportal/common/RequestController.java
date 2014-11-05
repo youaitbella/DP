@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
@@ -44,17 +45,22 @@ public class RequestController implements Serializable {
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             return;
         }
-        if (viewId.equals(Pages.InvalidConversation.URL())) {
-            tryLogout();
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.InvalidConversation.URL());
-            return;
-        }
         if (viewId.equals(Pages.ErrorRedirector.URL())) {
             tryLogout();
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
             return;
         }
-        if (viewId.equals(Pages.Error.URL()) || viewId.equals(Pages.SessionTimeout.URL())) {
+        if (viewId.equals(Pages.NotAllowed.URL())) {
+            tryLogout();
+            String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
+            _sessionController.logMessage("Attempt to access invalid url: " + url);
+            Utils.sleep(500);  // force client to wait a bit
+            return;
+        }
+        if (viewId.equals(Pages.Error.URL())
+                || viewId.equals(Pages.InvalidConversation.URL())
+                || viewId.equals(Pages.SessionTimeout.URL())
+                || viewId.equals(Pages.NotAllowed.URL())) {
             tryLogout();
             return;
         }

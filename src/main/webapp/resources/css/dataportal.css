@@ -877,6 +877,15 @@ div.modelIntYesNo {
     margin-right: 5px;
 }
 
+.leftSpace {
+    margin-left: 2em;
+}
+.verticalSpace {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+
 .ugly {
     color: red;
     background-color: green;

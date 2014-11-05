@@ -267,13 +267,12 @@ public class CertCertification {
     @Inject Mailer _mailer;
     public String saveFile() {
         setPersistUploadFile();
-        String msg = "Account: " + _sessionController.getAccountId() + "\r\n";
-        msg += _sessionController.getAccount().getCompany() + "\r\n\r\n";
         RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
-        if (system != null) {
-            msg += system.getDisplayName();
-        }
-        _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis", msg);
+        String msg = "Account: " + _sessionController.getAccountId() + "\r\n"
+                + _sessionController.getAccount().getCompany() + "\r\n\r\n"
+                + system.getDisplayName() + "\r\n"
+                + _grouper.getCertStatus().getLabel() + "\r\n";
+        _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis " + system.getDisplayName(), msg);
         return saveOther();
     }
 

@@ -262,4 +262,12 @@ public class Utils {
         }
     }
 
+    public static void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
