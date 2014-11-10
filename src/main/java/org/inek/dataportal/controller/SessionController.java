@@ -26,13 +26,13 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.PeppFacade;
-import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.facades.admin.LogFacade;
+import org.inek.dataportal.facades.common.DiagnosisFacade;
+import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
@@ -531,7 +531,7 @@ public class SessionController implements Serializable {
     }
 
     @Inject private ConfigFacade _config;
-    private final Map<ConfigKey, Boolean> _boolConfig = new HashMap<>();
+    private final Map<String, Boolean> _boolConfig = new HashMap<>();
 
     /**
      * Reads a configuration value either from DB or cache and returns it. Once
@@ -539,25 +539,48 @@ public class SessionController implements Serializable {
      * This reduece DB traffic. Any change during the session (except setEnabled
      * for the same session) will be ignored.
      *
-     * @param config
+     * @param key
      * @return
      */
-    public boolean isEnabled(ConfigKey config) {
-        if (_boolConfig.containsKey(config)) {
-            return _boolConfig.get(config);
+    public boolean isEnabled(String key) {
+        if (!isValidKey(key)) {
+            return false;
         }
-        boolean value = _config.read(config.name(), false);
-        _boolConfig.put(config, value);
+        if (_boolConfig.containsKey(key)) {
+            return _boolConfig.get(key);
+        }
+        boolean value = _config.read(key, false);
+        _boolConfig.put(key, value);
         return value;
     }
 
-    public boolean isEnabled(String key) {
-        return isEnabled(ConfigKey.valueOf(key));
+    public void setEnabled(String key, boolean value) {
+        if (isValidKey(key)) {
+            _config.save(key, value);
+            _boolConfig.put(key, value);
+        }
     }
 
-    public void setEnabled(ConfigKey config, boolean value) {
-        _config.save(config.name(), value);
-        _boolConfig.put(config, value);
+    /**
+     * Checks, whether the key is the name of a Feature or ConfigKey
+     *
+     * @param key
+     * @return
+     */
+    private boolean isValidKey(String key) {
+        try {
+            Feature.valueOf(key);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            // might be a config key, not a feature
+        }
+        try {
+            ConfigKey.valueOf(key);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            _logger.log(Level.WARNING, "Illegal config key: {0}", key);
+        }
+        return false;
     }
 
 }

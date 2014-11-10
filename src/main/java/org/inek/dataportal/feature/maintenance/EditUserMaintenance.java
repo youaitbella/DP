@@ -308,8 +308,10 @@ public class EditUserMaintenance extends AbstractEditController {
             configuredFeatures.add(accFeature.getFeature());
         }
         for (Feature feature : Feature.values()) {
-            String description = Utils.getMessageOrEmpty("description" + feature.name());
-            if (description.length() > 0 && !configuredFeatures.contains(feature)) {
+            if (feature == Feature.ADMIN || feature == Feature.DOCUMENTS) {
+                continue;
+            } // can't be configured
+            if (!configuredFeatures.contains(feature) && _sessionController.isEnabled(feature.name())) {
                 features.add(new FeatureEditorDAO(createAccountFeature(feature), _sessionController.getAccount()));
             }
         }

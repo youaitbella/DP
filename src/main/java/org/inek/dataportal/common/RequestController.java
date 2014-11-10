@@ -53,7 +53,7 @@ public class RequestController implements Serializable {
         if (viewId.equals(Pages.NotAllowed.URL())) {
             tryLogout();
             String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
-            _sessionController.logMessage("Attempt to access invalid url: " + url);
+            _sessionController.logMessage("Attempt to access invalid url: " + url + " IP " + Utils.getClientIP());
             Utils.sleep(500);  // force client to wait a bit
             return;
         }
@@ -68,7 +68,7 @@ public class RequestController implements Serializable {
             // either pages are allowed without being logged in or the user is logged in
             return;
         }
-        _sessionController.logMessage("Force to login. From " + viewId + " IP " + Utils.getClientIP());
+        _sessionController.logMessage("Force to login. From " + viewId);
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
     }
 
