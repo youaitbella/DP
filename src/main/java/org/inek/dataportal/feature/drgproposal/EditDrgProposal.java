@@ -23,7 +23,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.drg.DrgProposalDocument;
 
-import org.inek.dataportal.entities.ProcedureInfo;
+import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.DrgProposalCategory;
@@ -31,10 +31,10 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
 //import org.inek.dataportal.enums.PeppProposalCategory;
-import org.inek.dataportal.facades.DiagnosisFacade;
+import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.DrgProposalFacade;
 
-import org.inek.dataportal.facades.ProcedureFacade;
+import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;

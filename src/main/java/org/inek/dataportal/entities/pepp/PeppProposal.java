@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import org.inek.dataportal.entities.ProcedureInfo;
+import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.enums.PeppProposalCategory;
 import org.inek.dataportal.utils.Documentation;
 

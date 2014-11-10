@@ -1,10 +1,11 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.common;
 
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import org.inek.dataportal.entities.ProcedureInfo;
+import org.inek.dataportal.entities.common.ProcedureInfo;
+import org.inek.dataportal.facades.AbstractFacade;
 
 /**
  *

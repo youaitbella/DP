@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.common;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -13,29 +13,28 @@ import javax.persistence.Table;
  * @author muellermi
  */
 @Entity
-@Table(name = "listIcd")
-public class DiagnosisInfo implements Serializable {
+@Table(name = "listOps")
+public class ProcedureInfo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "icId")
+    @Column(name = "opId")
     private Integer _id;
-    @Column(name = "icCode")
+    @Column(name = "opCode")
     private String _code;
-    @Column(name = "icCodeCompact")
+    @Column(name = "opCodeCompact")
     private String _codeShort;
-    @Column(name = "icName")
+    @Column(name = "opName")
     private String _name;
-    @Column(name = "icFirstYear")
+    @Column(name = "opFirstYear")
     private int _firstYear;
-    @Column(name = "icLastYear")
+    @Column(name = "opLastYear")
     private int _lastYear;
-    @Column(name = "icSearchWords")
+    @Column(name = "opSearchWords")
     private String _searchWords;
 
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-
     public Integer getId() {
         return _id;
     }
@@ -93,9 +92,7 @@ public class DiagnosisInfo implements Serializable {
     }
 
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,10 +102,10 @@ public class DiagnosisInfo implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof DiagnosisInfo)) {
+        if (!(object instanceof ProcedureInfo)) {
             return false;
         }
-        DiagnosisInfo other = (DiagnosisInfo) object;
+        ProcedureInfo other = (ProcedureInfo) object;
         if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
@@ -121,5 +118,4 @@ public class DiagnosisInfo implements Serializable {
     }
 
     // </editor-fold>
-
 }

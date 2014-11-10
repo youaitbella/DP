@@ -5,7 +5,7 @@
 package org.inek.dataportal.feature.peppproposal;
 
 import org.inek.dataportal.components.ExpandingTableLine;
-import org.inek.dataportal.entities.ProcedureInfo;
+import org.inek.dataportal.entities.common.ProcedureInfo;
 
 
 /**

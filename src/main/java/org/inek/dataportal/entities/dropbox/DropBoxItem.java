@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.dropbox;
 
 import java.io.Serializable;
 import javax.persistence.*;

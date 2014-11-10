@@ -15,7 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import org.inek.dataportal.entities.DropBox;
+import org.inek.dataportal.entities.dropbox.DropBox;
 
 /**
  *

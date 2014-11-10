@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.cooperation;
 
 import java.util.HashSet;
 import java.util.List;
@@ -6,10 +6,11 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import org.inek.dataportal.entities.CooperationRight;
+import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.facades.AbstractFacade;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {

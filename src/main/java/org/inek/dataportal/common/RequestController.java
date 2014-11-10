@@ -68,7 +68,7 @@ public class RequestController implements Serializable {
             // either pages are allowed without being logged in or the user is logged in
             return;
         }
-        _sessionController.logMessage("Force to login. From " + viewId);
+        _sessionController.logMessage("Force to login. From " + viewId + " IP " + Utils.getClientIP());
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
     }
 

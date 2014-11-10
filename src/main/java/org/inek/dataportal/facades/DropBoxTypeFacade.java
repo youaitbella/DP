@@ -6,7 +6,7 @@ package org.inek.dataportal.facades;
 
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import org.inek.dataportal.entities.DropBoxType;
+import org.inek.dataportal.entities.dropbox.DropBoxType;
 
 /**
  *

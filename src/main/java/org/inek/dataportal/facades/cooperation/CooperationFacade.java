@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.cooperation;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -8,8 +8,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.Cooperation;
+import org.inek.dataportal.entities.cooperation.Cooperation;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.facades.AbstractFacade;
 
 /**
  *

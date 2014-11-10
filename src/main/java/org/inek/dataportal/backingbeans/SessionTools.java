@@ -20,7 +20,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.CustomerType;
-import org.inek.dataportal.entities.DropBoxType;
+import org.inek.dataportal.entities.dropbox.DropBoxType;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;

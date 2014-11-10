@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.inek.dataportal.backingbeans.SessionTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.DropBox;
+import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.feature.dropbox.DropBoxController;

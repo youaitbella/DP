@@ -8,8 +8,8 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.CooperationFacade;
-import org.inek.dataportal.facades.CooperationRequestFacade;
+import org.inek.dataportal.facades.cooperation.CooperationFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**

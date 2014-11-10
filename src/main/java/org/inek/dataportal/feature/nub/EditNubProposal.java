@@ -32,7 +32,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubProposalFacade;
-import org.inek.dataportal.facades.ProcedureFacade;
+import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
