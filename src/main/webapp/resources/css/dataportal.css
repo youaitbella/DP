@@ -749,7 +749,7 @@ a.button, a.smallButton, span.button, label.button, input.button{
 }
 
 a.changedButton, a.smallChangedButton, span.changedButton, label.changedButton, input.changedButton,
-changed{
+.changed{
     background-color: gold;
 }
 
