@@ -53,7 +53,10 @@ public class RequestController implements Serializable {
         if (viewId.equals(Pages.NotAllowed.URL())) {
             tryLogout();
             String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
-            _sessionController.logMessage("Attempt to access invalid url: " + url + " IP " + Utils.getClientIP());
+            if (!url.endsWith("/favicon.ico") && !url.endsWith("/wpad.dat")) {
+                // log, if none of the well known accesses
+                _sessionController.logMessage("Attempt to access invalid url: " + url + " IP " + Utils.getClientIP());
+            }
             Utils.sleep(500);  // force client to wait a bit
             return;
         }

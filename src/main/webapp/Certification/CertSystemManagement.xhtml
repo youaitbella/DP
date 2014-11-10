@@ -119,6 +119,11 @@
                 <br/>
 
                 <h2>#{msg.lblAssignedManufactorers}</h2>
+                <h:commandLink styleClass="button" value="#{msg.btnReset}"
+                               immediate="true"
+                               action="#{certManager.resetSystem}">
+                    <cb:confirmReset/>
+                </h:commandLink>
 
                 <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
                              value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, colValue, colValue">
@@ -159,7 +164,7 @@
                             <f:ajax render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
                         </h:commandLink>
                     </h:column>
-                    
+
                     <h:column id="colResults">
                         <f:facet name="header">
                             <h:outputText value="Ergebnisse"/>
@@ -180,7 +185,7 @@
             <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
-            <h:commandLink styleClass="button" value="#{msg.btnSave}"
+            <h:commandLink styleClass="button #{certManager.systemChanged ? 'changed' : ''}" value="#{msg.btnSave}"
                            id="btnSystemSave"
                            immediate="false"
                            disabled="#{certManager.system == null || !certManager.systemChanged}"

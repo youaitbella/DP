@@ -20,6 +20,13 @@
     </tag>
 
     <tag>
+        <tag-name>confirmReset</tag-name>
+        <behavior>
+            <behavior-id>confirmReset</behavior-id>
+        </behavior>
+    </tag>
+
+    <tag>
         <tag-name>confirmSeal</tag-name>
         <behavior>
             <behavior-id>confirmSeal</behavior-id>

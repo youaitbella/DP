@@ -31,7 +31,6 @@ import javax.faces.context.Flash;
 import javax.faces.context.PartialResponseWriter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.nub.EditNubProposal;
@@ -153,31 +152,21 @@ public class Utils {
     }
 
     public static String getClientIP() {
-        String ip = "ip missing";
-        Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        if (request instanceof HttpServletRequestWrapper) {
-            ip = ((HttpServletRequestWrapper) request).getRemoteAddr();
-        } else if (request instanceof HttpServletRequest) {
-            ip = ((HttpServletRequest) request).getRemoteAddr();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String forwardInfo = request.getHeader("X-FORWARDED-FOR");
+        if (forwardInfo == null) {
+            return request.getRemoteAddr();
         }
-        return ip;
+        return forwardInfo.split(",")[0];
     }
 
     public static String getUserAgent() {
-        String userAgent = "unknown";
         try {
-            Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
-
-            if (request instanceof HttpServletRequestWrapper) {
-                userAgent = ((HttpServletRequestWrapper) request).getHeader("user-agent");
-            } else if (request instanceof HttpServletRequest) {
-                userAgent = ((HttpServletRequest) request).getHeader("user-agent");
-            } else {
-                userAgent = FacesContext.getCurrentInstance().getExternalContext().getRequestHeaderMap().get("user-agent");
-            }
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            return request.getHeader("user-agent");
         } catch (Exception ex) {
+            return "unknown";
         }
-        return userAgent;
     }
 
     public static String getChecksum(String text) {

@@ -128,6 +128,34 @@ public class CertManager {
         return "";
     }
 
+    public String resetSystem() {
+        for (Grouper grouper : _system.getGrouperList()) {
+            grouper.setPasswordRequest(null);
+            grouper.setDownloadSpec(null);
+            grouper.setDownloadTest(null);
+            grouper.setDownloadCert(null);
+            grouper.setTestUpload1(null);
+            grouper.setTestUpload2(null);
+            grouper.setTestUpload3(null);
+            grouper.setTestCheck1(null);
+            grouper.setTestCheck2(null);
+            grouper.setTestCheck3(null);
+            grouper.setTestError1(-1);
+            grouper.setTestError2(-1);
+            grouper.setTestError3(-1);
+            grouper.setCertCheck1(null);
+            grouper.setCertCheck2(null);
+            grouper.setCertError1(-1);
+            grouper.setCertError2(-1);
+            grouper.setCertUpload1(null);
+            grouper.setCertUpload2(null);
+            grouper.setCertification(null);
+            grouper.setCertStatus(CertStatus.New);
+        }
+        setSystemChanged(true);
+        return "";
+    }
+
     public String cancelSystem() {
         cleanupUploadFiles();
         setSystemId(_system.getId());
