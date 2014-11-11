@@ -125,8 +125,12 @@
                     <cb:confirmReset/>
                 </h:commandLink>
 
+                <h:outputLabel value="" styleClass="element50"/> <!-- fill element only -->
+                <h:outputLabel rendered="#{certManager.systemChanged}" value="Daten geändert" styleClass="changed"/>
+
                 <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
-                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, colValue, colValue">
+                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, col17, colValue, colValue"
+                             styleClass="ruledTable marginTop">
                     <h:column id="colDeleteId" >
                         <f:facet name="header">
                             <h:outputText value=""/>
@@ -138,9 +142,9 @@
                         </h:commandLink>
                     </h:column>
 
-                    <h:column id="colName" class="col60">
+                    <h:column id="colName">
                         <f:facet name="header">
-                            <h:outputText value="Name"/>
+                            <h:outputText value="Hersteller"/>
                         </f:facet>
                         <h:selectOneMenu rendered="#{grouper.accountId le 0}"
                                          styleClass="inputlong" id="mnuAgent" value="#{grouper.accountId}">
@@ -148,7 +152,14 @@
                             <f:ajax event="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}" />
                         </h:selectOneMenu>
                         <h:outputText rendered="#{grouper.accountId gt 0}"
-                                      styleClass="inputlong" value="#{certManager.getAccountDisplayName(grouper.accountId)}"/>
+                                      value="#{certManager.getAccountDisplayName(grouper.accountId)} (#{grouper.accountId})"/>
+                    </h:column>
+
+                    <h:column id="colStatus" >
+                        <f:facet name="header">
+                            <h:outputText value="Status"/>
+                        </f:facet>
+                        <h:outputText value="#{grouper.certStatus.label}"/>
                     </h:column>
 
                     <h:column id="colPass">
@@ -160,7 +171,7 @@
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </h:outputText>
                         <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
-                                       styleClass="button" value="#{msg.btnSetDate}">
+                                       styleClass="midButton" value="#{msg.btnSetDate}">
                             <f:ajax render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
                         </h:commandLink>
                     </h:column>
@@ -169,7 +180,7 @@
                         <f:facet name="header">
                             <h:outputText value="Ergebnisse"/>
                         </f:facet>
-                        <h:commandLink styleClass="button" value="Ergebnis" action="#{certGrouperResults.showResults(grouper)}">
+                        <h:commandLink styleClass="midButton" value="Ergebnis" action="#{certGrouperResults.showResults(grouper)}">
                             <f:ajax render="@form :logout:remaining"/>
                         </h:commandLink>
                     </h:column>

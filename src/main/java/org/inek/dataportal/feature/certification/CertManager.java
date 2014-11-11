@@ -74,15 +74,19 @@ public class CertManager {
         return _system.getId();
     }
 
-    public void setSystemId(int templateId) {
-        if (templateId != _system.getId()) {
+    public void setSystemId(int systemId) {
+        setSystemId(systemId, false);
+    }
+
+    private void setSystemId(int systemId, boolean force) {
+        if (force || systemId != _system.getId()) {
             if (_system.getId() > 0) {
                 cleanupUploadFiles();
             }
-            if (templateId == -1) {
+            if (systemId == -1) {
                 _system = new RemunerationSystem();
             } else {
-                _system = _systemFacade.find(templateId);
+                _system = _systemFacade.find(systemId);
                 Collections.sort(_system.getGrouperList(), (Grouper o1, Grouper o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
 
             }
@@ -157,8 +161,7 @@ public class CertManager {
     }
 
     public String cancelSystem() {
-        cleanupUploadFiles();
-        setSystemId(_system.getId());
+        setSystemId(_system.getId(), true);
         return "";
     }
 

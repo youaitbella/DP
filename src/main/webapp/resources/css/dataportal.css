@@ -468,6 +468,11 @@ div#wrapper {
     width: 30%;
 }
 
+.element50 {
+    display:inline-block;
+    width: 50%;
+}
+
 .element70 {
     display:inline-block;
     width: 70%;
@@ -664,7 +669,7 @@ select:active, select:focus{
     width: 17%;
 }
 
-.col12{
+.col21{
     width: 21%;
 }
 
@@ -732,8 +737,7 @@ img {
     margin-top: -10px;
 }
 
-a.button, a.smallButton, span.button, label.button, input.button,
-a.changedButton, a.smallChangedButton, span.changedButton, label.changedButton, input.changedButton{
+a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
     display: inline-block;
     margin: 0 10px 0 0;
     padding: 0 5px;
@@ -744,41 +748,37 @@ a.changedButton, a.smallChangedButton, span.changedButton, label.changedButton, 
     text-align: center;
 }
 
-a.button, a.smallButton, span.button, label.button, input.button{
+.button, .midButton, .smallButton{
     background-color: #7F9BAF;
 }
 
-a.changedButton, a.smallChangedButton, span.changedButton, label.changedButton, input.changedButton,
 .changed{
     background-color: gold;
 }
 
-a.button, label.button, span.button,
-a.changedButton, label.changedButton, span.changedButton{
+a.button, label.button, span.button{
     min-width: 150px;
 }
 
-input.button, input.changedButton{
+input.button{
     min-width: 165px;
 }
 
-a.smallButton, a.smallChangedButton{
+a.smallButton{
     min-width: 30px;
 }
 
-.button:hover, .smallButton:hover,
-.changedButton:hover, .smallChangedButton:hover{
+a.midButton{
+    min-width: 6em;
+}
+
+.button:hover, .smallButton:hover{
     color: white;
 }
 
-.button:active, .smallButton:active, .sendButton:active, .addButton:active,
-.changedButton:active, .smallChangedButton:active{
+.button:active, .smallButton:active, .sendButton:active, .addButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
-}
-
-span.button{
-    color: gray;
 }
 
 .sendButton, a.addButton{
@@ -949,3 +949,16 @@ div.fakeFile {
 .number {
     text-align: right;
 }
+
+.ruledTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ruledTable td {
+    border-collapse: collapse;
+    border-top: black dotted 1px;
+    border-bottom: black dotted 1px;
+    padding: 0.2em;
+}
+
