@@ -15,8 +15,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.drg.DrgProposalComment;
-//import org.inek.dataportal.entities.PeppProposal;
-//import org.inek.dataportal.entities.PeppProposalComment;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.utils.DocumentationUtil;

@@ -12,9 +12,10 @@
     
     
    
-        <h:outputLabel styleClass="label" for="drg" value="#{msg.lblReferencedDrg}:"/>
+        <h:outputLabel styleClass="label" for="ops" value="#{msg.lblReferencedDrg}:"/>
         <br/>
-        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="drg" value="#{editDrgProposal.drgProposal.ops}"
+        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="drgOps" 
+                          value="#{editDrgProposal.drgProposal.ops}"
                           readonly="#{editDrgProposal.readOnly}"
                           required="false" requiredMessage="#{msg.msgValueNeeded}">
             <f:validateLength maximum="500"/>
@@ -22,7 +23,7 @@
         </h:inputTextarea>
         <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}" 
                          immediate="true" value="#{msg.btnCallSearch}"/>
-        <h:message for="drg" id="msgDrg" styleClass="errorMessage"/>
+        <h:message for="ops" id="msgDrg" styleClass="errorMessage"/>
     
 
     <div class="inputPart">

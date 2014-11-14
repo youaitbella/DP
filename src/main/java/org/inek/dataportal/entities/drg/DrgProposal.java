@@ -185,7 +185,7 @@ public class DrgProposal implements Serializable {
         if (_drgProposalId == null || _drgProposalId < 0 || _status < 1) {
             return "";
         }
-        return "P" + _drgProposalId;
+        return "V" + _drgProposalId;
     }
 
     /**

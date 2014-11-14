@@ -32,6 +32,7 @@ public class SearchCode implements Serializable {
     private @Inject SessionController _sessionController;
     private String _searchText;
     private String _hint = "";
+    private int _proposalSection = GlobalVars.ProposalSectionPepp.getVal(); 
 
     public void checkSearchToken(FacesContext context, UIComponent component, Object value) {
         _hint = "";
@@ -50,7 +51,7 @@ public class SearchCode implements Serializable {
     }
 
     public void search(ActionEvent e) {
-        getSearchController().search(_searchText, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal() - 1);
+        getSearchController().search(_searchText, getProposalSectionYear() - 2, getProposalSectionYear() - 1);
         if (getCodeList().isEmpty()) {
             _hint = "Keine Ergebnisse zu Ihrer Eingabe gefunden.";
         } else {
@@ -77,6 +78,15 @@ public class SearchCode implements Serializable {
     public void setSearchText(String searchText) {
         this._searchText = searchText;
         _hint = "";
+    }
+    
+    public void setProposalSection (int proposalSection)
+    {
+        this._proposalSection = proposalSection;
+    }
+    
+    public int getProposalSection() {
+        return _proposalSection;
     }
 
     public CodeType getCodeType() {
@@ -107,13 +117,32 @@ public class SearchCode implements Serializable {
     public boolean isSearchDrg() {
         return getSearchController().isEnableDrg();
     }
+    
+    private int getProposalSectionYear() {
+        int resultYear = 2015;
+        switch (_proposalSection) {
+            case 101: {
+                resultYear = GlobalVars.DrgProposalSystemYear.getVal();
+                break;
+            }
+            case 102: {
+                resultYear =GlobalVars.PeppProposalSystemYear.getVal();
+                break;
+            }
+            case 103: {
+                resultYear = GlobalVars.NubRequestSystemYear.getVal();
+                break;
+            }
+        }
+        return resultYear;
+    }
 
     public String getFirstYear() {
-        return "" + (GlobalVars.PeppProposalSystemYear.getVal() - 2);
+        return "" + (getProposalSectionYear() - 2);
     }
 
     public String getLastYear() {
-        return "" + (GlobalVars.PeppProposalSystemYear.getVal() - 1);
+        return "" + (getProposalSectionYear() - 1);
     }
 
 // </editor-fold>
