@@ -91,7 +91,11 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 _logger.log(Level.SEVERE, head, exception);
                 collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
-                    targetPage = Pages.Error.RedirectURL();
+                    if (exception.getMessage().contains("javax.ejb.EJBException")) {
+                        targetPage = Pages.DataErrorRedirector.RedirectURL();
+                    } else {
+                        targetPage = Pages.Error.RedirectURL();
+                    }
                 }
             } else {
                 String msg = exception.getMessage();

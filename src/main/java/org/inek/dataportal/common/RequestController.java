@@ -50,6 +50,11 @@ public class RequestController implements Serializable {
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
             return;
         }
+        if (viewId.equals(Pages.DataErrorRedirector.URL())) {
+            tryLogout();
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.DataError.URL());
+            return;
+        }
         if (viewId.equals(Pages.NotAllowed.URL())) {
             tryLogout();
             String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);

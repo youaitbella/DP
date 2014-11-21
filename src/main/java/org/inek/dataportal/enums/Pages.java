@@ -118,6 +118,8 @@ public enum Pages {
     PrintView("/common/PrintView"),
     ErrorRedirector("/common/ErrorRedirector"),
     Error("/common/Error"),
+    DataErrorRedirector("/common/DataErrorRedirector"),
+    DataError("/common/DataError"),
     SessionTimeoutRedirector("/common/TimeOutRedirector"),
     SessionTimeout("/common/TimeOut"),
     InvalidConversation("/common/InvalidConversation"),

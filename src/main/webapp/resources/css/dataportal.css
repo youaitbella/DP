@@ -748,7 +748,7 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
     text-align: center;
 }
 
-.button, .midButton, .smallButton{
+.button, .midButton, .smallButton, input.button{
     background-color: #7F9BAF;
 }
 

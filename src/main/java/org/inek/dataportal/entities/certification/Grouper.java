@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CertStatus;
 
@@ -38,6 +39,12 @@ public class Grouper implements Serializable {
     public void setId(int id) {
         _id = id;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "grVersion")
+    @Version
+    private int _version;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SystemId">
@@ -72,8 +79,8 @@ public class Grouper implements Serializable {
     public Account getAccount() {
         return _account;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property CertStatus">
     @Column(name = "grCertStatus")
     private int _certStatus = -1;
