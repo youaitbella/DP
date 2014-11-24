@@ -27,10 +27,11 @@ import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.DrgProposalCategory;
+import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
-//import org.inek.dataportal.enums.PeppProposalCategory;
+
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.DrgProposalFacade;
 
@@ -105,7 +106,7 @@ public class EditDrgProposal extends AbstractEditController {
             _drgProposal = loadDrgProposal(drgId);
         }
        
-        setVisible(_drgProposal.getCategory());
+        setVisibleCategory(_drgProposal.getCategory());
     }
 
     @PreDestroy
@@ -168,6 +169,8 @@ public class EditDrgProposal extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="Tab master data">
     private List<SelectItem> _categoryItems;
+    
+    private List<SelectItem> _changeMethodItems;
 
     public List<SelectItem> getCategories() {
         if (_categoryItems == null) {
@@ -182,19 +185,67 @@ public class EditDrgProposal extends AbstractEditController {
         }
         return _categoryItems;
     }
+    
+    public List<SelectItem> getChangeMethodDiag() {
+        if (_changeMethodItems == null) {
+            _changeMethodItems = new ArrayList<>();
+            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
+            for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
+                if (pcm != DrgProposalChangeMethod.UNKNOWN) {
+                    SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
+                    _changeMethodItems.add(item);
+                }
+            }
+        }
+        return _changeMethodItems;
+    }
+    
+    public List<SelectItem> getChangeMethodProc() {
+        if (_changeMethodItems == null) {
+            _changeMethodItems = new ArrayList<>();
+            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
+            for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
+                if (pcm != DrgProposalChangeMethod.UNKNOWN) {
+                    SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
+                    _changeMethodItems.add(item);
+                }
+            }
+        }
+        return _changeMethodItems;
+    }
 
     public void changeCategory(ValueChangeEvent e) {
         if (!e.getNewValue().equals(e.getOldValue())) {
-            setVisible((DrgProposalCategory) e.getNewValue());
+            setVisibleCategory((DrgProposalCategory) e.getNewValue());
+        }
+    }
+    
+    public void changeChangeMethodDiag(ValueChangeEvent e) {
+        if (!e.getNewValue().equals(e.getOldValue())) {
+            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
+        }
+    }
+    
+    public void changeChangeMethodProc(ValueChangeEvent e) {
+        if (!e.getNewValue().equals(e.getOldValue())) {
+            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
         }
     }
 
-    private void setVisible(DrgProposalCategory cat) {
+    private void setVisibleCategory(DrgProposalCategory cat) {
         if (cat == null) {
             return;
         }
       
         findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM));
+    }
+    
+    private void setVisibleChangeMethod(DrgProposalChangeMethod pcm) {
+        if (pcm == null) {
+            return;
+        }
+      
+        //findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(pcm.equals(DrgProposalCategory.CODES) || pcm.equals(DrgProposalCategory.SYSTEM));
     }
 
     public boolean isSystem() {
@@ -230,14 +281,25 @@ public class EditDrgProposal extends AbstractEditController {
         getDrgProposal().setProcs(procCodes);
     }
 
-   
-
     @Override
-    public void addDrg(String code) {
-        String drgCodes = getDrgProposal().getOps();
-        drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
-        getDrgProposal().setOps(drgCodes);
+    public void addDiagnosis(String code) {
+        String diagCodes = getDrgProposal().getDiagCodes();
+        diagCodes = (diagCodes == null || diagCodes.length() == 0) ? code : diagCodes + "\r\n" + code;
+        getDrgProposal().setDiagCodes(diagCodes);
     }
+
+//    @Override
+////    public void addDrg(String code) {
+////        String drgCodes = getDrgProposal().getOps();
+////        drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
+////        getDrgProposal().setOps(drgCodes);
+////    }
+//    
+//    public void addDrg(String code) {
+//        String drgCodes = getDrgProposal().getDiagCodes();// .getOps();
+//        drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
+//        getDrgProposal().setDiagCodes(drgCodes);// .setOps(drgCodes);
+//    }
 
     public void checkDiagnosisCodes(FacesContext context, UIComponent component, Object value) {
         checkCodes(value.toString(), CodeType.Diag);

@@ -18,3 +18,5 @@ public enum DrgProposalCategory {
     OTHER;          // Sonstiger Vorschlag
 }
 
+
+

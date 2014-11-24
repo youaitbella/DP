@@ -27,6 +27,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.inek.dataportal.enums.DrgProposalCategory;
+import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -57,6 +58,16 @@ public class DrgProposal implements Serializable {
     @Column(name = "prCategory")
     @Enumerated(EnumType.STRING)
     private DrgProposalCategory _category = DrgProposalCategory.UNKNOWN;
+    
+    @Documentation(key = "lblCategory")
+    @Column(name = "prChangeMethodDiag")
+    @Enumerated(EnumType.STRING)
+    private DrgProposalChangeMethod _changeMethodDiag = DrgProposalChangeMethod.UNKNOWN;
+    
+    @Documentation(key = "lblCategory")
+    @Column(name = "prChangeMethodProc")
+    @Enumerated(EnumType.STRING)
+    private DrgProposalChangeMethod _changeMethodProc = DrgProposalChangeMethod.UNKNOWN;
     
     @Column(name = "prCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -129,14 +140,22 @@ public class DrgProposal implements Serializable {
     @Column(name = "prSolution")
     private String _solution = "";
     
-    @Documentation(name = "OPS")
-    @Column(name = "prOps")
-    private String _ops = "";
+//    @Documentation(name = "OPS")
+//    @Column(name = "prOps")
+//    private String _ops = "";
     
-    @Documentation(name = "OPS Beschreibung")
-    @Column(name = "prOpsText")
-    private String _opsText = "";
+    @Documentation(name = "Diagnos(en), Text")
+    @Column(name = "prDiags")
+    private String _diags = "";
     
+    @Documentation(name = "Diagnos(en), Kode(s)")
+    @Column(name = "prDiagCodes")
+    private String _diagCodes = "";
+    
+//    @Documentation(name = "OPS Beschreibung")
+//    @Column(name = "prOpsText")
+//    private String _opsText = "";
+//    
     @Documentation(name = "Prozeduren")
     @Column(name = "prProcs")
     private String _procs = "";
@@ -357,21 +376,37 @@ public class DrgProposal implements Serializable {
         _solution = solution;
     }
 
-    public String getOps() {
-        return _ops;
+//    public String getOps() {
+//        return _ops;
+//    }
+//
+//    public void setOps(String ops) {
+//        _ops = ops;
+//    }
+    
+    public String getDiags() {
+        return _diags.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
     }
 
-    public void setOps(String ops) {
-        _ops = ops;
+    public void setDiags(String diags) {
+        _diags = diags;
     }
     
-    public String getOpsText() {
-        return _opsText;
+    public String getDiagCodes() {
+        return _diagCodes;
     }
 
-    public void setOpsText(String opsText) {
-        _opsText = opsText;
+    public void setDiagCodes(String diagCodes) {
+        _diagCodes = diagCodes;
     }
+    
+//    public String getOpsText() {
+//        return _opsText;
+//    }
+//
+//    public void setOpsText(String opsText) {
+//        _opsText = opsText;
+//    }
 
     public String getProcs() {
         return _procs.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");

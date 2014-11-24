@@ -29,27 +29,40 @@
         <hr/>
 
         <div class="inputPart marginTop">
-            <h:outputLabel styleClass="label" for="peppDiags" value="#{msg.lblDiagRelated}"/>
+            <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
             <br/>
-            <h:inputTextarea styleClass="areaNarrowLow" id="peppDiags"
-                             readonly="#{editPeppProposal.readOnly}"
-                             value="#{editPeppProposal.peppProposal.diagCodes}"
-                             validator="#{editPeppProposal.checkDiagnosisCodes}">
+            <h:inputTextarea styleClass="areaNarrowLow" id="drgDiags"
+                             readonly="#{editDrgProposal.readOnly}"
+                             value="#{editDrgProposal.drgProposal.diagCodes}"
+                             validator="#{editDrgProposal.checkDiagnosisCodes}">
                 <f:validateLength maximum="500"/>
                 <f:ajax event="blur" render="@this msgCheckDiags"/>
             </h:inputTextarea>
+            
+            <h:selectOneMenu styleClass="input" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.category}" 
+                         required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
+                         immediate="true"
+                         title="#{msg.titleCategory}"
+                         readonly="#{editDrgProposal.readOnly}"
+                         valueChangeListener="#{editDrgProposal.changeMethodDiag}">
+            <f:selectItems value="#{editDrgProposal.changeMethodDiag}"/>
+            <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
+        </h:selectOneMenu>
+            
+            
             <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag}"
                              immediate="true" value="#{msg.btnCallSearch}"/>
-            <h:message for="peppDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+            <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagFreetext}"/>
+            <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagDescriptionWhatToDo}"/>
             <h:message for="diags" id="msgDiags" styleClass="errorMessage"/>
             <br/>
             <h:inputTextarea  styleClass="areaWideLow" id="diags"
                               readonly="#{editDrgProposal.readOnly}"
-                              value="#{editDrgProposal.drgProposal.opsText}">
+                              value="#{editDrgProposal.drgProposal.diags}">
                 <f:validateLength maximum="500"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgDiags"/>
             </h:inputTextarea>
@@ -67,6 +80,17 @@
                 <f:validateLength maximum="500"/>
                 <f:ajax event="blur" render="@this msgCheckProcs"/>
             </h:inputTextarea>
+            
+            <h:selectOneMenu styleClass="input" id="changeMethodProc" value="#{editDrgProposal.drgProposal.category}" 
+                         required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
+                         immediate="true"
+                         title="#{msg.titleCategory}"
+                         readonly="#{editDrgProposal.readOnly}"
+                         valueChangeListener="#{editDrgProposal.changeMethodProc}">
+            <f:selectItems value="#{editDrgProposal.changeMethodProc}"/>
+            <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
+             </h:selectOneMenu>
             <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}"
                              immediate="true" value="#{msg.btnCallSearch}"/>
             <h:message for="drgProcs" id="msgCheckProcs" styleClass="errorMessage"/>
@@ -75,7 +99,7 @@
         <!--inek:expandingTable /-->
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label" for="procs" value="#{msg.lblProcFreetext}"/>
+            <h:outputLabel styleClass="label" for="procs" value="#{msg.lblProcDescriptionWhatToDo}"/>
             <h:message for="procs" id="msgProcs" styleClass="errorMessage"/>
             <br/>
             <h:inputTextarea  styleClass="areaWideLow" id="procs"
