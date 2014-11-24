@@ -9,68 +9,86 @@
                 xmlns:inek="http://java.sun.com/jsf/composite/org/inek"
                 >
     <ui:define name="editContent">
-    
-    
-   
-        <h:outputLabel styleClass="label" for="ops" value="#{msg.lblReferencedDrg}:"/>
-        <br/>
-        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="drgOps" 
-                          value="#{editDrgProposal.drgProposal.ops}"
-                          readonly="#{editDrgProposal.readOnly}"
-                          required="false" requiredMessage="#{msg.msgValueNeeded}">
-            <f:validateLength maximum="500"/>
-            <f:ajax event="blur" render="@this :logout:remaining msgDrg"/>
-        </h:inputTextarea>
-        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}" 
-                         immediate="true" value="#{msg.btnCallSearch}"/>
-        <h:message for="ops" id="msgDrg" styleClass="errorMessage"/>
-    
 
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagFreetext}"/>
-        <h:message for="diags" id="msgDiags" styleClass="errorMessage"/>
-        <br/>
-        <h:inputTextarea  styleClass="areaWideLow" id="diags" 
-                          readonly="#{editDrgProposal.readOnly}"
-                          value="#{editDrgProposal.drgProposal.opsText}">
-            <f:validateLength maximum="500"/>
-            <f:ajax event="blur" render="@this :logout:remaining msgDiags"/>
-        </h:inputTextarea>
-    </div>
-    <hr/>
 
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="drgProcs" value="#{msg.lblProcRelated}"/>
-        <br/>
-        <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="drgProcs" 
-                         readonly="#{editDrgProposal.readOnly}"
-                         value="#{editDrgProposal.drgProposal.procs}" 
-                         validator="#{editDrgProposal.checkProcedureCodes}">
-            <f:validateLength maximum="500"/>
-            <f:ajax event="blur" render="@this msgCheckProcs"/>
-        </h:inputTextarea>
-        <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}" 
-                         immediate="true" value="#{msg.btnCallSearch}"/>
-        <h:message for="drgProcs" id="msgCheckProcs" styleClass="errorMessage"/>
-    </div>
 
-    <!--inek:expandingTable /-->
-    
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="procs" value="#{msg.lblProcFreetext}"/>
-        <h:message for="procs" id="msgProcs" styleClass="errorMessage"/>
-        <br/>
-        <h:inputTextarea  styleClass="areaWideLow" id="procs" 
-                          readonly="#{editDrgProposal.readOnly}"
-                          value="#{editDrgProposal.drgProposal.procsText}">
-            <f:validateLength maximum="500"/>
-            <f:ajax event="blur" render="@this :logout:remaining msgProcs"/>
-        </h:inputTextarea>
-    </div>
+        <h:panelGroup styleClass="inputPart" rendered="#{editDrgProposal.system}">
+            <h:outputLabel styleClass="label" for="ops" value="#{msg.lblReferencedDrg}:"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaNarrowLow" id="drgOps"
+                              value="#{editDrgProposal.drgProposal.ops}"
+                              readonly="#{editDrgProposal.readOnly}"
+                              required="false" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validateLength maximum="500"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgDrg"/>
+            </h:inputTextarea>
+            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}"
+                             immediate="true" value="#{msg.btnCallSearch}"/>
+            <h:message for="ops" id="msgDrg" styleClass="errorMessage"/>
+        </h:panelGroup>
+        <hr/>
 
-    <div class="inputPart">
+        <div class="inputPart marginTop">
+            <h:outputLabel styleClass="label" for="peppDiags" value="#{msg.lblDiagRelated}"/>
+            <br/>
+            <h:inputTextarea styleClass="areaNarrowLow" id="peppDiags"
+                             readonly="#{editPeppProposal.readOnly}"
+                             value="#{editPeppProposal.peppProposal.diagCodes}"
+                             validator="#{editPeppProposal.checkDiagnosisCodes}">
+                <f:validateLength maximum="500"/>
+                <f:ajax event="blur" render="@this msgCheckDiags"/>
+            </h:inputTextarea>
+            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag}"
+                             immediate="true" value="#{msg.btnCallSearch}"/>
+            <h:message for="peppDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+        </div>
 
-    </div>
-     </ui:define>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagFreetext}"/>
+            <h:message for="diags" id="msgDiags" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideLow" id="diags"
+                              readonly="#{editDrgProposal.readOnly}"
+                              value="#{editDrgProposal.drgProposal.opsText}">
+                <f:validateLength maximum="500"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgDiags"/>
+            </h:inputTextarea>
+        </div>
+
+        <hr/>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="drgProcs" value="#{msg.lblProcRelated}"/>
+            <br/>
+            <h:inputTextarea styleClass="areaNarrowLow" id="drgProcs"
+                             readonly="#{editDrgProposal.readOnly}"
+                             value="#{editDrgProposal.drgProposal.procs}"
+                             validator="#{editDrgProposal.checkProcedureCodes}">
+                <f:validateLength maximum="500"/>
+                <f:ajax event="blur" render="@this msgCheckProcs"/>
+            </h:inputTextarea>
+            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}"
+                             immediate="true" value="#{msg.btnCallSearch}"/>
+            <h:message for="drgProcs" id="msgCheckProcs" styleClass="errorMessage"/>
+        </div>
+
+        <!--inek:expandingTable /-->
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="procs" value="#{msg.lblProcFreetext}"/>
+            <h:message for="procs" id="msgProcs" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideLow" id="procs"
+                              readonly="#{editDrgProposal.readOnly}"
+                              value="#{editDrgProposal.drgProposal.procsText}">
+                <f:validateLength maximum="500"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgProcs"/>
+            </h:inputTextarea>
+        </div>
+
+        <div class="inputPart">
+
+        </div>
+    </ui:define>
 </ui:composition>
 
