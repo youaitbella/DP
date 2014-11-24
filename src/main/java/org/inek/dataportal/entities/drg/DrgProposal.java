@@ -140,9 +140,9 @@ public class DrgProposal implements Serializable {
     @Column(name = "prSolution")
     private String _solution = "";
     
-//    @Documentation(name = "OPS")
-//    @Column(name = "prOps")
-//    private String _ops = "";
+    @Documentation(name = "DRG")
+    @Column(name = "prDrg")
+    private String _drg = "";
     
     @Documentation(name = "Diagnos(en), Text")
     @Column(name = "prDiags")
@@ -235,10 +235,27 @@ public class DrgProposal implements Serializable {
     public DrgProposalCategory getCategory() {
         return _category;
     }
+    
+    public DrgProposalChangeMethod getChangeMethodDiag() {
+        return _changeMethodDiag;
+    }
+    
+    public DrgProposalChangeMethod getChangeMethodProc() {
+        return _changeMethodProc;
+    }
 
     public void setCategory(DrgProposalCategory category) {
         _category = category;
     }
+    
+    public void setChangeMethodDiag(DrgProposalChangeMethod changeMethodDiag) {
+        _changeMethodDiag = changeMethodDiag;
+    }
+    
+    public void setChangeMethodProc(DrgProposalChangeMethod changeMethodProc) {
+        _changeMethodProc = changeMethodProc;
+    }
+    
 
     public Boolean isAnonymousData() {
         return _anonymousData;
@@ -376,13 +393,13 @@ public class DrgProposal implements Serializable {
         _solution = solution;
     }
 
-//    public String getOps() {
-//        return _ops;
-//    }
-//
-//    public void setOps(String ops) {
-//        _ops = ops;
-//    }
+    public String getDrg() {
+        return _drg;
+    }
+
+    public void setDrg(String drg) {
+        _drg = drg;
+    }
     
     public String getDiags() {
         return _diags.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");

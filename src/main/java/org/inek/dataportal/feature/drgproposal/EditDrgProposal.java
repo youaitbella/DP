@@ -221,15 +221,15 @@ public class EditDrgProposal extends AbstractEditController {
     }
     
     public void changeChangeMethodDiag(ValueChangeEvent e) {
-        if (!e.getNewValue().equals(e.getOldValue())) {
-            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
-        }
+//        if (!e.getNewValue().equals(e.getOldValue())) {
+//            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
+//        }
     }
     
     public void changeChangeMethodProc(ValueChangeEvent e) {
-        if (!e.getNewValue().equals(e.getOldValue())) {
-            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
-        }
+//        if (!e.getNewValue().equals(e.getOldValue())) {
+//            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
+//        }
     }
 
     private void setVisibleCategory(DrgProposalCategory cat) {
@@ -241,9 +241,9 @@ public class EditDrgProposal extends AbstractEditController {
     }
     
     private void setVisibleChangeMethod(DrgProposalChangeMethod pcm) {
-        if (pcm == null) {
-            return;
-        }
+//        if (pcm == null) {
+//            return;
+//        }
       
         //findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(pcm.equals(DrgProposalCategory.CODES) || pcm.equals(DrgProposalCategory.SYSTEM));
     }

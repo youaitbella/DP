@@ -15,8 +15,8 @@
         <h:panelGroup styleClass="inputPart" rendered="#{editDrgProposal.system}">
             <h:outputLabel styleClass="label" for="ops" value="#{msg.lblReferencedDrg}:"/>
             <br/>
-            <h:inputTextarea  styleClass="areaNarrowLow" id="drgOps"
-                              value="#{editDrgProposal.drgProposal.ops}"
+            <h:inputTextarea  styleClass="areaNarrowLow" id="drgDrg"
+                              value="#{editDrgProposal.drgProposal.drg}"
                               readonly="#{editDrgProposal.readOnly}"
                               required="false" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validateLength maximum="500"/>
@@ -39,12 +39,13 @@
                 <f:ajax event="blur" render="@this msgCheckDiags"/>
             </h:inputTextarea>
             
-            <h:selectOneMenu styleClass="input" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.category}" 
+            <h:selectOneMenu styleClass="input" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.changeMethodDiag}" 
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
                          immediate="true"
                          title="#{msg.titleCategory}"
                          readonly="#{editDrgProposal.readOnly}"
-                         valueChangeListener="#{editDrgProposal.changeMethodDiag}">
+                      
+                         >
             <f:selectItems value="#{editDrgProposal.changeMethodDiag}"/>
             <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
             <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
@@ -81,12 +82,11 @@
                 <f:ajax event="blur" render="@this msgCheckProcs"/>
             </h:inputTextarea>
             
-            <h:selectOneMenu styleClass="input" id="changeMethodProc" value="#{editDrgProposal.drgProposal.category}" 
+            <h:selectOneMenu styleClass="input" id="changeMethodProc" value="#{editDrgProposal.drgProposal.changeMethodProc}" 
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
                          immediate="true"
                          title="#{msg.titleCategory}"
-                         readonly="#{editDrgProposal.readOnly}"
-                         valueChangeListener="#{editDrgProposal.changeMethodProc}">
+                         readonly="#{editDrgProposal.readOnly}">
             <f:selectItems value="#{editDrgProposal.changeMethodProc}"/>
             <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
             <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
