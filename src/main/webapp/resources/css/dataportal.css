@@ -570,9 +570,9 @@ select:active, select:focus{
 }
 
 .comboMiddleFixLow {
-    min-width: 200px;
-    width: 200px;
-    max-width: 200px;
+    min-width: 170px;
+    width: 170px;
+    max-width: 170px;
     
 }
 
