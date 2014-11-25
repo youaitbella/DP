@@ -30,10 +30,13 @@
         </h:panelGroup>
 
         <div class="inputPart marginTop">
+            <div>
+            <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
+            </div>
             <div style="float:left;">
-                <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
-                <br/>
-                <h:inputTextarea styleClass="areaMiddleFixLow" id="drgDiags"
+                
+                
+                <h:inputTextarea styleClass="areaNarrowLow" id="drgDiags"
                                  readonly="#{editDrgProposal.readOnly}"
                                  value="#{editDrgProposal.drgProposal.diagCodes}"
                                  validator="#{editDrgProposal.checkDiagnosisCodes}">
@@ -43,7 +46,11 @@
             </div>
             
             <div style="float: left;">
-                
+                <div>
+                <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag()}"
+                             immediate="true" value="#{msg.btnCallSearch}"/>
+                <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+                </div>
                 <h:selectOneMenu styleClass="comboMiddleFixLow" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.changeMethodDiag}" 
                              required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
                              immediate="true"
@@ -55,9 +62,7 @@
                     <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
                     <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
                 </h:selectOneMenu>
-                <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag()}"
-                             immediate="true" value="#{msg.btnCallSearch}"/>
-                <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+                
             </div>
         </div>
         
