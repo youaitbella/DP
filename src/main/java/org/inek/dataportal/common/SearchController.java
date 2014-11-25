@@ -6,16 +6,15 @@ package org.inek.dataportal.common;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.common.DiagnosisInfo;
-import org.inek.dataportal.entities.pepp.PeppInfo;
 import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.drg.DrgInfo;
+import org.inek.dataportal.entities.pepp.PeppInfo;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.facades.DrgFacade;
-import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.PeppFacade;
+import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 
 /**
@@ -39,16 +38,15 @@ public class SearchController {
     private PeppFacade _peppFacade;
     private DrgFacade _drgFacade;
 
-    
     public SearchController(SessionController sessionController,
-                            ProcedureFacade procedureFacade,
-                            DiagnosisFacade diagnosisFacade,
-                            PeppFacade peppFacade, DrgFacade drgFacade) {
+            ProcedureFacade procedureFacade,
+            DiagnosisFacade diagnosisFacade,
+            PeppFacade peppFacade, DrgFacade drgFacade) {
         _sessionController = sessionController;
-        _procedureFacade=procedureFacade;
-        _diagnosisFacade=diagnosisFacade;
-        _peppFacade=peppFacade;
-        _drgFacade=drgFacade;
+        _procedureFacade = procedureFacade;
+        _diagnosisFacade = diagnosisFacade;
+        _peppFacade = peppFacade;
+        _drgFacade = drgFacade;
     }
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
 
@@ -195,12 +193,12 @@ public class SearchController {
                 }
                 break;
             case Drg:
-                
+
                 List<DrgInfo> drgs = _drgFacade.findAll(searchText, firstYear, lastYear);
                 for (DrgInfo drg : drgs) {
                     getCodeList().add(new CodeInfo(drg.getCode(), drg.getYear(), 0, drg.getText()));
                 }
-                
+
                 break;
             case Pepp:
                 List<PeppInfo> pepps = _peppFacade.findAll(searchText, firstYear, lastYear);
@@ -222,6 +220,7 @@ public class SearchController {
                 _searchConsumer.addProcedure(code);
                 break;
             case Drg:
+                _searchConsumer.addDrg(code);
                 break;
             case Pepp:
                 _searchConsumer.addPepp(code);
@@ -279,6 +278,7 @@ public class SearchController {
         public void setDescription(String description) {
             this._description = description;
         }
+
     }
     // </editor-fold>
 }
