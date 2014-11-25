@@ -189,7 +189,7 @@ public class EditDrgProposal extends AbstractEditController {
     public List<SelectItem> getChangeMethodDiag() {
         if (_changeMethodItems == null) {
             _changeMethodItems = new ArrayList<>();
-            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
+            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
             for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
                 if (pcm != DrgProposalChangeMethod.UNKNOWN) {
                     SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
@@ -203,7 +203,7 @@ public class EditDrgProposal extends AbstractEditController {
     public List<SelectItem> getChangeMethodProc() {
         if (_changeMethodItems == null) {
             _changeMethodItems = new ArrayList<>();
-            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
+            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
             for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
                 if (pcm != DrgProposalChangeMethod.UNKNOWN) {
                     SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
@@ -288,18 +288,12 @@ public class EditDrgProposal extends AbstractEditController {
         getDrgProposal().setDiagCodes(diagCodes);
     }
 
-//    @Override
-////    public void addDrg(String code) {
-////        String drgCodes = getDrgProposal().getOps();
-////        drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
-////        getDrgProposal().setOps(drgCodes);
-////    }
-//    
-//    public void addDrg(String code) {
-//        String drgCodes = getDrgProposal().getDiagCodes();// .getOps();
-//        drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
-//        getDrgProposal().setDiagCodes(drgCodes);// .setOps(drgCodes);
-//    }
+    @Override
+    public void addDrg(String code) {
+        String drgCodes = getDrgProposal().getDrg();
+        drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
+        getDrgProposal().setDrg(drgCodes);
+    }
 
     public void checkDiagnosisCodes(FacesContext context, UIComponent component, Object value) {
         checkCodes(value.toString(), CodeType.Diag);

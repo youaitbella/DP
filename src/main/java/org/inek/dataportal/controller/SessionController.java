@@ -26,6 +26,7 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -54,6 +55,7 @@ public class SessionController implements Serializable {
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private PeppFacade _peppFacade;
+    @Inject private DrgFacade _drgFacade;
     @Inject private LogFacade _logFacade;
     @Inject private AccountDocumentFacade _accDocFacade;
     @Inject private Mailer _mailer;
@@ -115,7 +117,7 @@ public class SessionController implements Serializable {
 
     public SearchController getSearchController() {
         if (_searchController == null) {
-            _searchController = new SearchController(this, _procedureFacade, _diagnosisFacade, _peppFacade);
+            _searchController = new SearchController(this, _procedureFacade, _diagnosisFacade, _peppFacade, _drgFacade);
         }
         return _searchController;
     }

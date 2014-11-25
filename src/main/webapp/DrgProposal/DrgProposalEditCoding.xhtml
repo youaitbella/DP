@@ -13,51 +13,55 @@
 
 
         <h:panelGroup styleClass="inputPart" rendered="#{editDrgProposal.system}">
-            <h:outputLabel styleClass="label" for="ops" value="#{msg.lblReferencedDrg}:"/>
+            <h:outputLabel styleClass="label" for="drg" value="#{msg.lblReferencedDrg}:"/>
             <br/>
-            <h:inputTextarea  styleClass="areaNarrowLow" id="drgDrg"
+            <h:inputTextarea  styleClass="areaNarrowLow" id="drg"
                               value="#{editDrgProposal.drgProposal.drg}"
                               readonly="#{editDrgProposal.readOnly}"
                               required="false" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validateLength maximum="500"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgDrg"/>
             </h:inputTextarea>
-            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg}"
+            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDrg()}"
                              immediate="true" value="#{msg.btnCallSearch}"/>
-            <h:message for="ops" id="msgDrg" styleClass="errorMessage"/>
+            <h:message for="drg" id="msgDrg" styleClass="errorMessage"/>
+                    <hr/>
+
         </h:panelGroup>
-        <hr/>
 
         <div class="inputPart marginTop">
-            <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
-            <br/>
-            <h:inputTextarea styleClass="areaNarrowLow" id="drgDiags"
+            <div style="float:left;">
+                <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
+                <br/>
+                <h:inputTextarea styleClass="areaMiddleFixLow" id="drgDiags"
+                                 readonly="#{editDrgProposal.readOnly}"
+                                 value="#{editDrgProposal.drgProposal.diagCodes}"
+                                 validator="#{editDrgProposal.checkDiagnosisCodes}">
+                    <f:validateLength maximum="500"/>
+                    <f:ajax event="blur" render="@this msgCheckDiags"/>
+                </h:inputTextarea>
+            </div>
+            
+            <div style="float: left;">
+                
+                <h:selectOneMenu styleClass="comboMiddleFixLow" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.changeMethodDiag}" 
+                             required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
+                             immediate="true"
+                             title="#{msg.titleCategory}"
                              readonly="#{editDrgProposal.readOnly}"
-                             value="#{editDrgProposal.drgProposal.diagCodes}"
-                             validator="#{editDrgProposal.checkDiagnosisCodes}">
-                <f:validateLength maximum="500"/>
-                <f:ajax event="blur" render="@this msgCheckDiags"/>
-            </h:inputTextarea>
-            
-            <h:selectOneMenu styleClass="input" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.changeMethodDiag}" 
-                         required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
-                         immediate="true"
-                         title="#{msg.titleCategory}"
-                         readonly="#{editDrgProposal.readOnly}"
-                      
-                         >
-            <f:selectItems value="#{editDrgProposal.changeMethodDiag}"/>
-            <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
-            <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
-        </h:selectOneMenu>
-            
-            
-            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag}"
-                             immediate="true" value="#{msg.btnCallSearch}"/>
-            <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
-        </div>
 
-        <div class="inputPart">
+                             >
+                    <f:selectItems value="#{editDrgProposal.changeMethodDiag}"/>
+                    <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
+                    <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
+                </h:selectOneMenu>
+                <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchDiag()}"
+                             immediate="true" value="#{msg.btnCallSearch}"/>
+                <h:message for="drgDiags" id="msgCheckDiags" styleClass="errorMessage"/>
+            </div>
+        </div>
+        
+        <div class="inputPart" style="clear: left;">
             <h:outputLabel styleClass="label" for="diags" value="#{msg.lblDiagDescriptionWhatToDo}"/>
             <h:message for="diags" id="msgDiags" styleClass="errorMessage"/>
             <br/>
@@ -91,7 +95,7 @@
             <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
             <f:ajax event="blur" render="@this :logout:remaining msgCategory"/>
              </h:selectOneMenu>
-            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc}"
+            <h:commandButton styleClass="button rightAllign" action="#{editDrgProposal.searchProc()}"
                              immediate="true" value="#{msg.btnCallSearch}"/>
             <h:message for="drgProcs" id="msgCheckProcs" styleClass="errorMessage"/>
         </div>
