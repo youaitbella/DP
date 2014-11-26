@@ -113,6 +113,16 @@ public class SearchCode implements Serializable {
     public boolean isSearchPepp() {
         return getSearchController().isEnablePepp();
     }
+    
+    public boolean isSearchPeppPossible() {
+        //return false;
+        return getSearchController().getCodeSystem() == CodeType.Pepp;
+    }
+    
+    public boolean isSearchDrgPossible() {
+        //return false;
+        return getSearchController().getCodeSystem() == CodeType.Drg;
+    }
 
     public boolean isSearchDrg() {
         return getSearchController().isEnableDrg();

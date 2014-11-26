@@ -162,7 +162,7 @@ public class EditDrgProposal extends AbstractEditController {
         addTopic(DrgProposalTabs.tabPPProblem.name(), Pages.DrgProposalEditProblem.URL());
         addTopic(DrgProposalTabs.tabPPSolution.name(), Pages.DrgProposalEditSolution.URL());
         addTopic(DrgProposalTabs.tabPPPolicy.name(), Pages.DrgProposalEditPolicy.URL(), false);
-     //   addTopic(DrgProposalTabs.tabPPCodes.name(), Pages.DrgProposalEditCoding.URL(), true);
+    
         addTopic(DrgProposalTabs.tabPPCodes.name(), Pages.DrgProposalEditCoding.URL());
         addTopic(DrgProposalTabs.tabPPDocuments.name(), Pages.DrgProposalEditDocuments.URL());
     }
@@ -177,7 +177,7 @@ public class EditDrgProposal extends AbstractEditController {
             _categoryItems = new ArrayList<>();
             _categoryItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
             for (DrgProposalCategory cat : DrgProposalCategory.values()) {
-                if (cat != DrgProposalCategory.UNKNOWN) {
+                if ((cat != DrgProposalCategory.UNKNOWN) && (cat != DrgProposalCategory.CODES)) {
                     SelectItem item = new SelectItem(cat.name(), Utils.getMessage("DrgProposalCategory." + cat.name()));
                     _categoryItems.add(item);
                 }
@@ -270,7 +270,7 @@ public class EditDrgProposal extends AbstractEditController {
         _sessionController.getSearchController().bindSearchConsumer(this)
                 .bindTargetPage(Pages.DrgProposalEditCoding.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Drg)
-                .bindCodeType(codeType);
+                .bindCodeType(codeType).setCodeSystem(CodeType.Drg);
         return Pages.SearchCode.URL();
     }
 

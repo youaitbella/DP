@@ -215,7 +215,7 @@ public class EditPeppProposal extends AbstractEditController {
         _sessionController.getSearchController().bindSearchConsumer(this)
                 .bindTargetPage(Pages.PeppProposalEdit.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Pepp)
-                .bindCodeType(codeType);
+                .bindCodeType(codeType).setCodeSystem(CodeType.Pepp);;
         return "/common/SearchCode";
     }
 

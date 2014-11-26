@@ -30,6 +30,7 @@ public class SearchController {
     private boolean _enablePepp;
     private boolean _enableDept;
     private CodeType _codeType;
+    private CodeType _codeSystem = CodeType.Pepp;
     private List<CodeInfo> _codeList = new ArrayList<>();
     private SearchConsumer _searchConsumer;
     private String _targetPage;
@@ -98,6 +99,17 @@ public class SearchController {
         if (_codeType != codeType) {
             _codeType = codeType;
             _codeList = new ArrayList<CodeInfo>();
+        }
+    }
+    
+    public CodeType getCodeSystem() {
+        return _codeSystem;
+    }
+
+    public void setCodeSystem(CodeType codeSystem) {
+        if (_codeSystem != codeSystem) {
+            _codeSystem = codeSystem;
+           
         }
     }
 
