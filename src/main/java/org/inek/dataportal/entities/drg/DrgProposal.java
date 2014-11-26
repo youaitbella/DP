@@ -59,12 +59,12 @@ public class DrgProposal implements Serializable {
     @Enumerated(EnumType.STRING)
     private DrgProposalCategory _category = DrgProposalCategory.UNKNOWN;
     
-    @Documentation(key = "lblCategory")
+    @Documentation(name = "Aktion Diagnose")
     @Column(name = "prChangeMethodDiag")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodDiag = DrgProposalChangeMethod.UNKNOWN;
     
-    @Documentation(key = "lblCategory")
+    @Documentation(name = "Aktion Procedure")
     @Column(name = "prChangeMethodProc")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodProc = DrgProposalChangeMethod.UNKNOWN;

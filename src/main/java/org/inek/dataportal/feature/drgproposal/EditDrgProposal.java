@@ -394,7 +394,7 @@ public class EditDrgProposal extends AbstractEditController {
      */
     public String requestDrgProposalSeal() {
         if (!drgProposalIsComplete()) {
-            return null;
+            return getActiveTopic().getOutcome();
         }
         String script = "if (confirm ('" + Utils.getMessage("msgConfirmSealDrg").replace("\r", "").replace("\n", "\\r\\n") + "')) {document.getElementById('form:seal').click();}";
         _sessionController.setScript(script);
