@@ -12,7 +12,7 @@
     <h:panelGroup styleClass="inputPart" rendered="#{editPeppProposal.system}">
         <h:outputLabel styleClass="label" for="pepp" value="#{msg.lblReferencedPepp}:"/>
         <br/>
-        <h:inputTextarea  styleClass="areaNarrowLow fullWidth floatContainer" id="pepp" value="#{editPeppProposal.peppProposal.pepp}"
+        <h:inputTextarea  styleClass="areaNarrowLow" id="pepp" value="#{editPeppProposal.peppProposal.pepp}"
                           readonly="#{editPeppProposal.readOnly}"
                           required="false" requiredMessage="#{msg.msgValueNeeded}">
             <f:validateLength maximum="500"/>
