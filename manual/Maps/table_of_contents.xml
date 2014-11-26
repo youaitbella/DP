@@ -89,6 +89,21 @@
         <caption translate="true">Dokumente</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="419696487274202" build="ALL" modified="2014-11-26T12:09:06.678Z" icon="0" href="DRG-Vorschlagsverfahren">
+      <caption translate="true">DRG-Vorschlagsverfahren</caption>
+      <topicref type="topic" id="419693790267811" build="ALL" modified="2014-11-26T12:10:43.707Z" icon="0" href="DrgStammformblatt">
+        <caption translate="true">Stammformblatt</caption>
+      </topicref>
+      <topicref type="topic" id="41969624070381" build="ALL" modified="2014-11-26T12:14:38.557Z" icon="0" href="DrgProblemloesung__Loesungsvor">
+        <caption translate="true">Problemstellung, Lösungsvorschlag</caption>
+      </topicref>
+      <topicref type="topic" id="419693626771186" build="ALL" modified="2014-11-26T12:11:53.461Z" icon="0" href="DrgKodes">
+        <caption translate="true">Kodes</caption>
+      </topicref>
+      <topicref type="topic" id="419696257222123" build="ALL" modified="2014-11-26T12:12:18.787Z" icon="0" href="DrgDokumente">
+        <caption translate="true">Dokumente</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="415143917613503" build="ALL" modified="2013-08-28T11:50:56.430Z" icon="0" href="NUB">
       <caption translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB)</caption>
       <topicref type="topic" id="415163810543671" build="ALL" modified="2013-08-30T08:45:21.351Z" icon="0" href="NubList">

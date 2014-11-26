@@ -161,6 +161,7 @@
       <config-value name="make3include">HTML</config-value>
       <config-value name="make3status">*</config-value>
       <config-value name="imageshortcuts">delete.png;</config-value>
+      <config-group name="bookmarks"/>
     </config-group>
     <config-group name="user">
       <config-group name="muellermi">
@@ -169,6 +170,11 @@
         </config-group>
       </config-group>
       <config-group name="mmueller">
+        <config-group name="project">
+          <config-value name="lastexport">4</config-value>
+        </config-group>
+      </config-group>
+      <config-group name="schwarzst">
         <config-group name="project">
           <config-value name="lastexport">4</config-value>
         </config-group>

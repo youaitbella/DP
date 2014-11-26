@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="schwarzst" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">DRG-Vorschlagsverfahren</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">DRG-Vorschlagsverfahren</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das DRG-Vorschlagsverfahren dient dazu, externen Sachverstand in die Weiterentwicklung des DRG Systems einzubinden. Über dieses Formular können alle interessierten Personen Vorschläge in einen strukturierten Dialog zur Weiterentwicklung einbringen. Sie können Ihre Vorschläge weitgehend in Form von Freitexten einbringen. Dort, wo Kodes zur genaueren Beschreibung sinnvoll sind, steht Ihnen eine Suchfunktion zur Verfügung. Alternativ können Sie Kodes aber auch in Form von Freitext umschreiben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das DRG-Vorschlagsverfahren steht Ihnen zur Verfügung, wenn Sie die entsprechende Funktion in den Stammdaten gewählt haben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Ihrer Anmeldung zeigt Ihnen das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> die Übersicht, in der alle gewählten Funktionen dargestellt werden. Startpunkt, einen DRG-Vorschlag zu erfassen ist die Schaltfläche (Button) </text><text styleclass="Button" translate="true">[ Neuer DRG-Vorschlag ]</text><text styleclass="Normal" translate="true">. Damit gelangen Sie sofort in die Erfassung, wie sie in den folgenden Abschnitten beschrieben ist. Auch wenn Sie Ihre Erfassung nach einer Unterbrechung fortsetzen, gelangen Sie in den gleichen Dialog.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie von der Übersicht in den Bereich des DRG-Vorschlagsverfahrens gewechselt, erhalten Sie nicht nur eine Liste der noch nicht vollständig erfassten, sondern auch die der bereits dem InEK bereitgestellten Vorschläge. Auch von hier aus gelangen Sie mittels </text><text styleclass="Button" translate="true">[ neuer DRG-Vorschlag ]</text><text styleclass="Normal" translate="true"> in die Erfassung eines Vorschlags.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="DRGVorschlagAnfang.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich DRG-Vorschlagsverfahren</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können aus diesen Listen in die Erfassungsmaske (siehe folgende Abschnitte) verzweigen, wobei Sie bereitgestellte Vorschläge sichten, aber nicht mehr ändern können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Noch nicht bereitgestellte Vorschläge können Sie wieder löschen. Hierzu nutzen Sie das Löschsymbol </text><image src="delete.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereitgestellten Vorschlägen wird eine Verfahrensnummer zugewiesen. Diese wird in der Liste vor dem Vorschlag aufgeführt. Bei der Kommunikation mit dem InEK über Vorschläge, beziehen Sie sich bitte immer auf diese Nummer.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
