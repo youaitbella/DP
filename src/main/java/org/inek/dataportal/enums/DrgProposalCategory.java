@@ -10,16 +10,11 @@ package org.inek.dataportal.enums;
  */
 public enum DrgProposalCategory {
     UNKNOWN,
-    SYSTEM,         // Vorschlag zur Systementwicklung PEPP
-    SUPPLEMENTARY,   // Vorschlag zum Zusatzentgelt
-    POLICY,         // Vorschlag zu den Kodierrichtlinien Psychiatrie und Psychosomatik
-    CODES,          // Weiterentwicklung Leistungsbezeichner
-    CALCULATION,    // Vorschlag zur Kalkulation
+    SYSTEM, // Vorschlag zur Systementwicklung PEPP
+    SUPPLEMENTARY, // Vorschlag zum Zusatzentgelt
+    POLICY, // Vorschlag zu den Kodierrichtlinien Psychiatrie und Psychosomatik
+    CODES, // Weiterentwicklung Leistungsbezeichner
     CCL,
-    
-    
+    CALCULATION, // Vorschlag zur Kalkulation
     OTHER;          // Sonstiger Vorschlag
 }
-
-
-
