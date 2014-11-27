@@ -7,19 +7,18 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 >
-     <ui:define name="editContent">
-    <p>
-        <h:outputLabel styleClass="label" for="solution" value="#{msg.lblSuggestedSolution}:"/>
-        <h:message for="solution" id="msgSolution" styleClass="errorMessage"/>
-        <br/>
-        <h:inputTextarea  styleClass="areaHuge" id="solution" value="#{editDrgProposal.drgProposal.solution}"
-                          title="titleSuggestedSolution"
-                          readonly="#{editDrgProposal.readOnly}"
-                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}">
-            <f:ajax event="blur" render="@this :logout:remaining msgSolution"/>
-        </h:inputTextarea>
-    </p>
+    <ui:define name="editContent">
+        <p>
+            <h:outputLabel styleClass="label" for="solution" value="#{msg.lblSuggestedSolution}:"/>
+            <h:message for="solution" id="msgSolution" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaHuge" id="solution" value="#{editDrgProposal.drgProposal.solution}"
+                              readonly="#{editDrgProposal.readOnly}"
+                              required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}">
+                <f:ajax event="blur" render="@this :logout:remaining msgSolution"/>
+            </h:inputTextarea>
+        </p>
 
-</ui:define>
+    </ui:define>
 </ui:composition>
 

@@ -12,7 +12,7 @@
         <h:inputText styleClass="input" id="name" value="#{editPeppProposal.peppProposal.name}"
                      title="#{msg.titleAppellation}"
                      readonly="#{editPeppProposal.readOnly}"
-                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" 
+                     required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}"
                      maxlength="80">
             <f:ajax event="blur" render="@this :logout:remaining msgName"/>
         </h:inputText>
@@ -22,10 +22,10 @@
         <h:outputLabel styleClass="label" for="category" value="#{msg.lblCategory}:"/>
         <h:message for="category" id="msgCategory" styleClass="errorMessage"/>
         <br/>
-        <h:selectOneMenu styleClass="input" id="category" value="#{editPeppProposal.peppProposal.category}" 
-                         required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}" 
+        <h:selectOneMenu styleClass="input" id="category" value="#{editPeppProposal.peppProposal.category}"
+                         required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}"
                          immediate="true"
-                         title="#{msg.titleCategory}"
+                         title="#{msg.titleCategoryPepp}"
                          readonly="#{editPeppProposal.readOnly}"
                          valueChangeListener="#{editPeppProposal.changeCategory}">
             <f:selectItems value="#{editPeppProposal.categories}"/>
@@ -54,7 +54,7 @@
                 <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
                 <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                 <br/>
-                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editPeppProposal.peppProposal.gender}" 
+                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editPeppProposal.peppProposal.gender}"
                                  readonly="#{editPeppProposal.readOnly}"
                                  required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgChooseEntryShort}">
                     <f:selectItems value="#{sessionTools.genderItems}"/>
@@ -64,7 +64,7 @@
             <h:panelGroup>
                 <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
                 <br/>
-                <h:inputText styleClass="inputmedium" id="title" value="#{editPeppProposal.peppProposal.title}" 
+                <h:inputText styleClass="inputmedium" id="title" value="#{editPeppProposal.peppProposal.title}"
                              readonly="#{editPeppProposal.readOnly}"
                              required="false" maxlength="50">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
@@ -76,7 +76,7 @@
         <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
         <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="firstname" value="#{editPeppProposal.peppProposal.firstName}" 
+        <h:inputText styleClass="input" id="firstname" value="#{editPeppProposal.peppProposal.firstName}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgFirstname"/>
@@ -86,7 +86,7 @@
         <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
         <h:message id="msgLastname" for="lastname" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="lastname" value="#{editPeppProposal.peppProposal.lastName}" 
+        <h:inputText styleClass="input" id="lastname" value="#{editPeppProposal.peppProposal.lastName}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgLastname"/>
@@ -97,7 +97,7 @@
         <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:"/>
         <h:message id="msgDivision" for="division" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="division" value="#{editPeppProposal.peppProposal.division}" 
+        <h:inputText styleClass="input" id="division" value="#{editPeppProposal.peppProposal.division}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="false" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgDivision"/>
@@ -118,7 +118,7 @@
         <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
         <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="street" value="#{editPeppProposal.peppProposal.street}" 
+        <h:inputText styleClass="input" id="street" value="#{editPeppProposal.peppProposal.street}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgStreet"/>
@@ -128,7 +128,7 @@
         <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
         <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="zip" value="#{editPeppProposal.peppProposal.postalCode}" 
+        <h:inputText styleClass="input" id="zip" value="#{editPeppProposal.peppProposal.postalCode}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="10">
             <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
@@ -138,7 +138,7 @@
         <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
         <h:message id="msgTown" for="town" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="town" value="#{editPeppProposal.peppProposal.town}" 
+        <h:inputText styleClass="input" id="town" value="#{editPeppProposal.peppProposal.town}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
@@ -148,7 +148,7 @@
         <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
         <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="phone" value="#{editPeppProposal.peppProposal.phone}" 
+        <h:inputText styleClass="input" id="phone" value="#{editPeppProposal.peppProposal.phone}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgPhone"/>
@@ -158,7 +158,7 @@
         <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
         <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="fax" value="#{editPeppProposal.peppProposal.fax}" 
+        <h:inputText styleClass="input" id="fax" value="#{editPeppProposal.peppProposal.fax}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="false" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgFax"/>
@@ -169,7 +169,7 @@
         <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
         <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
         <br/>
-        <h:inputText styleClass="input" id="email" value="#{editPeppProposal.peppProposal.email}" 
+        <h:inputText styleClass="input" id="email" value="#{editPeppProposal.peppProposal.email}"
                      readonly="#{editPeppProposal.readOnly}"
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
             <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>

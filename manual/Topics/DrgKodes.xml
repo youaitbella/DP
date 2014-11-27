@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="schwarzst" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Kodes</title>
   <body>
     <header>
@@ -13,9 +13,9 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">In den drei schmalen Eingabefeldern können Sie Kodes der jeweiligen Gruppe erfassen. Sofern Sie nicht genau wissen, um welchen Kodes es sich dabei handelt, wechseln Sie mittels </text><text styleclass="Button" translate="true">[ Suche ]</text><text styleclass="Normal" translate="true"> in den Suchdialog und wählen dort den oder die passenden Kode(s).</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für Ihren Vorschlag keinen Kode finden oder noch kein Kode existiert (z.B. im Falle der Weiterentwicklung Leistungsbezeichner), erstellen Sie im zugehörigen Textfeld einfach eine (möglichst detaillierte) Beschreibung der Diagnose bzw. Prozedur.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für Ihren Vorschlag keinen Kode finden oder noch kein Kode existiert (z.B. im Falle der Weiterentwicklung Leistungsbezeichner), erstellen Sie im zugehörigen Textfeld &quot;Bitte beschreiben Sie ...&quot; einfach eine (möglichst detaillierte) Beschreibung der Diagnose bzw. Prozedur.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">In den Auswahlboxen können Sie bei Bedarf auswählen, wie mit den selektierten Kodes weiterverfahren werden soll. Es stehen die Optionen &quot;Aufnahme&quot;, &quot;Verschieben&quot; und &quot;Löschen&quot; zur Verfügung</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In den Auswahlboxen können Sie bei Bedarf auswählen, wie mit den selektierten Kodes weiterverfahren werden soll. Es stehen die Optionen &quot;Aufnahme&quot;, &quot;Verschieben&quot; und &quot;Löschen&quot; zur Verfügung. Sofern Sie neben dieser Aktion weitere Angaben vornehmen möchten, nutzen Sie dafür bitte ebenfalls das zugehörige Textfeld &quot;Bitte beschreiben Sie ...&quot;.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Siehe auch </text><link displaytype="text" defaultstyle="true" type="topiclink" href="search" styleclass="Normal" translate="true">Suche</link><text styleclass="Normal" translate="true">.</text></para>
   </body>

@@ -51,7 +51,6 @@
                         <h:selectOneMenu styleClass="comboMiddleFixLow marginTop" id="changeMethodDiag" value="#{editDrgProposal.drgProposal.changeMethodDiag}"
                                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}"
                                          immediate="true"
-                                         title="#{msg.titleCategory}"
                                          readonly="#{editDrgProposal.readOnly}"
                                          >
                             <f:selectItems value="#{editDrgProposal.changeMethodDiag}"/>
@@ -91,7 +90,6 @@
                         <h:selectOneMenu styleClass="comboMiddleFixLow marginTop" id="changeMethodProc" value="#{editDrgProposal.drgProposal.changeMethodProc}"
                                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}"
                                          immediate="true"
-                                         title="#{msg.titleCategory}"
                                          readonly="#{editDrgProposal.readOnly}">
                             <f:selectItems value="#{editDrgProposal.changeMethodProc}"/>
                             <f:ajax event="change" render="@all :logout:remaining msgCategory"/>
