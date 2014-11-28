@@ -10,18 +10,18 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.cooperation.CooperationFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.facades.DrgProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.cooperation.CooperationFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.structures.Triple;
@@ -34,15 +34,13 @@ public class DrgProposalList {
     @Inject DrgProposalFacade _drgProposalFacade;
     @Inject SessionController _sessionController;
 
-
-    
-     public List<Triple> getDrgProposals() {
+    public List<Triple> getDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
     }
 
     public List<Triple> getSealedDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
-         
+
     }
 
     /**
@@ -59,28 +57,13 @@ public class DrgProposalList {
         return getDrgProposals().size() > 0;
     }
 
-    
-
     public String newDrgProposal() {
         return Pages.DrgProposalEditAddress.RedirectURL();
     }
 
-   
-
     public String editDrgProposal(int proposalId) {
         Utils.getFlash().put("drgId", proposalId);
         return Pages.DrgProposalEditAddress.RedirectURL();
-    }
-
-    public String requestDeleteDrgProposal(int proposalId) {
-        Utils.getFlash().put("drgId", proposalId);
-        DrgProposal proposal = _drgProposalFacade.find(proposalId);
-        if (_sessionController.isMyAccount(proposal.getAccountId())) {
-//            String msg = proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
-//            String script = "if (confirm ('" + proposal.getName().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteNubProposal').click();}";
-//            _sessionController.setScript(script);
-        }
-        return "";
     }
 
     public String deleteDrgProposal(int proposalId) {
@@ -88,14 +71,9 @@ public class DrgProposalList {
         if (proposal == null) {
             return "";
         }
-//        if (_sessionController.isMyAccount(proposal.getAccountId())) {
-//            if (proposal.getStatus().getValue() <= 9) {
-//                _drgProposalFacade.remove(proposal);
-//            } else {
-//                proposal.setStatus(WorkflowStatus.Retired);
-//                _drgProposalFacade.saveNubProposal(proposal);
-//            }
-//        }
+        if (_sessionController.isMyAccount(proposal.getAccountId())) {
+            _drgProposalFacade.remove(proposal);
+        }
         return "";
     }
 
@@ -108,13 +86,11 @@ public class DrgProposalList {
         return Pages.PrintView.URL();
     }
 
-    
-
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
     @Inject AccountFacade _accountFacade;
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
-   // @Inject DrgSessionTools _drgSessionTools;
+    // @Inject DrgSessionTools _drgSessionTools;
     private List<CooperationRight> _cooperationRights;
     private List<Account> _partners4Edit;
     private List<Account> _partners4List;
@@ -145,7 +121,6 @@ public class DrgProposalList {
 //        }
 //        return _partners4Edit;
 //    }
-
     public List<ProposalInfo> getDrgProposalsForEditFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
         Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();
@@ -184,7 +159,6 @@ public class DrgProposalList {
 //        }
 //        return _partners4List;
 //    }
-
     public List<ProposalInfo> getDrgProposalsForDisplayFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
         List<ProposalInfo> drgs = new ArrayList<>();
@@ -197,7 +171,6 @@ public class DrgProposalList {
 //                nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999));
 //            }
 //        }
-
         // add managed iks
         for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
             if (_cooperationRightFacade.isSupervisor(Feature.DRG_PROPOSAL, ik, _sessionController.getAccountId())) {
@@ -208,7 +181,6 @@ public class DrgProposalList {
 //        for (Integer ik : iks) {
 //            nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, ik, 10, 999));
 //        }
-
         return drgs;
     }
 

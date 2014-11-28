@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                >
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
     <f:metadata>
         <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
@@ -18,8 +18,9 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink action="#{drgProposalList.requestDeleteDrgProposal(proposal.value1)}" immediate="true" >
+            <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.value1)}" immediate="true" >
                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                <cb:confirmDelete/>
             </h:commandLink>
         </h:column>
         <h:column id="colValue">
@@ -29,10 +30,5 @@
             <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.value1)}" value="#{proposal.value2.equals('') ? msg.txtEmpty : proposal.value2}" immediate="true"/>
         </h:column>
     </h:dataTable>
-
-    <h:commandLink id="deleteDrgProposal" style="display: none"
-                   action="#{drgProposalList.deleteDrgProposal(flash.drgId)}"
-                   value="delete #{flash.drgId}">
-    </h:commandLink>
 
 </ui:composition>
