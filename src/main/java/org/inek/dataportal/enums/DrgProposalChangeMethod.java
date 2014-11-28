@@ -13,5 +13,12 @@ public enum DrgProposalChangeMethod {
     UNKNOWN,
     ADD,            // Neue Codes aufnehmen
     MOVE,           // Codes verschieben
-    REMOVE;          //Codes entfernen
+    REMOVE,
+    CCLADD,
+    CCLREMOVE,
+    CCLUPDATE,
+    CCLDOWNGRADE,
+    CCLADDTOEXCLUSIVELIST,
+    CCLREMOVEFROMEXCLUSIVELIST
+    ;          //Codes entfernen
 }

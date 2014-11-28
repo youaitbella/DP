@@ -30,7 +30,7 @@
         </h:panelGroup>
 
         <div>
-            <div class="inputPart marginTop" style="display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;">
+            <div class="inputPart marginTop" style="#{editDrgProposal.ccl2}">
                 <div style="overflow: hidden;">
                     <h:outputLabel styleClass="label" for="drgDiags" value="#{msg.lblDiagRelated}"/>
                     <br />
@@ -71,7 +71,10 @@
                     </h:inputTextarea>
                 </div>
             </div>
-            <div class="inputPart marginTop" style="display: inline-block; width: 49%;">
+            
+            
+            
+            <div class="inputPart marginTop" style="#{editDrgProposal.ccl}">
                 <div style="overflow: hidden;">
                     <h:outputLabel styleClass="label" for="drgProcs" value="#{msg.lblProcRelated}"/>
                     <br/>

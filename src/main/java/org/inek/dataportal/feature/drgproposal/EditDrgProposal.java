@@ -187,30 +187,40 @@ public class EditDrgProposal extends AbstractEditController {
     }
     
     public List<SelectItem> getChangeMethodDiag() {
-        if (_changeMethodItems == null) {
+       // if (_changeMethodItems == null) {
             _changeMethodItems = new ArrayList<>();
             _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
             for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
-                if (pcm != DrgProposalChangeMethod.UNKNOWN) {
-                    SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
-                    _changeMethodItems.add(item);
+                
+                if ( getDrgProposal().getCategory() == DrgProposalCategory.CCL)
+                {
+                    if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (pcm.toString().contains("CCL"))) {
+                        SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
+                        _changeMethodItems.add(item);
+                    }
+                } else {
+                    if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (!pcm.toString().contains("CCL"))) {
+                        SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
+                        _changeMethodItems.add(item);
+                    }
                 }
             }
-        }
+        //}
         return _changeMethodItems;
     }
     
     public List<SelectItem> getChangeMethodProc() {
-        if (_changeMethodItems == null) {
+        
+       // if (_changeMethodItems == null) {
             _changeMethodItems = new ArrayList<>();
             _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
             for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
-                if (pcm != DrgProposalChangeMethod.UNKNOWN) {
+                if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (!pcm.toString().contains("CCL"))) {
                     SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
                     _changeMethodItems.add(item);
                 }
             }
-        }
+        //}
         return _changeMethodItems;
     }
 
@@ -237,7 +247,7 @@ public class EditDrgProposal extends AbstractEditController {
             return;
         }
       
-        findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM));
+        findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM)  ||  cat.equals(DrgProposalCategory.CCL));
     }
     
     private void setVisibleChangeMethod(DrgProposalChangeMethod pcm) {
@@ -251,6 +261,17 @@ public class EditDrgProposal extends AbstractEditController {
     public boolean isSystem() {
         return getDrgProposal().getCategory() == DrgProposalCategory.SYSTEM;
     }
+    
+    public String getCcl() {
+        //return "display: inline-block; width: 49%;";
+        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ?  "display: none;" : "display: inline-block; width: 49%;";
+    }
+    
+    public String getCcl2() {
+        //return "display: inline-block; width: 49%;";
+        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ?  "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
+    }
+    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Codes">
 
