@@ -406,26 +406,11 @@ public class EditDrgProposal extends AbstractEditController {
         return id != null && id >= 0;
     }
 
-    /**
-     * peppProposals sealing of a formal peppProposal if the form is completely
-     * full-filled, this function displays a confirmation dialog confirming with
-     * "ok" performs a call to seal
-     *
-     * @return
-     */
-    public String requestDrgProposalSeal() {
-        if (!drgProposalIsComplete()) {
-            return getActiveTopic().getOutcome();
-        }
-        String script = "if (confirm ('" + Utils.getMessage("msgConfirmSealDrg").replace("\r", "").replace("\n", "\\r\\n") + "')) {document.getElementById('form:seal').click();}";
-        _sessionController.setScript(script);
-        return null;
-    }
 
     /**
-     * This function seals a peppProposal. Usually it can only be called if the
-     * peppProposal to seal is confirmed. As a precaution, it performs some
-     * checks which have been done in peppProposalSeal.
+     * This function seals a drgProposal if possible.
+     * Sealing is possible, if all mandatory fields are fulfilled.
+     * After sealing, the proposal can not be edited and is available for the InEK.
      *
      * @return
      */

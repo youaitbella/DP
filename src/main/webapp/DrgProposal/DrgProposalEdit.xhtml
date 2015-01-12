@@ -5,7 +5,9 @@
                 template="/Templates/PortalTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
 
     <f:metadata>
         <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
@@ -37,9 +39,10 @@
                 <div class="toolBar  floatContainer">
                     <h:commandLink styleClass="button" action="#{editDrgProposal.save}" value="#{msg.btnSave}" immediate="true"
                                    rendered="#{!editDrgProposal.readOnly}"/>
-                    <h:commandLink styleClass="sendButton" action="#{editDrgProposal.requestDrgProposalSeal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.drgProposalDisabled}" rendered="#{!editDrgProposal.readOnly}" title="#{msg.infoSaveAndClose}"/>
-                    <h:commandLink id="seal" style="display: none" action="#{editDrgProposal.sealDrgProposal()}" value="seal"/>
+                    <h:commandLink styleClass="sendButton" action="#{editDrgProposal.sealDrgProposal}" value="#{msg.btnSaveAndClose}"
+                                   disabled="#{sessionTools.drgProposalDisabled}" rendered="#{!editDrgProposal.readOnly}" title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
                 </div>
             </div>
         </h:form>
