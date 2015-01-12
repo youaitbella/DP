@@ -50,9 +50,16 @@
                         </c:if>
 
                     </div>
-                    <div class ="head">
+                    <div class ="head inlineBlock">
                         InEK Datenportal
                     </div>
+                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warningWide inlineBlock"
+                                 rendered="#{announcementBean.announcements.stream().filter(a->a.warning).toList().size() gt 0}">
+                        <h:column>
+                            <h:outputText value="#{a.text}"/>
+                        </h:column>
+                    </h:dataTable>
+
                     <div class="highlight">
                         InEK – Institut für das Entgeltsystem im Krankenhaus
                         <span class="small">v#{applicationTools.version}</span>
@@ -86,19 +93,13 @@
                         </ul>
                     </h:form>
 
-                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warning"
-                                 rendered="#{announcementBean.announcements.stream().filter(a->a.warning).toList().size() gt 0}">
-                        <h:column>
-                            <h:outputText value="#{a.text}"/>
-                        </h:column>
-                    </h:dataTable>
-
                     <h:dataTable value="#{announcementBean.announcements.stream().filter(a->!a.warning).toList()}" var="a" styleClass="hint"
                                  rendered="#{announcementBean.announcements.stream().filter(a->!a.warning).toList().size() gt 0}">
                         <h:column>
                             <h:outputText value="#{a.text}"/>
                         </h:column>
                     </h:dataTable>
+                    
                 </div>
 
 

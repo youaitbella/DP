@@ -12,7 +12,15 @@
     </f:metadata>
 
     <h:dataTable rendered="#{peppProposalList.peppProposals.size() > 0}"  headerClass="list-header" id="tblPeppProposals"
-                 value="#{peppProposalList.peppProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                 value="#{peppProposalList.peppProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue">
+        <h:column id="colPrintId" >
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{peppProposalList.printPeppProposal(proposal.value1)}" immediate="true" >
+                <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+            </h:commandLink>
+        </h:column>
         <h:column id="colDeleteId" >
             <f:facet name="header">
                 <h:outputText value=""/>

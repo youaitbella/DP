@@ -178,6 +178,7 @@ div#wrapper {
         border-color: red;
         margin-left: 1em;
         margin-right: 1em;
+        margin-top: 0;
     }
 
     .warning{
@@ -253,9 +254,12 @@ div#wrapper {
     height: 50px;
 }
 
+.inlineBlock{
+    display: inline-block;
+}
 
 #content .right {
-    min-height: 320px;
+    min-height: 400px;
     padding: 0;
 }
 
@@ -264,7 +268,7 @@ div#wrapper {
 }
 
 .edit {
-    min-height: 300px;
+    min-height: 280px;
     background-color:#eeeeee;
     padding: 0.5em;
 }

@@ -13,7 +13,15 @@
     </f:metadata>
 
     <h:dataTable rendered="#{drgProposalList.drgProposals.size() > 0}"  headerClass="list-header" id="tbldrgProposals"
-                 value="#{drgProposalList.drgProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                 value="#{drgProposalList.drgProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue">
+        <h:column id="colPrintId" >
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.value1)}" immediate="true" >
+                <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+            </h:commandLink>
+        </h:column>
         <h:column id="colDeleteId" >
             <f:facet name="header">
                 <h:outputText value=""/>
