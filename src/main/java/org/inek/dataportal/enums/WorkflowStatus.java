@@ -10,7 +10,7 @@ public enum WorkflowStatus {
     New(0, "Neu / in Erfassung", "edit.png"),
     Rejected(1, "Abgelehnt (Fehler)", "error.png"),
     ApprovalRequested(5, "Freigabe erforderlich", "timed.png"),
-    Provided(10, "Bereitgestellt", "timed.png"),
+    Provided(10, "Bereitgestellt", "timed.png"),  // aka Sealed
     ReProvided(11, "Bereitgestellt (korrigiert)", "timed.png"),
     Accepted(20, "Angenommen", "accept.png"),
     Retired(200, "Zurückgezogen", "delete-cross.png")

@@ -1,4 +1,4 @@
-package org.inek.dataportal.backingbeans;
+package org.inek.dataportal.common;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -7,5 +7,7 @@ package org.inek.dataportal.enums;
 public enum ConfigKey {
     IsNubCreateEnabled,
     IsNubSendEnabled,
-    RemindNubSeal;
+    RemindNubSeal,
+    IsDrgProposalSendEnabled,
+    IsPeppProposalSendEnabled;
 }

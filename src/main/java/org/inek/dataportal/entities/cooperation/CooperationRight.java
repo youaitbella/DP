@@ -5,6 +5,7 @@
 package org.inek.dataportal.entities.cooperation;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,7 +38,7 @@ public class CooperationRight implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "corId")
-    private Integer _id;
+    private int _id = -1;
     
     @Column(name = "corOwnerId")
     private int _ownerId;
@@ -65,52 +66,52 @@ public class CooperationRight implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer Id) {
-        this._id = Id;
+    public void setId(int Id) {
+        _id = Id;
     }
 
     public int getOwnerId() {
         return _ownerId;
     }
 
-    public void setOwnerId(int _ownerId) {
-        this._ownerId = _ownerId;
+    public void setOwnerId(int ownerId) {
+        _ownerId = ownerId;
     }
 
     public int getPartnerId() {
         return _partnerId;
     }
 
-    public void setPartnerId(int _partnerId) {
-        this._partnerId = _partnerId;
+    public void setPartnerId(int partnerId) {
+        _partnerId = partnerId;
     }
 
     public int getIk() {
         return _ik;
     }
 
-    public void setIk(int _ik) {
-        this._ik = _ik;
+    public void setIk(int ik) {
+        _ik = ik;
     }
 
     public Feature getFeature() {
         return _feature;
     }
 
-    public void setFeature(Feature _feature) {
-        this._feature = _feature;
+    public void setFeature(Feature feature) {
+        _feature = feature;
     }
 
     public CooperativeRight getCooperativeRight() {
         return _cooperativeRight;
     }
 
-    public void setCooperativeRight(CooperativeRight _cooperativeRight) {
-        this._cooperativeRight = _cooperativeRight;
+    public void setCooperativeRight(CooperativeRight cooperativeRight) {
+        _cooperativeRight = cooperativeRight;
     }
 
 
@@ -119,8 +120,14 @@ public class CooperationRight implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
+        if (_id >= 0){
+            return _id;
+        }
+        int hash = 3;
+        hash = 53 * hash + _ownerId;
+        hash = 53 * hash + _partnerId;
+        hash = 53 * hash + _ik;
+        hash = 53 * hash + Objects.hashCode(_feature);
         return hash;
     }
 
@@ -130,15 +137,18 @@ public class CooperationRight implements Serializable {
             return false;
         }
         CooperationRight other = (CooperationRight) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
-            return false;
+        if (_id >= 0){
+            return _id == other._id;
         }
-        return true;
+        return _ownerId == other._ownerId
+                && _partnerId == other._partnerId
+                && _ik == other._ik
+                && _feature == other._feature;
     }
 
     @Override
     public String toString() {
-        return "org.inek.entities.AccountFeature[id=" + _id + "]";
+        return "AccountFeature[id=" + _id + ", Feature=" + _feature.getDescription() + "]";
     }
     // </editor-fold>
 }

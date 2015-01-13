@@ -51,11 +51,16 @@ public class EditNubProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
 
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private NubProposalFacade _nubProposalFacade;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private NubSessionTools _nubSessionTools;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private NubProposalFacade _nubProposalFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    private NubSessionTools _nubSessionTools;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
     private CooperativeRight _supervisorRight;
@@ -400,6 +405,9 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
+        if (!_sessionController.isEnabled("IsNubSendEnabled")) {
+            return false;
+        }
         ensureSupervisorRight(_nubProposal);
         boolean enabled;
         if (isOwnNub()) {
@@ -422,6 +430,10 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isApprovalRequestEnabled() {
+        if (!_sessionController.isEnabled("IsNubSendEnabled")) {
+            return false;
+        }
+
         ensureSupervisorRight(_nubProposal);
         boolean enabled = false;
         if (_sessionController.isMyAccount(_nubProposal.getAccountId())) {
@@ -632,7 +644,9 @@ public class EditNubProposal extends AbstractEditController {
         return null;
     }
 
-    @Inject AccountFacade _accountFacade;
+    @Inject
+    AccountFacade _accountFacade;
+
     public void copyNubProposal(AjaxBehaviorEvent event) {
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         int targetAccountId = _sessionController.getAccountId();

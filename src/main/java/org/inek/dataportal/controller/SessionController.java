@@ -547,6 +547,10 @@ public class SessionController implements Serializable {
      * @param key
      * @return
      */
+    public boolean isEnabled(ConfigKey key) {
+        return isEnabled(key.name());
+    }
+    
     public boolean isEnabled(String key) {
         if (!isValidKey(key)) {
             return false;

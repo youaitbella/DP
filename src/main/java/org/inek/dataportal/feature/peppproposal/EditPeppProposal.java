@@ -29,6 +29,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.PeppProposalCategory;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
@@ -350,7 +351,7 @@ public class EditPeppProposal extends AbstractEditController {
             return null;
         }
 
-        _peppProposal.setStatus(1);
+        _peppProposal.setStatus(WorkflowStatus.Provided.getValue());
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
 
         if (isValidId(_peppProposal.getPeppProposalId())) {

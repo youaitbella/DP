@@ -48,7 +48,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editNubProposal.requestSeal()}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{sessionController.isEnabled('IsNubSendEnabled') and editNubProposal.sealEnabled}"
+                                   rendered="#{editNubProposal.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}"/>
 
                     <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
@@ -56,7 +56,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editNubProposal.requestApproval()}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{sessionController.isEnabled('IsNubSendEnabled') and editNubProposal.approvalRequestEnabled}"
+                                   rendered="#{editNubProposal.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}"/>
 
                     <h:commandLink id="confirmApprovalRequest" style="display: none"

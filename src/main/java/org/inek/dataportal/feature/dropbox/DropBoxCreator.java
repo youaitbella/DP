@@ -10,7 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.backingbeans.SessionTools;
+import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.dropbox.DropBox;

@@ -7,7 +7,11 @@ package org.inek.dataportal.feature.cooperation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -31,6 +35,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.helper.structures.Triple;
 
 /**
  *
@@ -42,29 +47,33 @@ public class EditCooperation extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
 
-    @Inject private SessionController _sessionController;
-    @Inject CooperationRequestFacade _cooperationRequestFacade;
-    @Inject CooperationFacade _cooperationFacade;
-    @Inject AccountFacade _accountFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    CooperationRequestFacade _cooperationRequestFacade;
+    @Inject
+    CooperationFacade _cooperationFacade;
+    @Inject
+    AccountFacade _accountFacade;
     private Account _partnerAccount;
-    private boolean _isRequest;
+    private boolean _isOutstandingCooperationRequest;
 
     @Override
     protected void addTopics() {
         addTopic(CooperationTabs.tabCooperationPartner.name(), Pages.CooperationEditPartner.URL());
         addTopic(CooperationTabs.tabCooperationNub.name(), Pages.CooperationEditNub.URL(), false);
-        addTopic(CooperationTabs.tabCooperationModelIntention.name(), Pages.CooperationEditModelIntention.URL(), false);
+        addTopic(CooperationTabs.tabCooperationOther.name(), Pages.CooperationEditOther.URL(), false);
     }
 
     enum CooperationTabs {
 
         tabCooperationPartner,
         tabCooperationNub,
-        tabCooperationModelIntention;
+        tabCooperationOther;
     }
+
     // <editor-fold defaultstate="collapsed" desc="fields">
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Account getPartnerAccount() {
         return _partnerAccount;
@@ -74,12 +83,50 @@ public class EditCooperation extends AbstractEditController {
         this._partnerAccount = partnerAccount;
     }
 
-    public boolean isRequest() {
-        return _isRequest;
+    public boolean isOutstandingCooperationRequest() {
+        return _isOutstandingCooperationRequest;
     }
 
-    public void setRequest(boolean isRequest) {
-        _isRequest = isRequest;
+    public void setOutstandingCooperationRequest(boolean isRequest) {
+        _isOutstandingCooperationRequest = isRequest;
+    }
+
+    private List<Triple<Feature, List<SelectItem>, CooperationRight>> _cooperationInfos;
+
+    public List<Triple<Feature, List<SelectItem>, CooperationRight>> getCooperationInfos() {
+        if (_cooperationInfos == null) {
+            _cooperationInfos = new ArrayList<>();
+            tryAddFeature(Feature.MODEL_INTENTION, this::getCooperativeReadRights);
+            tryAddFeature(Feature.DRG_PROPOSAL, this::getCooperativeRights);
+            tryAddFeature(Feature.PEPP_PROPOSAL, this::getCooperativeRights);
+        }
+        return _cooperationInfos;
+    }
+
+    private void tryAddFeature(Feature feature, Supplier<List<SelectItem>> cooperativeRights) {
+        if (userHasSubscribedFeature(feature)) {
+            EnsureCooperationRights();
+
+            Optional<CooperationRight> optionalRight = _cooperationRights.stream().filter(r -> r.getFeature() == feature).findFirst();
+            CooperationRight right;
+            if (optionalRight.isPresent()) {
+                right = optionalRight.get();
+            } else {
+                right = addAndReturnMissingCooperationRight(feature);
+            }
+            _cooperationInfos.add(new Triple<>(feature, cooperativeRights.get(), right));
+        }
+    }
+
+    private CooperationRight addAndReturnMissingCooperationRight(Feature feature) {
+        CooperationRight right = new CooperationRight(
+                _sessionController.getAccountId(),
+                getPartnerAccount().getAccountId(),
+                -1,
+                feature
+        );
+        _cooperationRights.add(right);
+        return right;
     }
 
     // </editor-fold>
@@ -89,7 +136,7 @@ public class EditCooperation extends AbstractEditController {
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
 
-        _isRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
+        _isOutstandingCooperationRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
                 _sessionController.getAccountId(),
                 getPartnerAccount().getAccountId());
         setTopicsVisibility();
@@ -115,22 +162,30 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void setTopicsVisibility() {
-        setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Feature.NUB);
-        setTopicVisibility(CooperationTabs.tabCooperationModelIntention.name(), Feature.MODEL_INTENTION);
+        setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Arrays.asList( Feature.NUB));
+        setTopicVisibility(CooperationTabs.tabCooperationOther.name(), Arrays.asList(Feature.MODEL_INTENTION, Feature.DRG_PROPOSAL, Feature.PEPP_PROPOSAL));
     }
 
-    private void setTopicVisibility(String topicName, Feature feature) {
+    private void setTopicVisibility(String topicName, List<Feature> features) {
         Topic topic = findTopic(topicName);
         if (topic == null) {
             _logger.log(Level.WARNING, "Unknown topic {0}", topicName);
             return;
         }
+        boolean hasSubcribed = features.stream().anyMatch(feature -> userHasSubscribedFeature(feature));
+        
+        topic.setVisible(!_isOutstandingCooperationRequest && hasSubcribed);
+    }
+
+    private boolean userHasSubscribedFeature(Feature feature) {
         AccountFeature accountFeature = _sessionController.findAccountFeature(feature);
         if (accountFeature == null) {
-            // user has no siuch feature subscribed
-            return;
+            // user has no such feature subscribed
+            return false;
         }
-        topic.setVisible(!_isRequest && accountFeature.getFeatureState().equals(FeatureState.SIMPLE));
+        // check, whether the subscribed feature is available
+        return accountFeature.getFeatureState().equals(FeatureState.SIMPLE)
+                || accountFeature.getFeatureState().equals(FeatureState.APPROVED);
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab Partner">
@@ -139,7 +194,7 @@ public class EditCooperation extends AbstractEditController {
         int partner2Id = getPartnerAccount().getAccountId();
         _cooperationFacade.createCooperation(partner1Id, partner2Id);
         _cooperationRequestFacade.removeAnyCooperationRequest(partner1Id, partner2Id);
-        _isRequest = false;
+        _isOutstandingCooperationRequest = false;
         setTopicsVisibility();
         return "";
     }
@@ -160,24 +215,24 @@ public class EditCooperation extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab NUB">
-    @Inject CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    CooperationRightFacade _cooperationRightFacade;
     private List<CooperationRight> _cooperationRights;
 
     public List<CooperationRight> getCooperationRights() {
-        if (_cooperationRights == null) {
-            EnsureCooperationRights();
-        }
+        EnsureCooperationRights();
         return _cooperationRights;
     }
 
     public void setCooperationRights(List<CooperationRight> cooperationRights) {
-        this._cooperationRights = cooperationRights;
+        _cooperationRights = cooperationRights;
     }
 
     private void EnsureCooperationRights() {
-        _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getAccountId());
+        if (_cooperationRights == null) {
+            _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getAccountId());
+        }
         addMissingNubCooperationRights();
-        addMissingModelIntentionCooperationRights();
     }
 
     private void addMissingNubCooperationRights() {
@@ -204,27 +259,6 @@ public class EditCooperation extends AbstractEditController {
             );
             _cooperationRights.add(right);
         }
-    }
-
-    private void addMissingModelIntentionCooperationRights() {
-        Topic topic = findTopic(CooperationTabs.tabCooperationModelIntention.name());
-        if (!topic.isVisible()) {
-            return;
-        }
-
-        for (CooperationRight right : _cooperationRights) {
-            if (right.getFeature() == Feature.MODEL_INTENTION) {
-                // cooperative right is still available
-                return;
-            }
-        }
-        CooperationRight right = new CooperationRight(
-                _sessionController.getAccountId(),
-                getPartnerAccount().getAccountId(),
-                -1,
-                Feature.MODEL_INTENTION
-        );
-        _cooperationRights.add(right);
     }
 
     public List<SelectItem> getCooperativeRights() {

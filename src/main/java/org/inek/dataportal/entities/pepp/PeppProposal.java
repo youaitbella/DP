@@ -51,6 +51,15 @@ public class PeppProposal implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
 
+    @Column(name = "ppCreatedBy")
+    private int _createdBy;
+
+    @Column(name = "ppLastChangedBy")
+    private int _lastChangedBy;
+
+    @Column(name = "ppSealedBy")
+    private int _sealedBy;
+
     @Documentation(key = "lblProposalRequestor")
     @Column(name = "ppInstitute")
     private String _institute = "";
@@ -446,6 +455,31 @@ public class PeppProposal implements Serializable {
         return _lastModified;
     }
 
+    public int getCreatedBy() {
+        return _createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        _createdBy = createdBy;
+    }
+
+    public int getLastChangedBy() {
+        return _lastChangedBy;
+    }
+
+    public void setLastChangedBy(int lastChangedBy) {
+        _lastChangedBy = lastChangedBy;
+    }
+
+    public int getSealedBy() {
+        return _sealedBy;
+    }
+
+    public void setSealedBy(int sealedBy) {
+        _sealedBy = sealedBy;
+    }
+
+    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

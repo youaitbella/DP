@@ -26,11 +26,14 @@ import org.inek.dataportal.entities.drg.DrgProposalDocument;
 import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CodeType;
+import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.DrgProposalFacade;
@@ -406,6 +409,19 @@ public class EditDrgProposal extends AbstractEditController {
         return id != null && id >= 0;
     }
 
+    public boolean isSealEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
+            return false;
+        }
+        return true; // todo
+    }
+
+    public boolean isApprovalRequestEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
+            return false;
+        }
+        return false; // todo
+    }
 
     /**
      * This function seals a drgProposal if possible.
@@ -419,7 +435,7 @@ public class EditDrgProposal extends AbstractEditController {
             return null;
         }
 
-        _drgProposal.setStatus(1);
+        _drgProposal.setStatus(WorkflowStatus.Provided.getValue());
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
 
         if (isValidId(_drgProposal.getDrgProposalId())) {

@@ -197,7 +197,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public CooperationRight save(CooperationRight right) {
-        if (right.getId() == null) {
+        if (right.getId() < 0) {
             persist(right);
             return right;
         }

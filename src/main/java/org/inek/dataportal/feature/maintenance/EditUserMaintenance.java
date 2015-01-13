@@ -19,7 +19,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.backingbeans.SessionTools;
+import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;

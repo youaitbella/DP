@@ -81,6 +81,15 @@ public class DrgProposal implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
     
+    @Column(name = "prCreatedBy")
+    private int _createdBy;
+
+    @Column(name = "prLastChangedBy")
+    private int _lastChangedBy;
+
+    @Column(name = "prSealedBy")
+    private int _sealedBy;
+    
     @Documentation(key = "lblProposalRequestor")
     @Column(name = "prInstitute")
     private String _institute = "";
@@ -441,15 +450,6 @@ public class DrgProposal implements Serializable {
         _procsText = procsText;
     }
 
-   
-
-    
-
-  
-
-   
-
-    
 
     public List<DrgProposalDocument> getDocuments() {
         return _documents;
@@ -497,6 +497,31 @@ public class DrgProposal implements Serializable {
         return _lastModified;
     }
 
+    public int getCreatedBy() {
+        return _createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        _createdBy = createdBy;
+    }
+
+    public int getLastChangedBy() {
+        return _lastChangedBy;
+    }
+
+    public void setLastChangedBy(int lastChangedBy) {
+        _lastChangedBy = lastChangedBy;
+    }
+
+    public int getSealedBy() {
+        return _sealedBy;
+    }
+
+    public void setSealedBy(int sealedBy) {
+        _sealedBy = sealedBy;
+    }
+
+    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

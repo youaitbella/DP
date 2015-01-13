@@ -37,10 +37,26 @@
                 <!--<ui:include src="# {editDrgProposal.part}"/>-->
                 <ui:insert name="editContent">Content</ui:insert>
                 <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="button" action="#{editDrgProposal.save}" value="#{msg.btnSave}" immediate="true"
-                                   rendered="#{!editDrgProposal.readOnly}"/>
-                    <h:commandLink styleClass="sendButton" action="#{editDrgProposal.sealDrgProposal}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.drgProposalDisabled}" rendered="#{!editDrgProposal.readOnly}" title="#{msg.infoSaveAndClose}">
+                    <h:commandLink styleClass="button" 
+                                   action="#{editDrgProposal.save}" 
+                                   value="#{msg.btnSave}" 
+                                   immediate="true"
+                                   rendered="#{!editDrgProposal.readOnly}">
+                    </h:commandLink>
+                    <h:commandLink styleClass="sendButton" 
+                                   action="#{editDrgProposal.requestApproval}" 
+                                   value="#{msg.btnRequestApproval}"
+                                   disabled="#{sessionTools.drgProposalDisabled}" 
+                                   rendered="#{!editDrgProposal.approvalRequestEnabled}" 
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="sendButton" 
+                                   action="#{editDrgProposal.sealDrgProposal}" 
+                                   value="#{msg.btnSaveAndClose}"
+                                   disabled="#{sessionTools.drgProposalDisabled}" 
+                                   rendered="#{!editDrgProposal.sealEnabled}" 
+                                   title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
                 </div>
