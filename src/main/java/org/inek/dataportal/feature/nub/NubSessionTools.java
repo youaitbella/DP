@@ -91,7 +91,7 @@ public class NubSessionTools implements Serializable {
     }
 
     public CooperativeRight getCooperativeRight(NubProposal nubProposal) {
-        return _cooperationRightFacade.getAchievedCooperativeRight(
+        return _cooperationRightFacade.getCooperativeRight(
                 nubProposal.getAccountId(),
                 _sessionController.getAccountId(),
                 Feature.NUB,

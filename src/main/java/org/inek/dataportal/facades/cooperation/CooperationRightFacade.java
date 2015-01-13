@@ -78,7 +78,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public CooperativeRight getAchievedCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
+    public CooperativeRight getCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
         if (ik == null) {
             return CooperativeRight.None;
         }

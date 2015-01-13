@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.NubProposal;
@@ -39,6 +40,7 @@ public class NubProposalList {
 //    }
     @Inject NubProposalFacade _nubProposalFacade;
     @Inject SessionController _sessionController;
+    @Inject CooperationTools _cooperationTools;
 
     private List<ProposalInfo> _openNubs;
     private List<ProposalInfo> _sealedNubs;
@@ -168,30 +170,7 @@ public class NubProposalList {
     private List<Account> _partners4List;
 
     public List<Account> getPartnersForEdit() {
-        if (_partners4Edit == null) {
-            ensureAchievedCooperationRights();
-            Set<Integer> ids = new HashSet<>();
-            for (CooperationRight right : _cooperationRights) {
-                if (right.getOwnerId() == -1
-                        && (right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor)) {
-                    ids.addAll(_nubProposalFacade.findAccountIdForIk(right.getIk()));
-                }
-                if (right.getOwnerId() >= 0
-                        && (right.getCooperativeRight() == CooperativeRight.ReadOnly
-                        || right.getCooperativeRight() == CooperativeRight.ReadWrite
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal
-                        || right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor)) {
-                    ids.add(right.getOwnerId());
-                }
-            }
-            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
-            _partners4Edit = _accountFacade.getAccountsForIds(ids);
-        }
-        return _partners4Edit;
+        return _cooperationTools.getPartnersForEdit(Feature.NUB);
     }
 
     Map<Integer, List<ProposalInfo>> _partnerNubsForEdit = new HashMap<>();

@@ -24,6 +24,12 @@ public class PeppProposal implements Serializable {
     @Column(name = "ppId")
     private Integer _peppProposalId;
 
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "ppVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
+
     @Column(name = "ppAccountId")
     private Integer _accountId;
 

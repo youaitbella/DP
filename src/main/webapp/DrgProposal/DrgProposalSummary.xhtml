@@ -5,12 +5,30 @@
                 template="/Templates/DrgProposalSummaryTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                >
+                    
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="summaryContent">
             <h:panelGroup class="paddingElement">
 
                 <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
+                
+            <h:panelGroup rendered="#{drgProposalList.partnersForEdit.size() > 0}">
+                <br/>
+                <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
+                <c:forEach items="#{drgProposalList.partnersForEdit}" var="partner" rendered="#{drgProposalList.partnersForEdit.size() > 0}">
+                    <!--h:panelGroup rendered="# {drgProposalList.getDrgProposalsForEditFromPartner(partner.accountId).size() gt 0}"-->
+                    <h:panelGroup rendered="true">
+                        <p>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
+                        </p>
+                        <!-- datatable goes here -->
+                    </h:panelGroup>
+                </c:forEach>
+            </h:panelGroup>
+                
                 <p>
                     <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true"/>
                 </p>

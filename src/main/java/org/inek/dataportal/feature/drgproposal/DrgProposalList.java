@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
@@ -33,6 +34,7 @@ public class DrgProposalList {
 
     @Inject DrgProposalFacade _drgProposalFacade;
     @Inject SessionController _sessionController;
+    @Inject CooperationTools _cooperationTools;
 
     public List<Triple> getDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
@@ -95,32 +97,11 @@ public class DrgProposalList {
     private List<Account> _partners4Edit;
     private List<Account> _partners4List;
 
-//    public List<Account> getPartnersForEdit() {
-//        if (_partners4Edit == null) {
-//            ensureAchievedCooperationRights();
-//            Set<Integer> ids = new HashSet<>();
-//            for (CooperationRight right : _cooperationRights) {
-//                if (right.getOwnerId() == -1
-//                        && (right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
-//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
-//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor)) {
-//                    ids.addAll(_drgProposalFacade.findAccountIdForIk(right.getIk()));
-//                }
-//                if (right.getOwnerId() >= 0
-//                        && (right.getCooperativeRight() == CooperativeRight.ReadOnly
-//                        || right.getCooperativeRight() == CooperativeRight.ReadWrite
-//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSeal
-//                        || right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
-//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteSealSupervisor
-//                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor)) {
-//                    ids.add(right.getOwnerId());
-//                }
-//            }
-//            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
-//            _partners4Edit = _accountFacade.getAccountsForIds(ids);
-//        }
-//        return _partners4Edit;
-//    }
+    public List<Account> getPartnersForEdit() {
+        return _cooperationTools.getPartnersForEdit(Feature.DRG_PROPOSAL);
+    }
+
+    
     public List<ProposalInfo> getDrgProposalsForEditFromPartner(int partnerId) {
         ensureAchievedCooperationRights();
         Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();

@@ -10,15 +10,14 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.drg.DrgProposalDocument;
@@ -27,7 +26,6 @@ import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.enums.Feature;
@@ -54,6 +52,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditDrgProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditDrgProposal");
+    @Inject CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject
@@ -156,6 +155,13 @@ public class EditDrgProposal extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public DrgProposal getDrgProposal() {
         return _drgProposal;
+    }
+    public boolean isAnonymousData() {
+        return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
+    }
+
+    public void setAnonymousData(boolean value) {
+        getDrgProposal().setAnonymousData(value);
     }
 
     // </editor-fold>
@@ -382,17 +388,9 @@ public class EditDrgProposal extends AbstractEditController {
     // </editor-fold>
 
     public boolean isReadOnly() {
-        return getDrgProposal().getStatus() > 0;
+        return _cooperationTools.isReadOnly(Feature.DRG_PROPOSAL, getDrgProposal().getStatus(), getDrgProposal().getAccountId());
     }
     
-    public boolean isAnonymousData() {
-        return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
-    }
-
-    public void setAnonymousData(boolean value) {
-        getDrgProposal().setAnonymousData(value);
-    }
-
     public String save() {
         _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
 

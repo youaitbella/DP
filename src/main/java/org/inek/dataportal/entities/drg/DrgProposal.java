@@ -26,8 +26,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -43,6 +45,12 @@ public class DrgProposal implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prId")
     private Integer _drgProposalId;
+
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "prVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
 
     @Column(name = "prAccountId")
     private Integer _accountId;
@@ -274,12 +282,17 @@ public class DrgProposal implements Serializable {
         _anonymousData = anonymousData;
     }
     
-    public int getStatus() {
-        return _status;
+    @Documentation(name = "Bearbeitungsstatus", rank = 10)
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_status);
     }
 
-    public void setStatus(int status) {
-        _status = status;
+    public void setStatus(int value) {
+        _status = value;
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _status = status.getValue();
     }
 
     public String getInstitute() {
@@ -559,7 +572,7 @@ public class DrgProposal implements Serializable {
     @PreUpdate
     private void prepareUpdate() {
         _lastModified = Calendar.getInstance().getTime();
-        if (getDateSealed() == null && getStatus() > 0) {
+        if (getDateSealed() == null && getStatus() == WorkflowStatus.Provided) {
             _dateSealed = Calendar.getInstance().getTime();
         }
     }

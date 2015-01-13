@@ -47,7 +47,7 @@
                                    action="#{editDrgProposal.requestApproval}" 
                                    value="#{msg.btnRequestApproval}"
                                    disabled="#{sessionTools.drgProposalDisabled}" 
-                                   rendered="#{!editDrgProposal.approvalRequestEnabled}" 
+                                   rendered="#{editDrgProposal.approvalRequestEnabled}" 
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
@@ -55,7 +55,7 @@
                                    action="#{editDrgProposal.sealDrgProposal}" 
                                    value="#{msg.btnSaveAndClose}"
                                    disabled="#{sessionTools.drgProposalDisabled}" 
-                                   rendered="#{!editDrgProposal.sealEnabled}" 
+                                   rendered="#{editDrgProposal.sealEnabled}" 
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>

@@ -23,6 +23,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -39,6 +40,12 @@ public class NubProposal implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nubId")
     private int _nubId = -1;
+
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "nubVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
 
     @Column(name = "nubTargetYear")
     private int _targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
@@ -813,7 +820,7 @@ public class NubProposal implements Serializable {
     @PreUpdate
     private void prepareUpdate() {
         _lastModified = Calendar.getInstance().getTime();
-        if (getDateSealed() == null && _status > 0) {
+        if (getDateSealed() == null && getStatus() == WorkflowStatus.Provided) {
             _dateSealed = Calendar.getInstance().getTime();
         }
     }
