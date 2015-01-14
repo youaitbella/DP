@@ -47,11 +47,14 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         Root request = cq.from(NubProposal.class);
         Predicate status;
         Order order;
-        if (dataSet == DataSet.OpenOnly) {
-            status = cb.lessThan(request.get("_status"), 10);
+        if (dataSet == DataSet.AllOpen) {
+            status = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
+            order = cb.asc(request.get("_nubId"));
+        }else if (dataSet == DataSet.ApprovalRequested) {
+            status = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
             order = cb.asc(request.get("_nubId"));
         } else {
-            status = cb.greaterThanOrEqualTo(request.get("_status"), 10);
+            status = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
             order = cb.desc(request.get("_nubId"));
         }
         if (dataSet == DataSet.All) {
@@ -110,11 +113,11 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus, String filter) {
-        String sql = "SELECT p FROM NubProposal p "
+        String jql = "SELECT p FROM NubProposal p "
                 + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
                 + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
                 + "ORDER BY p._nubId DESC";
-        Query query = getEntityManager().createQuery(sql, NubProposal.class);
+        Query query = getEntityManager().createQuery(jql, NubProposal.class);
         query.setParameter("accountId", accountId);
         query.setParameter("ik", ik);
         query.setParameter("minStatus", minStatus);

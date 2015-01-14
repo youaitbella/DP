@@ -6,7 +6,9 @@ package org.inek.dataportal.enums;
  * @author muellermi
  */
 public enum DataSet {
-    OpenOnly,
-    SealedOnly,
+    None,
+    AllOpen,
+    ApprovalRequested,  // this is a subset of AllOpen
+    AllSealed,
     All;
 }

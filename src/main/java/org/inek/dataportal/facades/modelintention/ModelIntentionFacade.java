@@ -55,10 +55,10 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         Root request = cq.from(ModelIntention.class);
         Predicate status;
         Order order;
-        if (dataSet == DataSet.OpenOnly) {
+        if (dataSet == DataSet.AllOpen) {
             status = cb.lessThan(request.get("_status"), 10);
             order = cb.asc(request.get("_id"));
-        } else if (dataSet == DataSet.SealedOnly) {
+        } else if (dataSet == DataSet.AllSealed) {
             status = cb.greaterThanOrEqualTo(request.get("_status"), 10);
             order = cb.desc(request.get("_id"));
         } else {

@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.cooperation;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -113,8 +114,13 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean hasSupervisor(Feature feature, Integer ik) {
-        if (ik == null) {
-            return false;
+        List<CooperationRight> cooperationRights = getSupervisorRights(ik, feature);
+        return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().isSupervisor()));
+    }
+
+    public List<CooperationRight> getSupervisorRights(Integer ik, Feature feature) {
+        if (ik == null || ik < 0) {
+            return new ArrayList<>();
         }
         String query = "SELECT cor FROM CooperationRight cor "
                 + "WHERE cor._ownerId = -1 "
@@ -125,23 +131,11 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .setParameter("ik", ik)
                 .setParameter("feature", feature)
                 .getResultList();
-        for (CooperationRight cooperationRight : cooperationRights) {
-            CooperativeRight right = cooperationRight.getCooperativeRight();
-            if (right.equals(CooperativeRight.ReadCompletedSealSupervisor)
-                    || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
-                    || right.equals(CooperativeRight.ReadWriteSealSupervisor)) {
-                return true;
-            }
-        }
-        return false;
+        return cooperationRights;
     }
 
     public boolean isSupervisor(Feature feature, Integer ik, int accountId) {
-        CooperativeRight right = getSupervisorRight(feature, ik, accountId);
-        return right.equals(CooperativeRight.ReadCompletedSealSupervisor)
-                || right.equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
-                || right.equals(CooperativeRight.ReadWriteSealSupervisor);
-
+        return getSupervisorRight(feature, ik, accountId).isSupervisor();
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)

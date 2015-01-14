@@ -47,14 +47,14 @@ public class NubProposalList {
 
     public List<ProposalInfo> getNubProposals() {
         if (_openNubs == null) {
-            _openNubs = _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly, getFilter());
+            _openNubs = _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.AllOpen, getFilter());
         }
         return _openNubs;
     }
 
     public List<ProposalInfo> getSealedNubProposals() {
         if (_sealedNubs == null) {
-            _sealedNubs = _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly, getFilter());
+            _sealedNubs = _nubProposalFacade.getNubProposalInfos(_sessionController.getAccountId(), DataSet.AllSealed, getFilter());
         }
         return _sealedNubs;
     }

@@ -1,6 +1,7 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.drg.DrgProposalComment;
 import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
@@ -33,6 +36,8 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
+        if (dataSet == DataSet.None) {return new ArrayList<>();}
+        
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
         }
@@ -42,11 +47,14 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         Root request = cq.from(DrgProposal.class);
         Predicate sealed;
         Order order;
-        if (dataSet == DataSet.OpenOnly) {
-            sealed = cb.le(request.get("_status"), 0);
+        if (dataSet == DataSet.AllOpen) {
+            sealed = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
+            order = cb.asc(request.get("_drgProposalId"));
+        }else if (dataSet == DataSet.ApprovalRequested) {
+            sealed = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
             order = cb.asc(request.get("_drgProposalId"));
         } else {
-            sealed = cb.greaterThan(request.get("_status"), 0);
+            sealed = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
             order = cb.desc(request.get("_drgProposalId"));
         }
         if (dataSet == DataSet.All) {
@@ -107,19 +115,5 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         return _accountInitials.get(accountId);
     }
 
-//    @Schedule(hour = "*/6", minute = "*", info = "every 6 hours")
-//    private void invalidateCache() {
-//        _accountInitials = new HashMap<>();
-//        _commentFacade.clearCache();
-//    }
-//
-//    public Boolean addComment(int accountId, int proposalId, String comment) {
-//        PeppProposalComment ppComment = new PeppProposalComment();
-//        ppComment.setAccountId(accountId);
-//        ppComment.setPeppProposalId(proposalId);
-//        ppComment.setComment(comment);
-//        _commentFacade.persist(ppComment);
-//        //_commentFacade.clearCache(PeppProposal.class);
-//        return true;
-//    }
+    
 }

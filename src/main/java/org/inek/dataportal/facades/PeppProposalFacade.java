@@ -48,7 +48,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         Root request = cq.from(PeppProposal.class);
         Predicate sealed;
         Order order;
-        if (dataSet == DataSet.OpenOnly) {
+        if (dataSet == DataSet.AllOpen) {
             sealed = cb.le(request.get("_status"), 0);
             order = cb.asc(request.get("_peppProposalId"));
         } else {

@@ -53,6 +53,10 @@ public enum CooperativeRight {
         return name().endsWith("SealSupervisor") || name().equals("ReadWriteSeal");
     }
     
+    public boolean isSupervisor() {
+        return name().contains("Supervisor");
+    }
+    
     public String Description() {
         return Utils.getMessage("cor" + name());
     }

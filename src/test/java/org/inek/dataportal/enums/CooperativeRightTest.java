@@ -109,5 +109,18 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteSealSupervisor.canSealCompleted());
     }
 
+    @Test
+    public void testIsSupervisor() {
+        System.out.println("isSupervisor");
+        assertFalse(CooperativeRight.None.isSupervisor());
+        assertFalse(CooperativeRight.ReadOnly.isSupervisor());
+        assertFalse(CooperativeRight.ReadSealed.isSupervisor());
+        assertFalse(CooperativeRight.ReadWrite.isSupervisor());
+        assertFalse(CooperativeRight.ReadWriteSeal.isSupervisor());
+        assertTrue(CooperativeRight.ReadCompletedSealSupervisor.isSupervisor());
+        assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.isSupervisor());
+        assertTrue(CooperativeRight.ReadWriteSealSupervisor.isSupervisor());
+    }
+
     
 }

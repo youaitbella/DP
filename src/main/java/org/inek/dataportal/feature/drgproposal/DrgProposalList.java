@@ -37,11 +37,11 @@ public class DrgProposalList {
     @Inject CooperationTools _cooperationTools;
 
     public List<Triple> getDrgProposals() {
-        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.OpenOnly);
+        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 
     public List<Triple> getSealedDrgProposals() {
-        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.SealedOnly);
+        return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.AllSealed);
 
     }
 
@@ -102,24 +102,13 @@ public class DrgProposalList {
     }
 
     
-    public List<ProposalInfo> getDrgProposalsForEditFromPartner(int partnerId) {
-        ensureAchievedCooperationRights();
-        Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();
-        List<ProposalInfo> drgs = new ArrayList<>();
-        for (CooperationRight right : _cooperationRights) {
-            if ((right.getOwnerId() == partnerId || right.getOwnerId() == -1)
-                    && partnerIKs.contains(right.getIk())
-                    && right.getCooperativeRight() != CooperativeRight.None
-                    && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
-                int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
-                        || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
-                                ? WorkflowStatus.ApprovalRequested.getValue()
-                                : 0;
-//                nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9));
-            }
-        }
-
-        return drgs;
+    public List<Triple> getDrgProposalsForEditFromPartner(int partnerId) {
+        CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
+        
+        DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen 
+                : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested 
+                : DataSet.None;
+                return _drgProposalFacade.getDrgProposalInfos(partnerId, dataSet);
     }
 
 //    public List<Account> getPartnersForDisplay() {

@@ -418,7 +418,7 @@ public class EditDrgProposal extends AbstractEditController {
         if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
-        return false; // todo
+        return _cooperationTools.isApprovalRequestEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
     /**

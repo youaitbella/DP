@@ -5,64 +5,89 @@
                 template="/Templates/DrgProposalSummaryTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                    
+
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="summaryContent">
-            <h:panelGroup class="paddingElement">
+        <h:panelGroup class="paddingElement">
 
-                <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
-                
+            <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
+
             <h:panelGroup rendered="#{drgProposalList.partnersForEdit.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
                 <c:forEach items="#{drgProposalList.partnersForEdit}" var="partner" rendered="#{drgProposalList.partnersForEdit.size() > 0}">
-                    <!--h:panelGroup rendered="# {drgProposalList.getDrgProposalsForEditFromPartner(partner.accountId).size() gt 0}"-->
-                    <h:panelGroup rendered="true">
+                    <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.accountId).size() gt 0}">
                         <p>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
                         </p>
-                        <!-- datatable goes here -->
+
+                        <h:dataTable rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.accountId).size() gt 0}"  headerClass="list-header"
+                                     value="#{drgProposalList.drgProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue">
+                            <h:column id="colPrintId" >
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.value1)}" immediate="true" >
+                                    <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column id="colDeleteId" >
+                                <f:facet name="header">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                                <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.value1)}" immediate="true" rendered="false" >
+                                    <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                </h:commandLink>
+                            </h:column>
+                            <h:column id="colValue">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg.lblAppellation}"/>
+                                </f:facet>
+                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.value1)}" value="#{proposal.value2.equals('') ? msg.txtEmpty : proposal.value2}" immediate="true"/>
+                            </h:column>
+                        </h:dataTable>
+
                     </h:panelGroup>
                 </c:forEach>
             </h:panelGroup>
-                
-                <p>
-                    <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true"/>
-                </p>
 
-                <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
+            <p>
+                <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true"/>
+            </p>
 
-                    <h:dataTable   headerClass="list-header" value="#{drgProposalList.sealedDrgProposals}"
-                                  var="r" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colId, colValue">
-                        <h:column id="colPrintId" >
-                            <f:facet name="header">
-                                <h:outputText value=""/>
-                            </f:facet>
-                            <h:commandLink action="#{drgProposalList.printDrgProposal(r.value1)}" immediate="true" >
-                                <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
-                            </h:commandLink>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblId}"/>
-                            </f:facet>
-                            <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="V#{r.value1}" immediate="true"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblAppellation}"/>
-                            </f:facet>
-                            <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="#{r.value2}" immediate="true"/>
-                        </h:column>
+            <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}">
+                <br/>
+                <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
 
-                    </h:dataTable>
-                </h:panelGroup>
+                <h:dataTable   headerClass="list-header" value="#{drgProposalList.sealedDrgProposals}"
+                               var="r" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colId, colValue">
+                    <h:column id="colPrintId" >
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink action="#{drgProposalList.printDrgProposal(r.value1)}" immediate="true" >
+                            <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblId}"/>
+                        </f:facet>
+                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="V#{r.value1}" immediate="true"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblAppellation}"/>
+                        </f:facet>
+                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="#{r.value2}" immediate="true"/>
+                    </h:column>
+
+                </h:dataTable>
             </h:panelGroup>
+        </h:panelGroup>
     </ui:define>
 
 </ui:composition>
