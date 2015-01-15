@@ -143,7 +143,7 @@ public class DrgProposalList {
 //        }
         // add managed iks
         for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
-            if (_cooperationRightFacade.isSupervisor(Feature.DRG_PROPOSAL, ik, _sessionController.getAccountId())) {
+            if (_cooperationRightFacade.isIkSupervisor(Feature.DRG_PROPOSAL, ik, _sessionController.getAccountId())) {
                 iks.add(ik);
             }
         }

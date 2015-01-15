@@ -7,8 +7,8 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -19,6 +19,30 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     public CooperationRightFacade() {
         super(CooperationRight.class);
     }
+
+    /**
+     * for a given feature
+     * returns a list of all cooperation rights given account is involved in
+     * @param feature
+     * @param account
+     * @return 
+     */
+    public List<CooperationRight> getCooperationRights(Feature feature, Account account) {
+        if (account == null) {
+            return new ArrayList<>();
+        }
+        Set<Integer> iks = account.getFullIkList();
+        iks.add(-1);
+        String query = "SELECT cor FROM CooperationRight cor WHERE cor._feature = :feature "
+                + "and (cor._ownerId = :accountId or cor._partnerId = :accountId or cor._ownerId = -1 and cor._ik in :iks)";
+        return getEntityManager()
+                .createQuery(query, CooperationRight.class)
+                .setParameter("accountId", account.getAccountId())
+                .setParameter("feature", feature)
+                .setParameter("iks", iks)
+                .getResultList();
+    }
+
 
     /**
      * returns a list of rights for a given feature, granted by account to
@@ -114,11 +138,11 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean hasSupervisor(Feature feature, Integer ik) {
-        List<CooperationRight> cooperationRights = getSupervisorRights(ik, feature);
+        List<CooperationRight> cooperationRights = getIkSupervisorRights(ik, feature);
         return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().isSupervisor()));
     }
 
-    public List<CooperationRight> getSupervisorRights(Integer ik, Feature feature) {
+    public List<CooperationRight> getIkSupervisorRights(Integer ik, Feature feature) {
         if (ik == null || ik < 0) {
             return new ArrayList<>();
         }
@@ -134,12 +158,12 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return cooperationRights;
     }
 
-    public boolean isSupervisor(Feature feature, Integer ik, int accountId) {
-        return getSupervisorRight(feature, ik, accountId).isSupervisor();
+    public boolean isIkSupervisor(Feature feature, Integer ik, int accountId) {
+        return getIkSupervisorRight(feature, ik, accountId).isSupervisor();
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public CooperativeRight getSupervisorRight(Feature feature, Integer ik, int accountId) {
+    public CooperativeRight getIkSupervisorRight(Feature feature, Integer ik, int accountId) {
         if (ik == null) {
             return CooperativeRight.None;
         }
@@ -161,34 +185,24 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
             return CooperativeRight.None;
         }
     }
-
+    
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public Set<Integer> isSupervisorFor(Feature feature, Account account) {
-        if (account == null) {
-            return new HashSet<>();
-        }
-        Set<Integer> iks = account.getFullIkList();
-        if (iks.isEmpty()) {
-            return new HashSet<>();
-        }
-        String inIk = "";
-        for (int ik : iks) {
-            inIk += (inIk.length() > 0 ? ", " : "") + ik;
-        }
+    public Set<Integer> getAccountIdsByFeatureandIk(Feature feature, int ik) {
         String query = "select acId from dbo.account "
-                + "join accountFeature on acId = afaccountId and afFeature = ?1 "
-                + "where acIk in (" + inIk + ") " // did not work :( "where acIk in ?2 ";
+                + "join accountFeature on acId = afaccountId and afFeature = :feature "
+                + "where acIk = :ik "
                 + "union "
                 + "select aaiAccountId from dbo.AccountAdditionalIK "
-                + "join accountFeature on aaiAccountId = afaccountId and afFeature = ?1 "
-                + "where aaiAccountId is not null and aaiIk in (" + inIk + ")";
+                + "join accountFeature on aaiAccountId = afaccountId and afFeature = :feature "
+                + "where aaiAccountId is not null and aaiIk = :ik";
 
         return new HashSet<>(getEntityManager()
                 .createNativeQuery(query)
-                .setParameter(1, feature.name())
-                //.setParameter(2, iks) did not work :(
+                .setParameter("feature", feature.name())
+                .setParameter("ik", ik)
                 .getResultList());
     }
+
 
     public CooperationRight save(CooperationRight right) {
         if (right.getId() < 0) {
@@ -198,4 +212,5 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return merge(right);
     }
 
+    
 }

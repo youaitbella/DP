@@ -1,6 +1,7 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +19,17 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.helper.structures.CooperationrightKey;
 import org.inek.dataportal.helper.structures.Triple;
 
 /**
+ * This class provides access to cooperations rights for one request Depending
+ * on the current data, a couple of accesses might be necessary To mimimize the
+ * db accesses, all cooperation data of one kind (achieved or granted) will be
+ * read together and buffered (cached) for the current HTTP request. During one
+ * request, either all lists for the user or a single dataset is used
+ *
+ * This class has be placed into request scope.
  *
  * @author muellermi
  */
@@ -36,6 +45,22 @@ public class CooperationTools implements Serializable {
     NubProposalFacade _nubProposalFacade;
     @Inject
     AccountFacade _accountFacade;
+
+    /**
+     * gets the cooperation rights by delegating the first request to the
+     * service and retrieving them from a local cache for subsequent requests
+     *
+     * @param feature
+     * @param account
+     * @return
+     */
+    private List<CooperationRight> getCooperationRights(Feature feature, Account account) {
+        if (_cooperationRights == null) {
+            _cooperationRights = _cooperationRightFacade.getCooperationRights(feature, account);
+        }
+        return _cooperationRights;
+    }
+    private List<CooperationRight> _cooperationRights;
 
     /**
      * Data is readonly when - provided to InEK - is foreign data and no edit
@@ -85,7 +110,7 @@ public class CooperationTools implements Serializable {
             return false;
         }
         if (ik > 0 && _cooperationRightFacade.hasSupervisor(feature, ik)) {
-            return !_cooperationRightFacade.isSupervisor(feature, ik, _sessionController.getAccountId());
+            boolean isSupervisor = _cooperationRightFacade.isIkSupervisor(feature, ik, _sessionController.getAccountId());
         }
         boolean hasSupervisor;
         if (ownerId == _sessionController.getAccountId()) {
@@ -136,20 +161,6 @@ public class CooperationTools implements Serializable {
         return _achivedRights.get(triple);
     }
 
-    private void putAchivedRightIntoCache(CooperationRight right) {
-        Triple<Feature, Integer, Integer> triple = new Triple<>(right.getFeature(), right.getOwnerId(), right.getIk());
-        if (!_achivedRights.containsKey(triple)) {
-            _achivedRights.put(triple, right.getCooperativeRight());
-        }
-    }
-
-    private void putGrantedRightIntoCache(CooperationRight right) {
-        Triple<Feature, Integer, Integer> triple = new Triple<>(right.getFeature(), right.getPartnerId(), right.getIk());
-        if (!_grantedRights.containsKey(triple)) {
-            _grantedRights.put(triple, right.getCooperativeRight());
-        }
-    }
-
     Map<Triple<Feature, Integer, Integer>, CooperativeRight> _grantedRights = new ConcurrentHashMap<>();
 
     public CooperativeRight getGrantedRight(Feature feature, int partnerId) {
@@ -169,42 +180,24 @@ public class CooperationTools implements Serializable {
         return _grantedRights.get(triple);
     }
 
-    private void loadGrantedRights(Feature feature) {
-        loadGrantedRights(feature, -1);
-    }
-
-    private void loadGrantedRights(Feature feature, int ik) {
-        List<CooperationRight> cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), feature);
-        cooperationRights.stream().forEach((right) -> {
-            putGrantedRightIntoCache(right);
-        });
-        if (ik > 0) {
-            // there might be an ik supervisor
-            cooperationRights = _cooperationRightFacade.getSupervisorRights(ik, feature);
-            cooperationRights.stream().forEach((right) -> {
-                putGrantedRightIntoCache(right);
-            });
-
-        }
-    }
-
     List<Account> _partners4Edit;
 
     public List<Account> getPartnersForEdit(Feature feature) {
         if (_partners4Edit == null) {
+            Account account = _sessionController.getAccount();
             Set<Integer> ids = new HashSet<>();
-            List<CooperationRight> cooperationRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), feature);
-            for (CooperationRight right : cooperationRights) {
-                putAchivedRightIntoCache(right);
-                if (right.getOwnerId() >= 0 && right.getCooperativeRight().canReadCompleted()) {
+
+            getCooperationRights(feature, account)
+                    .stream()
+                    .filter((right) -> right.getPartnerId() == account.getAccountId() && right.getCooperativeRight().canReadCompleted())
+                    .forEach((right) -> {
+                if (right.getOwnerId() >= 0) {
                     ids.add(right.getOwnerId());
+                } else if (right.getOwnerId() == -1 && right.getIk() > 0) {
+                    // user is supervisor, lets get all account ids, which might be supervised
+                    ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureandIk(feature, right.getIk()));
                 }
-                // especially for NUB, there might be a supervisor based on ik
-                if (feature == Feature.NUB && right.getOwnerId() == -1
-                        && right.getCooperativeRight().canReadCompleted()) {
-                    ids.addAll(_nubProposalFacade.findAccountIdForIk(right.getIk()));
-                }
-            }
+            });
             ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
             _partners4Edit = _accountFacade.getAccountsForIds(ids);
         }

@@ -232,7 +232,7 @@ public class NubProposalList {
 
             // add managed iks
             for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
-                if (_cooperationRightFacade.isSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
+                if (_cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
                     iks.add(ik);
                 }
             }

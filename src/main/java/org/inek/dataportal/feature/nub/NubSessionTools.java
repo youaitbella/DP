@@ -39,36 +39,29 @@ public class NubSessionTools implements Serializable {
     // or by a supervisor only (false)
     // It is used in coopearative environment
     private Map<Integer, Boolean> _sealOwnNub;
-    private Set<Integer> _managedAccounts;
 
     public Map<Integer, Boolean> getSealOwnNub() {
         ensureSealOwnNub();
         return _sealOwnNub;
     }
 
-    public Set<Integer> getManagedAccounts() {
-        ensureManagedAcounts();
-        return _managedAccounts;
-    }
 
     /**
      * clears cache of sealOwnNub e.g. to ensure update after changing rights.
      */
     public void clearCache() {
         _sealOwnNub = null;
-        _managedAccounts = null;
     }
 
     private void ensureSealOwnNub() {
         if (_sealOwnNub != null) {
             return;
         }
-        ensureManagedAcounts();
         _sealOwnNub = new HashMap<>();
         Account account = _sessionController.getAccount();
         for (int ik : account.getFullIkList()) {
             // allowed for own NUB if supervisor herself or no supervisor exists
-            _sealOwnNub.put(ik, _cooperationRightFacade.isSupervisor(Feature.NUB, ik, account.getAccountId()) || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
+            _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getAccountId()) || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
         }
         List<CooperationRight> rights = _cooperationRightFacade
                 .getGrantedCooperationRights(account.getAccountId(), Feature.NUB);
@@ -81,15 +74,6 @@ public class NubSessionTools implements Serializable {
         }
     }
 
-    private void ensureManagedAcounts() {
-        if (_managedAccounts != null) {
-            return;
-        }
-        Account account = _sessionController.getAccount();
-        _managedAccounts = _cooperationRightFacade.isSupervisorFor(Feature.NUB, account);
-
-    }
-
     public CooperativeRight getCooperativeRight(NubProposal nubProposal) {
         return _cooperationRightFacade.getCooperativeRight(
                 nubProposal.getAccountId(),
@@ -99,7 +83,7 @@ public class NubSessionTools implements Serializable {
     }
 
     public CooperativeRight getSupervisorRight(NubProposal nub) {
-        return _cooperationRightFacade.getSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
+        return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
 }
