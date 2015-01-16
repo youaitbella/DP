@@ -87,7 +87,7 @@ public class EditRequest extends AbstractEditController {
     private Request newRequest() {
         Account account = _sessionController.getAccount();
         Request request = new Request();
-        request.setAccountId(account.getAccountId());
+        request.setAccountId(account.getId());
         request.setInstitute(account.getCompany());
         request.setGender(account.getGender());
         request.setTitle(account.getTitle());

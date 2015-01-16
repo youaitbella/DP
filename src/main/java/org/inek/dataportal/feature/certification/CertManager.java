@@ -218,7 +218,7 @@ public class CertManager {
             _certAccounts = new ArrayList<>();
             _certAccounts.add(new SelectItem(-1, ""));
             for (Account account : accounts) {
-                _certAccounts.add(new SelectItem(account.getAccountId(), account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
+                _certAccounts.add(new SelectItem(account.getId(), account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
             }
         }
     }

@@ -17,14 +17,14 @@
                 <br/>
                 <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
                 <c:forEach items="#{drgProposalList.partnersForEdit}" var="partner" rendered="#{drgProposalList.partnersForEdit.size() > 0}">
-                    <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.accountId).size() gt 0}">
+                    <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id).size() gt 0}">
                         <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                         </p>
 
-                        <h:dataTable rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.accountId).size() gt 0}"  headerClass="list-header"
+                        <h:dataTable rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id).size() gt 0}"  headerClass="list-header"
                                      value="#{drgProposalList.drgProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue">
                             <h:column id="colPrintId" >
                                 <f:facet name="header">

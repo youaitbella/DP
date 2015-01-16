@@ -449,7 +449,7 @@ public class EditUserMaintenance extends AbstractEditController {
         if (!validPwdInput()) {
             return Pages.UserMaintenanceOther.URL();
         }
-        boolean success = _accountPwdFacade.changePassword(getAccount().getAccountId(), _oldPassword, _newPassword);
+        boolean success = _accountPwdFacade.changePassword(getAccount().getId(), _oldPassword, _newPassword);
         if (success) {
             _script = "alert ('" + Utils.getMessage("msgPasswordChanged") + "');";
         }
@@ -460,7 +460,7 @@ public class EditUserMaintenance extends AbstractEditController {
         if (Utils.isNullOrEmpty(getEmail())) {
             return Pages.UserMaintenanceOther.URL();
         }
-        boolean success = _accountChangeMailFacade.changeMail(getAccount().getAccountId(), getEmail());
+        boolean success = _accountChangeMailFacade.changeMail(getAccount().getId(), getEmail());
         if (success) {
             _script = "alert ('" + Utils.getMessage("msgMailChanged") + "');";
         }
@@ -476,7 +476,7 @@ public class EditUserMaintenance extends AbstractEditController {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Ein neues Kennwort ist erforderlich.";
         } else if (!_newPassword.equals(_repeatPassword)) {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Passwort und Wiederholung stimmen nicht überein.";
-        } else if (!_accountPwdFacade.isCorrectPassword(_accountWorkingCopy.getAccountId(), _oldPassword)) {
+        } else if (!_accountPwdFacade.isCorrectPassword(_accountWorkingCopy.getId(), _oldPassword)) {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Das alte Passwort stimmt nicht überein.";
         }
         _script = msg.isEmpty() ? "" : "alert ('" + msg + "');";

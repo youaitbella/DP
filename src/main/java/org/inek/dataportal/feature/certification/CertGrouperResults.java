@@ -469,7 +469,7 @@ public class CertGrouperResults {
         String bcc = _mtFacade.findByName(_templateEmailCertificate).getBcc();
         if(_mailer.sendMailFrom(CertMail.SenderEmailAddress, _receiverEmailCertificate, bcc, getEmailCertificateSubject(), getEmailCertificateBody())) {
            el.setType(CertMailType.Certificate.getId());
-           el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getAccountId());
+           el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getId());
            el.setSenderAccountId(_sessionController.getAccountId());
            el.setSent(new Date());
            el.setSystemId(_grouper.getSystemId());
@@ -604,8 +604,8 @@ public class CertGrouperResults {
             _attachement = "";
         if(_mailer.sendMailFrom(CertMail.SenderEmailAddress, getReiceiver(), getCC(), getBCC(), getSubject(), getBody(), _attachement)) {
             EmailLog el = new EmailLog();
-            el.setReceiverAccountId(_accFacade.findByMailOrUser(getReiceiver()).getAccountId());
-            el.setSenderAccountId(_sessionController.getAccount().getAccountId());
+            el.setReceiverAccountId(_accFacade.findByMailOrUser(getReiceiver()).getId());
+            el.setSenderAccountId(_sessionController.getAccount().getId());
             el.setSent(new Date());
             el.setSystemId(_grouper.getSystemId());
             el.setTemplateId(_mtFacade.findByName(_selectedTemplate).getId());

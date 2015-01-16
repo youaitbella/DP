@@ -75,8 +75,8 @@ public class ActivateAccount implements Serializable {
         _account.setEmail(_email);
         _account.setDeactivated(false);
         _accFacade.merge(_account);
-        _accPwd = _pwdFacade.find(_account.getAccountId());
-        _accPwd.setPasswordHash(Crypt.getPasswordHash(_pw, _account.getAccountId().intValue()));
+        _accPwd = _pwdFacade.find(_account.getId());
+        _accPwd.setPasswordHash(Crypt.getPasswordHash(_pw, _account.getId().intValue()));
         _pwdFacade.merge(_accPwd);
         _aaFacade.remove(_accActiv);
         if(_sessionController.loginAndSetTopics(_email, _pw)) {

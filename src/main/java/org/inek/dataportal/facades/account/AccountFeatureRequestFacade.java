@@ -47,7 +47,7 @@ public class AccountFeatureRequestFacade extends AbstractFacade<AccountFeatureRe
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountFeatureRequest> query = cb.createQuery(AccountFeatureRequest.class);
         Root<AccountFeatureRequest> root = query.from(AccountFeatureRequest.class);
-        Predicate isAccount = cb.equal(root.get("_accountId"), accountId);
+        Predicate isAccount = cb.equal(root.get("_id"), accountId);
         Predicate isFeature = cb.equal(root.get("_feature"), feature);
         query.select(root).where(cb.and(isAccount, isFeature));
         TypedQuery<AccountFeatureRequest> q = getEntityManager().createQuery(query);

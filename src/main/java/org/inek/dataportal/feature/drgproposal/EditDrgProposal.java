@@ -132,7 +132,7 @@ public class EditDrgProposal extends AbstractEditController {
     private DrgProposal newDrgProposal() {
         Account account = _sessionController.getAccount();
         DrgProposal proposal = new DrgProposal();
-        proposal.setAccountId(account.getAccountId());
+        proposal.setAccountId(account.getId());
         proposal.setInstitute(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());

@@ -181,7 +181,7 @@ public class Mailer {
     }
 
     public boolean sendPasswordActivationMail(PasswordRequest pwdRequest, Account account) {
-        _logger.log(Level.INFO, "Password request for {0}", account.getAccountId());
+        _logger.log(Level.INFO, "Password request for {0}", account.getId());
         MailTemplate template = getMailTemplate("PasswordActivationMail");
         if (template == null) {
             return false;

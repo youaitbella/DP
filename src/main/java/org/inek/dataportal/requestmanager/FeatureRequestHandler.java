@@ -36,10 +36,10 @@ public class FeatureRequestHandler {
     @Inject private CustomerFacade _customerFacade;
 
     public boolean handleFeatureRequest(Account account, Feature feature) {
-        AccountFeatureRequest featureRequest = _facade.findByAccountIdAndFeature(account.getAccountId(), feature);
+        AccountFeatureRequest featureRequest = _facade.findByAccountIdAndFeature(account.getId(), feature);
         if (featureRequest == null) {
             featureRequest = new AccountFeatureRequest();
-            featureRequest.setAccountId(account.getAccountId());
+            featureRequest.setAccountId(account.getId());
             featureRequest.setFeature(feature);
         } else if (featureRequest.getCreationDate().after(DateUtils.getDateWithDayOffset(-3))) {
             // an approval process not older than 3 days is still in progress

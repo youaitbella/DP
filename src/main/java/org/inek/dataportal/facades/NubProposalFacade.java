@@ -152,7 +152,7 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Map<Integer, Integer> countOpenPerIk(int targetYear) {
-        String jql = "SELECT p._accountId, COUNT(p) FROM NubProposal p JOIN Account a WHERE p._accountId = a._accountId and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
+        String jql = "SELECT p._accountId, COUNT(p) FROM NubProposal p JOIN Account a WHERE p._accountId = a._id and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
         Query query = getEntityManager().createQuery(jql);
         query.setParameter("targetYear", targetYear);
         //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();

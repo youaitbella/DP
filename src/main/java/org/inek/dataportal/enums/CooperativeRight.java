@@ -13,48 +13,62 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum CooperativeRight {
 
-    None, // no access granted
-    ReadOnly, // partner may read
-    ReadSealed, // partner may read sealed
-    ReadWrite, // partner may read, write
-    ReadWriteSeal, // partner may read, write, seal
-    ReadCompletedSealSupervisor, // partner may read completed. To be sealed by partner only.
-    ReadWriteCompletedSealSupervisor, // partner may read, write completed. To be sealed by partner only.
-    ReadWriteSealSupervisor;    // partner may read, write incompleted. To be sealed by partner only.
+    None("---"), // no access granted
+    ReadOnly("a--"), // partner may read
+    ReadSealed("s--"), // partner may read sealed
+    ReadWrite("aa-"), // partner may read, write
+    ReadWriteSeal("aa+"), // partner may read, write, seal
+    ReadCompletedSealSupervisor("c-+"), // partner may read completed. To be sealed by partner only.
+    ReadWriteCompletedSealSupervisor("cc+"), // partner may read, write completed. To be sealed by partner only.
+    ReadSealSupervisor("a-+"), // partner may read always. To be sealed by partner only.
+    ReadWriteSealSupervisor("aa+");    // partner may read, write incompleted. To be sealed by partner only.
 
-    private CooperativeRight() {
+    /**
+     * rights are defined as a three letter string
+     * first letter is read access: - = none; a = always; c = if at least completed; s = if sealed
+     * second letter is write access: - = none; a = always; c = if at least completed; s = if sealed
+     * third letter is supervisor: - = none; + = right to seal 
+     */
+    private final String _rights;
+    private CooperativeRight(String rights) {
+        _rights=rights;
     }
 
     public boolean canReadAlways() {
-        return name().matches("^Read(?!.*(Sealed|Completed)).*");
+        return _rights.matches("a..");
     }
 
     public boolean canReadCompleted() {
-        return name().startsWith("Read") && !name().equals("ReadSealed");
+        return _rights.matches("[ac]..");
     }
 
     public boolean canReadSealed() {
-        return name().startsWith("Read");
+        return _rights.matches("[acs].*");
     }
 
     public boolean canWriteAlways() {
-        return name().matches("^ReadWrite(?!.*(Completed)).*");
+        return _rights.matches(".a.");
     }
     
     public boolean canWriteCompleted() {
-        return name().startsWith("ReadWrite");
+        return _rights.matches(".[ac].");
     }
     
-    public boolean canSealAlways() {
-        return !name().contains("Completed") && canSealCompleted();
+    public boolean canSeal() {
+        return _rights.matches("..\\+");
+    }
+   
+    public CooperativeRight fromRightsAsString(String rights){
+        for (CooperativeRight right : CooperativeRight.values()){
+            if (rights.equalsIgnoreCase(right._rights)){
+                return right;
+            }
+        }
+        return CooperativeRight.None;
     }
     
-    public boolean canSealCompleted() {
-        return name().endsWith("SealSupervisor") || name().equals("ReadWriteSeal");
-    }
-    
-    public boolean isSupervisor() {
-        return name().contains("Supervisor");
+    public String getRightsAsString(){
+        return _rights;
     }
     
     public String Description() {

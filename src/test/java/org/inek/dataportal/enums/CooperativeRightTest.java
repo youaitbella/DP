@@ -1,5 +1,6 @@
 package org.inek.dataportal.enums;
 
+import org.hamcrest.core.Is;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,8 +15,9 @@ public class CooperativeRightTest {
 
 
     @Test
-    public void testIsReadSealed() {
-        System.out.println("isReadSealed");
+    public void assertExcpectedEnumCount() {
+        System.out.println("assertExcpectedEnumCount");
+        assertThat(CooperativeRight.values().length, Is.is(9));
     }
 
     @Test
@@ -28,6 +30,7 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteSeal.canReadAlways());
         assertFalse(CooperativeRight.ReadCompletedSealSupervisor.canReadAlways());
         assertFalse(CooperativeRight.ReadWriteCompletedSealSupervisor.canReadAlways());
+        assertTrue(CooperativeRight.ReadSealSupervisor.canReadAlways());
         assertTrue(CooperativeRight.ReadWriteSealSupervisor.canReadAlways());
     }
 
@@ -41,6 +44,7 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteSeal.canReadCompleted());
         assertTrue(CooperativeRight.ReadCompletedSealSupervisor.canReadCompleted());
         assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.canReadCompleted());
+        assertTrue(CooperativeRight.ReadSealSupervisor.canReadCompleted());
         assertTrue(CooperativeRight.ReadWriteSealSupervisor.canReadCompleted());
     }
 
@@ -54,6 +58,7 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteSeal.canReadSealed());
         assertTrue(CooperativeRight.ReadCompletedSealSupervisor.canReadSealed());
         assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.canReadSealed());
+        assertTrue(CooperativeRight.ReadSealSupervisor.canReadSealed());
         assertTrue(CooperativeRight.ReadWriteSealSupervisor.canReadSealed());
     }
 
@@ -67,6 +72,7 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteSeal.canWriteAlways());
         assertFalse(CooperativeRight.ReadCompletedSealSupervisor.canWriteAlways());
         assertFalse(CooperativeRight.ReadWriteCompletedSealSupervisor.canWriteAlways());
+        assertFalse(CooperativeRight.ReadSealSupervisor.canWriteAlways());
         assertTrue(CooperativeRight.ReadWriteSealSupervisor.canWriteAlways());
     }
 
@@ -80,47 +86,24 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteSeal.canWriteCompleted());
         assertFalse(CooperativeRight.ReadCompletedSealSupervisor.canWriteCompleted());
         assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.canWriteCompleted());
+        assertFalse(CooperativeRight.ReadSealSupervisor.canWriteCompleted());
         assertTrue(CooperativeRight.ReadWriteSealSupervisor.canWriteCompleted());
     }
 
     @Test
-    public void testSealWriteAlways() {
-        System.out.println("canSealAlways");
-        assertFalse(CooperativeRight.None.canSealAlways());
-        assertFalse(CooperativeRight.ReadOnly.canSealAlways());
-        assertFalse(CooperativeRight.ReadSealed.canSealAlways());
-        assertFalse(CooperativeRight.ReadWrite.canSealAlways());
-        assertTrue(CooperativeRight.ReadWriteSeal.canSealAlways());
-        assertFalse(CooperativeRight.ReadCompletedSealSupervisor.canSealAlways());
-        assertFalse(CooperativeRight.ReadWriteCompletedSealSupervisor.canSealAlways());
-        assertTrue(CooperativeRight.ReadWriteSealSupervisor.canSealAlways());
+    public void testCanSeal() {
+        System.out.println("canSeal");
+        assertFalse(CooperativeRight.None.canSeal());
+        assertFalse(CooperativeRight.ReadOnly.canSeal());
+        assertFalse(CooperativeRight.ReadSealed.canSeal());
+        assertFalse(CooperativeRight.ReadWrite.canSeal());
+        assertTrue(CooperativeRight.ReadWriteSeal.canSeal());
+        assertTrue(CooperativeRight.ReadCompletedSealSupervisor.canSeal());
+        assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.canSeal());
+        assertTrue(CooperativeRight.ReadSealSupervisor.canSeal());
+        assertTrue(CooperativeRight.ReadWriteSealSupervisor.canSeal());
     }
 
-    @Test
-    public void testCanSealCompleted() {
-        System.out.println("canSealCompleted");
-        assertFalse(CooperativeRight.None.canSealCompleted());
-        assertFalse(CooperativeRight.ReadOnly.canSealCompleted());
-        assertFalse(CooperativeRight.ReadSealed.canSealCompleted());
-        assertFalse(CooperativeRight.ReadWrite.canSealCompleted());
-        assertTrue(CooperativeRight.ReadWriteSeal.canSealCompleted());
-        assertTrue(CooperativeRight.ReadCompletedSealSupervisor.canSealCompleted());
-        assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.canSealCompleted());
-        assertTrue(CooperativeRight.ReadWriteSealSupervisor.canSealCompleted());
-    }
-
-    @Test
-    public void testIsSupervisor() {
-        System.out.println("isSupervisor");
-        assertFalse(CooperativeRight.None.isSupervisor());
-        assertFalse(CooperativeRight.ReadOnly.isSupervisor());
-        assertFalse(CooperativeRight.ReadSealed.isSupervisor());
-        assertFalse(CooperativeRight.ReadWrite.isSupervisor());
-        assertFalse(CooperativeRight.ReadWriteSeal.isSupervisor());
-        assertTrue(CooperativeRight.ReadCompletedSealSupervisor.isSupervisor());
-        assertTrue(CooperativeRight.ReadWriteCompletedSealSupervisor.isSupervisor());
-        assertTrue(CooperativeRight.ReadWriteSealSupervisor.isSupervisor());
-    }
 
     
 }

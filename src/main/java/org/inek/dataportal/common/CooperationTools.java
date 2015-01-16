@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.enterprise.context.RequestScoped;
@@ -114,10 +115,10 @@ public class CooperationTools implements Serializable {
         }
         boolean hasSupervisor;
         if (ownerId == _sessionController.getAccountId()) {
-            return getGrantedRight(feature, ownerId).isSupervisor();
+            return getGrantedRight(feature, ownerId).canSeal();
         } else {
             List<CooperationRight> grantedRights = _cooperationRightFacade.getGrantedCooperationRights(ownerId, feature);
-            hasSupervisor = grantedRights.stream().anyMatch(r -> r.getCooperativeRight().isSupervisor());
+            hasSupervisor = grantedRights.stream().anyMatch(r -> r.getCooperativeRight().canSeal());
             // todo: is user himself supervisor?
             assert (false);
             return false;
@@ -149,6 +150,17 @@ public class CooperationTools implements Serializable {
     }
 
     public CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
+        Account account = _sessionController.getAccount();
+        boolean needIkSupervisor = getCooperationRights(feature, account)
+                .stream()
+                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() > 0);
+        Optional<CooperationRight> ikRight = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == -1 && r.getIk() > 0 && r.getPartnerId() == account.getId())
+                .findAny();
+        if (needIkSupervisor){
+            
+        }
         Triple<Feature, Integer, Integer> triple = new Triple<>(feature, partnerId, ik);
         if (!_achivedRights.containsKey(triple)) {
             CooperativeRight right = _cooperationRightFacade.getCooperativeRight(
@@ -189,7 +201,7 @@ public class CooperationTools implements Serializable {
 
             getCooperationRights(feature, account)
                     .stream()
-                    .filter((right) -> right.getPartnerId() == account.getAccountId() && right.getCooperativeRight().canReadCompleted())
+                    .filter((right) -> right.getPartnerId() == account.getId() && right.getCooperativeRight().canReadCompleted())
                     .forEach((right) -> {
                 if (right.getOwnerId() >= 0) {
                     ids.add(right.getOwnerId());

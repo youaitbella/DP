@@ -18,19 +18,19 @@
             <f:facet name="header">
                 <h:outputText value="#{msg.lblName}"/>
             </f:facet>
-            <h:commandLink action="#{cooperationManager.managePartner(r.accountId)}" value="#{r.firstName} #{r.lastName}" immediate="true"/>
+            <h:commandLink action="#{cooperationManager.managePartner(r.id)}" value="#{r.firstName} #{r.lastName}" immediate="true"/>
         </h:column>
         <h:column id="colCompany">
             <f:facet name="header">
                 <h:outputText value="#{msg.lblCompany}"/>
             </f:facet>
-            <h:commandLink action="#{cooperationManager.managePartner(r.accountId)}" value="#{r.company}" immediate="true"/>
+            <h:commandLink action="#{cooperationManager.managePartner(r.id)}" value="#{r.company}" immediate="true"/>
         </h:column>
         <h:column id="colTown">
             <f:facet name="header">
                 <h:outputText value="#{msg.lblTown}"/>
             </f:facet>
-            <h:commandLink action="#{cooperationManager.managePartner(r.accountId)}" value="#{r.town}" immediate="true"/>
+            <h:commandLink action="#{cooperationManager.managePartner(r.id)}" value="#{r.town}" immediate="true"/>
         </h:column>
 
     </h:dataTable>

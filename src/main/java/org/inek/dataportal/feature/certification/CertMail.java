@@ -196,7 +196,7 @@ public class CertMail implements Serializable {
         }
         String userEmail = _selectedReceiverNewList.substring(_selectedReceiverNewList.indexOf('(') + 1, _selectedReceiverNewList.length() - 1);
         EmailReceiver er = new EmailReceiver();
-        er.setAccountId(_accFacade.findByMailOrUser(userEmail).getAccountId());
+        er.setAccountId(_accFacade.findByMailOrUser(userEmail).getId());
         if (!_selectedReceiverNewList.equals("")) {
             if (_emailReceivers.size() > 0) {
                 er.setReceiverList(_emailReceivers.get(0).getReceiverList());
@@ -434,7 +434,7 @@ public class CertMail implements Serializable {
         }
         log.setTemplateId(mt.getId());
         log.setType(mt.getType());
-        log.setReceiverAccountId(_accFacade.findByMailOrUser(emailAddress).getAccountId());
+        log.setReceiverAccountId(_accFacade.findByMailOrUser(emailAddress).getId());
         log.setSenderAccountId(_sessionController.getAccountId());
         _emailLogFacade.persist(log);
     }

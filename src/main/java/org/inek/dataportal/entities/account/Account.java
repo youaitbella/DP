@@ -44,7 +44,7 @@ public class Account implements Serializable, Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acId")
-    private Integer _accountId;
+    private Integer _id;
     @Column(name = "acLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
@@ -144,12 +144,12 @@ public class Account implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public Integer getAccountId() {
-        return _accountId;
+    public Integer getId() {
+        return _id;
     }
 
-    public void setAccountId(Integer id) {
-        _accountId = id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     public Date getLastModified() {
@@ -383,7 +383,7 @@ public class Account implements Serializable, Person {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_accountId != null ? _accountId.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -393,7 +393,7 @@ public class Account implements Serializable, Person {
             return false;
         }
         Account other = (Account) object;
-        if ((_accountId == null && other.getAccountId() != null) || (_accountId != null && !_accountId.equals(other.getAccountId()))) {
+        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -401,7 +401,7 @@ public class Account implements Serializable, Person {
 
     @Override
     public String toString() {
-        return "org.inek.entities.Account[id=" + _accountId + "]";
+        return "org.inek.entities.Account[id=" + _id + "]";
     }
     // </editor-fold>
 

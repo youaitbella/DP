@@ -121,7 +121,7 @@ public class EditCooperation extends AbstractEditController {
     private CooperationRight addAndReturnMissingCooperationRight(Feature feature) {
         CooperationRight right = new CooperationRight(
                 _sessionController.getAccountId(),
-                getPartnerAccount().getAccountId(),
+                getPartnerAccount().getId(),
                 -1,
                 feature
         );
@@ -138,7 +138,7 @@ public class EditCooperation extends AbstractEditController {
 
         _isOutstandingCooperationRequest = _cooperationRequestFacade.existsAnyCooperationRequest(
                 _sessionController.getAccountId(),
-                getPartnerAccount().getAccountId());
+                getPartnerAccount().getId());
         setTopicsVisibility();
     }
 
@@ -191,7 +191,7 @@ public class EditCooperation extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="tab Partner">
     public String accept() {
         int partner1Id = _sessionController.getAccountId();
-        int partner2Id = getPartnerAccount().getAccountId();
+        int partner2Id = getPartnerAccount().getId();
         _cooperationFacade.createCooperation(partner1Id, partner2Id);
         _cooperationRequestFacade.removeAnyCooperationRequest(partner1Id, partner2Id);
         _isOutstandingCooperationRequest = false;
@@ -201,14 +201,14 @@ public class EditCooperation extends AbstractEditController {
 
     public String refuse() {
         int partner1Id = _sessionController.getAccountId();
-        int partner2Id = getPartnerAccount().getAccountId();
+        int partner2Id = getPartnerAccount().getId();
         _cooperationRequestFacade.removeAnyCooperationRequest(partner1Id, partner2Id);
         return Pages.CooperationSummary.URL();
     }
 
     public String finish() {
         int partner1Id = _sessionController.getAccountId();
-        int partner2Id = getPartnerAccount().getAccountId();
+        int partner2Id = getPartnerAccount().getId();
         _cooperationFacade.finishCooperation(partner1Id, partner2Id);
         return Pages.CooperationSummary.URL();
     }
@@ -230,7 +230,7 @@ public class EditCooperation extends AbstractEditController {
 
     private void EnsureCooperationRights() {
         if (_cooperationRights == null) {
-            _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getAccountId());
+            _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getId());
         }
         addMissingNubCooperationRights();
     }
@@ -253,7 +253,7 @@ public class EditCooperation extends AbstractEditController {
             // for the memaining Iks add new rights to create a full list
             CooperationRight right = new CooperationRight(
                     _sessionController.getAccountId(),
-                    getPartnerAccount().getAccountId(),
+                    getPartnerAccount().getId(),
                     ik,
                     Feature.NUB
             );

@@ -127,7 +127,7 @@ public class EditPeppProposal extends AbstractEditController {
     private PeppProposal newPeppProposal() {
         Account account = _sessionController.getAccount();
         PeppProposal proposal = new PeppProposal();
-        proposal.setAccountId(account.getAccountId());
+        proposal.setAccountId(account.getId());
         proposal.setInstitute(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());

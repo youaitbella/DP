@@ -35,11 +35,11 @@
 
             <c:forEach items="#{modelIntentionList.partners}" var="partner" rendered="#{modelIntentionList.partners.size() > 0}">
                 <div class="paddingElement">
-                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.company}" immediate="true"/>
-                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.accountId)}" value="#{partner.town}" immediate="true"/>
+                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
+                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                 </div>
-                <inek:ModelIntentionList list="#{modelIntentionList.getModelIntentions4Account(partner.accountId)}"/>
+                <inek:ModelIntentionList list="#{modelIntentionList.getModelIntentions4Account(partner.id)}"/>
             </c:forEach>
 
 

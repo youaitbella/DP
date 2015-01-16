@@ -1,24 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.helper.structures;
+
+import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
  * @author muellermi
  */
-public class ProposalInfo<T> {
+public class ProposalInfo {
 
     private int _id;
     private String _name;
     private int _year;
-    private T _status;  // status type may vary depending on the proposal type
+    private WorkflowStatus _status;  
 
     public ProposalInfo() {
     }
 
-    public ProposalInfo(final int id, final String name, final int year, final T status) {
+    public ProposalInfo(final int id, final String name, final int year, final WorkflowStatus status) {
         _id = id;
         _name = name;
         _status = status;
@@ -41,11 +39,11 @@ public class ProposalInfo<T> {
         _name = name;
     }
 
-    public T getStatus() {
+    public WorkflowStatus getStatus() {
         return _status;
     }
 
-    public void setStatus(T status) {
+    public void setStatus(WorkflowStatus status) {
         _status = status;
     }
 

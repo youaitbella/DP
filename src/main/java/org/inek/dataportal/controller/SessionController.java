@@ -112,7 +112,7 @@ public class SessionController implements Serializable {
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             return Integer.MIN_VALUE;
         }
-        return _account.getAccountId();
+        return _account.getId();
     }
 
     public SearchController getSearchController() {
@@ -207,7 +207,7 @@ public class SessionController implements Serializable {
         String sessionId = retrieveSessionId();
         int accountId = -1;
         if (_account != null) {
-            accountId = _account.getAccountId();
+            accountId = _account.getId();
         }
         Log log = new Log(accountId, sessionId, msg);
         _logFacade.persist(log);
@@ -312,7 +312,7 @@ public class SessionController implements Serializable {
     }
 
     private boolean userHasDocuments() {
-        List<AccountDocument> docs = _accDocFacade.findAll(_account.getAccountId());
+        List<AccountDocument> docs = _accDocFacade.findAll(_account.getId());
         return docs.size() > 0;
     }
 
@@ -463,11 +463,11 @@ public class SessionController implements Serializable {
     }
 
     public boolean isMyAccount(int accountId, boolean log) {
-        if (getAccount().getAccountId() == accountId) {
+        if (getAccount().getId() == accountId) {
             return true;
         }
         if (log) {
-            _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{getAccount().getAccountId(), accountId});
+            _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{getAccount().getId(), accountId});
         }
         return false;
     }

@@ -51,7 +51,7 @@ public class NubController extends AbstractFeatureController {
         StringBuilder sb = new StringBuilder();
         appendLine(sb, NubFieldKey.Version, "" + nubProposal.getTargetYear());
         Account account = getSessionController().getAccount();
-        String helperId = encodeHelpId(account.getAccountId());
+        String helperId = encodeHelpId(account.getId());
         appendLine(sb, NubFieldKey.ID, helperId);
         String helper = account.getCompany() + "\r\n" + account.getFirstName() + " " + account.getLastName();
         appendLine(sb, NubFieldKey.Helper, helper);
@@ -290,7 +290,7 @@ public class NubController extends AbstractFeatureController {
     public NubProposal createNubProposal() {
         Account account = getSessionController().getAccount();
         NubProposal proposal = new NubProposal();
-        proposal.setAccountId(account.getAccountId());
+        proposal.setAccountId(account.getId());
         populateMasterData(proposal, account);
         return proposal;
     }

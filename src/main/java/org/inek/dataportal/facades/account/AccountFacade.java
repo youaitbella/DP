@@ -81,7 +81,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (ids.isEmpty()) {
             return new ArrayList<>();
         }
-        String statement = "SELECT a FROM Account a WHERE a._accountId in :ids";
+        String statement = "SELECT a FROM Account a WHERE a._id in :ids";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
         List<Account> accounts = query.setParameter("ids", ids).getResultList();
         return accounts;
@@ -105,13 +105,13 @@ public class AccountFacade extends AbstractFacade<Account> {
 //        Root<Account> accountRoot = cQuery.from(Account.class);
 //        cQuery.select(cBuilder.construct(
 //                SelectItem.class,
-//                accountRoot.get(Account_._accountId),
+//                accountRoot.get(Account_._id),
 //                accountRoot.get(Account_._lastName)
 //        ));
         CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Object[]> cQuery = cBuilder.createQuery(Object[].class);
         Root<Account> accountRoot = cQuery.from(Account.class);
-        Path<Integer> idPath = accountRoot.get("_accountId");
+        Path<Integer> idPath = accountRoot.get("_id");
         Path<String> lastNamePath = accountRoot.get("_lastName");
         Path<String> firstNamePath = accountRoot.get("_firstName");
         cQuery.select(cBuilder.array(idPath, lastNamePath, firstNamePath));
@@ -143,7 +143,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (account == null || account.isDeactivated()) {
             return null;
         }
-        if (!_accountPwdFacade.isCorrectPassword(account.getAccountId(), password)) {
+        if (!_accountPwdFacade.isCorrectPassword(account.getId(), password)) {
             return null;
         }
         setIKNames(account);
@@ -158,7 +158,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Account updateAccount(Account account) {
-        if (account.getAccountId() == null) {
+        if (account.getId() == null) {
             getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
             return null;  // let the client crash
         }
@@ -181,13 +181,13 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public void deleteAccount(Account account) {
-        if (account.getAccountId() != null) {
+        if (account.getId() != null) {
             Account emptyAccount = new Account();
             emptyAccount.setEmail("deleted"); // write non-emailaddress to indicate this is an deleted account
             emptyAccount.setUser("");
-            emptyAccount.setAccountId(account.getAccountId());
+            emptyAccount.setId(account.getId());
             merge(emptyAccount);
-            AccountPwd accountPwd = _accountPwdFacade.find(account.getAccountId());
+            AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
             _accountPwdFacade.remove(accountPwd);
         }
     }
@@ -207,8 +207,8 @@ public class AccountFacade extends AbstractFacade<Account> {
         Account account = ObjectUtil.copyObject(Account.class, accountRequest);
         persist(account);
         AccountPwd accountPwd = new AccountPwd();
-        accountPwd.setAccountId(account.getAccountId());
-        accountPwd.setPasswordHash(Crypt.getPasswordHash(password, account.getAccountId()));
+        accountPwd.setAccountId(account.getId());
+        accountPwd.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
         _accountPwdFacade.persist(accountPwd);
         _accountRequestFacade.remove(accountRequest);
         return true;
@@ -233,7 +233,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
 
         // does the password match?
-        if (!_accountPwdFacade.isCorrectPassword(account.getAccountId(), password)) {
+        if (!_accountPwdFacade.isCorrectPassword(account.getId(), password)) {
             return false;
         }
 
@@ -252,14 +252,14 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (account == null || account.isDeactivated()) {
             return false;
         }
-        PasswordRequest request = _pwdRequestFacade.find(account.getAccountId());
+        PasswordRequest request = _pwdRequestFacade.find(account.getId());
         if (request == null) {
             return false;
         }
-        if (!request.getPasswordHash().equals(Crypt.getPasswordHash(password, account.getAccountId())) || !request.getActivationKey().equals(activationKey)) {
+        if (!request.getPasswordHash().equals(Crypt.getPasswordHash(password, account.getId())) || !request.getActivationKey().equals(activationKey)) {
             return false;
         }
-        AccountPwd accountPwd = _accountPwdFacade.find(account.getAccountId());
+        AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
         if (accountPwd == null) {
             return false;
         }
@@ -283,16 +283,16 @@ public class AccountFacade extends AbstractFacade<Account> {
             _logger.log(Level.INFO, "Password request for deactivated account {0}", mail);
             return false;
         }
-        PasswordRequest request = _pwdRequestFacade.find(account.getAccountId());
+        PasswordRequest request = _pwdRequestFacade.find(account.getId());
         if (request == null) {
             request = new PasswordRequest();
-            request.setAccountId(account.getAccountId());
+            request.setAccountId(account.getId());
             request.setActivationKey(UUID.randomUUID().toString());
-            request.setPasswordHash(Crypt.getPasswordHash(password, account.getAccountId()));
+            request.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
             _pwdRequestFacade.persist(request);
         } else {
             request.setActivationKey(UUID.randomUUID().toString());
-            request.setPasswordHash(Crypt.getPasswordHash(password, account.getAccountId()));
+            request.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
             _pwdRequestFacade.merge(request);
         }
         if (_mailer.sendPasswordActivationMail(request, account)) {

@@ -37,7 +37,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 + "and (cor._ownerId = :accountId or cor._partnerId = :accountId or cor._ownerId = -1 and cor._ik in :iks)";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
-                .setParameter("accountId", account.getAccountId())
+                .setParameter("accountId", account.getId())
                 .setParameter("feature", feature)
                 .setParameter("iks", iks)
                 .getResultList();
@@ -139,7 +139,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean hasSupervisor(Feature feature, Integer ik) {
         List<CooperationRight> cooperationRights = getIkSupervisorRights(ik, feature);
-        return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().isSupervisor()));
+        return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().canSeal()));
     }
 
     public List<CooperationRight> getIkSupervisorRights(Integer ik, Feature feature) {
@@ -159,7 +159,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public boolean isIkSupervisor(Feature feature, Integer ik, int accountId) {
-        return getIkSupervisorRight(feature, ik, accountId).isSupervisor();
+        return getIkSupervisorRight(feature, ik, accountId).canSeal();
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)

@@ -61,10 +61,10 @@ public class NubSessionTools implements Serializable {
         Account account = _sessionController.getAccount();
         for (int ik : account.getFullIkList()) {
             // allowed for own NUB if supervisor herself or no supervisor exists
-            _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getAccountId()) || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
+            _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getId()) || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
         }
         List<CooperationRight> rights = _cooperationRightFacade
-                .getGrantedCooperationRights(account.getAccountId(), Feature.NUB);
+                .getGrantedCooperationRights(account.getId(), Feature.NUB);
         for (CooperationRight right : rights) {
             if (right.getCooperativeRight().equals(CooperativeRight.ReadCompletedSealSupervisor)
                     || right.getCooperativeRight().equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
