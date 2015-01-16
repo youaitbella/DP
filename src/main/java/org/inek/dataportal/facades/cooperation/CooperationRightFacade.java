@@ -139,7 +139,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public boolean hasSupervisor(Feature feature, Integer ik) {
         List<CooperationRight> cooperationRights = getIkSupervisorRights(ik, feature);
-        return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().canSeal()));
+        return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().isSupervisor()));
     }
 
     public List<CooperationRight> getIkSupervisorRights(Integer ik, Feature feature) {
@@ -159,7 +159,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public boolean isIkSupervisor(Feature feature, Integer ik, int accountId) {
-        return getIkSupervisorRight(feature, ik, accountId).canSeal();
+        return getIkSupervisorRight(feature, ik, accountId).isSupervisor();
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)

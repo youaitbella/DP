@@ -115,10 +115,10 @@ public class CooperationTools implements Serializable {
         }
         boolean hasSupervisor;
         if (ownerId == _sessionController.getAccountId()) {
-            return getGrantedRight(feature, ownerId).canSeal();
+            return getGrantedRight(feature, ownerId).isSupervisor();
         } else {
             List<CooperationRight> grantedRights = _cooperationRightFacade.getGrantedCooperationRights(ownerId, feature);
-            hasSupervisor = grantedRights.stream().anyMatch(r -> r.getCooperativeRight().canSeal());
+            hasSupervisor = grantedRights.stream().anyMatch(r -> r.getCooperativeRight().isSupervisor());
             // todo: is user himself supervisor?
             assert (false);
             return false;
@@ -149,28 +149,38 @@ public class CooperationTools implements Serializable {
         return getAchievedRight(feature, partnerId, -1);
     }
 
+    /**
+     * Determines and returns the achieved rights
+     * A user might get rights from two sources: ik supervision or individual
+     * If an ik supervisor is needed, than and individiual supervising right is canceled.
+     * If both rights are provided, than determine the higher rights
+     * @param feature
+     * @param partnerId
+     * @param ik
+     * @return 
+     */
     public CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
         Account account = _sessionController.getAccount();
         boolean needIkSupervisor = getCooperationRights(feature, account)
                 .stream()
-                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() > 0);
-        Optional<CooperationRight> ikRight = getCooperationRights(feature, account)
+                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik);
+        CooperativeRight right = getCooperationRights(feature, account)
                 .stream()
-                .filter(r -> r.getOwnerId() == -1 && r.getIk() > 0 && r.getPartnerId() == account.getId())
-                .findAny();
+                .filter(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId())
+                .findAny()
+                .orElse(new CooperationRight())
+                .getCooperativeRight();
+        String coopRights = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == partnerId && r.getIk() == ik && r.getPartnerId() == account.getId())
+                .findAny()
+                .orElse(new CooperationRight())
+                .getCooperativeRight()
+                .getRightsAsString();
         if (needIkSupervisor){
-            
+            coopRights = coopRights.substring(0, 2) + "0";
         }
-        Triple<Feature, Integer, Integer> triple = new Triple<>(feature, partnerId, ik);
-        if (!_achivedRights.containsKey(triple)) {
-            CooperativeRight right = _cooperationRightFacade.getCooperativeRight(
-                    partnerId, // this right is "owned" by the partner
-                    _sessionController.getAccountId(),
-                    feature,
-                    ik);
-            _achivedRights.put(triple, right);
-        }
-        return _achivedRights.get(triple);
+        return right.mergeRightFromStrings(coopRights);
     }
 
     Map<Triple<Feature, Integer, Integer>, CooperativeRight> _grantedRights = new ConcurrentHashMap<>();
