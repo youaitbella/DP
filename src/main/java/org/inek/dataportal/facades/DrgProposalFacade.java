@@ -51,13 +51,13 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         Order order;
         if (dataSet == DataSet.AllOpen) {
             sealed = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
-            order = cb.asc(request.get("_drgProposalId"));
+            order = cb.asc(request.get("_id"));
         } else if (dataSet == DataSet.ApprovalRequested) {
             sealed = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
-            order = cb.asc(request.get("_drgProposalId"));
+            order = cb.asc(request.get("_id"));
         } else {
             sealed = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
-            order = cb.desc(request.get("_drgProposalId"));
+            order = cb.desc(request.get("_id"));
         }
         if (dataSet == DataSet.All) {
             cq.select(request).where(sealed).orderBy(order);
@@ -70,7 +70,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
     public DrgProposal saveDrgProposal(DrgProposal drgProposal) {
         logData(drgProposal);
-        if (drgProposal.getDrgProposalId() == null) {
+        if (drgProposal.getId() == null) {
             persist(drgProposal);
             return drgProposal;
         }
@@ -93,10 +93,10 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         List<ProposalInfo> drgProposalInfos = new ArrayList<>();
         for (DrgProposal drgProposal : drgProposals) {
             int year = 2016;
-            if (drgProposal.getDrgProposalId() >= 160000) {
-                year = 2000 + Integer.parseInt(("" + drgProposal.getDrgProposalId()).substring(0, 2));  // todo: get year from better place
+            if (drgProposal.getId() >= 160000) {
+                year = 2000 + Integer.parseInt(("" + drgProposal.getId()).substring(0, 2));  // todo: get year from better place
             }
-            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getDrgProposalId(), drgProposal.getName(), year, drgProposal.getStatus());
+            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(), year, drgProposal.getStatus());
             drgProposalInfos.add(ppInfo);
         }
         return drgProposalInfos;

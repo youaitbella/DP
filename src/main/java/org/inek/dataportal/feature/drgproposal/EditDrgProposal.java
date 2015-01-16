@@ -394,7 +394,7 @@ public class EditDrgProposal extends AbstractEditController {
     public String save() {
         _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
 
-        if (isValidId(getDrgProposal().getDrgProposalId())) {
+        if (isValidId(getDrgProposal().getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -436,7 +436,7 @@ public class EditDrgProposal extends AbstractEditController {
         _drgProposal.setStatus(WorkflowStatus.Provided.getValue());
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
 
-        if (isValidId(_drgProposal.getDrgProposalId())) {
+        if (isValidId(_drgProposal.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameDRG_PROPOSAL") + " " + _drgProposal.getExternalId());
             Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_drgProposal));

@@ -43,7 +43,7 @@ public class DrgProposal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prId")
-    private Integer _drgProposalId;
+    private Integer _id;
 
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "prVersion")
@@ -204,20 +204,20 @@ public class DrgProposal implements Serializable {
     private List<DrgProposalComment> _comments = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getDrgProposalId() {
-        return _drgProposalId;
+    public Integer getId() {
+        return _id;
     }
 
-    public void setDrgProposalId(Integer id) {
-        _drgProposalId = id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     @Documentation(name = "Verfahrensnummer", rank = 1)
     public String getExternalId() {
-        if (_drgProposalId == null || _drgProposalId < 0 || _status < 1) {
+        if (_id == null || _id < 0 || _status < 1) {
             return "";
         }
-        return "V" + _drgProposalId;
+        return "V" + _id;
     }
 
     /**
@@ -536,7 +536,7 @@ public class DrgProposal implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_drgProposalId != null ? _drgProposalId.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -547,7 +547,7 @@ public class DrgProposal implements Serializable {
             return false;
         }
         DrgProposal other = (DrgProposal) object;
-        if ((_drgProposalId == null && other.getDrgProposalId() != null) || (_drgProposalId != null && !_drgProposalId.equals(other.getDrgProposalId()))) {
+        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -555,7 +555,7 @@ public class DrgProposal implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.DrgProposal[id=" + _drgProposalId + "]";
+        return "org.inek.entities.DrgProposal[id=" + _id + "]";
     }
 
     // </editor-fold>
