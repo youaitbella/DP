@@ -32,15 +32,18 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class DrgProposalList {
 
-    @Inject DrgProposalFacade _drgProposalFacade;
-    @Inject SessionController _sessionController;
-    @Inject CooperationTools _cooperationTools;
+    @Inject
+    DrgProposalFacade _drgProposalFacade;
+    @Inject
+    SessionController _sessionController;
+    @Inject
+    CooperationTools _cooperationTools;
 
-    public List<Triple> getDrgProposals() {
+    public List<ProposalInfo> getDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 
-    public List<Triple> getSealedDrgProposals() {
+    public List<ProposalInfo> getSealedDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.AllSealed);
 
     }
@@ -89,76 +92,30 @@ public class DrgProposalList {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
-    @Inject AccountFacade _accountFacade;
-    @Inject CooperationFacade _cooperationFacade;
-    @Inject CooperationRightFacade _cooperationRightFacade;
-    // @Inject DrgSessionTools _drgSessionTools;
-    private List<CooperationRight> _cooperationRights;
-    private List<Account> _partners4Edit;
-    private List<Account> _partners4List;
-
+    
     public List<Account> getPartnersForEdit() {
         return _cooperationTools.getPartnersForEdit(Feature.DRG_PROPOSAL);
     }
 
-    
-    public List<Triple> getDrgProposalsForEditFromPartner(int partnerId) {
+    public List<ProposalInfo> getDrgProposalsForEditFromPartner(int partnerId) {
         CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
-        
-        DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen 
-                : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested 
-                : DataSet.None;
-                return _drgProposalFacade.getDrgProposalInfos(partnerId, dataSet);
+
+        DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
+                : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested
+                        : DataSet.None;
+        return _drgProposalFacade.getDrgProposalInfos(partnerId, dataSet);
     }
 
-//    public List<Account> getPartnersForDisplay() {
-//        if (_partners4List == null) {
-//            ensureAchievedCooperationRights();
-//            Set<Integer> ids = new HashSet<>();
-//            for (CooperationRight right : _cooperationRights) {
-//                if (right.getCooperativeRight() != CooperativeRight.None) {
-//                    if (right.getOwnerId() == -1) {
-//                        ids.addAll(_drgProposalFacade.findAccountIdForIk(right.getIk()));
-//                    } else {
-//                        ids.add(right.getOwnerId());
-//                    }
-//                }
-//            }
-//            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
-//            _partners4List = _accountFacade.getAccountsForIds(ids);
-//        }
-//        return _partners4List;
-//    }
+    public List<Account> getPartnersForDisplay() {
+        return _cooperationTools.getPartnersForDisplay(Feature.DRG_PROPOSAL);
+    }
+
     public List<ProposalInfo> getDrgProposalsForDisplayFromPartner(int partnerId) {
-        ensureAchievedCooperationRights();
-        List<ProposalInfo> drgs = new ArrayList<>();
-        Set<Integer> iks = new HashSet<>();
-
-//        for (CooperationRight right : _cooperationRights) {
-//            if (right.getOwnerId() == partnerId
-//                    && right.getCooperativeRight() != CooperativeRight.None) {
-//                iks.add(right.getIk());
-//                nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999));
-//            }
-//        }
-        // add managed iks
-        for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
-            if (_cooperationRightFacade.isIkSupervisor(Feature.DRG_PROPOSAL, ik, _sessionController.getAccountId())) {
-                iks.add(ik);
-            }
-        }
-
-//        for (Integer ik : iks) {
-//            nubs.addAll(_drgProposalFacade.findForAccountAndIk(partnerId, ik, 10, 999));
-//        }
-        return drgs;
+        CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
+        DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
+        return _drgProposalFacade.getDrgProposalInfos(partnerId, dataSet);
     }
 
-    private void ensureAchievedCooperationRights() {
-        if (_cooperationRights == null) {
-            _cooperationRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), Feature.DRG_PROPOSAL);
-        }
-    }
 // </editor-fold>
 
 }

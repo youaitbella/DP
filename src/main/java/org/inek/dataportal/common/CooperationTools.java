@@ -1,11 +1,9 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.enterprise.context.RequestScoped;
@@ -20,7 +18,6 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
-import org.inek.dataportal.helper.structures.CooperationrightKey;
 import org.inek.dataportal.helper.structures.Triple;
 
 /**
@@ -178,6 +175,7 @@ public class CooperationTools implements Serializable {
                 .getCooperativeRight()
                 .getRightsAsString();
         if (needIkSupervisor){
+            // remove cooperative supervising right
             coopRights = coopRights.substring(0, 2) + "0";
         }
         return right.mergeRightFromStrings(coopRights);
@@ -202,7 +200,7 @@ public class CooperationTools implements Serializable {
         return _grantedRights.get(triple);
     }
 
-    List<Account> _partners4Edit;
+    private List<Account> _partners4Edit;
 
     public List<Account> getPartnersForEdit(Feature feature) {
         if (_partners4Edit == null) {
@@ -224,6 +222,14 @@ public class CooperationTools implements Serializable {
             _partners4Edit = _accountFacade.getAccountsForIds(ids);
         }
         return _partners4Edit;
+    }
+
+    private List<Account> _partners4Display;
+    public List<Account> getPartnersForDisplay(Feature feature) {
+        if (_partners4Display == null){
+            
+        }
+        return _partners4Display;
     }
 
 }

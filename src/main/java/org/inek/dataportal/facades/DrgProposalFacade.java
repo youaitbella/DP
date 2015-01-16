@@ -86,11 +86,12 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         _logger.setLevel(oldLevel);
     }
 
-    public List<Triple> getDrgProposalInfos(int accountId, DataSet dataSet) {
+    public List<ProposalInfo> getDrgProposalInfos(int accountId, DataSet dataSet) {
         List<DrgProposal> drgProposals = findAll(accountId, dataSet);
-        List<Triple> drgProposalInfos = new ArrayList<>();
+        List<ProposalInfo> drgProposalInfos = new ArrayList<>();
         for (DrgProposal drgProposal : drgProposals) {
-            Triple ppInfo = new Triple(drgProposal.getDrgProposalId(), drgProposal.getName(), drgProposal.getDateSealed());
+            int year = 2000 + Integer.parseInt(("" + drgProposal.getDrgProposalId()).substring(0, 2));  // todo: get year from better place
+            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getDrgProposalId(), drgProposal.getName(), year,  drgProposal.getStatus());
             drgProposalInfos.add(ppInfo);
         }
         return drgProposalInfos;

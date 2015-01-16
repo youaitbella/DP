@@ -5,7 +5,6 @@
                 template="/Templates/DrgProposalSummaryTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="summaryContent">
@@ -30,7 +29,7 @@
                                 <f:facet name="header">
                                     <h:outputText value=""/>
                                 </f:facet>
-                                <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.value1)}" immediate="true" >
+                                <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.id)}" immediate="true" >
                                     <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
                                 </h:commandLink>
                             </h:column>
@@ -38,7 +37,7 @@
                                 <f:facet name="header">
                                     <h:outputText value=""/>
                                 </f:facet>
-                                <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.value1)}" immediate="true" rendered="false" >
+                                <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.id)}" immediate="true" rendered="false" >
                                     <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                                 </h:commandLink>
                             </h:column>
@@ -46,7 +45,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msg.lblAppellation}"/>
                                 </f:facet>
-                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.value1)}" value="#{proposal.value2.equals('') ? msg.txtEmpty : proposal.value2}" immediate="true"/>
+                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" value="#{proposal.name.equals('') ? msg.txtEmpty : proposal.name}" immediate="true"/>
                             </h:column>
                         </h:dataTable>
 
@@ -68,7 +67,7 @@
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <h:commandLink action="#{drgProposalList.printDrgProposal(r.value1)}" immediate="true" >
+                        <h:commandLink action="#{drgProposalList.printDrgProposal(r.id)}" immediate="true" >
                             <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
                         </h:commandLink>
                     </h:column>
@@ -76,13 +75,13 @@
                         <f:facet name="header">
                             <h:outputText value="#{msg.lblId}"/>
                         </f:facet>
-                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="V#{r.value1}" immediate="true"/>
+                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.id)}" value="V#{r.id}" immediate="true"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="#{msg.lblAppellation}"/>
                         </f:facet>
-                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.value1)}" value="#{r.value2}" immediate="true"/>
+                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.id)}" value="#{r.name}" immediate="true"/>
                     </h:column>
 
                 </h:dataTable>

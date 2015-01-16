@@ -20,7 +20,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -188,9 +187,6 @@ public class DrgProposal implements Serializable {
 //            inverseJoinColumns = @JoinColumn(name = "pppOpsId"))
 //    private List<ProcedureInfo> _procedures = new ArrayList<>();
 
-   
-    
- 
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "drgdDrgProposalId", referencedColumnName = "prId")
