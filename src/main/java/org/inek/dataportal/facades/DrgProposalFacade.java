@@ -36,8 +36,10 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
-        if (dataSet == DataSet.None) {return new ArrayList<>();}
-        
+        if (dataSet == DataSet.None) {
+            return new ArrayList<>();
+        }
+
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
         }
@@ -50,7 +52,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         if (dataSet == DataSet.AllOpen) {
             sealed = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
             order = cb.asc(request.get("_drgProposalId"));
-        }else if (dataSet == DataSet.ApprovalRequested) {
+        } else if (dataSet == DataSet.ApprovalRequested) {
             sealed = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
             order = cb.asc(request.get("_drgProposalId"));
         } else {
@@ -90,8 +92,11 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         List<DrgProposal> drgProposals = findAll(accountId, dataSet);
         List<ProposalInfo> drgProposalInfos = new ArrayList<>();
         for (DrgProposal drgProposal : drgProposals) {
-            int year = 2000 + Integer.parseInt(("" + drgProposal.getDrgProposalId()).substring(0, 2));  // todo: get year from better place
-            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getDrgProposalId(), drgProposal.getName(), year,  drgProposal.getStatus());
+            int year = 2016;
+            if (drgProposal.getDrgProposalId() >= 160000) {
+                year = 2000 + Integer.parseInt(("" + drgProposal.getDrgProposalId()).substring(0, 2));  // todo: get year from better place
+            }
+            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getDrgProposalId(), drgProposal.getName(), year, drgProposal.getStatus());
             drgProposalInfos.add(ppInfo);
         }
         return drgProposalInfos;
@@ -116,5 +121,4 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         return _accountInitials.get(accountId);
     }
 
-    
 }

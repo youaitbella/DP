@@ -1,31 +1,22 @@
 package org.inek.dataportal.feature.drgproposal;
 
 //import org.inek.dataportal.feature.drg.*;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
@@ -45,7 +36,6 @@ public class DrgProposalList {
 
     public List<ProposalInfo> getSealedDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.AllSealed);
-
     }
 
     /**
