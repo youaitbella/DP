@@ -50,10 +50,10 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         Order order;
         if (dataSet == DataSet.AllOpen) {
             sealed = cb.le(request.get("_status"), 0);
-            order = cb.asc(request.get("_peppProposalId"));
+            order = cb.asc(request.get("_id"));
         } else {
             sealed = cb.greaterThan(request.get("_status"), 0);
-            order = cb.desc(request.get("_peppProposalId"));
+            order = cb.desc(request.get("_id"));
         }
         if (dataSet == DataSet.All) {
             cq.select(request).where(sealed).orderBy(order);
@@ -66,7 +66,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
 
     public PeppProposal savePeppProposal(PeppProposal peppProposal) {
         logData(peppProposal);
-        if (peppProposal.getPeppProposalId() == null) {
+        if (peppProposal.getId() == null) {
             persist(peppProposal);
             return peppProposal;
         }
@@ -88,7 +88,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         List<PeppProposal> peppProposals = findAll(accountId, dataSet);
         List<Triple> peppProposalInfos = new ArrayList<>();
         for (PeppProposal peppProposal : peppProposals) {
-            Triple ppInfo = new Triple(peppProposal.getPeppProposalId(), peppProposal.getName(), peppProposal.getDateSealed());
+            Triple ppInfo = new Triple(peppProposal.getId(), peppProposal.getName(), peppProposal.getDateSealed());
             peppProposalInfos.add(ppInfo);
         }
         return peppProposalInfos;

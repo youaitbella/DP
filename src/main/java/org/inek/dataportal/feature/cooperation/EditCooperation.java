@@ -162,7 +162,7 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void setTopicsVisibility() {
-        setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Arrays.asList( Feature.NUB));
+        setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Arrays.asList(Feature.NUB));
         setTopicVisibility(CooperationTabs.tabCooperationOther.name(), Arrays.asList(Feature.MODEL_INTENTION, Feature.DRG_PROPOSAL, Feature.PEPP_PROPOSAL));
     }
 
@@ -173,7 +173,7 @@ public class EditCooperation extends AbstractEditController {
             return;
         }
         boolean hasSubcribed = features.stream().anyMatch(feature -> userHasSubscribedFeature(feature));
-        
+
         topic.setVisible(!_isOutstandingCooperationRequest && hasSubcribed);
     }
 
@@ -264,18 +264,21 @@ public class EditCooperation extends AbstractEditController {
     public List<SelectItem> getCooperativeRights() {
         List<SelectItem> items = new ArrayList<>();
         for (CooperativeRight right : CooperativeRight.values()) {
-            SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
-            items.add(item);
+            if (right.isPublic()) {
+                SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
+                items.add(item);
+            }
         }
         return items;
     }
 
     public List<SelectItem> getCooperativeReadRights() {
         List<SelectItem> items = new ArrayList<>();
-        List<CooperativeRight> rights = Arrays.asList(CooperativeRight.None, CooperativeRight.ReadOnly, CooperativeRight.ReadSealed);
-        for (CooperativeRight right : rights) {
+        for (CooperativeRight right : CooperativeRight.values()) {
+            if (right.isPublic() && !right.canWriteCompleted() && !right.canSeal()) {
             SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
             items.add(item);
+            }
         }
         return items;
     }

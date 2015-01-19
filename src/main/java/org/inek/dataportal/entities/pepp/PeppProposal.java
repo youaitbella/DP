@@ -22,7 +22,7 @@ public class PeppProposal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ppId")
-    private Integer _peppProposalId;
+    private Integer _id;
 
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "ppVersion")
@@ -171,20 +171,20 @@ public class PeppProposal implements Serializable {
     private List<PeppProposalComment> _comments = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getPeppProposalId() {
-        return _peppProposalId;
+    public Integer getId() {
+        return _id;
     }
 
-    public void setPeppProposalId(Integer id) {
-        _peppProposalId = id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     @Documentation(name = "Verfahrensnummer", rank = 1)
     public String getExternalId() {
-        if (_peppProposalId == null || _peppProposalId < 0 || _status < 1) {
+        if (_id == null || _id < 0 || _status < 1) {
             return "";
         }
-        return "P" + _peppProposalId;
+        return "P" + _id;
     }
 
     /**
@@ -491,7 +491,7 @@ public class PeppProposal implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_peppProposalId != null ? _peppProposalId.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -502,7 +502,7 @@ public class PeppProposal implements Serializable {
             return false;
         }
         PeppProposal other = (PeppProposal) object;
-        if ((_peppProposalId == null && other.getPeppProposalId() != null) || (_peppProposalId != null && !_peppProposalId.equals(other.getPeppProposalId()))) {
+        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }
         return true;
@@ -510,7 +510,7 @@ public class PeppProposal implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.entities.PeppProposal[id=" + _peppProposalId + "]";
+        return "org.inek.entities.PeppProposal[id=" + _id + "]";
     }
 
     // </editor-fold>

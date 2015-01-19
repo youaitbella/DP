@@ -310,7 +310,7 @@ public class EditPeppProposal extends AbstractEditController {
     public String save() {
         _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
 
-        if (isValidId(getPeppProposal().getPeppProposalId())) {
+        if (isValidId(getPeppProposal().getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -354,7 +354,7 @@ public class EditPeppProposal extends AbstractEditController {
         _peppProposal.setStatus(WorkflowStatus.Provided.getValue());
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
 
-        if (isValidId(_peppProposal.getPeppProposalId())) {
+        if (isValidId(_peppProposal.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("namePEPP_PROPOSAL") + " " + _peppProposal.getExternalId());
             Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_peppProposal));

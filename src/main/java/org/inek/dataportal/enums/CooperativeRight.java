@@ -8,17 +8,18 @@ import org.inek.dataportal.helper.Utils;
  */
 public enum CooperativeRight {
 
-    None("000"), // no access granted
-    ReadOnly("300"), // partner may read
-    ReadSealed("100"), // partner may read sealed
-    ReadCompleted("200"), // partner may read completed (approval requested)
-    ReadWriteCompleted("220"), // partner may read or write completed (approval requested)
-    ReadWrite("330"), // partner may read, write
-    ReadWriteSeal("331"), // partner may read, write, seal
-    ReadCompletedSealSupervisor("202"), // partner may read completed. To be sealed by partner only.
-    ReadWriteCompletedSealSupervisor("222"), // partner may read, write completed. To be sealed by partner only.
-    ReadSealSupervisor("302"), // partner may read always. To be sealed by partner only.
-    ReadWriteSealSupervisor("332");    // partner may read, write incompleted. To be sealed by partner only.
+    None("000", true), // no access granted
+    ReadOnly("300", true), // partner may read
+    ReadSealed("100", true), // partner may read sealed
+    ReadCompleted("200", false), // partner may read completed (approval requested)
+    ReadWriteCompleted("220", false), // partner may read or write completed (approval requested)
+    ReadWrite("330", true), // partner may read, write
+    ReadWriteSeal("331", true), // partner may read, write, seal
+    ReadCompletedSealSupervisor("202", true), // partner may read completed. To be sealed by partner only.
+    ReadWriteCompletedSealSupervisor("222", true), // partner may read, write completed. To be sealed by partner only.
+    ReadSealSupervisor("302", false), // partner may read always. To be sealed by partner only.
+    ReadAllWriteCompletedSealSupervisor("322", false), // partner may read always, but write ohnly completed. To be sealed by partner only.
+    ReadWriteSealSupervisor("332", true);    // partner may read, write incompleted. To be sealed by partner only.
 
     /**
      * rights are defined as a three letter string 
@@ -27,9 +28,17 @@ public enum CooperativeRight {
      * seal: 0 = none; 1 = yes; 2 = yes as supervisor
      */
     private final String _rights;
+    
+    /**
+     * this property declares rights, which are displayed to the public,
+     * e.g. to comboBoxes the user might choose from
+     * Other rights migt be used after merging public rights
+     */
+    private final boolean _isPublic;
 
-    private CooperativeRight(String rights) {
+    private CooperativeRight(String rights, boolean isPublic) {
         _rights = rights;
+        _isPublic = isPublic;
     }
 
     public boolean canReadAlways() {
@@ -73,6 +82,10 @@ public enum CooperativeRight {
         return _rights;
     }
 
+    public boolean isPublic() {
+        return _isPublic;
+    }
+
     public String Description() {
         return Utils.getMessage("cor" + name());
     }
@@ -88,9 +101,6 @@ public enum CooperativeRight {
                 int val = Math.max(Integer.parseInt(_rights.substring(i, i+1)), Integer.parseInt(rights.substring(i, i+1)));
                 merged = merged + val;
             }
-            if (merged.startsWith("32")){
-                // slightly upgrade from non existent combination
-                merged="33" + merged.substring(2, 3);} 
             return fromRightsAsString(merged);
         } catch (NumberFormatException e) {
             return CooperativeRight.None;
