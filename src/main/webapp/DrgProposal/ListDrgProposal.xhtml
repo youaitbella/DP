@@ -13,7 +13,7 @@
     </f:metadata>
 
     <h:dataTable rendered="#{drgProposalList.drgProposals.size() > 0}"  headerClass="list-header" id="tbldrgProposals"
-                 value="#{drgProposalList.drgProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue">
+                 value="#{drgProposalList.drgProposals}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
         <h:column id="colPrintId" >
             <f:facet name="header">
                 <h:outputText value=""/>
@@ -29,6 +29,14 @@
             <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.id)}" immediate="true" >
                 <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
                 <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" immediate="true" >
+                <h:graphicImage alt="Status" name="#{proposal.status.icon}" library="Icon/small" title="#{proposal.status.description}" value="" rendered="#{proposal.status.icon.length() gt 0}"/>
             </h:commandLink>
         </h:column>
         <h:column id="colValue">

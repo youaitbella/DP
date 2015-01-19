@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -35,12 +36,14 @@ import org.inek.dataportal.enums.WorkflowStatus;
 
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.DrgProposalFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -52,7 +55,8 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditDrgProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditDrgProposal");
-    @Inject CooperationTools _cooperationTools;
+    @Inject
+    CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject
@@ -101,13 +105,15 @@ public class EditDrgProposal extends AbstractEditController {
     private void init() {
 
         //_logger.log(Level.WARNING, "Init EditDrgProposal");
+        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String idString = requestParameterMap.get("proposalId");
         Object drgId = Utils.getFlash().get("drgId");
         if (drgId == null) {
             _drgProposal = newDrgProposal();
         } else {
             _drgProposal = loadDrgProposal(drgId);
         }
-       
+
         setVisibleCategory(_drgProposal.getCategory());
     }
 
@@ -120,7 +126,7 @@ public class EditDrgProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + drgId);
             DrgProposal drgProposal = _drgProposalFacade.find(id);
-            if (_sessionController.isMyAccount(drgProposal.getAccountId())) {
+            if (_cooperationTools.isAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
                 return drgProposal;
             }
         } catch (NumberFormatException ex) {
@@ -156,6 +162,7 @@ public class EditDrgProposal extends AbstractEditController {
     public DrgProposal getDrgProposal() {
         return _drgProposal;
     }
+
     public boolean isAnonymousData() {
         return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
     }
@@ -171,14 +178,14 @@ public class EditDrgProposal extends AbstractEditController {
         addTopic(DrgProposalTabs.tabPPProblem.name(), Pages.DrgProposalEditProblem.URL());
         addTopic(DrgProposalTabs.tabPPSolution.name(), Pages.DrgProposalEditSolution.URL());
         addTopic(DrgProposalTabs.tabPPPolicy.name(), Pages.DrgProposalEditPolicy.URL(), false);
-    
+
         addTopic(DrgProposalTabs.tabPPCodes.name(), Pages.DrgProposalEditCoding.URL());
         addTopic(DrgProposalTabs.tabPPDocuments.name(), Pages.DrgProposalEditDocuments.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="Tab master data">
     private List<SelectItem> _categoryItems;
-    
+
     private List<SelectItem> _changeMethodItems;
 
     public List<SelectItem> getCategories() {
@@ -194,41 +201,40 @@ public class EditDrgProposal extends AbstractEditController {
         }
         return _categoryItems;
     }
-    
+
     public List<SelectItem> getChangeMethodDiag() {
-       // if (_changeMethodItems == null) {
-            _changeMethodItems = new ArrayList<>();
-            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
-            for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
-                
-                if ( getDrgProposal().getCategory() == DrgProposalCategory.CCL)
-                {
-                    if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (pcm.toString().contains("CCL"))) {
-                        SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
-                        _changeMethodItems.add(item);
-                    }
-                } else {
-                    if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (!pcm.toString().contains("CCL"))) {
-                        SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
-                        _changeMethodItems.add(item);
-                    }
+        // if (_changeMethodItems == null) {
+        _changeMethodItems = new ArrayList<>();
+        _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
+        for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
+
+            if (getDrgProposal().getCategory() == DrgProposalCategory.CCL) {
+                if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (pcm.toString().contains("CCL"))) {
+                    SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
+                    _changeMethodItems.add(item);
                 }
-            }
-        //}
-        return _changeMethodItems;
-    }
-    
-    public List<SelectItem> getChangeMethodProc() {
-        
-       // if (_changeMethodItems == null) {
-            _changeMethodItems = new ArrayList<>();
-            _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
-            for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
+            } else {
                 if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (!pcm.toString().contains("CCL"))) {
                     SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
                     _changeMethodItems.add(item);
                 }
             }
+        }
+        //}
+        return _changeMethodItems;
+    }
+
+    public List<SelectItem> getChangeMethodProc() {
+
+        // if (_changeMethodItems == null) {
+        _changeMethodItems = new ArrayList<>();
+        _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
+        for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
+            if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (!pcm.toString().contains("CCL"))) {
+                SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
+                _changeMethodItems.add(item);
+            }
+        }
         //}
         return _changeMethodItems;
     }
@@ -238,13 +244,13 @@ public class EditDrgProposal extends AbstractEditController {
             setVisibleCategory((DrgProposalCategory) e.getNewValue());
         }
     }
-    
+
     public void changeChangeMethodDiag(ValueChangeEvent e) {
 //        if (!e.getNewValue().equals(e.getOldValue())) {
 //            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
 //        }
     }
-    
+
     public void changeChangeMethodProc(ValueChangeEvent e) {
 //        if (!e.getNewValue().equals(e.getOldValue())) {
 //            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
@@ -255,35 +261,34 @@ public class EditDrgProposal extends AbstractEditController {
         if (cat == null) {
             return;
         }
-      
-        findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM)  ||  cat.equals(DrgProposalCategory.CCL));
+
+        findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM) || cat.equals(DrgProposalCategory.CCL));
     }
-    
+
     private void setVisibleChangeMethod(DrgProposalChangeMethod pcm) {
 //        if (pcm == null) {
 //            return;
 //        }
-      
+
         //findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(pcm.equals(DrgProposalCategory.CODES) || pcm.equals(DrgProposalCategory.SYSTEM));
     }
 
     public boolean isSystem() {
         return getDrgProposal().getCategory() == DrgProposalCategory.SYSTEM;
     }
-    
+
     public String getCcl() {
         //return "display: inline-block; width: 49%;";
-        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ?  "display: none;" : "display: inline-block; width: 49%;";
+        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ? "display: none;" : "display: inline-block; width: 49%;";
     }
-    
+
     public String getCcl2() {
         //return "display: inline-block; width: 49%;";
-        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ?  "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
+        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
     }
-    
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Codes">
-
     public String searchDiag() {
         return searchCode(CodeType.Diag);
     }
@@ -291,7 +296,7 @@ public class EditDrgProposal extends AbstractEditController {
     public String searchProc() {
         return searchCode(CodeType.Proc);
     }
-    
+
     public String searchDrg() {
         return searchCode(CodeType.Drg);
     }
@@ -373,15 +378,12 @@ public class EditDrgProposal extends AbstractEditController {
 //    }
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Tab Documents">
-
 //    public boolean isAnonymousData() {
 //        return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
 //    }
-
 //    public void setAnonymousData(boolean value) {
 //        getDrgProposal().setAnonymousData(value);
 //    }
-
     public boolean isDocumentAvailable() {
         return !getDrgProposal().getDocuments().isEmpty() || !getDrgProposal().getDocumentsOffline().isEmpty();
     }
@@ -390,7 +392,7 @@ public class EditDrgProposal extends AbstractEditController {
     public boolean isReadOnly() {
         return _cooperationTools.isReadOnly(Feature.DRG_PROPOSAL, getDrgProposal().getStatus(), getDrgProposal().getAccountId());
     }
-    
+
     public String save() {
         _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
 
@@ -411,7 +413,7 @@ public class EditDrgProposal extends AbstractEditController {
         if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
-        return true; // todo
+        return _cooperationTools.isSealedEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -421,10 +423,17 @@ public class EditDrgProposal extends AbstractEditController {
         return _cooperationTools.isApprovalRequestEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
+    public boolean isRequestCorrectionEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
+    }
+
     /**
-     * This function seals a drgProposal if possible.
-     * Sealing is possible, if all mandatory fields are fulfilled.
-     * After sealing, the proposal can not be edited and is available for the InEK.
+     * This function seals a drgProposal if possible. Sealing is possible, if
+     * all mandatory fields are fulfilled. After sealing, the proposal can not
+     * be edited and is available for the InEK.
      *
      * @return
      */
@@ -449,9 +458,18 @@ public class EditDrgProposal extends AbstractEditController {
         return null;
     }
 
+    public String requestApprovalDrgProposal() {
+        if (!drgProposalIsComplete()) {
+            return null;
+        }
+        _drgProposal.setStatus(WorkflowStatus.ApprovalRequested.getValue());
+        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        return null;
+    }
+
     public String takeDocuments() {
         DrgProposalController ppController = (DrgProposalController) _sessionController.getFeatureController(Feature.DRG_PROPOSAL);
-        
+
         for (DrgProposalDocument doc : ppController.getDocuments()) {
             DrgProposalDocument existingDoc = findByName(doc.getName());
             if (existingDoc != null) {
@@ -460,7 +478,7 @@ public class EditDrgProposal extends AbstractEditController {
             getDrgProposal().getDocuments().add(doc);
         }
         ppController.getDocuments().clear();
-        
+
         return null;
     }
 
@@ -526,7 +544,7 @@ public class EditDrgProposal extends AbstractEditController {
         if (drgProposal.getDocuments() != null && drgProposal.getDocuments().size() > 0
                 || drgProposal.getDocumentsOffline() != null && drgProposal.getDocumentsOffline().length() > 0) {
             newTopic = checkField(newTopic, drgProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
-           
+
         }
 
         if (!_msg.isEmpty()) {
@@ -565,8 +583,51 @@ public class EditDrgProposal extends AbstractEditController {
         }
         return newTopic;
     }
-       
-    
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="CheckElements">
+    @Inject
+    private Mailer _mailer;
+    @Inject AccountFacade _accountFacade;
+
+    public String requestCorrection() {
+        return Pages.DrgProposalRequestCorrection.URL();
+    }
+
+    private String _message = "";
+
+    public String getMessage() {
+        return _message;
+    }
+
+    public void setMessage(String message) {
+        _message = message;
+    }
+
+    public String sendMessage() {
+        String subject = "InEK Datenportal: Korrektur DRG-Vorschlag " + _drgProposal.getName() + " erforderlich";
+        Account account = _sessionController.getAccount();
+        String message = "Ihr Kooperationspartner, " + account.getDisplayName() + " sendet Ihnen die folgende Nachricht:"
+                + "\r\n\r\n"
+                + "-----"
+                + "\r\n\r\n"
+                + _message 
+                + "\r\n\r\n"
+                + "-----"
+                + "\r\n\r\n"
+                + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
+        Account receiver =_accountFacade.find(_drgProposal.getAccountId());
+        if (_mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, message)) {
+            _drgProposal.setStatus(WorkflowStatus.New.getValue());
+            _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        }
+
+        return Pages.DrgProposalSummary.RedirectURL();
+    }
+
+    public String cancelMessage() {
+        return Pages.DrgProposalSummary.RedirectURL();
+    }
     // </editor-fold>
 
 }

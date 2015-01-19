@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -61,6 +63,28 @@ public class CooperationTools implements Serializable {
     private List<CooperationRight> _cooperationRights;
 
     /**
+     * In normal workflow, only data to which the user has access to,
+     * is displaed in the lists. But if some user tries to open data
+     * by its id, this might be an non-authorized access.
+     * Within the editing function, it should be tested, wheater the acces 
+     * is allowed or not.
+     * @param feature
+     * @param state
+     * @param ownerId
+     * @return 
+     */
+    public boolean isAllowed(Feature feature, WorkflowStatus state, int ownerId) {
+        return isAllowed(feature, state, ownerId, -1);
+    }
+    public boolean isAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        if (ownerId == _sessionController.getAccountId()) {
+            return true;
+        }
+        CooperativeRight right = getAchievedRight(feature, ownerId);
+        return right != CooperativeRight.None;
+    }
+    
+    /**
      * Data is readonly when - provided to InEK - is foreign data and no edit
      * right is granted to current user
      *
@@ -81,15 +105,15 @@ public class CooperationTools implements Serializable {
             return false;
         }
         CooperativeRight right = getAchievedRight(feature, ownerId);
-        return right.canWriteAlways() || state.getValue() >= WorkflowStatus.ApprovalRequested.getValue() && right.canWriteCompleted();
+        return !right.canWriteAlways() && !(state.getValue() >= WorkflowStatus.ApprovalRequested.getValue() && right.canWriteCompleted());
     }
 
     /**
      * the approval request will be enabled if the status is less than "approval
-     * requested" and the user is allowed to write and if (mandatory supervisor
-     * exists) the current user is no mandatory supervisor and if (mandatory no
-     * supervisor exists) if (cooperativ supervisor exist) the current user is
-     * no cooperative supervisor
+     * requested" and the user is allowed to write 
+     * and if (is owned by other) the user is alloed to write but not a superviror himself
+     * and if (owned by himself) 
+     *    if (cooperativ supervisor exist) the current user is no cooperative supervisor
      *
      * @param feature
      * @param state
@@ -107,19 +131,56 @@ public class CooperationTools implements Serializable {
         if (isReadOnly(feature, state, ownerId, ik)) {
             return false;
         }
-        if (ik > 0 && _cooperationRightFacade.hasSupervisor(feature, ik)) {
-            boolean isSupervisor = _cooperationRightFacade.isIkSupervisor(feature, ik, _sessionController.getAccountId());
+        Account account = _sessionController.getAccount();
+        if (ownerId != account.getId()) {
+            // Its not the user's data
+            // Thus, he can request approval, if he is allowed to write, 
+            // but not to seal (the latter would enable seal button instead)
+            CooperativeRight right = getAchievedRight(feature, ownerId, ik);
+            return right.canWriteCompleted() && !right.canSeal();
+        }        
+        return needsApproval(feature, ik);
+        
+    }
+
+    private boolean needsApproval(Feature feature, int ik) {
+        Account account = _sessionController.getAccount();
+        
+        List<CooperationRight> coopSupervisors = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == account.getId() && r.getIk() == ik && r.getCooperativeRight().canSeal())
+                .collect(Collectors.toList());
+        
+        if (!needIkSupervisor(feature, account, ik)){
+            // No ik supervisor needed. Must request approval if at least one supervisor exists
+            return coopSupervisors.size() > 0;
         }
-        boolean hasSupervisor;
-        if (ownerId == _sessionController.getAccountId()) {
-            return getGrantedRight(feature, ownerId).isSupervisor();
-        } else {
-            List<CooperationRight> grantedRights = _cooperationRightFacade.getGrantedCooperationRights(ownerId, feature);
-            hasSupervisor = grantedRights.stream().anyMatch(r -> r.getCooperativeRight().isSupervisor());
-            // todo: is user himself supervisor?
-            assert (false);
-            return false;
+
+        boolean isSelfIkSupervisor = getCooperationRights(feature, account)
+                .stream()
+                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId());
+        
+        if (!isSelfIkSupervisor){
+            // user is not himself ik supervisor --> needs to request approval
+            return true;
         }
+        
+        // user is ik supervisor himself
+        // he needs to request approval, if he granted supervison rights to any other ik supervisor
+        boolean hasGrantedSupervision = coopSupervisors
+                .stream()
+                .anyMatch(cr -> getCooperationRights(feature, account)
+                        .stream()
+                        .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == cr.getPartnerId()));
+        
+        return hasGrantedSupervision;
+    }
+
+    private boolean needIkSupervisor(Feature feature, Account account, int ik) {
+        boolean needIkSupervisor = getCooperationRights(feature, account)
+                .stream()
+                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik);
+        return needIkSupervisor;
     }
 
     /**
@@ -137,10 +198,29 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        return true;
+        if (state.getValue() >= WorkflowStatus.Provided.getValue()) {
+            return false;
+        }
+        Account account = _sessionController.getAccount();
+        if (ownerId != account.getId()) {
+            CooperativeRight right = getAchievedRight(feature, ownerId, ik);
+            return right.canSeal();
+        }        
+        
+        return !needsApproval(feature, ik);
     }
 
-    Map<Triple<Feature, Integer, Integer>, CooperativeRight> _achivedRights = new ConcurrentHashMap<>();
+    public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId) {
+        return isRequestCorrectionEnabled(feature, state, ownerId, -1);
+    }
+
+    public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        if (state.getValue() != WorkflowStatus.ApprovalRequested.getValue()) {
+            return false;
+        }
+        Account account = _sessionController.getAccount();
+        return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
+    }
 
     public CooperativeRight getAchievedRight(Feature feature, int partnerId) {
         return getAchievedRight(feature, partnerId, -1);
@@ -158,9 +238,6 @@ public class CooperationTools implements Serializable {
      */
     public CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
         Account account = _sessionController.getAccount();
-        boolean needIkSupervisor = getCooperationRights(feature, account)
-                .stream()
-                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik);
         CooperativeRight right = getCooperationRights(feature, account)
                 .stream()
                 .filter(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId())
@@ -174,62 +251,59 @@ public class CooperationTools implements Serializable {
                 .orElse(new CooperationRight())
                 .getCooperativeRight()
                 .getRightsAsString();
-        if (needIkSupervisor){
+        if (needIkSupervisor(feature, account, ik)){
             // remove cooperative supervising right
             coopRights = coopRights.substring(0, 2) + "0";
         }
         return right.mergeRightFromStrings(coopRights);
     }
 
-    Map<Triple<Feature, Integer, Integer>, CooperativeRight> _grantedRights = new ConcurrentHashMap<>();
-
-    public CooperativeRight getGrantedRight(Feature feature, int partnerId) {
-        return getGrantedRight(feature, partnerId, -1);
-    }
-
-    public CooperativeRight getGrantedRight(Feature feature, int partnerId, int ik) {
-        Triple<Feature, Integer, Integer> triple = new Triple<>(feature, partnerId, ik);
-        if (!_grantedRights.containsKey(triple)) {
-            CooperativeRight right = _cooperationRightFacade.getCooperativeRight(
-                    _sessionController.getAccountId(),
-                    partnerId,
-                    feature,
-                    ik);
-            _grantedRights.put(triple, right);
-        }
-        return _grantedRights.get(triple);
-    }
-
     private List<Account> _partners4Edit;
 
     public List<Account> getPartnersForEdit(Feature feature) {
         if (_partners4Edit == null) {
-            Account account = _sessionController.getAccount();
-            Set<Integer> ids = new HashSet<>();
-
-            getCooperationRights(feature, account)
-                    .stream()
-                    .filter((right) -> right.getPartnerId() == account.getId() && right.getCooperativeRight().canReadCompleted())
-                    .forEach((right) -> {
-                if (right.getOwnerId() >= 0) {
-                    ids.add(right.getOwnerId());
-                } else if (right.getOwnerId() == -1 && right.getIk() > 0) {
-                    // user is supervisor, lets get all account ids, which might be supervised
-                    ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureandIk(feature, right.getIk()));
-                }
-            });
-            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
+            Set<Integer> ids = determineAccountIds(feature, canReadCompleted());
             _partners4Edit = _accountFacade.getAccountsForIds(ids);
         }
         return _partners4Edit;
     }
 
+    public static Predicate<CooperationRight> canReadCompleted(){
+        return r -> r.getCooperativeRight().canReadCompleted();
+    }
+    
+    public static Predicate<CooperationRight> canReadSealed(){
+        return r -> r.getCooperativeRight().canReadSealed();
+    }
+    
+    private Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
+        Account account = _sessionController.getAccount();
+        Set<Integer> ids = new HashSet<>();
+        getCooperationRights(feature, account)
+                .stream()
+                .filter((right) -> right.getPartnerId() == account.getId())
+                .filter(canRead)
+                .forEach((right) -> {
+                    if (right.getOwnerId() >= 0) {
+                        ids.add(right.getOwnerId());
+                    } else if (right.getOwnerId() == -1 && right.getIk() > 0) {
+                        // user is supervisor, lets get all account ids, which might be supervised
+                        ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureandIk(feature, right.getIk()));
+                    }
+                });
+        ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
+        return ids;
+    }
+
     private List<Account> _partners4Display;
     public List<Account> getPartnersForDisplay(Feature feature) {
         if (_partners4Display == null){
+            Set<Integer> ids = determineAccountIds(feature, canReadSealed());
+            _partners4Display = _accountFacade.getAccountsForIds(ids);
             
         }
         return _partners4Display;
     }
+
 
 }

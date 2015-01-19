@@ -80,6 +80,7 @@ public enum Pages {
     DrgProposalEditCoding("/DrgProposal/DrgProposalEditCoding"),
     DrgProposalEditDocuments("/DrgProposal/DrgProposalEditDocuments"),
     DrgProposalEditComments("/DrgProposal/DrgProposalEditComments"),
+    DrgProposalRequestCorrection("/DrgProposal/DrgProposalRequestCorrection"),
     //
     PartCooperation("/Cooperation/PartCooperation"),
     ListCooperation("/Cooperation/ListCooperation"),

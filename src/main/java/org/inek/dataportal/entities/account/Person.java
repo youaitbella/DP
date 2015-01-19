@@ -25,4 +25,9 @@ public interface Person {
     String getEmail();
 
     void setEmail(String mail);
+    
+    default String getDisplayName(){
+        String dispName = getTitle() + " " + getFirstName() + " " + getLastName();
+        return dispName.replace("  ", " ").trim();
+    }
 }

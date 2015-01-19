@@ -33,4 +33,11 @@
         </behavior>
     </tag>
 
+    <tag>
+        <tag-name>confirmRequestApproval</tag-name>
+        <behavior>
+            <behavior-id>confirmRequestApproval</behavior-id>
+        </behavior>
+    </tag>
+
 </facelet-taglib>
