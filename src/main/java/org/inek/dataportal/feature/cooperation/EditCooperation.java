@@ -7,10 +7,8 @@ package org.inek.dataportal.feature.cooperation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,17 +18,19 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
+import org.inek.dataportal.entities.cooperation.CooperationRight;
+import org.inek.dataportal.entities.cooperation.PortalMessage;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
@@ -47,20 +47,17 @@ public class EditCooperation extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
 
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    CooperationRequestFacade _cooperationRequestFacade;
-    @Inject
-    CooperationFacade _cooperationFacade;
-    @Inject
-    AccountFacade _accountFacade;
+    @Inject private SessionController _sessionController;
+    @Inject CooperationRequestFacade _cooperationRequestFacade;
+    @Inject CooperationFacade _cooperationFacade;
+    @Inject AccountFacade _accountFacade;
     private Account _partnerAccount;
     private boolean _isOutstandingCooperationRequest;
 
     @Override
     protected void addTopics() {
         addTopic(CooperationTabs.tabCooperationPartner.name(), Pages.CooperationEditPartner.URL());
+        addTopic(CooperationTabs.tabCooperationMessage.name(), Pages.CooperationEditMessage.URL());
         addTopic(CooperationTabs.tabCooperationNub.name(), Pages.CooperationEditNub.URL(), false);
         addTopic(CooperationTabs.tabCooperationOther.name(), Pages.CooperationEditOther.URL(), false);
     }
@@ -68,6 +65,7 @@ public class EditCooperation extends AbstractEditController {
     enum CooperationTabs {
 
         tabCooperationPartner,
+        tabCooperationMessage,
         tabCooperationNub,
         tabCooperationOther;
     }
@@ -276,8 +274,8 @@ public class EditCooperation extends AbstractEditController {
         List<SelectItem> items = new ArrayList<>();
         for (CooperativeRight right : CooperativeRight.values()) {
             if (right.isPublic() && !right.canWriteCompleted() && !right.canSeal()) {
-            SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
-            items.add(item);
+                SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
+                items.add(item);
             }
         }
         return items;
@@ -291,6 +289,40 @@ public class EditCooperation extends AbstractEditController {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="tab XXX">
+    // <editor-fold defaultstate="collapsed" desc="tab Messages">
+    @Inject PortalMessageFacade _messageFacade;
+    List<PortalMessage> _messages;
+    public List<PortalMessage> getMessages() {
+        if (_messages == null) {
+            _messages = _messageFacade.getMessagesByParticipants(_sessionController.getAccountId(), getPartnerAccount().getId());
+        }
+        return _messages;
+    }
+
+    public String expand(int messageId) {
+        setVisibility(messageId, true);
+        Optional<PortalMessage> unreadMessage = getMessages()
+                .stream()
+                .filter(m -> m.getId() == messageId && m.getStatus() == 0 && m.getToAccountId() == _sessionController.getAccountId())
+                .findFirst();
+        if (unreadMessage.isPresent()) {
+            PortalMessage message = unreadMessage.get();
+            message.setStatus(1);
+            _messageFacade.merge(message);
+        }
+        return "";
+    }
+
+    public String collapse(int messageId) {
+        setVisibility(messageId, false);
+        return "";
+    }
+
+    private void setVisibility(int messageId, boolean x) {
+        getMessages().stream().filter((m) -> (m.getId() == messageId)).forEach((m) -> {
+            m.setVisible(x);
+        });
+    }
+
     // </editor-fold>
 }

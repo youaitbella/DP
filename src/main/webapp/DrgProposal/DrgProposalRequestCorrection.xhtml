@@ -23,25 +23,28 @@
         <h:form id="form" styleClass="paddingElement">
             <h1><h:commandLink value="#{msg.nameDRG_PROPOSAL}" action="#{sessionController.navigate(sessionTools.pages.DrgProposalSummary)}" immediate="true"/></h1>
             <div class="inputPart">
-                <h:outputLabel for="txtMessage" value="#{msg.lblMessage}" styleClass="label"/>
-                        <br/>
-                        <h:inputTextarea id="txtMessage" value="#{editDrgProposal.message}" styleClass="areaWideHigh">
-                    <f:ajax/>
-                </h:inputTextarea>
+                <h2>Korrektur zu Vorschlag #{editDrgProposal.drgProposal.name} anfordern</h2>
             </div>
-            <div class="toolBar">
-            <h:commandLink styleClass="button" 
-                           action="#{editDrgProposal.cancelMessage}" 
-                           value="#{msg.btnCancel}" 
-                           immediate="true"/>
-            <h:commandLink styleClass="button" 
-                           action="#{editDrgProposal.sendMessage}" 
-                           value="#{msg.btnSendMessage}" 
-                           immediate="true"/>
+            <div class="edit">
+                <div class="inputPart">
+                    <h:outputLabel for="txtMessage" value="#{msg.lblMessage}" styleClass="label"/>
+                    <br/>
+                    <h:inputTextarea id="txtMessage" value="#{editDrgProposal.message}" styleClass="areaWideHigh">
+                        <f:ajax/>
+                    </h:inputTextarea>
+                </div>
+                <div class="toolBar">
+                    <h:commandLink styleClass="button"
+                                   action="#{editDrgProposal.cancelMessage}"
+                                   value="#{msg.btnCancel}"
+                                   immediate="true"/>
+                    <h:commandLink styleClass="button"
+                                   action="#{editDrgProposal.sendMessage}"
+                                   value="#{msg.btnSendMessage}"
+                                   immediate="true"/>
+                </div>
             </div>
         </h:form>
-
     </ui:define>
-
 </ui:composition>
 

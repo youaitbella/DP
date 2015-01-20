@@ -20,11 +20,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.common.ProcedureInfo;
+import org.inek.dataportal.entities.cooperation.PortalMessage;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.drg.DrgProposalDocument;
-
-import org.inek.dataportal.entities.common.ProcedureInfo;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DrgProposalCategory;
@@ -33,12 +33,11 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-
-import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.DrgProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-
+import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
+import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
@@ -586,9 +585,9 @@ public class EditDrgProposal extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-    @Inject
-    private Mailer _mailer;
+    @Inject private Mailer _mailer;
     @Inject AccountFacade _accountFacade;
+    @Inject PortalMessageFacade _messageFacade;
 
     public String requestCorrection() {
         return Pages.DrgProposalRequestCorrection.URL();
@@ -605,24 +604,40 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String sendMessage() {
-        String subject = "InEK Datenportal: Korrektur DRG-Vorschlag " + _drgProposal.getName() + " erforderlich";
-        Account account = _sessionController.getAccount();
-        String message = "Ihr Kooperationspartner, " + account.getDisplayName() + " sendet Ihnen die folgende Nachricht:"
+        String subject = "Korrektur DRG-Vorschlag " + _drgProposal.getName() + " erforderlich";
+        Account sender = _sessionController.getAccount();
+        Account receiver = _accountFacade.find(_drgProposal.getAccountId());
+        createPortalMessage(sender, receiver, subject);
+        _drgProposal.setStatus(WorkflowStatus.New.getValue());
+        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        if (receiver.isMessageCopy()) {
+            sendEmailCopy(sender, receiver, subject);
+        }
+        return Pages.DrgProposalSummary.RedirectURL();
+    }
+
+    private void sendEmailCopy(Account sender, Account receiver, String subject) {
+        String message = "Ihr Kooperationspartner, " + sender.getDisplayName() + ", sendet Ihnen die folgende Nachricht:"
                 + "\r\n\r\n"
                 + "-----"
                 + "\r\n\r\n"
-                + _message 
+                + _message
                 + "\r\n\r\n"
                 + "-----"
                 + "\r\n\r\n"
                 + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
-        Account receiver =_accountFacade.find(_drgProposal.getAccountId());
-        if (_mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, message)) {
-            _drgProposal.setStatus(WorkflowStatus.New.getValue());
-            _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
-        }
+        _mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, message);
+    }
 
-        return Pages.DrgProposalSummary.RedirectURL();
+    private void createPortalMessage(Account sender, Account receiver, String subject) {
+        PortalMessage portalMessage = new PortalMessage();
+        portalMessage.setFromAccountId(sender.getId());
+        portalMessage.setToAccountId(receiver.getId());
+        portalMessage.setFeature(Feature.DRG_PROPOSAL);
+        portalMessage.setKeyId(_drgProposal.getId());
+        portalMessage.setSubject(subject);
+        portalMessage.setMessage(_message);
+        _messageFacade.persist(portalMessage);
     }
 
     public String cancelMessage() {

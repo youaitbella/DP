@@ -35,6 +35,13 @@ hr {
     background-color: #043358;
 }
 
+hr.simpleLine {
+    margin: 0.1em;
+    height: 1px;
+    display: block;
+    background-color: #043358;
+}
+
 h1 {
     font-size: 2em;
     font-weight: bold;
@@ -577,7 +584,7 @@ select:active, select:focus{
     min-width: 170px;
     width: 170px;
     max-width: 170px;
-    
+
 }
 
 

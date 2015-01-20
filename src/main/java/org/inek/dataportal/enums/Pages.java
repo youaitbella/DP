@@ -86,6 +86,7 @@ public enum Pages {
     ListCooperation("/Cooperation/ListCooperation"),
     CooperationSummary("/Cooperation/CooperationSummary"),
     CooperationEditPartner("/Cooperation/CooperationEditPartner"),
+    CooperationEditMessage("/Cooperation/CooperationEditMessage"),
     CooperationEditNub("/Cooperation/CooperationEditNub"),
     CooperationEditOther("/Cooperation/CooperationEditOther"),
     //

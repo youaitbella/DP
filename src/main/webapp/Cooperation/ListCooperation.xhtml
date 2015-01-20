@@ -12,13 +12,13 @@
     </f:metadata>
 
     <br/>
-    <h:dataTable headerClass="list-header" 
+    <h:dataTable headerClass="list-header"
                  value="#{cooperationManager.partners}" var="r" styleClass="fullWidth" rowClasses="row1, row2" columnClasses="">
         <h:column id="colName">
             <f:facet name="header">
                 <h:outputText value="#{msg.lblName}"/>
             </f:facet>
-            <h:commandLink action="#{cooperationManager.managePartner(r.id)}" value="#{r.firstName} #{r.lastName}" immediate="true"/>
+            <h:commandLink action="#{cooperationManager.managePartner(r.id)}" value="#{r.firstName} #{r.lastName} #{cooperationManager.unreadMessages(r.id)}" immediate="true"/>
         </h:column>
         <h:column id="colCompany">
             <f:facet name="header">

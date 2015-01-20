@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="CooperationEdit.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+
+        <h2>#{msg.lblCooperation} #{msg.tabCooperationOther}</h2>
+
+        <h:dataTable headerClass="list-header" value="#{editCooperation.messages}"
+                     var="message" width="100%" rowClasses="row2, row1" columnClasses="colIcon, colIcon, colShort, colIcon, colValue">
+            <h:column >
+                <h:graphicImage alt="neu" name="new.png" library="Icon/small" title="neue (ungeöffnete) Nachricht" value=""
+                                rendered="#{message.status eq 0 and message.toAccountId eq sessionController.accountId}"/>
+            </h:column>
+            <h:column >
+                <h:commandLink action="#{editCooperation.expand(message.id)}" immediate="true" rendered="#{!message.visible}">
+                    <h:graphicImage alt="+" name="bullet_toggle_plus.png" library="Icon/small" title="anzeigen" value=""/>
+                </h:commandLink>
+                <h:commandLink action="#{editCooperation.collapse(message.id)}" immediate="true" rendered="#{message.visible}">
+                    <h:graphicImage alt="+" name="bullet_toggle_minus.png" library="Icon/small" title="ausblenden" value=""/>
+                </h:commandLink>
+            </h:column>
+            <h:column >
+                <h:outputText value="#{message.created}" converter="FlexibleDateTimeConverter"/>
+            </h:column>
+            <h:column >
+                <h:graphicImage alt="gesendet" name="arrow_right.png" library="Icon/small" title="gesendet" value="" rendered="#{message.fromAccountId eq sessionController.accountId}"/>
+                <h:graphicImage alt="empfangen" name="arrow_left.png" library="Icon/small" title="empfangen" value="" rendered="#{message.fromAccountId ne sessionController.accountId}"/>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{message.subject}" rendered="#{!message.visible}"/>
+                <h:panelGroup rendered="#{message.visible}">
+                    <h:outputText value="#{message.subject}"/>
+                    <hr class="simpleLine"/>
+                    <h:outputText value="#{message.message}"/>
+                </h:panelGroup>
+            </h:column>
+
+        </h:dataTable>
+        <div class="toolBar">
+            <h:commandLink styleClass="button" action="#{editCooperation.save}" value="#{msg.btnSave}" immediate="false" />
+        </div>
+
+    </ui:define>
+</ui:composition>

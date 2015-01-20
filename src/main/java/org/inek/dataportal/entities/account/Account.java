@@ -89,7 +89,7 @@ public class Account implements Serializable, Person {
     private boolean _nubConfirmation = true;
 
     @Column(name = "acMessageCopy")
-    private boolean _messageCopy = false;
+    private boolean _messageCopy = true;
 
     @Column(name = "acNubInformationMail")
     private boolean _nubInformationMail = true;

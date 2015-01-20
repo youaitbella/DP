@@ -81,7 +81,7 @@
                                 <li class="#{topic.active ? 'activemenu' : 'menu'}">
                                     <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true">
                                         <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
-                                            <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.numberOfUnreadDocs}" />
+                                            <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
                                         </h:panelGroup>
                                     </h:commandLink>
                                 </li>
@@ -99,7 +99,7 @@
                             <h:outputText value="#{a.text}"/>
                         </h:column>
                     </h:dataTable>
-                    
+
                 </div>
 
 

@@ -10,6 +10,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
+import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -24,6 +25,8 @@ public class CooperationManager {
     @Inject CooperationFacade _cooperationFacade;
     @Inject AccountFacade _accountFacade;
     @Inject SessionController _sessionController;
+    @Inject PortalMessageFacade _messageFacade;
+
     private List<Account> _requestors;
     private List<Account> _partners;
     private String _userOrMail;
@@ -60,7 +63,7 @@ public class CooperationManager {
             }
         }
         _sessionController.alertClient(Utils.getMessage("msgInvitation"));
-        _userOrMail="";
+        _userOrMail = "";
         return "";
     }
 
@@ -68,4 +71,15 @@ public class CooperationManager {
         Utils.getFlash().put("partnerId", partnerId);
         return Pages.CooperationEditPartner.URL();
     }
+
+    public String unreadMessages(int partnerId) {
+        int count = _messageFacade.countUnreadMessages(_sessionController.getAccountId(), partnerId);
+        if (count == 0) {
+            return "";
+        }
+
+        return "(" + count + " " + Utils.getMessage("lblNewFemale") + " "
+                + (count == 1 ? Utils.getMessage("lblMessage") : Utils.getMessage("lblMessages")) + ")";
+    }
+
 }
