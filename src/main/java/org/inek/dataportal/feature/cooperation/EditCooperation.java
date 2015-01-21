@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.feature.cooperation;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,6 +38,7 @@ import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -78,7 +81,7 @@ public class EditCooperation extends AbstractEditController {
     }
 
     public void setPartnerAccount(Account partnerAccount) {
-        this._partnerAccount = partnerAccount;
+        _partnerAccount = partnerAccount;
     }
 
     public boolean isOutstandingCooperationRequest() {
@@ -291,7 +294,93 @@ public class EditCooperation extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="tab Messages">
     @Inject PortalMessageFacade _messageFacade;
+    @Inject private Mailer _mailer;
     List<PortalMessage> _messages;
+
+    private String _message = "";
+
+    public String getMessage() {
+        return _message;
+    }
+
+    public void setMessage(String message) {
+        _message = message;
+    }
+
+    private String _subject = "";
+
+    public String getSubject() {
+        return _subject;
+    }
+
+    public void setSubject(String subject) {
+        _subject = subject;
+    }
+
+    private boolean _createMessage = false;
+    public boolean isCreateMessage() {
+        return _createMessage;
+    }
+
+    public void setCreateMessage(boolean createMessage) {
+        _createMessage = createMessage;
+    }
+
+    public void newMessage(ActionEvent e) {
+        _createMessage = true;
+    }
+
+    public void cancelMessage(ActionEvent e) {
+        _createMessage = false;
+    }
+
+    public void sendMessage(ActionEvent e) {
+        if (_subject.isEmpty()) {
+            String msg = MessageFormat.format(Utils.getMessage("txtNotAllowedEmpty"), Utils.getMessage("lblMailSubject"));
+            Utils.showMessageInBrowser(msg);
+            return;
+        }
+        if (_message.isEmpty()) {
+            String msg = MessageFormat.format(Utils.getMessage("txtNotAllowedEmpty"), Utils.getMessage("lblMessage"));
+            Utils.showMessageInBrowser(msg);
+            return;
+        }
+        Account sender = _sessionController.getAccount();
+        Account receiver = getPartnerAccount();
+        createPortalMessage(sender, receiver, _subject, _message);
+        if (receiver.isMessageCopy()) {
+            sendEmailCopy(sender, receiver, _subject, _message);
+        }
+        _createMessage = false;
+        _subject = "";
+        _message = "";
+        _messages = null;  // will force a reload
+    }
+
+    private void sendEmailCopy(Account sender, Account receiver, String subject, String message) {
+        String extMessage = "Ihr Kooperationspartner, " + sender.getDisplayName() + ", sendet Ihnen die folgende Nachricht:"
+                + "\r\n\r\n"
+                + "-----"
+                + "\r\n\r\n"
+                + message
+                + "\r\n\r\n"
+                + "-----"
+                + "\r\n\r\n"
+                + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
+        _mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, extMessage);
+    }
+
+    private void createPortalMessage(Account sender, Account receiver, String subject, String message) {
+        PortalMessage portalMessage = new PortalMessage();
+        portalMessage.setFromAccountId(sender.getId());
+        portalMessage.setToAccountId(receiver.getId());
+        portalMessage.setFeature(Feature.COOPERATION);
+        portalMessage.setKeyId(0);
+        portalMessage.setSubject(subject);
+        portalMessage.setMessage(message);
+        _messageFacade.persist(portalMessage);
+    }
+
     public List<PortalMessage> getMessages() {
         if (_messages == null) {
             _messages = _messageFacade.getMessagesByParticipants(_sessionController.getAccountId(), getPartnerAccount().getId());

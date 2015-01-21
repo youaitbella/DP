@@ -314,16 +314,16 @@ public class Account implements Serializable, Person {
         return _nubConfirmation;
     }
 
-    public void setNubConfirmation(boolean _nubConfirmation) {
-        this._nubConfirmation = _nubConfirmation;
+    public void setNubConfirmation(boolean nubConfirmation) {
+        _nubConfirmation = nubConfirmation;
     }
 
     public boolean isMessageCopy() {
         return _messageCopy;
     }
 
-    public void setMessageCopy(boolean _messageCopy) {
-        this._messageCopy = _messageCopy;
+    public void setMessageCopy(boolean messageCopy) {
+        _messageCopy = messageCopy;
     }
 
     public void setFeatures(List<AccountFeature> features) {

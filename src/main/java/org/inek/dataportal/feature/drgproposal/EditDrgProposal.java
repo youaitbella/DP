@@ -584,12 +584,15 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="CheckElements">
+    // <editor-fold defaultstate="collapsed" desc="Request correction">
     @Inject private Mailer _mailer;
     @Inject AccountFacade _accountFacade;
     @Inject PortalMessageFacade _messageFacade;
 
     public String requestCorrection() {
+        if (!isReadOnly()) {
+            _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
+        }
         return Pages.DrgProposalRequestCorrection.URL();
     }
 
@@ -604,7 +607,7 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String sendMessage() {
-        String subject = "Korrektur DRG-Vorschlag " + _drgProposal.getName() + " erforderlich";
+        String subject = "Korrektur DRG-Vorschlag \"" + _drgProposal.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_drgProposal.getAccountId());
         createPortalMessage(sender, receiver, subject);

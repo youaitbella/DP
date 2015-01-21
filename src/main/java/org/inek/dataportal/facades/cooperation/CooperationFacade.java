@@ -8,8 +8,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.cooperation.Cooperation;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.cooperation.Cooperation;
 import org.inek.dataportal.facades.AbstractFacade;
 
 /**
@@ -31,22 +31,17 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
      */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Account> getCooperationPartners(int accountId) {
-        String query = "SELECT acId, acLastModified, acIsDeactivated, "
-                + "acUser, acMail, acGender, acTitle, acFirstName, "
-                + "acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, "
-                + "acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax "
+        String query = "SELECT dbo.account.* "
                 + "from dbo.account "
                 + "join usr.Cooperation on acId = coAccountId1 "
                 + "where coAccountId2 = ?1 "
                 + "union "
-                + "SELECT acId, acLastModified, acIsDeactivated, "
-                + "acUser, acMail, acGender, acTitle, acFirstName, "
-                + "acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, "
-                + "acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax "
+                + "SELECT dbo.account.* "
                 + "from dbo.account "
                 + "join usr.Cooperation on acId = coAccountId2 "
                 + "where coAccountId1 = ?1";
-        return getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
+        List<Account> accounts = getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
+        return accounts;
     }
 
     public void createCooperation(int partner1Id, int partner2Id) {
