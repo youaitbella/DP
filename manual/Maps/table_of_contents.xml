@@ -103,6 +103,9 @@
       <topicref type="topic" id="419696257222123" build="ALL" modified="2014-11-26T12:12:18.787Z" icon="0" href="DrgDokumente">
         <caption translate="true">Dokumente</caption>
       </topicref>
+      <topicref type="topic" id="420259053600888" build="ALL" modified="2015-01-21T17:33:14.980Z" icon="0" href="DrgCooperation">
+        <caption translate="true">Kooperation</caption>
+      </topicref>
     </topicref>
     <topicref type="topic" id="415143917613503" build="ALL" modified="2013-08-28T11:50:56.430Z" icon="0" href="NUB">
       <caption translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB)</caption>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Kooperation</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei der Erstellung von Vorschlägen zur Weiterentwicklung des DRG-Systems, können Sie koperativ mit anderen Personen zusammenarbeiten und die Vorschläge gemeinsam bearbeiten und / oder zentral an das InEK übermitteln.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um mit anderen Personen zusammenarbeiten zu können, müssen Sie und die beteiligten Partner in den Stammdaten die Funktion &quot;Kooperation&quot; gewählt, den Kooperationswunsch gegenseitig akzeptiert udn passende Berechtigungen vergeben haben. Informationen hierzu finden Sie im Abschnitt </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
