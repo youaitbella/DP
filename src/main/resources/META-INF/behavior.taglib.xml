@@ -27,6 +27,13 @@
     </tag>
 
     <tag>
+        <tag-name>confirmTake</tag-name>
+        <behavior>
+            <behavior-id>confirmTake</behavior-id>
+        </behavior>
+    </tag>
+
+    <tag>
         <tag-name>confirmSeal</tag-name>
         <behavior>
             <behavior-id>confirmSeal</behavior-id>
@@ -37,6 +44,13 @@
         <tag-name>confirmRequestApproval</tag-name>
         <behavior>
             <behavior-id>confirmRequestApproval</behavior-id>
+        </behavior>
+    </tag>
+
+    <tag>
+        <tag-name>confirmReloadMaster</tag-name>
+        <behavior>
+            <behavior-id>confirmReloadMaster</behavior-id>
         </behavior>
     </tag>
 

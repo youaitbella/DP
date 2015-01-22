@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title translate="true">Kooperation konfigurieren</title>
+  <title translate="true">Kooperation NUB konfigurieren</title>
   <body>
     <header>
-      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation konfigurieren</text></para>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation NUB konfigurieren</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie eine Kooperation bestätigt, so sind die Berechtigungen des Partners zu konfigurieren. Die Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> stehen jedem offen. Entsprechend gibt es keine hierarchische Benutzerverwaltung &quot;von oben&quot;. Vielmehr legen Sie selber fest, welcher Anwender mit Ihnen zusammenarbeiten und welche Daten dieser sehen oder ändern darf. Dies können Sie für jeden Kooperationspartner, Funktionsbereich und IK individuell festlegen.</text></para>
     <para styleclass="Normal"></para>

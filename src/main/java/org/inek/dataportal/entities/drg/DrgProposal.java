@@ -21,8 +21,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
@@ -56,38 +54,38 @@ public class DrgProposal implements Serializable {
 
     @Column(name = "prStatus")
     private int _status;
-    
+
     @Documentation(key = "lblAppellation")
     @Column(name = "prName")
     private String _name = "";
-    
+
     @Documentation(key = "lblCategory")
     @Column(name = "prCategory")
     @Enumerated(EnumType.STRING)
     private DrgProposalCategory _category = DrgProposalCategory.UNKNOWN;
-    
+
     @Documentation(name = "Aktion Diagnose")
     @Column(name = "prChangeMethodDiag")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodDiag = DrgProposalChangeMethod.UNKNOWN;
-    
+
     @Documentation(name = "Aktion Procedure")
     @Column(name = "prChangeMethodProc")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodProc = DrgProposalChangeMethod.UNKNOWN;
-    
+
     @Column(name = "prCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _creationDate = null;
-    
+    private Date _creationDate = Calendar.getInstance().getTime();
+
     @Column(name = "prDateSealed")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _dateSealed = null;
-    
+
     @Column(name = "prLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
-    
+
     @Column(name = "prCreatedBy")
     private int _createdBy;
 
@@ -96,86 +94,86 @@ public class DrgProposal implements Serializable {
 
     @Column(name = "prSealedBy")
     private int _sealedBy;
-    
+
     @Documentation(key = "lblProposalRequestor")
     @Column(name = "prInstitute")
     private String _institute = "";
-    
+
     @Column(name = "prGender")
     private int _gender;
-    
+
     @Documentation(key = "lblTitle")
     @Column(name = "prTitle")
     private String _title = "";
-    
+
     @Documentation(key = "lblFirstName")
     @Column(name = "prFirstName")
     private String _firstName = "";
-    
+
     @Documentation(key = "lblLastName")
     @Column(name = "prLastName")
     private String _lastName = "";
-    
+
     @Documentation(key = "lblDivision")
     @Column(name = "prDivision")
     private String _division = "";
-    
+
     @Documentation(key = "lblContactRole")
     @Column(name = "prRoleId")
     private Integer _roleId = -1;
-    
+
     @Documentation(key = "lblStreet")
     @Column(name = "prStreet")
     private String _street = "";
-    
+
     @Documentation(key = "lblPostalCode")
     @Column(name = "prPostalCode")
     private String _postalCode = "";
-    
+
     @Documentation(key = "lblTown")
     @Column(name = "prTown")
     private String _town = "";
-    
+
     @Documentation(key = "lblPhone")
     @Column(name = "prPhone")
     private String _phone = "";
-    
+
     @Documentation(key = "lblFax")
     @Column(name = "prFax")
     private String _fax = "";
-    
+
     @Documentation(key = "lblEMail")
     @Column(name = "prEmail")
     private String _email = "";
-    
+
     @Documentation(key = "lblProblem")
     @Column(name = "prProblem")
     private String _problem = "";
-    
+
     @Documentation(key = "lblSolution")
     @Column(name = "prSolution")
     private String _solution = "";
-    
+
     @Documentation(name = "DRG")
     @Column(name = "prDrg")
     private String _drg = "";
-    
+
     @Documentation(name = "Diagnos(en), Text")
     @Column(name = "prDiags")
     private String _diags = "";
-    
+
     @Documentation(name = "Diagnos(en), Kode(s)")
     @Column(name = "prDiagCodes")
     private String _diagCodes = "";
-    
+
 //    @Documentation(name = "OPS Beschreibung")
 //    @Column(name = "prOpsText")
 //    private String _opsText = "";
-//    
+//
     @Documentation(name = "Prozeduren")
     @Column(name = "prProcs")
     private String _procs = "";
-    
+
     @Documentation(name = "Prozeduren Beschreibung")
     @Column(name = "prProcsText")
     private String _procsText = "";
@@ -186,19 +184,17 @@ public class DrgProposal implements Serializable {
 //            joinColumns = @JoinColumn(name = "pppPeppProposalId"),
 //            inverseJoinColumns = @JoinColumn(name = "pppOpsId"))
 //    private List<ProcedureInfo> _procedures = new ArrayList<>();
-
-    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "drgdDrgProposalId", referencedColumnName = "prId")
     private List<DrgProposalDocument> _documents = new ArrayList<>();
-    
+
     @Documentation(name = "Dokumente, Post")
     @Column(name = "prDocumentationOffline")
     private String _documentsOffline = "";
-    
+
     @Column(name = "prAnonymousData")
     private Boolean _anonymousData = false;
-    
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "drgcDrgProposalId", referencedColumnName = "prId")
     private List<DrgProposalComment> _comments = new ArrayList<>();
@@ -248,11 +244,11 @@ public class DrgProposal implements Serializable {
     public DrgProposalCategory getCategory() {
         return _category;
     }
-    
+
     public DrgProposalChangeMethod getChangeMethodDiag() {
         return _changeMethodDiag;
     }
-    
+
     public DrgProposalChangeMethod getChangeMethodProc() {
         return _changeMethodProc;
     }
@@ -260,15 +256,14 @@ public class DrgProposal implements Serializable {
     public void setCategory(DrgProposalCategory category) {
         _category = category;
     }
-    
+
     public void setChangeMethodDiag(DrgProposalChangeMethod changeMethodDiag) {
         _changeMethodDiag = changeMethodDiag;
     }
-    
+
     public void setChangeMethodProc(DrgProposalChangeMethod changeMethodProc) {
         _changeMethodProc = changeMethodProc;
     }
-    
 
     public Boolean isAnonymousData() {
         return _anonymousData;
@@ -277,7 +272,7 @@ public class DrgProposal implements Serializable {
     public void setAnonymousData(Boolean anonymousData) {
         _anonymousData = anonymousData;
     }
-    
+
     @Documentation(name = "Bearbeitungsstatus", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_status);
@@ -418,7 +413,7 @@ public class DrgProposal implements Serializable {
     public void setDrg(String drg) {
         _drg = drg;
     }
-    
+
     public String getDiags() {
         return _diags.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
     }
@@ -426,7 +421,7 @@ public class DrgProposal implements Serializable {
     public void setDiags(String diags) {
         _diags = diags;
     }
-    
+
     public String getDiagCodes() {
         return _diagCodes;
     }
@@ -434,7 +429,7 @@ public class DrgProposal implements Serializable {
     public void setDiagCodes(String diagCodes) {
         _diagCodes = diagCodes;
     }
-    
+
 //    public String getOpsText() {
 //        return _opsText;
 //    }
@@ -442,7 +437,6 @@ public class DrgProposal implements Serializable {
 //    public void setOpsText(String opsText) {
 //        _opsText = opsText;
 //    }
-
     public String getProcs() {
         return _procs.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
     }
@@ -459,7 +453,6 @@ public class DrgProposal implements Serializable {
         _procsText = procsText;
     }
 
-
     public List<DrgProposalDocument> getDocuments() {
         return _documents;
     }
@@ -475,8 +468,6 @@ public class DrgProposal implements Serializable {
     public void setDocumentsOffline(String documentsOffline) {
         _documentsOffline = documentsOffline;
     }
-
-    
 
     public List<DrgProposalComment> getComments() {
         return _comments;
@@ -506,6 +497,10 @@ public class DrgProposal implements Serializable {
         return _lastModified;
     }
 
+    public void setLastModified(Date lastModified) {
+        _lastModified = lastModified;
+    }
+
     public int getCreatedBy() {
         return _createdBy;
     }
@@ -530,7 +525,6 @@ public class DrgProposal implements Serializable {
         _sealedBy = sealedBy;
     }
 
-    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -559,18 +553,4 @@ public class DrgProposal implements Serializable {
     }
 
     // </editor-fold>
-    @PrePersist
-    private void prepareCreate() {
-        _creationDate = Calendar.getInstance().getTime();
-        prepareUpdate();
-    }
-
-    @PreUpdate
-    private void prepareUpdate() {
-        _lastModified = Calendar.getInstance().getTime();
-        if (getDateSealed() == null && getStatus() == WorkflowStatus.Provided) {
-            _dateSealed = Calendar.getInstance().getTime();
-        }
-    }
-
 }

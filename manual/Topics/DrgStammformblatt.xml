@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="schwarzst" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Stammformblatt</title>
   <body>
     <header>
@@ -31,14 +31,10 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die übrigen Felder des Stammformblatts entsprechen denen der Stammdaten. Sie werden initial anhand der Stammdaten befüllt, können jedoch an dieser Stelle abgeändert werden. Dies ist dann angebracht, wenn der Übermittler des Vorschlags von der vorschlagenden Organisation bzw. Person abweichend ist.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> dient der Speicherung der Daten im aktuellen Erfassungszustand. Daten dürfen zum Speicherzeitpunkt unvollständig sein. Eine Fortsetzung der Erfassung kann unmittelbar oder aber erst zu einem späteren Zeitpunkt erfolgen.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Durch den Wechsel auf eine andere Internetseite verlassen Sie das Datenportal, ohne dass Ihre Daten gespeichert werden. Auch der Wechsel innerhalb des InEK-Datenportals zu einer anderen Funktion entspricht technisch solch einem Seitenwechsel. Insofern denken Sie bitte daran, vor jedem Wechsel Ihre Daten zu speichern. Beim Wechsel der Registerkarten innerhalb des Vorschlagsverfahrens verbleiben Ihre Daten jedoch in der Applikation, so dass Sie hier problemlos hin und her wechseln können. Im Hinblick auf mögliche Verbindungsabbrüche, automatische Abmeldung nach 30 Minuten ohne Benutzeraktivität etc. wird empfohlen, die Eingabedaten hier und da zwischen zu speichern. </text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> prüft die Daten auf Vollständigkeit. Sofern sie formal richtig sind, werden sie mit dem Status &quot;für InEK bereitgestellt&quot; versehen und gespeichert. Danach ist eine Änderung nicht mehr möglich. Sind die Daten noch unvollständig oder formal fehlerhaft, erfolgt eine entsprechende Meldung. Sie können dann die Daten vervollständigen bzw. korrigieren. Ein Vorschlag, den Sie erfolgreich für das InEK bereitgestellt haben, erhält eine Verfahrensnummer. Diese zeigt Ihnen das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in der Liste der bereitgestellten Vorschläge an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ Reinitialisieren ]</text><text styleclass="Normal" translate="true"> können Sie jederzeit - nach separater Bestätigung - die Daten aus dem Stammformblatt mit denen aus Ihren Stammdaten überschreiben. Dies ist insbesondere im Rahmen einer Kooperation interessant. So können beispielsweise Daten dezentral erfasst und zwentral die Stammdaten aktualisiert werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hinweis: In diesem Stammformblatt ist die Telefonnummer eine Pflichtangabe. Da die Telefonnummer innerhalb des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> nicht in allen Funktionen benötigt wird, ist sie in den Anwender-Stammdaten nicht als Pflichtfeld definiert. Um sie nicht jedes mal erfassen zu müssen, wird empfohlen, diese in den Anwender-Stammdaten zu hinterlegen.</text></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">In diesem Stammformblatt ist die Telefonnummer eine Pflichtangabe. Da die Telefonnummer innerhalb des </text><var styleclass="Hinweis">&lt;%TITLE%&gt;s</var><text styleclass="Hinweis" translate="true"> nicht in allen Funktionen benötigt wird, ist sie in den Anwender-Stammdaten nicht als Pflichtfeld definiert. Um sie nicht jedes mal erfassen zu müssen, wird empfohlen, diese in den Anwender-Stammdaten zu hinterlegen.</text></para>
     <para styleclass="Normal"></para>
   </body>
 </topic>

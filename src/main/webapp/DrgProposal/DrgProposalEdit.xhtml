@@ -37,38 +37,44 @@
                 <!--<ui:include src="# {editDrgProposal.part}"/>-->
                 <ui:insert name="editContent">Content</ui:insert>
                 <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="button" 
-                                   action="#{editDrgProposal.save}" 
-                                   value="#{msg.btnSave}" 
+                    <h:commandLink styleClass="button"
+                                   action="#{editDrgProposal.save}"
+                                   value="#{msg.btnSave}"
                                    immediate="true"
                                    rendered="#{!editDrgProposal.readOnly}">
                     </h:commandLink>
-                    <h:commandLink styleClass="sendButton" 
-                                   action="#{editDrgProposal.requestApprovalDrgProposal}" 
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editDrgProposal.requestApprovalDrgProposal}"
                                    value="#{msg.btnRequestApproval}"
-                                   disabled="#{sessionTools.drgProposalDisabled}" 
-                                   rendered="#{editDrgProposal.approvalRequestEnabled}" 
+                                   disabled="#{sessionTools.drgProposalDisabled}"
+                                   rendered="#{editDrgProposal.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
-                    <h:commandLink styleClass="sendButton" 
-                                   action="#{editDrgProposal.sealDrgProposal}" 
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editDrgProposal.sealDrgProposal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.drgProposalDisabled}" 
-                                   rendered="#{editDrgProposal.sealEnabled}" 
+                                   disabled="#{sessionTools.drgProposalDisabled}"
+                                   rendered="#{editDrgProposal.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
-                    <h:commandLink styleClass="button" 
-                                   action="#{editDrgProposal.requestCorrection}" 
-                                   value="#{msg.btnRequestCorrection}" 
+                    <h:commandLink styleClass="button"
+                                   action="#{editDrgProposal.requestCorrection}"
+                                   value="#{msg.btnRequestCorrection}"
                                    immediate="true"
                                    rendered="#{editDrgProposal.requestCorrectionEnabled}">
+                    </h:commandLink>
+                    <h:commandLink styleClass="button"
+                                   action="#{editDrgProposal.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editDrgProposal.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                 </div>
             </div>
         </h:form>
-
     </ui:define>
 
 </ui:composition>

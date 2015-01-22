@@ -496,6 +496,14 @@ public class SessionController implements Serializable {
         return SessionCounter.getCount();
     }
 
+    public String getConfirmMessage(String key) {
+        String message = Utils.getMessageOrEmpty(key);
+        if (message.isEmpty()) {
+            message = key;
+        }
+        return "return confirm ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+    }
+
     public boolean isInternalClient() {
         return Utils.getClientIP().equals("127.0.0.1")
                 || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
@@ -550,7 +558,7 @@ public class SessionController implements Serializable {
     public boolean isEnabled(ConfigKey key) {
         return isEnabled(key.name());
     }
-    
+
     public boolean isEnabled(String key) {
         if (!isValidKey(key)) {
             return false;

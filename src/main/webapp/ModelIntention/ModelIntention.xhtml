@@ -20,11 +20,9 @@
 
     <ui:define name="content">
         <h:form id="tabs">
-            <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
-            <!--onkeyup="jsf.ajax.request(this, event, {render:'@form'}; return false"/-->
             <h1>
                 <h:commandLink value="#{msg.nameMODEL_INTENTION}" action="#{sessionController.navigate(sessionTools.pages.ModelIntentionSummary)}" immediate="true"/>
-            </h1>        
+            </h1>
             <div class="tab">
                 <ul class="tab">
                     <c:forEach items="#{editModelIntention.visibleTopics}" var="topic">

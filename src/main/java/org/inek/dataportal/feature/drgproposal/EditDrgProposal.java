@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.drgproposal;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -138,6 +139,12 @@ public class EditDrgProposal extends AbstractEditController {
         Account account = _sessionController.getAccount();
         DrgProposal proposal = new DrgProposal();
         proposal.setAccountId(account.getId());
+        proposal.setCreatedBy(account.getId());
+        populateMasterData(proposal, account);
+        return proposal;
+    }
+
+    private void populateMasterData(DrgProposal proposal, Account account) {
         proposal.setInstitute(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());
@@ -154,7 +161,6 @@ public class EditDrgProposal extends AbstractEditController {
         proposal.setPhone(phone);
         proposal.setFax(account.getCustomerFax());
         proposal.setEmail(account.getEmail());
-        return proposal;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -393,6 +399,7 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String save() {
+        setModifiedInfo();
         _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
 
         if (isValidId(getDrgProposal().getId())) {
@@ -402,6 +409,11 @@ public class EditDrgProposal extends AbstractEditController {
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    private void setModifiedInfo() {
+        _drgProposal.setLastChangedBy(_sessionController.getAccountId());
+        _drgProposal.setLastModified(Calendar.getInstance().getTime());
     }
 
     private boolean isValidId(Integer id) {
@@ -429,6 +441,10 @@ public class EditDrgProposal extends AbstractEditController {
         return _cooperationTools.isRequestCorrectionEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
+    public boolean isTakeEnabled() {
+        return _cooperationTools.isTakeEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
+    }
+
     /**
      * This function seals a drgProposal if possible. Sealing is possible, if
      * all mandatory fields are fulfilled. After sealing, the proposal can not
@@ -442,6 +458,9 @@ public class EditDrgProposal extends AbstractEditController {
         }
 
         _drgProposal.setStatus(WorkflowStatus.Provided.getValue());
+        _drgProposal.setDateSealed(Calendar.getInstance().getTime());
+        _drgProposal.setSealedBy(_sessionController.getAccountId());
+
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
 
         if (isValidId(_drgProposal.getId())) {
@@ -462,6 +481,7 @@ public class EditDrgProposal extends AbstractEditController {
             return null;
         }
         _drgProposal.setStatus(WorkflowStatus.ApprovalRequested.getValue());
+        setModifiedInfo();
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
         return null;
     }
@@ -591,9 +611,20 @@ public class EditDrgProposal extends AbstractEditController {
 
     public String requestCorrection() {
         if (!isReadOnly()) {
+            setModifiedInfo();
             _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
         }
         return Pages.DrgProposalRequestCorrection.URL();
+    }
+
+    public String take() {
+        _drgProposal.setAccountId(_sessionController.getAccountId());
+        return "";
+    }
+
+    public String reloadMaster() {
+        populateMasterData(_drgProposal, _sessionController.getAccount());
+        return "";
     }
 
     private String _message = "";
@@ -612,6 +643,10 @@ public class EditDrgProposal extends AbstractEditController {
         Account receiver = _accountFacade.find(_drgProposal.getAccountId());
         createPortalMessage(sender, receiver, subject);
         _drgProposal.setStatus(WorkflowStatus.New.getValue());
+        if (!isReadOnly()) {
+            // their might have been changes by that user
+            setModifiedInfo();
+        }
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
         if (receiver.isMessageCopy()) {
             sendEmailCopy(sender, receiver, subject);
@@ -620,6 +655,7 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     private void sendEmailCopy(Account sender, Account receiver, String subject) {
+        // todo: factor out
         String message = "Ihr Kooperationspartner, " + sender.getDisplayName() + ", sendet Ihnen die folgende Nachricht:"
                 + "\r\n\r\n"
                 + "-----"

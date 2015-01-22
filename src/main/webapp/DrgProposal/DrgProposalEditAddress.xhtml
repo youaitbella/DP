@@ -5,7 +5,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="DrgProposalEdit.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
     <ui:define name="editContent">
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="name" value="#{msg.lblAppellation}:"/>
@@ -178,5 +180,18 @@
                 <f:validator validatorId="EmailValidator"/>
             </h:inputText>
         </div>
+
+        <div class="marginTop">
+            <h:commandLink id="btnReloadMaster"
+                           styleClass="button"
+                           value="#{msg.btnReloadMaster}"
+                           rendered="#{!editDrgProposal.readOnly}"
+                           immediate="true"
+                           action="#{editDrgProposal.reloadMaster}"
+                           onclick="#{sessionController.getConfirmMessage('msgConfirmReloadMaster')};">
+                <f:ajax render="@form"/>
+            </h:commandLink>
+        </div>
+
     </ui:define>
 </ui:composition>

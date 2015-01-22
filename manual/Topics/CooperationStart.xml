@@ -24,10 +24,14 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Kooperation ablehnen ]</text><text styleclass="Normal" translate="true"> lehnt die Kooperationsanfrage ab.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei einer bestätigten Kooperation, blendet das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> weitere Karteireiter ein. Um welche es sich dabei handelt, hängt von dem von Ihnen genutzten Funktionsumfang ab.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">So erscheint beispielsweise &quot;NUB&quot; nur, wenn Sie das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> auch zum Einreichen von NUB-Anfragen nutzen.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="CooperationAccepted.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bestätigte Kooperation</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Kooperation beenden ]</text><text styleclass="Normal" translate="true"> erlaubt Ihnen, eine bestehende Kooperation wieder zu beenden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
