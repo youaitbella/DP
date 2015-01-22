@@ -91,6 +91,12 @@
     </topicref>
     <topicref type="topic" id="419696487274202" build="ALL" modified="2014-11-26T12:09:06.678Z" icon="0" href="DRG-Vorschlagsverfahren">
       <caption translate="true">DRG-Vorschlagsverfahren</caption>
+      <topicref type="topic" id="420266617196933" build="ALL" modified="2015-01-22T15:09:43.924Z" icon="0" href="ListDrgProposals">
+        <caption translate="true">Auflistung von Vorschlägen</caption>
+      </topicref>
+      <topicref type="topic" id="420267077380273" build="ALL" modified="2015-01-22T15:08:02.679Z" icon="0" href="DRG-Vorschlagsverfahren_2">
+        <caption translate="true">Allgemeine Bedienung</caption>
+      </topicref>
       <topicref type="topic" id="419693790267811" build="ALL" modified="2014-11-26T12:10:43.707Z" icon="0" href="DrgStammformblatt">
         <caption translate="true">Stammformblatt</caption>
       </topicref>
@@ -102,9 +108,6 @@
       </topicref>
       <topicref type="topic" id="419696257222123" build="ALL" modified="2014-11-26T12:12:18.787Z" icon="0" href="DrgDokumente">
         <caption translate="true">Dokumente</caption>
-      </topicref>
-      <topicref type="topic" id="420259053600888" build="ALL" modified="2015-01-21T17:33:14.980Z" icon="0" href="DrgCooperation">
-        <caption translate="true">Kooperation</caption>
       </topicref>
     </topicref>
     <topicref type="topic" id="415143917613503" build="ALL" modified="2013-08-28T11:50:56.430Z" icon="0" href="NUB">

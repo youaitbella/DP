@@ -8,6 +8,9 @@
 
     <ui:define name="editContent">
 
+        #{msg.Kooperationspartner}: #{editCooperation.partnerAccount.firstName} #{editCooperation.partnerAccount.lastName}
+        <hr class="simpleLine"/>
+
         <h:panelGrid id="sendArea" width="100%">
             <div class="marginTop">
                 <h:commandLink styleClass="button" actionListener="#{editCooperation.newMessage}" value="#{msg.btnNewMessage}" rendered="#{!editCooperation.createMessage}">
@@ -63,7 +66,7 @@
             </h:column>
             <h:column >
                 <h:outputText value="#{message.created}">
-                    <f:convertDateTime pattern="dd.MM.yy - HH:mm"/>
+                    <f:convertDateTime pattern="dd.MM.yy - HH:mm" locale="DE"/>
                 </h:outputText>
             </h:column>
             <h:column >
@@ -78,7 +81,6 @@
                     <h:commandLink value="#{message.subject}">
                         <f:ajax render="form:tblMessages" listener="#{editCooperation.collapse(message.id)}"/>
                     </h:commandLink>
-                    <hr class="simpleLine"/>
                     <h:inputTextarea value="#{message.message}" readonly="true"
                                      style="width: 100%;" onfocus="autoGrow(this)"/>
                 </h:panelGroup>
