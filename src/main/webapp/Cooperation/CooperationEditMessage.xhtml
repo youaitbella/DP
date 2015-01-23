@@ -8,7 +8,7 @@
 
     <ui:define name="editContent">
 
-        #{msg.Kooperationspartner}: #{editCooperation.partnerAccount.firstName} #{editCooperation.partnerAccount.lastName}
+        #{msg.lblCooperationPartner}: #{editCooperation.partnerAccount.firstName} #{editCooperation.partnerAccount.lastName}, #{editCooperation.partnerAccount.company}
         <hr class="simpleLine"/>
 
         <h:panelGrid id="sendArea" width="100%">
@@ -46,7 +46,7 @@
                 </div>
             </h:panelGroup>
         </h:panelGrid>
-        <hr/>
+        <hr class="simpleLine"/>
 
         <h:dataTable id="tblMessages"  headerClass="list-header" value="#{editCooperation.messages}"
                      var="message" width="100%" rowClasses="row2, row1" columnClasses="colIcon, colIcon, col14, colIcon, colValue">
@@ -66,7 +66,7 @@
             </h:column>
             <h:column >
                 <h:outputText value="#{message.created}">
-                    <f:convertDateTime pattern="dd.MM.yy - HH:mm" locale="DE"/>
+                    <f:convertDateTime pattern="dd.MM.yy - HH:mm" timeZone="CET"/>
                 </h:outputText>
             </h:column>
             <h:column >

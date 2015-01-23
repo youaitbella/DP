@@ -13,7 +13,7 @@
             <h:outputLabel styleClass="label" for="name" value="#{msg.lblAppellation}:"/>
             <h:message for="name" id="msgName" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="name" value="#{editDrgProposal.drgProposal.name}"
+            <h:inputText styleClass="inputlong" id="name" value="#{editDrgProposal.drgProposal.name}"
                          title="#{msg.titleAppellation}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}"
@@ -26,7 +26,7 @@
             <h:outputLabel styleClass="label" for="category" value="#{msg.lblCategory}:"/>
             <h:message for="category" id="msgCategory" styleClass="errorMessage"/>
             <br/>
-            <h:selectOneMenu styleClass="input" id="category" value="#{editDrgProposal.drgProposal.category}"
+            <h:selectOneMenu styleClass="inputlong" id="category" value="#{editDrgProposal.drgProposal.category}"
                              required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.lblChooseEntry}"
                              immediate="true"
                              title="#{msg.titleCategoryDrg}"
@@ -39,22 +39,46 @@
         </div>
 
         <div class="inputPart">
+            <h:outputLabel styleClass="label" for="note" value="#{msg.lblComment}"/>
+            <h:message for="note" id="msgNote" styleClass="errorMessage"/>
+            <br/>
+            <h:inputTextarea  styleClass="areaWideLow" id="note"
+                              readonly="#{editDrgProposal.readOnly}"
+                              value="#{editDrgProposal.drgProposal.note}">
+                <f:validateLength maximum="500"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNote"/>
+            </h:inputTextarea>
+        </div>
+
+        <hr class="simpleLine"/>
+
+        <div class="inputPart">
             <h:outputLabel styleClass="label" for="institute" value="#{msg.lblProposalInstitute}:"/>
             <h:message for="institute" id="msgInstitute" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="institute" value="#{editDrgProposal.drgProposal.institute}"
+            <h:inputText styleClass="inputlong" id="institute" value="#{editDrgProposal.drgProposal.institute}"
                          title="#{msg.titleProposalInstitute}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="200">
                 <f:ajax event="blur" render="@this :logout:remaining msgInstitute"/>
             </h:inputText>
+            <h:commandLink id="btnReloadMaster"
+                           styleClass="button rightAllign"
+                           value="#{msg.btnReloadMaster}"
+                           rendered="#{!editDrgProposal.readOnly}"
+                           immediate="true"
+                           action="#{editDrgProposal.reloadMaster}"
+                           onclick="#{sessionController.getConfirmMessage('msgConfirmReloadMaster')};">
+                <f:ajax render="@form"/>
+            </h:commandLink>
         </div>
+
 
         <div class="inputPart">
             <h:outputLabel styleClass="label" value="#{msg.lblContact}"/>
             <br/>
-            <h:panelGrid columns="2" width="90%">
-                <h:panelGroup styleClass="inputmedium">
+            <h:panelGrid columns="2" styleClass="inputlong">
+                <h:panelGroup style="width: 50%;">
                     <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
                     <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                     <br/>
@@ -65,10 +89,10 @@
                         <f:ajax event="blur" render="@this :logout:remaining msgGender"/>
                     </h:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup>
+                <h:panelGroup style="width: 50%;">
                     <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
                     <br/>
-                    <h:inputText styleClass="inputmedium" id="title" value="#{editDrgProposal.drgProposal.title}"
+                    <h:inputText styleClass="inputwide" id="title" value="#{editDrgProposal.drgProposal.title}"
                                  readonly="#{editDrgProposal.readOnly}"
                                  required="false" maxlength="50">
                         <f:ajax event="blur" render="@this :logout:remaining"/>
@@ -80,7 +104,7 @@
             <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
             <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="firstname" value="#{editDrgProposal.drgProposal.firstName}"
+            <h:inputText styleClass="inputlong" id="firstname" value="#{editDrgProposal.drgProposal.firstName}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgFirstname"/>
@@ -90,7 +114,7 @@
             <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
             <h:message id="msgLastname" for="lastname" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="lastname" value="#{editDrgProposal.drgProposal.lastName}"
+            <h:inputText styleClass="inputlong" id="lastname" value="#{editDrgProposal.drgProposal.lastName}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgLastname"/>
@@ -101,7 +125,7 @@
             <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:"/>
             <h:message id="msgDivision" for="division" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="division" value="#{editDrgProposal.drgProposal.division}"
+            <h:inputText styleClass="inputlong" id="division" value="#{editDrgProposal.drgProposal.division}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="false" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgDivision"/>
@@ -112,7 +136,7 @@
             <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:"/>
             <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage"/>
             <br/>
-            <h:selectOneMenu styleClass="input" id="contactRole" value="#{editDrgProposal.drgProposal.roleId}" required="false" requiredMessage="#{msg.lblChooseEntry}">
+            <h:selectOneMenu styleClass="inputlong" id="contactRole" value="#{editDrgProposal.drgProposal.roleId}" required="false" requiredMessage="#{msg.lblChooseEntry}">
                 <f:selectItems value="#{sessionTools.contactRoleItems}"/>
                 <f:ajax event="change" render="@this :logout:remaining msgContactRole"/>
             </h:selectOneMenu>
@@ -122,7 +146,7 @@
             <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
             <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="street" value="#{editDrgProposal.drgProposal.street}"
+            <h:inputText styleClass="inputlong" id="street" value="#{editDrgProposal.drgProposal.street}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgStreet"/>
@@ -132,7 +156,7 @@
             <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
             <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="zip" value="#{editDrgProposal.drgProposal.postalCode}"
+            <h:inputText styleClass="inputlong" id="zip" value="#{editDrgProposal.drgProposal.postalCode}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="10">
                 <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
@@ -142,7 +166,7 @@
             <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
             <h:message id="msgTown" for="town" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="town" value="#{editDrgProposal.drgProposal.town}"
+            <h:inputText styleClass="inputlong" id="town" value="#{editDrgProposal.drgProposal.town}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
@@ -152,7 +176,7 @@
             <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
             <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="phone" value="#{editDrgProposal.drgProposal.phone}"
+            <h:inputText styleClass="inputlong" id="phone" value="#{editDrgProposal.drgProposal.phone}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgPhone"/>
@@ -162,7 +186,7 @@
             <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
             <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="fax" value="#{editDrgProposal.drgProposal.fax}"
+            <h:inputText styleClass="inputlong" id="fax" value="#{editDrgProposal.drgProposal.fax}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="false" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgFax"/>
@@ -173,24 +197,12 @@
             <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
             <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="input" id="email" value="#{editDrgProposal.drgProposal.email}"
+            <h:inputText styleClass="inputlong" id="email" value="#{editDrgProposal.drgProposal.email}"
                          readonly="#{editDrgProposal.readOnly}"
                          required="#{!editDrgProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
                 <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
                 <f:validator validatorId="EmailValidator"/>
             </h:inputText>
-        </div>
-
-        <div class="marginTop">
-            <h:commandLink id="btnReloadMaster"
-                           styleClass="button"
-                           value="#{msg.btnReloadMaster}"
-                           rendered="#{!editDrgProposal.readOnly}"
-                           immediate="true"
-                           action="#{editDrgProposal.reloadMaster}"
-                           onclick="#{sessionController.getConfirmMessage('msgConfirmReloadMaster')};">
-                <f:ajax render="@form"/>
-            </h:commandLink>
         </div>
 
     </ui:define>

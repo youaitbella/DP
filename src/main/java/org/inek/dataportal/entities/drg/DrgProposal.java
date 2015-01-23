@@ -166,10 +166,6 @@ public class DrgProposal implements Serializable {
     @Column(name = "prDiagCodes")
     private String _diagCodes = "";
 
-//    @Documentation(name = "OPS Beschreibung")
-//    @Column(name = "prOpsText")
-//    private String _opsText = "";
-//
     @Documentation(name = "Prozeduren")
     @Column(name = "prProcs")
     private String _procs = "";
@@ -198,6 +194,19 @@ public class DrgProposal implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "drgcDrgProposalId", referencedColumnName = "prId")
     private List<DrgProposalComment> _comments = new ArrayList<>();
+
+    // <editor-fold defaultstate="collapsed" desc="Property Note">
+    @Documentation(name = "Bemerkungen")
+    @Column(name = "prNote")
+    private String _note = "";
+    public String getNote() {
+        return _note;
+    }
+
+    public void setNote(String note) {
+        this._note = note;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {

@@ -36,10 +36,10 @@ hr {
 }
 
 hr.simpleLine {
-    margin: 0.1em;
+    margin: 0.75em 0;
     height: 1px;
     display: block;
-    background-color: #043358;
+    color: #7F9BAF;
 }
 
 h1 {
@@ -843,8 +843,7 @@ a.midButton{
     background-image: url("/DataPortal/javax.faces.resource/add_hover.png.xhtml?ln=Icon/small");
 }
 
-a.rightAllign,
-input.rightAllign {
+.rightAllign {
     float: right;
     margin-right: 0;
 }
@@ -913,8 +912,16 @@ div.modelIntYesNo {
     margin-left: 5px;
 }
 
+.marginLeft10 {
+    margin-left: 10em;
+}
+
 .marginRight {
     margin-right: 5px;
+}
+
+.marginRight10 {
+    margin-right: 10em;
 }
 
 .leftSpace {

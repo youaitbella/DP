@@ -90,7 +90,7 @@ public class AdminTask extends AbstractEditController {
         l.add(emptyItem);
         return l;
     }
-    
+
     public List<SelectItem> getMailTemplatesCert() {
         List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfosByFeature(Feature.CERT);
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
@@ -186,6 +186,7 @@ public class AdminTask extends AbstractEditController {
             for (InekRole role : _inekRoles) {
                 _originalInekRoles.add(role.copy());
             }
+            setInekRoleId(_inekRoles.get(0).getId());
         }
         return _inekRoles;
     }

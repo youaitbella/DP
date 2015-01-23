@@ -21,11 +21,12 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     /**
-     * for a given feature
-     * returns a list of all cooperation rights given account is involved in
+     * for a given feature returns a list of all cooperation rights given
+     * account is involved in
+     *
      * @param feature
      * @param account
-     * @return 
+     * @return
      */
     public List<CooperationRight> getCooperationRights(Feature feature, Account account) {
         if (account == null) {
@@ -42,7 +43,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .setParameter("iks", iks)
                 .getResultList();
     }
-
 
     /**
      * returns a list of rights for a given feature, granted by account to
@@ -185,24 +185,22 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
             return CooperativeRight.None;
         }
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Set<Integer> getAccountIdsByFeatureandIk(Feature feature, int ik) {
-        String query = "select acId from dbo.account "
-                + "join accountFeature on acId = afaccountId and afFeature = :feature "
-                + "where acIk = :ik "
+        String jql = "select acId from dbo.account "
+                + "join accountFeature on acId = afaccountId and afFeature = ?1 "
+                + "where acIk = ?2 "
                 + "union "
                 + "select aaiAccountId from dbo.AccountAdditionalIK "
-                + "join accountFeature on aaiAccountId = afaccountId and afFeature = :feature "
-                + "where aaiAccountId is not null and aaiIk = :ik";
-
+                + "join accountFeature on aaiAccountId = afaccountId and afFeature = ?1 "
+                + "where aaiAccountId is not null and aaiIk = ?2";
         return new HashSet<>(getEntityManager()
-                .createNativeQuery(query)
-                .setParameter("feature", feature.name())
-                .setParameter("ik", ik)
+                .createNativeQuery(jql)
+                .setParameter(1, feature.name())
+                .setParameter(2, ik)
                 .getResultList());
     }
-
 
     public CooperationRight save(CooperationRight right) {
         if (right.getId() < 0) {
@@ -212,5 +210,4 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return merge(right);
     }
 
-    
 }
