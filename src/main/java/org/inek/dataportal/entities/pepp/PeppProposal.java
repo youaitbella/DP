@@ -5,9 +5,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Version;
 import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.enums.PeppProposalCategory;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -47,7 +62,7 @@ public class PeppProposal implements Serializable {
 
     @Column(name = "ppCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _creationDate = null;
+    private Date _creationDate = Calendar.getInstance().getTime();
 
     @Column(name = "ppDateSealed")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -220,12 +235,17 @@ public class PeppProposal implements Serializable {
         _category = category;
     }
 
-    public int getStatus() {
-        return _status;
+    @Documentation(name = "Bearbeitungsstatus", rank = 10)
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_status);
     }
 
-    public void setStatus(int status) {
-        _status = status;
+    public void setStatus(int value) {
+        _status = value;
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _status = status.getValue();
     }
 
     public String getInstitute() {
@@ -461,6 +481,10 @@ public class PeppProposal implements Serializable {
         return _lastModified;
     }
 
+    public void setLastModified(Date lastModified) {
+        _lastModified = lastModified;
+    }
+
     public int getCreatedBy() {
         return _createdBy;
     }
@@ -485,7 +509,6 @@ public class PeppProposal implements Serializable {
         _sealedBy = sealedBy;
     }
 
-    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -514,18 +537,4 @@ public class PeppProposal implements Serializable {
     }
 
     // </editor-fold>
-    @PrePersist
-    private void prepareCreate() {
-        _creationDate = Calendar.getInstance().getTime();
-        prepareUpdate();
-    }
-
-    @PreUpdate
-    private void prepareUpdate() {
-        _lastModified = Calendar.getInstance().getTime();
-        if (getDateSealed() == null && getStatus() > 0) {
-            _dateSealed = Calendar.getInstance().getTime();
-        }
-    }
-
 }

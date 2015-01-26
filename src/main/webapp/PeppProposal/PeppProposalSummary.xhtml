@@ -5,46 +5,27 @@
                 template="/Templates/PeppProposalSummaryTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                >
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
     <ui:define name="summaryContent">
-            <h:panelGroup class="paddingElement">
+        <h:panelGroup class="paddingElement">
 
-                <ui:include src="#{sessionTools.pages.ListPeppProposal}"/>
-                <p>
-                    <h:commandLink styleClass="button" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true"/>
-                </p>
+            <ui:include src="#{sessionTools.pages.ListPeppProposal}"/>
 
-                <h:panelGroup rendered="#{peppProposalList.sealedPeppProposals.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.infoSealedPeppProposals}"/>
+            <div class="toolBar">
+                <h:commandLink styleClass="button" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true"/>
+            </div>
 
-                    <h:dataTable   headerClass="list-header" value="#{peppProposalList.sealedPeppProposals}"
-                                  var="r" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colId, colValue">
-                        <h:column id="colPrintId" >
-                            <f:facet name="header">
-                                <h:outputText value=""/>
-                            </f:facet>
-                            <h:commandLink action="#{peppProposalList.printPeppProposal(r.value1)}" immediate="true" >
-                                <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
-                            </h:commandLink>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblId}"/>
-                            </f:facet>
-                            <h:commandLink action="#{peppProposalList.editPeppProposal(r.value1)}" value="P#{r.value1}" immediate="true"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblAppellation}"/>
-                            </f:facet>
-                            <h:commandLink action="#{peppProposalList.editPeppProposal(r.value1)}" value="#{r.value2}" immediate="true"/>
-                        </h:column>
+            <h:panelGroup rendered="#{peppProposalList.sealedPeppProposals.size() > 0}">
+                <br/>
+                <h:outputLabel styleClass="label" value="#{msg.infoSealedPeppProposals}"/>
 
-                    </h:dataTable>
-                </h:panelGroup>
+                <inek:PeppProposalTable proposals="#{peppProposalList.sealedPeppProposals}"
+                                        showDelete="false"/>
+
             </h:panelGroup>
+
+        </h:panelGroup>
     </ui:define>
 
 </ui:composition>

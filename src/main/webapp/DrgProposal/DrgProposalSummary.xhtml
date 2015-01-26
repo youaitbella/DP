@@ -5,7 +5,8 @@
                 template="/Templates/DrgProposalSummaryTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
     <ui:define name="summaryContent">
 
@@ -24,95 +25,26 @@
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                         </p>
 
-                        <h:dataTable rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id).size() gt 0}"  headerClass="list-header"
-                                     value="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id)}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
-                            <h:column id="colPrintId" >
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.id)}" immediate="true" >
-                                    <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column id="colDeleteId" >
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.id)}" immediate="true" rendered="false" >
-                                    <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" immediate="true" >
-                                    <h:graphicImage alt="Status" name="#{proposal.status.icon}" library="Icon/small" title="#{proposal.status.description}" value="" rendered="#{proposal.status.icon.length() gt 0}"/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column id="colValue">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg.lblAppellation}"/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" value="#{proposal.name.equals('') ? msg.txtEmpty : proposal.name}" immediate="true"/>
-                            </h:column>
-                        </h:dataTable>
+                        <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id)}"
+                                               showDelete="false"/>
 
                     </h:panelGroup>
                 </c:forEach>
             </h:panelGroup>
 
-            <p>
+            <div class="toolBar">
                 <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true"/>
-            </p>
+            </div>
 
             <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
 
-                <h:dataTable   headerClass="list-header" value="#{drgProposalList.sealedDrgProposals}"
-                               var="r" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
-                    <h:column id="colPrintId" >
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.id)}" immediate="true" >
-                            <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
-                        </h:commandLink>
-                    </h:column>
-                    <h:column id="colDeleteId" >
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.id)}" immediate="true" rendered="false" >
-                            <h:graphicImage alt="löschen" name="#{nub.status.value le 9 ? 'delete.png' : 'cross.png'}"
-                                            library="Icon/small" title="#{nub.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
-                        </h:commandLink>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" immediate="true" >
-                            <h:graphicImage alt="Status" name="#{proposal.status.icon}" library="Icon/small" title="#{proposal.status.description}" value="" rendered="#{proposal.status.icon.length() gt 0}"/>
-                        </h:commandLink>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblId}"/>
-                        </f:facet>
-                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.id)}" value="V#{r.id}" immediate="true"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblAppellation}"/>
-                        </f:facet>
-                        <h:commandLink action="#{drgProposalList.editDrgProposal(r.id)}" value="#{r.name}" immediate="true"/>
-                    </h:column>
+                <inek:DrgProposalTable proposals="#{drgProposalList.sealedDrgProposals}"
+                                       showDelete="false"/>
 
-                </h:dataTable>
             </h:panelGroup>
-            
+
             <h:panelGroup rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
@@ -124,44 +56,14 @@
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                         </p>
 
-                        <h:dataTable rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}"  headerClass="list-header"
-                                     value="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id)}" var="proposal" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colValue">
-                            <h:column id="colPrintId" >
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.printDrgProposal(proposal.id)}" immediate="true" >
-                                    <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column id="colDeleteId" >
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.deleteDrgProposal(proposal.id)}" immediate="true" rendered="false" >
-                                    <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" immediate="true" >
-                                    <h:graphicImage alt="Status" name="#{proposal.status.icon}" library="Icon/small" title="#{proposal.status.description}" value="" rendered="#{proposal.status.icon.length() gt 0}"/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column id="colValue">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg.lblAppellation}"/>
-                                </f:facet>
-                                <h:commandLink action="#{drgProposalList.editDrgProposal(proposal.id)}" value="#{proposal.name.equals('') ? msg.txtEmpty : proposal.name}" immediate="true"/>
-                            </h:column>
-                        </h:dataTable>
+                        <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id)}"
+                                               rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}"
+                                               showDelete="false"/>
 
                     </h:panelGroup>
                 </c:forEach>
             </h:panelGroup>
-            
+
         </h:panelGroup>
     </ui:define>
 

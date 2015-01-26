@@ -48,7 +48,7 @@
                 <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
                 <h:dataTable  headerClass="list-header" id="tblDropBoxes"
                               value="#{editDrgProposal.drgProposal.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-                    <h:column id="colDeleteId" rendered="#{editDrgProposal.drgProposal.status == 0}">
+                    <h:column id="colDeleteId" rendered="#{editDrgProposal.drgProposal.status.value == 0}">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>

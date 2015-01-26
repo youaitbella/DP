@@ -23,12 +23,9 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class DrgProposalList {
 
-    @Inject
-    DrgProposalFacade _drgProposalFacade;
-    @Inject
-    SessionController _sessionController;
-    @Inject
-    CooperationTools _cooperationTools;
+    @Inject DrgProposalFacade _drgProposalFacade;
+    @Inject SessionController _sessionController;
+    @Inject CooperationTools _cooperationTools;
 
     public List<ProposalInfo> getDrgProposals() {
         return _drgProposalFacade.getDrgProposalInfos(_sessionController.getAccountId(), DataSet.AllOpen);
@@ -82,7 +79,6 @@ public class DrgProposalList {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
-    
     public List<Account> getPartnersForEdit() {
         return _cooperationTools.getPartnersForEdit(Feature.DRG_PROPOSAL);
     }
@@ -107,5 +103,4 @@ public class DrgProposalList {
     }
 
 // </editor-fold>
-
 }

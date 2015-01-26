@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Stammformblatt</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Stammformblatt</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei der formularbasierten Datenerfassung umfasst die erste Seite in der Regel ein Stammformblatt. Je nach Funktion, kann dieses leicht variieren. Im Folgenden werden die Gemeinsamkeiten erläutert, sowie die Schaltflächen zum Speichern und weiterer Aktionen, die auf allen Registerkarten vorhanden sind.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="UserData.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Stammformblatt am Beispiel DRG-Vorschlagsverfaheren</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Stammformblatt wird der &quot;offizielle&quot; Absender des Datensatzes benannt. Das muss nicht notwendigerweise mit dem Erfasser (Benutzer des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true">) übereinstimmen. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In den meisten Fällen stimmen jedoch Einreicher und Benutzer überein. Zur einfachen Erfassung werden die Daten des Stammvormblatts bei Neuanlage automatisch aus Ihren Stammdaten übernommen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ Reinitialisieren ]</text><text styleclass="Normal" translate="true"> können Sie das Stammformblatt jederzeit erneut mit Ihren Stammdaten überschreiben. Dies ist besonders interessant, falls Sie mit anderen Personen kooperieren. So können Sie beispielsweise die Daten dezentral erfassen, zentral das Stammformblatt aktualisieren und dann mit einheitlichem Absender an das InEK sendem.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Allgemeine Schaltflächen (auf alle Registerseiten sichtbar)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> erlaubt Ihnen die Speicherung des Datensatzes zu jedem beliebigen Zeitpunkt, unabhängig von Vollständigkeit der Daten. Somit ist es möglich, die Arbeit zu unterbrechen und zu einem späteren Zeitpunkt fortzusetzen. Eine Notwendigkeit, die Daten in einem Rutsch zu erfassen und an das InEK zu senden, besteht also nicht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Durch den Wechsel auf eine andere Internetseite verlassen Sie das Datenportal, ohne dass Ihre Daten gespeichert werden. Auch der Wechsel innerhalb des InEK-Datenportals zu einer anderen Funktion entspricht technisch solch einem Seitenwechsel. Insofern denken Sie bitte daran, vor jedem Wechsel Ihre Daten zu speichern. Beim Wechsel der Registerkarten innerhalb des Vorschlagsverfahrens verbleiben Ihre Daten jedoch in der Applikation, so dass Sie hier problemlos hin und her wechseln können. Im Hinblick auf mögliche Verbindungsabbrüche, automatische Abmeldung nach 30 Minuten ohne Benutzeraktivität etc. wird empfohlen, die Eingabedaten hier und da zwischen zu speichern. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Button"><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> prüft die Daten auf Vollständigkeit, speichert diese und &quot;sendet&quot; sie an das InEK. Sollten die Daten noch nicht vollständig sein, erhalten Sie eine entsprechende Meldung mit detaillierten Hinweisen. Sie können dan die Daten komplettieren und anschließend neu senden.</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Haben Sie einem Kooperationspartner das Recht der Supervision eingeräumt (oder ist im Falle von NUB ein von Ihnen abweichender IK-Supervisor eingerichtet), so können Sie den Datensatz nicht mehr direkt an das InEK senden. Vielmehr markieren Sie den Datensatz </text><text styleclass="Button" translate="true">[ zur Freigabe durch Partner ]</text><text styleclass="Normal" translate="true">. Diese Schaltfläche ersetzt die Senden-Schaltfläche.</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Image Caption"><image src="ApprovalButton.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Freigabe durch Partner</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Spätestens nachdem Sie den Datensatz zur Freigabe durch Partner markiert haben, wird dieser in der Liste Ihres Partners geführt. Dieser kann die Daten nun (nach Prüfung) an das InEK senden.</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Sofern Sie Ihrem Partner das Recht </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besitz übernehmen</text><text styleclass="Normal" translate="true"> eingeräumt haben, erscheint bei diesem die Schaltfläche </text><text styleclass="Button" translate="true">[ Besitz übernehmen ]</text><text styleclass="Normal" translate="true">. </text></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Image Caption"><image src="TakeData.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Schaltfläche Besitz übernehmen</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Bei jedem Datensatz wird eingetragen, wem dieser &quot;gehört&quot;. Dabei handelt es sich um die Person, welche den Datensatz erstellt hat. Mittels </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besitz übernehmen</text><text styleclass="Normal" translate="true"> können Sie dies ändern. Der aktuelle Besitzer muss dazu dem Partner das entsprechende Recht einräumen und dieser dann mittels der angeführten Schaltfläche aktiv den Besitz übernehmen. Nach dem Speichern ist der Datensatz dem neuen Besitzer zugeordnet. </text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Nur der Besitzer kann einen Datensatz löschen - sofern es der Bearbeitunsstatus erlaubt - und anderen Personen Zugriffsrechte einräumen.</text></para>
+    <para styleclass="Button"></para>
+  </body>
+</topic>

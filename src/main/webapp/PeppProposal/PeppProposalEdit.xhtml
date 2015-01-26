@@ -5,7 +5,9 @@
                 template="/Templates/PortalTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
 
     <f:metadata>
         <f:viewParam name="ppId" id="ppId" value="#{flash.ppId}" />
@@ -33,12 +35,42 @@
             </div>
             <div class="edit">
                 <ui:include src="#{editPeppProposal.part}"/>
+
                 <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="button" action="#{editPeppProposal.save}" value="#{msg.btnSave}" immediate="true"
+                    <h:commandLink styleClass="button"
+                                   action="#{editPeppProposal.save}"
+                                   value="#{msg.btnSave}"
+                                   immediate="true"
                                    rendered="#{!editPeppProposal.readOnly}"/>
-                    <h:commandLink styleClass="sendButton" action="#{editPeppProposal.requestPeppProposalSeal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.peppProposalDisabled}" rendered="#{!editPeppProposal.readOnly}" title="#{msg.infoSaveAndClose}"/>
-                    <h:commandLink id="seal" style="display: none" action="#{editPeppProposal.sealPeppProposal()}" value="seal"/>
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editPeppProposal.requestApprovalPeppProposal}"
+                                   value="#{msg.btnRequestApproval}"
+                                   disabled="#{sessionTools.peppProposalDisabled}"
+                                   rendered="#{editPeppProposal.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editPeppProposal.sealPeppProposal()}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   disabled="#{sessionTools.peppProposalDisabled}"
+                                   rendered="#{editPeppProposal.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="button"
+                                   action="#{editPeppProposal.requestCorrection}"
+                                   value="#{msg.btnRequestCorrection}"
+                                   immediate="true"
+                                   rendered="#{editPeppProposal.requestCorrectionEnabled}">
+                    </h:commandLink>
+                    <h:commandLink styleClass="button"
+                                   action="#{editPeppProposal.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editPeppProposal.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
                 </div>
             </div>
         </h:form>

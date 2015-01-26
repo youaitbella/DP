@@ -19,7 +19,7 @@ import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.entities.pepp.PeppProposalComment;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 
@@ -84,11 +84,12 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         _logger.setLevel(oldLevel);
     }
 
-    public List<Triple> getPeppProposalInfos(int accountId, DataSet dataSet) {
+    public List<ProposalInfo> getPeppProposalInfos(int accountId, DataSet dataSet) {
         List<PeppProposal> peppProposals = findAll(accountId, dataSet);
-        List<Triple> peppProposalInfos = new ArrayList<>();
+        List<ProposalInfo> peppProposalInfos = new ArrayList<>();
         for (PeppProposal peppProposal : peppProposals) {
-            Triple ppInfo = new Triple(peppProposal.getId(), peppProposal.getName(), peppProposal.getDateSealed());
+            int year = 0;
+            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(), year, peppProposal.getStatus());
             peppProposalInfos.add(ppInfo);
         }
         return peppProposalInfos;

@@ -79,6 +79,9 @@
       <topicref type="topic" id="415163810543671" build="ALL" modified="2015-01-23T13:38:48.562Z" icon="0" href="ListData">
         <caption translate="true">Auflistung von Datensätzen</caption>
       </topicref>
+      <topicref type="topic" id="420303168875725" build="ALL" modified="2015-01-26T09:07:32.834Z" icon="0" href="Userdata">
+        <caption translate="true">Stammformblatt</caption>
+      </topicref>
     </topicref>
     <topicref type="topic" id="412255212229909" build="ALL" modified="2012-11-12T15:23:30.070Z" icon="0" href="peppProposal">
       <caption translate="true">PEPP-Vorschlagsverfahren</caption>

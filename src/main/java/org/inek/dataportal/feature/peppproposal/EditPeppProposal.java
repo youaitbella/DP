@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.peppproposal;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,24 +20,30 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.common.ProcedureInfo;
+import org.inek.dataportal.entities.cooperation.PortalMessage;
 import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.CodeType;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.PeppProposalCategory;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.PeppProposalFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
+import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -48,6 +55,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditPeppProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditPeppProposal");
+    @Inject CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject
@@ -128,6 +136,12 @@ public class EditPeppProposal extends AbstractEditController {
         Account account = _sessionController.getAccount();
         PeppProposal proposal = new PeppProposal();
         proposal.setAccountId(account.getId());
+        proposal.setCreatedBy(account.getId());
+        populateMasterData(proposal, account);
+        return proposal;
+    }
+
+    private void populateMasterData(PeppProposal proposal, Account account) {
         proposal.setInstitute(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());
@@ -144,7 +158,6 @@ public class EditPeppProposal extends AbstractEditController {
         proposal.setPhone(phone);
         proposal.setFax(account.getCustomerFax());
         proposal.setEmail(account.getEmail());
-        return proposal;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -304,10 +317,11 @@ public class EditPeppProposal extends AbstractEditController {
     // </editor-fold>
 
     public boolean isReadOnly() {
-        return getPeppProposal().getStatus() > 0;
+        return _cooperationTools.isReadOnly(Feature.PEPP_PROPOSAL, getPeppProposal().getStatus(), getPeppProposal().getAccountId());
     }
 
     public String save() {
+        setModifiedInfo();
         _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
 
         if (isValidId(getPeppProposal().getId())) {
@@ -323,20 +337,29 @@ public class EditPeppProposal extends AbstractEditController {
         return id != null && id >= 0;
     }
 
-    /**
-     * peppProposals sealing of a formal peppProposal if the form is completely
-     * full-filled, this function displays a confirmation dialog confirming with
-     * "ok" performs a call to seal
-     *
-     * @return
-     */
-    public String requestPeppProposalSeal() {
-        if (!peppProposalIsComplete()) {
-            return null;
+    public boolean isSealEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
+            return false;
         }
-        String script = "if (confirm ('" + Utils.getMessage("msgConfirmSealPepp").replace("\r", "").replace("\n", "\\r\\n") + "')) {document.getElementById('form:seal').click();}";
-        _sessionController.setScript(script);
-        return null;
+        return _cooperationTools.isSealedEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+    }
+
+    public boolean isApprovalRequestEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isApprovalRequestEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+    }
+
+    public boolean isRequestCorrectionEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+    }
+
+    public boolean isTakeEnabled() {
+        return _cooperationTools.isTakeEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     /**
@@ -352,6 +375,8 @@ public class EditPeppProposal extends AbstractEditController {
         }
 
         _peppProposal.setStatus(WorkflowStatus.Provided.getValue());
+        _peppProposal.setDateSealed(Calendar.getInstance().getTime());
+        _peppProposal.setSealedBy(_sessionController.getAccountId());
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
 
         if (isValidId(_peppProposal.getId())) {
@@ -365,6 +390,21 @@ public class EditPeppProposal extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return null;
+    }
+
+    public String requestApprovalPeppProposal() {
+        if (!peppProposalIsComplete()) {
+            return null;
+        }
+        _peppProposal.setStatus(WorkflowStatus.ApprovalRequested.getValue());
+        setModifiedInfo();
+        _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
+        return null;
+    }
+
+    private void setModifiedInfo() {
+        _peppProposal.setLastChangedBy(_sessionController.getAccountId());
+        _peppProposal.setLastModified(Calendar.getInstance().getTime());
     }
 
     public String takeDocuments() {
@@ -478,6 +518,86 @@ public class EditPeppProposal extends AbstractEditController {
             }
         }
         return newTopic;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Request correction">
+    @Inject private Mailer _mailer;
+    @Inject AccountFacade _accountFacade;
+    @Inject PortalMessageFacade _messageFacade;
+
+    public String requestCorrection() {
+        if (!isReadOnly()) {
+            setModifiedInfo();
+            _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
+        }
+        return Pages.PeppProposalRequestCorrection.URL();
+    }
+
+    public String take() {
+        _peppProposal.setAccountId(_sessionController.getAccountId());
+        return "";
+    }
+
+    public String reloadMaster() {
+        populateMasterData(_peppProposal, _sessionController.getAccount());
+        return "";
+    }
+
+    private String _message = "";
+
+    public String getMessage() {
+        return _message;
+    }
+
+    public void setMessage(String message) {
+        _message = message;
+    }
+
+    public String sendMessage() {
+        String subject = "Korrektur Pepp-Vorschlag \"" + _peppProposal.getName() + "\" erforderlich";
+        Account sender = _sessionController.getAccount();
+        Account receiver = _accountFacade.find(_peppProposal.getAccountId());
+        createPortalMessage(sender, receiver, subject);
+        _peppProposal.setStatus(WorkflowStatus.New.getValue());
+        if (!isReadOnly()) {
+            // their might have been changes by that user
+            setModifiedInfo();
+        }
+        _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
+        if (receiver.isMessageCopy()) {
+            sendEmailCopy(sender, receiver, subject);
+        }
+        return Pages.PeppProposalSummary.RedirectURL();
+    }
+
+    private void sendEmailCopy(Account sender, Account receiver, String subject) {
+        // todo: factor out
+        String message = "Ihr Kooperationspartner, " + sender.getDisplayName() + ", sendet Ihnen die folgende Nachricht:"
+                + "\r\n\r\n"
+                + "-----"
+                + "\r\n\r\n"
+                + _message
+                + "\r\n\r\n"
+                + "-----"
+                + "\r\n\r\n"
+                + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
+        _mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, message);
+    }
+
+    private void createPortalMessage(Account sender, Account receiver, String subject) {
+        PortalMessage portalMessage = new PortalMessage();
+        portalMessage.setFromAccountId(sender.getId());
+        portalMessage.setToAccountId(receiver.getId());
+        portalMessage.setFeature(Feature.PEPP_PROPOSAL);
+        portalMessage.setKeyId(_peppProposal.getId());
+        portalMessage.setSubject(subject);
+        portalMessage.setMessage(_message);
+        _messageFacade.persist(portalMessage);
+    }
+
+    public String cancelMessage() {
+        return Pages.PeppProposalSummary.RedirectURL();
     }
     // </editor-fold>
 
