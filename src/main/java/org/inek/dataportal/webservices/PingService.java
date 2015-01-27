@@ -1,4 +1,4 @@
-package org.inek.dataportal.service;
+package org.inek.dataportal.webservices;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
