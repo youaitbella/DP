@@ -36,13 +36,9 @@
                 <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true"/>
             </div>
 
-            <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}">
-                <br/>
+            <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}" styleClass="marginTop">
                 <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
-
-                <inek:DrgProposalTable proposals="#{drgProposalList.sealedDrgProposals}"
-                                       showDelete="false"/>
-
+                <inek:DrgProposalTable proposals="#{drgProposalList.sealedDrgProposals}" showDelete="false"/>
             </h:panelGroup>
 
             <h:panelGroup rendered="#{drgProposalList.partnersForDisplay.size() > 0}">

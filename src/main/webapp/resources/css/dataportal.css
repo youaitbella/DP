@@ -672,6 +672,10 @@ select:active, select:focus{
     font-weight: bold;
 }
 
+.col04{
+    width: 4%;
+}
+
 .col05{
     width: 5%;
 }
