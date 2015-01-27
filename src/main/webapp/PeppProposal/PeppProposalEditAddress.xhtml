@@ -35,6 +35,20 @@
     </div>
 
     <div class="inputPart">
+        <h:outputLabel styleClass="label" for="note" value="#{msg.lblComment}"/>
+        <h:message for="note" id="msgNote" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideLow" id="note"
+                          readonly="#{editPeppProposal.readOnly}"
+                          value="#{editPeppProposal.peppProposal.note}">
+            <f:validateLength maximum="500"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgNote"/>
+        </h:inputTextarea>
+    </div>
+
+    <hr class="simpleLine"/>
+
+    <div class="inputPart">
         <h:outputLabel styleClass="label" for="institute" value="#{msg.lblProposalInstitute}:"/>
         <h:message for="institute" id="msgInstitute" styleClass="errorMessage"/>
         <br/>
@@ -44,6 +58,15 @@
                      required="#{!editPeppProposal.readOnly}" requiredMessage="#{msg.msgValueNeeded}" maxlength="200">
             <f:ajax event="blur" render="@this :logout:remaining msgInstitute"/>
         </h:inputText>
+        <h:commandLink id="btnReloadMaster"
+                       styleClass="button rightAllign"
+                       value="#{msg.btnReloadMaster}"
+                       rendered="#{!editPeppProposal.readOnly}"
+                       immediate="true"
+                       action="#{editPeppProposal.reloadMaster}"
+                       onclick="#{sessionController.getConfirmMessage('msgConfirmReloadMaster')};">
+            <f:ajax render="@form"/>
+        </h:commandLink>
     </div>
 
     <div class="inputPart">

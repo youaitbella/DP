@@ -185,6 +185,19 @@ public class PeppProposal implements Serializable {
     @JoinColumn(name = "ppcPeppProposalId", referencedColumnName = "ppId")
     private List<PeppProposalComment> _comments = new ArrayList<>();
 
+    // <editor-fold defaultstate="collapsed" desc="Property Note">
+    @Documentation(name = "Bemerkungen")
+    @Column(name = "ppNote")
+    private String _note = "";
+    public String getNote() {
+        return _note;
+    }
+
+    public void setNote(String note) {
+        this._note = note;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getId() {
         return _id;

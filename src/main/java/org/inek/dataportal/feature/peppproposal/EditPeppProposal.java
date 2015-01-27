@@ -24,7 +24,6 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.common.ProcedureInfo;
-import org.inek.dataportal.entities.cooperation.PortalMessage;
 import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.CodeType;
@@ -44,6 +43,7 @@ import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -525,6 +525,7 @@ public class EditPeppProposal extends AbstractEditController {
     @Inject private Mailer _mailer;
     @Inject AccountFacade _accountFacade;
     @Inject PortalMessageFacade _messageFacade;
+    @Inject MessageService _messageService;
 
     public String requestCorrection() {
         if (!isReadOnly()) {
@@ -558,42 +559,14 @@ public class EditPeppProposal extends AbstractEditController {
         String subject = "Korrektur Pepp-Vorschlag \"" + _peppProposal.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_peppProposal.getAccountId());
-        createPortalMessage(sender, receiver, subject);
         _peppProposal.setStatus(WorkflowStatus.New.getValue());
         if (!isReadOnly()) {
             // their might have been changes by that user
             setModifiedInfo();
         }
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
-        if (receiver.isMessageCopy()) {
-            sendEmailCopy(sender, receiver, subject);
-        }
+        _messageService.sendMessage(sender, receiver, subject, _message, Feature.PEPP_PROPOSAL, _peppProposal.getId());
         return Pages.PeppProposalSummary.RedirectURL();
-    }
-
-    private void sendEmailCopy(Account sender, Account receiver, String subject) {
-        // todo: factor out
-        String message = "Ihr Kooperationspartner, " + sender.getDisplayName() + ", sendet Ihnen die folgende Nachricht:"
-                + "\r\n\r\n"
-                + "-----"
-                + "\r\n\r\n"
-                + _message
-                + "\r\n\r\n"
-                + "-----"
-                + "\r\n\r\n"
-                + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
-        _mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, message);
-    }
-
-    private void createPortalMessage(Account sender, Account receiver, String subject) {
-        PortalMessage portalMessage = new PortalMessage();
-        portalMessage.setFromAccountId(sender.getId());
-        portalMessage.setToAccountId(receiver.getId());
-        portalMessage.setFeature(Feature.PEPP_PROPOSAL);
-        portalMessage.setKeyId(_peppProposal.getId());
-        portalMessage.setSubject(subject);
-        portalMessage.setMessage(_message);
-        _messageFacade.persist(portalMessage);
     }
 
     public String cancelMessage() {

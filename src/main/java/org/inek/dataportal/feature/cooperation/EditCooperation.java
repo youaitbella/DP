@@ -38,7 +38,7 @@ import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.Triple;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.services.MessageService;
 
 /**
  *
@@ -294,7 +294,8 @@ public class EditCooperation extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="tab Messages">
     @Inject PortalMessageFacade _messageFacade;
-    @Inject private Mailer _mailer;
+    @Inject MessageService _messageService;
+
     List<PortalMessage> _messages;
 
     private String _message = "";
@@ -347,38 +348,11 @@ public class EditCooperation extends AbstractEditController {
         }
         Account sender = _sessionController.getAccount();
         Account receiver = getPartnerAccount();
-        createPortalMessage(sender, receiver, _subject, _message);
-        if (receiver.isMessageCopy()) {
-            sendEmailCopy(sender, receiver, _subject, _message);
-        }
+        _messageService.sendMessage(sender, receiver, _subject, _message);
         _createMessage = false;
         _subject = "";
         _message = "";
         _messages = null;  // will force a reload
-    }
-
-    private void sendEmailCopy(Account sender, Account receiver, String subject, String message) {
-        String extMessage = "Ihr Kooperationspartner, " + sender.getDisplayName() + ", sendet Ihnen die folgende Nachricht:"
-                + "\r\n\r\n"
-                + "-----"
-                + "\r\n\r\n"
-                + message
-                + "\r\n\r\n"
-                + "-----"
-                + "\r\n\r\n"
-                + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
-        _mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, extMessage);
-    }
-
-    private void createPortalMessage(Account sender, Account receiver, String subject, String message) {
-        PortalMessage portalMessage = new PortalMessage();
-        portalMessage.setFromAccountId(sender.getId());
-        portalMessage.setToAccountId(receiver.getId());
-        portalMessage.setFeature(Feature.COOPERATION);
-        portalMessage.setKeyId(0);
-        portalMessage.setSubject(subject);
-        portalMessage.setMessage(message);
-        _messageFacade.persist(portalMessage);
     }
 
     public List<PortalMessage> getMessages() {

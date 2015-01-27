@@ -10,13 +10,13 @@
 
         <h2>#{msg.lblCooperation} #{msg.tabCooperationOther}</h2>
         <div class="marginTop">
-            <h:outputLabel value="#{msg.lblFunction}" styleClass="label30"/>
+            <h:outputLabel value="#{msg.lblFunction}" styleClass="label25"/>
             <h:outputLabel value="#{msg.lblCooperativeRight}" styleClass="label"/>
         </div>
 
         <c:forEach items="#{editCooperation.cooperationInfos}" var="cooperationInfo">
             <div class="marginTop">
-                <h:outputLabel value="#{cooperationInfo.value1.description}" styleClass="label30"/>
+                <h:outputLabel value="#{cooperationInfo.value1.description}" styleClass="label25"/>
                 <h:selectOneMenu value="#{cooperationInfo.value3.cooperativeRight}" >
                     <f:selectItems value="#{cooperationInfo.value2}"/>
                     <f:ajax event="blur" render="@this :logout:remaining"/>

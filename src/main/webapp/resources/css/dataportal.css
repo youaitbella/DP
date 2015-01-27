@@ -468,10 +468,21 @@ div#wrapper {
     width: 20%;
 }
 
+.label25 {
+    font-weight: bold;
+    display:inline-block;
+    width: 25%;
+}
+
 .label30 {
     font-weight: bold;
     display:inline-block;
     width: 30%;
+}
+
+.element20 {
+    display:inline-block;
+    width: 20%;
 }
 
 .element30 {

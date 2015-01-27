@@ -8,9 +8,6 @@
 
     <ui:define name="editContent">
 
-        #{msg.lblCooperationPartner}: #{editCooperation.partnerAccount.firstName} #{editCooperation.partnerAccount.lastName}, #{editCooperation.partnerAccount.company}
-        <hr class="simpleLine"/>
-
         <h:panelGrid id="sendArea" width="100%">
             <div class="marginTop">
                 <h:commandLink styleClass="button" actionListener="#{editCooperation.newMessage}" value="#{msg.btnNewMessage}" rendered="#{!editCooperation.createMessage}">

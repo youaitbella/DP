@@ -226,8 +226,7 @@ public class DrgProposal implements Serializable {
     }
 
     /**
-     * Dummy setter, cause JSF needs on
-     *
+     * Dummy setter, cause JSF needs one
      *
      * @param dummy
      */
