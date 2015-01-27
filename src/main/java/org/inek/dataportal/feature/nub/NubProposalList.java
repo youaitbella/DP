@@ -166,7 +166,6 @@ public class NubProposalList {
     @Inject CooperationRightFacade _cooperationRightFacade;
     @Inject NubSessionTools _nubSessionTools;
     private List<CooperationRight> _cooperationRights;
-    private List<Account> _partners4Edit;
     private List<Account> _partners4List;
 
     public List<Account> getPartnersForEdit() {
@@ -175,6 +174,12 @@ public class NubProposalList {
 
     Map<Integer, List<ProposalInfo>> _partnerNubsForEdit = new HashMap<>();
     public List<ProposalInfo> getNubProposalsForEditFromPartner(int partnerId) {
+//        CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId);
+//
+//        DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
+//                : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested
+//                        : DataSet.None;
+//        return _nubProposalFacade.getNubProposalInfos(partnerId, dataSet, getFilter());
         if (!_partnerNubsForEdit.containsKey(partnerId)) {
             ensureAchievedCooperationRights();
             Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();

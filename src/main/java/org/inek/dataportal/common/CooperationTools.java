@@ -79,7 +79,7 @@ public class CooperationTools implements Serializable {
         if (ownerId == _sessionController.getAccountId()) {
             return true;
         }
-        CooperativeRight right = getAchievedRight(feature, ownerId);
+        CooperativeRight right = getAchievedRight(feature, ownerId, ik);
         return right != CooperativeRight.None;
     }
 
@@ -103,7 +103,7 @@ public class CooperationTools implements Serializable {
         if (ownerId == _sessionController.getAccountId()) {
             return false;
         }
-        CooperativeRight right = getAchievedRight(feature, ownerId);
+        CooperativeRight right = getAchievedRight(feature, ownerId, ik);
         return !right.canWriteAlways() && !(state.getValue() >= WorkflowStatus.ApprovalRequested.getValue() && right.canWriteCompleted());
     }
 

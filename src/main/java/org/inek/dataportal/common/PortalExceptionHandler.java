@@ -72,7 +72,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 }
             } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                     || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException") // check for exception's name as workarround
-                    || exception instanceof FacesException && exception.getMessage().contains("WELD-000049:")) {
+                    || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:")) {
                 String head = "[PortalExceptionHandler NonexistentConversationException] ";
                 _logger.log(Level.SEVERE, head, exception);
                 // we don't like to get this reported: collectException(messageCollector, head, exception);
@@ -107,6 +107,9 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             }
             i.remove();
         }
+        if (messageCollector.length() > 0) {
+            collectUrlInformation(messageCollector);
+        }
         SendExeptionMessage(messageCollector.toString());
         SessionController sc = Utils.getBean(SessionController.class);
         if (sc != null) {
@@ -124,6 +127,25 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         collector.append(exception.getMessage()).append("\r\n\r\n");
         for (StackTraceElement element : exception.getStackTrace()) {
             collector.append(element.toString()).append("\r\n");
+        }
+    }
+
+    private void collectUrlInformation(StringBuilder collector) {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            String url = request.getRequestURL().toString();
+            if (collector.length() > 0) {
+                collector.append("\r\n\r\n--------------------------------\r\n\r\n");
+            }
+            collector.append("URL").append(url).append("\r\n\r\n");
+
+            String viewId = context.getViewRoot().getViewId();
+            if (collector.length() > 0) {
+                collector.append("\r\n\r\n--------------------------------\r\n\r\n");
+            }
+            collector.append("ViewId").append(viewId).append("\r\n\r\n");
+        } catch (Exception ex) {
         }
     }
 

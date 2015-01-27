@@ -17,6 +17,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.Document;
@@ -25,6 +26,7 @@ import org.inek.dataportal.entities.NubProposalDocument;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.CodeType;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
@@ -51,16 +53,12 @@ public class EditNubProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditNubProposal");
 
-    @Inject
-    private ProcedureFacade _procedureFacade;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private NubProposalFacade _nubProposalFacade;
-    @Inject
-    private CustomerFacade _customerFacade;
-    @Inject
-    private NubSessionTools _nubSessionTools;
+    @Inject private CooperationTools _cooperationTools;
+    @Inject private ProcedureFacade _procedureFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private NubProposalFacade _nubProposalFacade;
+    @Inject private CustomerFacade _customerFacade;
+    @Inject private NubSessionTools _nubSessionTools;
     private NubProposal _nubProposal;
     private CooperativeRight _cooperativeRight;
     private CooperativeRight _supervisorRight;
@@ -380,24 +378,7 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return isReadOnly(false);
-    }
-
-    public boolean isReadOnly(boolean laxCheck) {
-        if (_nubProposal.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
-            // is sealed
-            return true;
-        }
-        if (isOwnNub()) {
-            // own nub depends on status
-            return _nubProposal.getStatus().getValue() >= WorkflowStatus.ApprovalRequested.getValue();
-        }
-        if (_supervisorRight == CooperativeRight.ReadWriteCompletedSealSupervisor || _supervisorRight == CooperativeRight.ReadWriteSealSupervisor) {
-            // supervisor write preceeds
-            return false;
-        }
-        return _cooperativeRight == CooperativeRight.ReadOnly
-                || !laxCheck && (_cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor || _cooperativeRight != CooperativeRight.ReadWriteSealSupervisor && _supervisorRight == CooperativeRight.ReadCompletedSealSupervisor);
+        return _cooperationTools.isReadOnly(Feature.NUB, _nubProposal.getStatus(), _nubProposal.getAccountId(), _nubProposal.getIk());
     }
 
     public boolean isRejectedNub() {
@@ -405,51 +386,31 @@ public class EditNubProposal extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        if (!_sessionController.isEnabled("IsNubSendEnabled")) {
+        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        ensureSupervisorRight(_nubProposal);
-        boolean enabled;
-        if (isOwnNub()) {
-            if (_nubProposal.getIk() == null) {
-                return false;
-            }
-            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null) {
-                return false;
-            }
-            enabled = _nubSessionTools.getSealOwnNub().get(_nubProposal.getIk());
-        } else {
-            enabled = _cooperativeRight == CooperativeRight.ReadWriteSeal
-                    || _cooperativeRight == CooperativeRight.ReadCompletedSealSupervisor
-                    || _cooperativeRight == CooperativeRight.ReadWriteCompletedSealSupervisor
-                    || _cooperativeRight == CooperativeRight.ReadWriteSealSupervisor
-                    || !_supervisorRight.equals(CooperativeRight.None);
-        }
-
-        return !isReadOnly(true) && enabled;
+        return _cooperationTools.isSealedEnabled(Feature.NUB, _nubProposal.getStatus(), _nubProposal.getAccountId(), _nubProposal.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_sessionController.isEnabled("IsNubSendEnabled")) {
+        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-
-        ensureSupervisorRight(_nubProposal);
-        boolean enabled = false;
-        if (_sessionController.isMyAccount(_nubProposal.getAccountId())) {
-            if (_nubProposal.getIk() == null) {
-                return false;
-            }
-            if (_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk()) == null) {
-                return false;
-            }
-            enabled = !_nubSessionTools.getSealOwnNub().get(_nubProposal.getIk())
-                    && !_nubProposal.getStatus().equals(WorkflowStatus.ApprovalRequested)
-                    && _supervisorRight.equals(CooperativeRight.None);
-        }
-        return !isReadOnly() && enabled;
+        return _cooperationTools.isApprovalRequestEnabled(Feature.NUB, _nubProposal.getStatus(), _nubProposal.getAccountId(), _nubProposal.getIk());
     }
 
+    public boolean isRequestCorrectionEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.NUB, _nubProposal.getStatus(), _nubProposal.getAccountId(), _nubProposal.getIk());
+    }
+
+    public boolean isTakeEnabled() {
+        return _cooperationTools.isTakeEnabled(Feature.NUB, _nubProposal.getStatus(), _nubProposal.getAccountId(), _nubProposal.getIk());
+    }
+
+    
     /**
      * requests sealing of a formal request if the form is completely full
      * filled, this function displays a confirmation dialog confirming with "ok"

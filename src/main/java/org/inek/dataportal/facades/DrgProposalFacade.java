@@ -1,7 +1,6 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import org.inek.dataportal.entities.drg.DrgProposalComment;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 

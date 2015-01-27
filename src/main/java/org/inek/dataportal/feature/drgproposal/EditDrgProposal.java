@@ -54,7 +54,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditDrgProposal extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditDrgProposal");
-    @Inject CooperationTools _cooperationTools;
+    @Inject private CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject

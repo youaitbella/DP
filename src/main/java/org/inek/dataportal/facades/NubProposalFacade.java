@@ -168,4 +168,5 @@ public class NubProposalFacade extends AbstractFacade<NubProposal> {
         return result;
     }
 
+
 }

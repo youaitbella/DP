@@ -4,6 +4,7 @@
                 template="/Templates/PortalTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <f:metadata>
@@ -46,14 +47,6 @@
                                    rendered="#{!editNubProposal.readOnly}"/>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editNubProposal.requestSeal()}"
-                                   value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editNubProposal.sealEnabled}"
-                                   title="#{msg.infoSaveAndClose}"/>
-
-                    <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
-
-                    <h:commandLink styleClass="sendButton"
                                    action="#{editNubProposal.requestApproval()}"
                                    value="#{msg.btnRequestApproval}"
                                    rendered="#{editNubProposal.approvalRequestEnabled}"
@@ -62,6 +55,14 @@
                     <h:commandLink id="confirmApprovalRequest" style="display: none"
                                    action="#{editNubProposal.confirmApprovalRequest()}"
                                    value="confirmApprovalRequest"/>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editNubProposal.requestSeal()}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editNubProposal.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}"/>
+
+                    <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
 
                     <h:commandLink id="btnTemplate" styleClass="button"
                                    action="#{editNubProposal.downloadTemplate()}"
