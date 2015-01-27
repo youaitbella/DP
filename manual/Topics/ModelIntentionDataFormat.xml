@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Datenformate</title>
   <body>
     <header>
@@ -11,7 +11,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beim Hochladen erfolgt eine Prüfung. Fehlerhafte sowie vorhandene Datensätze werden abgewiesen. Ein Datensatz gilt als vorhanden, wenn bei</text></para>
     <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Kosten bereits ein Datensatz mit gleicher Kombination von IK, Entgeltschlüssel, Kostenstellengruppe und Kostenartengruppe </text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Vertragpartner, Leistungserbringer, Kostenträger ein Datensatz mit gleicher IK oder gleicher Kombination von Name und Ort</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Vertragspartner, Leistungserbringer, Kostenträger ein Datensatz mit gleicher IK oder gleicher Kombination von Name und Ort</text></li>
     </list>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">existiert.</text></para>
     <para styleclass="Normal"></para>

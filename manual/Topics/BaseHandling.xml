@@ -14,13 +14,13 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Dialogseiten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> bestehen im Wesentlichen aus drei Bereichen:</text></para>
     <para styleclass="Normal"></para>
-    <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Oben: Der </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Kopfbereich</text><text styleclass="Bullet Text" translate="true"> mit Links zur Hompage des InEK, zum Impressum und, sofern Sie eingeloggt sind, zur Abmeldung.</text></li>
+    <list id="2" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Oben: Der </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Kopfbereich</text><text styleclass="Bullet Text" translate="true"> mit Links zur Homepage des InEK, zum Impressum und, sofern Sie eingeloggt sind, zur Abmeldung.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Links: </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Navigationsbereich</text><text styleclass="Bullet Text" translate="true">. Hier finden Sie nach erfolgreichem Login die Navigation zu den verfügbaren Funktionen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Rechts: </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Inhaltsbereich</text><text styleclass="Bullet Text" translate="true">. In diesem größten Teil des Dialogs werden die Informationen dargestellt bzw. erfolgen Ihre Eingaben.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="GeneralHandling.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><image src="" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Einteilung der Dialoge in Kopfbereich (rot markiert), Navigation (grün) und Info- bzw. Eingabeteil (blau)</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der linke Navigationsbereich zeigt die Ihnen zur Verfügung stehenden Funktionen an. Im Wesentlichen bestimmen Sie selber (in der Stammdatenpflege) um welche Funktionen es sich dabei handelt. Nur bei bestimmten Funktionen (derzeit nur DropBox-Verfahren) behält sich das InEK eine separate Freischaltung vor. </text></para>

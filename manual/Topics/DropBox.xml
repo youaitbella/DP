@@ -14,7 +14,7 @@
     <para styleclass="Image Caption"><image src="DropBoxList.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich DropBox-Verfahren</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ DropBox anlegen ]</text><text styleclass="Normal" translate="true"> können Sie jederzeit eine neue Dropbox anlegen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ DropBox anlegen ]</text><text styleclass="Normal" translate="true"> können Sie jederzeit eine neue DropBox anlegen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Oberhalb dieser Schaltfläche befindet sich eine Liste der aktuell offenen DropBoxen. In eine offene DropBox können Sie Dateien hineinlegen oder herauslöschen. Sie können diese Arbeit unterbrechen und zu einem späteren Zeitpunkt, vor Ablauf der Gültigkeit - diese wird in der Spalte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Gültig bis</text><text styleclass="Normal" translate="true"> angezeigt -, wieder aufnehmen. Erst wenn sich alle gewünschten Dateien in der DropBox befinden, schließen Sie diese und stellen damit die Daten für die Verarbeitung durch das InEK bereit.</text></para>
     <para styleclass="Normal"></para>
