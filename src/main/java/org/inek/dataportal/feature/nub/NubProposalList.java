@@ -166,7 +166,6 @@ public class NubProposalList {
     @Inject CooperationRightFacade _cooperationRightFacade;
     @Inject NubSessionTools _nubSessionTools;
     private List<CooperationRight> _cooperationRights;
-    private List<Account> _partners4List;
 
     public List<Account> getPartnersForEdit() {
         return _cooperationTools.getPartnersForEdit(Feature.NUB);
@@ -202,22 +201,7 @@ public class NubProposalList {
     }
 
     public List<Account> getPartnersForDisplay() {
-        if (_partners4List == null) {
-            ensureAchievedCooperationRights();
-            Set<Integer> ids = new HashSet<>();
-            for (CooperationRight right : _cooperationRights) {
-                if (right.getCooperativeRight() != CooperativeRight.None) {
-                    if (right.getOwnerId() == -1) {
-                        ids.addAll(_nubProposalFacade.findAccountIdForIk(right.getIk()));
-                    } else {
-                        ids.add(right.getOwnerId());
-                    }
-                }
-            }
-            ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
-            _partners4List = _accountFacade.getAccountsForIds(ids);
-        }
-        return _partners4List;
+        return _cooperationTools.getPartnersForDisplay(Feature.NUB);
     }
 
     Map<Integer, List<ProposalInfo>> _partnerNubsForDisplay = new HashMap<>();

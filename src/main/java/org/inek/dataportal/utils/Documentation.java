@@ -23,17 +23,26 @@ import java.lang.annotation.Target;
 @Target({FIELD, METHOD})
 public @interface Documentation {
 
+    /**
+     * Replaces the field or method name by this literal name
+     * @return 
+     */
     public String name() default "";
 
     /**
-     * The key to a message bundle
+     * Replaces the field or method name 
+     * by an entry of the message bundle identified by this key
      *
      * @return
      */
     public String key() default "";
 
     /**
-     *
+     * Translates values which are given as a list of pairs, separated by semicolon:
+     * original=translation[;original=translation]...
+     * Values which aren't in the list will be yielded without translation
+     * The translation will be treated a key to the message bundle 
+     * If no such key is fount, then the translation is literaly used.
      * @return
      */
     public String translateValue() default "";

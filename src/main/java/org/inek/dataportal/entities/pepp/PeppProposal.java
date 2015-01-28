@@ -55,7 +55,13 @@ public class PeppProposal implements Serializable {
     @Column(name = "ppName")
     private String _name = "";
 
-    @Documentation(key = "lblCategory")
+    @Documentation(key = "lblCategory", 
+            translateValue = "CALCULATION=PeppProposalCategory.CALCULATION;"
+                    + "CODES=PeppProposalCategory.CODES;"
+                    + "OTHER=PeppProposalCategory.OTHER;"
+                    + "POLICY=PeppProposalCategory.POLICY;"
+                    + "SUPPLEMENTARY=PeppProposalCategory.SUPPLEMENTARY;"
+                    + "SYSTEM=PeppProposalCategory.SYSTEM")
     @Column(name = "ppCategory")
     @Enumerated(EnumType.STRING)
     private PeppProposalCategory _category = PeppProposalCategory.UNKNOWN;
@@ -85,6 +91,7 @@ public class PeppProposal implements Serializable {
     @Column(name = "ppInstitute")
     private String _institute = "";
 
+    @Documentation(key = "lblGender", translateValue = "-1=empty;0=enmGenderBoth;1=enmGenderFemale;2=enmGenderMale")
     @Column(name = "ppGender")
     private int _gender;
 

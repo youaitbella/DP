@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
-import org.inek.dataportal.enums.CooperativeRight;
-import org.inek.dataportal.enums.Feature;
 
 /**
  *

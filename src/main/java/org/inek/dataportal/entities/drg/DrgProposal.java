@@ -59,17 +59,24 @@ public class DrgProposal implements Serializable {
     @Column(name = "prName")
     private String _name = "";
 
-    @Documentation(key = "lblCategory")
+    @Documentation(key = "lblCategory", 
+            translateValue = "CALCULATION=DrgProposalCategory.CALCULATION;"
+                    + "CCL=DrgProposalCategory.CCL;"
+                    + "CODES=DrgProposalCategory.CODES;"
+                    + "OTHER=DrgProposalCategory.OTHER;"
+                    + "POLICY=DrgProposalCategory.POLICY;"
+                    + "SUPPLEMENTARY=DrgProposalCategory.SUPPLEMENTARY;"
+                    + "SYSTEM=DrgProposalCategory.SYSTEM")
     @Column(name = "prCategory")
     @Enumerated(EnumType.STRING)
     private DrgProposalCategory _category = DrgProposalCategory.UNKNOWN;
 
-    @Documentation(name = "Aktion Diagnose")
+    @Documentation(name = "Aktion Diagnose", translateValue = "UNKNOWN=empty", omitOnEmpty = true)
     @Column(name = "prChangeMethodDiag")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodDiag = DrgProposalChangeMethod.UNKNOWN;
 
-    @Documentation(name = "Aktion Procedure")
+    @Documentation(name = "Aktion Procedure",  translateValue = "UNKNOWN=empty", omitOnEmpty = true)
     @Column(name = "prChangeMethodProc")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodProc = DrgProposalChangeMethod.UNKNOWN;
@@ -99,6 +106,7 @@ public class DrgProposal implements Serializable {
     @Column(name = "prInstitute")
     private String _institute = "";
 
+    @Documentation(key = "lblGender", translateValue = "-1=empty;0=enmGenderBoth;1=enmGenderFemale;2=enmGenderMale")
     @Column(name = "prGender")
     private int _gender;
 

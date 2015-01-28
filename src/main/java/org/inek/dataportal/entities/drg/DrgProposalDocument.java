@@ -1,32 +1,33 @@
 package org.inek.dataportal.entities.drg;
 //import org.inek.dataportal.entities.Document;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.Request;
-import org.inek.dataportal.entities.Request;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
  * @author muellermi
  */
 @Entity
-public class DrgProposalDocument implements Serializable,Document {
+public class DrgProposalDocument implements Serializable, Document {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "drgdId")
     private Integer _drgProposalDocumentId;
+
+    @Documentation(key = "lblDocuments", omitOnEmpty = true)
     @Column(name = "drgdName")
     private String _name = "";
+
     @Lob
     @Column(name = "drgdContent")
     private byte[] _content;
 
-    
-    
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getDrgProposalDocumentId() {
         return _drgProposalDocumentId;
@@ -44,7 +45,6 @@ public class DrgProposalDocument implements Serializable,Document {
         _name = name;
     }
 
-    
     public byte[] getContent() {
         return _content;
     }
