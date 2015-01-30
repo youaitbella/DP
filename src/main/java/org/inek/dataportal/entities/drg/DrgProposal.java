@@ -190,6 +190,7 @@ public class DrgProposal implements Serializable {
 //    private List<ProcedureInfo> _procedures = new ArrayList<>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "drgdDrgProposalId", referencedColumnName = "prId")
+    @Documentation(name = "Dokumente", omitOnEmpty = true)
     private List<DrgProposalDocument> _documents = new ArrayList<>();
 
     @Documentation(name = "Dokumente, Post")

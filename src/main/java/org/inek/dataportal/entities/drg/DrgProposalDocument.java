@@ -20,7 +20,7 @@ public class DrgProposalDocument implements Serializable, Document {
     @Column(name = "drgdId")
     private Integer _drgProposalDocumentId;
 
-    @Documentation(key = "lblDocuments", omitOnEmpty = true)
+    @Documentation(key = "lblName", omitOnEmpty = true)
     @Column(name = "drgdName")
     private String _name = "";
 

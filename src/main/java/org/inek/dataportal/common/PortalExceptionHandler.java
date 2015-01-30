@@ -138,14 +138,18 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             if (collector.length() > 0) {
                 collector.append("\r\n\r\n--------------------------------\r\n\r\n");
             }
-            collector.append("URL").append(url).append("\r\n\r\n");
+            collector.append("URL ").append(url).append(request.getQueryString()).append("\r\n\r\n");
 
             String viewId = context.getViewRoot().getViewId();
             if (collector.length() > 0) {
                 collector.append("\r\n\r\n--------------------------------\r\n\r\n");
             }
-            collector.append("ViewId").append(viewId).append("\r\n\r\n");
+            collector.append("ViewId ").append(viewId).append("\r\n\r\n");
         } catch (Exception ex) {
+            if (collector.length() > 0) {
+                collector.append("\r\n\r\n--------------------------------\r\n\r\n");
+            }
+            collector.append("Exception whilst collection info ").append(ex.getMessage()).append("\r\n\r\n");
         }
     }
 
