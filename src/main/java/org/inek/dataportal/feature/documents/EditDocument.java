@@ -27,7 +27,7 @@ import org.inek.dataportal.helper.StreamHelper;
 @RequestScoped
 public class EditDocument extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditNubProposal");
+    private static final Logger _logger = Logger.getLogger("EditDocument");
 
     @Inject
     private AccountDocumentFacade _accDocFacade;

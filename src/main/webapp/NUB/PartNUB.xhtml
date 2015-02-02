@@ -13,13 +13,13 @@
             <ui:include src="#{sessionTools.pages.ListNub}"/>
             <p>
                 <h:commandLink styleClass="button"
-                               action="#{nubProposalList.newNubProposal}"
+                               action="#{nubRequestList.newNubRequest}"
                                immediate="true"
-                               value="#{msg.btnNewProposal}"
+                               value="#{msg.btnNewRequest}"
                                disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"/>
 
                 <h:commandLink styleClass="button"
-                               action="#{nubProposalList.newNubProposalFromTemplate}"
+                               action="#{nubRequestList.newNubRequestFromTemplate}"
                                disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true"
                                value="#{msg.lblNewFromTemplate}"/>
@@ -29,7 +29,7 @@
                 <h:outputText value="#{msg.msgNoNubCreatable}" />
             </div>
             <br/>
-            <h:outputLabel styleClass="label" rendered ="#{nubProposalList.sealedNubProposals.size() > 0}" value="sowie #{nubProposalList.sealedNubProposals.size()} bereitgestellte NUBs"/>
+            <h:outputLabel styleClass="label" rendered ="#{nubRequestList.sealedNubRequests.size() > 0}" value="sowie #{nubRequestList.sealedNubRequests.size()} bereitgestellte NUBs"/>
         </div>
     </ui:composition>
 </html>

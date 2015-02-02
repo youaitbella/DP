@@ -471,19 +471,33 @@ public class EditDrgProposal extends AbstractEditController {
             _sessionController.setScript(script);
             return Pages.PrintView.URL();
         }
-        return null;
+        return "";
     }
 
     public String requestApprovalDrgProposal() {
         if (!drgProposalIsComplete()) {
             return null;
         }
-        _drgProposal.setStatus(WorkflowStatus.ApprovalRequested.getValue());
+        _drgProposal.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
-        return null;
+        return "";
     }
 
+    public String take() {
+        if (!isTakeEnabled()) {
+            return Pages.Error.URL();
+        }
+            _drgProposal.setAccountId(_sessionController.getAccountId());
+            _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        return "";
+    }
+
+    public String reloadMaster() {
+        populateMasterData(_drgProposal, _sessionController.getAccount());
+        return "";
+    }
+    
     public String takeDocuments() {
         DrgProposalController ppController = (DrgProposalController) _sessionController.getFeatureController(Feature.DRG_PROPOSAL);
 
@@ -496,15 +510,16 @@ public class EditDrgProposal extends AbstractEditController {
         }
         ppController.getDocuments().clear();
 
-        return null;
+        return "";
     }
 
+    
     public String deleteDocument(String name) {
         DrgProposalDocument existingDoc = findByName(name);
         if (existingDoc != null) {
             getDrgProposal().getDocuments().remove(existingDoc);
         }
-        return null;
+        return "";
     }
 
     public String downloadDocument(String name) {
@@ -561,7 +576,6 @@ public class EditDrgProposal extends AbstractEditController {
         if (drgProposal.getDocuments() != null && drgProposal.getDocuments().size() > 0
                 || drgProposal.getDocumentsOffline() != null && drgProposal.getDocumentsOffline().length() > 0) {
             newTopic = checkField(newTopic, drgProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
-
         }
 
         if (!_msg.isEmpty()) {
@@ -572,7 +586,6 @@ public class EditDrgProposal extends AbstractEditController {
                 script += "\r\n document.getElementById('" + _elementId + "').focus();";
             }
             _sessionController.setScript(script);
-
         }
         return _msg.isEmpty();
     }
@@ -615,16 +628,6 @@ public class EditDrgProposal extends AbstractEditController {
         return Pages.DrgProposalRequestCorrection.URL();
     }
 
-    public String take() {
-        _drgProposal.setAccountId(_sessionController.getAccountId());
-        return "";
-    }
-
-    public String reloadMaster() {
-        populateMasterData(_drgProposal, _sessionController.getAccount());
-        return "";
-    }
-
     private String _message = "";
 
     public String getMessage() {
@@ -641,7 +644,7 @@ public class EditDrgProposal extends AbstractEditController {
         Account receiver = _accountFacade.find(_drgProposal.getAccountId());
         _drgProposal.setStatus(WorkflowStatus.New.getValue());
         if (!isReadOnly()) {
-            // their might have been changes by that user
+            // there might have been changes by that user
             setModifiedInfo();
         }
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);

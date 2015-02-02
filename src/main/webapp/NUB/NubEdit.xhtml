@@ -24,9 +24,9 @@
             </h1>
             <div class="tab">
                 <ul class="tab">
-                    <c:forEach items="#{editNubProposal.visibleTopics}" var="topic">
+                    <c:forEach items="#{editNubRequest.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editNubProposal.changeTabPage(topic.key)}"
+                            <h:commandLink value="#{topic.title}" action="#{editNubRequest.changeTabPage(topic.key)}"
                                            immediate="true">
                             </h:commandLink>
                         </li>
@@ -34,47 +34,62 @@
                 </ul>
             </div>
 
-            <h:graphicImage rendered="#{editNubProposal.rejectedNub}" style="float: left; display: block; margin-top: 0px; margin-left: 2px; padding-top: 5px; background-color: rgb(238, 238, 238);" library="Icon/small" alt="" name="error.png" value=""/>
-            <h:outputLabel rendered="#{editNubProposal.rejectedNub}" style="display: block; background-color: rgb(238, 238, 238); margin-top: 0px; padding-top: 5px;" styleClass="label" value="&nbsp;#{msg.lblNubErrorTextLong}:" />
-            <h:outputLabel rendered="#{editNubProposal.rejectedNub}" style="background-color: rgb(238, 238, 238); position: relative; border: #ff0000 solid 3px; width: 99%; display: block;" value="#{editNubProposal.nubProposal.errorText}"/>
+            <h:graphicImage rendered="#{editNubRequest.rejectedNub}" style="float: left; display: block; margin-top: 0px; margin-left: 2px; padding-top: 5px; background-color: rgb(238, 238, 238);" library="Icon/small" alt="" name="error.png" value=""/>
+            <h:outputLabel rendered="#{editNubRequest.rejectedNub}" style="display: block; background-color: rgb(238, 238, 238); margin-top: 0px; padding-top: 5px;" styleClass="label" value="&nbsp;#{msg.lblNubErrorTextLong}:" />
+            <h:outputLabel rendered="#{editNubRequest.rejectedNub}" style="background-color: rgb(238, 238, 238); position: relative; border: #ff0000 solid 3px; width: 99%; display: block;" value="#{editNubRequest.nubRequest.errorText}"/>
 
             <div class="edit">
-                <!--ui:include src="# {editNubProposal.part}"/-->
                 <ui:insert name="editContent">Content</ui:insert>
 
                 <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="button" action="#{editNubProposal.save}" value="#{msg.btnSave}" immediate="true"
-                                   rendered="#{!editNubProposal.readOnly}"/>
+                    <h:commandLink styleClass="button" 
+                                   action="#{editNubRequest.save}" 
+                                   value="#{msg.btnSave}" 
+                                   immediate="true"
+                                   rendered="#{!editNubRequest.readOnly}"/>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editNubProposal.requestApproval()}"
+                                   action="#{editNubRequest.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editNubProposal.approvalRequestEnabled}"
-                                   title="#{msg.infoSaveAndClose}"/>
-
-                    <h:commandLink id="confirmApprovalRequest" style="display: none"
-                                   action="#{editNubProposal.confirmApprovalRequest()}"
-                                   value="confirmApprovalRequest"/>
+                                   rendered="#{editNubRequest.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editNubProposal.requestSeal()}"
+                                   action="#{editNubRequest.sealNubRequest}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editNubProposal.sealEnabled}"
-                                   title="#{msg.infoSaveAndClose}"/>
+                                   rendered="#{editNubRequest.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
 
-                    <h:commandLink id="seal" style="display: none" action="#{editNubProposal.seal()}" value="seal"/>
+                    <h:commandLink styleClass="button"
+                                   action="#{editNubRequest.requestCorrection}"
+                                   value="#{msg.btnRequestCorrection}"
+                                   immediate="true"
+                                   rendered="#{editNubRequest.requestCorrectionEnabled}">
+                    </h:commandLink>
 
+                    <h:commandLink styleClass="button"
+                                   action="#{editNubRequest.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editNubRequest.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
+                    
                     <h:commandLink id="btnTemplate" styleClass="button"
-                                   action="#{editNubProposal.downloadTemplate()}"
+                                   action="#{editNubRequest.downloadTemplate()}"
                                    value="#{msg.btnDownloadTemplate}"
                                    immediate="true"
-                                   disabled="#{editNubProposal.nubProposal.name.length() == 0}"/>
+                                   disabled="#{editNubRequest.nubRequest.name.length() == 0}"/>
 
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnNewFromNub}"
-                                   rendered="#{sessionController.isEnabled('IsNubCreateEnabled') and (editNubProposal.nubProposal.dateSealed != null or !editNubProposal.ownNub)}"
+                                   rendered="#{sessionController.isEnabled('IsNubCreateEnabled') and (editNubRequest.nubRequest.dateSealed != null or !editNubRequest.ownNub)}"
                                    >
-                        <f:ajax listener="#{editNubProposal.copyNubProposal}"/>
+                        <f:ajax listener="#{editNubRequest.copyNubRequest}"/>
                     </h:commandLink>
                 </div>
             </div>

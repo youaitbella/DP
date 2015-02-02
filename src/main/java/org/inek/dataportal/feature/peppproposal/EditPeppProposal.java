@@ -536,7 +536,11 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     public String take() {
-        _peppProposal.setAccountId(_sessionController.getAccountId());
+        if (!isTakeEnabled()) {
+            return Pages.Error.URL();
+        }
+            _peppProposal.setAccountId(_sessionController.getAccountId());
+            _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
         return "";
     }
 
@@ -561,7 +565,7 @@ public class EditPeppProposal extends AbstractEditController {
         Account receiver = _accountFacade.find(_peppProposal.getAccountId());
         _peppProposal.setStatus(WorkflowStatus.New.getValue());
         if (!isReadOnly()) {
-            // their might have been changes by that user
+            // there might have been changes by that user
             setModifiedInfo();
         }
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);

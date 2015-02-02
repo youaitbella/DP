@@ -15,7 +15,7 @@ import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.NubProposalFacade;
+import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 
@@ -39,7 +39,7 @@ public class CooperationTools implements Serializable {
     @Inject
     SessionController _sessionController;
     @Inject
-    NubProposalFacade _nubProposalFacade;
+    NubRequestFacade _nubRequestFacade;
     @Inject
     AccountFacade _accountFacade;
 

@@ -12,10 +12,10 @@
         <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
     </f:metadata>
 
-    <inek:NubRequestTable requests="#{nubProposalList.nubProposals}" showDelete="true" isSealed="false" rendered="#{nubProposalList.openListEnabled}"/>
+    <inek:NubRequestTable requests="#{nubRequestList.nubRequests}" showDelete="true" isSealed="false" rendered="#{nubRequestList.openListEnabled}"/>
 
-    <h:commandLink id="deleteNubProposal" style="display: none"
-                   action="#{nubProposalList.deleteNubProposal(flash.nubId)}"
+    <h:commandLink id="deleteNubRequest" style="display: none"
+                   action="#{nubRequestList.deleteNubRequest()}"
                    value="delete #{flash.nubId}">
     </h:commandLink>
 

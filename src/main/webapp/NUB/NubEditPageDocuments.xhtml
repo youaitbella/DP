@@ -15,7 +15,7 @@
             function createUploader() {
                 var uploader = new qq.FileUploader({
                     element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/nubproposal',
+                    action: '/DataPortal/upload/nubrequest',
                     debug: true,
                     allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
                     onSubmit: function (id, fileName) {
@@ -49,15 +49,15 @@
             <br/>
         </div>
         <div class="inputPart">
-            <h:panelGroup rendered="#{editNubProposal.nubProposal.documents.size() > 0}">
+            <h:panelGroup rendered="#{editNubRequest.nubRequest.documents.size() > 0}">
                 <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
                 <h:dataTable  headerClass="list-header" id="tblDropBoxes"
-                              value="#{editNubProposal.nubProposal.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-                    <h:column id="colDeleteId" rendered="#{editNubProposal.nubProposal.status.value lt 10}">
+                              value="#{editNubRequest.nubRequest.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                    <h:column id="colDeleteId" rendered="#{editNubRequest.nubRequest.status.value lt 10}">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <h:commandLink action="#{editNubProposal.deleteDocument(file.name)}" immediate="true" >
+                        <h:commandLink action="#{editNubRequest.deleteDocument(file.name)}" immediate="true" >
                             <h:graphicImage alt="#{msg.btnDelete}" name="delete.png" library="Icon/small" title="#{msg.btnDelete}" value=""/>
                         </h:commandLink>
                     </h:column>
@@ -65,14 +65,14 @@
                         <f:facet name="header">
                             <h:outputText value="#{msg.lblName}"/>
                         </f:facet>
-                        <h:commandLink id="filename" value="#{file.name}" action="#{editNubProposal.downloadDocument(file.name)}" immediate="true" />
+                        <h:commandLink id="filename" value="#{file.name}" action="#{editNubRequest.downloadDocument(file.name)}" immediate="true" />
                     </h:column>
                 </h:dataTable>
             </h:panelGroup>
 
         </div>
 
-        <div class="inputPart" jsf:rendered = "#{editNubProposal.nubProposal.status.value ge 0 and editNubProposal.nubProposal.status.value lt 5}">
+        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value ge 0 and editNubRequest.nubRequest.status.value lt 5}">
             <div id="file-uploader">
                 <script>
                     createUploader();
@@ -80,7 +80,7 @@
             </div>
 
             <!-- next comes a hidden element to force a JSF conform refresh -->
-            <h:commandLink id="refresh" style="display: none" action="#{editNubProposal.refresh}" value="refresh"/>
+            <h:commandLink id="refresh" style="display: none" action="#{editNubRequest.refresh}" value="refresh"/>
         </div>
 
     </ui:define>

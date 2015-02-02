@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.utils.DateUtils;
@@ -20,7 +20,7 @@ public class LogFacade extends AbstractFacade<Log> {
     private void removeOldEntries() {
         Date logDate = DateUtils.getDateWithDayOffset(-30);
         String sql = "DELETE FROM Log l WHERE l._creationDate < :date";
-        Query query = getEntityManager().createQuery(sql, NubProposal.class);
+        Query query = getEntityManager().createQuery(sql, NubRequest.class);
         query.setParameter("date", logDate).executeUpdate();
     }
 

@@ -12,8 +12,8 @@
             <h:outputLabel styleClass="label" for="nubName" value="#{msg.lblNubName}"/>
             <h:message for="nubName" id="msgNubName" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubName" value="#{editNubProposal.nubProposal.name}" 
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{editNubProposal.readOnly}">
+            <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubName" value="#{editNubRequest.nubRequest.name}" 
+                             required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{editNubRequest.readOnly}">
                 <f:validator validatorId="RequiredValidator"/>
                 <f:validateLength maximum="200"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubName btnTemplate"/>
@@ -24,7 +24,7 @@
             <h:outputLabel styleClass="label" for="nubAltName" value="#{msg.lblNubAltName}"/>
             <h:message for="nubAltName" id="msgNubAltName" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubAltName" value="#{editNubProposal.nubProposal.altName}" required="false" readonly="#{editNubProposal.readOnly}">
+            <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubAltName" value="#{editNubRequest.nubRequest.altName}" required="false" readonly="#{editNubRequest.readOnly}">
                 <f:validateLength maximum="1000"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubAltName"/>
             </h:inputTextarea>
@@ -34,8 +34,8 @@
             <h:outputLabel styleClass="label" for="nubDescription" value="#{msg.lblNubDescription}"/>
             <h:message for="nubDescription" id="msgNubDescription" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea styleClass="areaWideHigh fullWidth" id="nubDescription" value="#{editNubProposal.nubProposal.description}" 
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{editNubProposal.readOnly}">
+            <h:inputTextarea styleClass="areaWideHigh fullWidth" id="nubDescription" value="#{editNubRequest.nubRequest.description}" 
+                             required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{editNubRequest.readOnly}">
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubDescription"/>
             </h:inputTextarea>
@@ -45,13 +45,13 @@
             <h:outputLabel styleClass="label" for="peppProcs" value="#{msg.lblNubProcRelated}"/>
             <br/>
             <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="peppProcs" 
-                             readonly="#{editNubProposal.readOnly}"
-                             value="#{editNubProposal.nubProposal.procs}"
-                             validator="#{editNubProposal.checkProcedureCodes}">
+                             readonly="#{editNubRequest.readOnly}"
+                             value="#{editNubRequest.nubRequest.procs}"
+                             validator="#{editNubRequest.checkProcedureCodes}">
                 <f:validateLength maximum="500"/>
                 <f:ajax event="blur" render="@this msgCheckProcs"/>
             </h:inputTextarea>
-            <h:commandButton styleClass="button rightAllign" action="#{editNubProposal.searchProc}" 
+            <h:commandButton styleClass="button rightAllign" action="#{editNubRequest.searchProc}" 
                              immediate="true" value="#{msg.btnCallSearch}"/>
             <h:message for="peppProcs" id="msgCheckProcs" styleClass="errorMessage"/>
         </div>
@@ -61,8 +61,8 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubProceduresText" value="#{msg.lblNubProceduresText}"/>
             <br/>
-            <h:inputTextarea styleClass="areaWideHigh" id="nubProceduresText" value="#{editNubProposal.nubProposal.procedures}" 
-                             readonly="#{editNubProposal.readOnly}">
+            <h:inputTextarea styleClass="areaWideHigh" id="nubProceduresText" value="#{editNubRequest.nubRequest.procedures}" 
+                             readonly="#{editNubRequest.readOnly}">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>

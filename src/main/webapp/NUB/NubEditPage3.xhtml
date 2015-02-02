@@ -12,7 +12,7 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubInGermany" value="#{msg.lblNubInGermany}"/>
             <br/>
-            <h:inputTextarea styleClass="areaWideLow" id="nubInGermany" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.inGermanySince}" required="false">
+            <h:inputTextarea styleClass="areaWideLow" id="nubInGermany" readonly="#{editNubRequest.readOnly}" value="#{editNubRequest.nubRequest.inGermanySince}" required="false">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
@@ -20,7 +20,7 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubMedApproved" value="#{msg.lblNubMedApproved}"/>
             <br/>
-            <h:inputTextarea styleClass="areaWideLow" id="nubMedApproved" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.medApproved}" required="false">
+            <h:inputTextarea styleClass="areaWideLow" id="nubMedApproved" readonly="#{editNubRequest.readOnly}" value="#{editNubRequest.nubRequest.medApproved}" required="false">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
@@ -29,7 +29,7 @@
             <h:outputLabel styleClass="label" for="nubInHouse" value="#{msg.lblNubInHouse}"/>
             <h:message for="nubInHouse" id="msgNubInHouse" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea  styleClass="areaWideLow" id="nubInHouse" value="#{editNubProposal.nubProposal.inHouseSince}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputTextarea  styleClass="areaWideLow" id="nubInHouse" value="#{editNubRequest.nubRequest.inHouseSince}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubInHouse"/>
             </h:inputTextarea>
@@ -38,23 +38,23 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubHospitalCount" value="#{msg.lblNubHospitalCount}"/>
             <br/>
-            <h:inputTextarea  styleClass="areaWideLow" id="nubHospitalCount" value="#{editNubProposal.nubProposal.hospitalCount}" readonly="#{editNubProposal.readOnly}" required="false">
+            <h:inputTextarea  styleClass="areaWideLow" id="nubHospitalCount" value="#{editNubRequest.nubRequest.hospitalCount}" readonly="#{editNubRequest.readOnly}" required="false">
                 <f:ajax event="blur" render="@this :logout:remaining"/>
             </h:inputTextarea>
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label" value="#{editNubProposal.patientsPastText} *"/>
+            <h:outputLabel styleClass="label" value="#{editNubRequest.patientsPastText} *"/>
             <h:message for="patientsLastYear" id="msgPatientsLastYear" styleClass="errorMessage"/>
             <h:message for="patientsThisYear" id="msgPatientsThisYear" styleClass="errorMessage"/>
             <br />
             <div class="floatContainer">
                 <div style="float: left;">
                     <span style="float: left;">
-                        <h:outputLabel styleClass="label" for="patientsLastYear" value="in #{editNubProposal.currentYear-1}:" />
+                        <h:outputLabel styleClass="label" for="patientsLastYear" value="in #{editNubRequest.currentYear-1}:" />
                         &nbsp;
                     </span>
-                    <h:inputTextarea styleClass="areaNarrowLow" id="patientsLastYear" value="#{editNubProposal.nubProposal.patientsLastYear}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                    <h:inputTextarea styleClass="areaNarrowLow" id="patientsLastYear" value="#{editNubRequest.nubRequest.patientsLastYear}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                         <f:validateLength maximum="1000"/>
                         <f:validator validatorId="RequiredValidator"/>
                         <f:ajax event="blur" render="@this :logout:remaining msgPatientsLastYear"/>
@@ -62,10 +62,10 @@
                 </div>
                 <div style="float: left; margin-left: 20px;">
                     <span style="float: left;">
-                        <h:outputLabel styleClass="label" for="patientsThisYear" value="in #{editNubProposal.currentYear}:" />
+                        <h:outputLabel styleClass="label" for="patientsThisYear" value="in #{editNubRequest.currentYear}:" />
                         &nbsp;
                     </span>
-                    <h:inputTextarea styleClass="areaNarrowLow" id="patientsThisYear" value="#{editNubProposal.nubProposal.patientsThisYear}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                    <h:inputTextarea styleClass="areaNarrowLow" id="patientsThisYear" value="#{editNubRequest.nubRequest.patientsThisYear}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                         <f:validateLength maximum="1000"/>
                         <f:validator validatorId="RequiredValidator"/>
                         <f:ajax event="blur" render="@this :logout:remaining msgPatientsThisYear"/>
@@ -75,10 +75,10 @@
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label" for="patientsFuture" value="#{editNubProposal.patientsText}" />
+            <h:outputLabel styleClass="label" for="patientsFuture" value="#{editNubRequest.patientsText}" />
             <h:message for="patientsFuture" id="msgPatientsFuture" styleClass="errorMessage"/>
             <br />
-            <h:inputTextarea styleClass="areaWideLow" id="patientsFuture" value="#{editNubProposal.nubProposal.patientsFuture}" readonly="#{editNubProposal.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputTextarea styleClass="areaWideLow" id="patientsFuture" value="#{editNubRequest.nubRequest.patientsFuture}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validateLength maximum="1000"/>
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgPatientsFuture"/>

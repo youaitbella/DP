@@ -33,7 +33,7 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.feature.nub.EditNubProposal;
+import org.inek.dataportal.feature.nub.EditNubRequest;
 
 /**
  *
@@ -186,7 +186,7 @@ public class Utils {
             }
             return sb.toString();
         } catch (IOException | NoSuchAlgorithmException ex) {
-            Logger.getLogger(EditNubProposal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditNubRequest.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }

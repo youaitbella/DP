@@ -161,7 +161,7 @@ public class SessionTools implements Serializable {
         return false;
     }
 
-    public boolean isNubProposalDisabled() {
+    public boolean isNubRequestDisabled() {
         return false;
     }
 

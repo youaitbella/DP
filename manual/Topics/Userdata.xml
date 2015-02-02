@@ -2,6 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Stammformblatt</title>
+  <keywords>
+    <keyword translate="true">Ans InEK senden</keyword>
+    <keyword translate="true">Besitz übernehmen</keyword>
+    <keyword translate="true">Korrektur anfordern</keyword>
+  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Stammformblatt</text></para>
@@ -19,12 +24,18 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Allgemeine Schaltflächen (auf alle Registerseiten sichtbar)</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Speichern</text></para>
+    <para styleclass="Heading3"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> erlaubt Ihnen die Speicherung des Datensatzes zu jedem beliebigen Zeitpunkt, unabhängig von Vollständigkeit der Daten. Somit ist es möglich, die Arbeit zu unterbrechen und zu einem späteren Zeitpunkt fortzusetzen. Eine Notwendigkeit, die Daten in einem Rutsch zu erfassen und an das InEK zu senden, besteht also nicht.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Durch den Wechsel auf eine andere Internetseite verlassen Sie das Datenportal, ohne dass Ihre Daten gespeichert werden. Auch der Wechsel innerhalb des InEK-Datenportals zu einer anderen Funktion entspricht technisch solch einem Seitenwechsel. Insofern denken Sie bitte daran, vor jedem Wechsel Ihre Daten zu speichern. Beim Wechsel der Registerkarten innerhalb des Vorschlagsverfahrens verbleiben Ihre Daten jedoch in der Applikation, so dass Sie hier problemlos hin und her wechseln können. Im Hinblick auf mögliche Verbindungsabbrüche, automatische Abmeldung nach 30 Minuten ohne Benutzeraktivität etc. wird empfohlen, die Eingabedaten hier und da zwischen zu speichern. </text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Ans InEK senden</text></para>
+    <para styleclass="Heading3"></para>
     <para styleclass="Button"><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> prüft die Daten auf Vollständigkeit, speichert diese und &quot;sendet&quot; sie an das InEK. Sollten die Daten noch nicht vollständig sein, erhalten Sie eine entsprechende Meldung mit detaillierten Hinweisen. Sie können dann die Daten komplettieren und anschließend neu senden.</text></para>
-    <para styleclass="Button"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Zur Freigabe durch Partner</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Button"><text styleclass="Normal" translate="true">Haben Sie einem Kooperationspartner das Recht der Supervision eingeräumt (oder ist im Falle von NUB ein von Ihnen abweichender IK-Supervisor eingerichtet), so können Sie den Datensatz nicht mehr direkt an das InEK senden. Vielmehr markieren Sie den Datensatz </text><text styleclass="Button" translate="true">[ zur Freigabe durch Partner ]</text><text styleclass="Normal" translate="true">. Diese Schaltfläche ersetzt die Senden-Schaltfläche.</text></para>
     <para styleclass="Button"></para>
     <para styleclass="Button"></para>
@@ -33,14 +44,23 @@
     <para styleclass="Button"></para>
     <para styleclass="Button"><text styleclass="Normal" translate="true">Spätestens nachdem Sie den Datensatz zur Freigabe durch Partner markiert haben, wird dieser in der Liste Ihres Partners geführt. Dieser kann die Daten nun (nach Prüfung) an das InEK senden.</text></para>
     <para styleclass="Button"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Korrektur anfordern</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Falls Sie als Supervisor arbeiten und eine unklare Formulierung oder Fehler entdecken, können Sie mittels </text><text styleclass="Button" translate="true">[ Korrektur anfordern ]</text><text styleclass="Normal" translate="true"> die Bearbeitung des Datensatzes an den Erfasser (genauer: aktuellen Besitzer) zurück zu geben. Insbesondere, falls Sie als Supervisor nicht ändern, sondern nur an das InEK senden dürfen, erlaubt diese Funktion, den Datensatz an den Editor zu verweisen. Sofern Sie als Supervisor die Daten auch ändern dürfen, wird bei Anfordern der Korrektur der aktuelle Datenstand gespeichert.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Da bei Anforderung einer Korrektur der normale Arbeitsfluss für diesen Schritt umgekehrt wird, erhält der Erfasser bzw. Besitzer des Datensatzes eine interne Nachricht. Diese Nachricht können Sie mit weiteren Hinweisen versehen. </text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" style="font-style:normal;" translate="true">Besitz übernehmen</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Button"><text styleclass="Normal" translate="true">Sofern Sie Ihrem Partner das Recht </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besitz übernehmen</text><text styleclass="Normal" translate="true"> eingeräumt haben, erscheint bei diesem die Schaltfläche </text><text styleclass="Button" translate="true">[ Besitz übernehmen ]</text><text styleclass="Normal" translate="true">. </text></para>
     <para styleclass="Image Caption"></para>
     <para styleclass="Image Caption"><image src="TakeData.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Schaltfläche Besitz übernehmen</text></para>
     <para styleclass="Button"></para>
-    <para styleclass="Button"><text styleclass="Normal" translate="true">Bei jedem Datensatz wird eingetragen, wem dieser &quot;gehört&quot;. Dabei handelt es sich um die Person, welche den Datensatz erstellt hat. Mittels </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besitz übernehmen</text><text styleclass="Normal" translate="true"> können Sie dies ändern. Der aktuelle Besitzer muss dazu dem Partner das entsprechende Recht einräumen und dieser dann mittels der angeführten Schaltfläche aktiv den Besitz übernehmen. Nach dem Speichern ist der Datensatz dem neuen Besitzer zugeordnet. </text></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Bei jedem Datensatz wird eingetragen, wem dieser &quot;gehört&quot;. Dabei handelt es sich um die Person, welche den Datensatz erstellt hat. Mittels </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besitz übernehmen</text><text styleclass="Normal" translate="true"> können Sie dies ändern. Der aktuelle Besitzer muss dazu dem Partner das entsprechende Recht einräumen und dieser dann mittels der angeführten Schaltfläche aktiv den Besitz übernehmen. Nach Bestätigung ist der Datensatz dem neuen Besitzer zugeordnet. Um den neuen Besitzer dauerhaft festzuhalten, wird diese Information bei Besitzänderung mit allen aktuellen Daten gespeichert.</text></para>
     <para styleclass="Button"></para>
     <para styleclass="Button"><text styleclass="Normal" translate="true">Nur der Besitzer kann einen Datensatz löschen - sofern es der Bearbeitungsstatus erlaubt - und anderen Personen Zugriffsrechte einräumen.</text></para>
+    <para styleclass="Button"></para>
     <para styleclass="Button"></para>
   </body>
 </topic>

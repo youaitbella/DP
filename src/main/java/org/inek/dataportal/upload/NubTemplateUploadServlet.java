@@ -10,7 +10,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
-import org.inek.dataportal.facades.NubProposalFacade;
+import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.helper.Utils;
 
@@ -19,7 +19,7 @@ import org.inek.dataportal.helper.Utils;
 public class NubTemplateUploadServlet extends AbstractUploadServlet {
 
     @Inject SessionController _sessionController;
-    @Inject NubProposalFacade _nubFacade;
+    @Inject NubRequestFacade _nubFacade;
 
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
@@ -27,11 +27,6 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             NubController controller = (NubController) _sessionController.getFeatureController(Feature.NUB);
             byte[] buffer = stream2blob(is);
             String fileText = new String(buffer, "UTF-8");
-//            if (fileText.startsWith("NuB Vorschlag")) {
-//                // old format
-//                _nubFacade.saveNubProposal(controller.createNubProposalFromOldFormat(filename, new String(buffer)));
-//                return;
-//            }
             int pos = fileText.lastIndexOf(NubFieldKey.CheckSum + "=");
             if (pos < 0) {
                 throw new IOException("Formatfehler");
@@ -39,7 +34,7 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             String template = fileText.substring(0, pos);
             String checksum = fileText.substring(pos + 9).replace("\r\n", "");
             if (checksum.equals(Utils.getChecksum(template + "Length=" + template.length()))) {
-                _nubFacade.saveNubProposal(controller.createNubProposal(template));
+                _nubFacade.saveNubRequest(controller.createNubRequest(template));
                 return;
             }
             throw new IOException("Formatfehler");

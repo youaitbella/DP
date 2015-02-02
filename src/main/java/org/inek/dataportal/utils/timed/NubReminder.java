@@ -8,13 +8,13 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.NubProposalFacade;
+import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
@@ -29,7 +29,7 @@ public class NubReminder {
 
     private static final Logger _logger = Logger.getLogger("NubReminder");
     @Inject private AccountFacade _accountFacade;
-    @Inject private NubProposalFacade _nubFacade;
+    @Inject private NubRequestFacade _nubFacade;
     @Inject Mailer _mailer;
     @Inject ConfigFacade _config;
 
@@ -81,9 +81,9 @@ public class NubReminder {
 
     private String getOpenNubs(Account account) {
         StringBuilder sb = new StringBuilder();
-        List<NubProposal> requests = _nubFacade.findAll(account.getId(), DataSet.AllOpen, "");
+        List<NubRequest> requests = _nubFacade.findAll(account.getId(), DataSet.AllOpen, "");
         boolean needsApproval = false;
-        for (NubProposal request : requests) {
+        for (NubRequest request : requests) {
             String displayName = request.getDisplayName().trim();
             if (displayName.isEmpty()) {
                 int pos = request.getName().indexOf(" ", 100);

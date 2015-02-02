@@ -48,7 +48,7 @@ import org.inek.dataportal.services.MessageService;
 @FeatureScoped
 public class EditCooperation extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditNubProposal");
+    private static final Logger _logger = Logger.getLogger("EditCooperation");
 
     @Inject private SessionController _sessionController;
     @Inject CooperationRequestFacade _cooperationRequestFacade;

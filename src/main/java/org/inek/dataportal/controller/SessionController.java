@@ -496,6 +496,13 @@ public class SessionController implements Serializable {
         return SessionCounter.getCount();
     }
 
+    /**
+     * This methods is used in an onclick event of a facelets page 
+     * to add a configurable confirmation behavior.
+     * 
+     * @param key
+     * @return 
+     */
     public String getConfirmMessage(String key) {
         String message = Utils.getMessageOrEmpty(key);
         if (message.isEmpty()) {

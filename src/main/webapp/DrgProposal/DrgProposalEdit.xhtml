@@ -44,6 +44,7 @@
                                    immediate="true"
                                    rendered="#{!editDrgProposal.readOnly}">
                     </h:commandLink>
+
                     <h:commandLink styleClass="sendButton"
                                    action="#{editDrgProposal.requestApprovalDrgProposal}"
                                    value="#{msg.btnRequestApproval}"
@@ -52,6 +53,7 @@
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
+
                     <h:commandLink styleClass="sendButton"
                                    action="#{editDrgProposal.sealDrgProposal}"
                                    value="#{msg.btnSaveAndClose}"
@@ -60,12 +62,14 @@
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
+
                     <h:commandLink styleClass="button"
                                    action="#{editDrgProposal.requestCorrection}"
                                    value="#{msg.btnRequestCorrection}"
                                    immediate="true"
                                    rendered="#{editDrgProposal.requestCorrectionEnabled}">
                     </h:commandLink>
+
                     <h:commandLink styleClass="button"
                                    action="#{editDrgProposal.take}"
                                    value="#{msg.btnTake}"

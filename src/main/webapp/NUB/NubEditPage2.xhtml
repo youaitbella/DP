@@ -13,7 +13,7 @@
             <h:outputLabel styleClass="label" for="nubIndic" value="#{msg.lblNubIndication}"/>
             <h:message for="nubIndic" id="msgNubIndic" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea  styleClass="areaWideHigh" id="nubIndic" readonly="#{editNubProposal.readOnly}" value="#{editNubProposal.nubProposal.indication}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputTextarea  styleClass="areaWideHigh" id="nubIndic" readonly="#{editNubRequest.readOnly}" value="#{editNubRequest.nubRequest.indication}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubIndic"/>
             </h:inputTextarea>
@@ -23,7 +23,7 @@
             <h:outputLabel styleClass="label" for="nubReplacement" value="#{msg.lblNubReplacement}"/>
             <h:message for="nubReplacement" id="msgNubReplacement" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubProposal.readOnly}" id="nubReplacement" value="#{editNubProposal.nubProposal.replacement}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubRequest.readOnly}" id="nubReplacement" value="#{editNubRequest.nubRequest.replacement}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubReplacement"/>
             </h:inputTextarea>
@@ -33,7 +33,7 @@
             <h:outputLabel styleClass="label" for="nubWhatsNew" value="#{msg.lblNubWhatsNew}"/>
             <h:message for="nubWhatsNew" id="msgNubWhatsNew" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubProposal.readOnly}" id="nubWhatsNew" value="#{editNubProposal.nubProposal.whatsNew}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubRequest.readOnly}" id="nubWhatsNew" value="#{editNubRequest.nubRequest.whatsNew}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:validator validatorId="RequiredValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubWhatsNew"/>
             </h:inputTextarea>
@@ -43,7 +43,7 @@
             <h:outputLabel styleClass="label" for="nubLos" value="#{msg.lblNubLos}"/>
             <h:message for="nubLos" id="msgNubLos" styleClass="errorMessage"/>
             <br/>
-            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubProposal.readOnly}" id="nubLos" value="#{editNubProposal.nubProposal.los}" required="false">
+            <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubRequest.readOnly}" id="nubLos" value="#{editNubRequest.nubRequest.los}" required="false">
                 <f:ajax event="blur" render="@this :logout:remaining msgNubLos"/>
             </h:inputTextarea>
         </div>

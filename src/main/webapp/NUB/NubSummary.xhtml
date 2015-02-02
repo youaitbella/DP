@@ -29,53 +29,53 @@
                 <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubSessionTools.nubFilter}">
                     <f:ajax/>
                 </h:inputText>
-                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}" action="#{nubProposalList.refresh()}" immediate="true">
+                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}" action="#{nubRequestList.refresh()}" immediate="true">
                 </h:commandLink>
             </div>
 
             <ui:include src="#{sessionTools.pages.ListNub}"/>
 
-            <h:panelGroup rendered="#{nubProposalList.partnersForEdit.size() > 0}">
+            <h:panelGroup rendered="#{nubRequestList.partnersForEdit.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="#{msg.lblNubFromPartner}"/>
-                <c:forEach items="#{nubProposalList.partnersForEdit}" var="partner" rendered="#{nubProposalList.partnersForEdit.size() > 0}">
-                    <h:panelGroup rendered="#{nubProposalList.getNubProposalsForEditFromPartner(partner.id).size() gt 0}">
+                <c:forEach items="#{nubRequestList.partnersForEdit}" var="partner" rendered="#{nubRequestList.partnersForEdit.size() > 0}">
+                    <h:panelGroup rendered="#{nubRequestList.getNubRequestsForEditFromPartner(partner.id).size() gt 0}">
                         <p>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                         </p>
-                        <inek:NubRequestTable requests="#{nubProposalList.getNubProposalsForEditFromPartner(partner.id)}" showDelete="false" isSealed="false"/>
+                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForEditFromPartner(partner.id)}" showDelete="false" isSealed="false"/>
                     </h:panelGroup>
                 </c:forEach>
             </h:panelGroup>
 
             <div class="toolBar">
-                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposal}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="button" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
-                <h:commandLink styleClass="button" action="#{nubProposalList.newNubProposalFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="button" action="#{nubRequestList.newNubRequestlFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
                 <div jsf:rendered="#{not sessionController.isEnabled('IsNubCreateEnabled')}">
                     <h:outputText value="#{msg.msgNoNubCreatable}" />
                 </div>
             </div>
 
-            <h:panelGroup rendered="#{nubProposalList.sealedNubProposals.size() > 0}" styleClass="marginTop">
+            <h:panelGroup rendered="#{nubRequestList.sealedNubRequests.size() > 0}" styleClass="marginTop">
                 <h:outputLabel styleClass="label marginTop" value="#{msg.infoSealedNUB}"/>
-                <inek:NubRequestTable requests="#{nubProposalList.sealedNubProposals}" isSealed="true"/>
+                <inek:NubRequestTable requests="#{nubRequestList.sealedNubRequests}" isSealed="true"/>
             </h:panelGroup>
 
-            <h:panelGroup rendered="#{nubProposalList.partnersForDisplay.size() > 0}">
+            <h:panelGroup rendered="#{nubRequestList.partnersForDisplay.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
-                <c:forEach items="#{nubProposalList.partnersForDisplay}" var="partner" rendered="#{nubProposalList.partnersForDisplay.size() > 0}">
-                    <h:panelGroup rendered="#{nubProposalList.getNubProposalsForDisplayFromPartner(partner.id).size() gt 0}">
+                <c:forEach items="#{nubRequestList.partnersForDisplay}" var="partner" rendered="#{nubRequestList.partnersForDisplay.size() > 0}">
+                    <h:panelGroup rendered="#{nubRequestList.getNubRequestsForDisplayFromPartner(partner.id).size() gt 0}">
                         <p>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                         </p>
-                        <inek:NubRequestTable requests="#{nubProposalList.getNubProposalsForDisplayFromPartner(partner.id)}" isSealed="true" showDelete="false"/>
+                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(partner.id)}" isSealed="true" showDelete="false"/>
                     </h:panelGroup>
                 </c:forEach>
             </h:panelGroup>

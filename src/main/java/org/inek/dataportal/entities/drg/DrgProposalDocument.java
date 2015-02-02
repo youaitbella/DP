@@ -37,18 +37,22 @@ public class DrgProposalDocument implements Serializable, Document {
         _drgProposalDocumentId = id;
     }
 
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public void setName(String name) {
         _name = name;
     }
 
+    @Override
     public byte[] getContent() {
         return _content;
     }
 
+    @Override
     public void setContent(byte[] content) {
         _content = content;
     }

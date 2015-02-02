@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
@@ -42,36 +42,36 @@ public class NubController extends AbstractFeatureController {
     }
 
     /**
-     * creates a template file content (without checksum) from nubProposal
+     * creates a template file content (without checksum) from nubRequest
      *
-     * @param nubProposal
+     * @param nubRequest
      * @return
      */
-    public String createTemplate(NubProposal nubProposal) {
+    public String createTemplate(NubRequest nubRequest) {
         StringBuilder sb = new StringBuilder();
-        appendLine(sb, NubFieldKey.Version, "" + nubProposal.getTargetYear());
+        appendLine(sb, NubFieldKey.Version, "" + nubRequest.getTargetYear());
         Account account = getSessionController().getAccount();
         String helperId = encodeHelpId(account.getId());
         appendLine(sb, NubFieldKey.ID, helperId);
         String helper = account.getCompany() + "\r\n" + account.getFirstName() + " " + account.getLastName();
         appendLine(sb, NubFieldKey.Helper, helper);
-        appendLine(sb, NubFieldKey.DisplayName, nubProposal.getDisplayName());
-        appendLine(sb, NubFieldKey.Name, nubProposal.getName());
-        appendLine(sb, NubFieldKey.AltName, nubProposal.getAltName());
-        appendLine(sb, NubFieldKey.Description, nubProposal.getDescription());
-        appendLine(sb, NubFieldKey.ProcCodes, nubProposal.getProcs());
-        appendLine(sb, NubFieldKey.Procedures, nubProposal.getProcedures());
-        appendLine(sb, NubFieldKey.Indication, nubProposal.getIndication());
-        appendLine(sb, NubFieldKey.Replacement, nubProposal.getReplacement());
-        appendLine(sb, NubFieldKey.WhatsNew, nubProposal.getWhatsNew());
-        appendLine(sb, NubFieldKey.Los, nubProposal.getLos());
-        appendLine(sb, NubFieldKey.InGermanySince, nubProposal.getInGermanySince());
-        appendLine(sb, NubFieldKey.MedApproved, nubProposal.getMedApproved());
-        appendLine(sb, NubFieldKey.HospitalCount, "" + nubProposal.getHospitalCount());
-        appendLine(sb, NubFieldKey.HigherCosts, nubProposal.getAddCosts());
-        appendLine(sb, NubFieldKey.DRGs, nubProposal.getDrgs());
-        appendLine(sb, NubFieldKey.WhyNotRepresented, nubProposal.getWhyNotRepresented());
-        appendLine(sb, NubFieldKey.RequestedEarlierOther, "" + nubProposal.getRequestedEarlierOther());
+        appendLine(sb, NubFieldKey.DisplayName, nubRequest.getDisplayName());
+        appendLine(sb, NubFieldKey.Name, nubRequest.getName());
+        appendLine(sb, NubFieldKey.AltName, nubRequest.getAltName());
+        appendLine(sb, NubFieldKey.Description, nubRequest.getDescription());
+        appendLine(sb, NubFieldKey.ProcCodes, nubRequest.getProcs());
+        appendLine(sb, NubFieldKey.Procedures, nubRequest.getProcedures());
+        appendLine(sb, NubFieldKey.Indication, nubRequest.getIndication());
+        appendLine(sb, NubFieldKey.Replacement, nubRequest.getReplacement());
+        appendLine(sb, NubFieldKey.WhatsNew, nubRequest.getWhatsNew());
+        appendLine(sb, NubFieldKey.Los, nubRequest.getLos());
+        appendLine(sb, NubFieldKey.InGermanySince, nubRequest.getInGermanySince());
+        appendLine(sb, NubFieldKey.MedApproved, nubRequest.getMedApproved());
+        appendLine(sb, NubFieldKey.HospitalCount, "" + nubRequest.getHospitalCount());
+        appendLine(sb, NubFieldKey.HigherCosts, nubRequest.getAddCosts());
+        appendLine(sb, NubFieldKey.DRGs, nubRequest.getDrgs());
+        appendLine(sb, NubFieldKey.WhyNotRepresented, nubRequest.getWhyNotRepresented());
+        appendLine(sb, NubFieldKey.RequestedEarlierOther, "" + nubRequest.getRequestedEarlierOther());
         String content = sb.toString();
         appendLine(sb, NubFieldKey.CheckSum, Utils.getChecksum(content + "Length=" + content.length()));// add length as invisible "salt" before calculating checksum.
         return sb.toString();
@@ -101,13 +101,13 @@ public class NubController extends AbstractFeatureController {
     }
 
     /**
-     * creates a new NubProposal and appends information from template
+     * creates a new NubRequest and appends information from template
      *
      * @param template
      * @return
      */
-    public NubProposal createNubProposal(String template) {
-        NubProposal proposal = createNubProposal();
+    public NubRequest createNubRequest(String template) {
+        NubRequest request = NubController.this.createNubRequest();
         String[] lines = template.split("[\\r\\n]+");
         for (String line : lines) {
             int pos = line.indexOf("="); // do not use split, because content may contain an equal sign. Just search for the first one
@@ -116,186 +116,91 @@ public class NubController extends AbstractFeatureController {
             String content = line.substring(pos + 1);
             switch (key) {
                 case ID:
-                    proposal.setHelperId(decodeHelpId(content));
+                    request.setHelperId(decodeHelpId(content));
                     break;
                 case Helper:
-                    proposal.setFormFillHelper(restoreBreaks(content));
+                    request.setFormFillHelper(restoreBreaks(content));
                     break;
                 case Name:
-                    proposal.setName(restoreBreaks(content));
+                    request.setName(restoreBreaks(content));
                     break;
                 case DisplayName:
-                    proposal.setDisplayName(restoreBreaks(content));
+                    request.setDisplayName(restoreBreaks(content));
                     break;
                 case AltName:
-                    proposal.setAltName(restoreBreaks(content));
+                    request.setAltName(restoreBreaks(content));
                     break;
                 case Description:
-                    proposal.setDescription(restoreBreaks(content));
+                    request.setDescription(restoreBreaks(content));
                     break;
                 case ProcCodes:
-                    proposal.setProcs(restoreBreaks(content));
+                    request.setProcs(restoreBreaks(content));
                     break;
                 case Procedures:
-                    proposal.setProcedures(restoreBreaks(content));
+                    request.setProcedures(restoreBreaks(content));
                     break;
                 case Indication:
-                    proposal.setIndication(restoreBreaks(content));
+                    request.setIndication(restoreBreaks(content));
                     break;
                 case Replacement:
-                    proposal.setReplacement(restoreBreaks(content));
+                    request.setReplacement(restoreBreaks(content));
                     break;
                 case WhatsNew:
-                    proposal.setWhatsNew(restoreBreaks(content));
+                    request.setWhatsNew(restoreBreaks(content));
                     break;
                 case Los:
-                    proposal.setLos(restoreBreaks(content));
+                    request.setLos(restoreBreaks(content));
                     break;
                 case InGermanySince:
-                    proposal.setInGermanySince(restoreBreaks(content));
+                    request.setInGermanySince(restoreBreaks(content));
                     break;
                 case MedApproved:
-                    proposal.setMedApproved(restoreBreaks(content));
+                    request.setMedApproved(restoreBreaks(content));
                     break;
                 case HospitalCount:
-                    proposal.setHospitalCount(restoreBreaks(content));
+                    request.setHospitalCount(restoreBreaks(content));
                     break;
                 case HigherCosts:
-                    proposal.setAddCosts(restoreBreaks(content));
+                    request.setAddCosts(restoreBreaks(content));
                     break;
                 case DRGs:
-                    proposal.setDrgs(restoreBreaks(content));
+                    request.setDrgs(restoreBreaks(content));
                     break;
                 case WhyNotRepresented:
-                    proposal.setWhyNotRepresented(restoreBreaks(content));
+                    request.setWhyNotRepresented(restoreBreaks(content));
                     break;
                 case RequestedEarlierOther:
-                    proposal.setRequestedEarlierOther(Boolean.parseBoolean(content));
+                    request.setRequestedEarlierOther(Boolean.parseBoolean(content));
                     break;
             }
         }
-        if (proposal.getHelperId() == proposal.getAccountId()) {
+        if (request.getHelperId() == request.getAccountId()) {
             // no entry for own template
-            proposal.setFormFillHelper("");
+            request.setFormFillHelper("");
         }
-        proposal.setCreatedBy(getSessionController().getAccountId());
-        proposal.setLastChangedBy(getSessionController().getAccountId());
-        return proposal;
+        request.setCreatedBy(getSessionController().getAccountId());
+        request.setLastChangedBy(getSessionController().getAccountId());
+        return request;
     }
 
     private String restoreBreaks(String text) {
         return text.replace("#{r}", "\r").replace("#{n}", "\n");
     }
 
-    public NubProposal createNubProposalFromOldFormat(String filename, String template) {
-        NubProposal proposal = createNubProposal();
-        int extPos = filename.lastIndexOf(".");
-        proposal.setDisplayName(extPos > 0 ? filename.substring(0, extPos) : filename);
-        String[] lines = template.replace("\r", "").split("[\\n]"); // split at CRLF or LF only
-        int i = 0;
-        while (i < lines.length) {
-            try {
-                int pos = lines[i].indexOf("="); // do not use split, because content may contain an equal sign. Just search for the first one
-                if (pos < 1) {
-                    i++;
-                    continue;
-                }
-                String var = lines[i].substring(0, pos);
-                String content = lines[i].substring(pos + 1);
-                int count;
-                try {
-                    count = Integer.parseInt(content);
-                } catch (NumberFormatException ex) {
-                    count = 0;
-                }
-                switch (var) {
-                    case "memStammAnnahmeHilfe":
-                        proposal.setFormFillHelper(readLines(lines, i, count));
-                        break;
-                    case "memoNub1Behandlungsmethode":
-                        proposal.setName(readLines(lines, i, count));
-                        break;
-                    case "memoNub1AlternativeBezeichnung":
-                        proposal.setAltName(readLines(lines, i, count));
-                        break;
-                    case "memoNub1Beschreibung":
-                        proposal.setDescription(readLines(lines, i, count));
-                        break;
-                    case "memoNub1OPS":
-                        proposal.setProcedures(readLines(lines, i, count));
-                        break;
-                    case "memoNub2Indikation":
-                        proposal.setIndication(readLines(lines, i, count));
-                        break;
-                    case "memoNub2MethodeErsetzt":
-                        proposal.setReplacement(readLines(lines, i, count));
-                        break;
-                    case "memoNub2WarumNeu":
-                        proposal.setWhatsNew(readLines(lines, i, count));
-                        break;
-                    case "memoNub2AuswirkungAufVWD":
-                        proposal.setLos(readLines(lines, i, count));
-                        break;
-                    case "memoNub3EinfuehrungInDeutschland":
-                        proposal.setInGermanySince(readLines(lines, i, count));
-                        break;
-                    case "memoNub3ZulassungMedikament":
-                        proposal.setMedApproved(readLines(lines, i, count));
-                        break;
-                    case "memoNub3EingesetztIn":
-                        proposal.setHospitalCount(readLines(lines, i, count));
-                        break;
-                    case "memoNub5Mehrkosten":
-                        proposal.setAddCosts(readLines(lines, i, count));
-                        break;
-                    case "memoNub5BetroffeneDRG":
-                        proposal.setDrgs(readLines(lines, i, count));
-                        break;
-                    case "memoNub5WarumNichtSachgerecht":
-                        proposal.setWhyNotRepresented(readLines(lines, i, count));
-                        break;
-                    case "cbNub5AnfrageVonAnderenGestellt":
-                        proposal.setRequestedEarlierOther(content.equalsIgnoreCase("ja"));
-                        count = 0;
-                        break;
-                    default:
-                        count = 0;
-                        break;
-                }
-                i += count + 1;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return proposal;
-    }
-
-    private String readLines(String[] lines, int row, int count) {
-        String content = "";
-        for (int i = 1; i <= count; i++) {
-            if (row + i < lines.length) {
-                content += (i > 1 ? "\r\n" : "") + lines[row + i];
-            } else {
-                _logger.log(Level.WARNING, "Corrupted template. Continued.");
-            }
-        }
-        return content;
-    }
-
     /**
-     * creates a new NubProposal pre-populated with master data
+     * creates a new NubRequest pre-populated with master data
      *
      * @return
      */
-    public NubProposal createNubProposal() {
+    public NubRequest createNubRequest() {
         Account account = getSessionController().getAccount();
-        NubProposal proposal = new NubProposal();
+        NubRequest proposal = new NubRequest();
         proposal.setAccountId(account.getId());
         populateMasterData(proposal, account);
         return proposal;
     }
 
-    public void populateMasterData(NubProposal proposal, Account account) {
+    public void populateMasterData(NubRequest proposal, Account account) {
         proposal.setIk(account.getIK());
         proposal.setIkName(account.getCompany());
         proposal.setGender(account.getGender());

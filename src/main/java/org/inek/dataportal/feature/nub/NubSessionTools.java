@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
-import org.inek.dataportal.entities.NubProposal;
+import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
@@ -74,15 +74,15 @@ public class NubSessionTools implements Serializable {
         }
     }
 
-    public CooperativeRight getCooperativeRight(NubProposal nubProposal) {
+    public CooperativeRight getCooperativeRight(NubRequest nubRequest) {
         return _cooperationRightFacade.getCooperativeRight(
-                nubProposal.getAccountId(),
+                nubRequest.getAccountId(),
                 _sessionController.getAccountId(),
                 Feature.NUB,
-                nubProposal.getIk());
+                nubRequest.getIk());
     }
 
-    public CooperativeRight getSupervisorRight(NubProposal nub) {
+    public CooperativeRight getSupervisorRight(NubRequest nub) {
         return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
