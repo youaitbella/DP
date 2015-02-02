@@ -295,6 +295,34 @@ public class CooperationTools implements Serializable {
         return right.mergeRightFromStrings(coopRights);
     }
 
+    /**
+     * Collects all iks for given feature and partner where the current account
+     * achieved rights
+     *
+     * @param feature
+     * @param partnerId
+     * @return
+     */
+    public Set<Integer> getPartnerIks(Feature feature, int partnerId) {
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId() && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+        Account partnerAccount = _accountFacade.find(partnerId);
+        Set<Integer> partnerIks = partnerAccount.getFullIkList();
+        for (int ik : partnerIks) {
+            boolean hasSupervisor = getCooperationRights(feature, account)
+                    .stream()
+                    .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId());
+            if (hasSupervisor) {
+                iks.add(ik);
+            }
+        }
+        return iks;
+    }
+
     private List<Account> _partners4Edit;
 
     public List<Account> getPartnersForEdit(Feature feature) {
@@ -333,6 +361,7 @@ public class CooperationTools implements Serializable {
     }
 
     private List<Account> _partners4Display;
+
     public List<Account> getPartnersForDisplay(Feature feature) {
         if (_partners4Display == null) {
             Set<Integer> ids = determineAccountIds(feature, canReadSealed());

@@ -361,7 +361,7 @@ public class EditNubRequest extends AbstractEditController {
             // If, and only if the developer forgot about setting all fields to readonly,
             // then the user might be able to change that field before setting the owener
             // A paranoid reload forces the data into the original state.
-            _nubRequest = _nubRequestFacade.find(_nubRequest.getNubId());
+            _nubRequest = _nubRequestFacade.find(_nubRequest.getId());
         }
             _nubRequest.setAccountId(_sessionController.getAccountId());
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
@@ -377,7 +377,7 @@ public class EditNubRequest extends AbstractEditController {
         setModifiedInfo();
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
 
-        if (isValidId(_nubRequest.getNubId())) {
+        if (isValidId(_nubRequest.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -455,7 +455,7 @@ public class EditNubRequest extends AbstractEditController {
             // data from last year, not sealed so far
             // we need a new id, thus delete old and create new nub request
             NubRequest copy = ObjectUtils.copy(_nubRequest);
-            copy.setNubId(-1);
+            copy.setId(-1);
             copy.setTargetYear(targetYear);
             _nubRequestFacade.remove(_nubRequest);
             _nubRequest = _nubRequestFacade.saveNubRequest(copy);
@@ -463,7 +463,7 @@ public class EditNubRequest extends AbstractEditController {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
         }
 
-        if (isValidId(_nubRequest.getNubId())) {
+        if (isValidId(_nubRequest.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
@@ -603,7 +603,7 @@ public class EditNubRequest extends AbstractEditController {
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         int targetAccountId = _sessionController.getAccountId();
         NubRequest copy = ObjectUtils.copy(_nubRequest);
-        copy.setNubId(-1);
+        copy.setId(-1);
         copy.setStatus(WorkflowStatus.New);
         copy.setDateSealed(null);
         copy.setSealedBy(0);
@@ -638,7 +638,7 @@ public class EditNubRequest extends AbstractEditController {
         }
         copy.setTargetYear(targetYear);
         copy = _nubRequestFacade.saveNubRequest(copy);
-        if (copy.getNubId() != -1) {
+        if (copy.getId() != -1) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt;");
         }
     }
@@ -675,7 +675,7 @@ public class EditNubRequest extends AbstractEditController {
             setModifiedInfo();
         }
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-        _messageService.sendMessage(sender, receiver, subject, _message, Feature.NUB, _nubRequest.getNubId());
+        _messageService.sendMessage(sender, receiver, subject, _message, Feature.NUB, _nubRequest.getId());
         return Pages.DrgProposalSummary.RedirectURL();
     }
 

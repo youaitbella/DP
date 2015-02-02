@@ -452,7 +452,7 @@ public class EditDrgProposal extends AbstractEditController {
      */
     public String sealDrgProposal() {
         if (!drgProposalIsComplete()) {
-            return null;
+            return getActiveTopic().getOutcome();
         }
 
         _drgProposal.setStatus(WorkflowStatus.Provided.getValue());

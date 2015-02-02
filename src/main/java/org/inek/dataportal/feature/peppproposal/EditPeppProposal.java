@@ -371,7 +371,7 @@ public class EditPeppProposal extends AbstractEditController {
      */
     public String sealPeppProposal() {
         if (!peppProposalIsComplete()) {
-            return null;
+            return getActiveTopic().getOutcome();
         }
 
         _peppProposal.setStatus(WorkflowStatus.Provided.getValue());

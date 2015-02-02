@@ -31,7 +31,7 @@ public class NubRequestUploadServlet extends AbstractUploadServlet {
         if (document == null) {
             document = new NubRequestDocument();
             document.setName(filename);
-            document.setNubRequestId(editNub.getNubRequest().getNubId());
+            document.setNubRequestId(editNub.getNubRequest().getId());
             documents.add(document);
         }
         document.setContent(stream2blob(is));

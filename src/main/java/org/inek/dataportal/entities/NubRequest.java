@@ -39,7 +39,7 @@ public class NubRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nubId")
-    private int _nubId = -1;
+    private int _id = -1;
 
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "nubVersion")
@@ -287,12 +287,12 @@ public class NubRequest implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public int getNubId() {
-        return _nubId;
+    public int getId() {
+        return _id;
     }
 
-    public void setNubId(int nubId) {
-        _nubId = nubId;
+    public void setId(int id) {
+        _id = id;
     }
 
     public int getTargetYear() {
@@ -792,7 +792,7 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        return _nubId;
+        return _id;
     }
 
     @Override
@@ -802,12 +802,12 @@ public class NubRequest implements Serializable {
             return false;
         }
         NubRequest other = (NubRequest) object;
-        return _nubId == other._nubId;
+        return _id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.entities.NubRequest[id=" + _nubId + "]";
+        return "org.inek.entities.NubRequest[id=" + _id + "]";
     }
 
     // </editor-fold>

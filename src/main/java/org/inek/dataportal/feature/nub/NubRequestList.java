@@ -144,7 +144,7 @@ public class NubRequestList {
         NubRequest nubRequest = _nubRequestFacade.find(requestId);
 
         String headLine = Utils.getMessage("nameNUB")
-                + (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() ? " N" + nubRequest.getNubId() : "");
+                + (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() ? " N" + nubRequest.getId() : "");
         Utils.getFlash().put("headLine", headLine);
         Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubRequest));
@@ -168,32 +168,39 @@ public class NubRequestList {
     }
 
     Map<Integer, List<ProposalInfo>> _partnerNubsForEdit = new HashMap<>();
+
     public List<ProposalInfo> getNubRequestsForEditFromPartner(int partnerId) {
-//        CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId);
-//
-//        DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
-//                : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested
-//                        : DataSet.None;
-//        return _nubRequestFacade.getNubRequestInfos(partnerId, dataSet, getFilter());
-        if (!_partnerNubsForEdit.containsKey(partnerId)) {
-            ensureAchievedCooperationRights();
-            Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();
-            List<ProposalInfo> nubs = new ArrayList<>();
-            for (CooperationRight right : _cooperationRights) {
-                if ((right.getOwnerId() == partnerId || right.getOwnerId() == -1)
-                        && partnerIKs.contains(right.getIk())
-                        && right.getCooperativeRight() != CooperativeRight.None
-                        && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
-                    int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
-                            || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
-                                    ? WorkflowStatus.ApprovalRequested.getValue()
-                                    : 0;
-                    nubs.addAll(_nubRequestFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9, getFilter()));
-                }
-            }
-            _partnerNubsForEdit.put(partnerId, nubs);
+        List<ProposalInfo> infos = new ArrayList<>();
+        Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
+        for (int ik : iks) {
+            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
+
+            DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
+                    : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested
+                            : DataSet.None;
+            List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, dataSet, getFilter());
+            infos.addAll(infosForIk);
         }
-        return _partnerNubsForEdit.get(partnerId);
+        return infos;
+//        if (!_partnerNubsForEdit.containsKey(partnerId)) {
+//            ensureAchievedCooperationRights();
+//            Set<Integer> partnerIKs = _accountFacade.find(partnerId).getFullIkList();
+//            List<ProposalInfo> nubs = new ArrayList<>();
+//            for (CooperationRight right : _cooperationRights) {
+//                if ((right.getOwnerId() == partnerId || right.getOwnerId() == -1)
+//                        && partnerIKs.contains(right.getIk())
+//                        && right.getCooperativeRight() != CooperativeRight.None
+//                        && right.getCooperativeRight() != CooperativeRight.ReadSealed) {
+//                    int minStatus = right.getCooperativeRight() == CooperativeRight.ReadCompletedSealSupervisor
+//                            || right.getCooperativeRight() == CooperativeRight.ReadWriteCompletedSealSupervisor
+//                                    ? WorkflowStatus.ApprovalRequested.getValue()
+//                                    : 0;
+//                    nubs.addAll(_nubRequestFacade.findForAccountAndIk(partnerId, right.getIk(), minStatus, 9, getFilter()));
+//                }
+//            }
+//            _partnerNubsForEdit.put(partnerId, nubs);
+//        }
+//        return _partnerNubsForEdit.get(partnerId);
     }
 
     public List<Account> getPartnersForDisplay() {
@@ -201,33 +208,44 @@ public class NubRequestList {
     }
 
     Map<Integer, List<ProposalInfo>> _partnerNubsForDisplay = new HashMap<>();
+
     public List<ProposalInfo> getNubRequestsForDisplayFromPartner(int partnerId) {
-        if (!_partnerNubsForDisplay.containsKey(partnerId)) {
-            ensureAchievedCooperationRights();
-            List<ProposalInfo> nubs = new ArrayList<>();
-            Set<Integer> iks = new HashSet<>();
-
-            for (CooperationRight right : _cooperationRights) {
-                if (right.getOwnerId() == partnerId
-                        && right.getCooperativeRight() != CooperativeRight.None) {
-                    iks.add(right.getIk());
-                    //nubs.addAll(_nubRequestFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999, getFilter()));
-                }
-            }
-
-            // add managed iks
-            for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
-                if (_cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
-                    iks.add(ik);
-                }
-            }
-
-            for (Integer ik : iks) {
-                nubs.addAll(_nubRequestFacade.findForAccountAndIk(partnerId, ik, 10, 999, getFilter()));
-            }
-            _partnerNubsForDisplay.put(partnerId, nubs);
+        List<ProposalInfo> infos = new ArrayList<>();
+        Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
+        for (int ik : iks) {
+            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
+            DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
+            List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, dataSet, getFilter());
+            infos.addAll(infosForIk);
         }
-        return _partnerNubsForDisplay.get(partnerId);
+        return infos;
+
+//        if (!_partnerNubsForDisplay.containsKey(partnerId)) {
+//            ensureAchievedCooperationRights();
+//            List<ProposalInfo> nubs = new ArrayList<>();
+//            Set<Integer> iks = new HashSet<>();
+//
+//            for (CooperationRight right : _cooperationRights) {
+//                if (right.getOwnerId() == partnerId
+//                        && right.getCooperativeRight() != CooperativeRight.None) {
+//                    iks.add(right.getIk());
+//                    //nubs.addAll(_nubRequestFacade.findForAccountAndIk(partnerId, right.getIk(), 10, 999, getFilter()));
+//                }
+//            }
+//
+//            // add managed iks
+//            for (int ik : _accountFacade.find(partnerId).getFullIkList()) {
+//                if (_cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, _sessionController.getAccountId())) {
+//                    iks.add(ik);
+//                }
+//            }
+//
+//            for (Integer ik : iks) {
+//                nubs.addAll(_nubRequestFacade.findForAccountAndIk(partnerId, ik, 10, 999, getFilter()));
+//            }
+//            _partnerNubsForDisplay.put(partnerId, nubs);
+//        }
+//        return _partnerNubsForDisplay.get(partnerId);
     }
 
     private void ensureAchievedCooperationRights() {
