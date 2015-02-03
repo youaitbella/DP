@@ -3,7 +3,9 @@ package org.inek.dataportal.common;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
@@ -24,7 +26,8 @@ import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
  * on the current data, a couple of accesses might be necessary To mimimize the
  * db accesses, all cooperation data of one kind (achieved or granted) will be
  * read together and buffered (cached) for the current HTTP request. During one
- * request, either all lists for the user or a single dataset is used
+ * request, either all lists for the user or a single dataset is used. During
+ * one request, the same feature is used. Thus, caching ignores the feature.
  *
  * This class has be placed into request scope.
  *
@@ -304,24 +307,37 @@ public class CooperationTools implements Serializable {
      * @return
      */
     public Set<Integer> getPartnerIks(Feature feature, int partnerId) {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = getCooperationRights(feature, account)
-                .stream()
-                .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId() && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
-        Account partnerAccount = _accountFacade.find(partnerId);
-        Set<Integer> partnerIks = partnerAccount.getFullIkList();
-        for (int ik : partnerIks) {
-            boolean hasSupervisor = getCooperationRights(feature, account)
+        if (!_partnerIks.containsKey(partnerId)) {
+            //System.out.println("getPartnerIks " + partnerId);
+            Account account = _sessionController.getAccount();
+            // get iks from cooperative rights
+            Set<Integer> iks = getCooperationRights(feature, account)
                     .stream()
-                    .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId());
-            if (hasSupervisor) {
-                iks.add(ik);
+                    .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId() && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
+                    .map(r -> r.getIk())
+                    .collect(Collectors.toSet());
+            // next check, whether the user is aupervisor for this feature and if an ik of the partner is supervised
+            boolean isSupervisor = getCooperationRights(feature, account)
+                    .stream()
+                    .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() > 0 && r.getPartnerId() == account.getId());
+            if (isSupervisor) {
+                Account partnerAccount = _accountFacade.find(partnerId);
+                Set<Integer> partnerIks = partnerAccount.getFullIkList();
+                for (int ik : partnerIks) {
+                    boolean isSupervised = getCooperationRights(feature, account)
+                            .stream()
+                            .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId());
+                    if (isSupervised) {
+                        iks.add(ik);
+                    }
+                }
             }
+            _partnerIks.put(partnerId, iks);
         }
-        return iks;
+        return _partnerIks.get(partnerId);
+
     }
+    private Map<Integer, Set<Integer>> _partnerIks = new ConcurrentHashMap<>();
 
     private List<Account> _partners4Edit;
 
@@ -353,7 +369,7 @@ public class CooperationTools implements Serializable {
                         ids.add(right.getOwnerId());
                     } else if (right.getOwnerId() == -1 && right.getIk() > 0) {
                         // user is supervisor, lets get all account ids, which might be supervised
-                        ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureandIk(feature, right.getIk()));
+                        ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureAndIk(feature, right.getIk()));
                     }
                 });
         ids.remove(_sessionController.getAccountId());  // remove own id (if in set)

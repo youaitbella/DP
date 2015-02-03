@@ -135,7 +135,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Account getAccount(final String mailOrUser, final String password) {
-        clearCache();
+        //clearCache();
         if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password)) {
             return null;
         }

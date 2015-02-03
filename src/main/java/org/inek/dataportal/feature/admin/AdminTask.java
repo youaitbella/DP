@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -66,18 +67,15 @@ public class AdminTask extends AbstractEditController {
             FacesContext fc = FacesContext.getCurrentInstance();
             NavigationHandler nav = fc.getApplication().getNavigationHandler();
             nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
-            return;
         }
     }
 
-    @PreDestroy
-    private void destroy() {
+    // <editor-fold defaultstate="collapsed" desc="tab Status">
+    public void clearCache(ActionEvent e){
+        _accountFacade.clearCache();
     }
-
-    private CooperationController getCooperationController() {
-        return (CooperationController) _sessionController.getFeatureController(Feature.COOPERATION);
-    }
-
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
     @Inject
     MailTemplateFacade _mailTemplateFacade;
@@ -274,6 +272,15 @@ public class AdminTask extends AbstractEditController {
         _mappings = copyList(_inekRole.getMappings());
     }
 
+    private InekRole findRole(int id, List<InekRole> roles) {
+        for (InekRole role : roles) {
+            if (role.getId() == id) {
+                return role;
+            }
+        }
+        return null;
+    }
+
     private List<RoleMapping> copyList(List<RoleMapping> mappings) {
         // Collections.copy alwas threw an index out of bound, even if sized before :(
         List<RoleMapping> copy = new ArrayList<>();
@@ -347,13 +354,4 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
-    private InekRole findRole(int id, List<InekRole> roles) {
-        for (InekRole role : roles) {
-            if (role.getId() == id) {
-                return role;
-            }
-        }
-        return null;
-    }
-
 }

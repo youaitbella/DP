@@ -187,7 +187,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public Set<Integer> getAccountIdsByFeatureandIk(Feature feature, int ik) {
+    public Set<Integer> getAccountIdsByFeatureAndIk(Feature feature, int ik) {
         String jql = "select acId from dbo.account "
                 + "join accountFeature on acId = afaccountId and afFeature = ?1 "
                 + "where acIk = ?2 "

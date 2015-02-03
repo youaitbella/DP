@@ -96,7 +96,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     public PeppProposal getPeppProposal(int id) {
-        clearCache(PeppProposal.class);
+        //clearCache(PeppProposal.class);
         PeppProposal proposal = find(id);
         for (PeppProposalComment comment : proposal.getComments()) {
             comment.setInitials(getInitials(comment.getAccountId()));
@@ -113,11 +113,11 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         return _accountInitials.get(accountId);
     }
 
-    @Schedule(hour = "*/6", minute = "*", info = "every 6 hours")
-    private void invalidateCache() {
-        _accountInitials = new HashMap<>();
-        _commentFacade.clearCache();
-    }
+//    @Schedule(hour = "*/6", minute = "*", info = "every 6 hours")
+//    private void invalidateCache() {
+//        _accountInitials = new HashMap<>();
+//        _commentFacade.clearCache();
+//    }
 
     public Boolean addComment(int accountId, int proposalId, String comment) {
         PeppProposalComment ppComment = new PeppProposalComment();

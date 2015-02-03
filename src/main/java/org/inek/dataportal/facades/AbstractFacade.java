@@ -1,7 +1,10 @@
 package org.inek.dataportal.facades;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -47,64 +50,71 @@ public abstract class AbstractFacade<T> {
     }
 
     public void persist(T entity) {
-        getEntityManager().persist(entity);
-        clearCache();
+        _em.persist(entity);
+        _em.flush();
     }
 
     public T merge(T entity) {
-        T savedEntity = getEntityManager().merge(entity);
-        clearCache();
+        T savedEntity = _em.merge(entity);
+        _em.flush();
         return savedEntity;
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        _em.remove(_em.merge(entity));
+        _em.flush();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public void refresh(T entity) {
+        _em.refresh(entity);
+    }
+
     public T find(Object id) {
-        return getEntityManager().find(_entityClass, id);
+        return _em.find(_entityClass, id);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public T findFresh(Object id) {
+        Map<String, Object> props = new HashMap<>();
+        props.put("javax.persistence.cache.retrieveMode", "BYPASS");
+        return _em.find(_entityClass, id, props);
+// alternative approach:        
+//        T entity = find(id);
+//        refresh(entity);
+//        return entity;
+    }
+
     public List<T> findAll() {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cb = _em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(_entityClass);
         cq.select(cq.from(_entityClass));
-        return getEntityManager().createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS").getResultList();
+        return _em.createQuery(cq).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findRange(int[] range) {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = _em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(_entityClass));
-        javax.persistence.Query q = getEntityManager().createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS");
+        javax.persistence.Query q = _em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public int count() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = _em.getCriteriaBuilder().createQuery();
         Root<T> rt = cq.from(_entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS");
+        cq.select(_em.getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = _em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    public void flush() {
-        getEntityManager().flush();
-    }
-
     public void clearCache() {
-        flush();
-        getEntityManager().getEntityManagerFactory().getCache().evictAll();
+        _em.flush();
+        _em.getEntityManagerFactory().getCache().evictAll();
     }
 
     public void clearCache(Class clazz) {
-        flush();
-        getEntityManager().getEntityManagerFactory().getCache().evict(clazz);
+        _em.flush();
+        _em.getEntityManagerFactory().getCache().evict(clazz);
     }
 
 }

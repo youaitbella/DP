@@ -8,7 +8,15 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="editContent">
-
-        Aktive Sessions: #{sessionController.sessionCount}
+        <div>
+            Aktive Sessions: #{sessionController.sessionCount}
+        </div>
+        <div style="margin-top: 10em;">
+            <h:form>
+                <h:commandLink styleClass="button" value="Clear Cache" actionListener="#{adminTask.clearCache}">
+                    <f:ajax/>
+                </h:commandLink>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>

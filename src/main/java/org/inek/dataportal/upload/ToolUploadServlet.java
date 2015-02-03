@@ -19,6 +19,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.StreamHelper;
@@ -69,8 +70,10 @@ public class ToolUploadServlet extends HttpServlet {
     }
 
     private void getClientVersion(HttpUtil httpUtil) {
-        httpUtil.writeStatus(PropertyManager.INSTANCE.getProperty(PropertyKey.ClientVersion));
+//        httpUtil.writeStatus(PropertyManager.INSTANCE.getProperty(PropertyKey.ClientVersion));
+        httpUtil.writeStatus(_config.read("DataServiceClientVersion", "???"));
     }
+    @Inject private ConfigFacade _config;
 
     private boolean loginAndResponseFailure(String emailOrUser, String password, HttpUtil httpUtil) throws IOException {
         if (!_sessionController.login(emailOrUser, password)) {

@@ -25,7 +25,8 @@ public class ConfigFacade extends AbstractFacade<Config> {
     }
 
     public String read(String key, String defaultVal) {
-        Config config = find(key);
+        Config config = findFresh(key);
+        
         if (config == null) {
             save(key, defaultVal);
             return defaultVal;

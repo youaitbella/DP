@@ -82,7 +82,7 @@ public class FeatureRequestManager implements Serializable {
         if (_account != null) {
             setNewState(FeatureState.APPROVED);
             _mailer.sendFeatureRequestAnswer("FeatureApprovalMail", _account, _request);
-            _accountFacade.clearCache();
+            //_accountFacade.clearCache();
             return (redirect(Pages.AdminApproved.URL()));
         }
         return (redirect(Pages.AdminError.URL()));
@@ -105,7 +105,7 @@ public class FeatureRequestManager implements Serializable {
         if (_account != null) {
             setNewState(FeatureState.REJECTED);
             _mailer.sendFeatureRequestAnswer("FeatureRejectMail", _account, _request);
-            _accountFacade.clearCache(Account.class);
+            //_accountFacade.clearCache(Account.class);
             return redirect(Pages.AdminApproved.URL());
         }
         return redirect(Pages.AdminError.URL());

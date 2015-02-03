@@ -101,7 +101,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     }
 
     public DrgProposal getDrgProposal(int id) {
-        clearCache(DrgProposal.class);
+        //clearCache(DrgProposal.class);
         DrgProposal proposal = find(id);
         for (DrgProposalComment comment : proposal.getComments()) {
             comment.setInitials(getInitials(comment.getAccountId()));
