@@ -160,7 +160,6 @@ public class NubRequestList {
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
     @Inject NubSessionTools _nubSessionTools;
-    private List<CooperationRight> _cooperationRights;
 
     public List<Account> getPartnersForEdit() {
         return _cooperationTools.getPartnersForEdit(Feature.NUB);
