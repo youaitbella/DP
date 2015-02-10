@@ -59,6 +59,7 @@ public class SessionController implements Serializable {
     @Inject private LogFacade _logFacade;
     @Inject private AccountDocumentFacade _accDocFacade;
     @Inject private Mailer _mailer;
+
     public Mailer getMailer() {
         return _mailer;
     }
@@ -234,7 +235,6 @@ public class SessionController implements Serializable {
         System.out.println("new session " + sessionId);
         //invalidateSession();
         login(mailOrUser, password);
-        initFeatures();
         setTopics();
         setParts();
         return _account != null;
@@ -242,7 +242,7 @@ public class SessionController implements Serializable {
 
     /**
      * General login function. Will be used from UploadServlet (DatenDienst)
-     * too. Thus, perform login only.
+     * too. Thus, perform login and initFeatures only.
      *
      * @param mailOrUser
      * @param password
@@ -256,8 +256,13 @@ public class SessionController implements Serializable {
         }
         logMessage("Login (" + Utils.getUserAgent() + ")");
         if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
-            FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(36000); // session timeout extended to 10 hour
+            FacesContext context = FacesContext.getCurrentInstance();
+            if (context != null) {
+                // if called from DatenDienst, there is no context
+                FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(36000); // session timeout extended to 10 hour
+            }
         }
+        initFeatures();
         return true;
     }
 
@@ -497,11 +502,11 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * This methods is used in an onclick event of a facelets page 
-     * to add a configurable confirmation behavior.
-     * 
+     * This methods is used in an onclick event of a facelets page to add a
+     * configurable confirmation behavior.
+     *
      * @param key
-     * @return 
+     * @return
      */
     public String getConfirmMessage(String key) {
         String message = Utils.getMessageOrEmpty(key);
@@ -527,6 +532,7 @@ public class SessionController implements Serializable {
     }
 
     private boolean _testPerformed = false;
+
     public boolean isTestPerformed() {
         return _testPerformed;
     }
@@ -536,6 +542,7 @@ public class SessionController implements Serializable {
     }
 
     private boolean _clickable = false;
+
     public boolean isClickable() {
         return _clickable;
     }
