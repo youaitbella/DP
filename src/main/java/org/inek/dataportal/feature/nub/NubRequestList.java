@@ -123,15 +123,23 @@ public class NubRequestList {
         return "";
     }
 
+    public String getConfirmMessage(int requestId) {
+        NubRequest proposal = _nubRequestFacade.find(requestId);
+        String msg = proposal.getName() + "\n" 
+                + (proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+        msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
+        return "return confirm ('" + msg + "');";
+    }
+
     public String deleteNubRequest(int requestId) {
         NubRequest proposal = _nubRequestFacade.find(requestId);
         if (proposal == null) {
             return "";
         }
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
-            if (proposal.getStatus().getValue() <= 9) {
+            if (proposal.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
                 _nubRequestFacade.remove(proposal);
-            } else {
+            } else if (proposal.getExternalState().trim().isEmpty()){
                 proposal.setStatus(WorkflowStatus.Retired);
                 _nubRequestFacade.saveNubRequest(proposal);
             }
@@ -209,5 +217,4 @@ public class NubRequestList {
     }
 
 // </editor-fold>
-
 }

@@ -14,9 +14,4 @@
 
     <inek:NubRequestTable requests="#{nubRequestList.nubRequests}" showDelete="true" isSealed="false" rendered="#{nubRequestList.openListEnabled}"/>
 
-    <h:commandLink id="deleteNubRequest" style="display: none"
-                   action="#{nubRequestList.deleteNubRequest(flash.nubId)}"
-                   value="delete #{flash.nubId}">
-    </h:commandLink>
-
 </ui:composition>
