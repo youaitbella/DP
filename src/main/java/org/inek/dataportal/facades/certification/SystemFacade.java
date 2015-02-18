@@ -28,7 +28,7 @@ public class SystemFacade extends AbstractFacade<RemunerationSystem> {
 
     public List<SelectItem> getRemunerationSystemInfos() {
         List<SelectItem> result = new ArrayList<>();
-        for (RemunerationSystem system : findAll()) {
+        for (RemunerationSystem system : findAllFresh()) {
             result.add(new SelectItem(system.getId(), system.getDisplayName()));
         }
         return result;

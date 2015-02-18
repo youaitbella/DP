@@ -90,6 +90,17 @@ public abstract class AbstractFacade<T> {
         return _em.createQuery(cq).getResultList();
     }
 
+    /**
+     * Finds all whilst by passing the cache
+     * @return 
+     */
+    public List<T> findAllFresh() {
+        CriteriaBuilder cb = _em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(_entityClass);
+        cq.select(cq.from(_entityClass));
+        return _em.createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS").getResultList();
+    }
+    
     public List<T> findRange(int[] range) {
         CriteriaQuery cq = _em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(_entityClass));

@@ -86,7 +86,8 @@ public class CertManager {
             if (systemId == -1) {
                 _system = new RemunerationSystem();
             } else {
-                _system = _systemFacade.find(systemId);
+                _systemFacade.clearCache(Grouper.class);
+                _system = _systemFacade.findFresh(systemId);
                 Collections.sort(_system.getGrouperList(), (Grouper o1, Grouper o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
 
             }

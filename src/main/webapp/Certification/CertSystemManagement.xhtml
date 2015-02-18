@@ -187,12 +187,14 @@
                 </h:dataTable>
 
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
-                    <f:ajax event="click" render="@form :logout:remaining" listener="#{certManager.addNewGrouper}"/>
+                    <f:ajax event="click" render="@form certButtons:btnSystemSave :logout:remaining" listener="#{certManager.addNewGrouper}"/>
                 </h:commandLink>
 
                 <hr/>
             </div>
-
+        </h:form>
+        
+        <h:form id="certButtons">
             <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
