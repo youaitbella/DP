@@ -124,6 +124,10 @@ public class EditDrgProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + drgId);
             DrgProposal drgProposal = _drgProposalFacade.find(id);
+            if (drgProposal.getAccountId() != _sessionController.getAccountId() && _sessionController.isInekUser(Feature.DRG_PROPOSAL)) {
+                // it's  not mine, but I'm an authorized InEK user: add right to read
+                _cooperationTools.addReadRight(Feature.DRG_PROPOSAL, drgProposal.getAccountId());
+            }
             if (_cooperationTools.isAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
                 return drgProposal;
             }
@@ -488,8 +492,8 @@ public class EditDrgProposal extends AbstractEditController {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-            _drgProposal.setAccountId(_sessionController.getAccountId());
-            _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        _drgProposal.setAccountId(_sessionController.getAccountId());
+        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
         return "";
     }
 
@@ -497,7 +501,7 @@ public class EditDrgProposal extends AbstractEditController {
         populateMasterData(_drgProposal, _sessionController.getAccount());
         return "";
     }
-    
+
     public String takeDocuments() {
         DrgProposalController ppController = (DrgProposalController) _sessionController.getFeatureController(Feature.DRG_PROPOSAL);
 
@@ -513,7 +517,6 @@ public class EditDrgProposal extends AbstractEditController {
         return "";
     }
 
-    
     public String deleteDocument(String name) {
         DrgProposalDocument existingDoc = findByName(name);
         if (existingDoc != null) {

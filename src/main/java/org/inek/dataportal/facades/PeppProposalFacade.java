@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -95,38 +96,18 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         return peppProposalInfos;
     }
 
-    public PeppProposal getPeppProposal(int id) {
-        //clearCache(PeppProposal.class);
-        PeppProposal proposal = find(id);
-        for (PeppProposalComment comment : proposal.getComments()) {
-            comment.setInitials(getInitials(comment.getAccountId()));
-        }
-        return proposal;
-    }
 
-    private Map<Integer, String> _accountInitials = new HashMap<>();
-
-    private String getInitials(Integer accountId) {
-        if (!_accountInitials.containsKey(accountId)) {
-            _accountInitials.put(accountId, _accountFacade.find(accountId).getInitials());
-        }
-        return _accountInitials.get(accountId);
-    }
-
-//    @Schedule(hour = "*/6", minute = "*", info = "every 6 hours")
-//    private void invalidateCache() {
-//        _accountInitials = new HashMap<>();
-//        _commentFacade.clearCache();
-//    }
-
-    public Boolean addComment(int accountId, int proposalId, String comment) {
-        PeppProposalComment ppComment = new PeppProposalComment();
-        ppComment.setAccountId(accountId);
-        ppComment.setPeppProposalId(proposalId);
-        ppComment.setComment(comment);
-        _commentFacade.persist(ppComment);
-        //_commentFacade.clearCache(PeppProposal.class);
-        return true;
+    /**
+     * returns a list with the distinct account ids of all provided proposals
+     * @return 
+     */
+    public List<Integer> getProposalAccounts(){
+        int base = 16;  // todo: determine base
+        int fromId = base * 100000;
+        int toId = fromId + 99999;
+        String statement = "select distinct ppAccountId from PeppProposal where ppId between ?1 and ?2 and ppStatus = 10";
+        Query query = getEntityManager().createNativeQuery(statement).setParameter(1, fromId).setParameter(2, toId);
+        return query.getResultList();
     }
 
 }

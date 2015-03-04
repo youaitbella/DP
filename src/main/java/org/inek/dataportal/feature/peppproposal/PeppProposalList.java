@@ -77,6 +77,12 @@ public class PeppProposalList {
     }
 
     public List<Account> getPartnersForDisplay() {
+        if (_sessionController.isInekUser(Feature.PEPP_PROPOSAL)){
+            List<Integer> accountIds = _peppProposalFacade.getProposalAccounts();
+            for (int accountId : accountIds){
+                _cooperationTools.addReadRight(Feature.PEPP_PROPOSAL, accountId);
+            }
+        }
         return _cooperationTools.getPartnersForDisplay(Feature.PEPP_PROPOSAL);
     }
 

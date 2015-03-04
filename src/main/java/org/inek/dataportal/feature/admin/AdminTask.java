@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -24,7 +23,6 @@ import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.admin.RoleMappingFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -179,12 +177,14 @@ public class AdminTask extends AbstractEditController {
 
     public List<InekRole> getInekRoles() {
         if (_inekRoles == null) {
+            _inekRoleFacade.clearCache(InekRole.class);
             _inekRoles = _inekRoleFacade.findAll();
             _originalInekRoles = new ArrayList<>();
             for (InekRole role : _inekRoles) {
                 _originalInekRoles.add(role.copy());
             }
-            setInekRoleId(_inekRoles.get(0).getId());
+            int roleId = _inekRole == null ? _inekRoles.get(0).getId() : _inekRole.getId();
+            setInekRoleId(roleId);
         }
         return _inekRoles;
     }
@@ -194,18 +194,18 @@ public class AdminTask extends AbstractEditController {
     }
 
     public void addNewInekRole() {
-        _inekRoles.add(new InekRole());
+        getInekRoles().add(new InekRole());
         setRoleChanged(true);
     }
 
     public String deleteInekRole(InekRole entry) {
-        _inekRoles.remove(entry);
+        getInekRoles().remove(entry);
         setRoleChanged(true);
         return "";
     }
 
     public String saveInekRoles() {
-        for (InekRole role : _inekRoles) {
+        for (InekRole role : getInekRoles()) {
             InekRole original = findAndRemoveOriginalRole(role.getId());
             if (original == null || !role.fullyEquals(original)) {
                 _inekRoleFacade.save(role);
@@ -268,7 +268,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     public void setInekRoleId(int id) {
-        _inekRole = findRole(id, _inekRoles);
+        _inekRole = findRole(id, getInekRoles());
         _mappings = copyList(_inekRole.getMappings());
     }
 

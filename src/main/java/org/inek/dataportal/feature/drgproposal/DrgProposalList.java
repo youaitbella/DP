@@ -93,6 +93,12 @@ public class DrgProposalList {
     }
 
     public List<Account> getPartnersForDisplay() {
+        if (_sessionController.isInekUser(Feature.DRG_PROPOSAL)){
+            List<Integer> accountIds = _drgProposalFacade.getProposalAccounts();
+            for (int accountId : accountIds){
+                _cooperationTools.addReadRight(Feature.DRG_PROPOSAL, accountId);
+            }
+        }
         return _cooperationTools.getPartnersForDisplay(Feature.DRG_PROPOSAL);
     }
 
