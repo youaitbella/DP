@@ -87,7 +87,6 @@ public class EditDrgProposal extends AbstractEditController {
     enum DrgProposalTabs {
 
         tabPPAddress,
-        tabPPPolicy,
         tabPPProblem,
         tabPPSolution,
         tabPPCodes,
@@ -184,8 +183,6 @@ public class EditDrgProposal extends AbstractEditController {
         addTopic(DrgProposalTabs.tabPPAddress.name(), Pages.DrgProposalEditAddress.URL());
         addTopic(DrgProposalTabs.tabPPProblem.name(), Pages.DrgProposalEditProblem.URL());
         addTopic(DrgProposalTabs.tabPPSolution.name(), Pages.DrgProposalEditSolution.URL());
-        addTopic(DrgProposalTabs.tabPPPolicy.name(), Pages.DrgProposalEditPolicy.URL(), false);
-
         addTopic(DrgProposalTabs.tabPPCodes.name(), Pages.DrgProposalEditCoding.URL());
         addTopic(DrgProposalTabs.tabPPDocuments.name(), Pages.DrgProposalEditDocuments.URL());
     }

@@ -88,7 +88,6 @@ public class EditPeppProposal extends AbstractEditController {
     enum PeppProposalTabs {
 
         tabPPAddress,
-        tabPPPolicy,
         tabPPProblem,
         tabPPSolution,
         tabPPCodes,
@@ -175,7 +174,6 @@ public class EditPeppProposal extends AbstractEditController {
         addTopic(PeppProposalTabs.tabPPAddress.name(), Pages.PeppProposalEditAddress.URL());
         addTopic(PeppProposalTabs.tabPPProblem.name(), Pages.PeppProposalEditProblem.URL());
         addTopic(PeppProposalTabs.tabPPSolution.name(), Pages.PeppProposalEditSolution.URL());
-        addTopic(PeppProposalTabs.tabPPPolicy.name(), Pages.PeppProposalEditPolicy.URL(), false);
         addTopic(PeppProposalTabs.tabPPCodes.name(), Pages.PeppProposalEditCoding.URL(), false);
         addTopic(PeppProposalTabs.tabPPDocuments.name(), Pages.PeppProposalEditDocuments.URL());
     }

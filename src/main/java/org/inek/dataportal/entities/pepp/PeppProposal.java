@@ -174,9 +174,6 @@ public class PeppProposal implements Serializable {
     @Column(name = "ppProcs")
     private String _procs = "";
 
-    @Column(name = "ppCodingPolicy")
-    private String _codingPolicy = "";
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ppdPeppProposalId", referencedColumnName = "ppId")
     private List<PeppProposalDocument> _documents = new ArrayList<>();
@@ -439,14 +436,6 @@ public class PeppProposal implements Serializable {
 
     public void setProcedures(List<ProcedureInfo> procedures) {
         _procedures = procedures;
-    }
-
-    public String getCodingPolicy() {
-        return _codingPolicy.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
-    }
-
-    public void setCodingPolicy(String codingPolicy) {
-        _codingPolicy = codingPolicy;
     }
 
     public List<PeppProposalDocument> getDocuments() {

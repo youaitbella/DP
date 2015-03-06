@@ -177,11 +177,12 @@ public class DrgProposal implements Serializable {
     @Documentation(name = "Prozeduren")
     @Column(name = "prProcs")
     private String _procs = "";
-
+    
     @Documentation(name = "Prozeduren Beschreibung")
     @Column(name = "prProcsText")
     private String _procsText = "";
 
+    
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name = "mapPeppProposalProcedure",
