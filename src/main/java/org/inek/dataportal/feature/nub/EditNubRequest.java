@@ -167,7 +167,7 @@ public class EditNubRequest extends AbstractEditController {
     private NubRequest loadNubRequest(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
-            NubRequest nubRequest = _nubRequestFacade.find(id);
+            NubRequest nubRequest = _nubRequestFacade.findFresh(id);
 
             if (hasSufficientRights(nubRequest)) {
                 return nubRequest;
