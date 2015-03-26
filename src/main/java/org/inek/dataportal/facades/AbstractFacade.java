@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -102,16 +99,16 @@ public abstract class AbstractFacade<T> {
     }
     
     public List<T> findRange(int[] range) {
-        CriteriaQuery cq = _em.getCriteriaBuilder().createQuery();
+        CriteriaQuery<T> cq = _em.getCriteriaBuilder().createQuery(_entityClass);
         cq.select(cq.from(_entityClass));
-        javax.persistence.Query q = _em.createQuery(cq);
+        javax.persistence.TypedQuery<T> q = _em.createQuery(cq);
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
 
     public int count() {
-        CriteriaQuery cq = _em.getCriteriaBuilder().createQuery();
+        CriteriaQuery<Long> cq = _em.getCriteriaBuilder().createQuery(Long.class);
         Root<T> rt = cq.from(_entityClass);
         cq.select(_em.getCriteriaBuilder().count(rt));
         javax.persistence.Query q = _em.createQuery(cq);
