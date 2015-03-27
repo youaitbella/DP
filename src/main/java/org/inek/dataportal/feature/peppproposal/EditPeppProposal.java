@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
@@ -379,6 +381,9 @@ public class EditPeppProposal extends AbstractEditController {
         _peppProposal.setStatus(WorkflowStatus.Provided.getValue());
         _peppProposal.setDateSealed(Calendar.getInstance().getTime());
         _peppProposal.setSealedBy(_sessionController.getAccountId());
+        if (_peppProposal.getLastModified() == null ){
+            setModifiedInfo();
+        }
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
 
         if (isValidId(_peppProposal.getId())) {
@@ -423,11 +428,13 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     public String deleteDocument(String name) {
-        PeppProposalDocument existingDoc = findByName(name);
-        if (existingDoc != null) {
-            getPeppProposal().getDocuments().remove(existingDoc);
+        for (Iterator<PeppProposalDocument> itr = getPeppProposal().getDocuments().iterator(); itr.hasNext();) {
+            PeppProposalDocument document = itr.next();
+            if (document.getName().equals(name)) {
+                itr.remove();
+            }
         }
-        return null;
+        return "";
     }
 
     public String downloadDocument(String name) {
@@ -468,7 +475,7 @@ public class EditPeppProposal extends AbstractEditController {
         String newTopic = "";
         PeppProposal peppProposal = getPeppProposal();
         newTopic = checkField(newTopic, peppProposal.getName(), "lblAppellation", "form:name", PeppProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, peppProposal.getCategory() == null ? null : peppProposal.getCategory().name(), "lblCategory", "form:category", PeppProposalTabs.tabPPAddress);
+        newTopic = checkField(newTopic, peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN ? null : peppProposal.getCategory().name(), "lblCategory", "form:category", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getInstitute(), "lblPeppProposalingInstitute", "form:institute", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getFirstName(), "lblFirstName", "form:firstname", PeppProposalTabs.tabPPAddress);

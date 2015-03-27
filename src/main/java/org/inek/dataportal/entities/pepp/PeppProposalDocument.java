@@ -16,7 +16,7 @@ public class PeppProposalDocument implements Serializable, Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ppdId")
-    private Integer _peppProposalDocumentId;
+    private int _peppProposalDocumentId;
     @Column(name = "ppdName")
     private String _name = "";
     @Lob
@@ -24,26 +24,30 @@ public class PeppProposalDocument implements Serializable, Document {
     private byte[] _content;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getPeppProposalDocumentId() {
+    public int getPeppProposalDocumentId() {
         return _peppProposalDocumentId;
     }
 
-    public void setPeppProposalDocumentId(Integer id) {
+    public void setPeppProposalDocumentId(int id) {
         _peppProposalDocumentId = id;
     }
 
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public void setName(String name) {
         _name = name;
     }
 
+    @Override
     public byte[] getContent() {
         return _content;
     }
 
+    @Override
     public void setContent(byte[] content) {
         _content = content;
     }
@@ -52,9 +56,8 @@ public class PeppProposalDocument implements Serializable, Document {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_peppProposalDocumentId != null ? _peppProposalDocumentId.hashCode() : 0);
-        return hash;
+        if (_peppProposalDocumentId > 0){return _peppProposalDocumentId;}
+        return _name.hashCode();
     }
 
     @Override
@@ -63,11 +66,9 @@ public class PeppProposalDocument implements Serializable, Document {
         if (!(object instanceof Request)) {
             return false;
         }
-        Request other = (Request) object;
-        if ((_peppProposalDocumentId == null && other.getRequestId() != null) || (_peppProposalDocumentId != null && !_peppProposalDocumentId.equals(other.getRequestId()))) {
-            return false;
-        }
-        return true;
+        PeppProposalDocument other = (PeppProposalDocument) object;
+        if (_peppProposalDocumentId > 0){return _peppProposalDocumentId == other._peppProposalDocumentId;}
+        return _name.equals(other._name);
     }
 
     @Override

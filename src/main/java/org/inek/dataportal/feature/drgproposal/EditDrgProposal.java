@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -459,7 +460,9 @@ public class EditDrgProposal extends AbstractEditController {
         _drgProposal.setStatus(WorkflowStatus.Provided.getValue());
         _drgProposal.setDateSealed(Calendar.getInstance().getTime());
         _drgProposal.setSealedBy(_sessionController.getAccountId());
-
+        if (_drgProposal.getLastModified() == null) {
+            setModifiedInfo();
+        }
         _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
 
         if (isValidId(_drgProposal.getId())) {
@@ -515,9 +518,11 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String deleteDocument(String name) {
-        DrgProposalDocument existingDoc = findByName(name);
-        if (existingDoc != null) {
-            getDrgProposal().getDocuments().remove(existingDoc);
+        for (Iterator<DrgProposalDocument> itr = getDrgProposal().getDocuments().iterator(); itr.hasNext();) {
+            DrgProposalDocument document = itr.next();
+            if (document.getName().equals(name)) {
+                itr.remove();
+            }
         }
         return "";
     }
@@ -561,7 +566,7 @@ public class EditDrgProposal extends AbstractEditController {
         String newTopic = "";
         DrgProposal drgProposal = getDrgProposal();
         newTopic = checkField(newTopic, drgProposal.getName(), "lblAppellation", "form:name", DrgProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, drgProposal.getCategory() == null ? null : drgProposal.getCategory().name(), "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
+        newTopic = checkField(newTopic, drgProposal.getCategory() == null || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getInstitute(), "lblDrgProposalingInstitute", "form:institute", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getFirstName(), "lblFirstName", "form:firstname", DrgProposalTabs.tabPPAddress);

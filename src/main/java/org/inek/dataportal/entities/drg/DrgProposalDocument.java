@@ -18,7 +18,7 @@ public class DrgProposalDocument implements Serializable, Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "drgdId")
-    private Integer _drgProposalDocumentId;
+    private int _drgProposalDocumentId;
 
     @Documentation(key = "lblName", omitOnEmpty = true)
     @Column(name = "drgdName")
@@ -29,11 +29,11 @@ public class DrgProposalDocument implements Serializable, Document {
     private byte[] _content;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getDrgProposalDocumentId() {
+    public int getDrgProposalDocumentId() {
         return _drgProposalDocumentId;
     }
 
-    public void setDrgProposalDocumentId(Integer id) {
+    public void setDrgProposalDocumentId(int id) {
         _drgProposalDocumentId = id;
     }
 
@@ -61,9 +61,8 @@ public class DrgProposalDocument implements Serializable, Document {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_drgProposalDocumentId != null ? _drgProposalDocumentId.hashCode() : 0);
-        return hash;
+        if (_drgProposalDocumentId > 0){return _drgProposalDocumentId;}
+        return _name.hashCode();
     }
 
     @Override
@@ -72,11 +71,9 @@ public class DrgProposalDocument implements Serializable, Document {
         if (!(object instanceof Request)) {
             return false;
         }
-        Request other = (Request) object;
-        if ((_drgProposalDocumentId == null && other.getRequestId() != null) || (_drgProposalDocumentId != null && !_drgProposalDocumentId.equals(other.getRequestId()))) {
-            return false;
-        }
-        return true;
+        DrgProposalDocument other = (DrgProposalDocument) object;
+        if (_drgProposalDocumentId > 0){return _drgProposalDocumentId == other._drgProposalDocumentId;}
+        return _name.equals(other._name);
     }
 
     @Override
