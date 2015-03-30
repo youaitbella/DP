@@ -108,10 +108,11 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
-            String msg = Utils.getMessage("msgUserExists");
-            throw new ValidatorException(new FacesMessage(msg));
-        }
+// don't give any hint of registered users (except nick name as above)
+//        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
+//            String msg = Utils.getMessage("msgUserExists");
+//            throw new ValidatorException(new FacesMessage(msg));
+//        }
     }
 
     public void checkRepeatEmail(FacesContext context, UIComponent component, Object value) {
@@ -146,10 +147,12 @@ public class Register implements Serializable {
     }
 
     public String register() {
-        _account.setPassword(_password);
-        if (!_accountRequestFacade.createAccountRequest(_account)) {
-            Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
-            return "";
+        if (!_accountFacade.existsMailOrUser(_account.getEmail()) && _accountRequestFacade.findByMailOrUser(_account.getEmail()) == null) {
+            _account.setPassword(_password);
+            if (!_accountRequestFacade.createAccountRequest(_account)) {
+                Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
+                return "";
+            }
         }
         return Pages.LoginFinishRegister.URL();
     }
