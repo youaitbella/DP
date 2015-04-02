@@ -8,6 +8,10 @@ public enum ConfigKey {
     IsNubCreateEnabled,
     IsNubSendEnabled,
     RemindNubSeal,
+    IsDrgProposalCreateEnabled,
     IsDrgProposalSendEnabled,
-    IsPeppProposalSendEnabled;
+    IsPeppProposalCreateEnabled,
+    IsPeppProposalSendEnabled,
+    IsModelIntentionSendEnabled
+    ;
 }

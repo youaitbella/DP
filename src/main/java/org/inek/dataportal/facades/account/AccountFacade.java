@@ -2,7 +2,9 @@ package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
@@ -70,10 +72,11 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<Account> getAccountsWithRequestedFeatures() {
+    public Set<Account> getAccountsWithRequestedFeatures() {
         String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._featureState = :state";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
-        return query.setParameter("state", FeatureState.REQUESTED).getResultList();
+        List<Account> acc = query.setParameter("state", FeatureState.REQUESTED).getResultList();
+        return new HashSet<>(acc);
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)

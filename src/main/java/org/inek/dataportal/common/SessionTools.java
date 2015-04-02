@@ -157,20 +157,4 @@ public class SessionTools implements Serializable {
         return new SimpleDateFormat(format).format(calendar.toGregorianCalendar().getTime());
     }
 
-    public boolean isPeppProposalDisabled() {
-        return false;
-    }
-
-    public boolean isNubRequestDisabled() {
-        return false;
-    }
-
-    public boolean isModelIntentionDisabled() {
-        return false;
-    }
-
-    public boolean isDrgProposalDisabled() {
-        return false;
-    }
-
 }

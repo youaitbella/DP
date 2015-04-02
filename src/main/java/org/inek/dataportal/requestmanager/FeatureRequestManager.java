@@ -1,12 +1,10 @@
 package org.inek.dataportal.requestmanager;
 
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.FacesException;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -82,39 +80,43 @@ public class FeatureRequestManager implements Serializable {
         if (_account != null) {
             setNewState(FeatureState.APPROVED);
             _mailer.sendFeatureRequestAnswer("FeatureApprovalMail", _account, _request);
-            //_accountFacade.clearCache();
-            return (redirect(Pages.AdminApproved.URL()));
+            return Pages.AdminApproved.URL();
         }
-        return (redirect(Pages.AdminError.URL()));
-    }
-
-    public String redirect(String url) throws FacesException {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-
-        ExternalContext extContext = ctx.getExternalContext();
-        String target = extContext.encodeActionURL(ctx.getApplication().getViewHandler().getActionURL(ctx, url));
-        try {
-            extContext.redirect(target);
-        } catch (IOException ex) {
-            throw new FacesException(ex);
-        }
-        return "";
+        return Pages.AdminError.URL();
     }
 
     public String reject() {
         if (_account != null) {
             setNewState(FeatureState.REJECTED);
             _mailer.sendFeatureRequestAnswer("FeatureRejectMail", _account, _request);
-            //_accountFacade.clearCache(Account.class);
-            return redirect(Pages.AdminApproved.URL());
+            return Pages.AdminApproved.URL();
         }
-        return redirect(Pages.AdminError.URL());
+        return Pages.AdminError.URL();
+    }
+
+    /**
+     * silently remove a request
+     *
+     * @return
+     */
+    public String remove() {
+        if (_account != null) {
+            setNewState(null);
+            return Pages.AdminApproved.URL();
+        }
+        return Pages.AdminError.URL();
     }
 
     private void setNewState(FeatureState newState) {
-        for (AccountFeature feature : _account.getFeatures()) {
-            if (feature.getFeatureState() == FeatureState.REQUESTED && feature.getFeature() == _request.getFeature()) {
-                feature.setFeatureState(newState);
+        Optional<AccountFeature> optFeature = _account.getFeatures()
+                .stream()
+                .filter(f -> f.getFeatureState() == FeatureState.REQUESTED && f.getFeature() == _request.getFeature())
+                .findFirst();
+        if (optFeature.isPresent()){
+            if (newState == null){
+                _account.getFeatures().remove(optFeature.get());
+            }else{
+                optFeature.get().setFeatureState(newState);
             }
         }
         _accountFacade.merge(_account);

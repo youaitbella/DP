@@ -39,7 +39,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     }
 
     public boolean read(String key, boolean defaultVal) {
-        Config config = find(key);
+        Config config = findFresh(key);
         if (config == null) {
             save(key, defaultVal);
             return defaultVal;

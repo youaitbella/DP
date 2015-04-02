@@ -10,25 +10,35 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import org.inek.dataportal.facades.TrashMailFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**
  *
  * @author muellermi
  */
-@FacesValidator(value="EmailValidator")
-public class EmailValidator implements Validator{
+@FacesValidator(value = "EmailValidator")
+public class EmailValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if (value == null){return;}
+        if (value == null) {
+            return;
+        }
         if (!isValidEmail("" + value)) {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    
-    public static boolean isValidEmail(String addres){
-        return addres.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+");
+
+    public boolean isValidEmail(String addres) {
+        boolean isValid = addres.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+");
+        if (!isValid) {
+            return false;
+        }
+        //TrashMailFacade _facade = new TrashMailFacade();
+        String domain = addres.substring(addres.indexOf("@") + 1);
+        //return _facade.exists(domain);
+        return true;
     }
 }

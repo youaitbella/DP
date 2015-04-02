@@ -26,7 +26,6 @@ import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 @Named
 @RequestScoped
 public class RequestPassword implements Serializable {
-    @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     private String _email;
     private String _password;
@@ -63,7 +62,7 @@ public class RequestPassword implements Serializable {
 
     public void checkEmail(FacesContext context, UIComponent component, Object value) {
         String input = "" + value;
-        if (!EmailValidator.isValidEmail(input)) {
+        if (!new EmailValidator().isValidEmail(input)) {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }

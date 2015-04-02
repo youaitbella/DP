@@ -563,7 +563,7 @@ public class SessionController implements Serializable {
     /**
      * Reads a configuration value either from DB or cache and returns it. Once
      * a value is read, it will be cached until the end of the current session.
-     * This reduece DB traffic. Any change during the session (except setEnabled
+     * This reduces DB traffic. Any change during the session (except setEnabled
      * for the same session) will be ignored.
      *
      * @param key
