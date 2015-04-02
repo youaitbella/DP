@@ -14,7 +14,8 @@
                 <br/>
                 <h:inputText styleClass="input" id="user" value="#{editUserMaintenance.user}" immediate="false"
                              required="true" requiredMessage="#{msg.msgValueNeeded}"
-                             validator="#{editUserMaintenance.checkUser}" maxlength="50">
+                             validator="#{editUserMaintenance.checkUser}" maxlength="50"
+                             title="#{msg.tipUserName}">
                     <f:ajax event="blur" render="@this :logout:remaining msgUser"/>
                 </h:inputText>
             </p>

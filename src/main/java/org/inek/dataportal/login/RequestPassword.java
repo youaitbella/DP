@@ -13,11 +13,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 
 /**
  *
@@ -27,6 +26,7 @@ import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 @RequestScoped
 public class RequestPassword implements Serializable {
     @Inject private AccountFacade _accountFacade;
+    @Inject private SessionTools _sessionTools;
     private String _email;
     private String _password;
     private String _repeatPassword;
@@ -62,7 +62,7 @@ public class RequestPassword implements Serializable {
 
     public void checkEmail(FacesContext context, UIComponent component, Object value) {
         String input = "" + value;
-        if (!new EmailValidator().isValidEmail(input)) {
+        if (!_sessionTools.isValidNonTrashEmail(input)) {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }

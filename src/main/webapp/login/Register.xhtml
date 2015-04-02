@@ -23,7 +23,8 @@
                         <br/>
                         <h:inputText styleClass="input" id="user" value="#{register.accountRequest.user}" immediate="false"
                                      required="true" requiredMessage="#{msg.msgValueNeeded}"
-                                     validator="#{register.checkUser}" maxlength="50">
+                                     validator="#{register.checkUser}" maxlength="50"
+                                     title="#{msg.tipUserName}">
                             <f:ajax event="blur" render="@this msgUser"/>
                         </h:inputText>
                     </p>
@@ -32,7 +33,8 @@
                         <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
                         <br/>
                         <h:inputText styleClass="input" id="email" value="#{register.accountRequest.email}" required="true" requiredMessage="#{msg.msgValueNeeded}"
-                                     validator="#{register.checkEmail}" maxlength="50">
+                                     validator="#{register.checkEmail}" maxlength="50"
+                                     title="#{msg.tipEmail}">
                             <f:ajax event="blur" render="@this msgEmail"/>
                         </h:inputText>
                     </p>
@@ -213,7 +215,8 @@
                     <h:outputText value="#{sessionTools.securityQuestion}" styleClass="marginRight"/>
                     <h:inputText styleClass="inputsmall" id="securityQuestion"
                                  validator="#{sessionTools.checkSecurityQuestion}"
-                                 required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="5">
+                                 required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="5"
+                                 title="#{msg.tipSecurityQuestion}">
                         <f:ajax event="blur" render="@this msgSecurityQuestion"/>
                     </h:inputText>
                     <br/>

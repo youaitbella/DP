@@ -25,7 +25,9 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DropBoxTypeFacade;
+import org.inek.dataportal.facades.TrashMailFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 
 /**
  *
@@ -44,6 +46,7 @@ public class SessionTools implements Serializable {
     @Inject private ContactRoleFacade _contactRoleFacade;
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private DropBoxTypeFacade _dropBoxTypeFacade;
+    @Inject TrashMailFacade _trashMailfacade;
 
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
@@ -157,4 +160,12 @@ public class SessionTools implements Serializable {
         return new SimpleDateFormat(format).format(calendar.toGregorianCalendar().getTime());
     }
 
+    public boolean isValidNonTrashEmail(String address){
+        if (!EmailValidator.isValidEmail(address)) {
+            return false;
+        }
+        String domain = address.substring(address.indexOf("@") + 1);
+        return !_trashMailfacade.exists(domain);
+
+    }
 }

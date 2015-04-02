@@ -104,10 +104,11 @@ public class Register implements Serializable {
 
     public void checkEmail(FacesContext context, UIComponent component, Object value) {
         String input = "" + value;
-        if (!new EmailValidator().isValidEmail(input)) {
+        if (!_sessionTools.isValidNonTrashEmail(input)) {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
+        
 // don't give any hint of registered users (except nick name as above)
 //        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
 //            String msg = Utils.getMessage("msgUserExists");

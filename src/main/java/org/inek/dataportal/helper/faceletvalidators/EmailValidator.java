@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.inek.dataportal.facades.TrashMailFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -31,14 +30,7 @@ public class EmailValidator implements Validator {
         }
     }
 
-    public boolean isValidEmail(String addres) {
-        boolean isValid = addres.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+");
-        if (!isValid) {
-            return false;
-        }
-        //TrashMailFacade _facade = new TrashMailFacade();
-        String domain = addres.substring(addres.indexOf("@") + 1);
-        //return _facade.exists(domain);
-        return true;
+    public static boolean isValidEmail(String address) {
+        return  address.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+");
     }
 }

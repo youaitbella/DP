@@ -213,7 +213,7 @@ public class EditUserMaintenance extends AbstractEditController {
             // no check for empty mail address
             return;
         }
-        if (!new EmailValidator().isValidEmail(input)) {
+        if (!_sessionTools.isValidNonTrashEmail(input)) {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
