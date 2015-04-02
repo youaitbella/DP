@@ -46,7 +46,7 @@
                                    rendered="#{!editModelIntention.readOnly or sessionController.isInekUser('MODEL_INTENTION')}"/>
 
                     <h:commandLink styleClass="sendButton" action="#{editModelIntention.seal()}" value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.modelIntentionDisabled}" title="#{msg.infoSaveAndClose}"
+                                   disabled="#{not sessionController.isEnabled('IsModelIntentionSendEnabled')}" title="#{msg.infoSaveAndClose}"
                                    rendered="#{!editModelIntention.readOnly}">
                         <cb:confirmSeal/>
                     </h:commandLink>

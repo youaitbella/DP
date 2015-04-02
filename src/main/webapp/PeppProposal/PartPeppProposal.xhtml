@@ -11,7 +11,8 @@
     <div class="paddingElement">
         <ui:include src="#{sessionTools.pages.ListPeppProposal}"/>
         <p>
-            <h:commandLink styleClass="button" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" disabled="#{sessionTools.peppProposalDisabled}"/>
+            <h:commandLink styleClass="button" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
+                           rendered="#{sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
         </p>
             <br/>
             <h:outputLabel styleClass="label" rendered ="#{peppProposalList.sealedPeppProposals.size() > 0}" value="sowie #{peppProposalList.sealedPeppProposals.size()} bereitgestellte PEPP-Vorschläge"/>

@@ -45,7 +45,6 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editPeppProposal.requestApprovalPeppProposal}"
                                    value="#{msg.btnRequestApproval}"
-                                   disabled="#{sessionTools.peppProposalDisabled}"
                                    rendered="#{editPeppProposal.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
@@ -53,7 +52,6 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editPeppProposal.sealPeppProposal()}"
                                    value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.peppProposalDisabled}"
                                    rendered="#{editPeppProposal.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>

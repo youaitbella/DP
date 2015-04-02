@@ -48,7 +48,6 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editDrgProposal.requestApprovalDrgProposal}"
                                    value="#{msg.btnRequestApproval}"
-                                   disabled="#{sessionTools.drgProposalDisabled}"
                                    rendered="#{editDrgProposal.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
@@ -57,7 +56,6 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editDrgProposal.sealDrgProposal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   disabled="#{sessionTools.drgProposalDisabled}"
                                    rendered="#{editDrgProposal.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
