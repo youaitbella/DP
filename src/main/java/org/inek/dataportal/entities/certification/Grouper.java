@@ -81,6 +81,7 @@ public class Grouper implements Serializable {
     }
     // </editor-fold>
 
+    
     // <editor-fold defaultstate="collapsed" desc="Property CertStatus">
     @Column(name = "grCertStatus")
     private int _certStatus = -1;

@@ -157,7 +157,7 @@
                         <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
                         <br/>
                         <h:inputText styleClass="input" id="street" value="#{register.accountRequest.street}"
-                                     required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+                                     required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50" title="#{msg.titleRegisterStreet}">
                             <f:ajax event="blur" render="@this msgStreet"/>
                         </h:inputText>
                     </p>
@@ -166,7 +166,7 @@
                         <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
                         <br/>
                         <h:inputText styleClass="input" id="zip" value="#{register.accountRequest.postalCode}"
-                                     required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="10">
+                                     required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="10" title="#{msg.titleRegisterZip}">
                             <f:ajax event="blur" render="@this msgZip"/>
                         </h:inputText>
                     </p>
@@ -175,7 +175,7 @@
                         <h:message id="msgTown" for="town" styleClass="errorMessage"/>
                         <br/>
                         <h:inputText styleClass="input" id="town" value="#{register.accountRequest.town}"
-                                     required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
+                                     required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50" title="#{msg.titleRegisterTown}">
                             <f:ajax event="blur" render="@this msgTown"/>
                         </h:inputText>
                     </p>
@@ -183,7 +183,7 @@
                         <h:outputLabel styleClass="label" for="companyPhone" value="#{msg.lblPhone}:"/>
                         <h:message id="msgCompanyPhone" for="companyPhone" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="companyPhone" value="#{register.accountRequest.customerPhone}" required="false" maxlength="50">
+                        <h:inputText styleClass="input" id="companyPhone" value="#{register.accountRequest.customerPhone}" required="false" maxlength="50" title="#{msg.titleRegisterPhone}">
                             <f:ajax event="blur" render="@this msgCompanyPhone"/>
                         </h:inputText>
                     </p>
@@ -191,7 +191,7 @@
                         <h:outputLabel styleClass="label" for="companyFax" value="#{msg.lblFax}:"/>
                         <h:message id="msgCompanyFax" for="companyFax" styleClass="errorMessage"/>
                         <br/>
-                        <h:inputText styleClass="input" id="companyFax" value="#{register.accountRequest.customerFax}" required="false" maxlength="50">
+                        <h:inputText styleClass="input" id="companyFax" value="#{register.accountRequest.customerFax}" required="false" maxlength="50" title="#{msg.titleRegisterFax}">
                             <f:ajax event="blur" render="@this msgCompanyFax"/>
                         </h:inputText>
                     </p>
