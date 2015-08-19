@@ -65,19 +65,28 @@
                 <inek:NubRequestTable requests="#{nubRequestList.sealedNubRequests}" isSealed="true"/>
             </h:panelGroup>
 
-            <h:panelGroup rendered="#{nubRequestList.partnersForDisplay.size() > 0}">
+            <h:panelGroup rendered="#{nubSessionTools.viewNode.children.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
-                <c:forEach items="#{nubRequestList.partnersForDisplay}" var="partner" rendered="#{nubRequestList.partnersForDisplay.size() > 0}">
-                    <h:panelGroup rendered="#{nubRequestList.getNubRequestsForDisplayFromPartner(partner.id).size() gt 0}">
+                <ui:repeat value="#{nubSessionTools.viewNode.children}" var="child" >
+                    <h:panelGroup rendered="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id).size() gt 0}">
                         <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
+                            <h:commandLink action="#{child.expand}" immediate="true" 
+                                           rendered="#{!child.expanded}">
+                                <h:graphicImage alt="drucken" name="ButtonPlus.png" library="Icon/small" title="Details zeigen" value=""/>
+                            </h:commandLink>
+                            <h:commandLink action="#{child.collapse}" immediate="true" 
+                                           rendered="#{child.expanded}">
+                                <h:graphicImage alt="drucken" name="ButtonMinus.png" library="Icon/small" title="Details verbergen" value=""/>
+                            </h:commandLink>
+
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.firstName} #{child.account.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.town}" immediate="true"/>
                         </p>
-                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(partner.id)}" isSealed="true" showDelete="false"/>
+                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id)}" isSealed="true" showDelete="false"/>
                     </h:panelGroup>
-                </c:forEach>
+                </ui:repeat>
             </h:panelGroup>
 
         </h:form>

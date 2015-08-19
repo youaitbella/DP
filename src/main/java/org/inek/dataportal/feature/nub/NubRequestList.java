@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -168,7 +167,7 @@ public class NubRequestList {
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
     @Inject NubSessionTools _nubSessionTools;
-
+    
     public List<Account> getPartnersForEdit() {
         return _cooperationTools.getPartnersForEdit(Feature.NUB);
     }

@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.NubRequest;
@@ -86,4 +86,26 @@ public class NubSessionTools implements Serializable {
         return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
+    private NubEditNode _editNode ;
+    @Inject
+    private void createEditNode( CooperationTools cooperationTools){
+           _editNode = new NubEditNode(cooperationTools);
+    }
+    public NubEditNode getEditNode(){
+        _editNode.obtainChildrenIfIsExpanded();
+        return _editNode;
+    }
+    
+    private NubViewNode _viewNode;
+   
+    @Inject
+    private void createViewNode( CooperationTools cooperationTools){
+           _viewNode = new NubViewNode(cooperationTools);
+    }
+
+    public NubViewNode getViewNode(){
+        _viewNode.obtainChildrenIfIsExpanded();
+        return _viewNode;
+    }
+    
 }

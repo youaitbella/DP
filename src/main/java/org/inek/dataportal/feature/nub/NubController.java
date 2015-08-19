@@ -5,7 +5,6 @@
 package org.inek.dataportal.feature.nub;
 
 import java.util.Calendar;
-import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.NubRequest;

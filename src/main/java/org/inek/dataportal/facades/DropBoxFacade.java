@@ -104,7 +104,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
     private void cleanDropBoxes() {
         List<DropBox> dropboxes = findInvalid();
         for (DropBox dropbox : dropboxes) {
-            _logger.log(Level.WARNING, "Clean DroBox {0}", dropbox.getDropBoxId());
+            _logger.log(Level.WARNING, "Clean DropBox {0}", dropbox.getDropBoxId());
             remove(dropbox);
         }
     }
