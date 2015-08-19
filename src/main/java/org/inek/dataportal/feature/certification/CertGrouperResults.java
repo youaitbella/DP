@@ -618,4 +618,73 @@ public class CertGrouperResults {
     public boolean renderCertificationFinished() {
         return _grouper.getCertStatus() == CertStatus.CertificationPassed;
     }
+    
+    public boolean renderReset1Step() {
+        switch(_grouper.getCertStatus()) {
+            case Unknown:
+            case New:
+                return false;
+        }
+        return true;
+    }
+    
+    public String reset1Step() {
+        switch(_grouper.getCertStatus()) {
+            case PasswordRequested:
+                _grouper.setCertStatus(CertStatus.New);
+                _grouper.setPasswordRequest(null);
+                break;
+            case TestUpload1:
+                _grouper.setCertStatus(CertStatus.PasswordRequested);
+                _grouper.setTestUpload1(null);
+                break;
+            case TestFailed1:
+                _grouper.setCertStatus(CertStatus.TestUpload1);
+                _grouper.setTestError1(-1);
+                _grouper.setTestCheck1(null);
+                break;
+            case TestUpload2:
+                _grouper.setCertStatus(CertStatus.TestFailed1);
+                _grouper.setTestUpload2(null);
+                break;
+            case TestFailed2:
+                _grouper.setCertStatus(CertStatus.TestUpload2);
+                _grouper.setTestError2(-1);
+                _grouper.setTestCheck2(null);
+                break;
+            case TestUpload3:
+                _grouper.setCertStatus(CertStatus.TestFailed2);
+                _grouper.setTestUpload3(null);
+                break;
+            case TestSucceed:
+                if(_grouper.getTestError1() == 0)
+                    _grouper.setCertStatus(CertStatus.TestUpload1);
+                else if(_grouper.getTestError2() == 0)
+                    _grouper.setCertStatus(CertStatus.TestUpload2);
+                else if(_grouper.getTestError3() == 0)
+                    _grouper.setCertStatus(CertStatus.TestUpload3);
+                break;
+            case CertUpload1:
+                _grouper.setCertStatus(CertStatus.TestSucceed);
+                _grouper.setCertUpload1(null);
+                break;
+            case CertFailed1:
+                _grouper.setCertStatus(CertStatus.CertUpload1);
+                _grouper.setCertCheck1(null);
+                _grouper.setCertError1(-1);
+            case CertUpload2:
+                _grouper.setCertStatus(CertStatus.CertFailed1);
+                _grouper.setCertUpload2(null);
+                break;
+            case CertSucceed:
+                if(_grouper.getCertError1() == 0)
+                    _grouper.setCertStatus(CertStatus.CertUpload1);
+                else if(_grouper.getCertError2() == 0)
+                    _grouper.setCertStatus(CertStatus.CertUpload2);
+                _grouper.setCertification(null);
+                break;
+        }
+        _grouperFacade.merge(_grouper);
+        return "";
+    }
 }

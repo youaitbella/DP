@@ -17,6 +17,11 @@
             #{certGrouperResults.certState}
         </span>
         
+        <br/>
+        <h:form id="certStateBack" rendered="#{certGrouperResults.renderReset1Step()}">
+            <h:commandLink styleClass="button" value="Reset 1-Step" action="#{certGrouperResults.reset1Step}" />
+        </h:form>
+        
         <hr/>
         
         <h:panelGroup rendered="#{certGrouperResults.hasNotDeliveredData()}" style="width: 100%; text-align: center;">
