@@ -13,14 +13,14 @@ import java.util.Collection;
  */
 public class YearTreeNode extends TreeNode{
 
-    @Override
+
     public void updateChildrenIfIsExpanded() {
         if (!isExpanded()){return;}
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<? extends TreeNode> getChildren() {
+    public Collection<TreeNode> getChildren() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

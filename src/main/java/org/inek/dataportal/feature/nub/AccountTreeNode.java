@@ -33,7 +33,7 @@ public class AccountTreeNode extends TreeNode {
         return new AccountTreeNode(account);
     }
 
-    @Override
+
     public void updateChildrenIfIsExpanded() {
         if (isExpanded()) {
             obtainChildren();
@@ -46,7 +46,7 @@ public class AccountTreeNode extends TreeNode {
 
 
     @Override
-    public Collection<? extends TreeNode> getChildren() {
+    public Collection<TreeNode> getChildren() {
         return Collections.EMPTY_LIST;
     }
 
@@ -59,4 +59,19 @@ public class AccountTreeNode extends TreeNode {
     protected void collapseNode() {
     }
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
+    @Override
+    public int hashCode() {
+        return _account.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof AccountTreeNode)) {
+            return false;
+        }
+        AccountTreeNode other = (AccountTreeNode) object;
+        return _account.equals(other._account);
+    }
+    
 }

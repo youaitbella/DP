@@ -5,7 +5,9 @@
  */
 package org.inek.dataportal.feature.nub;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class TreeNode {
 
@@ -48,11 +50,22 @@ public abstract class TreeNode {
         _isExpanded = false;
     }
 
-    protected abstract void expandNode();
-    protected abstract void collapseNode();
+    protected final List<TreeNodeObserver> _observers = new ArrayList<>();
+    public void addObserver (TreeNodeObserver observer){
+        if (!_observers.contains(observer)){
+            _observers.add(observer);
+        }
+    }
+    public void removeObserver (TreeNodeObserver observer){
+        if (_observers.contains(observer)){
+            _observers.remove(observer);
+        }
+    }
 
-    public abstract Collection<? extends TreeNode> getChildren();
+    protected void expandNode(){}
+    protected void collapseNode(){}
 
-    public abstract void updateChildrenIfIsExpanded();
+    public abstract Collection<TreeNode> getChildren();
+
 
 }

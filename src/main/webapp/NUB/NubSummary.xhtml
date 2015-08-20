@@ -68,8 +68,7 @@
             <h:panelGroup rendered="#{nubSessionTools.viewNode.children.size() > 0}">
                 <br/>
                 <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
-                <ui:repeat value="#{nubSessionTools.viewNode.children}" var="child" >
-                    <h:panelGroup rendered="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id).size() gt 0}">
+                <ui:repeat value="#{nubSessionTools.children}" var="child" >
                         <p>
                             <h:commandLink action="#{child.expand}" immediate="true" 
                                            rendered="#{!child.expanded}">
@@ -84,8 +83,7 @@
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.company}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.town}" immediate="true"/>
                         </p>
-                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id)}" isSealed="true" showDelete="false"/>
-                    </h:panelGroup>
+                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id)}" isSealed="true" showDelete="false" rendered="#{child.expanded}"/>
                 </ui:repeat>
             </h:panelGroup>
 

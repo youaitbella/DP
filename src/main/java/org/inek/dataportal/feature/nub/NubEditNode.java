@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
@@ -27,7 +26,7 @@ public class NubEditNode extends TreeNode{
                 _cooperationTools = cooperationTools;
     }
             
-    @Override
+
     public void updateChildrenIfIsExpanded() {
         List<Account> accounts = _cooperationTools.getPartnersForEdit(Feature.NUB);
         Map<Integer, AccountTreeNode> children = new LinkedHashMap<>(accounts.size());
@@ -41,7 +40,7 @@ public class NubEditNode extends TreeNode{
     }
 
     @Override
-    public Collection<AccountTreeNode> getChildren() {
+    public Collection<TreeNode> getChildren() {
         //return _children.values();  -- ok for c:forEach, but produces an error with ui:repeat
         return new ArrayList<>(_children.values());
     }

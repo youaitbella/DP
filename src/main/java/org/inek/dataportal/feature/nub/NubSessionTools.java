@@ -1,10 +1,14 @@
 package org.inek.dataportal.feature.nub;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,7 +22,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 
 @Named @SessionScoped
-public class NubSessionTools implements Serializable {
+public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     private static final Logger _logger = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
@@ -27,6 +31,7 @@ public class NubSessionTools implements Serializable {
     @Inject private SessionController _sessionController;
 
     private String _nubFilter = "";
+
     public String getNubFilter() {
         return _nubFilter;
     }
@@ -44,7 +49,6 @@ public class NubSessionTools implements Serializable {
         ensureSealOwnNub();
         return _sealOwnNub;
     }
-
 
     /**
      * clears cache of sealOwnNub e.g. to ensure update after changing rights.
@@ -86,26 +90,57 @@ public class NubSessionTools implements Serializable {
         return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
-    private NubEditNode _editNode ;
+    private NubEditNode _editNode;
+
     @Inject
-    private void createEditNode( CooperationTools cooperationTools){
-           _editNode = new NubEditNode(cooperationTools);
+    private void createEditNode(CooperationTools cooperationTools) {
+        _editNode = new NubEditNode(cooperationTools);
     }
-    public NubEditNode getEditNode(){
+
+    public NubEditNode getEditNode() {
         _editNode.updateChildrenIfIsExpanded();
         return _editNode;
     }
-    
-    private NubViewNode _viewNode;
-   
-    @Inject
-    private void createViewNode( CooperationTools cooperationTools){
-           _viewNode = new NubViewNode(cooperationTools);
+
+    private NubViewNode _viewNode = new NubViewNode();
+    @Inject private CooperationTools _cooperationTools;
+
+    @PostConstruct
+    private void init() {
+        _viewNode.addObserver(this);
     }
 
-    public NubViewNode getViewNode(){
-        _viewNode.updateChildrenIfIsExpanded();
+    public NubViewNode getViewNode() {
+        if (!_viewNode.isExpanded()) {
+            _viewNode.expandNode();
+        }
         return _viewNode;
     }
+
+    public Collection<TreeNode> getChildren(){
+        if (!_viewNode.isExpanded()) {
+            _viewNode.expandNode();
+        }
+        return _viewNode.getChildren();
+    }
     
+    @Override
+    public void obtainChildren(TreeNode treeNode, List<TreeNode> children) {
+        if (treeNode instanceof NubViewNode) {
+            obtainNubViewNodeChildren(children);
+        }
+    }
+
+    private void obtainNubViewNodeChildren(List<TreeNode> children) {
+        List<Account> accounts = _cooperationTools.getPartnersForDisplay(Feature.NUB);
+        accounts.add(0, _sessionController.getAccount());
+        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
+        children.clear();
+        for (Account account : accounts) {
+            Integer id = account.getId();
+            Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
+            AccountTreeNode node = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.createTreeNode(account);
+            children.add((TreeNode) node);
+        }
+    }
 }
