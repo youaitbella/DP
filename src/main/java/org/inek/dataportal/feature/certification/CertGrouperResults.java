@@ -623,6 +623,8 @@ public class CertGrouperResults {
         switch(_grouper.getCertStatus()) {
             case Unknown:
             case New:
+            case CertificationFailed:
+            case CertificationPassed:
                 return false;
         }
         return true;
@@ -685,6 +687,7 @@ public class CertGrouperResults {
                 break;
         }
         _grouperFacade.merge(_grouper);
+        _grouper = _grouperFacade.find(_grouper.getId()); // re-init grouper object to avoid exception
         return "";
     }
 }
