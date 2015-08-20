@@ -18,7 +18,7 @@ public class AccountActivationFacade extends AbstractFacade<AccountActivation> {
         super(AccountActivation.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public AccountActivation findAccountByGUID(String guid) {
         String sql = "SELECT a FROM AccountActivation a WHERE a._guid = :guid";
         Query query = getEntityManager().createQuery(sql, AccountActivation.class);

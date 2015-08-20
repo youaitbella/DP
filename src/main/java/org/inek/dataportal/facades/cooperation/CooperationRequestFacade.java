@@ -31,7 +31,7 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
      * @param accountId Id of requested account
      * @return
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Account> getCooperationRequestors(int accountId) {
         String query = "SELECT acId, acLastModified, acIsDeactivated, "
                 + "acUser, acMail, acGender, acTitle, acFirstName, "
@@ -58,7 +58,7 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
      * @param requestedId
      * @return
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public CooperationRequest findCooperationRequest(int requestorId, int requestedId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CooperationRequest> cq = cb.createQuery(CooperationRequest.class);
@@ -100,7 +100,7 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
         }
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<CooperationRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CooperationRequest> cq = cb.createQuery(CooperationRequest.class);

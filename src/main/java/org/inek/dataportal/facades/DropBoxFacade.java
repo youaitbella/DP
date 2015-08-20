@@ -28,7 +28,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         super(DropBox.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<DropBox> findAll(int accountId, boolean isClosed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -45,7 +45,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<DropBox> findInvalid() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -54,7 +54,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public DropBox getDropBoxByDir(String dir) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> query = cb.createQuery(DropBox.class);

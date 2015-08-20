@@ -36,7 +36,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         super(DrgProposal.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
         if (dataSet == DataSet.None) {
             return new ArrayList<>();

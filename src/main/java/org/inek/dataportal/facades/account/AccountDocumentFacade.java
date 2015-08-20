@@ -19,7 +19,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         super(AccountDocument.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Triple> getDocInfos(int accountId) {
         List<AccountDocument> docs = findAll(accountId);
         List<Triple> docInfos = new ArrayList<>();
@@ -31,7 +31,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         return docInfos;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<AccountDocument> findAll(int accountId) {
         String sql = "SELECT p FROM AccountDocument p WHERE p._accountId = :accountId ORDER BY p._adId DESC";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);

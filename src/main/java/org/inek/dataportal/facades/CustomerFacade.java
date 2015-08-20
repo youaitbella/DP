@@ -21,7 +21,7 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         super(Customer.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public Customer getCustomerByIK(Integer ik) {
         if (ik == null) {
             return new Customer();

@@ -38,7 +38,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         super(PeppProposal.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<PeppProposal> findAll(int accountId, DataSet dataSet) {
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?

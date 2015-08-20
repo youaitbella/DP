@@ -28,7 +28,7 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         return merge(mailTemplate);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<SelectItem> getMailTemplateInfos() {
         String statement = "SELECT m._id, m._name FROM MailTemplate m";
         Query query = getEntityManager().createQuery(statement);
@@ -41,7 +41,7 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         return result;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<SelectItem> getMailTemplateInfosByFeature(Feature f) {
         String statement = "SELECT m._id, m._name FROM MailTemplate m WHERE m._feature = :feature";
         Query query = getEntityManager().createQuery(statement);
@@ -54,7 +54,7 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         return result;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public MailTemplate findByName(String name) {
         String statement = "SELECT m FROM MailTemplate m WHERE m._name = :name";
         TypedQuery<MailTemplate> query = getEntityManager().createQuery(statement, MailTemplate.class);
@@ -66,7 +66,7 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         return null;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<MailTemplate> findTemplatesByFeature(Feature f) {
         String statement = "SELECT m FROM MailTemplate m WHERE m._feature = :feature";
         TypedQuery<MailTemplate> query = getEntityManager().createQuery(statement, MailTemplate.class);

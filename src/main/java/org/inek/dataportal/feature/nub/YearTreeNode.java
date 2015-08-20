@@ -14,7 +14,7 @@ import java.util.Collection;
 public class YearTreeNode extends TreeNode{
 
     @Override
-    public void obtainChildrenIfIsExpanded() {
+    public void updateChildrenIfIsExpanded() {
         if (!isExpanded()){return;}
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

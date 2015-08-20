@@ -54,7 +54,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         super(Account.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
         List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).getResultList();
@@ -71,7 +71,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return findByMailOrUser(mailOrUser) != null;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public Set<Account> getAccountsWithRequestedFeatures() {
         String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._featureState = :state";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
@@ -79,7 +79,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return new HashSet<>(acc);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Account> getAccountsForIds(Collection<Integer> ids) {
         if (ids.isEmpty()) {
             return new ArrayList<>();
@@ -90,7 +90,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return accounts;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Account> getInekAcounts() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Account> cq = cb.createQuery(Account.class);
@@ -101,7 +101,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<SelectItem> getInekAgents() {
 //        CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
 //        CriteriaQuery<SelectItem> cQuery = cBuilder.createQuery(SelectItem.class);
@@ -128,7 +128,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return agents;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Account> getAccounts4Feature(Feature feature) {
         String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple) ORDER BY a._company";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);

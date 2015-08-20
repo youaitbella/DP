@@ -28,13 +28,13 @@ public class NubEditNode extends TreeNode{
     }
             
     @Override
-    public void obtainChildrenIfIsExpanded() {
+    public void updateChildrenIfIsExpanded() {
         List<Account> accounts = _cooperationTools.getPartnersForEdit(Feature.NUB);
         Map<Integer, AccountTreeNode> children = new LinkedHashMap<>(accounts.size());
         for (Account account : accounts) {
             Integer id = account.getId();
             AccountTreeNode node = _children.containsKey(id) ? _children.get(id) : AccountTreeNode.createTreeNode(account);
-            node.obtainChildrenIfIsExpanded();
+            node.updateChildrenIfIsExpanded();
             children.put(id, node);
         }
         _children = children;

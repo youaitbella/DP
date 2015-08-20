@@ -25,7 +25,7 @@ public class PeppFacade extends AbstractFacade<PeppInfo> {
         return findAll(pattern, 0, 0);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<PeppInfo> findAll(String pattern, int firstYear, int lastYear) {
         String[] parts = pattern.toLowerCase().split("(\\s|,})");
         StringBuilder where = new StringBuilder();
@@ -46,7 +46,7 @@ public class PeppFacade extends AbstractFacade<PeppInfo> {
         return getEntityManager().createQuery(query, PeppInfo.class).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public String findPepp(String code, int firstYear, int lastYear) {
         StringBuilder where = new StringBuilder();
         where.append("(p._code = :code)");

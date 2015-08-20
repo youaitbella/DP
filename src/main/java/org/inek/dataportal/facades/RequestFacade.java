@@ -20,7 +20,7 @@ public class RequestFacade extends AbstractFacade<Request> {
         super(Request.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Request> findAll(int accountId, boolean isSealed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Request> cq = cb.createQuery(Request.class);

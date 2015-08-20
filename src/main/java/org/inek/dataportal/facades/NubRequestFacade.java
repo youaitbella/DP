@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -35,7 +36,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         super(NubRequest.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
         return findAll(accountId, -1, dataSet, filter);
     }
@@ -77,7 +78,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<NubRequest> findAll(int accountId) {
         String sql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
         Query query = getEntityManager().createQuery(sql, NubRequest.class);
@@ -121,7 +122,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return proposalInfos;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus, String filter) {
         String jql = "SELECT p FROM NubRequest p "
                 + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
@@ -147,7 +148,17 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return proposalInfos;
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<Integer> getNubYears(int accountId) {
+        String jql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId = :accountId";
+        Query query = getEntityManager().createQuery(jql, NubRequest.class);
+        query.setParameter("accountId", accountId);
+        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+        System.out.println(sql);
+        List<Integer> years = query.getResultList();
+        return years;
+    }
+
+    
     public List<Integer> findAccountIdForIk(int ik) {
         String sql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
         Query query = getEntityManager().createQuery(sql);
@@ -160,7 +171,6 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return NubRequestFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Map<Integer, Integer> countOpenPerIk(int targetYear) {
         String jql = "SELECT p._accountId, COUNT(p) FROM NubRequest p JOIN Account a WHERE p._accountId = a._id and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
         Query query = getEntityManager().createQuery(jql);

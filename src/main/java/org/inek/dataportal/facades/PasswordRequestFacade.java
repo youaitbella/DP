@@ -24,7 +24,7 @@ public class PasswordRequestFacade extends AbstractFacade<PasswordRequest> {
         super(PasswordRequest.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<PasswordRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<PasswordRequest> cq = cb.createQuery(PasswordRequest.class);

@@ -16,7 +16,7 @@ public class ContactRoleFacade extends AbstractFacade<ContactRole> {
         super(ContactRole.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<ContactRole> findAllExtern() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ContactRole> cq = cb.createQuery(ContactRole.class);

@@ -29,7 +29,7 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
      * @param accountId Id of interesting account
      * @return
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<Account> getCooperationPartners(int accountId) {
         String query = "SELECT dbo.account.* "
                 + "from dbo.account "
@@ -57,7 +57,7 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
         persist(cooperation);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public Cooperation findCooperation(int partner1Id, int partner2Id) {
         if (partner1Id > partner2Id) {
             int tmp = partner1Id;

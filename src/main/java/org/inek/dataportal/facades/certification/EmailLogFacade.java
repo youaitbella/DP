@@ -19,7 +19,7 @@ public class EmailLogFacade extends AbstractFacade<EmailLog> {
         super(EmailLog.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<EmailLog> findEmailLogsBySystemIdAndGrouperIdAndType(int sysId, int grpId, int type) {
         String statement = "SELECT el FROM EmailLog el WHERE el._systemId = :sysId AND el._type = :type AND el._receiverAccountId = :grpId";
         TypedQuery<EmailLog> query = getEntityManager().createQuery(statement, EmailLog.class);

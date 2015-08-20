@@ -53,6 +53,6 @@ public abstract class TreeNode {
 
     public abstract Collection<? extends TreeNode> getChildren();
 
-    public abstract void obtainChildrenIfIsExpanded();
+    public abstract void updateChildrenIfIsExpanded();
 
 }

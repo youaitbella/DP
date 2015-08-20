@@ -40,7 +40,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         super(ModelIntention.class);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<ModelIntention> findAll(Set<Integer> accountIds, DataSet dataSet, UserSet userSet) {
         if (userSet == UserSet.AllUsers) {
             if (!_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
@@ -77,7 +77,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<ModelIntention> findAll(int accountId) {
         String sql = "SELECT m FROM ModelIntention m WHERE m._accountId = :accountId ORDER BY m._id DESC";
         Query query = getEntityManager().createQuery(sql, ModelIntention.class);
@@ -85,7 +85,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         return query.getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public int count(int accountId) {
         String sql = "SELECT COUNT(m) FROM ModelIntention m WHERE m._accountId = :accountId";
         Query query = getEntityManager().createQuery(sql, ModelIntention.class);

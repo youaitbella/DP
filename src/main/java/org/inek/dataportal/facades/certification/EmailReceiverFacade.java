@@ -26,7 +26,7 @@ public class EmailReceiverFacade extends AbstractFacade<EmailReceiver> {
         return merge(receiver);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<EmailReceiver> findAllEmailReceiverByListId(int id) {
         String query = "SELECT i FROM EmailReceiver i WHERE i._receiverList = :id";
         return getEntityManager().createQuery(query, EmailReceiver.class).setParameter("id", id).getResultList();

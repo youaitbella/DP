@@ -92,7 +92,7 @@ public class NubSessionTools implements Serializable {
            _editNode = new NubEditNode(cooperationTools);
     }
     public NubEditNode getEditNode(){
-        _editNode.obtainChildrenIfIsExpanded();
+        _editNode.updateChildrenIfIsExpanded();
         return _editNode;
     }
     
@@ -104,7 +104,7 @@ public class NubSessionTools implements Serializable {
     }
 
     public NubViewNode getViewNode(){
-        _viewNode.obtainChildrenIfIsExpanded();
+        _viewNode.updateChildrenIfIsExpanded();
         return _viewNode;
     }
     

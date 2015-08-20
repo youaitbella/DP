@@ -26,7 +26,7 @@ public class EmailReceiverLabelFacade extends AbstractFacade<MapEmailReceiverLab
         return merge(map);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public int findEmailReceiverListByLabel(String label) {
         String query = "SELECT i FROM MapEmailReceiverLabel i WHERE i._label = :label";
         List<MapEmailReceiverLabel> list = getEntityManager().createQuery(query, MapEmailReceiverLabel.class).setParameter("label", label).getResultList();

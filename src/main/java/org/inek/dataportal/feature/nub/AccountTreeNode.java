@@ -34,7 +34,7 @@ public class AccountTreeNode extends TreeNode {
     }
 
     @Override
-    public void obtainChildrenIfIsExpanded() {
+    public void updateChildrenIfIsExpanded() {
         if (isExpanded()) {
             obtainChildren();
         }

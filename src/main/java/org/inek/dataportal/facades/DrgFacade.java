@@ -22,7 +22,7 @@ public class DrgFacade extends AbstractFacade<DrgInfo> {
         return findAll(pattern, 0, 0);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<DrgInfo> findAll(String pattern, int firstYear, int lastYear) {
         firstYear = 2013;
         lastYear = 2015;
@@ -47,7 +47,7 @@ public class DrgFacade extends AbstractFacade<DrgInfo> {
         return getEntityManager().createQuery(query, DrgInfo.class).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public String findDrg(String code, int firstYear, int lastYear) {
         StringBuilder where = new StringBuilder();
         where.append("(p._code = :code)");

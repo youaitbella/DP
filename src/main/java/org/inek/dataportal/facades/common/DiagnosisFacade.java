@@ -26,7 +26,7 @@ public class DiagnosisFacade extends AbstractFacade<DiagnosisInfo> {
         return findAll(pattern, 0, 0);
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<DiagnosisInfo> findAll(String pattern, int firstYear, int lastYear) {
         String[] parts = pattern.toLowerCase().split("(\\s|,})");
         StringBuilder where = new StringBuilder();
@@ -50,7 +50,7 @@ public class DiagnosisFacade extends AbstractFacade<DiagnosisInfo> {
         return getEntityManager().createQuery(query, DiagnosisInfo.class).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public String findDiagnosis(String code, int firstYear, int lastYear) {
         StringBuilder where = new StringBuilder();
         where.append("(d._code = :code or d._codeShort = :code)");

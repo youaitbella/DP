@@ -30,7 +30,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
      * @param date
      * @return
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<AccountChangeMail> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountChangeMail> cq = cb.createQuery(AccountChangeMail.class);
@@ -39,7 +39,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     public List<AccountChangeMail> findByActivationKey(String key, String mail) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountChangeMail> cq = cb.createQuery(AccountChangeMail.class);
