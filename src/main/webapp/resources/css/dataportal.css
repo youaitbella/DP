@@ -573,6 +573,16 @@ select:active, select:focus{
     text-decoration: none;
 }
 
+.block {
+    display: inline-block;
+    width: 94.5%;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    background-color: #437A1E;
+    color: white;
+    text-decoration: none;
+}
+
 .areaNarrowLow {
     min-width: 100px;
     width: 100px;

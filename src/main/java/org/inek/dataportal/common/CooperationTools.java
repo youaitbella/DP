@@ -1,7 +1,7 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -372,9 +372,10 @@ public class CooperationTools implements Serializable {
         return r -> r.getCooperativeRight().canReadSealed();
     }
 
-    private Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
+    public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Account account = _sessionController.getAccount();
-        Set<Integer> ids = new HashSet<>();
+        Set<Integer> ids = new LinkedHashSet<>();
+        ids.add(account.getId());  // user always has the right to see his own
         getCooperationRights(feature, account)
                 .stream()
                 .filter((right) -> right.getPartnerId() == account.getId())
@@ -387,7 +388,7 @@ public class CooperationTools implements Serializable {
                         ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureAndIk(feature, right.getIk()));
                     }
                 });
-        ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
+        //ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
         return ids;
     }
 

@@ -1,5 +1,9 @@
 package org.inek.dataportal.feature.nub;
 
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.RootNode;
+import org.inek.dataportal.helper.tree.AccountTreeNode;
+import org.inek.dataportal.helper.tree.TreeNode;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,19 +11,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
+import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.facades.NubRequestFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 
 @Named @SessionScoped
 public class NubSessionTools implements Serializable, TreeNodeObserver {
@@ -28,6 +36,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     private static final long serialVersionUID = 1L;
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
+    @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private SessionController _sessionController;
 
     private String _nubFilter = "";
@@ -90,57 +99,90 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
-    private NubEditNode _editNode;
 
-    @Inject
-    private void createEditNode(CooperationTools cooperationTools) {
-        _editNode = new NubEditNode(cooperationTools);
-    }
+    private RootNode _viewNode = RootNode.createTreeNode(1, this);
+    private RootNode _editNode = RootNode.createTreeNode(0, this);
+    @Inject private CooperationTools _cooperationTools;
 
-    public NubEditNode getEditNode() {
-        _editNode.updateChildrenIfIsExpanded();
+
+    public RootNode getEditNode() {
+        if (!_editNode.isExpanded()) {
+            _editNode.expand();
+        }
         return _editNode;
     }
 
-    private NubViewNode _viewNode = new NubViewNode();
-    @Inject private CooperationTools _cooperationTools;
-
-    @PostConstruct
-    private void init() {
-        _viewNode.addObserver(this);
-    }
-
-    public NubViewNode getViewNode() {
+    public RootNode getViewNode() {
         if (!_viewNode.isExpanded()) {
-            _viewNode.expandNode();
+            _viewNode.expand();
         }
         return _viewNode;
     }
 
-    public Collection<TreeNode> getChildren(){
-        if (!_viewNode.isExpanded()) {
-            _viewNode.expandNode();
-        }
-        return _viewNode.getChildren();
-    }
-    
     @Override
-    public void obtainChildren(TreeNode treeNode, List<TreeNode> children) {
-        if (treeNode instanceof NubViewNode) {
+    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+        if (treeNode instanceof RootNode && treeNode == _editNode) {
+            obtainNubEditNodeChildren(children);
+        }
+        if (treeNode instanceof RootNode && treeNode == _viewNode) {
             obtainNubViewNodeChildren(children);
         }
+        if (treeNode instanceof YearTreeNode) {
+            obtainYearNodeChildren((YearTreeNode) treeNode, children);
+        }
     }
-
-    private void obtainNubViewNodeChildren(List<TreeNode> children) {
-        List<Account> accounts = _cooperationTools.getPartnersForDisplay(Feature.NUB);
+    
+    private void obtainNubEditNodeChildren(Collection<TreeNode> children) {
+        List<Account> accounts = _cooperationTools.getPartnersForEdit(Feature.NUB);
         accounts.add(0, _sessionController.getAccount());
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode node = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.createTreeNode(account);
+            AccountTreeNode node = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.createTreeNode(account, this);
             children.add((TreeNode) node);
+            oldChildren.remove(node);
+        }
+        // GarbageCollector should remove the object, even though an observer is registerd.
+        // Thus the followin cleanup (commented out) is not nessecary
+        //for (TreeNode node : oldChildren){
+        //    node.removeObserver();
+        //}
+    }
+
+    private void obtainNubViewNodeChildren(Collection<TreeNode> children) {
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
+        List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
+        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
+        children.clear();
+        for (Integer year : years) {
+            Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
+            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.createTreeNode(year, this);
+            children.add((TreeNode) childNode);
+            oldChildren.remove(childNode);
+        }
+    }
+
+    @Inject private AccountFacade _accountFacade;
+    private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
+        accountIds = _nubRequestFacade.checkAccountsForNubOfYear(accountIds, node.getId());
+        List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
+        Account currentUser =  _sessionController.getAccount();
+        if (accounts.contains(currentUser)){
+            // ensure current user is first, if in list
+            accounts.remove(currentUser);
+            accounts.add(0, currentUser);
+        }
+        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
+        children.clear();
+        for (Account account : accounts) {
+            Integer id = account.getId();
+            Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.createTreeNode(account, this);
+            children.add((TreeNode) childNode);
+            oldChildren.remove(childNode);
         }
     }
 }

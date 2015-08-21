@@ -84,7 +84,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (ids.isEmpty()) {
             return new ArrayList<>();
         }
-        String statement = "SELECT a FROM Account a WHERE a._id in :ids";
+        String statement = "SELECT a FROM Account a WHERE a._id in :ids order by a._lastName, a._firstName";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
         List<Account> accounts = query.setParameter("ids", ids).getResultList();
         return accounts;

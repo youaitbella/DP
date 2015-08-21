@@ -199,7 +199,7 @@ public class NubRequestList {
 
     Map<Integer, List<ProposalInfo>> _partnerNubsForDisplay = new HashMap<>();
 
-    public List<ProposalInfo> getNubRequestsForDisplayFromPartner(int partnerId) {
+    public List<ProposalInfo> getNubRequestsForDisplayFromPartner(int partnerId, int year) {
         if (!_partnerNubsForDisplay.containsKey(partnerId)) {
             //System.out.println("getNubRequestsForDisplayFromPartner " + partnerId);
             List<ProposalInfo> infos = new ArrayList<>();
@@ -207,7 +207,7 @@ public class NubRequestList {
             for (int ik : iks) {
                 CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
                 DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
-                List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, dataSet, getFilter());
+                List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
                 infos.addAll(infosForIk);
             }
             _partnerNubsForDisplay.put(partnerId, infos);

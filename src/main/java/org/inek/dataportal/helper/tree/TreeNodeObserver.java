@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.nub;
+package org.inek.dataportal.helper.tree;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  *
  * @author muellermi
  */
 public interface TreeNodeObserver {
-    public void obtainChildren (TreeNode treeNode, List<TreeNode> children);
+    public void obtainChildren (TreeNode treeNode, Collection<TreeNode> children);
 }

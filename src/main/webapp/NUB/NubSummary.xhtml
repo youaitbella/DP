@@ -65,27 +65,28 @@
                 <inek:NubRequestTable requests="#{nubRequestList.sealedNubRequests}" isSealed="true"/>
             </h:panelGroup>
 
-            <h:panelGroup rendered="#{nubSessionTools.viewNode.children.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
-                <ui:repeat value="#{nubSessionTools.children}" var="child" >
-                        <p>
-                            <h:commandLink action="#{child.expand}" immediate="true" 
-                                           rendered="#{!child.expanded}">
-                                <h:graphicImage alt="drucken" name="ButtonPlus.png" library="Icon/small" title="Details zeigen" value=""/>
-                            </h:commandLink>
-                            <h:commandLink action="#{child.collapse}" immediate="true" 
-                                           rendered="#{child.expanded}">
-                                <h:graphicImage alt="drucken" name="ButtonMinus.png" library="Icon/small" title="Details verbergen" value=""/>
-                            </h:commandLink>
+            <br/>
+            <h:outputLabel styleClass="label" value="NUB-Anfragen von Kooperationspartnern"/>
+            <ui:repeat value="#{nubSessionTools.viewNode.children}" var="year">
+                <p>
+                    <h:commandLink action="#{year.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
+                </p>
+                <ui:repeat value="#{year.children}" var="child" >
+                    <p>
+                        <h:commandLink styleClass="marginLeft marginTop" action="#{child.toggle}" immediate="true" >
+                            <h:graphicImage alt="auf/zuklappen" name="#{child.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        </h:commandLink>
 
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.firstName} #{child.account.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.town}" immediate="true"/>
-                        </p>
-                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id)}" isSealed="true" showDelete="false" rendered="#{child.expanded}"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.firstName} #{child.account.lastName}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.company}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(child.account.id)}" value="#{child.account.town}" immediate="true"/>
+                    </p>
+                    <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForDisplayFromPartner(child.account.id, year.id)}" isSealed="true" showDelete="false" rendered="#{child.expanded}"/>
                 </ui:repeat>
-            </h:panelGroup>
+            </ui:repeat>
 
         </h:form>
     </ui:define>

@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -38,10 +41,10 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
 
     
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
-        return findAll(accountId, -1, dataSet, filter);
+        return findAll(accountId, -1, -1, dataSet, filter);
     }
 
-    public List<NubRequest> findAll(int accountId, int ik, DataSet dataSet, String filter) {
+    public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
         if (dataSet == DataSet.All) {
             // todo: is this user allowed to get the whole list?
             return Collections.EMPTY_LIST;
@@ -50,21 +53,26 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
         Root request = cq.from(NubRequest.class);
-        Predicate condition;
-        Order order;
-        if (dataSet == DataSet.All) {
-            condition = cb.ge(request.get("_status"), WorkflowStatus.New.getValue());
-            order = cb.asc(request.get("_id"));
-        } else if (dataSet == DataSet.AllOpen) {
-            condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
-            order = cb.asc(request.get("_id"));
-        } else if (dataSet == DataSet.ApprovalRequested) {
-            condition = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
-            order = cb.asc(request.get("_id"));
-        } else {
-            // provided
-            condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
-            order = cb.desc(request.get("_id"));
+        Predicate condition = null;
+        Order order = null;
+        if (null != dataSet) switch (dataSet) {
+            case All:
+                condition = cb.ge(request.get("_status"), WorkflowStatus.New.getValue());
+                order = cb.asc(request.get("_id"));
+                break;
+            case AllOpen:
+                condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
+                order = cb.asc(request.get("_id"));
+                break;
+            case ApprovalRequested:
+                condition = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
+                order = cb.asc(request.get("_id"));
+                break;
+            default:
+                // provided (sealed)
+                condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
+                order = cb.desc(request.get("_id"));
+                break;
         }
         condition = cb.and(condition, cb.equal(request.get("_accountId"), accountId));
         if (!filter.isEmpty()) {
@@ -73,6 +81,9 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         }
         if (ik > 0){
             condition = cb.and(condition, cb.equal(request.get("_ik"), ik));
+        }
+        if (year > 0){
+            condition = cb.and(condition, cb.equal(request.get("_targetYear"), year));
         }
         cq.select(request).where(condition).orderBy(order);
         return getEntityManager().createQuery(cq).getResultList();
@@ -111,7 +122,11 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, DataSet dataSet, String filter) {
-        List<NubRequest> requests = findAll(accountId, ik, dataSet, filter);
+        return getNubRequestInfos(accountId, ik, -1, dataSet, filter);
+    }
+    
+    public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
+        List<NubRequest> requests = findAll(accountId, ik, year, dataSet, filter);
         List<ProposalInfo> proposalInfos = new ArrayList<>();
         for (NubRequest request : requests) {
             String displayName = request.getDisplayName().trim().length() == 0
@@ -149,15 +164,27 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<Integer> getNubYears(int accountId) {
-        String jql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId = :accountId";
-        Query query = getEntityManager().createQuery(jql, NubRequest.class);
-        query.setParameter("accountId", accountId);
-        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-        System.out.println(sql);
-        List<Integer> years = query.getResultList();
-        return years;
+        Set<Integer> accountIds = new HashSet<>();
+        accountIds.add(accountId);
+        return getNubYears(accountIds);
     }
 
+    public List<Integer> getNubYears(Set<Integer> accountIds) {
+        String jql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds ORDER BY p._targetYear DESC";
+        Query query = getEntityManager().createQuery(jql, NubRequest.class);
+        query.setParameter("accountIds", accountIds);
+//        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+//        System.out.println(sql);
+        return query.getResultList();
+    }
+
+    public Set<Integer> checkAccountsForNubOfYear(Set<Integer> accountIds, int year) {
+        String jql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and p._targetYear = :year";
+        Query query = getEntityManager().createQuery(jql, NubRequest.class);
+        query.setParameter("accountIds", accountIds);
+        query.setParameter("year", year);
+        return new HashSet<>(query.getResultList());
+    }
     
     public List<Integer> findAccountIdForIk(int ik) {
         String sql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
@@ -187,5 +214,6 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         }
         return result;
     }
+
 
 }
