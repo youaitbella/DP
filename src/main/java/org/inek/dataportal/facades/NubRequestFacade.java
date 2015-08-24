@@ -178,11 +178,13 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return query.getResultList();
     }
 
-    public Set<Integer> checkAccountsForNubOfYear(Set<Integer> accountIds, int year) {
-        String jql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and p._targetYear = :year";
+    public Set<Integer> checkAccountsForNubOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String jql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and p._targetYear = :year and p._status between :statusLow and :statusHigh";
         Query query = getEntityManager().createQuery(jql, NubRequest.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
+        query.setParameter("statusLow", statusLow.getValue());
+        query.setParameter("statusHigh", statusHigh.getValue());
         return new HashSet<>(query.getResultList());
     }
     

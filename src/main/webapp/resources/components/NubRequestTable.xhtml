@@ -17,7 +17,7 @@
     <cc:implementation>
         <h:dataTable   headerClass="list-header" value="#{cc.attrs.requests}"
                        var="nub" width="100%" rowClasses="row1, row2" 
-                       columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, colIcon, colIcon, colId, colShortCentered, col04, colValue' : 'colIcon, colIcon, colIcon, colValue'}">
+                       columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, colIcon, colIcon, colId, colShortCentered, colValue' : 'colIcon, colIcon, colIcon, colValue'}">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value=""/>
@@ -53,15 +53,9 @@
             </h:column>
             <h:column id="state" rendered="#{cc.attrs.isSealed}">
                 <f:facet name="header">
-                    <h:outputText value="NUB-Status"/>
+                    <h:outputText value="Status"/>
                 </f:facet>
                 <h:commandLink action="#{nubRequestList.editNubRequest(nub.id)}" value="#{nubRequestList.getExternalState(nub.id)}" immediate="true"/>
-            </h:column>
-            <h:column rendered="#{cc.attrs.isSealed}">
-                <f:facet name="header">
-                    <h:outputText value="Jahr"/>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(nub.id)}" value="#{nub.year}" immediate="true"/>
             </h:column>
             <h:column>
                 <f:facet name="header">

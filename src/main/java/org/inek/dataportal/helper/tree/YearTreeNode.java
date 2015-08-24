@@ -12,12 +12,13 @@ package org.inek.dataportal.helper.tree;
 public class YearTreeNode extends TreeNode{
 
 
-    private YearTreeNode(int year) {
+    private YearTreeNode(TreeNode parent, int year) {
+        super(parent);
         setId(year);
     }
 
-    public static YearTreeNode createTreeNode(int year, TreeNodeObserver observer) {
-        YearTreeNode node = new YearTreeNode(year);
+    public static YearTreeNode create(TreeNode parent, int year, TreeNodeObserver observer) {
+        YearTreeNode node = new YearTreeNode(parent, year);
         node.registerObserver(observer);
         return node;
     }

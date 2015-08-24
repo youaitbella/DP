@@ -11,12 +11,13 @@ package org.inek.dataportal.helper.tree;
  */
 public class RootNode extends TreeNode {
 
-    private RootNode(int id) {
+    private RootNode(TreeNode parent, int id) {
+        super(parent);
         setId(id);
     }
 
-    public static RootNode createTreeNode(int id, TreeNodeObserver observer) {
-        RootNode node = new RootNode(id);
+    public static RootNode create(int id, TreeNodeObserver observer) {
+        RootNode node = new RootNode(null, id);
         node.registerObserver(observer);
         return node;
     }

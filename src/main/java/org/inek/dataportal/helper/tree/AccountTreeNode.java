@@ -5,8 +5,6 @@
  */
 package org.inek.dataportal.helper.tree;
 
-import java.util.Collection;
-import java.util.Collections;
 import org.inek.dataportal.entities.account.Account;
 
 /**
@@ -21,13 +19,14 @@ public class AccountTreeNode extends TreeNode {
         return _account;
     }
 
-    private AccountTreeNode(Account account) {
+    private AccountTreeNode(TreeNode parent, Account account) {
+        super(parent);
         _account = account;
         setId(account.getId());
     }
 
-    public static AccountTreeNode createTreeNode(Account account, TreeNodeObserver observer) {
-        AccountTreeNode node = new AccountTreeNode(account);
+    public static AccountTreeNode create(TreeNode parent, Account account, TreeNodeObserver observer) {
+        AccountTreeNode node = new AccountTreeNode(parent, account);
         node.registerObserver(observer);
         return node;
     }

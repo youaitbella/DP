@@ -124,7 +124,7 @@ public class NubRequestList {
 
     public String getConfirmMessage(int requestId) {
         NubRequest proposal = _nubRequestFacade.find(requestId);
-        String msg = proposal.getName() + "\n" 
+        String msg = proposal.getName() + "\n"
                 + (proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
@@ -138,7 +138,7 @@ public class NubRequestList {
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
             if (proposal.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
                 _nubRequestFacade.remove(proposal);
-            } else if (proposal.getExternalState().trim().isEmpty()){
+            } else if (proposal.getExternalState().trim().isEmpty()) {
                 proposal.setStatus(WorkflowStatus.Retired);
                 _nubRequestFacade.saveNubRequest(proposal);
             }
@@ -167,7 +167,7 @@ public class NubRequestList {
     @Inject CooperationFacade _cooperationFacade;
     @Inject CooperationRightFacade _cooperationRightFacade;
     @Inject NubSessionTools _nubSessionTools;
-    
+
     public List<Account> getPartnersForEdit() {
         return _cooperationTools.getPartnersForEdit(Feature.NUB);
     }
@@ -201,16 +201,20 @@ public class NubRequestList {
 
     public List<ProposalInfo> getNubRequestsForDisplayFromPartner(int partnerId, int year) {
         if (!_partnerNubsForDisplay.containsKey(partnerId)) {
-            //System.out.println("getNubRequestsForDisplayFromPartner " + partnerId);
-            List<ProposalInfo> infos = new ArrayList<>();
-            Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
-            for (int ik : iks) {
-                CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
-                DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
-                List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
-                infos.addAll(infosForIk);
+            if (partnerId == _sessionController.getAccountId()) {
+                List<ProposalInfo> infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
+                _partnerNubsForDisplay.put(partnerId, infos);
+            } else {
+                List<ProposalInfo> infos = new ArrayList<>();
+                Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
+                for (int ik : iks) {
+                    CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
+                    DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
+                    List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
+                    infos.addAll(infosForIk);
+                }
+                _partnerNubsForDisplay.put(partnerId, infos);
             }
-            _partnerNubsForDisplay.put(partnerId, infos);
         }
         return _partnerNubsForDisplay.get(partnerId);
     }
