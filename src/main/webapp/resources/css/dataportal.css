@@ -818,14 +818,13 @@ a.bigButton{
     margin: 0 1em;
     padding: 0.5em 1em;
     border: solid 3px;
-    border-color:  #eeeeee darkgrey darkgrey #eeeeee;
+    border-color:  #dddddd darkgrey darkgrey #dddddd;
     border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
     background-color: #043358;
     color: white;
 }
-
 
 .button, .midButton, .smallButton, input.button{
     background-color: #7F9BAF;
@@ -853,13 +852,20 @@ a.midButton{
 
 .bigButton:hover{
     color: #7F9BAF;
+    box-shadow: 2px 2px darkgrey; 
 }
 
 .button:hover, .smallButton:hover{
     color: white;
 }
 
-.button:active, .smallButton:active, .sendButton:active, .addButton:active, .bigButton:active{
+.bigButton:active{
+    color: white;
+    border-color: darkgrey #dddddd #dddddd darkgrey;
+    box-shadow: 2px 2px #dddddd; 
+}
+
+.button:active, .smallButton:active, .sendButton:active, .addButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
 }

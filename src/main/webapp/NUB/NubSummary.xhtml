@@ -39,12 +39,13 @@
                 <div style="margin-left:16px;">
                     <h:commandLink action="#{accountNode.toggle}" immediate="true" >
                         <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this NubEdit"/>
                     </h:commandLink>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
-                    
-                    <div style="margin-left:16px; padding-bottom: 1em;">
+
+                    <div jsf:id="NubEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
                         <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="false" 
                                               showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
@@ -69,22 +70,28 @@
                 <p>
                     <h:commandLink action="#{year.toggle}" immediate="true" >
                         <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this NubYear"/>
                     </h:commandLink>
                     <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
                 </p>
-                <ui:repeat value="#{year.children}" var="accountNode" >
+                <div jsf:id="NubYear">
+                <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
                     <div style="margin-left:16px;">
                         <h:commandLink action="#{accountNode.toggle}" immediate="true" >
                             <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                            <f:ajax render="@this NubShow"/>
                         </h:commandLink>
                         <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
                         <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
                         <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
-                        <div style="margin-left:16px; padding-bottom: 1em;">
-                            <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="true" showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" rendered="#{accountNode.expanded}"/>
+                        <div jsf:id="NubShow" style="margin-left:16px; padding-bottom: 1em;">
+                            <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="true" 
+                                                  showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                  rendered="#{accountNode.expanded}"/>
                         </div>
                     </div>
                 </ui:repeat>
+                </div>
             </ui:repeat>
 
         </h:form>
