@@ -22,6 +22,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
+import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
@@ -143,16 +144,27 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private void obtainNubEditNodeChildren(RootNode treeNode, Collection<TreeNode> children) {
-        List<Account> accounts = _cooperationTools.getPartnersForEdit(Feature.NUB);
-        accounts.add(0, _sessionController.getAccount());
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadCompleted());
+        accountIds = _nubRequestFacade.checkAccountsForNubOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
+        Account currentUser = _sessionController.getAccount();
+        if (accounts.contains(currentUser)) {
+            // ensure current user is first, if in list
+            accounts.remove(currentUser);
+            accounts.add(0, currentUser);
+        }
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode node = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(treeNode, account, this);
-            children.add((TreeNode) node);
-            oldChildren.remove(node);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(treeNode, account, this);
+            children.add((TreeNode) childNode);
+            oldChildren.remove(childNode);
+            if (account == currentUser) {
+                // auto expand user's own data
+                childNode.expand();
+            }
         }
     }
 
@@ -202,7 +214,20 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
         int partnerId = accountTreeNode.getId();
-        int year = accountTreeNode.getParent().getId();
+        List<ProposalInfo> infos;
+        if (accountTreeNode.getParent() instanceof YearTreeNode) {
+            int year = accountTreeNode.getParent().getId();
+            infos = obtainNubInfosForRead(partnerId, year);
+        }else{
+            infos = obtainNubInfosForEdir(partnerId);
+        }
+        accountTreeNode.getChildren().clear();
+        for (ProposalInfo info : infos) {
+            accountTreeNode.getChildren().add(ProposalInfoTreeNode.create(accountTreeNode, info, this));
+        }
+    }
+
+    private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {
         List<ProposalInfo> infos = new ArrayList<>();
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
@@ -215,14 +240,30 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
                 infos.addAll(infosForIk);
             }
         }
-        accountTreeNode.getChildren().clear();
-        for (ProposalInfo info : infos) {
-            accountTreeNode.getChildren().add(ProposalInfoTreeNode.create(accountTreeNode, info, this));
-        }
+        return infos;
     }
-public List<ProposalInfo> getNubRequests(AccountTreeNode accountNode){
-    return accountNode.getChildren().stream().map(a -> ((ProposalInfoTreeNode)a).getProposalInfo()).collect(Collectors.toList());
-}
+
+    private List<ProposalInfo> obtainNubInfosForEdir(int partnerId) {
+        List<ProposalInfo> infos = new ArrayList<>();
+        if (partnerId == _sessionController.getAccountId()) {
+            infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, -1, DataSet.AllOpen, getFilter());
+        } else {
+            Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
+            for (int ik : iks) {
+                CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
+                DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
+                        : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested : DataSet.None;
+                List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, -1, dataSet, getFilter());
+                infos.addAll(infosForIk);
+            }
+        }
+        return infos;
+    }
+
+    public List<ProposalInfo> getNubRequests(AccountTreeNode accountNode) {
+        return accountNode.getChildren().stream().map(a -> ((ProposalInfoTreeNode) a).getProposalInfo()).collect(Collectors.toList());
+    }
+
     private String getFilter() {
         String filter = getNubFilter();
         if (!filter.isEmpty() && !filter.contains("%")) {

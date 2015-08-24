@@ -33,35 +33,38 @@
                 </h:commandLink>
             </div>
 
-            <ui:include src="#{sessionTools.pages.ListNub}"/>
+            <h4><h:outputLabel value="#{msg.infoOpenNub}"/></h4>
 
-            <h:panelGroup rendered="#{nubRequestList.partnersForEdit.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.lblNubFromPartner}"/>
-                <c:forEach items="#{nubRequestList.partnersForEdit}" var="partner" rendered="#{nubRequestList.partnersForEdit.size() > 0}">
-                    <h:panelGroup rendered="#{nubRequestList.getNubRequestsForEditFromPartner(partner.id).size() gt 0}">
-                        <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                        </p>
-                        <inek:NubRequestTable requests="#{nubRequestList.getNubRequestsForEditFromPartner(partner.id)}" showDelete="false" isSealed="false"/>
-                    </h:panelGroup>
-                </c:forEach>
-            </h:panelGroup>
+            <ui:repeat value="#{nubSessionTools.editNode.children}" var="accountNode" >
+                <div style="margin-left:16px;">
+                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                    
+                    <div style="margin-left:16px; padding-bottom: 1em;">
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
+                        <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="false" 
+                                              showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                              rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
+                    </div>
+                </div>
+            </ui:repeat>
 
             <div class="toolBar">
-                <h:commandLink styleClass="button" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
-                <h:commandLink styleClass="button" action="#{nubRequestList.newNubRequestlFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestlFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
                 <div jsf:rendered="#{not sessionController.isEnabled('IsNubCreateEnabled')}">
                     <h:outputText value="#{msg.msgNoNubCreatable}" />
                 </div>
             </div>
 
-            <br/>
-                <h:outputLabel styleClass="label marginTop" value="#{msg.infoSealedNUB}"/>
+            <h4><h:outputLabel value="#{msg.infoSealedNUB}"/></h4>
+
             <ui:repeat value="#{nubSessionTools.viewNode.children}" var="year">
                 <p>
                     <h:commandLink action="#{year.toggle}" immediate="true" >
@@ -71,12 +74,12 @@
                 </p>
                 <ui:repeat value="#{year.children}" var="accountNode" >
                     <div style="margin-left:16px;">
-                        <h:commandLink action="#{child.toggle}" immediate="true" >
+                        <h:commandLink action="#{accountNode.toggle}" immediate="true" >
                             <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
                         </h:commandLink>
-                        <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                        <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
-                        <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
                         <div style="margin-left:16px; padding-bottom: 1em;">
                             <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="true" showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" rendered="#{accountNode.expanded}"/>
                         </div>
