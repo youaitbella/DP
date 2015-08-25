@@ -66,8 +66,8 @@ public class NubReminder {
         }
     }
 
-    public boolean sendReminderMail(Account account) {
-        MailTemplate template = _mailer.getMailTemplate("Erinnerung NUB-Abschluss");
+    private boolean sendReminderMail(Account account) {
+        MailTemplate template = _mailer.getMailTemplate("NUB reminder");
         if (template == null) {
             return false;
         }

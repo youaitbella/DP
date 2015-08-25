@@ -25,6 +25,7 @@ import org.inek.dataportal.entities.NubRequest;
 import org.inek.dataportal.entities.NubRequestDocument;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -42,6 +43,7 @@ import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.IkValidator;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -456,6 +458,7 @@ public class EditNubRequest extends AbstractEditController {
         }
 
         if (isValidId(_nubRequest.getId())) {
+            sendNubConfirmationMail();
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
@@ -464,6 +467,23 @@ public class EditNubRequest extends AbstractEditController {
         return "";
     }
 
+    @Inject Mailer _mailer;
+
+    public boolean sendNubConfirmationMail() {
+        Account current = _sessionController.getAccount();
+        Account owner = _accountFacade.find(_nubRequest.getAccountId());
+        MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
+        if (template == null) {
+            return false;
+        }
+
+        String salutation = _mailer.getFormalSalutation(current);
+        String body = template.getBody()
+                .replace("{formalSalutation}", salutation)
+                .replace("{listOpenNUB}", "########################");
+        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), template.getBcc(), template.getSubject(), body);
+    }
+    
     public String requestApproval() {
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
