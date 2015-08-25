@@ -232,14 +232,6 @@ public class EditNubRequest extends AbstractEditController {
         _multiIks = multiIks;
     }
 
-    public void checkIK(FacesContext context, UIComponent component, Object value) {
-        String ik = ((String) String.valueOf(value)).trim();
-        if (!IkValidator.isValidIK(ik)) {
-            String msg = Utils.getMessage("errIK");
-            throw new ValidatorException(new FacesMessage(msg));
-        }
-    }
-
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
         try {
             Integer tmp = Integer.parseInt((String) value);
@@ -326,7 +318,7 @@ public class EditNubRequest extends AbstractEditController {
         String iks[] = value.toString().split("\\s");
         StringBuilder invalidIKs = new StringBuilder();
         for (String ik : iks) {
-            if (!IkValidator.isValidIK(ik)) {
+            if (!_customerFacade.isValidIK(ik)) {
                 if (invalidIKs.length() > 0) {
                     invalidIKs.append(", ");
                 }

@@ -7,15 +7,14 @@ package org.inek.dataportal.feature.maintenance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,11 +34,8 @@ import org.inek.dataportal.facades.account.AccountPwdFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
-import org.inek.dataportal.helper.faceletvalidators.IkValidator;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.helper.structures.Triple;
 
 /**
  *
@@ -72,7 +68,7 @@ public class EditUserMaintenance extends AbstractEditController {
     private Account _accountWorkingCopy;
     List<FeatureEditorDAO> _features;
     private boolean _isMofified = false;
-    List<Triple<Integer, Integer, String>> _additionalIKs;
+    List<Integer> _additionalIKs;
     private String _oldPassword;
     private String _newPassword;
     private String _repeatPassword;
@@ -229,64 +225,34 @@ public class EditUserMaintenance extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Part Additional IKs">
-    public List<Triple<Integer, Integer, String>> getAdditionalIKs() {
+    public List<Integer> getAdditionalIKs() {
         if (_additionalIKs == null) {
             _additionalIKs = new ArrayList<>();
             for (AccountAdditionalIK addIk : _sessionController.getAccount().getAdditionalIKs()) {
-                _additionalIKs.add(new Triple(addIk.getIK(), addIk.getIK(), addIk.getName()));
+                _additionalIKs.add(addIk.getIK());
             }
-            addEmptyElementIfNotExists();
         }
         return _additionalIKs;
     }
 
+    public void addAdditionalIK() {
+        _additionalIKs.add(null);
+    }
+
     public void removeAdditionalIK(Integer ik) {
-        if (_additionalIKs == null) {
-            return;
-        }
-        for (int i = _additionalIKs.size() - 1; i >= 0; i--) {
-            Triple<Integer, Integer, String> ikTriple = _additionalIKs.get(i);
-            if (ikTriple.getValue2() == null && ik == null) {
-                _additionalIKs.remove(i);
-            } else if (ik != null && ikTriple.getValue2() != null && ikTriple.getValue2().intValue() == ik.intValue()) {
-                _additionalIKs.remove(i);
-            }
-        }
-        addEmptyElementIfNotExists();
+        _additionalIKs.remove(ik);
     }
 
-    public void ikChanged(ValueChangeEvent event) {
-        if (("" + event.getOldValue()).equals("" + event.getNewValue())) {
-            return;
+    public String getIkName(String ik) {
+        if (ik.isEmpty()) {
+            return "";
         }
-        String id = event.getComponent().getClientId();
-        int posEnd = id.lastIndexOf(":");
-        int posStart = id.lastIndexOf(":", posEnd - 1);
-        int ind = Integer.parseInt(id.substring(posStart + 1, posEnd));
-        Triple<Integer, Integer, String> ikTriple = _additionalIKs.get(ind);
-        if (IkValidator.isValidIK((String) event.getNewValue())) {
-            int ik = Integer.parseInt((String) event.getNewValue());
-            Customer customer = _customerFacade.getCustomerByIK(ik);
-            String name = customer.getName() == null ? "" : customer.getName();
-            if (name.length() > 0) {
-                ikTriple.setValue3(name);
-            } else {
-                ikTriple.setValue3(Utils.getMessage("msgUnknownIK"));
-            }
-            ikTriple.setValue1(ik);
-            ikTriple.setValue2(ik);
-        } else {
-            ikTriple.setValue3(Utils.getMessage("errIK"));
-        }
-        addEmptyElementIfNotExists();
+        Customer customer = _customerFacade.getCustomerByIK(Integer.parseInt(ik));
+        String name = customer.getName() == null ? Utils.getMessage("msgUnknownIK") : customer.getName();
+        return name;
     }
 
-    private void addEmptyElementIfNotExists() {
-        if (_additionalIKs.isEmpty() || _additionalIKs.get(_additionalIKs.size() - 1).getValue2() != null) {
-            _additionalIKs.add(new Triple(null, null, ""));
-        }
-    }
-
+    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Part Features">
     public List<FeatureEditorDAO> getFeatures() {
@@ -572,11 +538,13 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private boolean mergeIKListIfModified() {
-        if (!isIKListMofified()) {
+        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
+        Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
+        Set<Integer> newSet =_additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
+        if (equalSets(newSet, oldSet)) {
             return false;
         }
-        Set<Integer> newSet = getNewIKSet();
-        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
+        
         for (int i = additionalIKs.size() - 1; i >= 0; i--) {
             AccountAdditionalIK addIK = additionalIKs.get(i);
             if (newSet.contains(addIK.getIK())) {
@@ -594,38 +562,17 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private boolean isIKListMofified() {
-        Set<Integer> newSet = getNewIKSet();
-        Set<Integer> oldSet = getOldIKSet();
-        if (newSet.size() != oldSet.size()) {
-            return true;
-        }
-        for (Integer ik : newSet) {
-            if (!oldSet.contains(ik)) {
-                return true;
-            }
-        }
-        return false;
+        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
+        Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
+        Set<Integer> newSet =_additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
+        return !equalSets(newSet, oldSet);
     }
 
-    private Set<Integer> getNewIKSet() {
-        Set<Integer> newSet = new TreeSet<>();
-        if (_additionalIKs != null) {
-            for (Triple<Integer, Integer, String> ikTriple : _additionalIKs) {
-                if (ikTriple.getValue2() != null) {
-                    newSet.add(ikTriple.getValue2());
-                }
-            }
-        }
-        return newSet;
+    
+    private boolean equalSets(Set<Integer> set1, Set<Integer> set2) {
+        return set1.size() == set2.size() && set1.stream().allMatch((i) -> set2.contains(i));
     }
 
-    private Set<Integer> getOldIKSet() {
-        Set<Integer> oldSet = new TreeSet<>();
-        for (AccountAdditionalIK addIk : _sessionController.getAccount().getAdditionalIKs()) {
-            oldSet.add(addIk.getIK());
-        }
-        return oldSet;
-    }
 
     public String discardChanges() {
         initOrResetData();

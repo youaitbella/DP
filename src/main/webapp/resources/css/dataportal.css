@@ -894,12 +894,17 @@ a.midButton{
     background-image: url("/DataPortal/javax.faces.resource/arrow_go_hover.png.xhtml?ln=Icon/small");
 }
 
-.addButton{
+.addIcon{
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.addButton, .addIcon{
     background-color: #7F9BAF;
     background-image: url("/DataPortal/javax.faces.resource/add.png.xhtml?ln=Icon/small");
 }
 
-.addButton:hover{
+.addButton:hover, .addIcon:hover{
     color: white;
     background-image: url("/DataPortal/javax.faces.resource/add_hover.png.xhtml?ln=Icon/small");
 }
