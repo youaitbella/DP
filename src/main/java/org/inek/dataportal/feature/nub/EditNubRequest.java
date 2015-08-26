@@ -440,7 +440,7 @@ public class EditNubRequest extends AbstractEditController {
             return Pages.Error.URL();
         }
 
-        _nubRequest.setStatus(_nubRequest.getStatus() == WorkflowStatus.Rejected ? WorkflowStatus.ReProvided : WorkflowStatus.Provided);
+        _nubRequest.setStatus(WorkflowStatus.Accepted);
         _nubRequest.setSealedBy(_sessionController.getAccountId());
         _nubRequest.setDateSealed(Calendar.getInstance().getTime());
 
@@ -472,16 +472,32 @@ public class EditNubRequest extends AbstractEditController {
     public boolean sendNubConfirmationMail() {
         Account current = _sessionController.getAccount();
         Account owner = _accountFacade.find(_nubRequest.getAccountId());
+        if (!current.isNubConfirmation() && !owner.isNubConfirmation()){
+            return true;
+        }
+        if (!current.isNubConfirmation()){
+            current = owner;
+        }
+        
         MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
         if (template == null) {
             return false;
         }
 
+        String proxy = _nubRequest.getProxyIKs().trim();
+        if (!proxy.isEmpty()){
+            proxy = "Sie haben diese Anfrage stellvertretend für die folgenden IKs gestellt:\r\n" + proxy;
+        }
+        
         String salutation = _mailer.getFormalSalutation(current);
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
-                .replace("{listOpenNUB}", "########################");
-        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), template.getBcc(), template.getSubject(), body);
+                .replace("{id}", "N" + _nubRequest.getId())
+                .replace("{name}", _nubRequest.getName())
+                .replace("{ik}", "" + _nubRequest.getIk())
+                .replace("{proxyIk}", proxy)
+                ;
+        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), template.getSubject(), body);
     }
     
     public String requestApproval() {
