@@ -92,6 +92,16 @@ public abstract class TreeNode {
         _children.clear();
     }
 
+    public void refresh(){
+        if (!_isExpanded){return;}
+        if (_observer != null) {
+            _observer.obtainChildren(this, getChildren());
+        }
+        for (TreeNode child : _children) {
+            child.refresh();
+        }
+    }
+    
     protected TreeNodeObserver _observer;
 
     public void registerObserver(TreeNodeObserver observer) {

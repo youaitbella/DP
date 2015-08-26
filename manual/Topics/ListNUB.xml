@@ -8,9 +8,9 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die NUB-Liste entspricht in ihrer Grundfunktionalität den übrigen Datenlisten. Sie finden dies gemeinsam in </text><link displaytype="text" defaultstyle="true" type="topiclink" href="ListData" styleclass="Normal" translate="true">Auflistung von Datensätzen</link><text styleclass="Normal" translate="true"> beschrieben. Die folgenden Ausführungen beschreiben die Besonderheiten der NUB-Liste.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald die NUB-Anfragen durch das InEK beantwortet wurden - in der Regel bis Ende Januar - erscheint hinter der Spalte ID eine weitere Spalte namens NUB-Status. Dieser NUB-Status wird auch im Stammformblatt sowie in der Druckansicht einer NUB-Anfrage ausgegeben. Der Status halt folgende Bedeutung:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald die NUB-Anfragen durch das InEK beantwortet wurden - in der Regel bis Ende Januar - erscheint hinter der Spalte ID eine weitere Spalte namens Status. Dieser NUB-Status wird auch im Stammformblatt sowie in der Druckansicht einer NUB-Anfrage ausgegeben. Der Status hat folgende Bedeutung:</text></para>
     <para styleclass="Normal"></para>
-    <list id="2" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
+    <list id="4" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, welche die Kriterien der NUB-Vereinbarung der Vertragsparteien erfüllen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, welche die Kriterien der NUB-Vereinbarung der Vertragsparteien nicht erfüllen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, die innerhalb der festgesetzten Frist nicht vollständig bearbeitet werden konnten und für die daher keine Information nach § 6 Abs. 2 KHEntgG vorliegen.</text></li>
@@ -38,11 +38,11 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Filter funktioniert unabhängig von einer Groß- / Kleinschreibung.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Filter arbeitet mit sogenannten Jokerzeichen. Dabei steht das Prozentzeichen (%) für eine beliebige Anzahl von Zeichen sowie der Unterstrich für genau ein beliebiges Zeichen. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Filter arbeitet mit Platzhaltern, sogenannten Jokerzeichen. Dabei steht das Prozentzeichen (%) für eine beliebige Anzahl von Zeichen sowie der Unterstrich für genau ein beliebiges Zeichen. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiele:</text></para>
     <para styleclass="Normal"></para>
-    <list id="3" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">%Medikament% </text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die den Begriff &quot;Medikament&quot; (oder beispielsweise &quot;MEDIKAMENT&quot;) enthalten</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Medikament%</text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die mit dem Begriff &quot;Medikament&quot; beginnen</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">%Medikament</text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die mit dem Begriff &quot;Medikament&quot; enden</text></li>

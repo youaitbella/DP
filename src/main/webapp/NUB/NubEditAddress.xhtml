@@ -236,14 +236,15 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubProxyIks" value="#{msg.lblProxyIk}:" />
             <br/>
+            <h:message for="nubProxyIks" id="msgNubProxyIks" styleClass="errorMessage"/>
             <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="nubProxyIks"
                              readonly="#{editNubRequest.readOnly}"
                              value="#{editNubRequest.nubRequest.proxyIKs}"
+                             validator="#{editNubRequest.checkProxyIKs}"
                              >
                 <f:validateLength maximum="500"/>
-                <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks" listener="#{editNubRequest.formatProxyIks}"/>
             </h:inputTextarea>
-            <h:message for="nubProxyIks" id="msgNubProxyIks" styleClass="errorMessage"/>
         </div>
 
         <div class="inputPart">

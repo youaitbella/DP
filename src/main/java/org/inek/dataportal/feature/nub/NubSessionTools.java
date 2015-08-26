@@ -109,8 +109,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
-    private RootNode _viewNode = RootNode.create(1, this);
-    private RootNode _editNode = RootNode.create(0, this);
+    private final RootNode _viewNode = RootNode.create(1, this);
+    private final RootNode _editNode = RootNode.create(0, this);
     @Inject private CooperationTools _cooperationTools;
 
     public RootNode getEditNode() {
@@ -127,6 +127,11 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _viewNode;
     }
 
+    public void refreshNodes(){
+        _editNode.refresh();
+        _viewNode.refresh();
+    }
+    
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode && treeNode == _editNode) {

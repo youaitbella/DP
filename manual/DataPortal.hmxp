@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.6" isskin="false" isrepository="false">
+<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.8" isskin="false" isrepository="false">
   <config>
     <namespaces/>
     <export-task-groups>
@@ -47,7 +47,6 @@
     <helpwindows>
       <helpwindow name="Main" left="-1" top="-1" width="-1" height="-1">
         <caption translate="true">&lt;%TITLE%&gt;</caption>
-        <window-options-hlp autosize="true" maximize="false" posabsolute="false" keepontop="false" buttons="0" headercolor="#F0F0F0" textcolor="#FFFFFF"/>
         <window-options-chm navigation="true" navigationwidth="200" search="true" favorite="true" saveregistry="true" buttons="12366">
           <user-button name="jump1">
             <caption translate="true">jump1</caption>
@@ -157,7 +156,7 @@
       <config-group name="spellcheck">
         <config-value name="project">1</config-value>
         <config-value name="ignorestyles">Code Example;</config-value>
-        <config-value name="maindictionaries">dict-de_DE-igerman98_2010-05-25.oxt::de_DE_igerman98\de_DE_igerman98.aff::de_DE_igerman98\de_DE_igerman98.dic;</config-value>
+        <config-value name="maindictionaries">dict_de_de-frami_2013-12-06.oxt::de_DE_frami\de_DE_frami.aff::de_DE_frami\de_DE_frami.dic;</config-value>
         <config-value name="customdictionaries">\\vFileserver01\User$\muellermi\Eigene Dateien\HMGlobalUserDict.adu;</config-value>
         <config-value name="activecustomdict">\\vFileserver01\User$\muellermi\Eigene Dateien\HMGlobalUserDict.adu</config-value>
       </config-group>

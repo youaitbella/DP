@@ -1,11 +1,6 @@
 package org.inek.dataportal.feature.nub;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -14,16 +9,10 @@ import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.NubRequest;
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.cooperation.CooperationFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -36,6 +25,7 @@ public class NubRequestList {
     @Inject NubRequestFacade _nubRequestFacade;
     @Inject SessionController _sessionController;
     @Inject CooperationTools _cooperationTools;
+    @Inject NubSessionTools _nubSessionTools;
 
     private List<ProposalInfo> _openNubs;
     private List<ProposalInfo> _sealedNubs;
@@ -60,21 +50,6 @@ public class NubRequestList {
             filter = "%" + filter + "%";
         }
         return filter;
-    }
-
-    /**
-     * Nub may be created and send during Sept. and Oct.
-     *
-     * @return
-     */
-    public boolean getNubEnabled() {
-        int month = 1 + Calendar.getInstance().get(Calendar.MONTH); // jan=0, thus 1+month
-        if (month == 11 && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) < 4) {
-            //in 2014 allow till next monday
-            // todo: other years
-            return true;
-        }
-        return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways
     }
 
     public boolean getOpenListEnabled() {
@@ -143,6 +118,7 @@ public class NubRequestList {
                 _nubRequestFacade.saveNubRequest(proposal);
             }
         }
+        _nubSessionTools.refreshNodes();
         return "";
     }
 
@@ -162,62 +138,4 @@ public class NubRequestList {
         return nubRequest.getExternalState();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Cooperation">
-    @Inject AccountFacade _accountFacade;
-    @Inject CooperationFacade _cooperationFacade;
-    @Inject CooperationRightFacade _cooperationRightFacade;
-    @Inject NubSessionTools _nubSessionTools;
-
-    public List<Account> getPartnersForEdit() {
-        return _cooperationTools.getPartnersForEdit(Feature.NUB);
-    }
-
-    Map<Integer, List<ProposalInfo>> _partnerNubsForEdit = new HashMap<>();
-
-    public List<ProposalInfo> getNubRequestsForEditFromPartner(int partnerId) {
-        if (!_partnerNubsForEdit.containsKey(partnerId)) {
-            //System.out.println("getNubRequestsForEditFromPartner" + partnerId);
-            List<ProposalInfo> infos = new ArrayList<>();
-            Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
-            for (int ik : iks) {
-                CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
-                DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
-                        : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested
-                                : DataSet.None;
-                List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, dataSet, getFilter());
-                infos.addAll(infosForIk);
-
-            }
-            _partnerNubsForEdit.put(partnerId, infos);
-        }
-        return _partnerNubsForEdit.get(partnerId);
-    }
-
-    public List<Account> getPartnersForDisplay() {
-        return _cooperationTools.getPartnersForDisplay(Feature.NUB);
-    }
-
-    Map<Integer, List<ProposalInfo>> _partnerNubsForDisplay = new HashMap<>();
-
-    public List<ProposalInfo> getNubRequestsForDisplayFromPartner(int partnerId, int year) {
-        if (!_partnerNubsForDisplay.containsKey(partnerId)) {
-            if (partnerId == _sessionController.getAccountId()) {
-                List<ProposalInfo> infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
-                _partnerNubsForDisplay.put(partnerId, infos);
-            } else {
-                List<ProposalInfo> infos = new ArrayList<>();
-                Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
-                for (int ik : iks) {
-                    CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
-                    DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
-                    List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
-                    infos.addAll(infosForIk);
-                }
-                _partnerNubsForDisplay.put(partnerId, infos);
-            }
-        }
-        return _partnerNubsForDisplay.get(partnerId);
-    }
-
-// </editor-fold>
 }

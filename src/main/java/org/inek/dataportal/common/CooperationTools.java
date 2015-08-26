@@ -93,11 +93,11 @@ public class CooperationTools implements Serializable {
         return isAllowed(feature, state, ownerId, -1);
     }
 
-    public boolean isAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isAllowed(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
         if (ownerId == _sessionController.getAccountId()) {
             return true;
         }
-        CooperativeRight right = getAchievedRight(feature, ownerId, ik);
+        CooperativeRight right = getAchievedRight(feature, ownerId, ik == null ? -1 : ik);
         return right != CooperativeRight.None;
     }
 
@@ -114,14 +114,14 @@ public class CooperationTools implements Serializable {
         return isReadOnly(feature, state, ownerId, -1);
     }
 
-    public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
         if (state.getValue() >= WorkflowStatus.Provided.getValue()) {
             return true;
         }
         if (ownerId == _sessionController.getAccountId()) {
             return false;
         }
-        CooperativeRight right = getAchievedRight(feature, ownerId, ik);
+        CooperativeRight right = getAchievedRight(feature, ownerId, ik == null ? -1 : ik);
         return !right.canWriteAlways() && !(state.getValue() >= WorkflowStatus.ApprovalRequested.getValue() && right.canWriteCompleted());
     }
 
@@ -141,7 +141,7 @@ public class CooperationTools implements Serializable {
         return isApprovalRequestEnabled(feature, state, ownerId, -1);
     }
 
-    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
         if (state.getValue() >= WorkflowStatus.ApprovalRequested.getValue()) {
             return false;
         }
@@ -153,10 +153,10 @@ public class CooperationTools implements Serializable {
             // Its not the user's data
             // Thus, he can request approval, if he is allowed to write,
             // but not to seal (the latter would enable seal button instead)
-            CooperativeRight right = getAchievedRight(feature, ownerId, ik);
+            CooperativeRight right = getAchievedRight(feature, ownerId, ik == null ? -1 : ik);
             return right.canWriteCompleted() && !right.canSeal();
         }
-        return needsApproval(feature, ik);
+        return needsApproval(feature, ik == null ? -1 : ik);
 
     }
 
@@ -222,16 +222,16 @@ public class CooperationTools implements Serializable {
         return isSealedEnabled(feature, state, ownerId, -1);
     }
 
-    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
         if (state.getValue() >= WorkflowStatus.Provided.getValue()) {
             return false;
         }
         Account account = _sessionController.getAccount();
         if (ownerId != account.getId()) {
-            return getAchievedRight(feature, ownerId, ik).canSeal();
+            return getAchievedRight(feature, ownerId, ik == null ? -1 : ik).canSeal();
         }
 
-        return !needsApproval(feature, ik);
+        return !needsApproval(feature, ik == null ? -1 : ik);
     }
 
     /**
@@ -247,12 +247,12 @@ public class CooperationTools implements Serializable {
         return isRequestCorrectionEnabled(feature, state, ownerId, -1);
     }
 
-    public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
         if (state.getValue() != WorkflowStatus.ApprovalRequested.getValue()) {
             return false;
         }
         Account account = _sessionController.getAccount();
-        return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
+        return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik == null ? -1 : ik);
     }
 
     public boolean isTakeEnabled(Feature feature, WorkflowStatus state, int ownerId) {
@@ -268,12 +268,12 @@ public class CooperationTools implements Serializable {
      * @param ik
      * @return
      */
-    public boolean isTakeEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isTakeEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
         Account account = _sessionController.getAccount();
         if (ownerId == account.getId()) {
             return false;
         }
-        return getAchievedRight(feature, ownerId, ik).canTake();
+        return getAchievedRight(feature, ownerId, ik == null ? -1 : ik).canTake();
     }
 
     public CooperativeRight getAchievedRight(Feature feature, int partnerId) {

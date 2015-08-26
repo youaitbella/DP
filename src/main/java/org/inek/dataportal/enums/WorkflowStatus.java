@@ -12,7 +12,8 @@ public enum WorkflowStatus {
     ApprovalRequested(5, "Freigabe erforderlich", "timed.png"),
     Provided(10, "Bereitgestellt", "timed.png"),  // aka Sealed
     ReProvided(11, "Bereitgestellt (korrigiert)", "timed.png"),
-    Accepted(20, "Angenommen", "accept.png"),
+    Accepted(15, "Angenommen", "accept.png"),
+    Taken(20, "Angenommen", "accept.png"),  // taken into NUB tool. The external view is like Accepted
     Retired(200, "Zurückgezogen", "delete-cross.png")
     ;
 

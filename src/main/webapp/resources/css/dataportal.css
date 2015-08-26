@@ -864,7 +864,7 @@ a.bigButton:hover{
     box-shadow: 2px 2px darkgrey; 
 }
 
-a.button:hover, .smallButton:hover{
+input.button:hover, a.button:hover, .smallButton:hover{
     color: white;
 }
 
@@ -874,7 +874,7 @@ a.bigButton:active{
     box-shadow: 2px 2px #dddddd; 
 }
 
-a.button:active, .smallButton:active, .sendButton:active, .addButton:active{
+input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .addButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
 }

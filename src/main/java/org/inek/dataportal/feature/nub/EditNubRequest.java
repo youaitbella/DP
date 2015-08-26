@@ -316,10 +316,22 @@ public class EditNubRequest extends AbstractEditController {
         }
     }
 
-    public boolean checkProxyIKs(String value) {
-        String iks[] = value.toString().split("\\s");
+    public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
+        String msg = checkProxyIKs(value.toString());
+        if (!msg.isEmpty()) {
+            FacesMessage fmsg = new FacesMessage(msg);
+            throw new ValidatorException(fmsg);
+
+        }
+    }
+
+    public String checkProxyIKs(String value) {
+        String iks[] = value.split("\\s|,|\r|\n");
         StringBuilder invalidIKs = new StringBuilder();
         for (String ik : iks) {
+            if (ik.isEmpty()) {
+                continue;
+            }
             if (!_customerFacade.isValidIK(ik)) {
                 if (invalidIKs.length() > 0) {
                     invalidIKs.append(", ");
@@ -333,14 +345,26 @@ public class EditNubRequest extends AbstractEditController {
             } else {
                 invalidIKs.insert(0, "Ungültige IKs: ");
             }
-            FacesMessage msg = new FacesMessage(invalidIKs.toString());
-            return false;
         }
-        return true;
+        return invalidIKs.toString();
+    }
+
+    public void formatProxyIks() {
+        String iks[] = _nubRequest.getProxyIKs().split("\\s|,|\r|\n");
+        String formatted = "";
+        for (String ik : iks) {
+            if (ik.isEmpty()) {
+                continue;
+            }
+            if (formatted.length() > 0) {
+                formatted += ", ";
+            }
+            formatted += ik;
+        }
+        _nubRequest.setProxyIKs(formatted);
     }
 
     // </editor-fold>
-
     /**
      * Changes the owner of the request Becomes effective only after storing
      *
@@ -350,15 +374,16 @@ public class EditNubRequest extends AbstractEditController {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        if (isReadOnly()){
+        if (isReadOnly()) {
             // paranoid reload
             // If, and only if the developer forgot about setting all fields to readonly,
             // then the user might be able to change that field before setting the owener
             // A paranoid reload forces the data into the original state.
             _nubRequest = _nubRequestFacade.find(_nubRequest.getId());
         }
-            _nubRequest.setAccountId(_sessionController.getAccountId());
-            _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+        _nubRequest.setAccountId(_sessionController.getAccountId());
+        _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+        _nubSessionTools.refreshNodes();
         return "";
     }
 
@@ -369,13 +394,15 @@ public class EditNubRequest extends AbstractEditController {
 
     public String save() {
         setModifiedInfo();
+        formatProxyIks();
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
 
         if (isValidId(_nubRequest.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
-            return null;
+            _nubSessionTools.refreshNodes();
+            return "";
         }
         return Pages.Error.URL();
     }
@@ -458,6 +485,7 @@ public class EditNubRequest extends AbstractEditController {
         }
 
         if (isValidId(_nubRequest.getId())) {
+            _nubSessionTools.refreshNodes();
             sendNubConfirmationMail();
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
@@ -472,34 +500,39 @@ public class EditNubRequest extends AbstractEditController {
     public boolean sendNubConfirmationMail() {
         Account current = _sessionController.getAccount();
         Account owner = _accountFacade.find(_nubRequest.getAccountId());
-        if (!current.isNubConfirmation() && !owner.isNubConfirmation()){
+        if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
             return true;
         }
-        if (!current.isNubConfirmation()){
+        if (!current.isNubConfirmation()) {
             current = owner;
         }
-        
+
         MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
         if (template == null) {
             return false;
         }
 
         String proxy = _nubRequest.getProxyIKs().trim();
-        if (!proxy.isEmpty()){
-            proxy = "Sie haben diese Anfrage stellvertretend für die folgenden IKs gestellt:\r\n" + proxy;
+        if (!proxy.isEmpty()) {
+            proxy = "\r\nSie haben diese Anfrage auch stellvertretend für die folgenden IKs gestellt:\r\n" + proxy + "\r\n";
         }
-        
+
         String salutation = _mailer.getFormalSalutation(current);
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{id}", "N" + _nubRequest.getId())
                 .replace("{name}", _nubRequest.getName())
                 .replace("{ik}", "" + _nubRequest.getIk())
-                .replace("{proxyIk}", proxy)
-                ;
-        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), template.getSubject(), body);
+                .replace("{proxyIks}", proxy)
+                .replace("{targetYear}", "" + _nubRequest.getTargetYear());
+
+        String subject = template.getSubject()
+                .replace("{id}", "N" + _nubRequest.getId())
+                .replace("{ik}", "" + _nubRequest.getIk());
+
+        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), subject, body);
     }
-    
+
     public String requestApproval() {
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
@@ -510,6 +543,7 @@ public class EditNubRequest extends AbstractEditController {
         _nubRequest.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+        _nubSessionTools.refreshNodes();
         return "";
     }
 
@@ -577,7 +611,8 @@ public class EditNubRequest extends AbstractEditController {
             _msg = Utils.getMessage("lblContactRole");
             newTopic = NubRequestTabs.tabNubAddress.name();
         }
-        if (!checkProxyIKs(_nubRequest.getProxyIKs())) {
+        String proxyErr = checkProxyIKs(_nubRequest.getProxyIKs());
+        if (!proxyErr.isEmpty()) {
             _msg = Utils.getMessage("lblErrorProxyIKs");
             newTopic = NubRequestTabs.tabNubAddress.name();
         }
@@ -669,6 +704,7 @@ public class EditNubRequest extends AbstractEditController {
         if (copy.getId() != -1) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt;");
         }
+        _nubSessionTools.refreshNodes();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
@@ -711,5 +747,5 @@ public class EditNubRequest extends AbstractEditController {
         return Pages.NubSummary.RedirectURL();
     }
     // </editor-fold>
-    
+
 }
