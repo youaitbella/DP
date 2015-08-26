@@ -228,6 +228,18 @@ public class NubRequest implements Serializable {
     @Column(name = "nubOps")
     private String _procedures = "";
 
+    @Documentation(key = "lblRequestedEarlierSelf")
+    @Column(name = "nubHasNoProcs")
+    private boolean _hasNoProcs;
+
+    public boolean isHasNoProcs() {
+        return _hasNoProcs;
+    }
+
+    public void setHasNoProcs(boolean hasNoProcs) {
+        _hasNoProcs = hasNoProcs;
+    }
+
     @Documentation(key = "lblDrgs")
     @Column(name = "nubDrgs")
     private String _drgs = "";

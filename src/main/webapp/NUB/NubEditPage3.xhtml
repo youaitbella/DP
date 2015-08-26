@@ -51,7 +51,7 @@
             <div class="floatContainer">
                 <div style="float: left;">
                     <span style="float: left;">
-                        <h:outputLabel styleClass="label" for="patientsLastYear" value="in #{editNubRequest.currentYear-1}:" />
+                        <h:outputLabel styleClass="label" for="patientsLastYear" value="in #{editNubRequest.nubRequest.targetYear-2}:" />
                         &nbsp;
                     </span>
                     <h:inputTextarea styleClass="areaNarrowLow" id="patientsLastYear" value="#{editNubRequest.nubRequest.patientsLastYear}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
@@ -62,7 +62,7 @@
                 </div>
                 <div style="float: left; margin-left: 20px;">
                     <span style="float: left;">
-                        <h:outputLabel styleClass="label" for="patientsThisYear" value="in #{editNubRequest.currentYear}:" />
+                        <h:outputLabel styleClass="label" for="patientsThisYear" value="in #{editNubRequest.nubRequest.targetYear-1}:" />
                         &nbsp;
                     </span>
                     <h:inputTextarea styleClass="areaNarrowLow" id="patientsThisYear" value="#{editNubRequest.nubRequest.patientsThisYear}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">

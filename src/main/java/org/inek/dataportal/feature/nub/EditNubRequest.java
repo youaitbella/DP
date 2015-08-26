@@ -87,13 +87,11 @@ public class EditNubRequest extends AbstractEditController {
         tabNubPageDocuments;
     }
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private int _currentYear;
     private SelectItem[] _multiIks = new SelectItem[0];
     private String _singleKhName;
     // </editor-fold>
 
     public EditNubRequest() {
-        _currentYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -101,16 +99,12 @@ public class EditNubRequest extends AbstractEditController {
         return _nubRequest;
     }
 
-    public int getCurrentYear() {
-        return _currentYear;
-    }
-
     public String getPatientsText() {
-        return String.format(Utils.getMessage("lblNubPatients"), _currentYear + 1);
+        return String.format(Utils.getMessage("lblNubPatients"), _nubRequest.getTargetYear());
     }
 
     public String getPatientsPastText() {
-        return String.format(Utils.getMessage("lblNubPatientsPast"), _currentYear - 1, _currentYear);
+        return String.format(Utils.getMessage("lblNubPatientsPast"), _nubRequest.getTargetYear() - 2, _nubRequest.getTargetYear() -1);
     }
 
     public void changedIk() {
