@@ -96,8 +96,12 @@
             </ui:repeat>
 
             <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
-            <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnSelectAll}" rendered="false"/>
-            <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnDeselectAll}" rendered="false"/>
+            <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
+                <f:ajax listener="#{nubSessionTools.selectAll}" render="@form"/>
+            </h:commandLink>
+            <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
+                <f:ajax listener="#{nubSessionTools.deselectAll}" render="@form"/>
+            </h:commandLink>
 
         </h:form>
     </ui:define>

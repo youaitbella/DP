@@ -280,10 +280,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     public String printSelected() {
-        List<Integer> selectedRequestsX = _viewNode.getSelectedIds(ProposalInfoTreeNode.class);
-        System.out.println(selectedRequestsX.size())
-                ;
-        List<Integer> selectedRequests = getSelected();
+        List<Integer> selectedRequests = _viewNode.getSelectedIds(ProposalInfoTreeNode.class);
         List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         for (NubRequest nubRequest : nubRequests) {
@@ -297,6 +294,15 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.PrintMultipleView.URL();
     }
 
+    public void selectAll(){
+        _viewNode.selectAll(ProposalInfoTreeNode.class, true);
+    }
+    
+    public String deselectAll(){
+        _viewNode.selectAll(ProposalInfoTreeNode.class, false);
+        return "";
+    }
+    
     public List<Integer> getSelected() {
         List<Integer> selectedRequests = new ArrayList<>();
         for (TreeNode node : _viewNode.getChildren()) {

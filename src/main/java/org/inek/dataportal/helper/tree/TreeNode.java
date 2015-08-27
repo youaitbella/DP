@@ -146,12 +146,24 @@ public abstract class TreeNode {
         if (!_isExpanded) {
             return selectedIds;
         }
-        if (_isChecked) {
+        if (_isChecked && getClass() == clazz) {
             selectedIds.add(_id);
         }
         for (TreeNode child : _children) {
             selectedIds.addAll(child.getSelectedIds(clazz));
         }
         return selectedIds;
+    }
+
+    public void selectAll(Class<? extends TreeNode> clazz, boolean value) {
+        if (!_isExpanded) {
+            return ;
+        }
+        if (getClass() == clazz) {
+            _isChecked = value;
+        }
+        for (TreeNode child : _children) {
+            child.selectAll(clazz, value);
+        }
     }
 }
