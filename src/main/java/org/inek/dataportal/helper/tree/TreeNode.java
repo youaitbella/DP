@@ -7,6 +7,7 @@ package org.inek.dataportal.helper.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * TreeNode and its descendents are used to encapsulate the tree status as well
@@ -48,7 +49,19 @@ public abstract class TreeNode {
         }
     }
 
-    // </editor-fold>    
+    // </editor-fold>   
+    // <editor-fold defaultstate="collapsed" desc="Property Checked">    
+    private boolean _isChecked;
+
+    public boolean isChecked() {
+        return _isChecked;
+    }
+
+    public void setChecked(boolean isChecked) {
+        _isChecked = isChecked;
+    }
+
+    // </editor-fold>   
     // <editor-fold defaultstate="collapsed" desc="Property Id">    
     private int _id;
 
@@ -92,8 +105,10 @@ public abstract class TreeNode {
         _children.clear();
     }
 
-    public void refresh(){
-        if (!_isExpanded){return;}
+    public void refresh() {
+        if (!_isExpanded) {
+            return;
+        }
         if (_observer != null) {
             _observer.obtainChildren(this, getChildren());
         }
@@ -101,7 +116,7 @@ public abstract class TreeNode {
             child.refresh();
         }
     }
-    
+
     protected TreeNodeObserver _observer;
 
     public void registerObserver(TreeNodeObserver observer) {
@@ -112,4 +127,31 @@ public abstract class TreeNode {
         _observer = null;
     }
 
+    public List<TreeNode> getSelectedNodes() {
+        List<TreeNode> selectedNodes = new ArrayList<>();
+        if (!_isExpanded) {
+            return selectedNodes;
+        }
+        if (_isChecked) {
+            selectedNodes.add(this);
+        }
+        for (TreeNode child : _children) {
+            selectedNodes.addAll(child.getSelectedNodes());
+        }
+        return selectedNodes;
+    }
+
+    public List<Integer> getSelectedIds(Class<? extends TreeNode> clazz) {
+        List<Integer> selectedIds = new ArrayList<>();
+        if (!_isExpanded) {
+            return selectedIds;
+        }
+        if (_isChecked) {
+            selectedIds.add(_id);
+        }
+        for (TreeNode child : _children) {
+            selectedIds.addAll(child.getSelectedIds(clazz));
+        }
+        return selectedIds;
+    }
 }

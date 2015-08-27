@@ -120,6 +120,7 @@ public enum Pages {
     //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
+    PrintMultipleView("/common/PrintMultipleView"),
     ErrorRedirector("/common/ErrorRedirector"),
     Error("/common/Error"),
     DataErrorRedirector("/common/DataErrorRedirector"),

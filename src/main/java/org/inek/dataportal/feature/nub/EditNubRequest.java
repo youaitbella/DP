@@ -104,7 +104,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public String getPatientsPastText() {
-        return String.format(Utils.getMessage("lblNubPatientsPast"), _nubRequest.getTargetYear() - 2, _nubRequest.getTargetYear() -1);
+        return String.format(Utils.getMessage("lblNubPatientsPast"), _nubRequest.getTargetYear() - 2, _nubRequest.getTargetYear() - 1);
     }
 
     public void changedIk() {
@@ -481,6 +481,8 @@ public class EditNubRequest extends AbstractEditController {
         if (isValidId(_nubRequest.getId())) {
             _nubSessionTools.refreshNodes();
             sendNubConfirmationMail();
+
+        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));

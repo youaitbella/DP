@@ -22,6 +22,8 @@ public class ProposalInfoTreeNode extends TreeNode{
     private ProposalInfoTreeNode(TreeNode parent, ProposalInfo info) {
         super(parent);
         _info = info;
+        setId(info.getId());
+        setExpanded(true);
     }
     
     public static ProposalInfoTreeNode create (TreeNode parent, ProposalInfo info, TreeNodeObserver observer) {

@@ -5,17 +5,15 @@ import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.TreeNode;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
@@ -31,13 +29,17 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.helper.tree.YearTreeNode;
+import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.KeyValueLevel;
 
 @Named @SessionScoped
 public class NubSessionTools implements Serializable, TreeNodeObserver {
@@ -127,11 +129,11 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _viewNode;
     }
 
-    public void refreshNodes(){
+    public void refreshNodes() {
         _editNode.refresh();
         _viewNode.refresh();
     }
-    
+
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode && treeNode == _editNode) {
@@ -223,8 +225,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (accountTreeNode.getParent() instanceof YearTreeNode) {
             int year = accountTreeNode.getParent().getId();
             infos = obtainNubInfosForRead(partnerId, year);
-        }else{
-            infos = obtainNubInfosForEdir(partnerId);
+        } else {
+            infos = obtainNubInfosForEdit(partnerId);
         }
         accountTreeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
@@ -248,7 +250,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return infos;
     }
 
-    private List<ProposalInfo> obtainNubInfosForEdir(int partnerId) {
+    private List<ProposalInfo> obtainNubInfosForEdit(int partnerId) {
         List<ProposalInfo> infos = new ArrayList<>();
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, -1, DataSet.AllOpen, getFilter());
@@ -277,27 +279,38 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return filter;
     }
 
-    /*    
-    Map<Integer, List<ProposalInfo>> _partnerNubsForDisplay = new HashMap<>();
+    public String printSelected() {
+        List<Integer> selectedRequestsX = _viewNode.getSelectedIds(ProposalInfoTreeNode.class);
+        System.out.println(selectedRequestsX.size())
+                ;
+        List<Integer> selectedRequests = getSelected();
+        List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
+        Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
+        for (NubRequest nubRequest : nubRequests) {
+            documents.put(nubRequest.getExternalId(), DocumentationUtil.getDocumentation(nubRequest));
+        }
+        List<String> keys = new ArrayList<>(documents.keySet());
+        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
+        Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
+        Utils.getFlash().put("printContentKeys", keys);
+        Utils.getFlash().put("printContent", documents);
+        return Pages.PrintMultipleView.URL();
+    }
 
-    public List<ProposalInfo> getNubRequestsForDisplayFromPartner(int partnerId, int year) {
-        if (!_partnerNubsForDisplay.containsKey(partnerId)) {
-            if (partnerId == _sessionController.getAccountId()) {
-                List<ProposalInfo> infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
-                _partnerNubsForDisplay.put(partnerId, infos);
-            } else {
-                List<ProposalInfo> infos = new ArrayList<>();
-                Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
-                for (int ik : iks) {
-                    CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
-                    DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
-                    List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
-                    infos.addAll(infosForIk);
+    public List<Integer> getSelected() {
+        List<Integer> selectedRequests = new ArrayList<>();
+        for (TreeNode node : _viewNode.getChildren()) {
+            YearTreeNode yearNode = (YearTreeNode) node;
+            for (TreeNode yearNodeChild : yearNode.getChildren()) {
+                AccountTreeNode accountNode = (AccountTreeNode) yearNodeChild;
+                for (TreeNode accountNodeChild : accountNode.getChildren()) {
+                    ProposalInfoTreeNode proposalNode = (ProposalInfoTreeNode) accountNodeChild;
+                    if (proposalNode.isChecked()) {
+                        selectedRequests.add(proposalNode.getId());
+                    }
                 }
-                _partnerNubsForDisplay.put(partnerId, infos);
             }
         }
-        return _partnerNubsForDisplay.get(partnerId);
+        return selectedRequests;
     }
-     */
 }

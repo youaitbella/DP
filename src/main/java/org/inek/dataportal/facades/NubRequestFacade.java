@@ -192,8 +192,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         String sql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("ik", ik);
-        List<Integer> accountIds = query.getResultList();
-        return accountIds;
+        return query.getResultList();
     }
 
     public Map<Integer, Integer> countOpenPerIk() {
@@ -217,5 +216,10 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return result;
     }
 
-
+    public List<NubRequest> find(List<Integer> requestIds){
+        String sql = "SELECT p FROM NubRequest p WHERE p._id in :requestIds  ";
+        Query query = getEntityManager().createQuery(sql);
+        query.setParameter("requestIds", requestIds);
+        return query.getResultList();
+    }
 }

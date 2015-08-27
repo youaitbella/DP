@@ -73,7 +73,7 @@ public class NubRequestList {
         return Pages.NubEditAddress.URL();
     }
 
-    public String newNubRequestlFromTemplate() {
+    public String newNubRequestFromTemplate() {
         return Pages.NubFromTemplate.URL();
     }
 
@@ -125,9 +125,7 @@ public class NubRequestList {
     public String printNubRequest(int requestId) {
         NubRequest nubRequest = _nubRequestFacade.find(requestId);
 
-        String headLine = Utils.getMessage("nameNUB")
-                + (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() ? " N" + nubRequest.getId() : "");
-        Utils.getFlash().put("headLine", headLine);
+        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + nubRequest.getExternalId());
         Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubRequest));
         return Pages.PrintView.URL();

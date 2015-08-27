@@ -289,6 +289,7 @@ public class NubRequest implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "npdNubProposalId", referencedColumnName = "nubId")
     private List<NubRequestDocument> _documents = new ArrayList<>();
+
     public List<NubRequestDocument> getDocuments() {
         return _documents;
     }
@@ -305,6 +306,11 @@ public class NubRequest implements Serializable {
 
     public void setId(int id) {
         _id = id;
+    }
+
+    @Documentation(name = "Bearbeitungs-Nr.", omitOnEmpty = true, rank = 0)
+    public String getExternalId() {
+        return _status >= WorkflowStatus.Provided.getValue() ? "N" + _id : "";
     }
 
     public int getTargetYear() {

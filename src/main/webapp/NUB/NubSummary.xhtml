@@ -47,9 +47,9 @@
 
                     <div jsf:id="NubEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="false" 
-                                              showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                              rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
+                        <inek:NubRequestNode parentNode="#{accountNode}" isSealed="false" 
+                                             showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                             rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
                     </div>
                 </div>
             </ui:repeat>
@@ -57,7 +57,7 @@
             <div class="toolBar">
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
-                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestlFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
                 <div jsf:rendered="#{not sessionController.isEnabled('IsNubCreateEnabled')}">
                     <h:outputText value="#{msg.msgNoNubCreatable}" />
@@ -75,24 +75,29 @@
                     <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
                 </p>
                 <div jsf:id="NubYear">
-                <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
-                    <div style="margin-left:16px;">
-                        <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                            <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
-                            <f:ajax render="@this NubShow"/>
-                        </h:commandLink>
-                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
-                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
-                        <div jsf:id="NubShow" style="margin-left:16px; padding-bottom: 1em;">
-                            <inek:NubRequestTable requests="#{nubSessionTools.getNubRequests(accountNode)}" isSealed="true" 
-                                                  showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                                  rendered="#{accountNode.expanded}"/>
+                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
+                        <div style="margin-left:16px;">
+                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                                <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                                <f:ajax render="@this NubShow"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                            <div jsf:id="NubShow" style="margin-left:16px; padding-bottom: 1em;">
+                                <inek:NubRequestNode parentNode="#{accountNode}" 
+                                                     isSealed="true" 
+                                                     showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                     rendered="#{accountNode.expanded}"/>
+                            </div>
                         </div>
-                    </div>
-                </ui:repeat>
+                    </ui:repeat>
                 </div>
             </ui:repeat>
+
+            <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+            <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnSelectAll}" rendered="false"/>
+            <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnDeselectAll}" rendered="false"/>
 
         </h:form>
     </ui:define>

@@ -34,6 +34,6 @@ public class ContainsNoneZeroDigitValidator implements Validator {
 
     public boolean isValidName(String name) {
         String test = name.replaceAll("(\\r|\\n|\\u0085|\\u2028|\\u2029)", ""); // remove line breaks to avoid matching conflicts
-        return test.matches("-s*[1-9]+.*");
+        return test.matches(".*[1-9]+.*");
     }
 }
