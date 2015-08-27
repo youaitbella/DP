@@ -270,8 +270,8 @@ public class EditPeppProposal extends AbstractEditController {
         String codes[] = codeString.split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal() - 1).equals("")
-                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, GlobalVars.PeppProposalSystemYear.getVal() - 2, GlobalVars.PeppProposalSystemYear.getVal() - 1).equals("")) {
+            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, Utils.getTargetYear(Feature.PEPP_PROPOSAL) - 2, Utils.getTargetYear(Feature.PEPP_PROPOSAL) - 1).equals("")
+                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, Utils.getTargetYear(Feature.PEPP_PROPOSAL) - 2, Utils.getTargetYear(Feature.PEPP_PROPOSAL) - 1).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }
@@ -391,7 +391,7 @@ public class EditPeppProposal extends AbstractEditController {
             Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_peppProposal));
             String msg = Utils.getMessage("msgConfirmPeppProposal").replace("\r", "").replace("\n", "\\r\\n");
-            msg = String.format(msg, _peppProposal.getExternalId(), GlobalVars.PeppProposalSystemYear.getVal());
+            msg = String.format(msg, _peppProposal.getExternalId(), Utils.getTargetYear(Feature.PEPP_PROPOSAL));
             String script = "alert ('" + msg + "');";
             _sessionController.setScript(script);
             return Pages.PrintView.URL();

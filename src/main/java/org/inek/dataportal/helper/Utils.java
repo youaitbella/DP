@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import javax.faces.context.PartialResponseWriter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.Document;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.nub.EditNubRequest;
 
@@ -256,6 +258,17 @@ public class Utils {
             Thread.sleep(millis);
         } catch (InterruptedException ex) {
             _logger.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static int getTargetYear(Feature feature) {
+        switch (feature) {
+            case DRG_PROPOSAL:
+            case PEPP_PROPOSAL:
+                return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 6 ? 2 : 1);
+            case NUB:
+            default:
+                return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 9 ? 1 : 0);
         }
     }
 

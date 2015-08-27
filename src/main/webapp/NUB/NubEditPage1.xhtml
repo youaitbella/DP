@@ -43,7 +43,7 @@
 
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubProcedures" value="#{msg.lblNubProcRelated}"/>
-            <br/>
+            <h:message for="nubProcedures" id="msgCheckProcs" styleClass="errorMessage"/>
             <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="nubProcedures" 
                              readonly="#{editNubRequest.readOnly}"
                              value="#{editNubRequest.nubRequest.procs}"
@@ -59,7 +59,6 @@
 
             <h:commandButton styleClass="button rightAllign" action="#{editNubRequest.searchProc}" 
                              immediate="true" value="#{msg.btnCallSearch}"/>
-            <h:message for="peppProcs" id="msgCheckProcs" styleClass="errorMessage"/>
         </div>
 
         <div class="defloat"></div>

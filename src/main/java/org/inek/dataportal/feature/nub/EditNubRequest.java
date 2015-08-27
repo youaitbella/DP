@@ -292,7 +292,7 @@ public class EditNubRequest extends AbstractEditController {
         String codes[] = value.toString().split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (_procedureFacade.findProcedure(code, GlobalVars.NubRequestSystemYear.getVal() - 1, GlobalVars.NubRequestSystemYear.getVal()).equals("")) {
+            if (_procedureFacade.findProcedure(code, Utils.getTargetYear(Feature.NUB) - 1, Utils.getTargetYear(Feature.NUB)).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }
@@ -482,8 +482,7 @@ public class EditNubRequest extends AbstractEditController {
             _nubSessionTools.refreshNodes();
             sendNubConfirmationMail();
 
-        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
-            Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
+            Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
             return Pages.PrintView.URL();

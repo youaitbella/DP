@@ -5,7 +5,6 @@ import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.TreeNode;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -111,35 +111,38 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
-    private final RootNode _viewNode = RootNode.create(1, this);
-    private final RootNode _editNode = RootNode.create(0, this);
+    private final RootNode _rootNode = RootNode.create(0, this);
     @Inject private CooperationTools _cooperationTools;
 
+    @PostConstruct
+    private void init() {
+        RootNode editNode = RootNode.create(1, this);
+        editNode.expand();
+        RootNode viewNode = RootNode.create(2, this);
+        viewNode.expand();
+        _rootNode.getChildren().add(editNode);
+        _rootNode.getChildren().add(viewNode);
+        _rootNode.setExpanded(true);
+    }
+
     public RootNode getEditNode() {
-        if (!_editNode.isExpanded()) {
-            _editNode.expand();
-        }
-        return _editNode;
+        return (RootNode) _rootNode.getChildren().stream().filter(n -> n.getId() == 1).findFirst().get();
     }
 
     public RootNode getViewNode() {
-        if (!_viewNode.isExpanded()) {
-            _viewNode.expand();
-        }
-        return _viewNode;
+        return (RootNode) _rootNode.getChildren().stream().filter(n -> n.getId() == 2).findFirst().get();
     }
 
     public void refreshNodes() {
-        _editNode.refresh();
-        _viewNode.refresh();
+        _rootNode.refresh();
     }
 
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        if (treeNode instanceof RootNode && treeNode == _editNode) {
+        if (treeNode instanceof RootNode && treeNode.getId() == 1) {
             obtainNubEditNodeChildren((RootNode) treeNode, children);
         }
-        if (treeNode instanceof RootNode && treeNode == _viewNode) {
+        if (treeNode instanceof RootNode && treeNode.getId() == 2) {
             obtainNubViewNodeChildren((RootNode) treeNode, children);
         }
         if (treeNode instanceof YearTreeNode) {
@@ -179,7 +182,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
         List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        int targetYear = LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 9 ? 1 : 0);
+        int targetYear = Utils.getTargetYear(Feature.NUB);
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
@@ -192,7 +195,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
     }
 
-    @Inject private AccountFacade _accountFacade;
+    @Inject
+    private AccountFacade _accountFacade;
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
@@ -279,8 +283,13 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return filter;
     }
 
-    public String printSelected() {
-        List<Integer> selectedRequests = _viewNode.getSelectedIds(ProposalInfoTreeNode.class);
+    public String
+            printSelected() {
+        List<Integer> selectedRequests = _rootNode.getSelectedIds(ProposalInfoTreeNode.class
+        );
+        if (selectedRequests.isEmpty()) {
+            return "";
+        }
         List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         for (NubRequest nubRequest : nubRequests) {
@@ -294,29 +303,15 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.PrintMultipleView.URL();
     }
 
-    public void selectAll(){
-        _viewNode.selectAll(ProposalInfoTreeNode.class, true);
+    public
+            void selectAll() {
+        _rootNode.selectAll(ProposalInfoTreeNode.class, true);
     }
-    
-    public String deselectAll(){
-        _viewNode.selectAll(ProposalInfoTreeNode.class, false);
+
+    public String
+            deselectAll() {
+        _rootNode.selectAll(ProposalInfoTreeNode.class, false);
         return "";
     }
-    
-    public List<Integer> getSelected() {
-        List<Integer> selectedRequests = new ArrayList<>();
-        for (TreeNode node : _viewNode.getChildren()) {
-            YearTreeNode yearNode = (YearTreeNode) node;
-            for (TreeNode yearNodeChild : yearNode.getChildren()) {
-                AccountTreeNode accountNode = (AccountTreeNode) yearNodeChild;
-                for (TreeNode accountNodeChild : accountNode.getChildren()) {
-                    ProposalInfoTreeNode proposalNode = (ProposalInfoTreeNode) accountNodeChild;
-                    if (proposalNode.isChecked()) {
-                        selectedRequests.add(proposalNode.getId());
-                    }
-                }
-            }
-        }
-        return selectedRequests;
-    }
+
 }

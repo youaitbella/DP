@@ -18,7 +18,9 @@ import javax.inject.Named;
 import org.inek.dataportal.common.SearchController.CodeInfo;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.CodeType;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -132,15 +134,15 @@ public class SearchCode implements Serializable {
         int resultYear = 2015;
         switch (_proposalSection) {
             case 101: {
-                resultYear = GlobalVars.DrgProposalSystemYear.getVal();
+                resultYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
                 break;
             }
             case 102: {
-                resultYear =GlobalVars.PeppProposalSystemYear.getVal();
+                resultYear = Utils.getTargetYear(Feature.PEPP_PROPOSAL);
                 break;
             }
             case 103: {
-                resultYear = GlobalVars.NubRequestSystemYear.getVal();
+                resultYear = Utils.getTargetYear(Feature.NUB);
                 break;
             }
         }

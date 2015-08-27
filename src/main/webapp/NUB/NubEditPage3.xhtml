@@ -56,7 +56,7 @@
                     </span>
                     <h:inputTextarea styleClass="areaNarrowLow" id="patientsLastYear" value="#{editNubRequest.nubRequest.patientsLastYear}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                         <f:validateLength maximum="1000"/>
-                        <f:validator validatorId="ContainsNoneZeroDigitValidator"/>
+                        <f:validator validatorId="ContainsDigitValidator"/>
                         <f:ajax event="blur" render="@this :logout:remaining msgPatientsLastYear"/>
                     </h:inputTextarea>
                 </div>
@@ -67,7 +67,7 @@
                     </span>
                     <h:inputTextarea styleClass="areaNarrowLow" id="patientsThisYear" value="#{editNubRequest.nubRequest.patientsThisYear}" readonly="#{editNubRequest.readOnly}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                         <f:validateLength maximum="1000"/>
-                        <f:validator validatorId="ContainsNoneZeroDigitValidator"/>
+                        <f:validator validatorId="ContainsDigitValidator"/>
                         <f:ajax event="blur" render="@this :logout:remaining msgPatientsThisYear"/>
                     </h:inputTextarea>
                 </div>

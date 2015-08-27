@@ -308,7 +308,7 @@ public class NubRequest implements Serializable {
         _id = id;
     }
 
-    @Documentation(name = "Bearbeitungs-Nr.", omitOnEmpty = true, rank = 0)
+    @Documentation(name = "Verfahrens-Nr.", omitOnEmpty = true, rank = 0)
     public String getExternalId() {
         return _status >= WorkflowStatus.Provided.getValue() ? "N" + _id : "";
     }

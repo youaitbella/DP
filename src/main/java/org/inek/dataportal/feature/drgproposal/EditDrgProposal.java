@@ -347,8 +347,8 @@ public class EditDrgProposal extends AbstractEditController {
         String codes[] = codeString.split("\\s");
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, GlobalVars.DrgProposalSystemYear.getVal() - 2, GlobalVars.DrgProposalSystemYear.getVal() - 1).equals("")
-                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, GlobalVars.DrgProposalSystemYear.getVal() - 2, GlobalVars.DrgProposalSystemYear.getVal() - 1).equals("")) {
+            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, Utils.getTargetYear(Feature.DRG_PROPOSAL) - 2, Utils.getTargetYear(Feature.DRG_PROPOSAL) -1).equals("")
+                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, Utils.getTargetYear(Feature.DRG_PROPOSAL) - 2, Utils.getTargetYear(Feature.DRG_PROPOSAL) - 1).equals("")) {
                 if (invalidCodes.length() > 0) {
                     invalidCodes.append(", ");
                 }
@@ -470,7 +470,7 @@ public class EditDrgProposal extends AbstractEditController {
             Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_drgProposal));
             String msg = Utils.getMessage("msgConfirmDrgProposal").replace("\r", "").replace("\n", "\\r\\n");
-            msg = String.format(msg, _drgProposal.getExternalId(), GlobalVars.DrgProposalSystemYear.getVal());
+            msg = String.format(msg, _drgProposal.getExternalId(), Utils.getTargetYear(Feature.DRG_PROPOSAL));
             String script = "alert ('" + msg + "');";
             _sessionController.setScript(script);
             return Pages.PrintView.URL();

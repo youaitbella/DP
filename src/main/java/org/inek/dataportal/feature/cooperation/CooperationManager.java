@@ -68,6 +68,9 @@ public class CooperationManager {
     }
 
     public String managePartner(int partnerId) {
+        if (partnerId == _sessionController.getAccountId()){
+            return "";
+        }
         Utils.getFlash().put("partnerId", partnerId);
         return Pages.CooperationEditPartner.URL();
     }
