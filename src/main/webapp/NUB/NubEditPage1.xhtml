@@ -14,7 +14,7 @@
             <br/>
             <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubName" value="#{editNubRequest.nubRequest.name}" 
                              required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{editNubRequest.readOnly}">
-                <f:validator validatorId="RequiredValidator"/>
+                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                 <f:validateLength maximum="200"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubName btnTemplate"/>
             </h:inputTextarea>
@@ -36,7 +36,7 @@
             <br/>
             <h:inputTextarea styleClass="areaWideHigh fullWidth" id="nubDescription" value="#{editNubRequest.nubRequest.description}" 
                              required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{editNubRequest.readOnly}">
-                <f:validator validatorId="RequiredValidator"/>
+                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubDescription"/>
             </h:inputTextarea>
         </div>

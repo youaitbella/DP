@@ -14,7 +14,7 @@
             <h:message for="nubIndic" id="msgNubIndic" styleClass="errorMessage"/>
             <br/>
             <h:inputTextarea  styleClass="areaWideHigh" id="nubIndic" readonly="#{editNubRequest.readOnly}" value="#{editNubRequest.nubRequest.indication}" required="true" requiredMessage="#{msg.msgValueNeeded}">
-                <f:validator validatorId="RequiredValidator"/>
+                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubIndic"/>
             </h:inputTextarea>
         </div>
@@ -24,7 +24,7 @@
             <h:message for="nubReplacement" id="msgNubReplacement" styleClass="errorMessage"/>
             <br/>
             <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubRequest.readOnly}" id="nubReplacement" value="#{editNubRequest.nubRequest.replacement}" required="true" requiredMessage="#{msg.msgValueNeeded}">
-                <f:validator validatorId="RequiredValidator"/>
+                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubReplacement"/>
             </h:inputTextarea>
         </div>
@@ -34,7 +34,7 @@
             <h:message for="nubWhatsNew" id="msgNubWhatsNew" styleClass="errorMessage"/>
             <br/>
             <h:inputTextarea  styleClass="areaWideHigh" readonly="#{editNubRequest.readOnly}" id="nubWhatsNew" value="#{editNubRequest.nubRequest.whatsNew}" required="true" requiredMessage="#{msg.msgValueNeeded}">
-                <f:validator validatorId="RequiredValidator"/>
+                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubWhatsNew"/>
             </h:inputTextarea>
         </div>
