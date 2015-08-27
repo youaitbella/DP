@@ -83,11 +83,11 @@
         </div>
 
         <div class="toolBar">
-            <h:commandLink styleClass="button" action="#{editCooperation.accept}" value="#{msg.btnCooperationConfirm}" immediate="true"
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.accept}" value="#{msg.btnCooperationConfirm}" immediate="true"
                            rendered="#{editCooperation.outstandingCooperationRequest}"/>
-            <h:commandLink styleClass="button" action="#{editCooperation.refuse}" value="#{msg.btnCooperationRefuse}" immediate="true"
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.refuse}" value="#{msg.btnCooperationRefuse}" immediate="true"
                            rendered="#{editCooperation.outstandingCooperationRequest}"/>
-            <h:commandLink styleClass="button" action="#{editCooperation.finish}" value="#{msg.btnCooperationEnd}" immediate="true"
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.finish}" value="#{msg.btnCooperationEnd}" immediate="true"
                            rendered="#{!editCooperation.outstandingCooperationRequest}"/>
         </div>
 

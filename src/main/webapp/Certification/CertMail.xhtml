@@ -93,14 +93,14 @@
             </h:dataTable>
             
             <div class="inputPart" style="float: right;">
-                <h:commandLink styleClass="button" value="Empfänger hinzufügen" action="#{certMail.addReceiverToList}"/>
+                <h:commandLink styleClass="bigButton" value="Empfänger hinzufügen" action="#{certMail.addReceiverToList}"/>
             </div>
             
             <br style="clear: right;"/>
             
             <div class="inputPart" style="float: right;">
-                <h:commandLink styleClass="button" id="btnDeleteTemplate" value="Empfängerliste löschen" action="#{certMail.deleteReceiverList}"/>
-                <h:commandLink styleClass="button" id="btnSaveTemplate" value="Empfängerliste speichern" action="#{certMail.saveReceiverList}"/>
+                <h:commandLink styleClass="bigButton" id="btnDeleteTemplate" value="Empfängerliste löschen" action="#{certMail.deleteReceiverList}"/>
+                <h:commandLink styleClass="bigButton" id="btnSaveTemplate" value="Empfängerliste speichern" action="#{certMail.saveReceiverList}"/>
             </div>
             
             <br style="clear: right;"/>
@@ -134,7 +134,7 @@
             </div>
             
             <div class="inputPart" style="float: right;">
-                <h:commandLink id="btnPreview" styleClass="button" value="Email-Vorschau" action="#{certMail.showPreview}" binding="#{certMail.previewButton}"/>
+                <h:commandLink id="btnPreview" styleClass="bigButton" value="Email-Vorschau" action="#{certMail.showPreview}" binding="#{certMail.previewButton}"/>
             </div>
             <div style="clear: both;"/>
         </h:form>
@@ -196,7 +196,7 @@
             
             <h:form id="frmSendMails">
                 <div class="inputPart" style="float: right;">
-                    <h:commandLink id="btnSendMails" styleClass="button" value="Emails abschicken" action="#{certMail.sendMailsToAllReceivers()}"/>
+                    <h:commandLink id="btnSendMails" styleClass="bigButton" value="Emails abschicken" action="#{certMail.sendMailsToAllReceivers()}"/>
                 </div>
             </h:form>
             <div style="clear: both;" />

@@ -45,7 +45,7 @@
                                 <h:outputLabel styleClass="light" value=" (#{msg.lblAutoLogout} "/>
                                 <h:outputText id="remaining" styleClass="light" value="#{sessionController.remainingTime}"/>
                                 <h:outputLabel styleClass="light" value=") "/>
-                                <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
+                                <h:commandLink styleClass="btnLogout" value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
                             </h:form>
                         </c:if>
 

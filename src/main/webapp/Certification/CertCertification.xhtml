@@ -62,19 +62,19 @@
                 <h2>#{msg.lblDownload}</h2>
 
                 <div class="inputPart">
-                    <h:commandLink styleClass="button" value="#{msg.btnDownloadSpec}" immediate="true"
+                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadSpec}" immediate="true"
                                    action="#{certCertification.downloadSpec}"/>
                     <h:outputLabel value="#{editCert.getSpecFileName(certCertification.systemId, false)}"/>
                 </div>
 
                 <div class="inputPart">
-                    <h:commandLink styleClass="button" value="#{msg.btnDownloadTest}"  immediate="true"
+                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadTest}"  immediate="true"
                                    action="#{certCertification.downloadTest}"/>
                     <h:outputLabel value="#{editCert.getTestFileName(certCertification.systemId, false)}"/>
                 </div>
 
                 <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status ge 20}">
-                    <h:commandLink styleClass="button" value="#{msg.btnDownloadCert}"  immediate="true"
+                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadCert}"  immediate="true"
                                    action="#{certCertification.downloadCert}"/>
                     <h:outputLabel value="#{editCert.getCertFileName(certCertification.systemId, false)}"/>
                 </div>
@@ -96,7 +96,7 @@
                     <input id="form:testResult" type="file" name="form:testResult" class="hide" title="Upload Testergebnisse"
                            onchange="uploadFile('form:testResult');
                                    jsf.ajax.request(this, event, {render: 'form :logout:remaining', delay: '1000'});" />
-                    <h:outputLabel styleClass="button" value="# {msg.btnUpload} # {certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
+                    <h:outputLabel styleClass="bigButton" value="# {msg.btnUpload} # {certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
                     <progress id="progressBar" style="visibility: hidden;" value="0" max="100"></progress>
                     <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
                 </div-->
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="inputPart" jsf:rendered="#{certCertification.resultFileName.endsWith('[ungespeichert]')}">
-                    <h:commandLink id="btnConfirmFile" styleClass="button" value="#{msg.btnSave}"
+                    <h:commandLink id="btnConfirmFile" styleClass="bigButton" value="#{msg.btnSave}"
                                    action="#{certCertification.saveFile}"
                                    immediate="true" disabled="false">
                         <f:ajax render="@form :logout:remaining"/>
@@ -140,7 +140,7 @@
                 </div>
 
                 <div class="toolBar">
-                    <h:commandLink id="btnSaveOther" styleClass="button" value="#{msg.btnSave}"
+                    <h:commandLink id="btnSaveOther" styleClass="bigButton" value="#{msg.btnSave}"
                                    action="#{certCertification.saveOther}"
                                    immediate="false" disabled="false">
                         <f:ajax render="@form :logout:remaining"/>

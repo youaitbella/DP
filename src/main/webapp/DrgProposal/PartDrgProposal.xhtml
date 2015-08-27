@@ -11,8 +11,8 @@
     <div class="paddingElement">
         <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
         <p>
-            <h:commandLink styleClass="button" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
-                           rendered="#{sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
+            <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
+                           disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
         </p>
             <br/>
             <h:outputLabel styleClass="label" rendered ="#{drgProposalList.sealedDrgProposals.size() > 0}" value="sowie #{drgProposalList.sealedDrgProposals.size()} bereitgestellte DRG-Vorschläge"/>

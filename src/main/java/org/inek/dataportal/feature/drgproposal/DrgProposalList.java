@@ -44,6 +44,12 @@ public class DrgProposalList {
         int month = 1 + Calendar.getInstance().get(Calendar.MONTH); // jan=0, thus 1+month
         return (month >= 9 && month <= 10) || _sessionController.isInternalClient(); // allow local access allways
     }
+    
+    public String checkIfButtonEnabled() {
+        if(_sessionController.isEnabled("IsDrgProposalCreateEnabled"))
+            return "";
+        return "buttonDisabled";
+    }
 
     public boolean getOpenListEnabled() {
         return getDrgProposals().size() > 0;

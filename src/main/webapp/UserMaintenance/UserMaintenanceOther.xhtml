@@ -37,7 +37,7 @@
             <p>
                 <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
                 <div class="toolBar">
-                    <h:commandLink styleClass="button" action="#{editUserMaintenance.savePassword}" value="#{msg.btnSave}" immediate="false" />
+                    <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.savePassword}" value="#{msg.btnSave}" immediate="false" />
                 </div>
             </p>
             
@@ -65,14 +65,14 @@
             <p>
                 <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
                 <div class="toolBar">
-                    <h:commandLink styleClass="button" action="#{editUserMaintenance.saveEmail}" value="#{msg.btnSendConfirm}" immediate="false" />
+                    <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.saveEmail}" value="#{msg.btnSendConfirm}" immediate="false" />
                 </div>
             </p>
         
         <hr />
         
 
-        <h:commandLink styleClass="button" action="#{editUserMaintenance.requestDelete}" value="#{msg.btnDeleteAccount}" immediate="true" />
+        <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.requestDelete}" value="#{msg.btnDeleteAccount}" immediate="true" />
         <h:commandLink id="deleteAccount" style="display: none" action="#{editUserMaintenance.delete}" value="delete"/>
         <br/>
         <br/>

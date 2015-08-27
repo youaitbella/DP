@@ -82,10 +82,10 @@
 
 
             <div class="toolBar">
-                <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{adminTask.deleteMailTemplate}" immediate="true">
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDelete}" action="#{adminTask.deleteMailTemplate}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
                                id="btnMailTemplateSave" action="#{adminTask.saveMailTemplate}"
                                immediate="false" disabled="#{adminTask.mailTemplate == null || !adminTask.templateChanged}"/>
             </div>

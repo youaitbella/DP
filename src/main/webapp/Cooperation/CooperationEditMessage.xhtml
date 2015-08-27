@@ -10,7 +10,7 @@
 
         <h:panelGrid id="sendArea" width="100%">
             <div class="marginTop">
-                <h:commandLink styleClass="button" actionListener="#{editCooperation.newMessage}" value="#{msg.btnNewMessage}" rendered="#{!editCooperation.createMessage}">
+                <h:commandLink styleClass="bigButton" actionListener="#{editCooperation.newMessage}" value="#{msg.btnNewMessage}" rendered="#{!editCooperation.createMessage}">
                     <f:ajax  render="sendArea"/>
                 </h:commandLink>
             </div>
@@ -30,12 +30,12 @@
                     </h:inputTextarea>
                 </div>
                 <div class="marginTop">
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    actionListener="#{editCooperation.cancelMessage}"
                                    value="#{msg.btnCancel}">
                         <f:ajax render="sendArea"/>
                     </h:commandLink>
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    actionListener="#{editCooperation.sendMessage}"
                                    value="#{msg.btnSendMessage}">
                         <f:ajax render="sendArea tblMessages"/>

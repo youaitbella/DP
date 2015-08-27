@@ -12,7 +12,7 @@
 
             <ui:include src="#{sessionTools.pages.ListDropBox}"/>
             <p>
-                <h:link styleClass="button" outcome="#{sessionTools.pages.DropBoxCreate}" value="#{msg.btnNewDropBox}"/>
+                <h:link styleClass="bigButton" outcome="#{sessionTools.pages.DropBoxCreate}" value="#{msg.btnNewDropBox}"/>
             </p>
             <br/>
             <h:outputLabel styleClass="label" rendered ="#{dropBoxList.sealedDropBoxes.size() > 0}" value="sowie #{dropBoxList.sealedDropBoxes.size()} abgeschlossene DropBoxen"/>

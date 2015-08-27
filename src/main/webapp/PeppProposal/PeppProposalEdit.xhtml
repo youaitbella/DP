@@ -37,7 +37,7 @@
                 <ui:include src="#{editPeppProposal.part}"/>
 
                 <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editPeppProposal.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
@@ -56,13 +56,13 @@
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editPeppProposal.requestCorrection}"
                                    value="#{msg.btnRequestCorrection}"
                                    immediate="true"
                                    rendered="#{editPeppProposal.requestCorrectionEnabled}">
                     </h:commandLink>
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editPeppProposal.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"

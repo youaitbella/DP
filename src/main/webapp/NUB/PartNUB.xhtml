@@ -12,13 +12,13 @@
             #{nubSessionTools.nubFilter=""}
             <ui:include src="#{sessionTools.pages.ListNub}"/>
             <p>
-                <h:commandLink styleClass="button"
+                <h:commandLink styleClass="bigButton"
                                action="#{nubRequestList.newNubRequest}"
                                immediate="true"
                                value="#{msg.btnNewRequest}"
                                disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"/>
 
-                <h:commandLink styleClass="button"
+                <h:commandLink styleClass="bigButton"
                                action="#{nubRequestList.newNubRequestFromTemplate}"
                                disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true"

@@ -49,7 +49,7 @@
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
                     <f:ajax event="click" render="@form :logout:remaining" listener="#{adminTask.addNewMapping}"/>
                 </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnSave}" 
+                <h:commandLink styleClass="bigButton" value="#{msg.btnSave}" 
                                id="btnSaveMapping" immediate="false" 
                                action="#{adminTask.saveRoleMapping}" disabled="#{!adminTask.mappingChanged}"/>
             </div>

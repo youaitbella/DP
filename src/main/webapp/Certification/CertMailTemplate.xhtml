@@ -78,10 +78,10 @@
 
 
             <div class="toolBar">
-                <h:commandLink styleClass="button" value="#{msg.btnDelete}" action="#{certMailTemplate.deleteMailTemplate}" immediate="true">
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDelete}" action="#{certMailTemplate.deleteMailTemplate}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>
-                <h:commandLink styleClass="button" value="#{msg.btnSave}"
+                <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
                                id="btnMailTemplateSave" action="#{certMailTemplate.saveMailTemplate}"
                                immediate="false" disabled="#{certMailTemplate.mailTemplate == null || !certMailTemplate.templateChanged}"/>
             </div>

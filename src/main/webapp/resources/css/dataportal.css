@@ -815,28 +815,40 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
 .bigButton{
     display: inline-block;
     font-weight: bold;
-    margin: 0 2em 0 0;
-    border: solid 3px;
+    border: solid 1px;
     border-color:  #dddddd darkgrey darkgrey #dddddd;
     border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
-}
-
-a.bigButton{
-    padding: 0.5em 1em;
-    background-color: #043358;
     color: white;
+    background-color: #043358;
+    padding: 6px 6px 6px 6px;
 }
 
-span.button, span.bigButton{
+.bigButton:hover{
+    color: white;
+    box-shadow: 0px 0px 6px 1px #7F9BAF;
+    cursor: pointer;
+}
+
+.buttonDisabled {
+    background-color: gray;
+}
+
+.buttonDisabled:hover {
+    cursor: default;
+    box-shadow: 0px 0px 0px 0px #FFF;
+}
+
+span.button {
     padding: 0 1em;
     background-color: darkgrey;
     color: lightgrey;
 }
 
 a.button, .midButton, .smallButton, input.button{
-    background-color: #7F9BAF;
+    background-color: #043358;
+    color: white;
 }
 
 .changed{
@@ -859,19 +871,10 @@ a.midButton{
     min-width: 6em;
 }
 
-a.bigButton:hover{
-    color: #7F9BAF;
-    box-shadow: 2px 2px darkgrey; 
-}
-
 input.button:hover, a.button:hover, .smallButton:hover{
     color: white;
-}
-
-a.bigButton:active{
-    color: white;
-    border-color: darkgrey #dddddd #dddddd darkgrey;
-    box-shadow: 2px 2px #dddddd; 
+    box-shadow: 0px 0px 6px 1px #7F9BAF;
+    cursor: pointer;
 }
 
 input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .addButton:active{
@@ -883,7 +886,7 @@ input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .a
     min-width: 150px;
     display: inline-block;
     margin: 0 10px 0 0;
-    padding: 0 20px 0 5px;
+    padding: 6px 20px 6px 5px;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
     border-radius: 0.5em;
@@ -900,6 +903,7 @@ input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .a
 
 .sendButton:hover{
     color: white;
+    box-shadow: 0px 0px 6px 1px #4aa628;
     background-image: url("/DataPortal/javax.faces.resource/arrow_go_hover.png.xhtml?ln=Icon/small");
 }
 
@@ -909,12 +913,14 @@ input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .a
 }
 
 .addButton, .addIcon{
-    background-color: #7F9BAF;
+    color: white;
+    background-color: #043358;
     background-image: url("/DataPortal/javax.faces.resource/add.png.xhtml?ln=Icon/small");
 }
 
 .addButton:hover, .addIcon:hover{
     color: white;
+    box-shadow: 0px 0px 6px 1px #7F9BAF;
     background-image: url("/DataPortal/javax.faces.resource/add_hover.png.xhtml?ln=Icon/small");
 }
 
@@ -1071,4 +1077,3 @@ div.fakeFile {
     border-bottom: black dotted 1px;
     padding: 0.2em;
 }
-

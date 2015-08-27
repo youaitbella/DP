@@ -38,9 +38,9 @@
             </h:form>
             <h:form id="buttons">
                 <div class="toolBar">
-                    <h:commandLink styleClass="button" action="#{editRequest.save}" value="#{msg.btnSave}" immediate="false"
+                    <h:commandLink styleClass="bigButton" action="#{editRequest.save}" value="#{msg.btnSave}" immediate="false"
                                    rendered="#{!editRequest.request.complete}"/>
-                    <h:commandLink styleClass="button" action="#{editRequest.requestSeal}" value="#{msg.btnSaveAndClose}"
+                    <h:commandLink styleClass="bigButton" action="#{editRequest.requestSeal}" value="#{msg.btnSaveAndClose}"
                                    rendered="#{!editRequest.request.complete}" title="#{msg.infoSaveAndClose}"/>
                     <h:commandLink id="seal" style="display: none" action="#{editRequest.seal}" value="seal"/>
                 </div>

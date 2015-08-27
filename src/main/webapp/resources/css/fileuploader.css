@@ -5,15 +5,17 @@
     min-width: 30px;
     margin: 0;
     padding: 0 5px;
-    background-color: #7F9BAF;
+    background-color: #043358;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
     border-radius: 4px;
     text-decoration: none;
     text-align: center;
+    color: white;
 }
 .qq-upload-button-hover {    
     color: white;
+    box-shadow: 0px 0px 6px 1px #7F9BAF;
 }
 .qq-upload-button-focus {outline:1px dotted black;}
 

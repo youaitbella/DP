@@ -37,7 +37,7 @@
                     render="@form msgUploadFile :logout:remaining"/>
                 <f:validator validatorId="FileUploadValidator"/>
             </h:inputFile>
-            <h:outputLabel styleClass="button" value="#{cc.attrs.buttonText}"
+            <h:outputLabel styleClass="bigButton" value="#{cc.attrs.buttonText}"
                            onclick="getElementById('#{cc.clientId}:uploadForm:uploadFile').click();"/>
             <h:message id="msgUploadFile" for="uploadFile" styleClass="errorMessage"/>
         </h:form>

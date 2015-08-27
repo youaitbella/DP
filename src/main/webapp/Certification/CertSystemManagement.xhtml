@@ -84,7 +84,7 @@
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
+                    <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
                     <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
                     <h:outputLabel value="#{editCert.getSpecFileName(certManager.systemId, true)}"/>
                 </div>
@@ -97,7 +97,7 @@
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
+                    <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
                     <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
                     <h:outputLabel value="#{editCert.getTestFileName(certManager.systemId, true)}"/>
                 </div>
@@ -110,7 +110,7 @@
                                 render="@form :logout:remaining"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>
+                    <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>
                     <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
                     <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, true)}"/>
                 </div>
@@ -119,7 +119,7 @@
                 <br/>
 
                 <h2>#{msg.lblAssignedManufactorers}</h2>
-                <h:commandLink styleClass="button" value="#{msg.btnReset}"
+                <h:commandLink styleClass="bigButton" value="#{msg.btnReset}"
                                immediate="true"
                                action="#{certManager.resetSystem}">
                     <cb:confirmReset/>
@@ -195,15 +195,15 @@
         </h:form>
         
         <h:form id="certButtons">
-            <h:commandLink styleClass="button" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
+            <h:commandLink styleClass="bigButton" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
-            <h:commandLink styleClass="button #{certManager.systemChanged ? 'changed' : ''}" value="#{msg.btnSave}"
+            <h:commandLink styleClass="bigButton #{certManager.systemChanged ? 'changed' : ''}" value="#{msg.btnSave}"
                            id="btnSystemSave"
                            immediate="false"
                            disabled="#{certManager.system == null || !certManager.systemChanged}"
                            action="#{certManager.saveSystem}"/>
-            <h:commandLink styleClass="button" value="#{msg.btnCancel}"
+            <h:commandLink styleClass="bigButton" value="#{msg.btnCancel}"
                            immediate="true"
                            action="#{certManager.cancelSystem}">
                 <cb:confirmCancel/>

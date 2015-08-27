@@ -42,7 +42,7 @@
                 <ui:insert name="editContent">Content</ui:insert>
 
                 <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="button" 
+                    <h:commandLink styleClass="bigButton" 
                                    action="#{editNubRequest.save}" 
                                    value="#{msg.btnSave}" 
                                    immediate="true"
@@ -64,14 +64,14 @@
                         <cb:confirmSeal/>
                     </h:commandLink>
 
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editNubRequest.requestCorrection}"
                                    value="#{msg.btnRequestCorrection}"
                                    immediate="true"
                                    rendered="#{editNubRequest.requestCorrectionEnabled}">
                     </h:commandLink>
 
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editNubRequest.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"
@@ -79,13 +79,13 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                     
-                    <h:commandLink id="btnTemplate" styleClass="button"
+                    <h:commandLink id="btnTemplate" styleClass="bigButton"
                                    action="#{editNubRequest.downloadTemplate()}"
                                    value="#{msg.btnDownloadTemplate}"
                                    immediate="true"
                                    disabled="#{editNubRequest.nubRequest.name.length() == 0}"/>
 
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    value="#{msg.btnNewFromNub}"
                                    rendered="#{sessionController.isEnabled('IsNubCreateEnabled') and (editNubRequest.nubRequest.dateSealed != null or !editNubRequest.ownNub)}"
                                    >

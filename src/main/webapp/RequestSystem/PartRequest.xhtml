@@ -14,7 +14,7 @@
     <div class="paddingElement">
         <ui:include src="#{sessionTools.pages.ListRequest}"/>
         <p>
-            <h:commandLink styleClass="button" action="#{requestList.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
+            <h:commandLink styleClass="bigButton" action="#{requestList.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
         </p>
         <br/>
         <h:outputLabel styleClass="label" rendered ="#{requestList.sealedRequests.size() > 0}" value="sowie #{requestList.sealedRequests.size()} bereitgestellte Anfragen"/>

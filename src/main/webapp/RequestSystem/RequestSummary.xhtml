@@ -20,7 +20,7 @@
 
                 <ui:include src="#{sessionTools.pages.ListRequest}"/>
                 <p>
-                    <h:commandLink styleClass="button" action="#{requestFacade.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
+                    <h:commandLink styleClass="bigButton" action="#{requestFacade.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
                 </p>
 
                 <h:panelGroup rendered="#{requestList.sealedRequests.size() > 0}">

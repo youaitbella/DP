@@ -38,7 +38,7 @@
                 <ui:insert name="editContent">Content</ui:insert>
 
                 <div class="toolBar">
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editDrgProposal.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
@@ -61,14 +61,14 @@
                         <cb:confirmSeal/>
                     </h:commandLink>
 
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editDrgProposal.requestCorrection}"
                                    value="#{msg.btnRequestCorrection}"
                                    immediate="true"
                                    rendered="#{editDrgProposal.requestCorrectionEnabled}">
                     </h:commandLink>
 
-                    <h:commandLink styleClass="button"
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editDrgProposal.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"
