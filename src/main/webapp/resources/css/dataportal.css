@@ -804,7 +804,7 @@ img {
 a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
     display: inline-block;
     margin: 0 2em 0 0;
-    padding: 0 1em;
+    padding: 1px 1em;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
     border-radius: 0.5em;
@@ -822,7 +822,8 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
     text-align: center;
     color: white;
     background-color: #043358;
-    padding: 6px 6px 6px 6px;
+    padding: 0.5em 0;
+    margin: 0 2em 0 0;
     min-width: 150px;
 }
 
@@ -858,10 +859,6 @@ a.button, .midButton, .smallButton, input.button{
 
 a.button, label.button, span.button{
     min-width: 150px;
-}
-
-input.button{
-    min-width: 165px;
 }
 
 a.smallButton{
@@ -911,6 +908,9 @@ input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .a
 .addIcon{
     background-repeat: no-repeat;
     background-position: right center;
+}
+.addIcon:after{
+    content: "    ";  /* non break space */
 }
 
 .addButton, .addIcon{

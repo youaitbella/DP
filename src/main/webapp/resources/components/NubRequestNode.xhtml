@@ -17,7 +17,7 @@
     <cc:implementation>
         <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.children}"
                        var="node" width="100%" rowClasses="row1, row2" 
-                       columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, colIcon, colIcon, colIcon, colId, colShortCentered, colValue' : 'colIcon, colIcon, colIcon, colValue'}">
+                       columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, colIcon, colIcon, colIcon, colId, colShortCentered, colValue' : 'colIcon, colIcon, colIcon, colIcon, colValue'}">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value=""/>

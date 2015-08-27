@@ -29,7 +29,7 @@
                 <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubSessionTools.nubFilter}">
                     <f:ajax/>
                 </h:inputText>
-                <h:commandLink styleClass="bigButton" value="#{msg.btnRefreshList}" action="#{nubRequestList.refresh()}" immediate="true">
+                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}" action="#{nubRequestList.refresh()}" immediate="true">
                 </h:commandLink>
             </div>
 
@@ -54,7 +54,7 @@
                 </div>
             </ui:repeat>
 
-            <div class="toolBar">
+            <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
@@ -95,13 +95,15 @@
                 </div>
             </ui:repeat>
 
-            <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
-            <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
-                <f:ajax listener="#{nubSessionTools.selectAll}" render="@form"/>
-            </h:commandLink>
-            <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
-                <f:ajax listener="#{nubSessionTools.deselectAll}" render="@form"/>
-            </h:commandLink>
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+                <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
+                    <f:ajax listener="#{nubSessionTools.selectAll}" render="@form"/>
+                </h:commandLink>
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
+                    <f:ajax listener="#{nubSessionTools.deselectAll}" render="@form"/>
+                </h:commandLink>
+            </div>
 
         </h:form>
     </ui:define>
