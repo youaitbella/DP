@@ -823,6 +823,7 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
     color: white;
     background-color: #043358;
     padding: 6px 6px 6px 6px;
+    min-width: 150px;
 }
 
 .bigButton:hover{
