@@ -4,12 +4,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.Column;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.Cooperation;
+import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.facades.AbstractFacade;
 
 /**
@@ -29,7 +31,6 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
      * @param accountId Id of interesting account
      * @return
      */
-    
     public List<Account> getCooperationPartners(int accountId) {
         String query = "SELECT dbo.account.* "
                 + "from dbo.account "
@@ -57,7 +58,6 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
         persist(cooperation);
     }
 
-    
     public Cooperation findCooperation(int partner1Id, int partner2Id) {
         if (partner1Id > partner2Id) {
             int tmp = partner1Id;
@@ -84,7 +84,20 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
         if (cooperation == null) {
             return;
         }
-        remove(cooperation); // todo: remove any config
+        remove(cooperation); 
+        String jql = "delete from CooperationRight c where c._ownerId = :partner1Id and c._partnerId = :partner2Id or c._ownerId = :partner2Id and c._partnerId = :partner1Id";
+        getEntityManager()
+                .createQuery(jql, CooperationRight.class)
+                .setParameter("partner1Id", partner1Id)
+                .setParameter("partner2Id", partner2Id)
+                .executeUpdate();
+        jql = "delete from CooperationRequest c where c._requestorId = :partner1Id and c._requestedId = :partner2Id or c._requestorId = :partner2Id and c._requestedId = :partner1Id";
+        getEntityManager()
+                .createQuery(jql, CooperationRight.class)
+                .setParameter("partner1Id", partner1Id)
+                .setParameter("partner2Id", partner2Id)
+                .executeUpdate();
+        
     }
 
 }

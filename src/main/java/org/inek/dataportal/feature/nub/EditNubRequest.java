@@ -738,7 +738,8 @@ public class EditNubRequest extends AbstractEditController {
         }
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
         _messageService.sendMessage(sender, receiver, subject, _message, Feature.NUB, _nubRequest.getId());
-        return Pages.DrgProposalSummary.RedirectURL();
+        _nubSessionTools.refreshNodes();
+        return Pages.NubSummary.RedirectURL();
     }
 
     public String cancelMessage() {

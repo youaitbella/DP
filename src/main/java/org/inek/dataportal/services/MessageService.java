@@ -62,8 +62,11 @@ public class MessageService {
                 + "\r\n\r\n"
                 + "-----"
                 + "\r\n\r\n"
-                + "Dies ist eine automatisch generierte Mail. Bitte beachten Sie, dass Sie die Antwortfunktion Ihres Mail-Programms nicht nutzen können.";
-        _mailer.sendMailFrom("noReply@inek.org", receiver.getEmail(), "", "", subject, extMessage);
+                + "Dies ist eine automatisch generierte E-Mail des InEK Datenportals. "
+                + "\r\n"
+                + "Wenn Sie auf diese E-Mail antworten, erhält Ihr Kooperationspartner Ihre Antwort."
+                ;
+        _mailer.sendMailFrom(sender.getEmail(), receiver.getEmail(), "", "", subject, extMessage);
     }
 
     private void createPortalMessage(Account sender, Account receiver, String subject, String message, Feature feature, int keyId) {

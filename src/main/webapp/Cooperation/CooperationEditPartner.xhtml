@@ -4,6 +4,7 @@
                 template="CooperationEdit.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="editContent">
@@ -88,7 +89,9 @@
             <h:commandLink styleClass="bigButton" action="#{editCooperation.refuse}" value="#{msg.btnCooperationRefuse}" immediate="true"
                            rendered="#{editCooperation.outstandingCooperationRequest}"/>
             <h:commandLink styleClass="bigButton" action="#{editCooperation.finish}" value="#{msg.btnCooperationEnd}" immediate="true"
-                           rendered="#{!editCooperation.outstandingCooperationRequest}"/>
+                           rendered="#{!editCooperation.outstandingCooperationRequest}">
+                <cb:confirmDelete/>
+            </h:commandLink>
         </div>
 
 

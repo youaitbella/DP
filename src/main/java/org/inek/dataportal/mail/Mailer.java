@@ -90,6 +90,7 @@ public class Mailer {
             Session session = Session.getDefaultInstance(properties);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
+            message.setSender(new InternetAddress("InEK-Datenportal <datenportal@inek.org>"));
             addReceipients(message, recipient, Message.RecipientType.TO);
             addReceipients(message, cc, Message.RecipientType.CC);
             addReceipients(message, bcc, Message.RecipientType.BCC);
