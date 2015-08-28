@@ -283,8 +283,12 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return filter;
     }
 
-    public String
-            printSelected() {
+    public String refresh() {
+        _rootNode.refresh();
+        return "";
+    }
+
+    public String printSelected() {
         List<Integer> selectedRequests = _rootNode.getSelectedIds(ProposalInfoTreeNode.class
         );
         if (selectedRequests.isEmpty()) {
@@ -293,7 +297,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         for (NubRequest nubRequest : nubRequests) {
-            documents.put(nubRequest.getExternalId(), DocumentationUtil.getDocumentation(nubRequest));
+            String key =  nubRequest.getExternalId();
+            documents.put(key, DocumentationUtil.getDocumentation(nubRequest));
         }
         List<String> keys = new ArrayList<>(documents.keySet());
         Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));

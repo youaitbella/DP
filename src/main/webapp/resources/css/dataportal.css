@@ -801,18 +801,19 @@ img {
     margin-top: -10px;
 }
 
-a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
+a.button, a.midButton, a.smallButton, span.button, label.button, input.button, .addButton{
     display: inline-block;
     margin: 0 2em 0 0;
-    padding: 1px 1em;
+    padding: 1px 0;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
     border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
+    min-width: 150px;
 }
 
-.bigButton{
+.bigButton, .sendButton{
     display: inline-block;
     font-weight: bold;
     border: solid 1px;
@@ -820,16 +821,19 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button{
     border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
-    color: white;
-    background-color: #043358;
-    padding: 0.5em 0;
+    padding: 0.5em 0.2em;
     margin: 0 2em 0 0;
     min-width: 150px;
+    color: white;
+}
+
+.bigButton{
+    background-color: #043358;
 }
 
 .bigButton:hover{
     color: white;
-    box-shadow: 0px 0px 6px 1px #7F9BAF;
+    box-shadow: 0px 0px 5px 1px #437A1E;
     cursor: pointer;
 }
 
@@ -848,7 +852,7 @@ span.button {
     color: lightgrey;
 }
 
-a.button, .midButton, .smallButton, input.button{
+a.button, .midButton, .smallButton, input.button, label.button{
     background-color: #043358;
     color: white;
 }
@@ -869,59 +873,45 @@ a.midButton{
     min-width: 6em;
 }
 
-input.button:hover, a.button:hover, .smallButton:hover{
+input.button:hover, label.button:hover, a.button:hover, .smallButton:hover{
     color: white;
-    box-shadow: 0px 0px 6px 1px #7F9BAF;
+    box-shadow: 0px 0px 5px 1px #437A1E;
     cursor: pointer;
 }
 
-input.button:hover, a.button:active, .smallButton:active, .sendButton:active, .addButton:active{
+input.button:active, label.button:active, a.button:active, .smallButton:active, .sendButton:active, .addButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
-}
-
-.sendButton, a.addButton{
-    min-width: 150px;
-    display: inline-block;
-    margin: 0 10px 0 0;
-    padding: 6px 20px 6px 5px;
-    border: solid 2px;
-    border-color:  #eeeeee darkgrey darkgrey #eeeeee;
-    border-radius: 0.5em;
-    text-decoration: none;
-    text-align: left;
-    background-repeat: no-repeat;
-    background-position: right center;
 }
 
 .sendButton{
     background-color: #4aa628;
     background-image: url("/DataPortal/javax.faces.resource/arrow_go.png.xhtml?ln=Icon/small");
+    background-repeat: no-repeat;
+    background-position: right center;
 }
 
 .sendButton:hover{
     color: white;
-    box-shadow: 0px 0px 6px 1px #4aa628;
+    box-shadow: 0px 0px 5px 1px #437A1E;
     background-image: url("/DataPortal/javax.faces.resource/arrow_go_hover.png.xhtml?ln=Icon/small");
 }
 
-.addIcon{
-    background-repeat: no-repeat;
-    background-position: right center;
-}
-.addIcon:after{
-    content: "    ";  /* non break space */
+.addIcon:before, .sendButton:after, .addButton:before{
+    content: "     ";  /* non break spaces */
 }
 
 .addButton, .addIcon{
     color: white;
     background-color: #043358;
     background-image: url("/DataPortal/javax.faces.resource/add.png.xhtml?ln=Icon/small");
+    background-repeat: no-repeat;
+    background-position: left center;
 }
 
 .addButton:hover, .addIcon:hover{
     color: white;
-    box-shadow: 0px 0px 6px 1px #7F9BAF;
+    box-shadow: 0px 0px 5px 1px #437A1E;
     background-image: url("/DataPortal/javax.faces.resource/add_hover.png.xhtml?ln=Icon/small");
 }
 

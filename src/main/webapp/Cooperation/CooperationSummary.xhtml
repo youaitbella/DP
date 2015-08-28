@@ -31,7 +31,7 @@
                              maxlength="50">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
-                <h:commandLink styleClass="bigButton marginLeft" action="#{cooperationManager.invite()}" value="#{msg.btnInvite}" immediate="false" />
+                <h:commandLink styleClass="button marginLeft" action="#{cooperationManager.invite()}" value="#{msg.btnInvite}" immediate="false" />
             </div>
 
             <h:panelGroup rendered="#{cooperationManager.requestors.size() > 0}">

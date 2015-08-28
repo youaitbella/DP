@@ -65,10 +65,6 @@ public class NubRequestList {
         return reason;
     }
 
-    public String refresh() {
-        return "";
-    }
-
     public String newNubRequest() {
         return Pages.NubEditAddress.URL();
     }

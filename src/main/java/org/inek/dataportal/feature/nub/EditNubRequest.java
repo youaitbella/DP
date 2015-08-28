@@ -593,6 +593,9 @@ public class EditNubRequest extends AbstractEditController {
         newTopic = checkField(newTopic, _nubRequest.getEmail(), "lblMail", "form:email", NubRequestTabs.tabNubAddress);
         newTopic = checkField(newTopic, _nubRequest.getName(), "lblAppellation", "form:nubName", NubRequestTabs.tabNubPage1);
         newTopic = checkField(newTopic, _nubRequest.getDescription(), "lblNubDescription", "form:nubDescription", NubRequestTabs.tabNubPage1);
+        if (!_nubRequest.isHasNoProcs()) {
+            newTopic = checkField(newTopic, _nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures", NubRequestTabs.tabNubPage1);
+        }
         newTopic = checkField(newTopic, _nubRequest.getIndication(), "lblIndication", "form:nubIndic", NubRequestTabs.tabNubPage2);
         newTopic = checkField(newTopic, _nubRequest.getReplacement(), "lblNubReplacementPrint", "form:nubReplacement", NubRequestTabs.tabNubPage2);
         newTopic = checkField(newTopic, _nubRequest.getWhatsNew(), "lblWhatsNew", "form:nubWhatsNew", NubRequestTabs.tabNubPage2);
