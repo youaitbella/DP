@@ -83,7 +83,7 @@
                                    action="#{editNubRequest.downloadTemplate()}"
                                    value="#{msg.btnDownloadTemplate}"
                                    immediate="true"
-                                   disabled="#{editNubRequest.nubRequest.name.length() == 0}"/>
+                                   rendered="#{editNubRequest.nubRequest.name.length() gt 0}"/>
 
                     <h:commandLink styleClass="bigButton"
                                    value="#{msg.btnNewFromNub}"

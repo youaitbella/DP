@@ -29,7 +29,8 @@
                 <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubSessionTools.nubFilter}">
                     <f:ajax/>
                 </h:inputText>
-                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}" action="#{nubSessionTools.refresh()}" immediate="true">
+                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                    <f:ajax render="@form"/>
                 </h:commandLink>
             </div>
 

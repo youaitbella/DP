@@ -15,6 +15,7 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+                       <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
         <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.children}"
                        var="node" width="100%" rowClasses="row1, row2" 
                        columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, colIcon, colIcon, colIcon, colId, colShortCentered, colValue' : 'colIcon, colIcon, colIcon, colIcon, colValue'}">

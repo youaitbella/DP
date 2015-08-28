@@ -700,7 +700,7 @@ public class EditNubRequest extends AbstractEditController {
         copy.setTargetYear(targetYear);
         copy = _nubRequestFacade.saveNubRequest(copy);
         if (copy.getId() != -1) {
-            Utils.showMessageInBrowser("NUB erfolgreich angelegt;");
+            Utils.showMessageInBrowser("NUB erfolgreich angelegt");
         }
         _nubSessionTools.refreshNodes();
     }

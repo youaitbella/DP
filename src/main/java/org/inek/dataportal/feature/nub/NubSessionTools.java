@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.CooperationTools;
@@ -59,6 +60,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     public void setNubFilter(String nubFilter) {
         _nubFilter = nubFilter;
+        refreshNodes();
     }
 
     // Seal own NUB is a marker, whether a NUB may be sealed by the owner (true)
@@ -283,21 +285,24 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return filter;
     }
 
-    public String refresh() {
+    public String refreshAndGotoNubSummary() {
         _rootNode.refresh();
-        return "";
+        return Pages.NubSummary.URL();
     }
 
     public String printSelected() {
-        List<Integer> selectedRequests = _rootNode.getSelectedIds(ProposalInfoTreeNode.class
-        );
+        List<Integer> selectedRequests = _rootNode.getSelectedIds(ProposalInfoTreeNode.class);
         if (selectedRequests.isEmpty()) {
             return "";
         }
         List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
+        int count = 1;
         for (NubRequest nubRequest : nubRequests) {
             String key =  nubRequest.getExternalId();
+            if (key.isEmpty()){
+                key = "<nicht gesendet> " + count++;
+            }
             documents.put(key, DocumentationUtil.getDocumentation(nubRequest));
         }
         List<String> keys = new ArrayList<>(documents.keySet());

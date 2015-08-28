@@ -22,7 +22,7 @@
 
     <ui:define name="content">
         <ui:repeat value="#{flash.printContentKeys}" var="key">
-            <h1><h:link value="#{flash.headLine} #{key}" outcome="#{flash.targetPage}"/></h1>
+            <h1><h:link value="#{flash.headLine} #{key.contains('>') ? key.substring(0, 1+key.indexOf('>')) : key}" outcome="#{flash.targetPage}"/></h1>
 
         <h:dataTable styleClass="paddingElement" headerClass="list-header" id="tblPrint" value="#{flash.printContent.get(key)}" var="p" 
                      width="100%" rowClasses="row1, row2" columnClasses="col14, colValue" >

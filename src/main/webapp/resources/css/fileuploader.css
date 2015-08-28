@@ -2,9 +2,10 @@
 
 .qq-upload-button {
     display: inline-block;
-    min-width: 30px;
+    min-width: 150px;
+    font-weight: bold;
     margin: 0;
-    padding: 0 5px;
+    padding:  0.5em 0.2em;
     background-color: #043358;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
@@ -15,7 +16,7 @@
 }
 .qq-upload-button-hover {    
     color: white;
-    box-shadow: 0px 0px 6px 1px #7F9BAF;
+    box-shadow: 0px 0px 5px 1px #437A1E;
 }
 .qq-upload-button-focus {outline:1px dotted black;}
 

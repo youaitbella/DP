@@ -753,6 +753,10 @@ select:active, select:focus{
     width: 60%;
 }
 
+.col90{
+    width: 90%;
+}
+
 tr.row1 > td.colIk > input {
     background-color: #f8f8f8;
 }

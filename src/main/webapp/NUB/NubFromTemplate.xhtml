@@ -29,25 +29,25 @@
                     debug: true,
                     multiple: true,
                     allowedExtensions: ['nub', 'txt'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                    onSubmit: function(id, fileName) {
+                    onSubmit: function (id, fileName) {
                         fileCounter++;
                     },
-                    onCancel: function(id, fileName) {
+                    onCancel: function (id, fileName) {
                         fileCounter--;
                         if (fileCounter === 0) {
                         }
                     },
-                    onComplete: function(id, fileName, responseJSON) {
+                    onComplete: function (id, fileName, responseJSON) {
                         fileCounter--;
                         if (fileCounter === 0) {
                             //document.getElementById("form:takeDocuments").click();
                         }
-                        if (responseJSON.success){
+                        if (responseJSON.success) {
                             //alert (responseJSON.success);
-                        } else{
+                        } else {
                             //alert ("Fehler in Datei " + fileName + " " + responseJSON.message);
-                            alert ("Fehler in Datei " + fileName);
-                            var item = this._getItemByFileId(id);                
+                            alert("Fehler in Datei " + fileName);
+                            var item = this._getItemByFileId(id);
                             qq.addClass(item, this._classes.fail);
                         }
                     },
@@ -67,7 +67,11 @@
             }
             window.onload = createUploader;
         </script>
-        <h1><h:link value="#{msg.lblNUB}" outcome="#{sessionTools.pages.NubSummary}"/></h1>
+        <h1>
+            <h:form>
+                <h:commandLink value="#{msg.lblNUB}" action="#{nubSessionTools.refreshAndGotoNubSummary}"/>
+            </h:form>
+        </h1>
         <br/>
         <p>
             Um NUB-Anfragen aus Vorlagen zu erzeugen, klicken Sie unten auf [NUB-Vorlage hochladen] und wählen eine oder mehrere Vorlagen auf Ihrem Rechner aus.
@@ -81,7 +85,7 @@
             Dort werden die korrekt eingelesenen Dateien aufgeführt. Bei einem echten Fehler fehlt die Datei in der Liste. <br/>
             Bisher ist dieses Problem nur bei bestimmten Versionen des Internet Explorers bekannt.
         </p>
-        
+
         <br/>
         <div class="inputPart">
             <div id="file-uploader">
@@ -90,7 +94,9 @@
                     <!-- or put a simple form for upload here -->
                 </noscript>
             </div>
-            <h:link styleClass="bigButton" value="Zur NUB Liste" outcome="#{sessionTools.pages.NubSummary}"/>
+            <h:form>
+                <h:commandLink styleClass="bigButton" value="Zur NUB Liste" action="#{nubSessionTools.refreshAndGotoNubSummary}"/>
+            </h:form>
         </div>
     </ui:define>
 

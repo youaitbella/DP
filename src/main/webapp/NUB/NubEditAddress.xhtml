@@ -10,7 +10,7 @@
 
         <h2>#{msg.headNubCompany}</h2>
 
-        <h:panelGrid columns="2" width="90%">
+        <h:panelGrid columns="2" styleClass="inputwide" columnClasses="col90, colValue">
             <h:panelGroup class="inputPart">
                 <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
                 <br />
@@ -48,7 +48,7 @@
                 <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
                 <f:ajax event="change" listener="#{editNubRequest.changedIk}" render="@this :logout:remaining msgMultiIk khName"/>
             </h:selectOneMenu>
-            <h:inputText styleClass="inputLong" readonly="true" value="#{editNubRequest.nubRequest.ik}" rendered="#{!editNubRequest.ownNub}"/>
+            <h:inputText styleClass="inputlong" readonly="true" value="#{editNubRequest.nubRequest.ik}" rendered="#{!editNubRequest.ownNub}"/>
             <br/>
             <h:outputText value="#{msg.lblNubHintMoreIks}" />
         </div>
@@ -57,7 +57,7 @@
             <h:outputLabel id="nubKhName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
             <h:message for="khName" id="msgNubKhName" styleClass="errorMessage"/>
             <br />
-            <h:inputText styleClass="inputLong" readonly="#{editNubRequest.readOnly}" maxlength="100" id="khName" value="#{editNubRequest.nubRequest.ikName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputText styleClass="inputlong" readonly="#{editNubRequest.readOnly}" maxlength="100" id="khName" value="#{editNubRequest.nubRequest.ikName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
                 <f:ajax event="blur" render="@this :logout:remaining msgNubKhName"/>
             </h:inputText>
             <h:commandLink styleClass="button rightAllign" action="#{editNubRequest.reloadMaster}"
@@ -70,12 +70,12 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" value="#{msg.lblContact}"/>
             <br/>
-            <h:panelGrid columns="2" styleClass="inputlong">
-                <h:panelGroup style="width: 50%;">
+            <h:panelGrid columns="2" styleClass="inputlong" columnClasses="col30, colValue">
+                <h:panelGroup>
                     <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
                     <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                     <br/>
-                    <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editNubRequest.nubRequest.gender}"
+                    <h:selectOneMenu styleClass="inputmedium" id="cbxGender" value="#{editNubRequest.nubRequest.gender}"
                                      required="true"
                                      readonly="#{editNubRequest.readOnly}"
                                      requiredMessage="#{msg.msgChooseEntryShort}">
@@ -83,7 +83,7 @@
                         <f:ajax event="blur" render="@this :logout:remaining msgGender"/>
                     </h:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup style="width: 50%;">
+                <h:panelGroup >
                     <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
                     <br/>
                     <h:inputText styleClass="inputmedium" id="title" value="#{editNubRequest.nubRequest.title}"
@@ -98,7 +98,7 @@
             <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
             <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="inputLong" id="firstname" value="#{editNubRequest.nubRequest.firstName}"
+            <h:inputText styleClass="inputlong" id="firstname" value="#{editNubRequest.nubRequest.firstName}"
                          required="true"
                          readonly="#{editNubRequest.readOnly}"
                          requiredMessage="#{msg.msgValueNeeded}"
@@ -111,7 +111,7 @@
             <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
             <h:message id="msgLastname" for="lastname" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="inputLong" id="lastname" value="#{editNubRequest.nubRequest.lastName}"
+            <h:inputText styleClass="inputlong" id="lastname" value="#{editNubRequest.nubRequest.lastName}"
                          required="true"
                          readonly="#{editNubRequest.readOnly}"
                          requiredMessage="#{msg.msgValueNeeded}"
@@ -124,7 +124,7 @@
             <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:"/>
             <h:message id="msgDivision" for="division" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="inputLong" id="division" value="#{editNubRequest.nubRequest.division}"
+            <h:inputText styleClass="inputlong" id="division" value="#{editNubRequest.nubRequest.division}"
                          required="false"
                          readonly="#{editNubRequest.readOnly}"
                          maxlength="50">
@@ -136,7 +136,7 @@
             <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:"/>
             <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage"/>
             <br/>
-            <h:selectOneMenu styleClass="inputLong" id="contactRole" value="#{editNubRequest.nubRequest.roleId}"
+            <h:selectOneMenu styleClass="inputlong" id="contactRole" value="#{editNubRequest.nubRequest.roleId}"
                              required="true"
                              readonly="#{editNubRequest.readOnly}"
                              requiredMessage="#{msg.lblChooseEntry}">
@@ -149,7 +149,7 @@
             <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
             <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="inputLong" id="street" value="#{editNubRequest.nubRequest.street}"
+            <h:inputText styleClass="inputlong" id="street" value="#{editNubRequest.nubRequest.street}"
                          required="true"
                          readonly="#{editNubRequest.readOnly}"
                          requiredMessage="#{msg.msgValueNeeded}"
@@ -159,8 +159,8 @@
             </h:inputText>
         </div>
 
-        <h:panelGrid columns="2" styleClass="inputLong">
-            <h:panelGroup style="width: 50%;">
+        <h:panelGrid columns="2" styleClass="inputlong" columnClasses="col30, colValue">
+            <h:panelGroup>
                 <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
                 <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
                 <br/>
@@ -175,11 +175,11 @@
                 </h:inputText>
             </h:panelGroup>
 
-            <h:panelGroup style="width: 50%;">
+            <h:panelGroup>
                 <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
                 <h:message id="msgTown" for="town" styleClass="errorMessage"/>
                 <br/>
-                <h:inputText styleClass="inputmedium" id="town" value="#{editNubRequest.nubRequest.town}"
+                <h:inputText styleClass="inputwide" id="town" value="#{editNubRequest.nubRequest.town}"
                              required="true"
                              readonly="#{editNubRequest.readOnly}"
                              requiredMessage="#{msg.msgValueNeeded}"
@@ -189,13 +189,11 @@
                 </h:inputText>
             </h:panelGroup>
 
-        </h:panelGrid>
-        <h:panelGrid columns="2" styleClass="inputLong">
-            <h:panelGroup style="width: 50%;">
+            <h:panelGroup>
                 <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
                 <h:message id="msgPhone" for="phone" styleClass="errorMessage"/>
                 <br/>
-                <h:inputText styleClass="inputmedium" id="phone" value="#{editNubRequest.nubRequest.phone}"
+                <h:inputText styleClass="inputlong" id="phone" value="#{editNubRequest.nubRequest.phone}"
                              required="true"
                              readonly="#{editNubRequest.readOnly}"
                              requiredMessage="#{msg.msgValueNeeded}"
@@ -205,7 +203,7 @@
                 </h:inputText>
             </h:panelGroup>
 
-            <h:panelGroup style="width: 50%;">
+            <h:panelGroup>
                 <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:"/>
                 <h:message id="msgFax" for="fax" styleClass="errorMessage"/>
                 <br/>
@@ -223,7 +221,7 @@
             <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
             <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
             <br/>
-            <h:inputText styleClass="inputLong" id="email" value="#{editNubRequest.nubRequest.email}"
+            <h:inputText styleClass="inputlong" id="email" value="#{editNubRequest.nubRequest.email}"
                          required="true"
                          readonly="#{editNubRequest.readOnly}"
                          requiredMessage="#{msg.msgValueNeeded}"
