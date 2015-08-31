@@ -14,6 +14,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -66,6 +67,9 @@ public class NubRequestList {
     }
 
     public String newNubRequest() {
+        // if the user hit the browser's back-button, a reqeust might be still active. 
+        // To prevent invoking the wrong, we destroy all Feature scoped beans first
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditNubRequest");
         return Pages.NubEditAddress.URL();
     }
 
@@ -74,6 +78,7 @@ public class NubRequestList {
     }
 
     public String editNubRequest(int requestId) {
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditNubRequest");
         Utils.getFlash().put("nubId", requestId);
         return Pages.NubEditAddress.URL();
     }

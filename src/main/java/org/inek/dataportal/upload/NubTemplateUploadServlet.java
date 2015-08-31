@@ -12,6 +12,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.feature.nub.NubController;
+import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.Utils;
 
 @WebServlet(urlPatterns = {"/upload/nub"}, name = "NubTemplateUploadServlet")
@@ -20,7 +21,8 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
 
     @Inject SessionController _sessionController;
     @Inject NubRequestFacade _nubFacade;
-
+    @Inject NubSessionTools _nubSessionTools;
+    
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         try {
@@ -35,6 +37,7 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             String checksum = fileText.substring(pos + 9).replace("\r\n", "");
             if (checksum.equals(Utils.getChecksum(template + "Length=" + template.length()))) {
                 _nubFacade.saveNubRequest(controller.createNubRequest(template));
+                _nubSessionTools.refreshNodes();
                 return;
             }
             throw new IOException("Formatfehler");

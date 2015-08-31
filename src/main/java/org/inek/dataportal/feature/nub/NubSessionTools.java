@@ -173,10 +173,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(treeNode, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            if (account == currentUser) {
-                // auto expand user's own data
-                childNode.expand();
-            }
+            childNode.expand();  // auto-expand all edit nodes by default
         }
     }
 
@@ -299,8 +296,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         int count = 1;
         for (NubRequest nubRequest : nubRequests) {
-            String key =  nubRequest.getExternalId();
-            if (key.isEmpty()){
+            String key = nubRequest.getExternalId();
+            if (key.isEmpty()) {
                 key = "<nicht gesendet> " + count++;
             }
             documents.put(key, DocumentationUtil.getDocumentation(nubRequest));

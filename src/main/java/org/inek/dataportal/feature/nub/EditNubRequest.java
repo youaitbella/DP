@@ -501,6 +501,9 @@ public class EditNubRequest extends AbstractEditController {
         if (!current.isNubConfirmation()) {
             current = owner;
         }
+        if (!owner.isNubConfirmation()) {
+            owner = current;
+        }
 
         MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
         if (template == null) {

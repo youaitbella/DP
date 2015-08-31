@@ -92,7 +92,9 @@ public class Mailer {
             message.setFrom(new InternetAddress(from));
             message.setSender(new InternetAddress("InEK-Datenportal <datenportal@inek.org>"));
             addReceipients(message, recipient, Message.RecipientType.TO);
-            addReceipients(message, cc, Message.RecipientType.CC);
+            if (!cc.equals(recipient)) {
+                addReceipients(message, cc, Message.RecipientType.CC);
+            }
             addReceipients(message, bcc, Message.RecipientType.BCC);
             message.setSubject(subject);
             MimeBodyPart messageBodyPart = new MimeBodyPart();

@@ -103,6 +103,16 @@ public enum FeatureScopedContextHolder {
         return key;
     }
 
+    public void destroyBeansOfScope(String scopeNameToDestroy) {
+        Map<String, FeatureScopedInstance> featureMap = getFeatureScopedMap();
+        Set<String> keys = new HashSet<>(featureMap.keySet());  // need a copy to avoid concurrent changes!
+        keys.stream().filter((key) -> (key.startsWith(scopeNameToDestroy + "|"))).forEach((key) -> {
+            FeatureScopedInstance inst = featureMap.get(key);
+            inst.getBean().destroy(inst.getInstance(), inst.getCtx());
+            featureMap.remove(key);
+        });
+    }
+
     private void destroyAllBeansExcept(String scopeNameToKeep) {
         Map<String, FeatureScopedInstance> featureMap = getFeatureScopedMap();
         destroyAllBeansExcept(featureMap, scopeNameToKeep);

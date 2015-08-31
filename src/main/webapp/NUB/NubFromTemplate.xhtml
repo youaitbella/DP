@@ -67,11 +67,7 @@
             }
             window.onload = createUploader;
         </script>
-        <h1>
-            <h:form>
-                <h:commandLink value="#{msg.lblNUB}" action="#{nubSessionTools.refreshAndGotoNubSummary}"/>
-            </h:form>
-        </h1>
+        <h1><h:link value="#{msg.lblNUB}" outcome="#{sessionTools.pages.NubSummary}"/></h1>
         <br/>
         <p>
             Um NUB-Anfragen aus Vorlagen zu erzeugen, klicken Sie unten auf [NUB-Vorlage hochladen] und wählen eine oder mehrere Vorlagen auf Ihrem Rechner aus.
@@ -94,9 +90,7 @@
                     <!-- or put a simple form for upload here -->
                 </noscript>
             </div>
-            <h:form>
-                <h:commandLink styleClass="bigButton" value="Zur NUB Liste" action="#{nubSessionTools.refreshAndGotoNubSummary}"/>
-            </h:form>
+            <h:link styleClass="bigButton" value="Zur NUB Liste" outcome="#{sessionTools.pages.NubSummary}"/>
         </div>
     </ui:define>
 

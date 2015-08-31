@@ -170,7 +170,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<Integer> getNubYears(Set<Integer> accountIds) {
-        String jql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds ORDER BY p._targetYear DESC";
+        String jql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
         Query query = getEntityManager().createQuery(jql, NubRequest.class);
         query.setParameter("accountIds", accountIds);
 //        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();

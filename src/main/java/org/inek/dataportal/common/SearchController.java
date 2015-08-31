@@ -34,10 +34,10 @@ public class SearchController {
     private List<CodeInfo> _codeList = new ArrayList<>();
     private SearchConsumer _searchConsumer;
     private String _targetPage;
-    private ProcedureFacade _procedureFacade;
-    private DiagnosisFacade _diagnosisFacade;
-    private PeppFacade _peppFacade;
-    private DrgFacade _drgFacade;
+    private final ProcedureFacade _procedureFacade;
+    private final DiagnosisFacade _diagnosisFacade;
+    private final PeppFacade _peppFacade;
+    private final DrgFacade _drgFacade;
 
     public SearchController(SessionController sessionController,
             ProcedureFacade procedureFacade,
@@ -190,7 +190,7 @@ public class SearchController {
     }
 
     public void search(String searchText, int firstYear, int lastYear) {
-        _codeList = new ArrayList<CodeInfo>();
+        _codeList = new ArrayList<>();
         switch (_codeType) {
             case Diag:
                 List<DiagnosisInfo> diags = _diagnosisFacade.findAll(searchText, firstYear, lastYear);

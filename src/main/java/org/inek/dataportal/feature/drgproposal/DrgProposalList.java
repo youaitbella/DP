@@ -16,6 +16,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.DrgProposalFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -56,10 +57,12 @@ public class DrgProposalList {
     }
 
     public String newDrgProposal() {
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
         return Pages.DrgProposalEditAddress.RedirectURL();
     }
 
     public String editDrgProposal(int proposalId) {
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
         Utils.getFlash().put("drgId", proposalId);
         return Pages.DrgProposalEditAddress.RedirectURL();
     }

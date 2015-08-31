@@ -826,7 +826,7 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button, .
     text-decoration: none;
     text-align: center;
     padding: 0.5em 0.2em;
-    margin: 0 2em 0 0;
+    margin: 0.5em 2em 0.5em 0;
     min-width: 150px;
     color: white;
 }

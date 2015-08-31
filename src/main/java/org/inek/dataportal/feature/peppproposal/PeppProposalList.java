@@ -14,6 +14,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -34,10 +35,12 @@ public class PeppProposalList {
     }
 
     public String newPeppProposal() {
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditPeppProposal");
         return Pages.PeppProposalEdit.URL();
     }
 
     public String editPeppProposal(int proposalId) {
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditPeppProposal");
         Utils.getFlash().put("ppId", proposalId);
         return Pages.PeppProposalEdit.URL();
     }
