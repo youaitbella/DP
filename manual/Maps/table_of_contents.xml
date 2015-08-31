@@ -197,6 +197,9 @@
     <topicref type="topic" id="418794548143688" build="ALL" modified="2014-08-28T11:24:58.025Z" icon="0" href="MoveAccount">
       <caption translate="true">Übertragung Benutzerkonto</caption>
     </topicref>
+    <topicref type="topic" id="42248358201820" build="ALL" modified="2015-08-31T16:49:37.564Z" icon="0" href="PrintPDF">
+      <caption translate="true">Ausgabe als PDF</caption>
+    </topicref>
   </topicref>
   <topicref type="topic" id="409114983099281" build="ALL" modified="2012-01-03T09:13:47.575Z" icon="0">
     <caption translate="true">Anhang</caption>

@@ -44,19 +44,17 @@
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubProcedures" value="#{msg.lblNubProcRelated}"/>
             <h:message for="nubProcedures" id="msgCheckProcs" styleClass="errorMessage"/>
-            <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="nubProcedures" 
-                                     disabled="#{editNubRequest.nubRequest.hasNoProcs}"
+            <h:inputTextarea styleClass="areaNarrowLow fullWidth " id="nubProcedures" 
                              readonly="#{editNubRequest.readOnly}"
                              value="#{editNubRequest.nubRequest.procs}"
                              required="#{!editNubRequest.nubRequest.hasNoProcs}"
                              validator="#{editNubRequest.checkProcedureCodes}">
                 <f:validateLength maximum="500"/>
-                <f:ajax event="blur" render="@this msgCheckProcs"/>
+                <f:ajax event="change" render="@this msgCheckProcs"/>
             </h:inputTextarea>
             <h:selectBooleanCheckbox id="noProc" value="#{editNubRequest.nubRequest.hasNoProcs}" 
-                                     disabled="#{editNubRequest.nubRequest.procs.length() gt 0}"
                                      readonly="#{editNubRequest.readOnly}" styleClass="marginRight marginTop">
-                <f:ajax event="blur" render="@this :logout:remaining nubProcedures nubProceduresText"/>
+                <f:ajax event="click" render="@this :logout:remaining nubProcedures nubProceduresText"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel id="noProcLabel" value="#{msg.lblNoProcs}"/>
 
