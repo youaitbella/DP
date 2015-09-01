@@ -6,12 +6,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountFeature;
+import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -26,6 +32,8 @@ public class CooperationManager {
     @Inject AccountFacade _accountFacade;
     @Inject SessionController _sessionController;
     @Inject PortalMessageFacade _messageFacade;
+    @Inject Mailer _mailer;
+    @Inject MailTemplateFacade _mtFacade;
 
     private List<Account> _requestors;
     private List<Account> _partners;
@@ -60,6 +68,21 @@ public class CooperationManager {
             Account myAccount = _sessionController.getAccount();
             if (!_cooperationFacade.existsCooperation(myAccount.getId(), requested.getId())) {
                 _cooperationRequestFacade.createCooperationRequest(myAccount.getId(), requested.getId());
+            }
+            AccountFeature coop = new AccountFeature(Feature.COOPERATION);
+            if(!requested.getFeatures().contains(coop)) { 
+                // Check if requested user has coop enabled. If not send an e-mail to the user.
+               MailTemplate mail = _mtFacade.findByName("CooperationRequest");
+               String salutation = "Sehr ";
+               if(requested.getGender() == Genders.Male.id())
+                   salutation += "geehrter Herr ";
+               else
+                   salutation += "geehrte Frau ";
+               salutation += requested.getLastName();
+               mail.setBody(mail.getBody().replace("{salutation}", salutation));
+               mail.setBody(mail.getBody().replace("{senderName}", myAccount.getFirstName() + " " + myAccount.getLastName()));
+               mail.setBody(mail.getBody().replace("{senderMail}", myAccount.getEmail()));
+               _mailer.sendMail(requested.getEmail(), mail.getSubject(), mail.getBody());
             }
         }
         _sessionController.alertClient(Utils.getMessage("msgInvitation"));
