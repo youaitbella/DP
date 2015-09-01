@@ -18,6 +18,7 @@ public class NubRequestDocument implements Serializable, Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "npdId")
     private int _id = -1;
+
     public int getId() {
         return _id;
     }
@@ -30,6 +31,7 @@ public class NubRequestDocument implements Serializable, Document {
     // <editor-fold defaultstate="collapsed" desc="Property NubRequestId">
     @Column(name = "npdNubProposalId")
     private int _nubRequestId = -1;
+
     public int getNubRequestId() {
         return _nubRequestId;
     }
@@ -73,17 +75,22 @@ public class NubRequestDocument implements Serializable, Document {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        return _id;
+        if (_id >= 0) {
+            return _id;
+        }
+        return _name.hashCode();
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Request)) {
+        if (!(object instanceof NubRequestDocument)) {
             return false;
         }
         NubRequestDocument other = (NubRequestDocument) object;
-        return _id == other._id;
+        if (_id >= 0) {
+            return _id == other._id;
+        }
+        return _name.equals(other._name);
     }
 
     @Override
