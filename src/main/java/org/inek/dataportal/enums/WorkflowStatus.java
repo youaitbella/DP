@@ -9,11 +9,14 @@ public enum WorkflowStatus {
     Unknown(-1, "Unbekannt", ""),
     New(0, "Neu / in Erfassung", "edit.png"),
     Rejected(1, "Abgelehnt (Fehler)", "error.png"),
+    CorrectionRequested(3, "Korrektur bzw. Konkretisierung angefordert", "editUpdate.png"),
     ApprovalRequested(5, "Freigabe erforderlich", "timed.png"),
     Provided(10, "Bereitgestellt", "timed.png"),  // aka Sealed
     ReProvided(11, "Bereitgestellt (korrigiert)", "timed.png"),
     Accepted(15, "Angenommen", "accept.png"),
+    Updated(16, "Angenommen", "accept.png"),  // updated. to the user it looks like accepted
     Taken(20, "Angenommen", "accept.png"),  // taken into NUB tool. The external view is like Accepted
+    TakenUpdated(21, "Angenommen", "accept.png"),  // taken into NUB tool after correction. The external view is like Accepted
     Retired(200, "Zurückgezogen", "delete-cross.png")
     ;
 

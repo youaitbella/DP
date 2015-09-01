@@ -13,7 +13,9 @@
     <para styleclass="Image Caption"><image src="CooperationNewMessageReceived1.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Anzeige ungelesener (neuer) Nachrichten</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Navigationsbereich wird die Gesamtzahl der neuen Nachrichten gezeigt. In der Liste der Kooperationspartner wird je Partner die Anzahl der neuen Nachrichten gelistet.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Navigationsbereich wird die Gesamtzahl der neuen Nachrichten gezeigt*. In der Liste der Kooperationspartner wird je Partner die Anzahl der neuen Nachrichten gelistet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">*Neben den &quot;eigentlichen&quot; Nachrichten werden in der Anzeige im Navigationsmenü auch unbearbeitete Kooperationsanfragen (&quot;Benachrichtigungen&quot;) gezählt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Auch in der Registerkarte &quot;Nachrichten&quot; werden neue Nachrichten entsprechend symbolisiert. Dies geschieht durch ein oranges &quot;NEW&quot; Symbol.</text></para>
     <para styleclass="Normal"></para>

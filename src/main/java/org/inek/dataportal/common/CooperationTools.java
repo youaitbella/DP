@@ -142,7 +142,7 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state.getValue() >= WorkflowStatus.ApprovalRequested.getValue()) {
+        if (state ==  WorkflowStatus.CorrectionRequested || state.getValue() >= WorkflowStatus.ApprovalRequested.getValue()) {
             return false;
         }
         if (isReadOnly(feature, state, ownerId, ik)) {
@@ -223,7 +223,7 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state.getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (state ==  WorkflowStatus.CorrectionRequested || state.getValue() >= WorkflowStatus.Provided.getValue()) {
             return false;
         }
         Account account = _sessionController.getAccount();
@@ -255,6 +255,33 @@ public class CooperationTools implements Serializable {
         return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik == null ? -1 : ik);
     }
 
+    /**
+     * update is enabled when correction is requested by inek 
+     * and it's the user's data or the user is allowed to seal or th write
+     *
+     * @param feature
+     * @param state
+     * @param ownerId
+     * @return
+     */
+    public boolean isUpdateEnabled(Feature feature, WorkflowStatus state, int ownerId) {
+        return isUpdateEnabled(feature, state, ownerId, -1);
+    }
+
+    public boolean isUpdateEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
+        if (state !=  WorkflowStatus.CorrectionRequested) {
+            return false;
+        }
+        Account account = _sessionController.getAccount();
+        if (ownerId != account.getId()) {
+            CooperativeRight achievedRight = getAchievedRight(feature, ownerId, ik == null ? -1 : ik);
+            return achievedRight.canSeal() || achievedRight.canWriteCompleted();
+        }
+
+        return true;
+    }
+
+    
     public boolean isTakeEnabled(Feature feature, WorkflowStatus state, int ownerId) {
         return isTakeEnabled(feature, state, ownerId, -1);
     }

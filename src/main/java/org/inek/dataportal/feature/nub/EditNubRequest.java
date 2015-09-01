@@ -429,6 +429,13 @@ public class EditNubRequest extends AbstractEditController {
         return _cooperationTools.isSealedEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
+    public boolean isUpdateEnabled() {
+        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isUpdateEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+    }
+
     public boolean isApprovalRequestEnabled() {
         if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
@@ -481,6 +488,32 @@ public class EditNubRequest extends AbstractEditController {
         if (isValidId(_nubRequest.getId())) {
             _nubSessionTools.refreshNodes();
             sendNubConfirmationMail();
+
+            Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
+            Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
+            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
+            return Pages.PrintView.URL();
+        }
+        return "";
+    }
+
+    public String updateNubRequest() {
+        if (!requestIsComplete()) {
+            return getActiveTopic().getOutcome();
+        }
+        if (_nubRequest.getStatus() != WorkflowStatus.CorrectionRequested) {
+            return Pages.Error.URL();
+        }
+
+        _nubRequest.setStatus(WorkflowStatus.TakenUpdated);
+        _nubRequest.setLastChangedBy(_sessionController.getAccountId());
+        _nubRequest.setLastModified(Calendar.getInstance().getTime());
+
+        _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+
+        if (isValidId(_nubRequest.getId())) {
+            _nubSessionTools.refreshNodes();
+            //sendNubConfirmationMail(); todo? sendUpdateMail?
 
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
             Utils.getFlash().put("targetPage", Pages.NubSummary.URL());

@@ -37,7 +37,7 @@
             <br/>
             <h:selectOneMenu
                 styleClass="inputmedium"
-                rendered="#{editNubRequest.ownNub}"
+                rendered="#{!editNubRequest.readOnly and editNubRequest.ownNub}"
                 id="ikMulti"
                 title="#{msg.titleIK}"
                 required="true"
@@ -48,7 +48,7 @@
                 <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
                 <f:ajax event="change" listener="#{editNubRequest.changedIk}" render="@form :logout:remaining msgMultiIk"/>
             </h:selectOneMenu>
-            <h:inputText styleClass="inputlong" readonly="true" value="#{editNubRequest.nubRequest.ik}" rendered="#{!editNubRequest.ownNub}"/>
+            <h:inputText styleClass="inputlong" readonly="true" value="#{editNubRequest.nubRequest.ik}" rendered="#{editNubRequest.readOnly or !editNubRequest.ownNub}"/>
             <br/>
             <h:outputText value="#{msg.lblNubHintMoreIks}" />
         </div>

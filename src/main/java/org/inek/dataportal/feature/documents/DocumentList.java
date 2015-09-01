@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.Triple;
@@ -20,7 +21,8 @@ public class DocumentList {
     @Inject
     SessionController _sessionController;
     @Inject PortalMessageFacade _messageFacade;
-
+    @Inject CooperationRequestFacade _cooperationRequestFacade;
+    
     public List<Triple> getDocuments() {
         return _accountDocFacade.getDocInfos(_sessionController.getAccountId());
     }
@@ -48,8 +50,8 @@ public class DocumentList {
             }
         }
         if (topic.equals(Utils.getMessage("lblCooperation"))) {
-            int count = _messageFacade.countUnreadMessages(_sessionController.getAccountId());
-            return count != 0;
+            return _messageFacade.countUnreadMessages(_sessionController.getAccountId()) > 0
+                    || _cooperationRequestFacade.getOpenCooperationRequestCount(_sessionController.getAccountId()) > 0;
         }
         return false;
     }
@@ -66,7 +68,8 @@ public class DocumentList {
             count = docs.size();
         }
         if (topic.equals(Utils.getMessage("lblCooperation"))) {
-            count = _messageFacade.countUnreadMessages(_sessionController.getAccountId());
+            count = _messageFacade.countUnreadMessages(_sessionController.getAccountId())
+                    + (int) _cooperationRequestFacade.getOpenCooperationRequestCount(_sessionController.getAccountId());
         }
         return "" + count;
     }

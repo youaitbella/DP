@@ -5,10 +5,12 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRequest;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -31,7 +33,6 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
      * @param accountId Id of requested account
      * @return
      */
-    
     public List<Account> getCooperationRequestors(int accountId) {
         String query = "SELECT acId, acLastModified, acIsDeactivated, "
                 + "acUser, acMail, acGender, acTitle, acFirstName, "
@@ -43,6 +44,15 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
         return getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
     }
 
+    public long getOpenCooperationRequestCount(int accountId){
+        String jpql = "SELECT count(c._requestedId) FROM CooperationRequest c WHERE c._requestedId = :accountId";
+        TypedQuery<Long> query = getEntityManager().createQuery(jpql, Long.class);
+        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+        System.out.println(sql);
+        return query.setParameter("accountId", accountId)
+                .getSingleResult();
+    } 
+    
     public void createCooperationRequest(int requestorId, int requestedId) {
         if (findCooperationRequest(requestorId, requestedId) != null) {
             return;
