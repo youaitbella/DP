@@ -13,12 +13,6 @@
         <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:form id="form">
             <h1><h:commandLink value="#{msg.nameDRG_PROPOSAL}" action="#{sessionController.navigate(sessionTools.pages.DrgProposalSummary)}" immediate="true"/></h1>

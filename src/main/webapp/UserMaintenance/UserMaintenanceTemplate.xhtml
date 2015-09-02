@@ -10,12 +10,6 @@
         <f:viewParam name="activeTopic" id="activeTopic" value="#{flash.activeTopic}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h1>#{msg.nameUSER_MAINTENANCE}</h1>
         <h:form id="form">

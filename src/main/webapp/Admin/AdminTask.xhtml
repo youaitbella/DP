@@ -6,12 +6,6 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:form id="tabForm">
             <h1><h:commandLink value="#{msg.nameADMIN}" /></h1>

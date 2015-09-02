@@ -10,12 +10,6 @@
         <f:viewParam name="partnerId" id="partnerId" value="#{flash.partnerId}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:form id="form">
             <h1><h:commandLink value="#{msg.nameCOOPERATION}" action="#{sessionController.navigate(sessionTools.pages.CooperationSummary)}" immediate="true"/></h1>

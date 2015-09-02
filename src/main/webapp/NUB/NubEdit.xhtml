@@ -11,12 +11,6 @@
         <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:form id="form">
             <h1>

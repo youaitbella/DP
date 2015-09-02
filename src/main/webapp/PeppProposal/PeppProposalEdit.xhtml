@@ -13,12 +13,6 @@
         <f:viewParam name="ppId" id="ppId" value="#{flash.ppId}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:form id="form">
             <h1><h:commandLink value="#{msg.namePEPP_PROPOSAL}" action="#{sessionController.navigate(sessionTools.pages.PeppProposalSummary)}" immediate="true"/></h1>

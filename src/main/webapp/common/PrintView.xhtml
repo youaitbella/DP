@@ -13,12 +13,6 @@
         <f:viewParam name="printContent" id="printContent" value="#{flash.printContent}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h1><h:link value="#{flash.headLine}" outcome="#{flash.targetPage}"/></h1>
 

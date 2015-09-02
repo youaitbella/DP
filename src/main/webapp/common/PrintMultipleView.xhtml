@@ -14,12 +14,6 @@
         <f:viewParam name="printContentKeys" id="printContentKeys" value="#{flash.printContentKeys}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <ui:repeat value="#{flash.printContentKeys}" var="key">
             <h1><h:link value="#{flash.headLine} #{key.contains('>') ? key.substring(0, 1+key.indexOf('>')) : key}" outcome="#{flash.targetPage}"/></h1>

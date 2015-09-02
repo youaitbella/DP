@@ -86,7 +86,12 @@
                                     </h:commandLink>
                                 </li>
                             </ui:repeat>
-                            <ui:insert name="navItems">additional navigation items</ui:insert>
+                            <ui:insert name="navItems"></ui:insert>
+                            <c:if test="#{sessionController.loggedIn}">
+                                <li>
+                                    <h:link value="Übersicht" outcome="#{sessionController.mainPage}" />
+                                </li>
+                            </c:if>
                             <li>
                                 <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf" target="blank">Anwenderhandbuch</a>
                             </li>

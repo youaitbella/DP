@@ -9,12 +9,6 @@
         <f:viewParam name="dbId" id="ppId" value="#{flash.dbId}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:outputStylesheet name="fileuploader.css" library="css"/>
         <h:outputScript name="fileuploader.js" library="script"/>

@@ -122,6 +122,10 @@ public class SessionController implements Serializable {
         }
         return _searchController;
     }
+    
+    public String getMainPage() {
+        return Pages.MainApp.URL();
+    }
 
     public String getRemainingTime() {
         int maxInterval = FacesContext.getCurrentInstance().getExternalContext().getSessionMaxInactiveInterval();
