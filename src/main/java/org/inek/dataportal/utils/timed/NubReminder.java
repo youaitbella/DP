@@ -8,7 +8,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import org.inek.dataportal.entities.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.ConfigKey;

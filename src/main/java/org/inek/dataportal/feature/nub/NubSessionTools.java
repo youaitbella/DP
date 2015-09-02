@@ -25,7 +25,7 @@ import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
-import org.inek.dataportal.entities.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
@@ -114,25 +114,39 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private final RootNode _rootNode = RootNode.create(0, this);
+    private AccountTreeNode _accountNode;
     @Inject private CooperationTools _cooperationTools;
 
     @PostConstruct
     private void init() {
-        RootNode editNode = RootNode.create(1, this);
-        editNode.expand();
-        RootNode viewNode = RootNode.create(2, this);
-        viewNode.expand();
-        _rootNode.getChildren().add(editNode);
-        _rootNode.getChildren().add(viewNode);
         _rootNode.setExpanded(true);
     }
 
     public RootNode getEditNode() {
-        return (RootNode) _rootNode.getChildren().stream().filter(n -> n.getId() == 1).findFirst().get();
+        return getRootNode(1);
+    }
+    
+    public RootNode getRootNode(int id) {
+        Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
+        if (optionalRoot.isPresent()){
+            return (RootNode) optionalRoot.get();
+        }
+        RootNode node = RootNode.create(id, this);
+        node.expand();
+        _rootNode.getChildren().add(node);
+        return node;
     }
 
     public RootNode getViewNode() {
-        return (RootNode) _rootNode.getChildren().stream().filter(n -> n.getId() == 2).findFirst().get();
+        return getRootNode(2);
+    }
+
+    public AccountTreeNode getAccountNode() {
+        if (_accountNode == null) {
+            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), this);
+            _accountNode.expand();
+        }
+        return _accountNode;
     }
 
     public void refreshNodes() {
@@ -321,35 +335,35 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return "";
     }
 
-    public Collection<TreeNode> sortChildren (TreeNode treeNode, Collection<TreeNode> children){
+    public Collection<TreeNode> sortChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
             return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
         }
         return children;
     }
-            
-    public Collection<TreeNode> sortAccountNodeChildren (AccountTreeNode treeNode, Collection<TreeNode> children){
+
+    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
         Stream<ProposalInfoTreeNode> stream = children.stream().map(n -> (ProposalInfoTreeNode) n);
         Stream<ProposalInfoTreeNode> sorted;
-        switch (treeNode.getSortCriteria().toLowerCase()){
+        switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
-                if (treeNode.isDescending()){
+                if (treeNode.isDescending()) {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getId(), n1.getProposalInfo().getId()));
-                }else{
+                } else {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.getProposalInfo().getId()));
                 }
                 break;
             case "name":
-                if (treeNode.isDescending()){
+                if (treeNode.isDescending()) {
                     sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().getName()));
-                }else{
+                } else {
                     sorted = stream.sorted((n1, n2) -> n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().getName()));
                 }
                 break;
             case "status":
-                if (treeNode.isDescending()){
+                if (treeNode.isDescending()) {
                     sorted = stream.sorted((n1, n2) -> getExternalState(n2).compareTo(getExternalState(n1)));
-                }else{
+                } else {
                     sorted = stream.sorted((n1, n2) -> getExternalState(n1).compareTo(getExternalState(n2)));
                 }
                 break;
@@ -358,14 +372,14 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
         return sorted.collect(Collectors.toList());
     }
- 
-    private String getExternalState(ProposalInfoTreeNode node){
+
+    private String getExternalState(ProposalInfoTreeNode node) {
         int id = node.getProposalInfo().getId();
         NubRequest nubRequest = _nubRequestFacade.find(id);
-        if (nubRequest == null){
+        if (nubRequest == null) {
             return "";
         }
         return nubRequest.getExternalState();
     }
-    
+
 }

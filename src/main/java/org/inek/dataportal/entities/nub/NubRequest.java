@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 //../Licenses/license-default.txt
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.nub;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -310,7 +310,7 @@ public class NubRequest implements Serializable {
 
     @Documentation(name = "Verfahrens-Nr.", omitOnEmpty = true, rank = 0)
     public String getExternalId() {
-        return _status >= WorkflowStatus.Provided.getValue() ? "N" + _id : "";
+        return _status == WorkflowStatus.CorrectionRequested.getValue() || _status >= WorkflowStatus.Provided.getValue() ? "N" + _id : "";
     }
 
     public int getTargetYear() {

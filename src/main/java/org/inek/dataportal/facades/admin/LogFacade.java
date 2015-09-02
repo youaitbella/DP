@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import org.inek.dataportal.entities.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.utils.DateUtils;

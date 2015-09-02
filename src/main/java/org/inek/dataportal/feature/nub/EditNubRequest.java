@@ -7,7 +7,9 @@ package org.inek.dataportal.feature.nub;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -21,8 +23,8 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.entities.NubRequest;
-import org.inek.dataportal.entities.NubRequestDocument;
+import org.inek.dataportal.entities.nub.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
@@ -143,18 +145,18 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private void initMenuMultiIK() {
-        Account acc = _sessionController.getAccount();
+        Account account = _sessionController.getAccount();
         List<AccountAdditionalIK> addIks = _sessionController.getAccount().getAdditionalIKs();
         ArrayList<SelectItem> items = new ArrayList<>();
         for (AccountAdditionalIK addIk : addIks) {
             items.add(new SelectItem(addIk.getIK()));
         }
 
-        if (acc.getIK() != null) {
+        if (account.getIK() != null) {
             items.add(0, new SelectItem(_sessionController.getAccount().getIK()));
         }
 
-        if (_nubRequest.getIk() == null || !acc.getFullIkList().contains(_nubRequest.getIk().intValue())) {
+        if (_nubRequest.getIk() == null || !account.getFullIkList().contains(_nubRequest.getIk().intValue())) {
             items.add(0, new SelectItem(""));
         }
         _multiIks = items.toArray(_multiIks);
@@ -217,6 +219,25 @@ public class EditNubRequest extends AbstractEditController {
         items[0] = new SelectItem("0", "");
         items[1] = new SelectItem("1", Utils.getMessage("salutationFemale"));
         items[2] = new SelectItem("2", Utils.getMessage("salutationMale"));
+        return items;
+    }
+
+    public List<SelectItem> getIks() {
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
+        ArrayList<SelectItem> items = new ArrayList<>();
+        if (account.getIK() != null) {
+            iks.add(account.getIK());
+        }
+        if (_nubRequest.getIk() != null) {
+            iks.add(_nubRequest.getIk());
+        }
+        for (int ik : iks) {
+            items.add(new SelectItem(ik));
+        }
+        if (_nubRequest.getIk() == null) {
+            items.add(0, new SelectItem(""));
+        }
         return items;
     }
 
@@ -505,7 +526,7 @@ public class EditNubRequest extends AbstractEditController {
             return Pages.Error.URL();
         }
 
-        _nubRequest.setStatus(WorkflowStatus.TakenUpdated);
+        _nubRequest.setStatus(WorkflowStatus.Updated);
         _nubRequest.setLastChangedBy(_sessionController.getAccountId());
         _nubRequest.setLastModified(Calendar.getInstance().getTime());
 

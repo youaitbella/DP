@@ -7,7 +7,7 @@ package org.inek.dataportal.feature.nub;
 import java.util.Calendar;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;

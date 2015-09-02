@@ -23,7 +23,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.eclipse.persistence.jpa.JpaQuery;
-import org.inek.dataportal.entities.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.structures.ProposalInfo;

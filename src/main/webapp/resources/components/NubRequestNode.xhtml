@@ -10,16 +10,17 @@
     <cc:interface>
         <cc:attribute name="parentNode" class="org.inek.dataportal.helper.tree.AccountTreeNode"/> 
         <cc:attribute name="showDelete" default="true"/>
+        <cc:attribute name="showSelectBox" default="true"/>
         <cc:attribute name="isSealed" default="true"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-                       <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
-                       <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.sortedChildren}" id="NubRequests"
+        <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
+        <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.sortedChildren}" id="NubRequests"
                        var="node" width="100%" rowClasses="row1, row2" 
-                       columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, colIcon, colIcon, colIcon, colId, colShortCentered, colValue' : 'colIcon, colIcon, colIcon, colIcon, colValue'}">
-            <h:column>
+                       columnClasses="#{cc.attrs.isSealed.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId, colShortCentered' : ''} colValue">
+            <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>

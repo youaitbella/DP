@@ -9,7 +9,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.NubRequestDocument;
+import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.feature.nub.EditNubRequest;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
