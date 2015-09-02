@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.8" isskin="false" isrepository="false">
+<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.6" isskin="false" isrepository="false">
   <config>
     <namespaces/>
     <export-task-groups>
@@ -37,6 +37,7 @@
     <helpwindows>
       <helpwindow name="Main" left="-1" top="-1" width="-1" height="-1">
         <caption translate="true">&lt;%TITLE%&gt;</caption>
+        <window-options-hlp autosize="false" maximize="false" posabsolute="true" keepontop="false" buttons="0"/>
         <window-options-chm navigation="true" navigationwidth="200" search="true" favorite="true" saveregistry="true" buttons="12366">
           <user-button name="jump1">
             <caption translate="true">jump1</caption>
@@ -153,7 +154,6 @@
       <config-value name="make3include">HTML</config-value>
       <config-value name="make3status">*</config-value>
       <config-value name="imageshortcuts">delete.png;</config-value>
-      <config-group name="bookmarks"/>
     </config-group>
     <config-group name="user">
       <config-group name="muellermi">
@@ -337,7 +337,6 @@ document.write('</frameset>');
       <config-value name="insertseealso">0</config-value>
       <config-value name="insertseealsostyle">-1</config-value>
     </config-group>
-    <config-group name="publishtasks"/>
     <variables>
       <variable id="FIGURE" type="text" translate="true">Abb. &lt;%FIGURE++%&gt;:</variable>
       <variable id="FIGURE++" type="text" translate="true">0</variable>

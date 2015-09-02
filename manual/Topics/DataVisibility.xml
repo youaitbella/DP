@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Sichtbarkeit der Daten</title>
   <body>
     <header>
@@ -10,7 +10,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können dieses Verhalten jedoch ändern, indem Sie kooperativ mit anderen Teilnehmern, z.B. Kollegen, zusammenarbeiten. Dabei können Sie bestimmte Datenbereiche für andere Teilnehmer freigeben, wahlweise nur zur Ansicht, wahlweise zur gemeinsamen Bearbeitung. Diesen Freigabe können Sie bei Bedarf wieder zurücknehmen.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um mit anderen Anwendern zusammenzuarbeiten, ist das Einverständnis beider Partner erforderlich. Die Zusammenarbeit kann durch einen der Anwender mittels Einladung initiiert werden. Zur Einladung ist die E-Mail-Adresse oder Nutzername des Partners anzugeben. Diese ist vorher beim künftigen Partner zu erfragen. Anders als in sozialen Netzwerken ist Ihr Anwenderprofil standardmäßig nicht öffentlich, sondern geschützt. Entsprechend ist auch keine Teilnehmersuche möglich.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um mit anderen Anwendern zusammenzuarbeiten, ist das Einverständnis beider Partner erforderlich. Die Zusammenarbeit kann durch einen der Anwender mittels Einladung initiiert werden. Zur Einladung ist die E-Mail-Adresse oder Nutzername des Partners anzugeben. Diese/r ist vorher beim künftigen Partner zu erfragen. Anders als in sozialen Netzwerken ist Ihr Anwenderprofil standardmäßig nicht öffentlich, sondern geschützt. Entsprechend ist auch keine Teilnehmersuche möglich.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Bestimmte Daten, wie beispielsweise NUB-Anfragen, sind in erster Linie für das jeweilige Krankenhaus und nicht unbedingt für den einzelnen Mitarbeiter von Bedeutung. Hier kann auf Wunsch des Hauses eine Sichtbarkeit für zentrale Ansprechpartner vorgesehen werden. Weitere Informationen finden Sie im Kapitel </text><link displaytype="text" defaultstyle="true" type="topiclink" href="IKSupervisor" styleclass="Normal" translate="true">IK-Supervisor</link><text styleclass="Normal" translate="true">.</text></para>
   </body>
