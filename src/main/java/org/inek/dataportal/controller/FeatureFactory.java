@@ -9,7 +9,6 @@ import org.inek.dataportal.enums.Feature;
 import static org.inek.dataportal.enums.Feature.DROPBOX;
 import static org.inek.dataportal.enums.Feature.NUB;
 import static org.inek.dataportal.enums.Feature.PEPP_PROPOSAL;
-import static org.inek.dataportal.enums.Feature.REQUEST_SYSTEM;
 import static org.inek.dataportal.enums.Feature.USER_MAINTENANCE;
 import org.inek.dataportal.feature.admin.AdminController;
 import org.inek.dataportal.feature.cooperation.CooperationController;
@@ -19,7 +18,6 @@ import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
 import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
-import org.inek.dataportal.feature.requestsystem.RequestSystemController;
 import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 
@@ -36,8 +34,6 @@ public class FeatureFactory {
                 return new UserMaintenanceController(sessionController);
             case NUB:
                 return new NubController(sessionController);
-            case REQUEST_SYSTEM:
-                return new RequestSystemController(sessionController);
             case PEPP_PROPOSAL:
                 return new PeppProposalController(sessionController);
             case DRG_PROPOSAL:

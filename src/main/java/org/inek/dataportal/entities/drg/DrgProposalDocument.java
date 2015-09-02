@@ -4,7 +4,6 @@ package org.inek.dataportal.entities.drg;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.entities.Request;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -68,7 +67,7 @@ public class DrgProposalDocument implements Serializable, Document {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Request)) {
+        if (!(object instanceof DrgProposalDocument)) {
             return false;
         }
         DrgProposalDocument other = (DrgProposalDocument) object;

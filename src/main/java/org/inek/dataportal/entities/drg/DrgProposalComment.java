@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
-import org.inek.dataportal.entities.Request;
 
 /**
  *
@@ -97,11 +96,11 @@ public class DrgProposalComment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Request)) {
+        if (!(object instanceof DrgProposalComment)) {
             return false;
         }
-        Request other = (Request) object;
-        if ((_drgProposalCommentId == null && other.getRequestId() != null) || (_drgProposalCommentId != null && !_drgProposalCommentId.equals(other.getRequestId()))) {
+        DrgProposalComment other = (DrgProposalComment) object;
+        if ((_drgProposalCommentId == null && other.getDrgProposalCommentId()!= null) || (_drgProposalCommentId != null && !_drgProposalCommentId.equals(other.getDrgProposalCommentId()))) {
             return false;
         }
         return true;

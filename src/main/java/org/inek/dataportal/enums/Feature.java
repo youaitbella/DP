@@ -9,7 +9,6 @@ public enum Feature {
     ADMIN(1, "Administration", false),
     USER_MAINTENANCE(2, "Stammdaten", false),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", false),
-    REQUEST_SYSTEM(4, "Anfrageverfahren", false),
     DROPBOX(5, "DropBox", true),
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", false),
     DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", false),
