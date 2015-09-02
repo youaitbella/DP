@@ -27,7 +27,6 @@ public enum Pages {
     UserMaintenanceConfig("/UserMaintenance/UserMaintenanceConfig"),
     //
     PartNub("/NUB/PartNUB"),
-    ListNub("/NUB/ListNUB"),
     NubSummary("/NUB/NubSummary"),
     NubFromTemplate("/NUB/NubFromTemplate"),
     NubEdit("/NUB/NubEdit"),

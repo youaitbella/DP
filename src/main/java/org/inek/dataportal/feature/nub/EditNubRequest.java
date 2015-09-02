@@ -26,13 +26,11 @@ import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
@@ -43,7 +41,6 @@ import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.faceletvalidators.IkValidator;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.services.MessageService;
@@ -89,7 +86,6 @@ public class EditNubRequest extends AbstractEditController {
         tabNubPageDocuments;
     }
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private SelectItem[] _multiIks = new SelectItem[0];
     private String _singleKhName;
     // </editor-fold>
 
@@ -141,25 +137,6 @@ public class EditNubRequest extends AbstractEditController {
         } else {
             _nubRequest = loadNubRequest(ppId);
         }
-        initMenuMultiIK();
-    }
-
-    private void initMenuMultiIK() {
-        Account account = _sessionController.getAccount();
-        List<AccountAdditionalIK> addIks = _sessionController.getAccount().getAdditionalIKs();
-        ArrayList<SelectItem> items = new ArrayList<>();
-        for (AccountAdditionalIK addIk : addIks) {
-            items.add(new SelectItem(addIk.getIK()));
-        }
-
-        if (account.getIK() != null) {
-            items.add(0, new SelectItem(_sessionController.getAccount().getIK()));
-        }
-
-        if (_nubRequest.getIk() == null || !account.getFullIkList().contains(_nubRequest.getIk().intValue())) {
-            items.add(0, new SelectItem(""));
-        }
-        _multiIks = items.toArray(_multiIks);
     }
 
     private NubRequest loadNubRequest(Object ppId) {
@@ -239,14 +216,6 @@ public class EditNubRequest extends AbstractEditController {
             items.add(0, new SelectItem(""));
         }
         return items;
-    }
-
-    public SelectItem[] getMultiIks() {
-        return _multiIks;
-    }
-
-    public void setMultiIks(SelectItem[] multiIks) {
-        _multiIks = multiIks;
     }
 
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
