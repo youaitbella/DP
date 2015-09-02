@@ -47,8 +47,6 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
     public long getOpenCooperationRequestCount(int accountId){
         String jpql = "SELECT count(c._requestedId) FROM CooperationRequest c WHERE c._requestedId = :accountId";
         TypedQuery<Long> query = getEntityManager().createQuery(jpql, Long.class);
-        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-        System.out.println(sql);
         return query.setParameter("accountId", accountId)
                 .getSingleResult();
     } 

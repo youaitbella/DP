@@ -64,6 +64,18 @@ public class NubRequest implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _dateSealed = null;
 
+    @Column(name = "nubCorrectionRequested")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date _dateCorrectionRequested = null;
+
+    public Date getDateCorrectionRequested() {
+        return _dateCorrectionRequested;
+    }
+
+    public void setDateCorrectionRequested(Date dateCorrectionRequested) {
+        _dateCorrectionRequested = dateCorrectionRequested;
+    }
+
     @Documentation(name = "letzte Änderung")
     @Column(name = "nubLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

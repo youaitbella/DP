@@ -7,16 +7,19 @@ package org.inek.dataportal.facades;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -24,9 +27,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.nub.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.structures.ProposalInfo;
+import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -170,8 +175,8 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<Integer> getNubYears(Set<Integer> accountIds) {
-        String jql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
-        Query query = getEntityManager().createQuery(jql, NubRequest.class);
+        String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+        Query query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("accountIds", accountIds);
 //        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
 //        System.out.println(sql);
@@ -179,8 +184,8 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public Set<Integer> checkAccountsForNubOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
-        Query query = getEntityManager().createQuery(jql, NubRequest.class);
+        String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
+        Query query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
@@ -189,8 +194,8 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<Integer> findAccountIdForIk(int ik) {
-        String sql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
-        Query query = getEntityManager().createQuery(sql);
+        String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
+        Query query = getEntityManager().createQuery(jpql);
         query.setParameter("ik", ik);
         return query.getResultList();
     }
@@ -200,8 +205,8 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public Map<Integer, Integer> countOpenPerIk(int targetYear) {
-        String jql = "SELECT p._accountId, COUNT(p) FROM NubRequest p JOIN Account a WHERE p._accountId = a._id and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
-        Query query = getEntityManager().createQuery(jql);
+        String jpql = "SELECT p._accountId, COUNT(p) FROM NubRequest p JOIN Account a WHERE p._accountId = a._id and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
+        Query query = getEntityManager().createQuery(jpql);
         query.setParameter("targetYear", targetYear);
         //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
         //System.out.println(sql);
@@ -217,9 +222,72 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<NubRequest> find(List<Integer> requestIds) {
-        String sql = "SELECT p FROM NubRequest p WHERE p._id in :requestIds  ";
-        Query query = getEntityManager().createQuery(sql);
+        String jpql = "SELECT p FROM NubRequest p WHERE p._id in :requestIds  ";
+        Query query = getEntityManager().createQuery(jpql);
         query.setParameter("requestIds", requestIds);
         return query.getResultList();
     }
+    
+    @Schedule(hour = "0", info = "once a day")
+    private void check4NubOrphantCorrections() {
+        Date date = DateUtils.getDateWithDayOffset(-5);
+        String jpql = "SELECT p FROM NubRequest p WHERE p._dateCorrectionRequested < :date and p._status = :status ";
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
+        query.setParameter("date", date);
+        query.setParameter("status", WorkflowStatus.CorrectionRequested.getValue());
+        List<NubRequest> nubRequests = query.getResultList();
+        for (NubRequest nubRequest : nubRequests){
+            resetNubRequest(nubRequest);
+        }
+    }
+
+    private void resetNubRequest(NubRequest nubRequest) {
+        String jpql = "SELECT p FROM NubRequestHistory p WHERE p._nubId = :nubId order by p._version desc ";
+        TypedQuery<NubRequestHistory> query = getEntityManager().createQuery(jpql, NubRequestHistory.class);
+        query.setParameter("nubId", nubRequest.getId());
+        NubRequestHistory nubRequestHistory = query.getResultList().get(0);
+        nubRequest.setDisplayName(nubRequestHistory.getDisplayName());
+        nubRequest.setIk(nubRequestHistory.getIk());
+        nubRequest.setIkName(nubRequestHistory.getIkName());
+        nubRequest.setGender(nubRequestHistory.getGender());
+        nubRequest.setTitle(nubRequestHistory.getTitle());
+        nubRequest.setFirstName(nubRequestHistory.getFirstName());
+        nubRequest.setLastName(nubRequestHistory.getLastName());
+        nubRequest.setDivision(nubRequestHistory.getDivision());
+        nubRequest.setRoleId(nubRequestHistory.getRoleId());
+        nubRequest.setStreet(nubRequestHistory.getStreet());
+        nubRequest.setPostalCode(nubRequestHistory.getPostalCode());
+        nubRequest.setTown(nubRequestHistory.getTown());
+        nubRequest.setPhone(nubRequestHistory.getPhone());
+        nubRequest.setFax(nubRequestHistory.getFax());
+        nubRequest.setEmail(nubRequestHistory.getEmail());
+        nubRequest.setProxyIKs(nubRequestHistory.getProxyIKs());
+        nubRequest.setFormFillHelper(nubRequestHistory.getFormFillHelper());
+        nubRequest.setUserComment(nubRequestHistory.getUserComment());
+        nubRequest.setName(nubRequestHistory.getName());
+        nubRequest.setAltName(nubRequestHistory.getAltName());
+        nubRequest.setDescription(nubRequestHistory.getDescription());
+        nubRequest.setProcedures(nubRequestHistory.getProcedures());
+        nubRequest.setProcs(nubRequestHistory.getProcs());
+        nubRequest.setHasNoProcs(nubRequestHistory.isHasNoProcs());
+        nubRequest.setIndication(nubRequestHistory.getIndication());
+        nubRequest.setReplacement(nubRequestHistory.getReplacement());
+        nubRequest.setWhatsNew(nubRequestHistory.getWhatsNew());
+        nubRequest.setLos(nubRequestHistory.getLos());
+        nubRequest.setInGermanySince(nubRequestHistory.getInGermanySince());
+        nubRequest.setMedApproved(nubRequestHistory.getMedApproved());
+        nubRequest.setInHouseSince(nubRequestHistory.getInHouseSince());
+        nubRequest.setHospitalCount(nubRequestHistory.getHospitalCount());
+        nubRequest.setPatientsLastYear(nubRequestHistory.getPatientsLastYear());
+        nubRequest.setPatientsThisYear(nubRequestHistory.getPatientsThisYear());
+        nubRequest.setPatientsFuture(nubRequestHistory.getPatientsFuture());
+        nubRequest.setAddCosts(nubRequestHistory.getAddCosts());
+        nubRequest.setDrgs(nubRequestHistory.getDrgs());
+        nubRequest.setWhyNotRepresented(nubRequestHistory.getWhyNotRepresented());
+        nubRequest.setLastChangedBy(nubRequestHistory.getLastChangedBy());
+        nubRequest.setLastModified(nubRequestHistory.getLastModified());
+        nubRequest.setStatus(WorkflowStatus.Taken);
+        saveNubRequest(nubRequest);
+    }
+    
 }
