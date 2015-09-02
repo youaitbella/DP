@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -320,4 +321,51 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return "";
     }
 
+    public Collection<TreeNode> sortChildren (TreeNode treeNode, Collection<TreeNode> children){
+        if (treeNode instanceof AccountTreeNode) {
+            return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
+        }
+        return children;
+    }
+            
+    public Collection<TreeNode> sortAccountNodeChildren (AccountTreeNode treeNode, Collection<TreeNode> children){
+        Stream<ProposalInfoTreeNode> stream = children.stream().map(n -> (ProposalInfoTreeNode) n);
+        Stream<ProposalInfoTreeNode> sorted;
+        switch (treeNode.getSortCriteria().toLowerCase()){
+            case "id":
+                if (treeNode.isDescending()){
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getId(), n1.getProposalInfo().getId()));
+                }else{
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.getProposalInfo().getId()));
+                }
+                break;
+            case "name":
+                if (treeNode.isDescending()){
+                    sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().getName()));
+                }else{
+                    sorted = stream.sorted((n1, n2) -> n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().getName()));
+                }
+                break;
+            case "status":
+                if (treeNode.isDescending()){
+                    sorted = stream.sorted((n1, n2) -> getExternalState(n2).compareTo(getExternalState(n1)));
+                }else{
+                    sorted = stream.sorted((n1, n2) -> getExternalState(n1).compareTo(getExternalState(n2)));
+                }
+                break;
+            default:
+                sorted = stream;
+        }
+        return sorted.collect(Collectors.toList());
+    }
+ 
+    private String getExternalState(ProposalInfoTreeNode node){
+        int id = node.getProposalInfo().getId();
+        NubRequest nubRequest = _nubRequestFacade.find(id);
+        if (nubRequest == null){
+            return "";
+        }
+        return nubRequest.getExternalState();
+    }
+    
 }

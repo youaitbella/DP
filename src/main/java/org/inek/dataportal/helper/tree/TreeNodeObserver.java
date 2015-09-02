@@ -13,4 +13,5 @@ import java.util.Collection;
  */
 public interface TreeNodeObserver {
     public void obtainChildren (TreeNode treeNode, Collection<TreeNode> children);
+    public Collection<TreeNode> sortChildren (TreeNode treeNode, Collection<TreeNode> children);
 }

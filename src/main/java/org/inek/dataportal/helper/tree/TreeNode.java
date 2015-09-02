@@ -17,8 +17,6 @@ import java.util.List;
  */
 public abstract class TreeNode {
 
-    // <editor-fold defaultstate="collapsed" desc="Property Children">    
-    private final Collection<TreeNode> _children = new ArrayList<>();
     private final TreeNode _parent;
 
     protected TreeNode(TreeNode parent) {
@@ -29,11 +27,31 @@ public abstract class TreeNode {
         return _parent;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Property Children">    
+    private final Collection<TreeNode> _children = new ArrayList<>();
+
     public Collection<TreeNode> getChildren() {
         return _children;
     }
+    
+    public Collection<TreeNode> getSortedChildren() {
+        if (_observer != null) {
+            return _observer.sortChildren(this, getChildren());
+        }
+        return _children;
+    }
     // </editor-fold>    
+    // <editor-fold defaultstate="collapsed" desc="Property Id">    
+    private int _id;
 
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="Property Expanded">    
     private boolean _isExpanded;
 
@@ -61,19 +79,32 @@ public abstract class TreeNode {
         _isChecked = isChecked;
     }
 
-    // </editor-fold>   
-    // <editor-fold defaultstate="collapsed" desc="Property Id">    
-    private int _id;
+    // </editor-fold>  
+    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
+    private String _sortCriteria = "";
+    private boolean _isDescending = false;
 
-    public int getId() {
-        return _id;
+    public boolean isDescending() {
+        return _isDescending;
     }
 
-    public void setId(int id) {
-        _id = id;
+    public void setDescending(boolean isDescending) {
+        _isDescending = isDescending;
     }
+
+    public void setSortCriteria(String sortCriteria) {
+        if (_sortCriteria.equals(sortCriteria)) {
+            _isDescending = !_isDescending;
+        } else {
+            _isDescending = false;
+        }
+        _sortCriteria = sortCriteria == null ? "" : sortCriteria;
+    }
+    public String getSortCriteria(){
+        return _sortCriteria;
+    }
+
     // </editor-fold>    
-
     public void toggle() {
         if (_isExpanded) {
             collapse();
@@ -157,7 +188,7 @@ public abstract class TreeNode {
 
     public void selectAll(Class<? extends TreeNode> clazz, boolean value) {
         if (!_isExpanded) {
-            return ;
+            return;
         }
         if (getClass() == clazz) {
             _isChecked = value;

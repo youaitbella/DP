@@ -799,7 +799,7 @@ public class NubRequest implements Serializable {
     }
 
     public String getExternalState() {
-        return _externalState;
+        return _externalState == null ? "" : _externalState;
     }
 
     public void setExternalState(String externalState) {
