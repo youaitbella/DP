@@ -1072,3 +1072,7 @@ div.fakeFile {
     border-bottom: black dotted 1px;
     padding: 0.2em;
 }
+
+#cssmenu li.active {
+    background-color: red;
+}

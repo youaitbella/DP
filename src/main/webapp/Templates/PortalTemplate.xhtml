@@ -19,7 +19,7 @@
         <h:outputScript name="jsf.js" library="javax.faces"/>
     </h:head>
 
-    <h:body>
+    <h:body onload="active();">
         <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
             <h5>
                 Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
@@ -69,7 +69,7 @@
             <div class="defloat"></div>
 
             <div id="content">
-                <div class="navi">
+                <div id="menu" class="navi">
                     <h:form id="nav">
                         <ul>
                             <c:if test="#{sessionController.loggedIn}">
@@ -104,7 +104,7 @@
                             <h:outputText value="#{a.text}"/>
                         </h:column>
                     </h:dataTable>
-
+                    
                 </div>
 
 
