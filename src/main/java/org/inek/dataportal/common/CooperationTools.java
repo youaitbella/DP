@@ -165,7 +165,7 @@ public class CooperationTools implements Serializable {
 
         List<CooperationRight> coopSupervisors = getCooperationRights(feature, account)
                 .stream()
-                .filter(r -> r.getOwnerId() == account.getId() && r.getIk() == ik && r.getCooperativeRight().canSeal())
+                .filter(r -> r.getOwnerId() == account.getId() && r.getIk() == ik && r.getCooperativeRight().isSupervisor())
                 .collect(Collectors.toList());
 
         if (!needIkSupervisor(feature, account, ik)) {
