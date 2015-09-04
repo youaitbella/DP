@@ -103,6 +103,12 @@ public class Topics implements Serializable {
         return new Topic(null, null, null);
     }
 
+    public void setAllInactive(){
+        for (Topic topic : _topics){
+            topic.setActive(false);
+        }
+    }
+    
     public void setActive (String key){
         for (Topic topic : _topics){
             topic.setActive(topic.getKey().equals(key));

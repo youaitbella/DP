@@ -66,7 +66,7 @@ public class SessionController implements Serializable {
 
     private Account _account;
     private final Topics _topics = new Topics();
-    private String _currentTopic;
+    private String _currentTopic = "";
     private final List<IFeatureController> _features;
     private SearchController _searchController;
     private final List<String> _parts = new ArrayList<>();
@@ -91,6 +91,11 @@ public class SessionController implements Serializable {
     public void setCurrentTopic(String currentTopic) {
         _currentTopic = currentTopic;
         _topics.setActive(_currentTopic);
+    }
+
+    public void clearCurrentTopic() {
+        _currentTopic = "";
+        _topics.setAllInactive();
     }
 
     public Account getAccount() {

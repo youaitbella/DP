@@ -19,7 +19,7 @@
         <h:outputScript name="jsf.js" library="javax.faces"/>
     </h:head>
 
-    <h:body onload="active();">
+    <h:body>
         <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
             <h5>
                 Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
@@ -83,13 +83,16 @@
                                         <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
                                             <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
                                         </h:panelGroup>
+                                        <f:ajax listener="#{sessionController.setCurrentTopic(topic.key)}"/>
                                     </h:commandLink>
                                 </li>
                             </ui:repeat>
                             <ui:insert name="navItems"></ui:insert>
                             <c:if test="#{sessionController.loggedIn}">
-                                <li>
-                                    <h:link value="Übersicht" outcome="#{sessionController.mainPage}" />
+                                <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
+                                    <h:commandLink value="Übersicht" action="#{sessionController.getMainPage}">
+                                        <f:ajax listener="#{sessionController.clearCurrentTopic()}"/>
+                                    </h:commandLink>
                                 </li>
                             </c:if>
                             <li>
