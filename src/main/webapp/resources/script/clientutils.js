@@ -167,13 +167,3 @@ function autoGrow(oField) {
         oField.style.height = oField.scrollHeight + "px";
     }
 }
-
-function active() {
-    alert('123');
-  aObj = document.getElementById('nav').getElementsByTagName('a');
-  for(i=0;i < aObj.length;i++) {
-    if(document.location.href.indexOf(aObj[i].href)<=0) {
-      aObj[i].className='active';
-    }
-  }
-}

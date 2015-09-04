@@ -149,6 +149,8 @@ public class SessionController implements Serializable {
 
     public String navigate(String topic) {
         logMessage("Navigate to " + topic);
+        if(topic.contains(Pages.PeppProposalEdit.URL()))
+            _topics.setActive(_topics.findTopic(Utils.getMessage("lblPeppProposal"))); // TODO: Reminder.
         _logger.log(Level.WARNING, "Navigate to {0}", topic);
         endAllConversations();
         FeatureScopedContextHolder.Instance.destroyAllBeans();
