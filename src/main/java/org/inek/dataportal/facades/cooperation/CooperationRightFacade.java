@@ -5,13 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.persistence.TypedQuery;
+import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.feature.admin.IkSupervisorInfo;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
@@ -52,7 +53,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param feature
      * @return
      */
-    
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, Feature feature) {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._feature = :feature";
         return getEntityManager()
@@ -62,7 +62,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
-    
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId) {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId";
         return getEntityManager()
@@ -72,7 +71,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
-    
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId, Feature feature) {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId and cor._feature = :feature";
         return getEntityManager()
@@ -91,7 +89,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param feature
      * @return
      */
-    
     public List<CooperationRight> getAchievedCooperationRights(int accountId, Feature feature) {
 //        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId > 0 and cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
@@ -102,7 +99,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
-    
     public CooperativeRight getCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
         if (ik == null) {
             return CooperativeRight.None;
@@ -136,7 +132,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @param ik
      * @return
      */
-    
     public boolean hasSupervisor(Feature feature, Integer ik) {
         List<CooperationRight> cooperationRights = getIkSupervisorRights(ik, feature);
         return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().isSupervisor()));
@@ -162,7 +157,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return getIkSupervisorRight(feature, ik, accountId).isSupervisor();
     }
 
-    
     public CooperativeRight getIkSupervisorRight(Feature feature, Integer ik, int accountId) {
         if (ik == null) {
             return CooperativeRight.None;
@@ -186,9 +180,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         }
     }
 
-    
     public Set<Integer> getAccountIdsByFeatureAndIk(Feature feature, int ik) {
-        String jql = "select acId from dbo.account "
+        String jpql = "select acId from dbo.account "
                 + "join accountFeature on acId = afaccountId and afFeature = ?1 "
                 + "where acIk = ?2 "
                 + "union "
@@ -196,7 +189,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 + "join accountFeature on aaiAccountId = afaccountId and afFeature = ?1 "
                 + "where aaiAccountId is not null and aaiIk = ?2";
         return new HashSet<>(getEntityManager()
-                .createNativeQuery(jql)
+                .createNativeQuery(jpql)
                 .setParameter(1, feature.name())
                 .setParameter(2, ik)
                 .getResultList());
@@ -210,4 +203,19 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return merge(right);
     }
 
+    public List<IkSupervisorInfo> getIkSupervisorInfos() {
+        String jpql = "SELECT r._feature, r._ik, a FROM CooperationRight r JOIN Account a WHERE r._partnerId = a._id and r._ownerId = -1 order by r._feature, r._ik, a._lastName";
+        // sadly this is not a list of the expected type, but of object[]
+        //List<IkSupervisorInfo> infos = getEntityManager().createQuery(jpql, IkSupervisorInfo.class).getResultList();
+        //return infos;
+        
+        // although the compiler tells us something else, this is whalt we get
+        List<IkSupervisorInfo> infos = new ArrayList<>();
+        List<Object[]> objects = getEntityManager().createQuery(jpql).getResultList();
+        for (Object[] obj : objects){
+            IkSupervisorInfo info = new IkSupervisorInfo((Feature)obj[0], (int)obj[1], (Account)obj[2]);
+            infos.add(info);
+        }
+        return infos;
+    }
 }

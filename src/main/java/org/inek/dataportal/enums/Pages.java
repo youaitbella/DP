@@ -44,17 +44,6 @@ public enum Pages {
     DropBoxUpload("/DropBox/DropBoxUpload"),
     DropBoxCreate("/DropBox/CreateDropBox"),
     //
-    PartRequest("/RequestSystem/PartRequest"),
-    ListRequest("/RequestSystem/ListRequest"),
-    RequestSummary("/RequestSystem/RequestSummary"),
-    RequestEdit("/RequestSystem/RequestEdit"),
-    RequestEditAddress("/RequestSystem/RequestEditAddress"),
-    RequestEditProblem("/RequestSystem/RequestEditProblem"),
-    RequestEditSolutions("/RequestSystem/RequestEditSolutions"),
-    RequestEditBackground("/RequestSystem/RequestEditBackground"),
-    RequestEditRelevance("/RequestSystem/RequestEditRelevance"),
-    RequestEditDocuments("/RequestSystem/RequestEditDocuments"),
-    //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),
     PeppProposalSummary("/PeppProposal/PeppProposalSummary"),
@@ -137,6 +126,7 @@ public enum Pages {
     AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
     AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
+    AdminTaskIkSupervisor("/Admin/AdminTaskIkSupervisor"),
     //
     DocumentsEdit("/Documents/DocumentsEdit"),
     DocumentsSummary("/Documents/DocumentsSummary"),

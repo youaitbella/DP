@@ -22,6 +22,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.admin.RoleMappingFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -48,6 +49,8 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskInekRoles.name(), Pages.AdminTaskInekRoles.URL());
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
         addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
+        addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
+        
     }
 
     enum AdminTaskTabs {
@@ -55,7 +58,8 @@ public class AdminTask extends AbstractEditController {
         tabAdminTaskSystemStatus,
         tabAdminTaskInekRoles,
         tabAdminTaskRoleMapping,
-        tabAdminTaskMailTemplate;
+        tabAdminTaskMailTemplate,
+        tabAdminTaskIkSupervisor;
     }
 
     @PostConstruct
@@ -354,4 +358,18 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="tab IkSupervisor">
+    @Inject private CooperationRightFacade _cooperationRightFacade;
+    
+    public List<IkSupervisorInfo> getIkSupervisorInfos(){
+        return _cooperationRightFacade.getIkSupervisorInfos();
+    }
+    
+    public String deleteIkSupervisor(IkSupervisorInfo info){
+        return "";
+    }
+    // </editor-fold>
+    
+    
 }
