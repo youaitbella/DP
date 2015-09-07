@@ -377,20 +377,27 @@ div#wrapper {
 #content .navi  a:hover,
 #content .navi  a:focus {
     background: #043358;
-    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: 18px 18px;
     color: #fff;
 }
 
 #content .activemenu a{
     background: #043358;
-    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: 18px 18px;
     color: #fff;
+    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+#content .activemenu a:hover {
+    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+#content .activemenu a:focus {
+    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
+    background-position: right;
+    background-repeat: no-repeat;
 }
 
 @media screen{
