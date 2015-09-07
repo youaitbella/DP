@@ -7,6 +7,7 @@ package org.inek.dataportal.feature.admin;
 
 import java.util.Objects;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 
 /**
@@ -17,11 +18,13 @@ public class IkSupervisorInfo {
     private Feature _feature;
     private int _ik;
     private Account _account;
+    private CooperativeRight _right;
 
-    public IkSupervisorInfo(Feature feature, int ik, Account account) {
+    public IkSupervisorInfo(Feature feature, int ik, Account account, CooperativeRight right) {
         _feature = feature;
         _ik = ik;
         _account = account;
+        _right = right;
     }
 
     public Feature getFeature() {
@@ -46,6 +49,14 @@ public class IkSupervisorInfo {
 
     public void setAccount(Account account) {
         _account = account;
+    }
+
+    public CooperativeRight getRight() {
+        return _right;
+    }
+
+    public void setRight(CooperativeRight right) {
+        _right = right;
     }
 
     @Override
@@ -80,5 +91,6 @@ public class IkSupervisorInfo {
         }
         return true;
     }
+
     
 }

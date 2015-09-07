@@ -20,7 +20,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.admin.RoleMapping;
-import org.inek.dataportal.entities.cooperation.CooperationRight;
+import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -371,12 +371,17 @@ public class AdminTask extends AbstractEditController {
         return _cooperationRightFacade.getIkSupervisorInfos();
     }
 
-    private Feature _feature;
+    private Feature _feature = Feature.NUB;
     private int _ik;
     private Account _account;
-
+    private CooperativeRight _cooperativeRight = CooperativeRight.ReadWriteCompletedSealSupervisor;
+    
     public Feature[] getFeatures() {
         return Feature.values();
+    }
+
+    public CooperativeRight[] getCooperativeRights() {
+        return CooperativeRight.values();
     }
 
     public Feature getFeature() {
@@ -419,6 +424,14 @@ public class AdminTask extends AbstractEditController {
         _account = account;
     }
 
+    public CooperativeRight getCooperativeRight() {
+        return _cooperativeRight;
+    }
+
+    public void setCooperativeRight(CooperativeRight cooperativeRight) {
+        _cooperativeRight = cooperativeRight;
+    }
+
     public void checkEmail(FacesContext context, UIComponent component, Object value) {
         String email = (String) value;
         Account account = _accountFacade.findByMailOrUser(email);
@@ -442,7 +455,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     public String saveIkSupervisor(){
-        _cooperationRightFacade.createIkSupervisor (_feature, _ik, _account.getId());
+        _cooperationRightFacade.createIkSupervisor (_feature, _ik, _account.getId(), _cooperativeRight);
         return "";
     }
     // </editor-fold>

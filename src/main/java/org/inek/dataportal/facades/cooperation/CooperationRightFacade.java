@@ -184,7 +184,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public List<IkSupervisorInfo> getIkSupervisorInfos() {
-        String jpql = "SELECT r._feature, r._ik, a FROM CooperationRight r JOIN Account a WHERE r._partnerId = a._id and r._ownerId = -1 order by r._feature, r._ik, a._lastName";
+        String jpql = "SELECT r._feature, r._ik, a, r._cooperativeRight FROM CooperationRight r JOIN Account a WHERE r._partnerId = a._id and r._ownerId = -1 order by r._feature, r._ik, a._lastName";
         // sadly this is not a list of the expected type, but of object[]
         //List<IkSupervisorInfo> infos = getEntityManager().createQuery(jpql, IkSupervisorInfo.class).getResultList();
         //return infos;
@@ -193,14 +193,17 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         List<IkSupervisorInfo> infos = new ArrayList<>();
         List<Object[]> objects = getEntityManager().createQuery(jpql).getResultList();
         for (Object[] obj : objects){
-            IkSupervisorInfo info = new IkSupervisorInfo((Feature)obj[0], (int)obj[1], (Account)obj[2]);
+            IkSupervisorInfo info = new IkSupervisorInfo((Feature)obj[0], (int)obj[1], (Account)obj[2], (CooperativeRight)obj[3]);
             infos.add(info);
         }
         return infos;
     }
 
-    public void createIkSupervisor(Feature feature, int ik, Integer accountId) {
+    public void createIkSupervisor(Feature feature, int ik, Integer accountId, CooperativeRight _right) {
+        CooperationRight existingRight = getCooperationRight(-1, accountId, feature, ik);
+        if (existingRight.getId() > 0){return;}  // to prevent multiple save
         CooperationRight right = new CooperationRight(-1, accountId, ik, feature);
+        right.setCooperativeRight(_right);
         save(right);
     }
 
@@ -208,4 +211,5 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         CooperationRight right = getCooperationRight(ownerId, partnerId, feature, ik);
         remove(right);
     }
+
 }

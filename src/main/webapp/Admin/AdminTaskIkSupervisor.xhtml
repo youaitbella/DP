@@ -9,7 +9,7 @@
 
     <ui:define name="editContent">
         <h:form>
-            <h:dataTable value="#{adminTask.ikSupervisorInfos}" var="info" width="100%" columnClasses="colIcon, col11 centered, col11, col28, colValue" rowClasses="row1, row2">
+            <h:dataTable value="#{adminTask.ikSupervisorInfos}" var="info" width="100%" rowClasses="row1, row2">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value=""/>
@@ -48,37 +48,46 @@
                     <h:outputText value="#{info.account.email}"/>
                 </h:column>
 
+                <h:column id="colCooperativeRight">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblCooperativeRight}"/>
+                    </f:facet>
+                    <h:outputText value="#{info.right}"/>
+                </h:column>
+
             </h:dataTable>
 
-            <hr/>
-            
+            <br/>
+
+            <h4>#{msg.headNewIkSupervisor}</h4>
+
             <div class="inputPart">
-                <h:outputLabel value="#{msg.lblFunction}" styleClass="label15"/>
-                <h:selectOneMenu value="#{adminTask.feature}">
+                <h:outputLabel value="#{msg.lblFunction}" styleClass="label20"/>
+                <h:selectOneMenu value="#{adminTask.feature}" styleClass="inputmedium">
                     <f:selectItems value="#{adminTask.features}"/>
                     <f:ajax render="@this ik :logout:remaining" />
                 </h:selectOneMenu>
             </div>   
-            
+
             <div class="inputPart">
-                <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label15"/>
+                <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
                 <h:inputText id="ik" value="#{adminTask.ik}" styleClass="inputmedium" required="true">
                     <f:validator validatorId="IkValidator"/>
                     <f:ajax render="@this msgIk :logout:remaining" />
                 </h:inputText>
                 <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
             </div>                    
-            
+
             <div class="inputPart">
-                <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label15"/>
+                <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
                 <h:inputText id="UserEmail" value="#{adminTask.email}" validator="#{adminTask.checkEmail}" styleClass="inputlong">
                     <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining"/>
                 </h:inputText>
                 <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
             </div>                    
-            
+
             <div class="inputPart">
-                <h:outputLabel for="accountId" value="AccountId" styleClass="label15"/>
+                <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
                 <h:inputText id="accountId" value="#{adminTask.accountId}" validator="#{adminTask.checkAccountId}" styleClass="inputmedium">
                     <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining"/>
                 </h:inputText>
@@ -86,15 +95,25 @@
             </div>        
 
             <div class="inputPart">
-                <h:outputLabel value="#{msg.lblName}" styleClass="label15"/>
-                <h:outputText id="UserName" value="#{adminTask.account.firstName} #{adminTask.account.lastName}"/>
+                <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
+                <h:inputText id="UserName" value="#{adminTask.account.firstName} #{adminTask.account.lastName}" disabled="true" styleClass="inputlong"/>
             </div>        
 
             <div class="inputPart">
-                <h:outputLabel value="#{msg.lblHospital}" styleClass="label15"/>
-                <h:outputText id="UserInstitute" value="#{adminTask.account.firstName} #{adminTask.account.lastName}"/>
+                <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
+                <h:inputText id="UserInstitute" value="#{adminTask.account.firstName} #{adminTask.account.lastName}" disabled="true" styleClass="inputlong"/>
             </div>        
 
+            <div class="inputPart">
+                <h:outputLabel value="#{msg.lblCooperativeRight}" styleClass="label20"/>
+                <h:selectOneMenu value="#{adminTask.cooperativeRight}" styleClass="inputmedium" >
+                    <f:selectItems value="#{adminTask.cooperativeRights}"/>
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:selectOneMenu>
+            </div>        
+            
+            <br/>
+            
             <h:commandLink styleClass="bigButton" action="#{adminTask.saveIkSupervisor}" value="#{msg.btnSave}" />
         </h:form>
 
