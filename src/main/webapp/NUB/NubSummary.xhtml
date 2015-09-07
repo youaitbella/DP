@@ -24,7 +24,7 @@
                     <f:ajax/>
                 </h:inputText>
                 <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
-                    <f:ajax render="@form"/>
+                    <f:ajax render="@form :logout:remaining"/>
                 </h:commandLink>
             </div>
 
@@ -34,7 +34,7 @@
                 <div style="margin-left:16px;">
                     <h:commandLink action="#{accountNode.toggle}" immediate="true" >
                         <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this NubEdit"/>
+                        <f:ajax render="@this NubEdit :logout:remaining"/>
                     </h:commandLink>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
@@ -65,7 +65,7 @@
                 <p>
                     <h:commandLink action="#{year.toggle}" immediate="true" >
                         <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this NubYear"/>
+                        <f:ajax render="@this NubYear :logout:remaining"/>
                     </h:commandLink>
                     <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
                 </p>
@@ -74,7 +74,7 @@
                         <div style="margin-left:16px;">
                             <h:commandLink action="#{accountNode.toggle}" immediate="true" >
                                 <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
-                                <f:ajax render="@this NubShow"/>
+                                <f:ajax render="@this NubShow :logout:remaining"/>
                             </h:commandLink>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
@@ -93,10 +93,10 @@
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
                 <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
-                    <f:ajax listener="#{nubSessionTools.selectAll}" render="@form"/>
+                    <f:ajax listener="#{nubSessionTools.selectAll}" render="@form :logout:remaining"/>
                 </h:commandLink>
                 <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
-                    <f:ajax listener="#{nubSessionTools.deselectAll}" render="@form"/>
+                    <f:ajax listener="#{nubSessionTools.deselectAll}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </div>
 

@@ -5,17 +5,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.admin.RoleMapping;
+import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -50,7 +55,7 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
         addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
         addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
-        
+
     }
 
     enum AdminTaskTabs {
@@ -73,11 +78,11 @@ public class AdminTask extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab Status">
-    public void clearCache(ActionEvent e){
+    public void clearCache(ActionEvent e) {
         _accountFacade.clearCache();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
     @Inject
     MailTemplateFacade _mailTemplateFacade;
@@ -330,6 +335,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     @Inject RoleMappingFacade _mappingFacade;
+
     public String saveRoleMapping() {
         List<RoleMapping> former = copyList(_inekRole.getMappings());
         for (Iterator<RoleMapping> itr = _mappings.iterator(); itr.hasNext();) {
@@ -358,18 +364,86 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="tab IkSupervisor">
     @Inject private CooperationRightFacade _cooperationRightFacade;
-    
-    public List<IkSupervisorInfo> getIkSupervisorInfos(){
+
+    public List<IkSupervisorInfo> getIkSupervisorInfos() {
         return _cooperationRightFacade.getIkSupervisorInfos();
     }
-    
-    public String deleteIkSupervisor(IkSupervisorInfo info){
+
+    private Feature _feature;
+    private int _ik;
+    private Account _account;
+
+    public Feature[] getFeatures() {
+        return Feature.values();
+    }
+
+    public Feature getFeature() {
+        return _feature;
+    }
+
+    public void setFeature(Feature feature) {
+        _feature = feature;
+    }
+
+    public int getIk() {
+        return _ik;
+    }
+
+    public void setIk(int ik) {
+        _ik = ik;
+    }
+
+    public int getAccountId() {
+        return _account == null ? 0 : _account.getId();
+    }
+
+    public void setAccountId(int accountId) {
+        _account = _accountFacade.find(accountId);
+    }
+
+    public String getEmail() {
+        return _account == null ? "" : _account.getEmail();
+    }
+
+    public void setEmail(String email) {
+        _account = _accountFacade.findByMailOrUser(email);
+    }
+
+    public Account getAccount() {
+        return _account;
+    }
+
+    public void setAccount(Account account) {
+        _account = account;
+    }
+
+    public void checkEmail(FacesContext context, UIComponent component, Object value) {
+        String email = (String) value;
+        Account account = _accountFacade.findByMailOrUser(email);
+        if (account == null) {
+            String msg = Utils.getMessage("errUnknownEmail");
+            throw new ValidatorException(new FacesMessage(msg));
+        }
+    }
+
+    public void checkAccountId(FacesContext context, UIComponent component, Object value) {
+        Account account = _accountFacade.find((int) value);
+        if (account == null) {
+            String msg = Utils.getMessage("errUnknownAccount");
+            throw new ValidatorException(new FacesMessage(msg));
+        }
+    }
+
+    public String deleteIkSupervisor(IkSupervisorInfo info) {
+        _cooperationRightFacade.deleteCooperationRight(-1, info.getAccount().getId(), info.getFeature(), info.getIk());
+        return "";
+    }
+
+    public String saveIkSupervisor(){
+        _cooperationRightFacade.createIkSupervisor (_feature, _ik, _account.getId());
         return "";
     }
     // </editor-fold>
-    
-    
 }

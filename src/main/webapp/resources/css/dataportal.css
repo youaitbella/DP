@@ -388,17 +388,16 @@ div#wrapper {
     background-repeat: no-repeat;
 }
 
-#content .activemenu a:hover {
-    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
-    background-position: right;
-    background-repeat: no-repeat;
-}
-
+#content .activemenu a:hover,
 #content .activemenu a:focus {
     background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
     background-position: right;
     background-repeat: no-repeat;
 }
+#content .activemenu a:before {
+   /* content: "       ";*/  /* non break spaces */
+}
+
 
 @media screen{
     #globalLinks{
@@ -737,6 +736,10 @@ select:active, select:focus{
 
 .colShortCentered {
     width: 8%;
+    text-align: center;
+}
+
+.centered {
     text-align: center;
 }
 

@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.persistence.TypedQuery;
-import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -99,10 +97,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
-    public CooperativeRight getCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
-        if (ik == null) {
-            return CooperativeRight.None;
-        }
+    public CooperationRight getCooperationRight(int ownerId, int partnerId, Feature feature, Integer ik) {
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = :ownerId "
@@ -115,12 +110,20 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                     .setParameter("partnerId", partnerId)
                     .setParameter("ik", ik)
                     .setParameter("feature", feature)
-                    .getSingleResult().getCooperativeRight();
+                    .getSingleResult();
         } catch (Exception e) {
-            return CooperativeRight.None;
+            return new CooperationRight(ownerId, partnerId, ik, feature);
         }
     }
+    public CooperativeRight getCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
+        return getCooperationRight(ownerId, partnerId, feature, ik).getCooperativeRight();
+    }
 
+    public CooperativeRight getIkSupervisorRight(Feature feature, Integer ik, int accountId) {
+        return getCooperativeRight(-1, accountId, feature, ik);
+    }
+
+    
     /**
      * Checks, whether a declared supervisor exists for given feature and ik A
      * declared supervisor cannot be establish herself by cooperation feature A
@@ -155,29 +158,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
 
     public boolean isIkSupervisor(Feature feature, Integer ik, int accountId) {
         return getIkSupervisorRight(feature, ik, accountId).isSupervisor();
-    }
-
-    public CooperativeRight getIkSupervisorRight(Feature feature, Integer ik, int accountId) {
-        if (ik == null) {
-            return CooperativeRight.None;
-        }
-        try {
-            String query = "SELECT cor FROM CooperationRight cor "
-                    + "WHERE cor._ownerId = -1 "
-                    + "and cor._partnerId = :accountId "
-                    + "and cor._ik = :ik "
-                    + "and cor._feature = :feature";
-            CooperativeRight right = getEntityManager()
-                    .createQuery(query, CooperationRight.class)
-                    .setParameter("accountId", accountId)
-                    .setParameter("ik", ik)
-                    .setParameter("feature", feature)
-                    .getSingleResult().getCooperativeRight();
-            return right;
-        } catch (Exception e) {
-            // there might be no entry
-            return CooperativeRight.None;
-        }
     }
 
     public Set<Integer> getAccountIdsByFeatureAndIk(Feature feature, int ik) {
@@ -217,5 +197,15 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
             infos.add(info);
         }
         return infos;
+    }
+
+    public void createIkSupervisor(Feature feature, int ik, Integer accountId) {
+        CooperationRight right = new CooperationRight(-1, accountId, ik, feature);
+        save(right);
+    }
+
+    public void deleteCooperationRight(int ownerId, int partnerId, Feature feature, int ik) {
+        CooperationRight right = getCooperationRight(ownerId, partnerId, feature, ik);
+        remove(right);
     }
 }
