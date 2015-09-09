@@ -64,6 +64,7 @@ public class Utils {
      * Shows error message
      *
      * @param msg
+     * @return 
      */
     public static boolean showMessageInBrowser(String msg) {
         FacesContext ctx = FacesContext.getCurrentInstance();
@@ -78,7 +79,7 @@ public class Utils {
                     = ctx.getPartialViewContext().getPartialResponseWriter();
             writer.startDocument();
             writer.startEval();
-            writer.write("alert('" + msg + "');");
+            writer.write("alert('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');");
             writer.endEval();
             writer.endDocument();
             writer.flush();
@@ -100,7 +101,7 @@ public class Utils {
                     = ctx.getPartialViewContext().getPartialResponseWriter();
             writer.startDocument();
             writer.startEval();
-            writer.write("var result = confirm('" + msg + "');");
+            writer.write("var result = confirm('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');");
             writer.endEval();
             writer.endDocument();
             writer.flush();

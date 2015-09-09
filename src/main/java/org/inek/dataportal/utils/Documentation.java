@@ -60,6 +60,12 @@ public @interface Documentation {
     public boolean omitOnEmpty() default false;
     
     /**
+     * always omit documentation 
+     * no documentation is generated, but a field translation
+     */
+    public boolean omitAlways() default false;
+    
+    /**
      *
      * @return
      */

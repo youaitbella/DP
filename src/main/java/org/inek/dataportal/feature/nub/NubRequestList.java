@@ -119,7 +119,7 @@ public class NubRequestList {
                 _nubRequestFacade.saveNubRequest(proposal);
             }
         }
-        _nubSessionTools.refreshNodes();
+        //_nubSessionTools.refreshNodes();
         return "";
     }
 

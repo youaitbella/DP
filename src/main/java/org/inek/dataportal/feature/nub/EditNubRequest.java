@@ -4,9 +4,12 @@
  */
 package org.inek.dataportal.feature.nub;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
@@ -42,6 +46,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -63,6 +68,7 @@ public class EditNubRequest extends AbstractEditController {
     @Inject private CustomerFacade _customerFacade;
     @Inject private NubSessionTools _nubSessionTools;
     private NubRequest _nubRequest;
+    private NubRequest _nubRequestBaseline;
     private CooperativeRight _cooperativeRight;
     private CooperativeRight _supervisorRight;
 
@@ -132,6 +138,8 @@ public class EditNubRequest extends AbstractEditController {
         if (ppId == null) {
             _nubRequest = newNubRequest();
             _nubRequest.setCreatedBy(_sessionController.getAccountId());
+            _nubRequestBaseline = newNubRequest();
+            _nubRequestBaseline.setCreatedBy(_sessionController.getAccountId());
             ensureCooperativeRight(_nubRequest);
             ensureSupervisorRight(_nubRequest);
         } else {
@@ -143,13 +151,14 @@ public class EditNubRequest extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + ppId);
             NubRequest nubRequest = _nubRequestFacade.findFresh(id);
-
             if (hasSufficientRights(nubRequest)) {
+                _nubRequestBaseline = _nubRequestFacade.find(id);
                 return nubRequest;
             }
         } catch (NumberFormatException ex) {
             _logger.info(ex.getMessage());
         }
+        _nubRequestBaseline = newNubRequest();
         return newNubRequest();
     }
 
@@ -360,14 +369,13 @@ public class EditNubRequest extends AbstractEditController {
         }
         if (isReadOnly()) {
             // paranoid reload
-            // If, and only if the developer forgot about setting all fields to readonly,
+            // If, and only if the developer forgot aboutt setting all fields to readonly,
             // then the user might be able to change that field before setting the owener
             // A paranoid reload forces the data into the original state.
             _nubRequest = _nubRequestFacade.find(_nubRequest.getId());
         }
         _nubRequest.setAccountId(_sessionController.getAccountId());
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-        _nubSessionTools.refreshNodes();
         return "";
     }
 
@@ -379,16 +387,68 @@ public class EditNubRequest extends AbstractEditController {
     public String save() {
         setModifiedInfo();
         formatProxyIks();
-        _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-
-        if (isValidId(_nubRequest.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
-            _nubSessionTools.refreshNodes();
-            return "";
+        boolean isNewRequest = !isValidId(_nubRequest.getId());
+        String msg = "";
+        try {
+            _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+            if (!isValidId(_nubRequest.getId())) {
+                return Pages.Error.URL();
+            }
+            msg = Utils.getMessage("msgSave");
+        } catch (Exception ex) {
+            if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            msg = mergeAndReportChanges();
+            _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
         }
-        return Pages.Error.URL();
+        _nubRequestBaseline = _nubRequestFacade.find(_nubRequest.getId());  // update base line
+        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+        _sessionController.setScript(script);
+        return "";
+
+    }
+
+    private String mergeAndReportChanges() {
+        NubRequest modifiedNubRequest = _nubRequest;
+        _nubRequest = _nubRequestFacade.findFresh(modifiedNubRequest.getId());
+        List<Class> excludedTypes = new ArrayList<>();
+        excludedTypes.add(Date.class);
+        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
+        differencesPartner.remove("_version");
+        Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_nubRequestBaseline, modifiedNubRequest, excludedTypes);
+        differencesUser.remove("_lastChangedBy");
+        List<String> collisions = new ArrayList<>();
+        for (String fieldName : differencesUser.keySet()) {
+            if (differencesPartner.containsKey(fieldName)) {
+                collisions.add(fieldName);
+                differencesPartner.remove(fieldName);
+                continue;
+            }
+            FieldValues fieldValues = differencesUser.get(fieldName);
+            Field field = fieldValues.getField();
+            ObjectUtils.setField(field, modifiedNubRequest, _nubRequest);
+        }
+
+        Map<String, String> documentationFields = DocumentationUtil.getFieldTranlationMap(_nubRequest);
+
+        if (collisions.isEmpty()) {
+            String msg = Utils.getMessage("msgMergeOk");
+            for (String fieldName : differencesPartner.keySet()) {
+                msg += "\r\n" + documentationFields.get(fieldName);
+            }
+            return msg;
+
+        }
+
+        String msg = Utils.getMessage("msgMergeCollision");
+        for (String fieldName : collisions) {
+            msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
+        }
+        for (String fieldName : differencesPartner.keySet()) {
+            msg += "\r\n" + documentationFields.get(fieldName);
+        }
+        return msg;
     }
 
     private void setModifiedInfo() {
@@ -476,7 +536,6 @@ public class EditNubRequest extends AbstractEditController {
         }
 
         if (isValidId(_nubRequest.getId())) {
-            _nubSessionTools.refreshNodes();
             sendNubConfirmationMail();
 
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
@@ -502,7 +561,6 @@ public class EditNubRequest extends AbstractEditController {
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
 
         if (isValidId(_nubRequest.getId())) {
-            _nubSessionTools.refreshNodes();
             //sendNubConfirmationMail(); todo? sendUpdateMail?
 
             Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
@@ -564,7 +622,6 @@ public class EditNubRequest extends AbstractEditController {
         _nubRequest.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
         _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-        _nubSessionTools.refreshNodes();
         return "";
     }
 
@@ -728,7 +785,6 @@ public class EditNubRequest extends AbstractEditController {
         if (copy.getId() != -1) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt");
         }
-        _nubSessionTools.refreshNodes();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">

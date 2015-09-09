@@ -138,8 +138,10 @@ public class EditUserMaintenance extends AbstractEditController {
 //            changeTab(activeTopic);
 //        }
         _features = null;
-        _accountWorkingCopy = _accountFacade.find(_sessionController.getAccountId());
-        _user = getAccount().getUser();
+        int accountId = _sessionController.getAccountId();
+        if (accountId < 0){return;}
+        _accountWorkingCopy = _accountFacade.find(accountId);
+        _user = _accountWorkingCopy.getUser();
         _oldPassword = "";
         _newPassword = "";
         _repeatPassword = "";

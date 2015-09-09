@@ -287,9 +287,11 @@ public class NubRequest implements Serializable {
     @Column(name = "nubSealedBy")
     private int _sealedBy;
 
+    @Documentation(key = "lblDisplayName", omitAlways = true)
     @Column(name = "nubDisplayName")
     private String _displayName = "";
 
+    @Documentation(key = "lblUserComment", omitAlways = true)
     @Column(name = "nubUserComment")
     private String _userComment = "";
 

@@ -40,7 +40,9 @@
                                    action="#{editNubRequest.save}" 
                                    value="#{msg.btnSave}" 
                                    immediate="true"
-                                   rendered="#{!editNubRequest.readOnly}"/>
+                                   rendered="#{!editNubRequest.readOnly}">
+                        <f:ajax render="@all"/>
+                    </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
                                    action="#{editNubRequest.requestApproval}"

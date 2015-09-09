@@ -6,13 +6,18 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.inek.dataportal.helper.structures.FieldValues;
+import org.inek.dataportal.helper.structures.Triple;
 
 /**
  *
@@ -64,11 +69,11 @@ public class ObjectUtils {
         }
         Class<?> type = source.getClass();
         if (type == Date.class) {
-            Date target =  new Date(((Date)source).getTime());
+            Date target = new Date(((Date) source).getTime());
             return (T) target;
         }
-        if (type.isPrimitive() || type == String.class || type == Boolean.class || type.getSuperclass() == Number.class || 
-                type.getSuperclass() == Enum.class || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
+        if (type.isPrimitive() || type == String.class || type == Boolean.class || type.getSuperclass() == Number.class
+                || type.getSuperclass() == Enum.class || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
             return source;
         }
         if (type.isArray()) {
@@ -155,7 +160,7 @@ public class ObjectUtils {
                     minArgs = types.length;
                 }
             }
-            if (constructor == null){
+            if (constructor == null) {
                 System.out.println(targetClass.getName());
             }
             constructor.setAccessible(true);
@@ -170,11 +175,11 @@ public class ObjectUtils {
         return target;
     }
 
-    private static <T> void setField(Field field, Object source, T target) {
+    public static <T> void setField(Field field, Object source, T target) {
         try {
             String name = field.getName();
             field.setAccessible(true);
-            if (Modifier.isStatic(field.getModifiers())){
+            if (Modifier.isStatic(field.getModifiers())) {
                 return;
             }
             Object value = field.get(source);
@@ -226,8 +231,9 @@ public class ObjectUtils {
         Class<?> type = obj1.getClass();
         if (type.isPrimitive()) {
             return obj1 == obj2;
-        } else if (type == String.class || type == Boolean.class || type.getSuperclass() == Number.class || 
-                type.getSuperclass() == Enum.class || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
+        } else if (type == String.class || type == Boolean.class || type == Date.class
+                || type.getSuperclass() == Number.class || type.getSuperclass() == Enum.class
+                || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
             return obj1.equals(obj2);
         }
 
@@ -236,17 +242,19 @@ public class ObjectUtils {
             if (dataType.isPrimitive()) {
                 int len1 = Array.getLength(obj1);
                 int len2 = Array.getLength(obj2);
-                if (len1 != len2){return false;}
-                for (int i = 0; i < len1; i++){
-                    if (!areEqualObjects(Array.get(obj1, i), Array.get(obj2, i))){
+                if (len1 != len2) {
+                    return false;
+                }
+                for (int i = 0; i < len1; i++) {
+                    if (!areEqualObjects(Array.get(obj1, i), Array.get(obj2, i))) {
                         return false;
                     }
-                    
+
                 }
                 return true;
             }
         }
-        
+
         if (obj1 instanceof List) {
             return areEqualLists((List) obj1, (List) obj2);
         }
@@ -262,6 +270,58 @@ public class ObjectUtils {
             }
         }
         return true;
+    }
+
+    public static <T> Map<String, FieldValues> getDifferences(T obj1, T obj2) {
+        return getDifferences(obj1, obj2, Collections.EMPTY_LIST);
+    }
+
+    public static <T> Map<String, FieldValues> getDifferences(T obj1, T obj2, List<Class> excludedTypes) {
+        Map<String, FieldValues> differences = new HashMap<>();
+
+        if (obj1 == null || obj2 == null) {
+            throw new IllegalArgumentException("Objects must not be null");
+        }
+
+        Class<?> type = obj1.getClass();
+        if (type.isPrimitive()) {
+            throw new IllegalArgumentException();
+        } else if (type == String.class || type == Boolean.class || type.getSuperclass() == Number.class
+                || type.getSuperclass() == Enum.class || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
+            throw new IllegalArgumentException();
+        }
+
+        if (type.isArray()) {
+            throw new IllegalArgumentException();
+        }
+
+        if (obj1 instanceof List) {
+            throw new IllegalArgumentException();
+        }
+        if (obj1 instanceof Map) {
+            throw new IllegalArgumentException();
+        }
+
+        for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
+            for (Field field : clazz.getDeclaredFields()) {
+                if (field.getName().startsWith("_persistence_")) {
+                    continue;
+                }   // ignore fields of JPA proxy (hopefully no other stat with this perfix...) alterntive: remember and check for all objects in object graph
+                if (excludedTypes.contains(field.getType())) {
+                    continue;
+                }
+                if (!areEqualFields(field, obj1, obj2)) {
+                    try {
+                        field.setAccessible(true);
+                        FieldValues fieldValues = new FieldValues(field, field.get(obj1), field.get(obj2));
+                        differences.put(field.getName(), fieldValues);
+                    } catch (IllegalArgumentException | IllegalAccessException ex) {
+                        // won't reach this due to check within areEqualFields
+                    }
+                }
+            }
+        }
+        return differences;
     }
 
     private static boolean areEqualLists(List list1, List list2) {

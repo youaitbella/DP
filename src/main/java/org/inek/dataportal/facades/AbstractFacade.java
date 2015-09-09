@@ -9,6 +9,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.sessions.changesets.ChangeRecord;
+import org.eclipse.persistence.sessions.changesets.ObjectChangeSet;
+import org.eclipse.persistence.sessions.changesets.UnitOfWorkChangeSet;
+
 
 /**
  *
@@ -89,7 +94,8 @@ public abstract class AbstractFacade<T> {
 
     /**
      * Finds all whilst by passing the cache
-     * @return 
+     *
+     * @return
      */
     public List<T> findAllFresh() {
         CriteriaBuilder cb = _em.getCriteriaBuilder();
@@ -97,7 +103,7 @@ public abstract class AbstractFacade<T> {
         cq.select(cq.from(_entityClass));
         return _em.createQuery(cq).setHint("javax.persistence.cache.retrieveMode", "BYPASS").getResultList();
     }
-    
+
     public List<T> findRange(int[] range) {
         CriteriaQuery<T> cq = _em.getCriteriaBuilder().createQuery(_entityClass);
         cq.select(cq.from(_entityClass));

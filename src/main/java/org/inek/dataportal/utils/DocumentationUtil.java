@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -28,13 +29,31 @@ public class DocumentationUtil {
         return docUtil.getFieldValues();
     }
 
+    public static Map<String, String> getFieldTranlationMap(Object o) {
+        DocumentationUtil docUtil = new DocumentationUtil();
+        return docUtil.getFieldTranslations(o);
+    }
+
     private DocumentationUtil() {
     }
 
     private final Map<Long, KeyValueLevel> _sorter = new TreeMap<>();
     private int _position = 0;
 
-    public List<KeyValueLevel> getFieldValues() {
+    private Map<String, String> getFieldTranslations(Object o) {
+        Map<String, String> translations = new HashMap<>();
+        for (Field field : o.getClass().getDeclaredFields()) {
+            Documentation doc = field.getAnnotation(Documentation.class);
+            if (doc == null) {
+                translations.put(field.getName(), field.getName());
+                continue;
+            }
+            translations.put(field.getName(), getName(doc, field.getName()));
+        }
+        return translations;
+    }
+
+    private List<KeyValueLevel> getFieldValues() {
         List<KeyValueLevel> fieldValues = new ArrayList<>();
         for (KeyValueLevel kv : _sorter.values()) {
             fieldValues.add(kv);
@@ -42,7 +61,7 @@ public class DocumentationUtil {
         return fieldValues;
     }
 
-    public void documentObject(Object o) {
+    private void documentObject(Object o) {
         for (Field field : o.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -81,7 +100,7 @@ public class DocumentationUtil {
     }
 
     private void documentCollection(Documentation doc, String name, Collection collection) {
-        int counter=0;
+        int counter = 0;
         for (Object entry : collection) {
             counter++;
             addDoc(name + " (" + counter + ")", getDocForSubObject(entry), doc, 1);
@@ -117,11 +136,10 @@ public class DocumentationUtil {
         return subList;
     }
 
-
     private void addDoc(String name, Object value, Documentation doc, int level) {
         Long sorterKey = 1000L * doc.rank() + _position;
         _position++;
-        if (value.toString().length() > 0 || !doc.omitOnEmpty()) {
+        if ((value.toString().length() > 0 || !doc.omitOnEmpty()) && !doc.omitAlways()) {
             _sorter.put(sorterKey, new KeyValueLevel<>(name, value, level));
         }
     }
@@ -133,9 +151,9 @@ public class DocumentationUtil {
         if (rawValue instanceof Date) {
             return new SimpleDateFormat(doc.dateFormat()).format(((Date) rawValue)); // todo: replace by localized message
         }
-        
+
         if (rawValue instanceof BigDecimal) {
-            if (doc.isMoneyFormat()){
+            if (doc.isMoneyFormat()) {
                 DecimalFormat decim = new DecimalFormat("0.00");
                 return decim.format(rawValue).toString() + " €";
             } else {

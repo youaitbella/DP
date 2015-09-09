@@ -37,7 +37,6 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             String checksum = fileText.substring(pos + 9).replace("\r\n", "");
             if (checksum.equals(Utils.getChecksum(template + "Length=" + template.length()))) {
                 _nubFacade.saveNubRequest(controller.createNubRequest(template));
-                _nubSessionTools.refreshNodes();
                 return;
             }
             throw new IOException("Formatfehler");
