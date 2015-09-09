@@ -56,7 +56,7 @@ public class Mailer {
     }
 
     public boolean sendMail(String recipient, String bcc, String subject, String body) {
-        return sendMailFrom("anfragen@datenstelle.de", recipient, bcc, subject, body);
+        return sendMailFrom("datenportal@inek.org", recipient, bcc, subject, body);
     }
 
     public boolean sendMailFrom(String from, String recipient, String bcc, String subject, String body) {
