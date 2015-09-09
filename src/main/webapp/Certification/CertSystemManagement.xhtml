@@ -26,7 +26,7 @@
                 <h:outputLabel for="mnuDomain" value="#{msg.lblDomain}:" styleClass="label15"/>
                 <h:selectOneMenu id="mnuDomain" styleClass="input" value="#{certManager.system.remunerationId}" immediate="true" disabled="#{certManager.systemChanged}">
                     <f:selectItems value="#{valueLists.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
-                    <f:ajax render="@form msgDomain btnSystemSave :logout:remaining" />
+                    <f:ajax render="@form msgDomain certButtons:btnSystemSave :logout:remaining" />
                 </h:selectOneMenu>
                 <h:message for="mnuDomain" id="msgDomain" styleClass="errorMessage"/>
             </div>
@@ -38,7 +38,7 @@
                              styleClass="inputshort"
                              required="true"
                              disabled="#{certManager.system == null}">
-                    <f:ajax render="@this msgYearData mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this msgYearData mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtYearData" id="msgYearData" styleClass="errorMessage"/>
             </div>
@@ -50,7 +50,7 @@
                              styleClass="inputshort"
                              required="true"
                              disabled="#{certManager.system == null}">
-                    <f:ajax render="@this msgYearSystem mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this msgYearSystem mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
                 <h:message for="txtYearSystem" id="msgYearSystem" styleClass="errorMessage"/>
             </div>
@@ -58,7 +58,7 @@
             <div class="inputPart">
                 <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkApproval" value="#{certManager.system.approved}">
-                    <f:ajax render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>
 
@@ -68,7 +68,7 @@
                              value="#{certManager.system.password}"
                              styleClass="inputmedium"
                              disabled="#{certManager.system == null}">
-                    <f:ajax render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:inputText>
             </div>
 
