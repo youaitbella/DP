@@ -18,7 +18,7 @@ public class LogFacade extends AbstractFacade<Log> {
 
     @Schedule(info = "every day")
     private void removeOldEntries() {
-        Date logDate = DateUtils.getDateWithDayOffset(-30);
+        Date logDate = DateUtils.getDateWithDayOffset(-90);
         String sql = "DELETE FROM Log l WHERE l._creationDate < :date";
         Query query = getEntityManager().createQuery(sql, NubRequest.class);
         query.setParameter("date", logDate).executeUpdate();

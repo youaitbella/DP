@@ -450,11 +450,13 @@ public class AdminTask extends AbstractEditController {
     }
 
     public String deleteIkSupervisor(IkSupervisorInfo info) {
+        _sessionController.logMessage("Delete IK supervisor: account=" + info.getAccount().getId() + ", feature=" + info.getFeature() + ", ik=" + info.getIk() + ", right=" + info.getRight().name());
         _cooperationRightFacade.deleteCooperationRight(-1, info.getAccount().getId(), info.getFeature(), info.getIk());
         return "";
     }
 
     public String saveIkSupervisor(){
+        _sessionController.logMessage("Create IK supervisor: account=" + _account.getId() + ", feature=" + _feature + ", ik=" + _ik + ", right=" + _cooperativeRight.name() );
         _cooperationRightFacade.createIkSupervisor (_feature, _ik, _account.getId(), _cooperativeRight);
         return "";
     }

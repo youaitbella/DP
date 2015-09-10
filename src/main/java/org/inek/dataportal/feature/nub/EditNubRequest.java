@@ -416,6 +416,7 @@ public class EditNubRequest extends AbstractEditController {
         NubRequest modifiedNubRequest = _nubRequest;
         _nubRequest = _nubRequestFacade.findFresh(modifiedNubRequest.getId());
         if (_nubRequest == null) {
+            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], NUB: " + modifiedNubRequest.getId());
             Utils.navigate(Pages.NubSummary.URL());
             return Utils.getMessage("msgDatasetDeleted");
         }
@@ -427,6 +428,7 @@ public class EditNubRequest extends AbstractEditController {
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_nubRequest);
 
         String msgKey = _nubRequest.isSealed() ? "msgDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
+        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) +  "], NUB: " + modifiedNubRequest.getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
             msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
