@@ -200,7 +200,11 @@ public class NubController extends AbstractFeatureController {
     }
 
     public void populateMasterData(NubRequest proposal, Account account) {
-        proposal.setIk(account.getIK());
+        Integer ik = account.getIK();
+        if (ik == null && !account.getAdditionalIKs().isEmpty()){
+            ik = account.getAdditionalIKs().get(0).getIK();
+        }
+        proposal.setIk(ik);
         proposal.setIkName(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());

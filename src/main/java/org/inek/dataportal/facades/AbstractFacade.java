@@ -9,10 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaEntityManager;
-import org.eclipse.persistence.sessions.changesets.ChangeRecord;
-import org.eclipse.persistence.sessions.changesets.ObjectChangeSet;
-import org.eclipse.persistence.sessions.changesets.UnitOfWorkChangeSet;
 
 
 /**

@@ -240,7 +240,7 @@ public class NubRequest implements Serializable {
     @Column(name = "nubOps")
     private String _procedures = "";
 
-    @Documentation(key = "lblRequestedEarlierSelf")
+    @Documentation(key = "lblNoProcs")
     @Column(name = "nubHasNoProcs")
     private boolean _hasNoProcs;
 
@@ -855,6 +855,10 @@ public class NubRequest implements Serializable {
         if (getDateSealed() == null && getStatus() == WorkflowStatus.Provided) {
             _dateSealed = Calendar.getInstance().getTime();
         }
+    }
+
+    public boolean isSealed() {
+        return getStatus().getValue() >= WorkflowStatus.Provided.getValue();
     }
 
 }

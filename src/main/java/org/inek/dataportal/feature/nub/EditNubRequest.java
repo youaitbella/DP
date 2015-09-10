@@ -7,6 +7,7 @@ package org.inek.dataportal.feature.nub;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -400,9 +401,8 @@ public class EditNubRequest extends AbstractEditController {
                 throw ex;
             }
             msg = mergeAndReportChanges();
-            _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
         }
-        _nubRequestBaseline = _nubRequestFacade.find(_nubRequest.getId());  // update base line
+        _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
         String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         _sessionController.setScript(script);
         return "";
@@ -412,12 +412,53 @@ public class EditNubRequest extends AbstractEditController {
     private String mergeAndReportChanges() {
         NubRequest modifiedNubRequest = _nubRequest;
         _nubRequest = _nubRequestFacade.findFresh(modifiedNubRequest.getId());
+        Map<String, FieldValues> differencesPartner = getDifferencesPartner(getExcludedTypes());
+        Map<String, FieldValues> differencesUser = getDifferencesUser(modifiedNubRequest, getExcludedTypes());
+
+        List<String> collisions = updateFields(differencesUser, differencesPartner, modifiedNubRequest);
+
+        Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_nubRequest);
+
+        String msgKey = _nubRequest.isSealed() ? "msgDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
+        String msg = Utils.getMessage(msgKey);
+        for (String fieldName : collisions) {
+            msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
+        }
+        for (String fieldName : differencesPartner.keySet()) {
+            msg += "\r\n" + documentationFields.get(fieldName);
+        }
+        if (!_nubRequest.isSealed()) {
+            _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+        }
+        return msg;
+    }
+
+    private List<Class> getExcludedTypes() {
         List<Class> excludedTypes = new ArrayList<>();
         excludedTypes.add(Date.class);
-        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
-        differencesPartner.remove("_version");
+        return excludedTypes;
+    }
+
+    private Map<String, FieldValues> getDifferencesUser(NubRequest modifiedNubRequest, List<Class> excludedTypes) {
         Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_nubRequestBaseline, modifiedNubRequest, excludedTypes);
+        differencesUser.remove("_status");
         differencesUser.remove("_lastChangedBy");
+        return differencesUser;
+    }
+
+    private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
+        if (_nubRequest.isSealed()) {
+            // sealed by partner. By definition this is the new version and there are no differences
+            return Collections.EMPTY_MAP;
+        }
+        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
+        differencesPartner.remove("_status");
+        differencesPartner.remove("_version");
+        differencesPartner.remove("_lastChangedBy");
+        return differencesPartner;
+    }
+
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName)) {
@@ -429,26 +470,7 @@ public class EditNubRequest extends AbstractEditController {
             Field field = fieldValues.getField();
             ObjectUtils.setField(field, modifiedNubRequest, _nubRequest);
         }
-
-        Map<String, String> documentationFields = DocumentationUtil.getFieldTranlationMap(_nubRequest);
-
-        if (collisions.isEmpty()) {
-            String msg = Utils.getMessage("msgMergeOk");
-            for (String fieldName : differencesPartner.keySet()) {
-                msg += "\r\n" + documentationFields.get(fieldName);
-            }
-            return msg;
-
-        }
-
-        String msg = Utils.getMessage("msgMergeCollision");
-        for (String fieldName : collisions) {
-            msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
-        }
-        for (String fieldName : differencesPartner.keySet()) {
-            msg += "\r\n" + documentationFields.get(fieldName);
-        }
-        return msg;
+        return collisions;
     }
 
     private void setModifiedInfo() {

@@ -29,7 +29,7 @@ public class DocumentationUtil {
         return docUtil.getFieldValues();
     }
 
-    public static Map<String, String> getFieldTranlationMap(Object o) {
+    public static Map<String, String> getFieldTranslationMap(Object o) {
         DocumentationUtil docUtil = new DocumentationUtil();
         return docUtil.getFieldTranslations(o);
     }

@@ -97,7 +97,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 .getResultList();
     }
 
-    public CooperationRight getCooperationRight(int ownerId, int partnerId, Feature feature, Integer ik) {
+    public CooperationRight getCooperationRight(int ownerId, int partnerId, Feature feature, int ik) {
         try {
             String query = "SELECT cor FROM CooperationRight cor "
                     + "WHERE cor._ownerId = :ownerId "
@@ -116,7 +116,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         }
     }
     public CooperativeRight getCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
-        return getCooperationRight(ownerId, partnerId, feature, ik).getCooperativeRight();
+        return getCooperationRight(ownerId, partnerId, feature, ik == null ? -1 : ik).getCooperativeRight();
     }
 
     public CooperativeRight getIkSupervisorRight(Feature feature, Integer ik, int accountId) {
