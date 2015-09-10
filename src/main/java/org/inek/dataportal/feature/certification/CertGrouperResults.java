@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
@@ -477,10 +478,26 @@ public class CertGrouperResults {
            _grouper.setCertStatus(CertStatus.CertificationPassed);
            _grouper.setCertification(new Date());
            _elFacade.persist(el);
-           _grouperFacade.merge(_grouper);
+            try {
+                Grouper savedGrouper = _grouperFacade.merge(_grouper);
+                _grouper = savedGrouper;
+            } catch (Exception ex) {
+                if (!(ex.getCause() instanceof OptimisticLockException)) {
+                    throw ex;
+                }
+                mergeGrouperCertDate();
+            }
         }
         return "";
     }
+    
+    private void mergeGrouperCertDate() {
+        Grouper currentGrouper = _grouperFacade.findFresh(_grouper.getId());
+        currentGrouper.setCertStatus(_grouper.getCertStatus());
+        currentGrouper.setCertification(_grouper.getCertification());
+        _grouper = _grouperFacade.merge(currentGrouper);
+    }
+    
     
     public String getSubject() {
         if(_selectedTemplate.isEmpty())
@@ -584,8 +601,32 @@ public class CertGrouperResults {
                 }
                 break;
         }
-        _grouper = _grouperFacade.merge(_grouper);
+        try {
+            Grouper savedGrouper = _grouperFacade.merge(_grouper);
+            _grouper = savedGrouper;
+        } catch (Exception ex) {
+            if (!(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            mergeGrouperErrorAndDate();
+        }
         return "";
+    }
+
+    private void mergeGrouperErrorAndDate() {
+        Grouper currentGrouper = _grouperFacade.findFresh(_grouper.getId());
+        currentGrouper.setTestError1(_grouper.getTestError1());
+        currentGrouper.setTestError2(_grouper.getTestError2());
+        currentGrouper.setTestError3(_grouper.getTestError3());
+        currentGrouper.setCertError1(_grouper.getCertError1());
+        currentGrouper.setCertError2(_grouper.getCertError2());
+        currentGrouper.setTestCheck1(_grouper.getTestCheck1());
+        currentGrouper.setTestCheck2(_grouper.getTestCheck2());
+        currentGrouper.setTestCheck3(_grouper.getTestCheck3());
+        currentGrouper.setCertCheck1(_grouper.getCertCheck1());
+        currentGrouper.setCertCheck2(_grouper.getCertCheck2());
+        currentGrouper.setCertStatus(_grouper.getCertStatus());
+        _grouper = _grouperFacade.merge(currentGrouper);
     }
     
     public String attachementExists() {
