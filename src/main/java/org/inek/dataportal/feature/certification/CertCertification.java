@@ -18,6 +18,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.GrouperAction;
@@ -222,6 +223,7 @@ public class CertCertification {
     }
 
     @Inject GrouperActionFacade _actionFacade;
+
     public void logAction(String message) {
         GrouperAction action = new GrouperAction();
         action.setAccountId(_grouper.getAccountId());
@@ -265,6 +267,7 @@ public class CertCertification {
     }
 
     @Inject Mailer _mailer;
+
     public String saveFile() {
         setPersistUploadFile();
         RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
@@ -322,7 +325,30 @@ public class CertCertification {
     }
 
     public void save() {
-        _grouper = _grouperFacade.merge(_grouper);
+        try {
+            Grouper savedGrouper = _grouperFacade.merge(_grouper);
+            _grouper = savedGrouper;
+        } catch (Exception ex) {
+            if (!(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            mergeGrouper();
+        }
+    }
+
+    private void mergeGrouper() {
+        Grouper currentGrouper = _grouperFacade.findFresh(_grouper.getId());
+        currentGrouper.setName(_grouper.getName());
+        currentGrouper.setEmailCopy(_grouper.getEmailCopy());
+        currentGrouper.setDownloadTest(_grouper.getDownloadTest());
+        currentGrouper.setDownloadSpec(_grouper.getDownloadSpec());
+        currentGrouper.setDownloadCert(_grouper.getDownloadCert());
+        currentGrouper.setCertUpload1(_grouper.getCertUpload1());
+        currentGrouper.setCertUpload2(_grouper.getCertUpload2());
+        currentGrouper.setTestUpload1(_grouper.getTestUpload1());
+        currentGrouper.setTestUpload2(_grouper.getTestUpload2());
+        currentGrouper.setTestUpload3(_grouper.getTestUpload3());
+        _grouper = _grouperFacade.merge(currentGrouper);
     }
 
     public String cancelSystem() {
