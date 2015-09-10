@@ -368,11 +368,12 @@ public class EditNubRequest extends AbstractEditController {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        if (isReadOnly()) {
+        if (isReadOnly() || _nubRequest.isSealed()) {
             // paranoid reload
-            // If, and only if the developer forgot aboutt setting all fields to readonly,
-            // then the user might be able to change that field before setting the owener
-            // A paranoid reload forces the data into the original state.
+            // If the developer forgot about setting all fields to readonly,
+            // or if the partner sealed
+            // then the user might have edited some fields before setting the owener
+            // A reload forces the data into the original state.
             _nubRequest = _nubRequestFacade.find(_nubRequest.getId());
         }
         _nubRequest.setAccountId(_sessionController.getAccountId());
@@ -402,7 +403,9 @@ public class EditNubRequest extends AbstractEditController {
             }
             msg = mergeAndReportChanges();
         }
-        _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
+        if (_nubRequest != null) {
+            _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
+        }
         String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         _sessionController.setScript(script);
         return "";
@@ -412,6 +415,10 @@ public class EditNubRequest extends AbstractEditController {
     private String mergeAndReportChanges() {
         NubRequest modifiedNubRequest = _nubRequest;
         _nubRequest = _nubRequestFacade.findFresh(modifiedNubRequest.getId());
+        if (_nubRequest == null) {
+            Utils.navigate(Pages.NubSummary.URL());
+            return Utils.getMessage("msgDatasetDeleted");
+        }
         Map<String, FieldValues> differencesPartner = getDifferencesPartner(getExcludedTypes());
         Map<String, FieldValues> differencesUser = getDifferencesUser(modifiedNubRequest, getExcludedTypes());
 

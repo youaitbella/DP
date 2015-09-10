@@ -107,19 +107,19 @@ public class NubRequestList {
     }
 
     public String deleteNubRequest(int requestId) {
-        NubRequest proposal = _nubRequestFacade.find(requestId);
-        if (proposal == null) {
+        NubRequest nubRequest = _nubRequestFacade.find(requestId);
+        if (nubRequest == null) {
             return "";
         }
-        if (_sessionController.isMyAccount(proposal.getAccountId())) {
-            if (proposal.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
-                _nubRequestFacade.remove(proposal);
-            } else if (proposal.getExternalState().trim().isEmpty()) {
-                proposal.setStatus(WorkflowStatus.Retired);
-                _nubRequestFacade.saveNubRequest(proposal);
+        if (_sessionController.isMyAccount(nubRequest.getAccountId())) {
+            if (nubRequest.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
+                _nubRequestFacade.remove(nubRequest);
+            } else if (nubRequest.getExternalState().trim().isEmpty()) {
+                nubRequest.setStatus(WorkflowStatus.Retired);
+                nubRequest.setLastChangedBy(_sessionController.getAccountId());
+                _nubRequestFacade.saveNubRequest(nubRequest);
             }
         }
-        //_nubSessionTools.refreshNodes();
         return "";
     }
 
