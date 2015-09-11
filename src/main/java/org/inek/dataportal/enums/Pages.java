@@ -127,6 +127,7 @@ public enum Pages {
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
     AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
     AdminTaskIkSupervisor("/Admin/AdminTaskIkSupervisor"),
+    AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
     //
     DocumentsEdit("/Documents/DocumentsEdit"),
     DocumentsSummary("/Documents/DocumentsSummary"),

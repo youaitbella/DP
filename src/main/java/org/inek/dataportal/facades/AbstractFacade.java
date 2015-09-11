@@ -6,9 +6,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.JpaQuery;
 
 
 /**
@@ -127,4 +129,9 @@ public abstract class AbstractFacade<T> {
         _em.getEntityManagerFactory().getCache().evict(clazz);
     }
 
+    protected void dumpSql(Query query) {
+        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
+        System.out.println(sql);
+    }
+    
 }

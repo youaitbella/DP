@@ -5,29 +5,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.admin.RoleMapping;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.admin.RoleMappingFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -37,7 +31,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author muellermi
  */
 @Named
-@FeatureScoped
+@FeatureScoped(name = "AdminTask")
 public class AdminTask extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("AdminTask");
@@ -55,6 +49,7 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
         addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
         addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
+        addTopic(AdminTaskTabs.tabAdminTaskChangeNub.name(), Pages.AdminTaskChangeNub.URL());
 
     }
 
@@ -64,7 +59,8 @@ public class AdminTask extends AbstractEditController {
         tabAdminTaskInekRoles,
         tabAdminTaskRoleMapping,
         tabAdminTaskMailTemplate,
-        tabAdminTaskIkSupervisor;
+        tabAdminTaskIkSupervisor,
+        tabAdminTaskChangeNub;
     }
 
     @PostConstruct
@@ -245,8 +241,7 @@ public class AdminTask extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
-    @Inject
-    AccountFacade _accountFacade;
+    @Inject AccountFacade _accountFacade;
 
     private List<SelectItem> _inekAgents;
 
@@ -362,103 +357,6 @@ public class AdminTask extends AbstractEditController {
     public void mappingChangeListener(AjaxBehaviorEvent event) {
         setMappingChanged(true);
     }
-
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="tab IkSupervisor">
-    @Inject private CooperationRightFacade _cooperationRightFacade;
 
-    public List<IkSupervisorInfo> getIkSupervisorInfos() {
-        return _cooperationRightFacade.getIkSupervisorInfos();
-    }
-
-    private Feature _feature = Feature.NUB;
-    private int _ik;
-    private Account _account;
-    private CooperativeRight _cooperativeRight = CooperativeRight.ReadWriteCompletedSealSupervisor;
-    
-    public Feature[] getFeatures() {
-        return Feature.values();
-    }
-
-    public CooperativeRight[] getCooperativeRights() {
-        return CooperativeRight.values();
-    }
-
-    public Feature getFeature() {
-        return _feature;
-    }
-
-    public void setFeature(Feature feature) {
-        _feature = feature;
-    }
-
-    public int getIk() {
-        return _ik;
-    }
-
-    public void setIk(int ik) {
-        _ik = ik;
-    }
-
-    public int getAccountId() {
-        return _account == null ? 0 : _account.getId();
-    }
-
-    public void setAccountId(int accountId) {
-        _account = _accountFacade.find(accountId);
-    }
-
-    public String getEmail() {
-        return _account == null ? "" : _account.getEmail();
-    }
-
-    public void setEmail(String email) {
-        _account = _accountFacade.findByMailOrUser(email);
-    }
-
-    public Account getAccount() {
-        return _account;
-    }
-
-    public void setAccount(Account account) {
-        _account = account;
-    }
-
-    public CooperativeRight getCooperativeRight() {
-        return _cooperativeRight;
-    }
-
-    public void setCooperativeRight(CooperativeRight cooperativeRight) {
-        _cooperativeRight = cooperativeRight;
-    }
-
-    public void checkEmail(FacesContext context, UIComponent component, Object value) {
-        String email = (String) value;
-        Account account = _accountFacade.findByMailOrUser(email);
-        if (account == null) {
-            String msg = Utils.getMessage("errUnknownEmail");
-            throw new ValidatorException(new FacesMessage(msg));
-        }
-    }
-
-    public void checkAccountId(FacesContext context, UIComponent component, Object value) {
-        Account account = _accountFacade.find((int) value);
-        if (account == null) {
-            String msg = Utils.getMessage("errUnknownAccount");
-            throw new ValidatorException(new FacesMessage(msg));
-        }
-    }
-
-    public String deleteIkSupervisor(IkSupervisorInfo info) {
-        _sessionController.logMessage("Delete IK supervisor: account=" + info.getAccount().getId() + ", feature=" + info.getFeature() + ", ik=" + info.getIk() + ", right=" + info.getRight().name());
-        _cooperationRightFacade.deleteCooperationRight(-1, info.getAccount().getId(), info.getFeature(), info.getIk());
-        return "";
-    }
-
-    public String saveIkSupervisor(){
-        _sessionController.logMessage("Create IK supervisor: account=" + _account.getId() + ", feature=" + _feature + ", ik=" + _ik + ", right=" + _cooperativeRight.name() );
-        _cooperationRightFacade.createIkSupervisor (_feature, _ik, _account.getId(), _cooperativeRight);
-        return "";
-    }
-    // </editor-fold>
 }

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="AdminTask.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+        <h:form>
+
+            <div class="inputPart">
+                <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
+                <h:inputText id="ik" value="#{adminChangeNub.ik}" styleClass="inputmedium" required="true">
+                    <f:validator validatorId="IkValidator"/>
+                    <f:ajax render="@this msgIk accountInfos :logout:remaining" />
+                </h:inputText>
+                <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
+            </div>                    
+
+            <h:dataTable id="accountInfos" value="#{adminChangeNub.accountInfos}" var="info" width="100%" rowClasses="row1, row2">
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="noProc" value="#{info.selected}" >
+                        <f:ajax event="blur" render="@this :logout:remaining "/>
+                    </h:selectBooleanCheckbox>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblName}"/>
+                    </f:facet>
+                    <h:outputText value="#{info.account.firstName} #{info.account.lastName}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblEMail}"/>
+                    </f:facet>
+                    <h:outputText value="#{info.account.email}"/>
+                </h:column>
+
+
+            </h:dataTable>
+
+            <br/>
+
+
+            <div class="inputPart">
+                <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
+                <h:inputText id="UserEmail" value="#{adminChangeNub.email}" validator="#{adminChangeNub.checkEmail}" styleClass="inputlong">
+                    <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining"/>
+                </h:inputText>
+                <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
+            </div>                    
+
+            <div class="inputPart">
+                <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
+                <h:inputText id="accountId" value="#{adminChangeNub.accountId}" validator="#{adminChangeNub.checkAccountId}" styleClass="inputmedium">
+                    <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining"/>
+                </h:inputText>
+                <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
+            </div>        
+
+            <div class="inputPart">
+                <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
+                <h:inputText id="UserName" value="#{adminChangeNub.account.firstName} #{adminChangeNub.account.lastName}" disabled="true" styleClass="inputlong"/>
+            </div>        
+
+            <div class="inputPart">
+                <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
+                <h:inputText id="UserInstitute" value="#{adminChangeNub.account.firstName} #{adminChangeNub.account.lastName}" disabled="true" styleClass="inputlong"/>
+            </div>        
+
+
+            <br/>
+
+            <h:commandLink styleClass="bigButton" action="#{adminChangeNub.changeOwner}" value="#{msg.btnSave}" />
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

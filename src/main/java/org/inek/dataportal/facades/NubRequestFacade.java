@@ -13,11 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,11 +22,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaQuery;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.feature.admin.AccountInfo;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DateUtils;
 
@@ -178,8 +176,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
         Query query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("accountIds", accountIds);
-//        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-//        System.out.println(sql);
+        dumpSql(query);
         return query.getResultList();
     }
 
@@ -200,6 +197,27 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return query.getResultList();
     }
 
+    public List<AccountInfo> getAccountInfos(int ik) {
+        String jpql = "SELECT a, false, count(n) FROM NubRequest n JOIN Account a WHERE n._accountId = a._id and n._ik = :ik GROUP BY a";
+        // sadly this is not a list of the expected type, but of object[]
+//        TypedQuery<AccountInfo> query = getEntityManager().createQuery(jpql, AccountInfo.class);
+//        query.setParameter("ik", ik);
+//        List<AccountInfo> infos = query.getResultList();
+//        return infos;
+        
+        // although the compiler tells us something else, this is whalt we get
+        List<AccountInfo> infos = new ArrayList<>();
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("ik", ik);
+        List<Object[]> objects = query.getResultList();
+        for (Object[] obj : objects){
+            AccountInfo info = new AccountInfo((Account)obj[0], (boolean)obj[1], (int)(long)obj[2]);
+            infos.add(info);
+        }
+        return infos;
+    }
+
+    
     public Map<Integer, Integer> countOpenPerIk() {
         return NubRequestFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
     }
@@ -208,8 +226,6 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         String jpql = "SELECT p._accountId, COUNT(p) FROM NubRequest p JOIN Account a WHERE p._accountId = a._id and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("targetYear", targetYear);
-        //String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-        //System.out.println(sql);
         List data = query.getResultList();
         Map<Integer, Integer> result = new HashMap<>();
         for (Object x : data) {
