@@ -13,7 +13,9 @@
 
     <ui:define name="editContent" >
         <h:form id="form"  enctype="multipart/form-data" >
-
+            
+            <a href="http://vservices01:8080/CertificationService" target="_blank" class="bigButton">Prüfdienst</a><br/><br/>
+            
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certManager.systemId}" immediate="true" disabled="#{certManager.systemChanged}">
                 <f:selectItems value="#{certManager.systems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
@@ -172,7 +174,7 @@
                         </h:outputText>
                         <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
                                        styleClass="midButton" value="#{msg.btnSetDate}">
-                            <f:ajax render="@form :logout:remaining" listener="#{certManager.passwordRequest(grouper)}"/>
+                            <f:ajax render="@form :logout:remaining certButtons:btnSystemSave" listener="#{certManager.passwordRequest(grouper)}"/>
                         </h:commandLink>
                     </h:column>
 

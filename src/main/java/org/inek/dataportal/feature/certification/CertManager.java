@@ -15,6 +15,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -122,6 +123,14 @@ public class CertManager {
 
     public String saveSystem() {
         for (Grouper grouper : _system.getGrouperList()) {
+            try {
+                _grouperFacade.merge(grouper);
+            } catch (Exception ex) {
+                if (!(ex.getCause() instanceof OptimisticLockException)) {
+                    throw ex;
+                }
+                mergeGrouper(grouper);
+            }
             if (grouper.getId() == -1) {
                 copyEmail(grouper);
             }
@@ -132,6 +141,14 @@ public class CertManager {
         setSystemChanged(false);
         return "";
     }
+    
+    private void mergeGrouper(Grouper grouper) {
+        Grouper currentGrouper = _grouperFacade.findFresh(grouper.getId());
+        currentGrouper.setPasswordRequest(grouper.getPasswordRequest());
+        currentGrouper.setCertStatus(grouper.getCertStatus());
+        _grouperFacade.merge(currentGrouper);
+    }
+    
 
     public String resetSystem() {
         for (Grouper grouper : _system.getGrouperList()) {
