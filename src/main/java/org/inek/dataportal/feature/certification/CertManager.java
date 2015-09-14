@@ -129,7 +129,7 @@ public class CertManager {
                 if (!(ex.getCause() instanceof OptimisticLockException)) {
                     throw ex;
                 }
-                mergeGrouper(grouper);
+                grouper = mergeGrouper(grouper);
             }
             if (grouper.getId() == -1) {
                 copyEmail(grouper);
@@ -142,11 +142,11 @@ public class CertManager {
         return "";
     }
     
-    private void mergeGrouper(Grouper grouper) {
+    private Grouper mergeGrouper(Grouper grouper) {
         Grouper currentGrouper = _grouperFacade.findFresh(grouper.getId());
         currentGrouper.setPasswordRequest(grouper.getPasswordRequest());
         currentGrouper.setCertStatus(grouper.getCertStatus());
-        _grouperFacade.merge(currentGrouper);
+        return _grouperFacade.merge(currentGrouper);
     }
     
 
