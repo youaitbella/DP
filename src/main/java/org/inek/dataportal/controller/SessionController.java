@@ -464,7 +464,7 @@ public class SessionController implements Serializable {
     @Inject private CustomerFacade _customerFacade;
 
     public String getIkName(Integer ik) {
-        if (ik == null) {
+        if (ik == null || ik.intValue() == 0) {
             return "";
         }
         Customer customer = _customerFacade.getCustomerByIK(ik);
