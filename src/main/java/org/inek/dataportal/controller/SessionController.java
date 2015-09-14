@@ -1,6 +1,5 @@
 package org.inek.dataportal.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,13 +12,12 @@ import java.util.logging.Logger;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.SearchController;
+import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.admin.InekRole;
@@ -28,6 +26,7 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
@@ -36,6 +35,7 @@ import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
+import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
@@ -101,11 +101,20 @@ public class SessionController implements Serializable {
     }
 
     public Account getAccount() {
+        checkAccount();
         return _account;
     }
 
+    private void checkAccount() throws NotLoggedInException {
+        if (_account == null) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+            throw new NotLoggedInException();
+        }
+    }
+
     public boolean isLoggedIn() {
-        return getAccount() != null;
+        return _account != null;
     }
 
     /**
@@ -115,11 +124,7 @@ public class SessionController implements Serializable {
      * @return
      */
     public int getAccountId() {
-        if (_account == null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
-            return Integer.MIN_VALUE;
-        }
+        checkAccount();
         return _account.getId();
     }
 
@@ -373,10 +378,10 @@ public class SessionController implements Serializable {
     }
 
     public String getUser() {
-        if (getAccount() == null) {
+        if (_account == null) {
             return "???";
         }
-        return getAccount().getFirstName() + " " + getAccount().getLastName();
+        return _account.getFirstName() + " " + _account.getLastName();
     }
 
     /**
@@ -402,10 +407,10 @@ public class SessionController implements Serializable {
      * is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
-        if (getAccount() == null || getAccount().getInekRoles() == null) {
+        if (_account == null || _account.getInekRoles() == null) {
             return false;
         }
-        for (InekRole role : getAccount().getInekRoles()) {
+        for (InekRole role : _account.getInekRoles()) {
             if ((role.isWriteEnabled() || !needsWriteAccess)
                     && (role.getFeature() == Feature.ADMIN || role.getFeature() == requestedFeature)) {
                 return true;
@@ -456,24 +461,15 @@ public class SessionController implements Serializable {
     }
 
     private Map<Integer, String> _ikInfo;
+    @Inject private CustomerFacade _customerFacade;
 
-    public String getIkName(int ik) {
-        ensureIKInfo();
-        return _ikInfo.get(ik);
-    }
-
-    private void ensureIKInfo() {
-        if (_ikInfo == null) {
-            _ikInfo = new HashMap<>();
-
-            Integer ik = getAccount().getIK();
-            if (ik != null) {
-                _ikInfo.put(ik, getAccount().getCompany());
-            }
-            for (AccountAdditionalIK addIk : getAccount().getAdditionalIKs()) {
-                _ikInfo.put(addIk.getIK(), addIk.getName());
-            }
+    public String getIkName(Integer ik) {
+        if (ik == null) {
+            return "";
         }
+        Customer customer = _customerFacade.getCustomerByIK(ik);
+        String name = customer.getName() == null ? Utils.getMessage("msgUnknownIK") : customer.getName();
+        return name;
     }
 
     public boolean isMyAccount(int accountId) {
@@ -481,11 +477,11 @@ public class SessionController implements Serializable {
     }
 
     public boolean isMyAccount(int accountId, boolean log) {
-        if (getAccount().getId() == accountId) {
+        if (_account.getId() == accountId) {
             return true;
         }
         if (log) {
-            _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{getAccount().getId(), accountId});
+            _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{_account.getId(), accountId});
         }
         return false;
     }

@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.PropertyKey;
@@ -36,6 +37,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     static final Logger _logger = Logger.getLogger(PortalExceptionHandler.class.getName());
     private final ExceptionHandler _wrapped;
     @Inject private Mailer _mailer;
+    @Inject private SessionController _sessionController;
 
     PortalExceptionHandler(ExceptionHandler wrapped) {
         _wrapped = wrapped;
@@ -63,13 +65,16 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
             Throwable exception = context.getException();
             if (exception instanceof ViewExpiredException) {
-                _logger.log(Level.SEVERE, "[View expired]", exception);
+                _logger.log(Level.SEVERE, "[View expired]", exception.getMessage());
                 ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
                 Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
                 if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
                     targetPage = Pages.SessionTimeout.RedirectURL();
                     requestMap.put("currentViewId", viewExpiredExeption.getViewId());
                 }
+            }else if ( exception instanceof NotLoggedInException) {
+                _logger.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
+                    targetPage = Pages.SessionTimeout.RedirectURL();
             } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                     || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException") // check for exception's name as workarround
                     || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:")) {
@@ -145,6 +150,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 collector.append("\r\n\r\n--------------------------------\r\n\r\n");
             }
             collector.append("ViewId ").append(viewId).append("\r\n\r\n");
+            collector.append("ClientIP: " + Utils.getClientIP() + "\r\n");
+            if (_sessionController != null && _sessionController.isLoggedIn()){
+            collector.append("AccountId: " + _sessionController.getAccount() + "\r\n");
+            }
         } catch (Exception ex) {
             if (collector.length() > 0) {
                 collector.append("\r\n\r\n--------------------------------\r\n\r\n");

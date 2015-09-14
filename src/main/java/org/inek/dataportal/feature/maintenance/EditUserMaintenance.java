@@ -20,14 +20,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountPwdFacade;
@@ -61,7 +59,6 @@ public class EditUserMaintenance extends AbstractEditController {
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private AccountPwdFacade _accountPwdFacade;
-    @Inject private CustomerFacade _customerFacade;
     @Inject private AccountChangeMailFacade _accountChangeMailFacade;
     private String _user;
     private String _email;
@@ -243,15 +240,6 @@ public class EditUserMaintenance extends AbstractEditController {
 
     public void removeAdditionalIK(Integer ik) {
         _additionalIKs.remove(ik);
-    }
-
-    public String getIkName(String ik) {
-        if (ik.isEmpty()) {
-            return "";
-        }
-        Customer customer = _customerFacade.getCustomerByIK(Integer.parseInt(ik));
-        String name = customer.getName() == null ? Utils.getMessage("msgUnknownIK") : customer.getName();
-        return name;
     }
 
     
