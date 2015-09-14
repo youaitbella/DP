@@ -16,7 +16,7 @@ public class ConfirmTake extends ClientBehaviorBase {
 
     @Override
     public String getScript(ClientBehaviorContext behaviorContext) {
-        return "return confirm('" + Utils.getMessage("msgConfirmTake") + "');";
+        return "return confirm('" + Utils.getMessageForScript("msgConfirmTake") + "');";
     }
 
     @Override

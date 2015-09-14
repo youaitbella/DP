@@ -45,6 +45,9 @@ public class Utils {
 
     private static final Logger _logger = Logger.getLogger(Utils.class.getName());
 
+    public static String getMessageForScript(String key) {
+        return getMessage(key).replace("\r\n", "\n").replace("\n", "\\r\\n");
+    }
     public static String getMessage(String key) {
         //FacesContext ctxt = FacesContext.getCurrentInstance();
         //ResourceBundle messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");

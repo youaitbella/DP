@@ -20,8 +20,6 @@ public class ConfirmReset extends ClientBehaviorBase {
     }
 
     @Override
-    public void decode(FacesContext context, UIComponent component) {
-
-    }
+    public void decode(FacesContext context, UIComponent component) { }
 
 }

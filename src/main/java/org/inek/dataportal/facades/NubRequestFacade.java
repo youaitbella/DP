@@ -6,7 +6,6 @@ package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,11 +46,6 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
-        if (dataSet == DataSet.All) {
-            // todo: is this user allowed to get the whole list?
-            return Collections.EMPTY_LIST;
-        }
-
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
         Root request = cq.from(NubRequest.class);

@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;

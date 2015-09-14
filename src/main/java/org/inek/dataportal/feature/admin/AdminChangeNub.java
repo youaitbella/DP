@@ -15,6 +15,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.nub.NubRequest;
+import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
@@ -85,7 +87,10 @@ public class AdminChangeNub {
         }
     }
 
-    public void setIk(int ik) {
+    public void setIk(Integer ik) {
+        if (ik == null){
+            ik = 0;
+        }
         if (_ik != ik){
             updateAccounts(ik);
         }
@@ -93,8 +98,8 @@ public class AdminChangeNub {
         
     }
 
-    public int getIk() {
-        return _ik;
+    public Integer getIk() {
+        return _ik > 0 ? _ik : null ;
     }
 
     private void updateAccounts(int ik) {
@@ -102,6 +107,17 @@ public class AdminChangeNub {
     }
 
     public String changeOwner(){
+        _accountInfos.stream().filter(ai -> ai.isSelected()).forEach(ai -> changeOwnerForAccount(ai.getAccount()));
+        updateAccounts(_ik);
         return "";
+    }
+    
+    private void changeOwnerForAccount(Account account){
+        List<NubRequest> nubRequests = _nubFacade.findAll(account.getId(), _ik, -1, DataSet.All, "");
+        for (NubRequest nubRequest : nubRequests){
+            nubRequest.setAccountId(_account.getId());
+            _nubFacade.saveNubRequest(nubRequest);
+            _sessionController.logMessage("NubOwner changed: nub=" + nubRequest.getId() + ", oldOwner=" + account.getId() + ", newOwner=" + _account.getId());
+        }
     }
 }

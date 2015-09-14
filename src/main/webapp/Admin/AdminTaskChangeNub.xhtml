@@ -44,7 +44,6 @@
                     <h:outputText value="#{info.account.email}"/>
                 </h:column>
 
-
             </h:dataTable>
 
             <br/>
@@ -79,7 +78,9 @@
 
             <br/>
 
-            <h:commandLink styleClass="bigButton" action="#{adminChangeNub.changeOwner}" value="#{msg.btnSave}" />
+            <h:commandLink styleClass="bigButton" action="#{adminChangeNub.changeOwner}" value="#{msg.btnChangeOwner}" immediate="true">
+                <cb:confirmTake/>
+            </h:commandLink>
         </h:form>
 
 
