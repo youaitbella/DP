@@ -835,6 +835,21 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button, .
     min-width: 150px;
 }
 
+.certWebsiteButton {
+    display: inline-block;
+    padding: 2px;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 16px 16px;
+    background-image: url("/DataPortal/javax.faces.resource/home.png.xhtml?ln=Icon/small");
+}
+
+.certWebsiteButtonInactive {
+    background-image: url("/DataPortal/javax.faces.resource/home_inactive.png.xhtml?ln=Icon/small");
+}
+
 .bigButton, .sendButton{
     display: inline-block;
     font-weight: bold;

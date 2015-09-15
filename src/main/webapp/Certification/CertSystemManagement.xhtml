@@ -186,6 +186,18 @@
                             <f:ajax render="@form :logout:remaining"/>
                         </h:commandLink>
                     </h:column>
+                    
+                    <h:column id="colHp">
+                        <f:facet name="header">
+                            <h:outputText value="HP"/>
+                        </f:facet>
+                        <h:commandLink styleClass="certWebsiteButton #{certManager.getCertHpInactiveClass(grouper)}" 
+                                       disabled="#{certManager.isCertVendorOnWebsite(grouper)}"
+                                       title="#{certManager.getCertWebsiteDate(grouper)}"
+                                       action="#{certManager.addedHp(grouper)}">
+                            <f:ajax render="@form :logout:remaining certButtons:btnSystemSave"/>
+                        </h:commandLink>
+                    </h:column>
                 </h:dataTable>
 
                 <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >

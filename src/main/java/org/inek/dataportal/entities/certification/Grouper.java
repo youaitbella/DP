@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CertStatus;
@@ -81,7 +82,6 @@ public class Grouper implements Serializable {
     }
     // </editor-fold>
 
-    
     // <editor-fold defaultstate="collapsed" desc="Property CertStatus">
     @Column(name = "grCertStatus")
     private int _certStatus = -1;
@@ -372,6 +372,17 @@ public class Grouper implements Serializable {
         _certification = certification;
     }
     // </editor-fold>
+    
+    @Column(name = "grWebsiteRelease")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _websiteRelease;
+    public Date getWebsiteRelease() {
+        return _websiteRelease;
+    }
+    
+    public void setWebsiteRelease(Date websiteRelease) {
+        _websiteRelease = websiteRelease;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals">
     @Override

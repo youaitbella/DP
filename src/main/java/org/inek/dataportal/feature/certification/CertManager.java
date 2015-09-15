@@ -1,9 +1,11 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -269,6 +271,29 @@ public class CertManager {
         grouper.setPasswordRequest(Calendar.getInstance().getTime());
         grouper.setCertStatus(CertStatus.PasswordRequested);
         setSystemChanged(true);
+    }
+    
+    public void addedHp(Grouper grouper) {
+        grouper.setWebsiteRelease(Calendar.getInstance().getTime());
+        setSystemChanged(true);
+    }
+    
+    public boolean isCertVendorOnWebsite(Grouper grouper) {
+        return grouper.getWebsiteRelease() != null;
+    }
+    
+    public String getCertHpInactiveClass(Grouper grouper) {
+        if(isCertVendorOnWebsite(grouper))
+            return "certWebsiteButtonInactive";
+        return "";
+    }
+    
+    public String getCertWebsiteDate(Grouper grouper) {
+        if(isCertVendorOnWebsite(grouper)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy HH:mm:ss");
+            return sdf.format(grouper.getWebsiteRelease());
+        }
+        return "";
     }
 
     private Part _file;
