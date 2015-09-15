@@ -122,19 +122,21 @@ public class CertManager {
     }
 
     public String saveSystem() {
+        List<Grouper> savedGroupers = new ArrayList<>();
         for (Grouper grouper : _system.getGrouperList()) {
+            if (grouper.getId() == -1) {
+                copyEmail(grouper);
+            }
             try {
-                _grouperFacade.merge(grouper);
+                savedGroupers.add(_grouperFacade.merge(grouper));
             } catch (Exception ex) {
                 if (!(ex.getCause() instanceof OptimisticLockException)) {
                     throw ex;
                 }
-                grouper = mergeGrouper(grouper);
-            }
-            if (grouper.getId() == -1) {
-                copyEmail(grouper);
+                savedGroupers.add(mergeGrouper(grouper));
             }
         }
+        _system.setGrouperList(savedGroupers);
         _system = _systemFacade.save(_system);
         persistFiles(new File(_system.getSystemRoot(), "Spec"));
         persistFiles(new File(_system.getSystemRoot(), "Daten"));
