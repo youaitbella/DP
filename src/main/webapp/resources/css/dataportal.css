@@ -300,11 +300,9 @@ div#wrapper {
 #content div.tab,
 #content span.tab {
     display: block;
-    margin-top: 20px;
+    margin: 20px 0 0 0;
     width: 698px;
     border-bottom: 3px solid #7F9BAF;
-    margin-left: 0;
-    background-color: #eeeeee;;
 }
 
 #content ul.tab {
@@ -317,11 +315,11 @@ div#wrapper {
     list-style-type: none;
     display: inline-block;
     border-style: solid;
-    border-width: 3px 3px 0px 3px;
+    border-width: 3px 3px 1px 3px;
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
-    padding: 5px 10px 3px 10px;
-    margin: 0 0px 0 0;
+    padding: 5px 1% 3px 1%;
+    margin: 0;
 }
 
 #content li.tab {
@@ -791,6 +789,12 @@ tr.row2 > td.colIk > input {
     display: inline-block;
     width: 100%;
     text-align: right;
+}
+
+.fullWithCentered{
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 .row1 {
