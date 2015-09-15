@@ -18,13 +18,13 @@
             </h1>
             <div class="tab">
                 <ul class="tab">
-                    <c:forEach items="#{editNubRequest.visibleTopics}" var="topic">
+                    <ui:repeat value="#{editNubRequest.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                             <h:commandLink value="#{topic.title}" action="#{editNubRequest.changeTabPage(topic.key)}"
                                            immediate="true">
                             </h:commandLink>
                         </li>
-                    </c:forEach>
+                    </ui:repeat>
                 </ul>
             </div>
 

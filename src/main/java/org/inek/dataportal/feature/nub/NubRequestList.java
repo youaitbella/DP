@@ -67,7 +67,7 @@ public class NubRequestList {
     }
 
     public String newNubRequest() {
-        // if the user hit the browser's back-button, a reqeust might be still active. 
+        // if the user hit the browser's back-button, a request might be still active. 
         // To prevent invoking the wrong, we destroy all Feature scoped beans first
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditNubRequest");
         return Pages.NubEditAddress.URL();

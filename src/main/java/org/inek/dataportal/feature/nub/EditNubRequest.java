@@ -5,13 +5,13 @@
 package org.inek.dataportal.feature.nub;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -212,7 +212,7 @@ public class EditNubRequest extends AbstractEditController {
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
-        ArrayList<SelectItem> items = new ArrayList<>();
+        Vector<SelectItem> items = new Vector<>();
         if (account.getIK() != null) {
             iks.add(account.getIK());
         }
@@ -443,7 +443,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private List<Class> getExcludedTypes() {
-        List<Class> excludedTypes = new ArrayList<>();
+        List<Class> excludedTypes = new Vector<>();
         excludedTypes.add(Date.class);
         return excludedTypes;
     }
@@ -468,7 +468,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
-        List<String> collisions = new ArrayList<>();
+        List<String> collisions = new Vector<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName)) {
                 collisions.add(fieldName);

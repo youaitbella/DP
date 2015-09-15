@@ -19,6 +19,7 @@ public class AccountInfo {
     public AccountInfo(Account account, boolean isSelected, int count) {
         _account = account;
         _isSelected = isSelected;
+        _count = count;
     }
 
     public Account getAccount() {

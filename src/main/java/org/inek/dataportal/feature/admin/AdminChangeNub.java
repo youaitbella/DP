@@ -95,7 +95,6 @@ public class AdminChangeNub {
             updateAccounts(ik);
         }
         _ik = ik;
-        
     }
 
     public Integer getIk() {

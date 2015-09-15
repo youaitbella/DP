@@ -1,11 +1,6 @@
 package org.inek.dataportal.feature.nub;
 
-import org.inek.dataportal.helper.tree.TreeNodeObserver;
-import org.inek.dataportal.helper.tree.RootNode;
-import org.inek.dataportal.helper.tree.AccountTreeNode;
-import org.inek.dataportal.helper.tree.TreeNode;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,9 +20,9 @@ import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
@@ -37,7 +33,11 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
+import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.helper.tree.RootNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
 import org.inek.dataportal.helper.tree.YearTreeNode;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
@@ -179,7 +179,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
+        List<? extends TreeNode> oldChildren = new Vector<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
@@ -194,7 +194,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     private void obtainNubViewNodeChildren(RootNode treeNode, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
         List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
+        List<? extends TreeNode> oldChildren = new Vector<>(children);
         int targetYear = Utils.getTargetYear(Feature.NUB);
         children.clear();
         for (Integer year : years) {
@@ -221,7 +221,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
+        List<? extends TreeNode> oldChildren = new Vector<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
@@ -252,7 +252,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {
-        List<ProposalInfo> infos = new ArrayList<>();
+        List<ProposalInfo> infos = new Vector<>();
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
         } else {
@@ -268,7 +268,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private List<ProposalInfo> obtainNubInfosForEdit(int partnerId) {
-        List<ProposalInfo> infos = new ArrayList<>();
+        List<ProposalInfo> infos = new Vector<>();
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, -1, DataSet.AllOpen, getFilter());
         } else {
@@ -316,7 +316,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             }
             documents.put(key, DocumentationUtil.getDocumentation(nubRequest));
         }
-        List<String> keys = new ArrayList<>(documents.keySet());
+        List<String> keys = new Vector<>(documents.keySet());
         Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
         Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
         Utils.getFlash().put("printContentKeys", keys);

@@ -304,24 +304,24 @@ div#wrapper {
     width: 698px;
     border-bottom: 3px solid #7F9BAF;
     margin-left: 0;
+    background-color: #eeeeee;;
 }
 
 #content ul.tab {
     list-style-type: none;
-    display: inline;
     margin-left: 0px;
 }
 
 #content li.tab,
 #content li.activetab {
     list-style-type: none;
-    display: inline;
+    display: inline-block;
     border-style: solid;
     border-width: 3px 3px 0px 3px;
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
-    padding: 5px 10px 0px 10px;
-    margin: 0 2px 0 0;
+    padding: 5px 10px 3px 10px;
+    margin: 0 0px 0 0;
 }
 
 #content li.tab {
@@ -1089,4 +1089,8 @@ div.fakeFile {
     border-top: black dotted 1px;
     border-bottom: black dotted 1px;
     padding: 0.2em;
+}
+
+th {
+    text-align: left;
 }

@@ -5,9 +5,9 @@
  */
 package org.inek.dataportal.helper.tree;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * TreeNode and its descendents are used to encapsulate the tree status as well
@@ -28,7 +28,7 @@ public abstract class TreeNode {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Children">    
-    private final Collection<TreeNode> _children = new ArrayList<>();
+    private final Collection<TreeNode> _children = new Vector<>();
 
     public Collection<TreeNode> getChildren() {
         return _children;
@@ -159,7 +159,7 @@ public abstract class TreeNode {
     }
 
     public List<TreeNode> getSelectedNodes() {
-        List<TreeNode> selectedNodes = new ArrayList<>();
+        List<TreeNode> selectedNodes = new Vector<>();
         if (!_isExpanded) {
             return selectedNodes;
         }
@@ -173,7 +173,7 @@ public abstract class TreeNode {
     }
 
     public List<Integer> getSelectedIds(Class<? extends TreeNode> clazz) {
-        List<Integer> selectedIds = new ArrayList<>();
+        List<Integer> selectedIds = new Vector<>();
         if (!_isExpanded) {
             return selectedIds;
         }

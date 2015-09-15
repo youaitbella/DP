@@ -20,7 +20,10 @@
                 <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
             </div>                    
 
-            <h:dataTable id="accountInfos" value="#{adminChangeNub.accountInfos}" var="info" width="100%" rowClasses="row1, row2">
+            <hr/>
+            
+            <h:dataTable id="accountInfos" value="#{adminChangeNub.accountInfos}" var="info" width="100%" rowClasses="row1, row2"
+                         columnClasses="colIcon, colId, colValue, colValue, colShort number">
 
                 <h:column>
                     <f:facet name="header">
@@ -29,6 +32,13 @@
                     <h:selectBooleanCheckbox id="noProc" value="#{info.selected}" >
                         <f:ajax event="blur" render="@this :logout:remaining "/>
                     </h:selectBooleanCheckbox>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblId}"/>
+                    </f:facet>
+                    <h:outputText value="#{info.account.id}"/>
                 </h:column>
 
                 <h:column>
@@ -45,8 +55,16 @@
                     <h:outputText value="#{info.account.email}"/>
                 </h:column>
 
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblCount}"/>
+                    </f:facet>
+                    <h:outputText value="#{info.count}"/>
+                </h:column>
+
             </h:dataTable>
 
+            <hr/>
             <br/>
 
 

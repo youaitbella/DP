@@ -32,8 +32,8 @@
             </h:panelGroup>
 
             <div class="toolBar">
-                <h:commandLink styleClass="bigButton" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
-                               rendered="#{sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
+            <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
+                           disabled="#{!sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
             </div>
 
             <h:panelGroup rendered="#{peppProposalList.sealedPeppProposals.size() > 0}">

@@ -272,7 +272,7 @@ public class SessionController implements Serializable {
             logMessage("Login failed");
             return false;
         }
-        logMessage("Login (" + Utils.getUserAgent() + ")");
+        logMessage("Login: IP=" + Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + ")");
         if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
             FacesContext context = FacesContext.getCurrentInstance();
             if (context != null) {

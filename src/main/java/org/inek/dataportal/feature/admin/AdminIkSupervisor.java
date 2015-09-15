@@ -111,16 +111,18 @@ public class AdminIkSupervisor {
         return _feature;
     }
 
-    public void setIk(int ik) {
+    public void setIk(Integer ik) {
+        if (ik == null){
+            ik = 0;
+        }
         _ik = ik;
     }
 
+    public Integer getIk() {
+        return _ik > 0 ? _ik : null ;
+    }
     public CooperativeRight getCooperativeRight() {
         return _cooperativeRight;
-    }
-
-    public int getIk() {
-        return _ik;
     }
 
     public void setCooperativeRight(CooperativeRight cooperativeRight) {

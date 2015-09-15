@@ -33,9 +33,8 @@
             </h:panelGroup>
 
             <div class="toolBar">
-                <h:commandLink styleClass="bigButton" action="#{drgProposalList.newDrgProposal}" 
-                               value="#{msg.btnNewDrgProposal}" immediate="true" 
-                               rendered="#{sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
+            <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
+                           disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
             </div>
 
             <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}" styleClass="marginTop">
