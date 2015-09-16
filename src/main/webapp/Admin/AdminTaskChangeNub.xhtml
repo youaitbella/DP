@@ -71,7 +71,7 @@
             <div class="inputPart">
                 <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
                 <h:inputText id="UserEmail" value="#{adminChangeNub.email}" validator="#{adminChangeNub.checkEmail}" styleClass="inputlong">
-                    <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining"/>
+                    <f:ajax render="@this msgUserEmail accountId msgAccountId UserName UserInstitute :logout:remaining"/>
                 </h:inputText>
                 <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
             </div>                    
@@ -79,7 +79,7 @@
             <div class="inputPart">
                 <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
                 <h:inputText id="accountId" value="#{adminChangeNub.accountId}" validator="#{adminChangeNub.checkAccountId}" styleClass="inputmedium">
-                    <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining"/>
+                    <f:ajax render="@this msgAccountId UserEmail msgUserEmail UserName UserInstitute :logout:remaining"/>
                 </h:inputText>
                 <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
             </div>        
@@ -91,7 +91,7 @@
 
             <div class="inputPart">
                 <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
-                <h:inputText id="UserInstitute" value="#{adminChangeNub.account.firstName} #{adminChangeNub.account.lastName}" disabled="true" styleClass="inputlong"/>
+                <h:inputText id="UserInstitute" value="#{adminChangeNub.account.company}" disabled="true" styleClass="inputlong"/>
             </div>        
 
 

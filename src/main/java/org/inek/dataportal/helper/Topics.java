@@ -94,6 +94,15 @@ public class Topics implements Serializable {
         return new Topic(null, null, null);
     }
     
+    public Topic findTopicByOutcome (String outcome){
+        for (Topic topic : _topics){
+            if (topic.getOutcome().equals(outcome)){
+                return topic;
+            }
+        }
+        return new Topic(null, null, null);
+    }
+    
     public Topic getActiveTopic (){
         for (Topic topic : _topics){
             if (topic.isActive()){

@@ -5,9 +5,9 @@
  */
 package org.inek.dataportal.helper.tree;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * TreeNode and its descendents are used to encapsulate the tree status as well
@@ -28,7 +28,7 @@ public abstract class TreeNode {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Children">    
-    private final Collection<TreeNode> _children = new Vector<>();
+    private final Collection<TreeNode> _children = new ArrayList<>();
 
     public Collection<TreeNode> getChildren() {
         return _children;
@@ -159,7 +159,7 @@ public abstract class TreeNode {
     }
 
     public List<TreeNode> getSelectedNodes() {
-        List<TreeNode> selectedNodes = new Vector<>();
+        List<TreeNode> selectedNodes = new ArrayList<>();
         if (!_isExpanded) {
             return selectedNodes;
         }
@@ -173,7 +173,7 @@ public abstract class TreeNode {
     }
 
     public List<Integer> getSelectedIds(Class<? extends TreeNode> clazz) {
-        List<Integer> selectedIds = new Vector<>();
+        List<Integer> selectedIds = new ArrayList<>();
         if (!_isExpanded) {
             return selectedIds;
         }
@@ -197,4 +197,25 @@ public abstract class TreeNode {
             child.selectAll(clazz, value);
         }
     }
+
+    @Override
+    public int hashCode() {
+        return _id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TreeNode other = (TreeNode) obj;
+        return _id == other._id;
+    }
+    
 }

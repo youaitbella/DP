@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -125,7 +125,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
         List<NubRequest> requests = findAll(accountId, ik, year, dataSet, filter);
-        List<ProposalInfo> proposalInfos = new Vector<>();
+        List<ProposalInfo> proposalInfos = new ArrayList<>();
         for (NubRequest request : requests) {
             String displayName = request.getDisplayName().trim().length() == 0
                     ? request.getName()
@@ -150,7 +150,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
             query.setParameter("filter2", filter);
         }
         List<NubRequest> requests = query.getResultList();
-        List<ProposalInfo> proposalInfos = new Vector<>();
+        List<ProposalInfo> proposalInfos = new ArrayList<>();
         for (NubRequest request : requests) {
             String displayName = request.getDisplayName().trim().length() == 0
                     ? request.getName()
@@ -199,7 +199,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
 //        return infos;
         
         // although the compiler tells us something else, this is what we get
-        List<AccountInfo> infos = new Vector<>();
+        List<AccountInfo> infos = new ArrayList<>();
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("ik", ik);
         List<Object[]> objects = query.getResultList();

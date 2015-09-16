@@ -5,13 +5,13 @@
 package org.inek.dataportal.feature.nub;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -28,10 +28,10 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.nub.NubRequest;
+import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -40,8 +40,8 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
-import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
@@ -212,7 +212,7 @@ public class EditNubRequest extends AbstractEditController {
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
-        Vector<SelectItem> items = new Vector<>();
+        List<SelectItem> items = new ArrayList<>();
         if (account.getIK() != null) {
             iks.add(account.getIK());
         }
@@ -443,7 +443,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private List<Class> getExcludedTypes() {
-        List<Class> excludedTypes = new Vector<>();
+        List<Class> excludedTypes = new ArrayList<>();
         excludedTypes.add(Date.class);
         return excludedTypes;
     }
@@ -468,7 +468,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
-        List<String> collisions = new Vector<>();
+        List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName)) {
                 collisions.add(fieldName);

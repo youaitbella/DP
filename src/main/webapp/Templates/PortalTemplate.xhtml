@@ -83,16 +83,13 @@
                                         <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
                                             <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
                                         </h:panelGroup>
-                                        <f:ajax listener="#{sessionController.setCurrentTopic(topic.key)}"/>
                                     </h:commandLink>
                                 </li>
                             </ui:repeat>
                             <ui:insert name="navItems"></ui:insert>
                             <c:if test="#{sessionController.loggedIn}">
                                 <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
-                                    <h:commandLink value="Übersicht" action="#{sessionController.getMainPage}">
-                                        <f:ajax listener="#{sessionController.clearCurrentTopic()}"/>
-                                    </h:commandLink>
+                                    <h:commandLink value="Übersicht" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
                                 </li>
                             </c:if>
                             <li>

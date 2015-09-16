@@ -125,13 +125,21 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private void collectException(StringBuilder collector, String head, Throwable exception) {
+        collectException(collector, head, exception, 0);
+    }
+    private void collectException(StringBuilder collector, String head, Throwable exception, int level) {
         if (collector.length() > 0) {
-            collector.append("\r\n\r\n--------------------------------\r\n\r\n");
+            collector.append("\r\n\r\n--------------------------------\r\n");
         }
+        collector.append("Level: ").append(level).append("\r\n\r\n");
         collector.append(head).append("\r\n\r\n");
         collector.append(exception.getMessage()).append("\r\n\r\n");
         for (StackTraceElement element : exception.getStackTrace()) {
             collector.append(element.toString()).append("\r\n");
+        }
+        Throwable cause = exception.getCause();
+        if (cause != null && level < 9){
+            collectException(collector, head, cause, level+1);
         }
     }
 

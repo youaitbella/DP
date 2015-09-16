@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.nub;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -169,7 +169,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
     }
 
-    private void obtainNubEditNodeChildren(RootNode treeNode, Collection<TreeNode> children) {
+    private void obtainNubEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadCompleted());
         accountIds = _nubRequestFacade.checkAccountsForNubOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
@@ -179,27 +179,27 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        List<? extends TreeNode> oldChildren = new Vector<>(children);
+        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(treeNode, account, this);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
     }
 
-    private void obtainNubViewNodeChildren(RootNode treeNode, Collection<TreeNode> children) {
+    private void obtainNubViewNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
         List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
-        List<? extends TreeNode> oldChildren = new Vector<>(children);
+        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.NUB);
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
-            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.create(treeNode, year, this);
+            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.create(node, year, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (year == targetYear) {
@@ -221,7 +221,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        List<? extends TreeNode> oldChildren = new Vector<>(children);
+        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
@@ -252,7 +252,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {
-        List<ProposalInfo> infos = new Vector<>();
+        List<ProposalInfo> infos = new ArrayList<>();
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
         } else {
@@ -268,7 +268,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private List<ProposalInfo> obtainNubInfosForEdit(int partnerId) {
-        List<ProposalInfo> infos = new Vector<>();
+        List<ProposalInfo> infos = new ArrayList<>();
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, -1, DataSet.AllOpen, getFilter());
         } else {
@@ -316,7 +316,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             }
             documents.put(key, DocumentationUtil.getDocumentation(nubRequest));
         }
-        List<String> keys = new Vector<>(documents.keySet());
+        List<String> keys = new ArrayList<>(documents.keySet());
         Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
         Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
         Utils.getFlash().put("printContentKeys", keys);

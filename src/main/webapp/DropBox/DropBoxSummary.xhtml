@@ -25,17 +25,26 @@
                             </f:facet>
                             <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.IK}" immediate="true"/>
                         </h:column>
+
                         <h:column id="colDescription">
                             <f:facet name="header">
                                 <h:outputText value="#{msg.lblDescription}"/>
                             </f:facet>
                             <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.description}" immediate="true"/>
                         </h:column>
+
                         <h:column id="colType">
                             <f:facet name="header">
                                 <h:outputText value="#{msg.lblType}"/>
                             </f:facet>
                             <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.dropboxType.name}" immediate="true"/>
+                        </h:column>
+
+                        <h:column id="colValidUntil">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblValidUntil}"/>
+                            </f:facet>
+                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{dropBoxList.validUntil(p)}" immediate="true"/>
                         </h:column>
 
                     </h:dataTable>

@@ -134,7 +134,7 @@ public class SessionController implements Serializable {
         }
         return _searchController;
     }
-    
+
     public String getMainPage() {
         return Pages.MainApp.URL();
     }
@@ -154,14 +154,18 @@ public class SessionController implements Serializable {
     }
     // </editor-fold>
 
-    public String navigate(String topic) {
-        logMessage("Navigate to " + topic);
-        if(topic.contains(Pages.PeppProposalEdit.URL()))
-            _topics.setActive(_topics.findTopic(Utils.getMessage("lblPeppProposal"))); // TODO: Reminder.
-        _logger.log(Level.WARNING, "Navigate to {0}", topic);
+    public String navigate(String url) {
+        logMessage("Navigate to " + url);
+        Topic topic = _topics.findTopicByOutcome(url);
+        if (topic.getKey() == null) {
+            clearCurrentTopic();
+        } else {
+            setCurrentTopic(topic.getKey());
+        }
+        _logger.log(Level.WARNING, "Navigate to {0}", url);
         endAllConversations();
         FeatureScopedContextHolder.Instance.destroyAllBeans();
-        return topic + "?faces-redirect=true";
+        return url + "?faces-redirect=true";
     }
 
     public String beginConversation(Conversation conversation) {
@@ -272,7 +276,7 @@ public class SessionController implements Serializable {
             logMessage("Login failed");
             return false;
         }
-        logMessage("Login: IP=" + Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + ")");
+        logMessage("Login: IP=" + Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent());
         if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
             FacesContext context = FacesContext.getCurrentInstance();
             if (context != null) {
