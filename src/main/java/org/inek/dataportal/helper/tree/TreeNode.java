@@ -143,7 +143,8 @@ public abstract class TreeNode {
         if (_observer != null) {
             _observer.obtainChildren(this, getChildren());
         }
-        for (TreeNode child : _children) {
+        List<TreeNode> children = new ArrayList<>(getChildren());
+        for (TreeNode child : children) {
             child.refresh();
         }
     }
