@@ -10,8 +10,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -28,7 +26,6 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         super(DropBox.class);
     }
 
-    
     public List<DropBox> findAll(int accountId, boolean isClosed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -45,7 +42,6 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    
     public List<DropBox> findInvalid() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
@@ -54,7 +50,6 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    
     public DropBox getDropBoxByDir(String dir) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> query = cb.createQuery(DropBox.class);
@@ -102,11 +97,33 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
 
     @Schedule(hour = "1")
     private void cleanDropBoxes() {
+        deleteInvalid();
+        deleteOldDropBoxes();
+    }
+
+    private void deleteInvalid() {
         List<DropBox> dropboxes = findInvalid();
-        for (DropBox dropbox : dropboxes) {
-            _logger.log(Level.WARNING, "Clean DropBox {0}", dropbox.getDropBoxId());
-            remove(dropbox);
+        for (DropBox dropBox : dropboxes) {
+            _logger.log(Level.WARNING, "Remove invalid DropBox {0}", dropBox.getDropBoxId());
+            remove(dropBox);
         }
+    }
+
+    private void deleteOldDropBoxes() {
+        List<DropBox> oldBoxes = findAllOutdated();
+        for (DropBox dropBox : oldBoxes){
+            _logger.log(Level.WARNING, "Remove old DropBox {0}", dropBox.getDropBoxId());
+            remove(dropBox);
+        }
+    }
+
+    
+    public List<DropBox> findAllOutdated() {
+        String jpql = "SELECT d from DropBox d join Account a WHERE d._accountId = a._id and d._validUntil + a._dropBoxHoldTime < :date";
+        TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
+        query.setParameter("date", Calendar.getInstance().getTime());
+        dumpSql(query);
+        return query.getResultList();
     }
 
 }

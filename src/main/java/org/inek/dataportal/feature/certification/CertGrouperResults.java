@@ -492,7 +492,7 @@ public class CertGrouperResults {
     }
     
     private void mergeGrouperCertDate() {
-        _sessionController.logMessage("ConcurrentUpdate CertGrouperResults " + _grouper.getId());
+        _sessionController.logMessage("ConcurrentUpdate CertGrouperResults: grouper=" + _grouper.getId());
         Grouper currentGrouper = _grouperFacade.findFresh(_grouper.getId());
         currentGrouper.setCertStatus(_grouper.getCertStatus());
         currentGrouper.setCertification(_grouper.getCertification());

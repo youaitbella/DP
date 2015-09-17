@@ -155,14 +155,13 @@ public class SessionController implements Serializable {
     // </editor-fold>
 
     public String navigate(String url) {
-        logMessage("Navigate to " + url);
+        logMessage("Navigate: URL=" + url);
         Topic topic = _topics.findTopicByOutcome(url);
         if (topic.getKey() == null) {
             clearCurrentTopic();
         } else {
             setCurrentTopic(topic.getKey());
         }
-        _logger.log(Level.WARNING, "Navigate to {0}", url);
         endAllConversations();
         FeatureScopedContextHolder.Instance.destroyAllBeans();
         return url + "?faces-redirect=true";

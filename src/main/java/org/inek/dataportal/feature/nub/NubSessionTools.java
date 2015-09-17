@@ -335,7 +335,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return "";
     }
 
-    public Collection<TreeNode> sortChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
             return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
         }

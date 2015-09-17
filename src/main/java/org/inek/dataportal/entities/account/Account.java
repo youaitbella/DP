@@ -29,6 +29,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 
@@ -93,6 +95,7 @@ public class Account implements Serializable, Person {
 
     @Column(name = "acNubInformationMail")
     private boolean _nubInformationMail = true;
+
     public boolean isNubInformationMail() {
         return _nubInformationMail;
     }
@@ -100,6 +103,20 @@ public class Account implements Serializable, Person {
     public void setNubInformationMail(boolean nubInformationMail) {
         _nubInformationMail = nubInformationMail;
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Property KeepDropBox">
+    @Column(name = "acDropBoxHoldTime")
+    private int _dropBoxHoldTime;
+
+    @Min(30) @Max(1500)
+    public int getDropBoxHoldTime() {
+        return _dropBoxHoldTime;
+    }
+
+    public void setDropBoxHoldTime(int dropBoxHoldTime) {
+        _dropBoxHoldTime = dropBoxHoldTime;
+    }
+    // </editor-fold>
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
@@ -118,6 +135,7 @@ public class Account implements Serializable, Person {
             joinColumns = @JoinColumn(name = "aiAccountId"),
             inverseJoinColumns = @JoinColumn(name = "aiInekRoleId"))
     private List<InekRole> _inekRoles;
+
     public List<InekRole> getInekRoles() {
         return _inekRoles;
     }
@@ -134,6 +152,7 @@ public class Account implements Serializable, Person {
             joinColumns = @JoinColumn(name = "grAccountId"),
             inverseJoinColumns = @JoinColumn(name = "grSystemId"))
     private List<RemunerationSystem> _systems;
+
     public List<RemunerationSystem> getRemuneratiosSystems() {
         return _systems;
     }

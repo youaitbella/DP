@@ -14,7 +14,6 @@ import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.dropbox.DropBox;
-import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
 

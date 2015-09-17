@@ -42,6 +42,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @Named
 @FeatureScoped
 public class EditUserMaintenance extends AbstractEditController {
+    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit. After save, replace the account object in sessionConctoller.
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     enum UserMaintenaceTabs {
@@ -461,7 +462,8 @@ public class EditUserMaintenance extends AbstractEditController {
                 && original.getCustomerPhone().equals(copy.getCustomerPhone())
                 && original.getCustomerFax().equals(copy.getCustomerFax())
                 && original.isNubConfirmation() == copy.isNubConfirmation()
-                && original.isMessageCopy() == copy.isMessageCopy();
+                && original.isMessageCopy() == copy.isMessageCopy()
+                && original.getDropBoxHoldTime() == copy.getDropBoxHoldTime();
         return !isEqual;
     }
 
@@ -486,6 +488,7 @@ public class EditUserMaintenance extends AbstractEditController {
         original.setCustomerFax(copy.getCustomerFax());
         original.setNubConfirmation(copy.isNubConfirmation());
         original.setMessageCopy(copy.isMessageCopy());
+        original.setDropBoxHoldTime(copy.getDropBoxHoldTime());
     }
 
     private boolean mergeFeaturesIfModified() {

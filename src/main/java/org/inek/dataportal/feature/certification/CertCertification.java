@@ -337,7 +337,7 @@ public class CertCertification {
     }
 
     private void mergeGrouper() {
-        _sessionController.logMessage("ConcurrentUpdate CertCertification " + _grouper.getId());
+        _sessionController.logMessage("ConcurrentUpdate CertCertification: grouper=" + _grouper.getId());
         Grouper currentGrouper = _grouperFacade.findFresh(_grouper.getId());
         currentGrouper.setName(_grouper.getName());
         currentGrouper.setEmailCopy(_grouper.getEmailCopy());

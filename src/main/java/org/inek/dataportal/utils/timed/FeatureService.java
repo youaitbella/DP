@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
@@ -26,6 +27,7 @@ import org.inek.dataportal.requestmanager.FeatureRequestHandler;
  * @author muellermi
  */
 @Singleton
+@Startup
 public class FeatureService {
 
     private static final Logger _logger = Logger.getLogger("FeatureService");
@@ -59,17 +61,17 @@ public class FeatureService {
      */
     private void check4orphantRequests() {
         List<AccountFeatureRequest> requests = _requestFacade.findAll();
-        for (AccountFeatureRequest request : requests){
+        for (AccountFeatureRequest request : requests) {
             Account account = _accountFacade.find(request.getAccountId());
-            if (account == null){
+            if (account == null) {
                 _requestFacade.remove(request);
                 continue;
             }
             Optional<AccountFeature> optFeature = account.getFeatures().stream().filter(f -> f.getFeature() == request.getFeature()).findFirst();
-            if (!optFeature.isPresent() || optFeature.get().getFeatureState() != FeatureState.REQUESTED){
+            if (!optFeature.isPresent() || optFeature.get().getFeatureState() != FeatureState.REQUESTED) {
                 _requestFacade.remove(request);
             }
         }
     }
-
+    
 }

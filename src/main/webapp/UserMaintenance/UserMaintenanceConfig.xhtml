@@ -38,6 +38,14 @@
             </p>
         </div>
 
+        <div class="inputPart">
+            <h:outputLabel styleClass="label30" for="dropBoxHoldTime" value="#{msg.lblDropBoxHoldTime}:"/>
+            <h:inputText styleClass="inputshort" id="dropBoxHoldTime" value="#{editUserMaintenance.account.dropBoxHoldTime}" required="false">
+                <f:ajax render="@this msgDropBoxHoldTime :logout:remaining"/>
+            </h:inputText>
+            <h:message id="msgDropBoxHoldTime" for="dropBoxHoldTime" styleClass="errorMessage"/>
+        </div>
+
         <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
         <div class="toolBar">
             <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.save}" value="#{msg.btnSave}" immediate="false" />

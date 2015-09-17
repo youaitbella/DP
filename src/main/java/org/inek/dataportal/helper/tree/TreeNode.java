@@ -36,7 +36,7 @@ public abstract class TreeNode {
     
     public Collection<TreeNode> getSortedChildren() {
         if (_observer != null) {
-            return _observer.sortChildren(this, getChildren());
+            return _observer.obtainSortedChildren(this, getChildren());
         }
         return _children;
     }
