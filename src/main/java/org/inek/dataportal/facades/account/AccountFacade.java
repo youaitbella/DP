@@ -51,7 +51,14 @@ public class AccountFacade extends AbstractFacade<Account> {
     public AccountFacade() {
         super(Account.class);
     }
-
+    
+//    public String getDatabaseName() {
+//        String ret = "Properties: ";
+//        for(Object key : getEntityManager().getEntityManagerFactory().) {
+//            ret += key + " ";
+//        }
+//        return ret;
+//    }
     
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";

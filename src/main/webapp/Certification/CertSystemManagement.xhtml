@@ -163,6 +163,13 @@
                         </f:facet>
                         <h:outputText value="#{grouper.certStatus.label}"/>
                     </h:column>
+                    
+                    <h:column id="colMailed" >
+                        <f:facet name="header">
+                            <h:outputText value="@"/>
+                        </f:facet>
+                        <h:graphicImage rendered="#{certGrouperResults.needMail(grouper)}" library="Icon/small" title="Mail" name="#{certGrouperResults.getMailIcon(grouper)}" />
+                    </h:column>
 
                     <h:column id="colPass">
                         <f:facet name="header">

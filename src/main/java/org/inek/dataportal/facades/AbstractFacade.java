@@ -133,5 +133,4 @@ public abstract class AbstractFacade<T> {
         String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
         System.out.println(sql);
     }
-    
 }

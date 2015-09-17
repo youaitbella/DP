@@ -38,6 +38,7 @@ public class FeatureService {
     @Schedule(hour = "0", info = "once a day")
     //    @Schedule(hour = "*", minute = "*/1", info = "very minute")  // use this for testing purpose
     public void checkFeatures() {
+        
         _logger.log(Level.INFO, "Start checkFeatures");
         check4requestedFeatures();
         check4orphantRequests();

@@ -732,4 +732,52 @@ public class CertGrouperResults {
         _grouper = _grouperFacade.find(_grouper.getId()); // re-init grouper object to avoid exception
         return "";
     }
+    
+    public boolean needMail(Grouper grouper) {
+        switch(grouper.getCertStatus()) {
+            case TestFailed1:
+            case TestFailed2:
+            case TestSucceed:
+            case CertFailed1:
+            case CertSucceed:
+            case CertificationPassed:
+                return true;
+        }
+        return false;
+    }
+    
+    public String getMailIcon(Grouper grouper) {
+        if(!needMail(grouper))
+            return "";
+        int sysId = grouper.getSystemId();
+        int grId = grouper.getAccountId();
+        String mailImage = "mail.png";
+        switch(grouper.getCertStatus()) {
+            case TestFailed1:
+                if(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1)
+                    return mailImage;
+                break;
+            case TestFailed2:
+                if(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2)
+                    return mailImage;
+                break;
+            case TestSucceed:
+                if(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.PassedTest.getId()).size() == 1)
+                    return mailImage;
+                break;
+            case CertFailed1:
+                if(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorCert.getId()).size() == 1)
+                    return mailImage;
+                break;
+            case CertSucceed:
+                if(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certified.getId()).size() == 1)
+                    return mailImage;
+                break;
+            case CertificationPassed:
+                if(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certificate.getId()).size() == 1)
+                    return mailImage;
+                break;
+        }
+        return "mail_inactive.png";
+    }
 }
