@@ -104,7 +104,7 @@ public class Account implements Serializable, Person {
         _nubInformationMail = nubInformationMail;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Property KeepDropBox">
+    // <editor-fold defaultstate="collapsed" desc="Property DropBoxHoldTime">
     @Column(name = "acDropBoxHoldTime")
     private int _dropBoxHoldTime;
 

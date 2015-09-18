@@ -127,8 +127,8 @@ public class CertGrouperResults {
         return _templateEmailCertificate;
     }
 
-    public void setTemplateEmailCertificate(String _templateEmailCertificate) {
-        this._templateEmailCertificate = _templateEmailCertificate;
+    public void setTemplateEmailCertificate(String templateEmailCertificate) {
+        _templateEmailCertificate = templateEmailCertificate == null ? "" : templateEmailCertificate;
     }
     
     public boolean hasNotDeliveredData() {

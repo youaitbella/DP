@@ -59,7 +59,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     public void setNubFilter(String nubFilter) {
-        _nubFilter = nubFilter;
+        _nubFilter = nubFilter == null ? "" : nubFilter;
         refreshNodes();
     }
 

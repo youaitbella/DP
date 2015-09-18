@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.GrouperAction;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
@@ -271,8 +272,15 @@ public class CertCertification {
     public String saveFile() {
         setPersistUploadFile();
         RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
-        String msg = "Account: " + _sessionController.getAccountId() + "\r\n"
-                + _sessionController.getAccount().getCompany() + "\r\n\r\n"
+        Account account = _sessionController.getAccount();
+        String phone = account.getPhone();
+        if (phone.trim().isEmpty()){
+            phone = account.getCustomerPhone();
+        }
+        String msg = "Account: \t\t" + account.getId() + "\r\n"
+                + "Firma: \t\t" + account.getCompany() + "\r\n"
+                + "Ansprechpartner: \t" + account.getFirstName() + " " + account.getLastName() + "\r\n"
+                + "Telefon: \t\t" + phone + "\r\n\r\n"
                 + system.getDisplayName() + "\r\n"
                 + _grouper.getCertStatus().getLabel() + "\r\n";
         _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis " + system.getDisplayName(), msg);
