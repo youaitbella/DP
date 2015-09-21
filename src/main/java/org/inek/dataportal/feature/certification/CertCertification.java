@@ -278,7 +278,7 @@ public class CertCertification {
             phone = account.getCustomerPhone();
         }
         String msg = "Account: \t\t" + account.getId() + "\r\n"
-                + "Firma: \t\t" + account.getCompany() + "\r\n"
+                + "Firma: \t\t\t" + account.getCompany() + "\r\n"
                 + "Ansprechpartner: \t" + account.getFirstName() + " " + account.getLastName() + "\r\n"
                 + "Telefon: \t\t" + phone + "\r\n\r\n"
                 + system.getDisplayName() + "\r\n"

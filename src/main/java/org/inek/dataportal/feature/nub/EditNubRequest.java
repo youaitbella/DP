@@ -428,7 +428,7 @@ public class EditNubRequest extends AbstractEditController {
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_nubRequest);
 
         String msgKey = _nubRequest.isSealed() ? "msgDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
-        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) +  "], NUB: " + modifiedNubRequest.getId());
+        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], NUB: " + modifiedNubRequest.getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
             msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
@@ -561,19 +561,31 @@ public class EditNubRequest extends AbstractEditController {
             copy.setId(-1);
             copy.setTargetYear(targetYear);
             _nubRequestFacade.remove(_nubRequest);
-            _nubRequest = _nubRequestFacade.saveNubRequest(copy);
-        } else {
+            _nubRequest = copy;
+        }
+        boolean isNewRequest = !isValidId(_nubRequest.getId());
+        String msg = "";
+        try {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-        }
+            if (isValidId(_nubRequest.getId())) {
+                sendNubConfirmationMail();
 
-        if (isValidId(_nubRequest.getId())) {
-            sendNubConfirmationMail();
-
-            Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
-            Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
-            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
-            return Pages.PrintView.URL();
+                Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
+                Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
+                Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
+                return Pages.PrintView.URL();
+            }
+        } catch (Exception ex) {
+            if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            msg = mergeAndReportChanges();
         }
+        if (_nubRequest != null) {
+            _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
+        }
+        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+        _sessionController.setScript(script);
         return "";
     }
 
@@ -652,8 +664,25 @@ public class EditNubRequest extends AbstractEditController {
         }
         _nubRequest.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
-        _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+
+        boolean isNewRequest = !isValidId(_nubRequest.getId());
+        String msg = "";
+        try {
+            _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+            return "";
+        } catch (Exception ex) {
+            if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            msg = mergeAndReportChanges();
+        }
+        if (_nubRequest != null) {
+            _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
+        }
+        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+        _sessionController.setScript(script);
         return "";
+        
     }
 
     public String deleteDocument(String name) {

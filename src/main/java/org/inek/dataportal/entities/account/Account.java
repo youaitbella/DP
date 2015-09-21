@@ -106,7 +106,7 @@ public class Account implements Serializable, Person {
 
     // <editor-fold defaultstate="collapsed" desc="Property DropBoxHoldTime">
     @Column(name = "acDropBoxHoldTime")
-    private int _dropBoxHoldTime;
+    private int _dropBoxHoldTime=100;
 
     @Min(30) @Max(1500)
     public int getDropBoxHoldTime() {
