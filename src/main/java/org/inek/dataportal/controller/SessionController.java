@@ -197,6 +197,11 @@ public class SessionController implements Serializable {
     }
 
     public String logout() {
+        performLogout();
+        return Pages.Login.URL();// + "?faces-redirect=true";
+    }
+
+    private void performLogout() {
         if (_account != null) {
             endAllConversations();
             FeatureScopedContextHolder.Instance.destroyAllBeans();
@@ -207,7 +212,7 @@ public class SessionController implements Serializable {
             _parts.clear();
             invalidateSession();
         }
-        return Pages.Login.URL();// + "?faces-redirect=true";
+        _windowName = "";
     }
 
     private void invalidateSession() {
@@ -567,6 +572,23 @@ public class SessionController implements Serializable {
         _clickable = true;
         setTestPerformed(true);
         return Pages.Login.URL();
+    }
+
+    private String _windowName;
+
+    public String getWindowName() {
+        return _windowName;
+    }
+
+    public void setWindowName(String windowName) {
+        if (_windowName == null || _windowName.isEmpty()) {
+            // first access
+            _windowName = "DataPortal" + UUID.randomUUID();
+        } else if (!windowName.equals(_windowName)) {
+            // new tab or window
+            performLogout();
+            Utils.navigate(Pages.DoubleWindow.RedirectURL());
+        }
     }
 
     @Inject private ConfigFacade _config;

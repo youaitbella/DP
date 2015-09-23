@@ -104,7 +104,7 @@
                             <h:outputText value="#{a.text}"/>
                         </h:column>
                     </h:dataTable>
-                    
+
                 </div>
 
 
@@ -133,6 +133,36 @@
             <div id="footer">
                 © InEK GmbH - Institut für das Entgeltsystem im Krankenhaus 2010 - #{sessionTools.currentYear} | Pflichtfelder sind mit * gekennzeichnet.
             </div>
+            <h:form id="check" rendered="#{sessionController.loggedIn}">
+                <h:inputText id="windowName" value="#{sessionController.windowName}" styleClass="hide"/>
+                <script>
+                    function testWindow() {
+                        document.getElementById('check:windowName').value = window.name;
+                        jsf.ajax.request('check:windowName', null, {'execute': 'check:windowName', 'render': 'check:windowName'});
+                    }
+                    function handleAjax(data) {
+                        var status = data.status;
+
+                        switch (status) {
+                            case "begin":
+                                // This is the start of the AJAX request.
+                                break;
+
+                            case "complete":
+                                // This is invoked right after ajax response is returned.
+                                break;
+
+                            case "success":
+                                // This is invoked right after successful processing of ajax response and update of HTML DOM.
+                                window.name = document.getElementById('check:windowName').value;
+                                break;
+                        }
+                    }
+
+                    jsf.ajax.addOnEvent(handleAjax);
+                    window.onload = testWindow;
+                </script>
+            </h:form>
         </div>
 
         <script type="text/javascript">

@@ -115,6 +115,7 @@ public enum Pages {
     DataError("/common/DataError"),
     SessionTimeoutRedirector("/common/TimeOutRedirector"),
     SessionTimeout("/common/TimeOut"),
+    DoubleWindow("/common/DoubleWindow"),
     InvalidConversation("/common/InvalidConversation"),
     SearchCode("/common/SearchCode"),
     //

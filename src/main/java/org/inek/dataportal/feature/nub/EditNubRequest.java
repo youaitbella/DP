@@ -470,7 +470,7 @@ public class EditNubRequest extends AbstractEditController {
     private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
-            if (differencesPartner.containsKey(fieldName)) {
+            if (differencesPartner.containsKey(fieldName) || _nubRequest.isSealed()) {
                 collisions.add(fieldName);
                 differencesPartner.remove(fieldName);
                 continue;
