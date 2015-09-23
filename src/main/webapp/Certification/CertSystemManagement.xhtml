@@ -131,7 +131,7 @@
                 <h:outputLabel rendered="#{certManager.systemChanged}" value="Daten geändert" styleClass="changed"/>
 
                 <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
-                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, col17, colValue, colValue"
+                             value="#{certManager.findFreshGrouper()}" var="grouper" columnClasses="colIcon, colValue, col17, colValue, colValue"
                              styleClass="ruledTable marginTop">
                     <h:column id="colDeleteId" >
                         <f:facet name="header">

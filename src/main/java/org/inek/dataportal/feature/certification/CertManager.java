@@ -122,6 +122,15 @@ public class CertManager {
         setSystemChanged(false);
         return Pages.CertSystemManagement.RedirectURL();
     }
+    
+    public List<Grouper> findFreshGrouper() {
+        List<Grouper> freshList = getSystem().getGrouperList();
+        for(Grouper g : freshList) {
+            g = _grouperFacade.findFresh(g.getId());
+        }
+        getSystem().setGrouperList(freshList);
+        return getSystem().getGrouperList();
+    }
 
     public String saveSystem() {
         List<Grouper> savedGroupers = new ArrayList<>();
