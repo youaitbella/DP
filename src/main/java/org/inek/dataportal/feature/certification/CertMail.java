@@ -191,9 +191,8 @@ public class CertMail implements Serializable {
     }
 
     public String addReceiverToList() {
-        if (_selectedReceiverNewList.equals("")) {
-            return ""; // throw exception here.
-        }
+        if(_selectedReceiverNewList == null || _selectedReceiverNewList.isEmpty())
+            return "";
         String userEmail = _selectedReceiverNewList.substring(_selectedReceiverNewList.indexOf('(') + 1, _selectedReceiverNewList.length() - 1);
         EmailReceiver er = new EmailReceiver();
         er.setAccountId(_accFacade.findByMailOrUser(userEmail).getId());
