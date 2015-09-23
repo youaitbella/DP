@@ -77,7 +77,11 @@ public class Activate implements Serializable{
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)){
             return null;
         }
-        return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() :  Pages.MainApp.URL();
+        if (_sessionController.countInstalledFeatures() <= 1){
+            _sessionController.setCurrentTopicByUrl(Pages.UserMaintenanceMasterData.URL());
+            return Pages.UserMaintenanceFeatures.URL();
+        }
+        return  Pages.MainApp.URL();
     }
 
 

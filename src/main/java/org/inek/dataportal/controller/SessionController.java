@@ -156,15 +156,19 @@ public class SessionController implements Serializable {
 
     public String navigate(String url) {
         logMessage("Navigate: URL=" + url);
+        setCurrentTopicByUrl(url);
+        endAllConversations();
+        FeatureScopedContextHolder.Instance.destroyAllBeans();
+        return url + "?faces-redirect=true";
+    }
+
+    public void setCurrentTopicByUrl(String url) {
         Topic topic = _topics.findTopicByOutcome(url);
         if (topic.getKey() == null) {
             clearCurrentTopic();
         } else {
             setCurrentTopic(topic.getKey());
         }
-        endAllConversations();
-        FeatureScopedContextHolder.Instance.destroyAllBeans();
-        return url + "?faces-redirect=true";
     }
 
     public String beginConversation(Conversation conversation) {
@@ -197,20 +201,25 @@ public class SessionController implements Serializable {
     }
 
     public String logout() {
-        performLogout();
+        performLogout("Logout");
+        invalidateSession();
         return Pages.Login.URL();// + "?faces-redirect=true";
     }
 
-    private void performLogout() {
+    public void logout(String message) {
+        performLogout(message);
+        invalidateSession();
+    }
+
+    private void performLogout(String message) {
         if (_account != null) {
             endAllConversations();
             FeatureScopedContextHolder.Instance.destroyAllBeans();
-            logMessage("Logout");
-            _account = null;
+            logMessage(message);
             _topics.clear();
             _features.clear();
             _parts.clear();
-            invalidateSession();
+            _account = null;
         }
         _windowName = "";
     }
@@ -586,8 +595,11 @@ public class SessionController implements Serializable {
             _windowName = "DataPortal" + UUID.randomUUID();
         } else if (!windowName.equals(_windowName)) {
             // new tab or window
-            performLogout();
-            Utils.navigate(Pages.DoubleWindow.RedirectURL());
+            _windowName = "";
+            _topics.clear();
+            _features.clear();
+            _parts.clear();
+            Utils.navigate(Pages.DoubleWindow.URL());
         }
     }
 

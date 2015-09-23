@@ -3,14 +3,11 @@ package org.inek.dataportal.facades.cooperation;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRequest;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -34,14 +31,9 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
      * @return
      */
     public List<Account> getCooperationRequestors(int accountId) {
-        String query = "SELECT acId, acLastModified, acIsDeactivated, "
-                + "acUser, acMail, acGender, acTitle, acFirstName, "
-                + "acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, "
-                + "acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax "
-                + "from dbo.account "
-                + "join usr.CooperationRequest on acId = crRequestorAccountId "
-                + "where crRequestedAccountId = ?1";
-        return getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
+        String jpql = "select a from CooperationRequest r join Account a where r._requestorId = a._id and  r._requestedId = :accountId";
+        TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
+        return query.setParameter("accountId", accountId).getResultList();
     }
 
     public long getOpenCooperationRequestCount(int accountId){

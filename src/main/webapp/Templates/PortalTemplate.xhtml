@@ -87,7 +87,7 @@
                                 </li>
                             </ui:repeat>
                             <ui:insert name="navItems"></ui:insert>
-                            <c:if test="#{sessionController.loggedIn}">
+                            <c:if test="#{sessionController.loggedIn and sessionController.topics.size() gt 0}">
                                 <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
                                     <h:commandLink value="Übersicht" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
                                 </li>

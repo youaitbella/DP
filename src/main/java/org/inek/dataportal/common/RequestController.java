@@ -41,22 +41,22 @@ public class RequestController implements Serializable {
             // The template displays the logged in user. This view will be created _before_ tryLogout is called.
             // To ensure the user is logged-out when displaying error or timeout,
             // we first call these redirectors, log out and redirect to the target pages
-            tryLogout();
+            tryLogout(viewId);
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             return;
         }
         if (viewId.equals(Pages.ErrorRedirector.URL())) {
-            tryLogout();
+            tryLogout(viewId);
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
             return;
         }
         if (viewId.equals(Pages.DataErrorRedirector.URL())) {
-            tryLogout();
+            tryLogout(viewId);
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.DataError.URL());
             return;
         }
         if (viewId.equals(Pages.NotAllowed.URL())) {
-            tryLogout();
+            tryLogout(viewId);
             String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
             if (!url.endsWith("/favicon.ico") && !url.endsWith("/wpad.dat") && !Utils.getClientIP().startsWith("192.168.0.")) {
                 // log, if none of the well known accesses
@@ -68,8 +68,9 @@ public class RequestController implements Serializable {
         if (viewId.equals(Pages.Error.URL())
                 || viewId.equals(Pages.InvalidConversation.URL())
                 || viewId.equals(Pages.SessionTimeout.URL())
+                || viewId.equals(Pages.DoubleWindow.URL())
                 || viewId.equals(Pages.NotAllowed.URL())) {
-            tryLogout();
+            tryLogout(viewId);
             return;
         }
         if (viewId.startsWith("/login/") || _sessionController.isLoggedIn()) {
@@ -80,9 +81,9 @@ public class RequestController implements Serializable {
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
     }
 
-    private void tryLogout() {
+    private void tryLogout(String message) {
         if (_sessionController != null) {
-            _sessionController.logout();
+            _sessionController.logout(message);
         }
     }
 
@@ -92,7 +93,7 @@ public class RequestController implements Serializable {
         }
         _logger.log(Level.WARNING, "Attempt to call admin page from ip: {0}", Utils.getClientIP());
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        tryLogout();
+        tryLogout("Attempt to call admin page from ip: " + Utils.getClientIP());
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
     }
 

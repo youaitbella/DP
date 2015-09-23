@@ -118,7 +118,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         SendExeptionMessage(messageCollector.toString());
         SessionController sc = Utils.getBean(SessionController.class);
         if (sc != null) {
-            sc.logout();
+            sc.logout("Logout due to error");
         }
         Utils.navigate(targetPage);
         getWrapped().handle();
