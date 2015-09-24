@@ -126,7 +126,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return getRootNode(1);
     }
     
-    public RootNode getRootNode(int id) {
+    private RootNode getRootNode(int id) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()){
             return (RootNode) optionalRoot.get();

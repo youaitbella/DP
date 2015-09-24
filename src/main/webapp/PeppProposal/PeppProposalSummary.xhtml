@@ -2,69 +2,72 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PeppProposalSummaryTemplate.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:define name="summaryContent">
-        <h:panelGroup class="paddingElement">
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>#{msg.lblPeppProposal}</h1>
+            <h:panelGroup class="paddingElement">
 
-            <ui:include src="#{sessionTools.pages.ListPeppProposal}"/>
+                <ui:include src="#{sessionTools.pages.ListPeppProposal}"/>
 
-            <h:panelGroup rendered="#{peppProposalList.partnersForEdit.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.lblPeppProposalFromPartner}"/>
-                <c:forEach items="#{peppProposalList.partnersForEdit}" var="partner" rendered="#{peppProposalList.partnersForEdit.size() > 0}">
-                    <h:panelGroup rendered="#{peppProposalList.getPeppProposalsForEditFromPartner(partner.id).size() gt 0}">
-                        <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                        </p>
+                <h:panelGroup rendered="#{peppProposalList.partnersForEdit.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="#{msg.lblPeppProposalFromPartner}"/>
+                    <c:forEach items="#{peppProposalList.partnersForEdit}" var="partner" rendered="#{peppProposalList.partnersForEdit.size() > 0}">
+                        <h:panelGroup rendered="#{peppProposalList.getPeppProposalsForEditFromPartner(partner.id).size() gt 0}">
+                            <p>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
+                            </p>
 
-                        <inek:PeppProposalTable proposals="#{peppProposalList.getPeppProposalsForEditFromPartner(partner.id)}"
-                                                showDelete="false"/>
+                            <inek:PeppProposalTable proposals="#{peppProposalList.getPeppProposalsForEditFromPartner(partner.id)}"
+                                                    showDelete="false"/>
 
-                    </h:panelGroup>
-                </c:forEach>
+                        </h:panelGroup>
+                    </c:forEach>
+                </h:panelGroup>
+
+                <div class="toolBar">
+                    <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
+                                   disabled="#{!sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
+                </div>
+
+                <h:panelGroup rendered="#{peppProposalList.sealedPeppProposals.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="#{msg.infoSealedPeppProposals}"/>
+
+                    <inek:PeppProposalTable proposals="#{peppProposalList.sealedPeppProposals}"
+                                            showDelete="false"/>
+
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{peppProposalList.partnersForDisplay.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="#{msg.lblPeppProposalFromPartner}"/>
+                    <c:forEach items="#{peppProposalList.partnersForDisplay}" var="partner" rendered="#{peppProposalList.partnersForDisplay.size() > 0}">
+                        <h:panelGroup rendered="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id).size() gt 0}">
+                            <p>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
+                            </p>
+
+                            <inek:PeppProposalTable proposals="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id)}"
+                                                    rendered="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id).size() gt 0}"
+                                                    showDelete="false"/>
+
+                        </h:panelGroup>
+                    </c:forEach>
+                </h:panelGroup>
+
             </h:panelGroup>
-
-            <div class="toolBar">
-            <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
-                           disabled="#{!sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
-            </div>
-
-            <h:panelGroup rendered="#{peppProposalList.sealedPeppProposals.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.infoSealedPeppProposals}"/>
-
-                <inek:PeppProposalTable proposals="#{peppProposalList.sealedPeppProposals}"
-                                        showDelete="false"/>
-
-            </h:panelGroup>
-
-            <h:panelGroup rendered="#{peppProposalList.partnersForDisplay.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.lblPeppProposalFromPartner}"/>
-                <c:forEach items="#{peppProposalList.partnersForDisplay}" var="partner" rendered="#{peppProposalList.partnersForDisplay.size() > 0}">
-                    <h:panelGroup rendered="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id).size() gt 0}">
-                        <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                        </p>
-
-                        <inek:PeppProposalTable proposals="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id)}"
-                                                rendered="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id).size() gt 0}"
-                                                showDelete="false"/>
-
-                    </h:panelGroup>
-                </c:forEach>
-            </h:panelGroup>
-
-        </h:panelGroup>
+        </h:form>
     </ui:define>
 
 </ui:composition>

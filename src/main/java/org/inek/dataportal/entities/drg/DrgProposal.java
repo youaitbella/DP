@@ -49,6 +49,16 @@ public class DrgProposal implements Serializable {
     private int _version;
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property TargetYear">
+    @Column(name = "prTargetYear", updatable = false, insertable = false)
+    @Version
+    private int _targetYear;
+
+    public int getTargetYear() {
+        return _targetYear;
+    }
+    // </editor-fold>
+
     @Column(name = "prAccountId")
     private Integer _accountId;
 

@@ -221,7 +221,6 @@ public class SessionController implements Serializable {
             _parts.clear();
             _account = null;
         }
-        _windowName = "";
     }
 
     private void invalidateSession() {
@@ -590,12 +589,11 @@ public class SessionController implements Serializable {
     }
 
     public void setWindowName(String windowName) {
-        if (_windowName == null || _windowName.isEmpty()) {
+        if (_windowName == null) {
             // first access
             _windowName = "DataPortal" + UUID.randomUUID();
         } else if (!windowName.equals(_windowName)) {
             // new tab or window
-            _windowName = "";
             _topics.clear();
             _features.clear();
             _parts.clear();

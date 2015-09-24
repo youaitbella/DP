@@ -1,24 +1,18 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaQuery;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.entities.drg.DrgProposalComment;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.structures.ProposalInfo;
@@ -38,12 +32,11 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
     
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
+        return findAll(accountId, -1, dataSet);
+    }
+    public List<DrgProposal> findAll(int accountId, int year, DataSet dataSet) {
         if (dataSet == DataSet.None) {
             return new ArrayList<>();
-        }
-
-        if (dataSet == DataSet.All) {
-            // todo: is this user allowed to get the whole list?
         }
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -61,11 +54,17 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
             sealed = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
             order = cb.desc(request.get("_id"));
         }
+        Predicate checkYear;
+        if (year > 0){
+          checkYear = cb.equal(request.get("_targetYear"), year);  
+        }else{
+            checkYear = cb.notEqual(request.get("_targetYear"), year);  
+        }
         if (dataSet == DataSet.All) {
-            cq.select(request).where(sealed).orderBy(order);
+            cq.select(request).where(cb.and(sealed, checkYear)).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
-            cq.select(request).where(cb.and(isAccount, sealed)).orderBy(order);
+            cq.select(request).where(cb.and(isAccount, sealed, checkYear)).orderBy(order);
         }
         return getEntityManager().createQuery(cq).getResultList();
     }
@@ -91,14 +90,14 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     }
 
     public List<ProposalInfo> getDrgProposalInfos(int accountId, DataSet dataSet) {
-        List<DrgProposal> drgProposals = findAll(accountId, dataSet);
+        return getDrgProposalInfos(accountId, -1, dataSet);
+    }
+    
+    public List<ProposalInfo> getDrgProposalInfos(int accountId, int year, DataSet dataSet) {
+        List<DrgProposal> drgProposals = findAll(accountId, year, dataSet);
         List<ProposalInfo> drgProposalInfos = new ArrayList<>();
         for (DrgProposal drgProposal : drgProposals) {
-            int year = 2016;
-            if (drgProposal.getId() >= 160000) {
-                year = 2000 + Integer.parseInt(("" + drgProposal.getId()).substring(0, 2));  // todo: get year from better place
-            }
-            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(), year, drgProposal.getStatus());
+            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(), drgProposal.getTargetYear(), drgProposal.getStatus());
             drgProposalInfos.add(ppInfo);
         }
         return drgProposalInfos;
@@ -114,6 +113,23 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         int toId = fromId + 9999;
         String statement = "select distinct prAccountId from DrgProposal where prId between ?1 and ?2 and prStatus = 10";
         Query query = getEntityManager().createNativeQuery(statement).setParameter(1, fromId).setParameter(2, toId);
+        return query.getResultList();
+    }
+
+    public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String jpql = "SELECT DISTINCT p._accountId FROM DrgProposal p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
+        Query query = getEntityManager().createQuery(jpql, DrgProposal.class);
+        query.setParameter("accountIds", accountIds);
+        query.setParameter("year", year);
+        query.setParameter("statusLow", statusLow.getValue());
+        query.setParameter("statusHigh", statusHigh.getValue());
+        return new HashSet<>(query.getResultList());
+    }
+
+    public List<Integer> getProposalYears(Set<Integer> accountIds) {
+        String jpql = "SELECT DISTINCT p._targetYear FROM DrgProposal p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+        Query query = getEntityManager().createQuery(jpql, Integer.class);
+        query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
 }

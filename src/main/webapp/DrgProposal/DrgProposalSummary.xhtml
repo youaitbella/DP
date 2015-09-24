@@ -2,66 +2,74 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/DrgProposalSummaryTemplate.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
-    <ui:define name="summaryContent">
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
+        </f:metadata>
 
-        <h:panelGroup class="paddingElement">
+        #{drgProposalTreeHandler.refreshNodes()}
+        <h:form id="form">
+            <h1>#{msg.lblDrgProposal}</h1>
 
-            <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
+            <h:panelGroup class="paddingElement">
 
-            <h:panelGroup rendered="#{drgProposalList.partnersForEdit.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
-                <c:forEach items="#{drgProposalList.partnersForEdit}" var="partner" rendered="#{drgProposalList.partnersForEdit.size() > 0}">
-                    <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id).size() gt 0}">
-                        <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                        </p>
+                <inek:DrgProposalTable proposals="#{drgProposalList.drgProposals}" rendered="#{drgProposalList.drgProposals.size() > 0}"/>
 
-                        <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id)}"
-                                               showDelete="false"/>
+                <h:panelGroup rendered="#{drgProposalList.partnersForEdit.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
+                    <c:forEach items="#{drgProposalList.partnersForEdit}" var="partner" rendered="#{drgProposalList.partnersForEdit.size() > 0}">
+                        <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id).size() gt 0}">
+                            <p>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
+                            </p>
 
-                    </h:panelGroup>
-                </c:forEach>
+                            <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id)}"
+                                                   showDelete="false"/>
+
+                        </h:panelGroup>
+                    </c:forEach>
+                </h:panelGroup>
+
+                <div class="toolBar">
+                    <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
+                                   disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
+                </div>
+
+                <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}" styleClass="marginTop">
+                    <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
+                    <inek:DrgProposalTable proposals="#{drgProposalList.sealedDrgProposals}" showDelete="false"/>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
+                    <br/>
+                    <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
+                    <c:forEach items="#{drgProposalList.partnersForDisplay}" var="partner" rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
+                        <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}">
+                            <p>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
+                            </p>
+
+                            <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id)}"
+                                                   rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}"
+                                                   showDelete="false"/>
+
+                        </h:panelGroup>
+                    </c:forEach>
+                </h:panelGroup>
+
             </h:panelGroup>
-
-            <div class="toolBar">
-            <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
-                           disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
-            </div>
-
-            <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}" styleClass="marginTop">
-                <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
-                <inek:DrgProposalTable proposals="#{drgProposalList.sealedDrgProposals}" showDelete="false"/>
-            </h:panelGroup>
-
-            <h:panelGroup rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
-                <br/>
-                <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
-                <c:forEach items="#{drgProposalList.partnersForDisplay}" var="partner" rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
-                    <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}">
-                        <p>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                        </p>
-
-                        <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id)}"
-                                               rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}"
-                                               showDelete="false"/>
-
-                    </h:panelGroup>
-                </c:forEach>
-            </h:panelGroup>
-
-        </h:panelGroup>
+        </h:form>
     </ui:define>
 
 </ui:composition>
