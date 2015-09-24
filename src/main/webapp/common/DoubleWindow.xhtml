@@ -1,22 +1,44 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="/Templates/PortalTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
 
-    <ui:define name="navItems">
-    </ui:define>
+    <ui:define name="metaData"/>
 
-    <ui:define name="content">
+    <ui:define name="userInfo"/>
+
+    <ui:define name="menuList"/>
+
+
+    <ui:define name="mainContent">
         <h1>Mehrere Fenster</h1>
         <br/>
-        <p>#{msg.msgDoubleWindow}</p>
+        <h4>
+            Das Datenportal hat die Nutzung mehrerer Fenster (dies kann auch ein zweiter Karteireiter im Browser sein) erkannt. Dies könnte zu einem nicht spezifizierten Verhalten führen und ist daher nicht zulässig.
+            Vorsichtshalber wurden Sie deshalb automatisch abgemeldet (im anderen Fenster führt dies abhängig von der Klick-Reihenfolge zur Meldung "Timeout" oder direkt zum Login).
+        </h4>
+        <p class="marginElement">
+            Bitte nutzen Sie im weiteren Verlauf nur eines der Fenster.
+        </p>
+        <p class="marginElement">
+            Sollten Sie das ursprüngliche Fenster bereits geschlossen und trotzdem diese Meldung erhalten haben, kann dies an einer fehlenden Abmeldung liegen.
+        </p>
+        <hr/>
+        <p class="marginElement">
+            Einige moderne Browser bieten die Möglichkeit eines "privaten" Fensters, manchmal auch "Inkognito-Fenster" genannt. Damit wird es - abhängig vom Browser - möglich, das Datenportal gleichzeitig in zwei Fenstern (einmal privat, einmal nicht privat) zu öffnen.
+        </p>
+
         <br/>
         <br/>
         <div class="inpuPart">
-            <h:button styleClass="bigButton" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
+            <h:form>
+                <h:commandLink styleClass="bigButton" value="#{msg.btnLogin}" action="#{sessionController.navigateLogin}" immediate="true"/>
+            </h:form>
         </div>
     </ui:define>
+
+    <ui:define name="bottom"/>
 
 </ui:composition>

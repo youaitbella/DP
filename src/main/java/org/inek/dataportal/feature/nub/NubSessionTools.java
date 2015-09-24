@@ -125,10 +125,10 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public RootNode getEditNode() {
         return getRootNode(1);
     }
-    
+
     private RootNode getRootNode(int id) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
-        if (optionalRoot.isPresent()){
+        if (optionalRoot.isPresent()) {
             return (RootNode) optionalRoot.get();
         }
         RootNode node = RootNode.create(id, this);
@@ -324,13 +324,11 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.PrintMultipleView.URL();
     }
 
-    public
-            void selectAll() {
+    public void selectAll() {
         _rootNode.selectAll(ProposalInfoTreeNode.class, true);
     }
 
-    public String
-            deselectAll() {
+    public String deselectAll() {
         _rootNode.selectAll(ProposalInfoTreeNode.class, false);
         return "";
     }

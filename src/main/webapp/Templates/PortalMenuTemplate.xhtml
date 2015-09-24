@@ -1,140 +1,62 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <f:metadata>
+    <ui:define name="metaData">
         <f:event type="preRenderView" listener="#{requestController.forceLoginIfNotLoggedIn}"/>
-        <f:phaseListener type="org.inek.dataportal.common.LifeCycleListener"/>
-    </f:metadata>
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link type="text/css" rel="stylesheet" href="/DataPortal/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{applicationTools.version}" />
-        <!--h:outputStylesheet name="dataportal.css" library="css" /-->
-        <h:outputScript name="clientutils.js" library="script"/>
-        <h:outputScript name="jsf.js" library="javax.faces"/>
-    </h:head>
+    </ui:define>
 
-    <h:body>
-        <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
-            <h5>
-                Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
-                Bekanntermaßen kann dies (insbesondere bei Versionen kleiner 9) zu unerwarteten Fehlern ("Abstürzen") führen.
-                Empfehlung: Aktualisieren Sie Ihren Internet Explorer (mind. Version 11) oder nutzen Sie einen anderen modernen Browser.
-                Bitte beachten Sie die entsprechenden Hinweise im Handbuch.
-            </h5>
-        </div>
-        <div id="wrapper">
-            <div id="top">
-                <div class="left">
-                    <h:graphicImage alt="InEK GmbH" name="InEK.gif" library="Image"/>
-                </div>
-                <div class="right">
-                    <div id="globalLinks">
-                        <ul>
-                            <li class="firstelement"><a href="http://g-drg.de/cms" title="zur Startseite wechseln">Home</a></li>
-                            <li class="lastelement"><a href="http://g-drg.de/cms/Impressum" title="zum Impressum wechseln">Impressum</a></li>
-                        </ul>
-                        <c:if test="#{sessionController.loggedIn}">
-                            <h:form id="logout">
-                                <h:outputLabel styleClass="label" value="#{msg.lblWelcome} #{sessionController.user}"/>
-                                <h:outputLabel styleClass="light" value=" (#{msg.lblAutoLogout} "/>
-                                <h:outputText id="remaining" styleClass="light" value="#{sessionController.remainingTime}"/>
-                                <h:outputLabel styleClass="light" value=") "/>
-                                <h:commandLink styleClass="btnLogout" value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
-                            </h:form>
-                        </c:if>
+    <ui:define name="userInfo">
 
-                    </div>
-                    <div class ="head inlineBlock">
-                        InEK Datenportal
-                    </div>
-                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warningWide inlineBlock"
-                                 rendered="#{announcementBean.announcements.stream().filter(a->a.warning).toList().size() gt 0}">
-                        <h:column>
-                            <h:outputText value="#{a.text}"/>
-                        </h:column>
-                    </h:dataTable>
+        <c:if test="#{sessionController.loggedIn}">
+            <h:form id="logout">
+                <h:outputLabel styleClass="label" value="#{msg.lblWelcome} #{sessionController.user}"/>
+                <h:outputLabel styleClass="light" value=" (#{msg.lblAutoLogout} "/>
+                <h:outputText id="remaining" styleClass="light" value="#{sessionController.remainingTime}"/>
+                <h:outputLabel styleClass="light" value=") "/>
+                <h:commandLink styleClass="btnLogout" value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
+            </h:form>
+        </c:if>
+    </ui:define>
 
-                    <div class="highlight">
-                        InEK – Institut für das Entgeltsystem im Krankenhaus
-                        <span class="small">v#{applicationTools.version}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="defloat"></div>
+    <ui:define name="menuList">
 
-            <div id="content">
-                <div id="menu" class="navi">
-                    <h:form id="nav">
-                        <ul>
-                            <c:if test="#{sessionController.loggedIn}">
-                                <li>
-                                    <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
-                                </li>
-                            </c:if>
-                            <ui:repeat value="#{sessionController.topics}" var="topic">
-                                <li class="#{topic.active ? 'activemenu' : 'menu'}">
-                                    <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true">
-                                        <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
-                                            <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
-                                        </h:panelGroup>
-                                    </h:commandLink>
-                                </li>
-                            </ui:repeat>
-                            <ui:insert name="navItems"></ui:insert>
-                            <c:if test="#{sessionController.loggedIn and sessionController.topics.size() gt 0}">
-                                <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
-                                    <h:commandLink value="Übersicht" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
-                                </li>
-                            </c:if>
-                            <li>
-                                <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf" target="blank"  title="#{msg.titleManual}">Anwenderhandbuch</a>
-                            </li>
-                        </ul>
-                    </h:form>
+        <c:if test="#{sessionController.loggedIn}">
+            <li>
+                <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
+            </li>
+        </c:if>
+        <ui:repeat value="#{sessionController.topics}" var="topic">
+            <li class="#{topic.active ? 'activemenu' : 'menu'}">
+                <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true">
+                    <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
+                        <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
+                    </h:panelGroup>
+                </h:commandLink>
+            </li>
+        </ui:repeat>
+        <ui:insert name="navItems"></ui:insert>
+        <c:if test="#{sessionController.loggedIn and sessionController.topics.size() gt 0}">
+            <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
+                <h:commandLink value="Übersicht" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
+            </li>
+        </c:if>
+    </ui:define>
 
-                    <h:dataTable value="#{announcementBean.announcements.stream().filter(a->!a.warning).toList()}" var="a" styleClass="hint"
-                                 rendered="#{announcementBean.announcements.stream().filter(a->!a.warning).toList().size() gt 0}">
-                        <h:column>
-                            <h:outputText value="#{a.text}"/>
-                        </h:column>
-                    </h:dataTable>
+    <ui:define name="mainContent">
+        <ui:insert name="content">Content</ui:insert>
+    </ui:define>
 
-                </div>
-
-
-                <div class="right">
-                    <noscript>
-                        <h3 class="warningWide">#{msg.msgEnableScript}</h3>
-                    </noscript>
-                    <h:form id="browsertest" rendered="false">
-                        <div jsf:rendered="#{!sessionController.testPerformed}">
-                            <script>
-                                function test() {
-                                    document.getElementById('browsertest:testclick').click();
-                                }
-                                window.onload = test;
-                            </script>
-                            <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
-                        </div>
-                        <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
-                            <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
-                        </div>
-                    </h:form>
-                    <ui:insert name="content">Content</ui:insert>
-                </div>
-                <div class="defloat"></div>
-            </div>
-            <div id="footer">
-                © InEK GmbH - Institut für das Entgeltsystem im Krankenhaus 2010 - #{sessionTools.currentYear} | Pflichtfelder sind mit * gekennzeichnet.
-            </div>
-            <h:form id="check" rendered="#{sessionController.loggedIn}">
-                <h:inputText id="windowName" value="#{sessionController.windowName}" styleClass="hide"/>
+    <ui:define name="bottom">
+            <h:form id="check" rendered="true">
+                <h:inputText id="windowName" value="#{sessionController.windowName}" styleClass="inputwide"/>
+            </h:form>
                 <script>
                     function testWindow() {
                         document.getElementById('check:windowName').value = window.name;
@@ -160,14 +82,9 @@
                     }
 
                     jsf.ajax.addOnEvent(handleAjax);
-                    window.onload = testWindow;
+                    testWindow();
                 </script>
-            </h:form>
-        </div>
+    </ui:define>
 
-        <script type="text/javascript">
-            #{sessionController.script}
-        </script>
-    </h:body>
 
-</html>
+</ui:composition>

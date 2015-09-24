@@ -594,11 +594,14 @@ public class SessionController implements Serializable {
             _windowName = "DataPortal" + UUID.randomUUID();
         } else if (!windowName.equals(_windowName)) {
             // new tab or window
-            _topics.clear();
-            _features.clear();
-            _parts.clear();
-            Utils.navigate(Pages.DoubleWindow.URL());
+            performLogout("DoubleWindow");
+            Utils.navigate(Pages.DoubleWindow.RedirectURL());
         }
+    }
+
+    public String navigateLogin() {
+        _windowName = null;
+        return Pages.Login.URL();
     }
 
     @Inject private ConfigFacade _config;
