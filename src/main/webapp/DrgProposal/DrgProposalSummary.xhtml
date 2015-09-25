@@ -6,69 +6,87 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
         <f:metadata>
             <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
         </f:metadata>
 
+        <h4><h:outputLabel value="#{msg.infoOpenProposal}"/></h4>
+
         #{drgProposalTreeHandler.refreshNodes()}
         <h:form id="form">
             <h1>#{msg.lblDrgProposal}</h1>
 
-            <h:panelGroup class="paddingElement">
 
-                <inek:DrgProposalTable proposals="#{drgProposalList.drgProposals}" rendered="#{drgProposalList.drgProposals.size() > 0}"/>
+            <ui:repeat value="#{drgProposalTreeHandler.editNode.children}" var="accountNode" >
+                <div style="margin-left:16px;">
+                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this proposalEdit :logout:remaining"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
 
-                <h:panelGroup rendered="#{drgProposalList.partnersForEdit.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
-                    <c:forEach items="#{drgProposalList.partnersForEdit}" var="partner" rendered="#{drgProposalList.partnersForEdit.size() > 0}">
-                        <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id).size() gt 0}">
-                            <p>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                            </p>
-
-                            <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForEditFromPartner(partner.id)}"
-                                                   showDelete="false"/>
-
-                        </h:panelGroup>
-                    </c:forEach>
-                </h:panelGroup>
-
-                <div class="toolBar">
-                    <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
-                                   disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
+                    <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Vorschläge zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
+                        <inek:DrgProposalNode parentNode="#{accountNode}" isSealed="false" 
+                                              showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                              rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
+                    </div>
                 </div>
+            </ui:repeat>
 
-                <h:panelGroup rendered="#{drgProposalList.sealedDrgProposals.size() > 0}" styleClass="marginTop">
-                    <h:outputLabel styleClass="label" value="#{msg.infoSealedDrgProposals}"/>
-                    <inek:DrgProposalTable proposals="#{drgProposalList.sealedDrgProposals}" showDelete="false"/>
-                </h:panelGroup>
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
+                               disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
+            </div>
 
-                <h:panelGroup rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.lblDrgProposalFromPartner}"/>
-                    <c:forEach items="#{drgProposalList.partnersForDisplay}" var="partner" rendered="#{drgProposalList.partnersForDisplay.size() > 0}">
-                        <h:panelGroup rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}">
-                            <p>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                            </p>
+            <h4><h:outputLabel value="#{msg.infoSealedProposal}"/></h4>
 
-                            <inek:DrgProposalTable proposals="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id)}"
-                                                   rendered="#{drgProposalList.getDrgProposalsForDisplayFromPartner(partner.id).size() gt 0}"
-                                                   showDelete="false"/>
+            <ui:repeat value="#{drgProposalTreeHandler.viewNode.children}" var="year">
+                <p>
+                    <h:commandLink action="#{year.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this NubYear :logout:remaining"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Vorschläge für #{year.id}" immediate="true" />
+                </p>
+                <div jsf:id="NubYear">
+                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
+                        <div style="margin-left:16px;">
+                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                                <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                                <f:ajax render="@this proposalShow :logout:remaining"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                            <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
+                                <inek:DrgProposalNode parentNode="#{accountNode}" 
+                                                      isSealed="true" 
+                                                      showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                      rendered="#{accountNode.expanded}"/>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </ui:repeat>
 
-                        </h:panelGroup>
-                    </c:forEach>
-                </h:panelGroup>
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton" action="#{drgProposalTreeHandler.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+                <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
+                    <f:ajax listener="#{drgProposalTreeHandler.selectAll}" render="@form :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
+                    <f:ajax listener="#{drgProposalTreeHandler.deselectAll}" render="@form :logout:remaining"/>
+                </h:commandLink>
+            </div>
 
-            </h:panelGroup>
+
         </h:form>
     </ui:define>
 

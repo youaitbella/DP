@@ -4,18 +4,22 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
+
     <h2>
         <h:commandLink action="#{sessionController.navigate(sessionTools.pages.DrgProposalSummary)}" value="#{msg.lblDrgProposal}" immediate="true"/>
     </h2>
     <div class="paddingElement">
-        <ui:include src="#{sessionTools.pages.ListDrgProposal}"/>
+        <inek:DrgProposalNode parentNode="#{drgProposalTreeHandler.accountNode}" isSealed="false" 
+                              showDelete="true" showSelectBox="false"
+                              rendered="#{drgProposalTreeHandler.accountNode.children.size() gt 0}"/>
+
         <p>
             <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
                            disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
         </p>
-            <br/>
-            <h:outputLabel styleClass="label" rendered ="#{drgProposalList.sealedDrgProposals.size() > 0}" value="sowie #{drgProposalList.sealedDrgProposals.size()} bereitgestellte DRG-Vorschläge"/>
+        <br/>
     </div>
 </ui:composition>
 

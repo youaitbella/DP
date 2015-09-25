@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,12 +19,13 @@ import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
@@ -33,13 +36,15 @@ import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.TreeNode;
 import org.inek.dataportal.helper.tree.TreeNodeObserver;
 import org.inek.dataportal.helper.tree.YearTreeNode;
+import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.KeyValueLevel;
 
 /**
  *
  * @author muellermi
  */
 @Named @SessionScoped
-public class DrpProposalTreeHandler implements Serializable, TreeNodeObserver {
+public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
 
     private static final Logger _logger = Logger.getLogger("DrpProposalTreeHandler");
     private static final long serialVersionUID = 1L;
@@ -51,7 +56,8 @@ public class DrpProposalTreeHandler implements Serializable, TreeNodeObserver {
     @Inject private AccountFacade _accountFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
-
+    private AccountTreeNode _accountNode;
+    
     private RootNode getRootNode(int id) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()) {
@@ -59,6 +65,7 @@ public class DrpProposalTreeHandler implements Serializable, TreeNodeObserver {
         }
         RootNode node = RootNode.create(id, this);
         node.expand();
+        _rootNode.setExpanded(true);
         _rootNode.getChildren().add(node);
         return node;
     }
@@ -73,6 +80,14 @@ public class DrpProposalTreeHandler implements Serializable, TreeNodeObserver {
 
     public void refreshNodes() {
         _rootNode.refresh();
+    }
+
+    public AccountTreeNode getAccountNode() {
+        if (_accountNode == null) {
+            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), this);
+            _accountNode.expand();
+        }
+        return _accountNode;
     }
 
     @Override
@@ -90,7 +105,6 @@ public class DrpProposalTreeHandler implements Serializable, TreeNodeObserver {
             obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
         }
     }
-    @Inject private NubRequestFacade _nubRequestFacade;
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
@@ -227,4 +241,37 @@ public class DrpProposalTreeHandler implements Serializable, TreeNodeObserver {
         return sorted.collect(Collectors.toList());
     }
 
+    public void selectAll() {
+        _rootNode.selectAll(ProposalInfoTreeNode.class, true);
+    }
+
+    public String deselectAll() {
+        _rootNode.selectAll(ProposalInfoTreeNode.class, false);
+        return "";
+    }
+
+    public String printSelected() {
+        List<Integer> selectedProposals = _rootNode.getSelectedIds(ProposalInfoTreeNode.class);
+        if (selectedProposals.isEmpty()) {
+            return "";
+        }
+        List<DrgProposal> proposals = _drgProposalFacade.find(selectedProposals);
+        Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
+        int count = 1;
+        for (DrgProposal proposal : proposals) {
+            String key = proposal.getExternalId();
+            if (key.isEmpty()) {
+                key = "<nicht gesendet> " + count++;
+            }
+            documents.put(key, DocumentationUtil.getDocumentation(proposal));
+        }
+        List<String> keys = new ArrayList<>(documents.keySet());
+        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB"));
+        Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
+        Utils.getFlash().put("printContentKeys", keys);
+        Utils.getFlash().put("printContent", documents);
+        return Pages.PrintMultipleView.URL();
+    }
+
+    
 }

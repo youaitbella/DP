@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -132,4 +133,13 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
+    
+    public List<DrgProposal> find(List<Integer> requestIds) {
+        String jpql = "SELECT p FROM DrgProposal p WHERE p._id in :requestIds  ";
+        TypedQuery<DrgProposal> query = getEntityManager().createQuery(jpql, DrgProposal.class);
+        query.setParameter("requestIds", requestIds);
+        return query.getResultList();
+    }
+    
+    
 }

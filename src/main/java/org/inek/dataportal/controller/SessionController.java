@@ -601,7 +601,7 @@ public class SessionController implements Serializable {
 
     public String navigateLogin() {
         _windowName = null;
-        return Pages.Login.URL();
+        return Pages.Login.RedirectURL();
     }
 
     @Inject private ConfigFacade _config;
