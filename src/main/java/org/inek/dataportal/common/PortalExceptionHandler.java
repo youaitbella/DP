@@ -72,9 +72,11 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     targetPage = Pages.SessionTimeout.RedirectURL();
                     requestMap.put("currentViewId", viewExpiredExeption.getViewId());
                 }
-            }else if ( exception instanceof NotLoggedInException) {
+            } else if (exception instanceof NotLoggedInException) {
                 _logger.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
+                if (targetPage.isEmpty()) {
                     targetPage = Pages.SessionTimeout.RedirectURL();
+                }
             } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                     || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException") // check for exception's name as workarround
                     || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:")) {
@@ -127,6 +129,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     private void collectException(StringBuilder collector, String head, Throwable exception) {
         collectException(collector, head, exception, 0);
     }
+
     private void collectException(StringBuilder collector, String head, Throwable exception, int level) {
         if (collector.length() > 0) {
             collector.append("\r\n\r\n--------------------------------\r\n");
@@ -138,8 +141,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             collector.append(element.toString()).append("\r\n");
         }
         Throwable cause = exception.getCause();
-        if (cause != null && level < 9){
-            collectException(collector, head, cause, level+1);
+        if (cause != null && level < 9) {
+            collectException(collector, head, cause, level + 1);
         }
     }
 
@@ -159,8 +162,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             }
             collector.append("ViewId ").append(viewId).append("\r\n\r\n");
             collector.append("ClientIP: " + Utils.getClientIP() + "\r\n");
-            if (_sessionController != null && _sessionController.isLoggedIn()){
-            collector.append("AccountId: " + _sessionController.getAccount() + "\r\n");
+            if (_sessionController != null && _sessionController.isLoggedIn()) {
+                collector.append("AccountId: " + _sessionController.getAccount() + "\r\n");
             }
         } catch (Exception ex) {
             if (collector.length() > 0) {
