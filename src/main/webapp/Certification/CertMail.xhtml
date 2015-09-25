@@ -127,6 +127,16 @@
                 </h:inputText> 
             </div>
             
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30">
+                    E-Mail für System:
+                </h:outputLabel>
+                <h:selectOneMenu id="systemForMail" styleClass="inputmedium" value="#{certMail.systemForEmail}">
+                    <f:selectItems value="#{certManager.systemsWithoutNew}"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:selectOneMenu> 
+            </div>
+            
             <br />
             
             <div class="inputPart" style="text-align: center; width:99%;">

@@ -23,6 +23,7 @@ import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
+import org.inek.dataportal.enums.RemunSystem;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.certification.EmailLogFacade;
@@ -63,6 +64,7 @@ public class CertMail implements Serializable {
     private String _selectedReceiverNewList = "";
     private String _selectedListEditName = "";
     private String _receiverListsName = "";
+    private int _systemForEmail = -1;
     private List<EmailReceiver> _emailReceivers;
     //</editor-fold>
 
@@ -431,6 +433,11 @@ public class CertMail implements Serializable {
         if (!version.equals("")) {
             log.setSystemId(_systemFacade.findRemunerationSystemByName(version).getId());
         }
+        if(version.isEmpty()) {
+            if(_systemForEmail != -1) {
+                log.setSystemId(_systemForEmail);
+            }
+        }
         log.setTemplateId(mt.getId());
         log.setType(mt.getType());
         log.setReceiverAccountId(_accFacade.findByMailOrUser(emailAddress).getId());
@@ -538,6 +545,14 @@ public class CertMail implements Serializable {
     public void setAttachement(String _attachement) {
         this._attachement = _attachement;
     }
+    public int getSystemForEmail() {
+        return _systemForEmail;
+    }
+     
+    public void setSystemForEmail(int selectedSystem) {
+        _systemForEmail = selectedSystem;
+    }
+    
     //</editor-fold>
 
 }

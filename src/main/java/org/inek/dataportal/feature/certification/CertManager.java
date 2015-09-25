@@ -62,6 +62,14 @@ public class CertManager {
         list.add(emptyItem);
         return list;
     }
+    
+    public List<SelectItem> getSystemsWithoutNew() {
+        List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
+        SelectItem emptyItem = new SelectItem(-1, "");
+        emptyItem.setNoSelectionOption(true);
+        list.add(0,emptyItem);
+        return list;
+    }
 
     private RemunerationSystem _system = new RemunerationSystem();
 
