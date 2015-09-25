@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.drgproposal;
+package org.inek.dataportal.feature.peppproposal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.drg.DrgProposal;
+import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.DrgProposalFacade;
+import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
@@ -44,13 +44,13 @@ import org.inek.dataportal.utils.KeyValueLevel;
  * @author muellermi
  */
 @Named @SessionScoped
-public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
+public class PeppProposalTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("DrpProposalTreeHandler");
+    private static final Logger _logger = Logger.getLogger("PeppProposalTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
-    @Inject private DrgProposalFacade _drgProposalFacade;
+    @Inject private PeppProposalFacade _peppProposalFacade;
     @Inject private SessionController _sessionController;
     @Inject private CooperationTools _cooperationTools;
     @Inject private AccountFacade _accountFacade;
@@ -107,8 +107,8 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
-        accountIds = _drgProposalFacade.checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.PEPP_PROPOSAL, canReadCompleted());
+        accountIds = _peppProposalFacade.checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -129,10 +129,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
-        List<Integer> years = _drgProposalFacade.getProposalYears(accountIds);
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.PEPP_PROPOSAL, canReadSealed());
+        List<Integer> years = _peppProposalFacade.getProposalYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        int targetYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
+        int targetYear = Utils.getTargetYear(Feature.PEPP_PROPOSAL);
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
@@ -146,8 +146,8 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
-        accountIds = _drgProposalFacade.checkAccountsForProposalOfYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.PEPP_PROPOSAL, canReadSealed());
+        accountIds = _peppProposalFacade.checkAccountsForProposalOfYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -190,10 +190,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllSealed;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
+            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.PEPP_PROPOSAL, partnerId);
             dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
         }
-        return _drgProposalFacade.getDrgProposalInfos(partnerId, year, dataSet);
+        return _peppProposalFacade.getPeppProposalInfos(partnerId, year, dataSet);
     }
 
     private List<ProposalInfo> obtainProposalInfosForEdit(int partnerId) {
@@ -201,11 +201,11 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllOpen;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
+            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.PEPP_PROPOSAL, partnerId);
             dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
                     : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested : DataSet.None;
         }
-        return _drgProposalFacade.getDrgProposalInfos(partnerId, -1, dataSet);
+        return _peppProposalFacade.getPeppProposalInfos(partnerId, -1, dataSet);
     }
 
     @Override
@@ -255,10 +255,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (selectedProposals.isEmpty()) {
             return "";
         }
-        List<DrgProposal> proposals = _drgProposalFacade.find(selectedProposals);
+        List<PeppProposal> proposals = _peppProposalFacade.find(selectedProposals);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         int count = 1;
-        for (DrgProposal proposal : proposals) {
+        for (PeppProposal proposal : proposals) {
             String key = proposal.getExternalId();
             if (key.isEmpty()) {
                 key = "<nicht gesendet> " + count++;
@@ -266,8 +266,8 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
             documents.put(key, DocumentationUtil.getDocumentation(proposal));
         }
         List<String> keys = new ArrayList<>(documents.keySet());
-        Utils.getFlash().put("headLine", Utils.getMessage("nameDRG_PROPOSAL"));
-        Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());
+        Utils.getFlash().put("headLine", Utils.getMessage("namePEPP_PROPOSAL"));
+        Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
         Utils.getFlash().put("printContentKeys", keys);
         Utils.getFlash().put("printContent", documents);
         return Pages.PrintMultipleView.URL();

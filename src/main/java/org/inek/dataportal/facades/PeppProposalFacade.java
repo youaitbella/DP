@@ -1,24 +1,22 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.pepp.PeppProposal;
-import org.inek.dataportal.entities.pepp.PeppProposalComment;
 import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -40,8 +38,12 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
 
     
     public List<PeppProposal> findAll(int accountId, DataSet dataSet) {
-        if (dataSet == DataSet.All) {
-            // todo: is this user allowed to get the whole list?
+        return findAll(accountId, -1, dataSet);
+    }
+    
+    public List<PeppProposal> findAll(int accountId, int year, DataSet dataSet) {
+        if (dataSet == DataSet.None) {
+            return new ArrayList<>();
         }
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -56,11 +58,17 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
             sealed = cb.greaterThan(request.get("_status"), 0);
             order = cb.desc(request.get("_id"));
         }
+        Predicate checkYear;
+        if (year > 0){
+          checkYear = cb.equal(request.get("_targetYear"), year);  
+        }else{
+            checkYear = cb.notEqual(request.get("_targetYear"), year);  
+        }
         if (dataSet == DataSet.All) {
-            cq.select(request).where(sealed).orderBy(order);
+            cq.select(request).where(cb.and(sealed, checkYear)).orderBy(order);
         } else {
             Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
-            cq.select(request).where(cb.and(isAccount, sealed)).orderBy(order);
+            cq.select(request).where(cb.and(isAccount, sealed, checkYear)).orderBy(order);
         }
         return getEntityManager().createQuery(cq).getResultList();
     }
@@ -86,11 +94,13 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     public List<ProposalInfo> getPeppProposalInfos(int accountId, DataSet dataSet) {
-        List<PeppProposal> peppProposals = findAll(accountId, dataSet);
+        return getPeppProposalInfos(accountId, -1, dataSet);
+    }
+    public List<ProposalInfo> getPeppProposalInfos(int accountId, int year, DataSet dataSet) {
+        List<PeppProposal> peppProposals = findAll(accountId, year, dataSet);
         List<ProposalInfo> peppProposalInfos = new ArrayList<>();
         for (PeppProposal peppProposal : peppProposals) {
-            int year = 0;
-            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(), year, peppProposal.getStatus());
+            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(), peppProposal.getTargetYear(), peppProposal.getStatus());
             peppProposalInfos.add(ppInfo);
         }
         return peppProposalInfos;
@@ -110,4 +120,28 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         return query.getResultList();
     }
 
+    public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String jpql = "SELECT DISTINCT p._accountId FROM PeppProposal p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
+        Query query = getEntityManager().createQuery(jpql, PeppProposal.class);
+        query.setParameter("accountIds", accountIds);
+        query.setParameter("year", year);
+        query.setParameter("statusLow", statusLow.getValue());
+        query.setParameter("statusHigh", statusHigh.getValue());
+        return new HashSet<>(query.getResultList());
+    }
+
+    public List<Integer> getProposalYears(Set<Integer> accountIds) {
+        String jpql = "SELECT DISTINCT p._targetYear FROM PeppProposal p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+        Query query = getEntityManager().createQuery(jpql, Integer.class);
+        query.setParameter("accountIds", accountIds);
+        return query.getResultList();
+    }
+    
+    public List<PeppProposal> find(List<Integer> requestIds) {
+        String jpql = "SELECT p FROM PeppProposal p WHERE p._id in :requestIds  ";
+        TypedQuery<PeppProposal> query = getEntityManager().createQuery(jpql, PeppProposal.class);
+        query.setParameter("requestIds", requestIds);
+        return query.getResultList();
+    }
+    
 }

@@ -1,72 +1,92 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="ppId" id="ppId" value="#{flash.ppId}" />
+        </f:metadata>
+
+
+        #{peppProposalTreeHandler.refreshNodes()}
         <h:form id="form">
             <h1>#{msg.lblPeppProposal}</h1>
-            <h:panelGroup class="paddingElement">
 
-                <ui:include src="#{sessionTools.pages.ListPeppProposal}"/>
+            <h4><h:outputLabel value="#{msg.infoOpenProposal}"/></h4>
 
-                <h:panelGroup rendered="#{peppProposalList.partnersForEdit.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.lblPeppProposalFromPartner}"/>
-                    <c:forEach items="#{peppProposalList.partnersForEdit}" var="partner" rendered="#{peppProposalList.partnersForEdit.size() > 0}">
-                        <h:panelGroup rendered="#{peppProposalList.getPeppProposalsForEditFromPartner(partner.id).size() gt 0}">
-                            <p>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                            </p>
+            <ui:repeat value="#{peppProposalTreeHandler.editNode.children}" var="accountNode" >
+                <div style="margin-left:16px;">
+                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this proposalEdit :logout:remaining"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
 
-                            <inek:PeppProposalTable proposals="#{peppProposalList.getPeppProposalsForEditFromPartner(partner.id)}"
-                                                    showDelete="false"/>
-
-                        </h:panelGroup>
-                    </c:forEach>
-                </h:panelGroup>
-
-                <div class="toolBar">
-                    <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
-                                   disabled="#{!sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
+                    <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Vorschläge zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
+                        <inek:PeppProposalNode parentNode="#{accountNode}" isSealed="false" 
+                                               showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                               rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
+                    </div>
                 </div>
+            </ui:repeat>
 
-                <h:panelGroup rendered="#{peppProposalList.sealedPeppProposals.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.infoSealedPeppProposals}"/>
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
+                               disabled="#{!sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
+            </div>
 
-                    <inek:PeppProposalTable proposals="#{peppProposalList.sealedPeppProposals}"
-                                            showDelete="false"/>
 
-                </h:panelGroup>
+            <h4><h:outputLabel value="#{msg.infoSealedProposal}"/></h4>
 
-                <h:panelGroup rendered="#{peppProposalList.partnersForDisplay.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="#{msg.lblPeppProposalFromPartner}"/>
-                    <c:forEach items="#{peppProposalList.partnersForDisplay}" var="partner" rendered="#{peppProposalList.partnersForDisplay.size() > 0}">
-                        <h:panelGroup rendered="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id).size() gt 0}">
-                            <p>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
-                            </p>
+            <ui:repeat value="#{peppProposalTreeHandler.viewNode.children}" var="year">
+                <p>
+                <h:commandLink action="#{year.toggle}" immediate="true" >
+                    <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                    <f:ajax render="@this NubYear :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Vorschläge für #{year.id}" immediate="true" />
+                </p>
+                <div jsf:id="NubYear">
+                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
+                        <div style="margin-left:16px;">
+                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                                <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                                <f:ajax render="@this proposalShow :logout:remaining"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                            <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
+                                <inek:PeppProposalNode parentNode="#{accountNode}" 
+                                                       isSealed="true" 
+                                                       showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                       rendered="#{accountNode.expanded}"/>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </ui:repeat>
 
-                            <inek:PeppProposalTable proposals="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id)}"
-                                                    rendered="#{peppProposalList.getPeppProposalsForDisplayFromPartner(partner.id).size() gt 0}"
-                                                    showDelete="false"/>
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton" action="#{peppProposalTreeHandler.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+                <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
+                    <f:ajax listener="#{peppProposalTreeHandler.selectAll}" render="@form :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
+                    <f:ajax listener="#{peppProposalTreeHandler.deselectAll}" render="@form :logout:remaining"/>
+                </h:commandLink>
+            </div>
 
-                        </h:panelGroup>
-                    </c:forEach>
-                </h:panelGroup>
-
-            </h:panelGroup>
         </h:form>
     </ui:define>
 

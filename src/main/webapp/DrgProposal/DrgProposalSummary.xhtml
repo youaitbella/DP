@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
@@ -14,12 +14,12 @@
             <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
         </f:metadata>
 
-        <h4><h:outputLabel value="#{msg.infoOpenProposal}"/></h4>
 
         #{drgProposalTreeHandler.refreshNodes()}
         <h:form id="form">
             <h1>#{msg.lblDrgProposal}</h1>
 
+            <h4><h:outputLabel value="#{msg.infoOpenProposal}"/></h4>
 
             <ui:repeat value="#{drgProposalTreeHandler.editNode.children}" var="accountNode" >
                 <div style="margin-left:16px;">
@@ -49,11 +49,11 @@
 
             <ui:repeat value="#{drgProposalTreeHandler.viewNode.children}" var="year">
                 <p>
-                    <h:commandLink action="#{year.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this NubYear :logout:remaining"/>
-                    </h:commandLink>
-                    <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Vorschläge für #{year.id}" immediate="true" />
+                <h:commandLink action="#{year.toggle}" immediate="true" >
+                    <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                    <f:ajax render="@this NubYear :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Vorschläge für #{year.id}" immediate="true" />
                 </p>
                 <div jsf:id="NubYear">
                     <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
