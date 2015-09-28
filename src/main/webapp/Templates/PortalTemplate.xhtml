@@ -15,7 +15,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link type="text/css" rel="stylesheet" href="/DataPortal/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{applicationTools.version}" />
         <!--h:outputStylesheet name="dataportal.css" library="css" /-->
-        <h:outputScript name="clientutils.js" library="script"/>
+        <!--h:outputScript name="clientutils.js" library="script"/-->
+        <script type="text/javascript" src="/DataPortal/javax.faces.resource/clientutils.js.xhtml?ln=script&amp;version=#{applicationTools.version}"></script>
         <h:outputScript name="jsf.js" library="javax.faces"/>
     </h:head>
 
@@ -90,7 +91,7 @@
                                 function test() {
                                     document.getElementById('browsertest:testclick').click();
                                 }
-                                window.onload = test;
+                                addOnLoadFunction(test);
                             </script>
                             <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
                         </div>

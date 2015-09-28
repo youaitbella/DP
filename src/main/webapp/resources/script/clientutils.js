@@ -168,13 +168,13 @@ function autoGrow(oField) {
     }
 }
 
-function addLoadEvent(func) {
-    var oldonload = window.onload;
+function addOnLoadFunction(func) {
+    var functionChain = window.onload;
     if (typeof window.onload !== "function")
         window.onload = func;
     else
         window.onload = function () {
-            oldonload();
+            functionChain();
             func();
         }
 }

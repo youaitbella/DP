@@ -60,7 +60,7 @@ public class RequestController implements Serializable {
             String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
             if (!url.endsWith("/favicon.ico") && !url.endsWith("/wpad.dat") && !Utils.getClientIP().startsWith("192.168.0.")) {
                 // log, if none of the well known accesses
-                _sessionController.logMessage("Invald access: URL:" + url + "; IP=" + Utils.getClientIP());
+                _sessionController.logMessage("Invalid access: URL:" + url + "; IP=" + Utils.getClientIP());
             }
             Utils.sleep(500);  // force client to wait a bit
             return;

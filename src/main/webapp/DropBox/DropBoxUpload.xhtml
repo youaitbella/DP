@@ -46,7 +46,7 @@
                             '</div>'
                 });
             }
-            window.onload = createUploader;
+            addOnLoadFunction(createUploader);
         </script>
         <h:form>
             <h1><h:commandLink value="#{msg.lblDropBoxSystem}" action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" immediate="true"/></h1>
