@@ -54,36 +54,36 @@
     </ui:define>
 
     <ui:define name="bottom">
-            <h:form id="check" rendered="true">
-                <h:inputText id="windowName" value="#{sessionController.windowName}" styleClass="hide"/>
-            </h:form>
-                <script>
-                    function testWindow() {
-                        document.getElementById('check:windowName').value = window.name;
-                        jsf.ajax.request('check:windowName', null, {'execute': 'check:windowName', 'render': 'check:windowName'});
-                    }
-                    function handleAjax(data) {
-                        var status = data.status;
+        <h:form id="check" rendered="true">
+            <h:inputText id="windowName" value="#{sessionController.windowName}" styleClass="hide"/>
+        </h:form>
+        <script>
+            function testWindow() {
+                document.getElementById('check:windowName').value = window.name;
+                jsf.ajax.request('check:windowName', null, {'execute': 'check:windowName', 'render': 'check:windowName'});
+            }
+            function handleAjax(data) {
+                var status = data.status;
 
-                        switch (status) {
-                            case "begin":
-                                // This is the start of the AJAX request.
-                                break;
+                switch (status) {
+                    case "begin":
+                        // This is the start of the AJAX request.
+                        break;
 
-                            case "complete":
-                                // This is invoked right after ajax response is returned.
-                                break;
+                    case "complete":
+                        // This is invoked right after ajax response is returned.
+                        break;
 
-                            case "success":
-                                // This is invoked right after successful processing of ajax response and update of HTML DOM.
-                                window.name = document.getElementById('check:windowName').value;
-                                break;
-                        }
-                    }
+                    case "success":
+                        // This is invoked right after successful processing of ajax response and update of HTML DOM.
+                        window.name = document.getElementById('check:windowName').value;
+                        break;
+                }
+            }
 
-                    jsf.ajax.addOnEvent(handleAjax);
-                    testWindow();
-                </script>
+            jsf.ajax.addOnEvent(handleAjax);
+            addLoadEvent(testWindow);
+        </script>
     </ui:define>
 
 
