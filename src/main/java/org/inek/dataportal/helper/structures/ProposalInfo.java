@@ -21,12 +21,12 @@ public class ProposalInfo {
         this(id, name, year, status, -1);
     }
 
-    public ProposalInfo(final int id, final String name, final int year, final WorkflowStatus status, int ik) {
+    public ProposalInfo(final int id, final String name, final int year, final WorkflowStatus status, Integer ik) {
         _id = id;
         _name = name;
         _status = status;
         _year = year;
-        _ik = ik;
+        _ik = ik == null ? 0 : ik;
     }
 
     public int getId() {

@@ -725,8 +725,12 @@ select:active, select:focus{
     width: 8%;
 }
 
-.colIk, .col11{
+.col11{
     width: 11%;
+}
+
+.colIk{
+    width: 6em;
 }
 
 .colValue{

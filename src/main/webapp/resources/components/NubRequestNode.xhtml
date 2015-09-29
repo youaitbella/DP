@@ -19,7 +19,7 @@
         <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
         <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.sortedChildren}" id="NubRequests"
                        var="node" width="100%" rowClasses="row1, row2" 
-                       columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId, colShortCentered, ' : ''} colValue">
+                       columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId, colShortCentered, ' : ''} coIk, colValue">
             
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
@@ -84,7 +84,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Ik')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.ik)}" value="N#{node.proposalInfo.ik}" immediate="true"/>
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.ik)}" value="#{node.proposalInfo.ik}" immediate="true"/>
             </h:column>
 
             <h:column>
