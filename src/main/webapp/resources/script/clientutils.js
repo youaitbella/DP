@@ -15,14 +15,14 @@ function startTimer() {
 
 function updateSessionTimer() {
     remainingElement = document.getElementById("logout:remaining");
-    if (remainingElement == null) {
+    if (remainingElement === null) {
         return;
     }
     time = remainingElement.innerHTML.split(":");
     secondsLeft = parseInt(time[0]) * 60 + parseInt(time[1], 10) - 1;
     if (secondsLeft <= 0) {
         clearInterval(interval);
-        document.location = "/DataPortal/common/TimeOutRedirector.xhtml";
+        document.location = "/DataPortal/common/TimeOut.xhtml";
     }
     minutes = Math.floor(secondsLeft / 60);
     seconds = secondsLeft % 60;
@@ -42,7 +42,7 @@ function setFocus(id) {
     }
     elements = document.getElementsByTagName('input');
     for (i = 0; i < elements.length; i++) {
-        if (elements[i].type.toLowerCase() != "hidden") {
+        if (elements[i].type.toLowerCase() !== "hidden") {
             elements[i].focus();
             break;
         }
@@ -66,7 +66,7 @@ function getCaretPosition(element) {
         var Sel = document.selection.createRange();
         Sel.moveStart('character', -element.value.length);
         CaretPos = Sel.text.length;
-    } else if (element.selectionStart || element.selectionStart == '0') {
+    } else if (element.selectionStart || element.selectionStart === '0') {
 // Firefox support
         CaretPos = element.selectionStart;
     }
@@ -134,8 +134,8 @@ doesSupportXMLHttpRequest = function () {
 
     return (
             'multiple' in input &&
-            typeof File != "undefined" &&
-            typeof (new XMLHttpRequest()).upload != "undefined");
+            typeof File !== "undefined" &&
+            typeof (new XMLHttpRequest()).upload !== "undefined");
 };
 
 function uploadComplete(evt) {
@@ -152,7 +152,7 @@ function uploadProgress(evt) {
 var updateProgress = function (value) {
     var pBar = document.getElementById("progressBar");
     pBar.value = value;
-}
+};
 
 function hideProgressBar() {
     document.getElementById("progressBar").style.visibility = "hidden";
@@ -176,5 +176,5 @@ function addOnLoadFunction(func) {
         window.onload = function () {
             functionChain();
             func();
-        }
+        };
 }

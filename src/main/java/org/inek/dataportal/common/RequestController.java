@@ -35,50 +35,31 @@ public class RequestController implements Serializable {
      * @param e
      */
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
+        if (_sessionController.isLoggedIn()) {
+            return;
+        }
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String viewId = facesContext.getViewRoot().getViewId();
-        if (viewId.equals(Pages.SessionTimeoutRedirector.URL())) {
-            // The template displays the logged in user. This view will be created _before_ tryLogout is called.
-            // To ensure the user is logged-out when displaying error or timeout,
-            // we first call these redirectors, log out and redirect to the target pages
-            tryLogout(viewId);
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
-            return;
-        }
-        if (viewId.equals(Pages.ErrorRedirector.URL())) {
-            tryLogout(viewId);
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());
-            return;
-        }
-        if (viewId.equals(Pages.DataErrorRedirector.URL())) {
-            tryLogout(viewId);
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.DataError.URL());
-            return;
-        }
+        _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
+    }
+
+    public String getForceLogoutIfLoggedIn() {
+        forceLogoutIfLoggedIn(null);
+        return "";
+    }
+    public void forceLogoutIfLoggedIn(ComponentSystemEvent e) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String viewId = facesContext.getViewRoot().getViewId();
+        tryLogout(viewId);
         if (viewId.equals(Pages.NotAllowed.URL())) {
-            tryLogout(viewId);
             String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
             if (!url.endsWith("/favicon.ico") && !url.endsWith("/wpad.dat") && !Utils.getClientIP().startsWith("192.168.0.")) {
                 // log, if none of the well known accesses
                 _sessionController.logMessage("Invalid access: URL:" + url + "; IP=" + Utils.getClientIP());
             }
             Utils.sleep(500);  // force client to wait a bit
-            return;
         }
-        if (viewId.equals(Pages.Error.URL())
-                || viewId.equals(Pages.InvalidConversation.URL())
-                || viewId.equals(Pages.SessionTimeout.URL())
-                || viewId.equals(Pages.DoubleWindow.URL())
-                || viewId.equals(Pages.NotAllowed.URL())) {
-            tryLogout(viewId);
-            return;
-        }
-        if (viewId.startsWith("/login/") || _sessionController.isLoggedIn()) {
-            // either pages are allowed without being logged in or the user is logged in
-            return;
-        }
-        _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
-        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
     }
 
     private void tryLogout(String message) {

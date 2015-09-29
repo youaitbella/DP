@@ -12,15 +12,21 @@ public class ProposalInfo {
     private String _name;
     private int _year;
     private WorkflowStatus _status;  
+    private int _ik;
 
     public ProposalInfo() {
     }
 
     public ProposalInfo(final int id, final String name, final int year, final WorkflowStatus status) {
+        this(id, name, year, status, -1);
+    }
+
+    public ProposalInfo(final int id, final String name, final int year, final WorkflowStatus status, int ik) {
         _id = id;
         _name = name;
         _status = status;
         _year = year;
+        _ik = ik;
     }
 
     public int getId() {
@@ -53,6 +59,14 @@ public class ProposalInfo {
 
     public void setYear(int year) {
         _year = year;
+    }
+
+    public int getIk() {
+        return _ik;
+    }
+
+    public void setIk(int ik) {
+        _ik = ik;
     }
 
 }

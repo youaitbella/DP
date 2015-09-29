@@ -227,11 +227,11 @@ public class SessionController implements Serializable {
         String sessionId = retrieveSessionId();
         if (sessionId.length() > 0) {
             try {
-                _logger.log(Level.INFO, "old session {0}", sessionId);
+                _logger.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                 FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 sessionId = retrieveSessionId();
-                _logger.log(Level.INFO, "new session {0}", sessionId);
+                _logger.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
             } catch (Exception ex) {
                 _logger.log(Level.WARNING, "Exception during invalidatesesion");
             }
@@ -266,7 +266,7 @@ public class SessionController implements Serializable {
      */
     public boolean loginAndSetTopics(String mailOrUser, String password) {
         String sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
-        System.out.println("new session " + sessionId);
+        System.out.println("loginAndSetTopics: new session " + sessionId);
         //invalidateSession();
         login(mailOrUser, password);
         setTopics();
@@ -591,10 +591,10 @@ public class SessionController implements Serializable {
     public void setWindowName(String windowName) {
         if (_windowName == null) {
             // first access
-            _windowName = "DataPortal" + UUID.randomUUID();
+            _windowName = "#DataPortal#" + UUID.randomUUID();
         } else if (!windowName.equals(_windowName)) {
             // new tab or window
-            performLogout("DoubleWindow");
+            //performLogout("DoubleWindow");
             Utils.navigate(Pages.DoubleWindow.RedirectURL());
         }
     }

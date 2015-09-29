@@ -91,7 +91,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 _logger.log(Level.SEVERE, head, exception);
                 collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
-                    targetPage = Pages.ErrorRedirector.RedirectURL();
+                    targetPage = Pages.Error.RedirectURL();
                 }
             } else if (exception instanceof FacesException) {
                 String head = "[PortalExceptionHandler FacesException] ";
@@ -99,7 +99,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
                     if (exception.getMessage().contains("javax.ejb.EJBException")) {
-                        targetPage = Pages.DataErrorRedirector.RedirectURL();
+                        targetPage = Pages.DataError.RedirectURL();
                     } else {
                         targetPage = Pages.Error.RedirectURL();
                     }
@@ -118,10 +118,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             collectUrlInformation(messageCollector);
         }
         SendExeptionMessage(messageCollector.toString());
-        SessionController sc = Utils.getBean(SessionController.class);
-        if (sc != null) {
-            sc.logout("Logout due to error");
-        }
+//        SessionController sc = Utils.getBean(SessionController.class);
+//        if (sc != null) {
+//            sc.logout("Logout due to error");
+//        }
         Utils.navigate(targetPage);
         getWrapped().handle();
     }

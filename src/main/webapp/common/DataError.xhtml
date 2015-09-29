@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="/Templates/PortalErrorTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
-
-    <ui:define name="navItems">
-    </ui:define>
 
     <ui:define name="content">
         <h1>Daten-Fehler</h1>
@@ -25,8 +22,6 @@
             Sollten Sie Ihre Daten nicht für einen Kooperationspoartner freigegeben haben und dennoch diese Fehlermeldung erhalten,
             so senden Sie bitte eine Mail mit einer kurzen Beschreibung, wie es zu diesem Fehler kommt, an das InEK. Herzlichen Dank!
         </p>
-
-        <h:button styleClass="bigButton" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
     </ui:define>
 
 </ui:composition>

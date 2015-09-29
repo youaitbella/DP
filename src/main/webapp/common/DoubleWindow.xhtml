@@ -1,18 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PortalTemplate.xhtml"
+                template="/Templates/PortalErrorTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
 
     <ui:define name="metaData"/>
-
     <ui:define name="userInfo"/>
-
     <ui:define name="menuList"/>
+    <ui:define name="bottom"/>
 
 
-    <ui:define name="mainContent">
+    <ui:define name="content">
         <h1>Mehrere Fenster</h1>
         <br/>
         <h4>
@@ -33,13 +32,6 @@
 
         <br/>
         <br/>
-        <div class="inpuPart">
-            <h:form>
-                <h:commandLink styleClass="bigButton" value="#{msg.btnLogin}" action="#{sessionController.navigateLogin}" immediate="true"/>
-            </h:form>
-        </div>
     </ui:define>
-
-    <ui:define name="bottom"/>
 
 </ui:composition>

@@ -76,13 +76,16 @@
 
                     case "success":
                         // This is invoked right after successful processing of ajax response and update of HTML DOM.
-                        window.name = document.getElementById('check:windowName').value;
+                        if (data.responseText.indexOf('update id="check:windowName"') >= 0) {
+                            tail = data.responseText.substring(data.responseText.indexOf('#DataPortal#'));
+                            window.name = tail.substring(0, tail.indexOf('"'));
+                        }
                         break;
                 }
             }
 
             jsf.ajax.addOnEvent(handleAjax);
-            //addOnLoadFunction(testWindow);
+            addOnLoadFunction(testWindow);
         </script>
     </ui:define>
 

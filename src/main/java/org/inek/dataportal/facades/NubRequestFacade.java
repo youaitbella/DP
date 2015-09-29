@@ -130,7 +130,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
             String displayName = request.getDisplayName().trim().length() == 0
                     ? request.getName()
                     : request.getDisplayName();
-            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.getStatus()));
+            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.getStatus(), request.getIk()));
         }
         return proposalInfos;
     }
@@ -155,7 +155,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
             String displayName = request.getDisplayName().trim().length() == 0
                     ? request.getName()
                     : request.getDisplayName();
-            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.getStatus()));
+            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.getStatus(), request.getIk()));
         }
         return proposalInfos;
     }

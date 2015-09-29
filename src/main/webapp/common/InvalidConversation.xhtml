@@ -1,15 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="/Templates/PortalErrorTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
-
-    <ui:define name="navItems">
-        <li>
-            <h:link value="#{msg.lblSummary}"  outcome="/common/MainApp"/>
-        </li>
-    </ui:define>
 
     <ui:define name="content">
         #{sessionController.endAllConversations()}
@@ -33,9 +27,6 @@
                 <br/>
                 #{msg.msgNoReasonMatches} <a href="mailto:anfragen@datenstelle.de">anfragen@datenstelle.de</a>
             </p>
-            <div class="inpuPart">
-                <h:button styleClass="bigButton" value="#{msg.btnLogin}" outcome="#{sessionTools.pages.Login}"/>
-            </div>
         </div>
 
     </ui:define>

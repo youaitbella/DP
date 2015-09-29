@@ -80,6 +80,15 @@
 
             <h:column>
                 <f:facet name="header">
+                    <h:commandLink value="IK #{cc.attrs.parentNode.sortCriteria.equals('Ik') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Ik')}" render="NubRequests :logout:remaining"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.ik)}" value="N#{node.proposalInfo.ik}" immediate="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
                     <h:commandLink value="Name #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>

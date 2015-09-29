@@ -351,6 +351,13 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.getProposalInfo().getId()));
                 }
                 break;
+            case "ik":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getIk(), n1.getProposalInfo().getIk()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getIk(), n2.getProposalInfo().getIk()));
+                }
+                break;
             case "name":
                 if (treeNode.isDescending()) {
                     sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().getName()));
