@@ -29,7 +29,7 @@
                 <h:message for="password" errorClass="errorMessage"/>
             </p>
             Kennwort vergessen? Als registrierter Anwender können Sie ein
-            <a href="/DataPortal/login/RequestPassword.xhtml" title="Neues Kennwort anfordern (nur für registrierte Anwender)" class="label">
+            <a href="#{request.contextPath}/login/RequestPassword.xhtml" title="Neues Kennwort anfordern (nur für registrierte Anwender)" class="label">
                 neues Kennwort anfordern
             </a>.
             <br/>
@@ -50,7 +50,7 @@
                 Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet?
                 <br/>
                 Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a>
-                und lesen Sie das <a href="/DataPortal/resources/manual/InEK-Datenportal.pdf" class="label" target="blank" title="#{msg.titleManual}">Anwenderhandbuch</a>.
+                und lesen Sie das <a href="#{request.contextPath}/resources/manual/InEK-Datenportal.pdf" class="label" target="blank" title="#{msg.titleManual}">Anwenderhandbuch</a>.
             </p>
 
         </h:form>
