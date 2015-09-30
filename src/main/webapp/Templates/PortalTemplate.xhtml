@@ -10,18 +10,34 @@
         <ui:insert name="metaData">metaData</ui:insert>
         <f:phaseListener type="org.inek.dataportal.common.LifeCycleListener"/>
     </f:metadata>
-    
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link type="text/css" rel="stylesheet" href="/DataPortal/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{applicationTools.version}" />
-        <!--h:outputStylesheet name="dataportal.css" library="css" /-->
-        <!--h:outputScript name="clientutils.js" library="script"/-->
-        <script type="text/javascript" src="/DataPortal/javax.faces.resource/clientutils.js.xhtml?ln=script&amp;version=#{applicationTools.version}"></script>
+        <ui:remove>
+            <!-- 
+            Do not load the JSF AJAX library, although it might be needed for direct access.
+            JSF will load it independently from the following statement, if AJAX is used.
+            Thus, this lib would be loaded twice.
+            Instead insert a dummy AJAX access by JSF to ensure the library being loaded.
+            JSF will load only once.
+            -->
+            <h:outputScript name="jsf.js" library="javax.faces"/>
+            
+            <!-- 
+            Do not use resources the JSF way, because they would be cached, although a new version might be provided.
+            Use standrd html tags combined with a version. This ensures a reload after each compile/deployment cycls
+            -->
+            <h:outputStylesheet name="dataportal.css" library="css" />
+            <h:outputScript name="clientutils.js" library="script"/>
+        </ui:remove>
+        
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{applicationTools.version}" />
+        <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/clientutils.js.xhtml?ln=script&amp;version=#{applicationTools.version}"></script>
 
-        <h:outputScript name="jsf.js" library="javax.faces"/>
     </h:head>
 
     <h:body>
+        <h:inputText value="" styleClass="hide"><f:ajax/></h:inputText> <!-- dummy to ensure jsf.js -->
         <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
             <h5>
                 Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.

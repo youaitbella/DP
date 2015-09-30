@@ -70,6 +70,14 @@ public class Utils {
      * @return 
      */
     public static boolean showMessageInBrowser(String msg) {
+        return returnMessage("alert('%s');", msg);
+    }
+
+    public static boolean confirmMessage(String msg) {
+        return returnMessage("var result = confirm('%s');", msg);
+    }
+
+    private static boolean returnMessage(String template, String msg) throws FacesException {
         FacesContext ctx = FacesContext.getCurrentInstance();
         ExternalContext extContext = ctx.getExternalContext();
         if (!ctx.getPartialViewContext().isAjaxRequest()) {
@@ -82,7 +90,7 @@ public class Utils {
                     = ctx.getPartialViewContext().getPartialResponseWriter();
             writer.startDocument();
             writer.startEval();
-            writer.write("alert('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');");
+            writer.write(String.format(template, msg.replace("\r\n", "\n").replace("\n", "\\r\\n")));
             writer.endEval();
             writer.endDocument();
             writer.flush();
@@ -91,30 +99,6 @@ public class Utils {
         } catch (Exception e) {
             throw new FacesException(e);
         }
-    }
-
-    public static boolean confirmMessage(String msg) {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        ExternalContext extContext = ctx.getExternalContext();
-        //if (ctx.getPartialViewContext().isAjaxRequest()) {
-        try {
-            extContext.setResponseContentType("text/xml");
-            extContext.addResponseHeader("Cache-Control", "no-cache");
-            PartialResponseWriter writer
-                    = ctx.getPartialViewContext().getPartialResponseWriter();
-            writer.startDocument();
-            writer.startEval();
-            writer.write("var result = confirm('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');");
-            writer.endEval();
-            writer.endDocument();
-            writer.flush();
-            ctx.responseComplete();
-            return true;
-        } catch (Exception e) {
-            throw new FacesException(e);
-        }
-        //}
-        //return false;
     }
 
     public static String getServerName() {

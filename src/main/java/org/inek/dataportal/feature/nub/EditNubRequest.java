@@ -826,7 +826,7 @@ public class EditNubRequest extends AbstractEditController {
             copy.setPatientsFuture("");
             copy.setHelperId(copy.getAccountId());
             Account partner = _accountFacade.find(copy.getAccountId());
-            copy.setFormFillHelper("Koperationspartner: " + partner.getCompany());
+            copy.setFormFillHelper("Kooperationspartner: " + partner.getCompany());
             copy.setAccountId(_sessionController.getAccountId());
             getNubController().populateMasterData(copy, _sessionController.getAccount());
         } else if (copy.getTargetYear() == targetYear - 1) {
