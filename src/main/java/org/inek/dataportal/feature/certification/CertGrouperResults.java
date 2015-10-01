@@ -380,9 +380,10 @@ public class CertGrouperResults {
         } else {
             filename = "ZertDaten v" + _runs + "_Diff.xls";
         }
+        String grouperYear = _sysFacade.find(_grouper.getSystemId()).getYearSystem() + "";
         String folderSystemName = _sysFacade.find(_grouper.getSystemId()).getDisplayName().replace("/", "_");
         return "\\\\vFileserver01\\company$\\EDV\\Projekte\\Zertifizierung\\Pruefung"
-                + "\\System 2015\\"+ folderSystemName +"\\Ergebnis\\" + _grouper.getAccountId()
+                + "\\System "+grouperYear+"\\"+ folderSystemName +"\\Ergebnis\\" + _grouper.getAccountId()
                 + "\\" + filename;
     }
      

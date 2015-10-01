@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 @Named @ApplicationScoped
 public class ApplicationTools {
@@ -34,6 +35,19 @@ public class ApplicationTools {
         } catch (IOException e) {
             _logger.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
         }
+    }
+    
+    public String getServer() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String url = request.getRequestURL().toString();
+        url = url.toLowerCase();
+        if(url.contains("localhost"))
+            return " (local)";
+        else if(url.contains("vdataportal01"))
+            return " (vdata01)";
+        else if(url.contains("vdataportal02"))
+            return " (vdata02)";
+        return "";
     }
 
 }
