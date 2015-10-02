@@ -58,9 +58,23 @@
             </div>
 
             <div class="inputPart">
+                <h:outputLabel for="chkCheckList" value="Check-Liste OK:" styleClass="label15"/>
+                <h:selectBooleanCheckbox id="chkCheckList" value="#{certManager.system.checkList}" disabled="#{certManager.disableCheckAndSpecCheckbox()}">
+                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave chkApproval chkSpecManual :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                </h:selectBooleanCheckbox>
+            </div>
+            
+            <div class="inputPart">
+                <h:outputLabel for="chkSpecManual" value="Spec-Manual OK:" styleClass="label15"/>
+                <h:selectBooleanCheckbox id="chkSpecManual" value="#{certManager.system.specManual}" disabled="#{certManager.disableCheckAndSpecCheckbox()}">
+                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                </h:selectBooleanCheckbox>
+            </div>
+            
+            <div class="inputPart">
                 <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
-                <h:selectBooleanCheckbox id="chkApproval" value="#{certManager.system.approved}">
-                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                <h:selectBooleanCheckbox id="chkApproval" value="#{certManager.system.approved}" disabled="#{certManager.disableApprovedCheckbox()}">
+                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave chkCheckList chkSpecManual :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>
 

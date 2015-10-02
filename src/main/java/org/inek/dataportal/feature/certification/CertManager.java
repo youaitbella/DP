@@ -364,5 +364,16 @@ public class CertManager {
         }
         newGrouper.setEmailCopy(source.getEmailCopy());
     }
-
+    
+    public boolean disableApprovedCheckbox() {
+        if(!_system.isCheckList() || !_system.isSpecManual())
+            return true;
+        return false;
+    }
+    
+    public boolean disableCheckAndSpecCheckbox() {
+        if(_system.isApproved())
+            return true;
+        return false;
+    }
 }

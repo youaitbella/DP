@@ -104,7 +104,8 @@ public class RemunerationSystem implements Serializable {
     }
 
     public void setApproved(boolean approved) {
-        _approved = approved;
+        if(_checkList == true && _specManual == true)
+            _approved = approved;
     }
     // </editor-fold>
 
@@ -118,6 +119,36 @@ public class RemunerationSystem implements Serializable {
 
     public void setPassword(String password) {
         _password = password;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property SpecManual">
+    @Column(name = "sySpecManual")
+    private boolean _specManual = false;
+
+    public boolean isSpecManual() {
+        return _specManual;
+    }
+
+    public void setSpecManual(boolean specManual) {
+        if(specManual == false && _approved == true)
+            return;
+        _specManual = specManual;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property CheckList">
+    @Column(name = "syCheckList")
+    private boolean _checkList = false;
+
+    public boolean isCheckList() {
+        return _checkList;
+    }
+
+    public void setCheckList(boolean checkList) {
+        if(checkList == false && _approved == true)
+            return;
+        _checkList = checkList;
     }
     // </editor-fold>
 
