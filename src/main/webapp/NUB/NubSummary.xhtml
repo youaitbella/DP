@@ -7,7 +7,9 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
 
     <ui:define name="title">
         title
@@ -51,6 +53,22 @@
             </ui:repeat>
 
             <div class="toolBar marginLeft">
+                <h:commandLink styleClass="button" action="#{nubSessionTools.printSelected(nubSessionTools.editNode)}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+                <h:commandLink styleClass="button" action="#{nubSessionTools.sendSelected(nubSessionTools.editNode)}"  immediate="true" value="#{msg.btnSaveAndClose}">
+                        <cb:confirmSeal/>
+                </h:commandLink>
+            </div>
+            <div class="marginLeft">
+                <h:commandLink styleClass="secondaryButton" immediate="true" value="#{msg.btnSelectAll}">
+                    <f:ajax listener="#{nubSessionTools.selectAll(nubSessionTools.editNode)}" render="@form :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="secondaryButton" value="#{msg.btnDeselectAll}">
+                    <f:ajax listener="#{nubSessionTools.deselectAll(nubSessionTools.editNode)}" render="@form :logout:remaining"/>
+                </h:commandLink>
+            </div>
+
+            
+            <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
@@ -92,12 +110,14 @@
             </ui:repeat>
 
             <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{nubSessionTools.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
-                <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
-                    <f:ajax listener="#{nubSessionTools.selectAll}" render="@form :logout:remaining"/>
+                <h:commandLink styleClass="button" action="#{nubSessionTools.printSelected(nubSessionTools.viewNode)}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+            </div>
+            <div class="marginLeft">
+                <h:commandLink styleClass="secondaryButton" immediate="true" value="#{msg.btnSelectAll}">
+                    <f:ajax listener="#{nubSessionTools.selectAll(nubSessionTools.viewNode)}" render="@form :logout:remaining"/>
                 </h:commandLink>
-                <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
-                    <f:ajax listener="#{nubSessionTools.deselectAll}" render="@form :logout:remaining"/>
+                <h:commandLink styleClass="secondaryButton" value="#{msg.btnDeselectAll}">
+                    <f:ajax listener="#{nubSessionTools.deselectAll(nubSessionTools.viewNode)}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </div>
 

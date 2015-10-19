@@ -301,12 +301,32 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.NubSummary.URL();
     }
 
-    public String printSelected() {
-        List<Integer> selectedRequests = _rootNode.getSelectedIds(ProposalInfoTreeNode.class);
-        if (selectedRequests.isEmpty()) {
+    public String sendSelected(RootNode root) {
+        List<NubRequest> nubRequests = collectRequests(root);
+        List<NubRequest> sendNubRequests = new ArrayList<>();
+        for (NubRequest nubRequest : nubRequests) {
+            if (trySendRequest(nubRequest)){
+                sendNubRequests.add(nubRequest);
+            }
+        }
+        return printRequests(sendNubRequests);
+    }
+
+    public String printSelected(RootNode root) {
+        List<NubRequest> nubRequests = collectRequests(root);
+        return printRequests(nubRequests);
+    }
+
+    private List<NubRequest> collectRequests(RootNode root) {
+        List<Integer> selectedRequests = root.getSelectedIds(ProposalInfoTreeNode.class);
+        List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
+        return nubRequests;
+    }
+
+    private String printRequests(List<NubRequest> nubRequests) {
+        if (nubRequests.isEmpty()) {
             return "";
         }
-        List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         int count = 1;
         for (NubRequest nubRequest : nubRequests) {
@@ -324,15 +344,16 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.PrintMultipleView.URL();
     }
 
-    public void selectAll() {
-        _rootNode.selectAll(ProposalInfoTreeNode.class, true);
+    public void selectAll(RootNode root) {
+        root.selectAll(ProposalInfoTreeNode.class, true);
     }
 
-    public String deselectAll() {
-        _rootNode.selectAll(ProposalInfoTreeNode.class, false);
+    public String deselectAll(RootNode root) {
+        root.selectAll(ProposalInfoTreeNode.class, false);
         return "";
     }
 
+    @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
             return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
@@ -385,6 +406,13 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             return "";
         }
         return nubRequest.getExternalState();
+    }
+
+    private boolean trySendRequest(NubRequest nubRequest) {
+        if (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() || nubRequest.getStatus() == WorkflowStatus.Unknown){
+            return false;
+        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

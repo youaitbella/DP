@@ -6,6 +6,7 @@ package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -231,6 +232,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
     }
 
     public List<NubRequest> find(List<Integer> requestIds) {
+        if (requestIds.isEmpty()){return Collections.EMPTY_LIST;}
         String jpql = "SELECT p FROM NubRequest p WHERE p._id in :requestIds  ";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("requestIds", requestIds);

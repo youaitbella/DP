@@ -831,9 +831,9 @@ img {
     margin-top: -10px;
 }
 
-a.button, a.midButton, a.smallButton, span.button, label.button, input.button, .addButton{
+a.button, a.secondaryButton, a.midButton, a.smallButton, span.button, label.button, input.button, .addButton{
     display: inline-block;
-    margin: 0 2em 0 0;
+    margin: 0 1.5em 0 0;
     padding: 1px 0;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
@@ -867,7 +867,7 @@ a.button, a.midButton, a.smallButton, span.button, label.button, input.button, .
     text-decoration: none;
     text-align: center;
     padding: 0.5em 0.2em;
-    margin: 0.5em 2em 0.5em 0;
+    margin: 0.5em 1.5em 0.5em 0;
     min-width: 150px;
     color: white;
 }
@@ -902,11 +902,16 @@ a.button, .midButton, .smallButton, input.button, label.button{
     color: white;
 }
 
+a.secondaryButton{
+    background-color: #7F9BAF;
+    color: white;
+}
+
 .changed{
     background-color: gold;
 }
 
-a.button, label.button, span.button{
+a.button, a.secondaryButton, label.button, span.button{
     min-width: 150px;
 }
 
@@ -918,13 +923,13 @@ a.midButton{
     min-width: 6em;
 }
 
-input.button:hover, label.button:hover, a.button:hover, .smallButton:hover{
+input.button:hover, label.button:hover, a.button:hover, a.secondaryButton:hover, .smallButton:hover{
     color: white;
     box-shadow: 0px 0px 5px 1px #437A1E;
     cursor: pointer;
 }
 
-input.button:active, label.button:active, a.button:active, .smallButton:active, .sendButton:active, .addButton:active{
+input.button:active, label.button:active, a.button:active, a.secondaryButton:active, .smallButton:active, .sendButton:active, .addButton:active{
     color: white;
     border-color:  #fff #ddd #ddd #fff;
 }
