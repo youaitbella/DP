@@ -48,6 +48,7 @@ import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.FieldValues;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -311,36 +312,12 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
-        String msg = checkProxyIKs(value.toString());
+        String msg = _nubSessionTools.checkProxyIKs(value.toString());
         if (!msg.isEmpty()) {
             FacesMessage fmsg = new FacesMessage(msg);
             throw new ValidatorException(fmsg);
 
         }
-    }
-
-    public String checkProxyIKs(String value) {
-        String iks[] = value.split("\\s|,|\r|\n");
-        StringBuilder invalidIKs = new StringBuilder();
-        for (String ik : iks) {
-            if (ik.isEmpty()) {
-                continue;
-            }
-            if (!_customerFacade.isValidIK(ik)) {
-                if (invalidIKs.length() > 0) {
-                    invalidIKs.append(", ");
-                }
-                invalidIKs.append(ik);
-            }
-        }
-        if (invalidIKs.length() > 0) {
-            if (invalidIKs.indexOf(",") < 0) {
-                invalidIKs.insert(0, "Ungültige IK: ");
-            } else {
-                invalidIKs.insert(0, "Ungültige IKs: ");
-            }
-        }
-        return invalidIKs.toString();
     }
 
     public void formatProxyIks() {
@@ -487,7 +464,7 @@ public class EditNubRequest extends AbstractEditController {
         _nubRequest.setLastModified(Calendar.getInstance().getTime());
     }
 
-    private boolean isValidId(Integer id) {
+    public boolean isValidId(Integer id) {
         return id != null && id >= 0;
     }
 
@@ -504,10 +481,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isSealedEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _nubSessionTools.isSealEnabled(_nubRequest);
     }
 
     public boolean isUpdateEnabled() {
@@ -542,33 +516,21 @@ public class EditNubRequest extends AbstractEditController {
      * @return targetPage
      */
     public String sealNubRequest() {
-        if (!requestIsComplete()) {
+        if (!requestIsComplete(_nubRequest)) {
             return getActiveTopic().getOutcome();
         }
         if (_nubRequest.getStatus().compareTo(WorkflowStatus.Provided) >= 0) {
             return Pages.Error.URL();
         }
 
-        _nubRequest.setStatus(WorkflowStatus.Accepted);
-        _nubRequest.setSealedBy(_sessionController.getAccountId());
-        _nubRequest.setDateSealed(Calendar.getInstance().getTime());
-
-        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
-        if (_nubRequest.getTargetYear() < targetYear) {
-            // data from last year, not sealed so far
-            // we need a new id, thus delete old and create new nub request
-            NubRequest copy = ObjectUtils.copy(_nubRequest);
-            copy.setId(-1);
-            copy.setTargetYear(targetYear);
-            _nubRequestFacade.remove(_nubRequest);
-            _nubRequest = copy;
-        }
+        _nubRequest = _nubSessionTools.prepareSeal(_nubRequest);
+        
         boolean isNewRequest = !isValidId(_nubRequest.getId());
         String msg = "";
         try {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
             if (isValidId(_nubRequest.getId())) {
-                sendNubConfirmationMail();
+                _nubSessionTools.sendNubConfirmationMail(_nubRequest);
 
                 Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
                 Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
@@ -590,7 +552,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public String updateNubRequest() {
-        if (!requestIsComplete()) {
+        if (!requestIsComplete(_nubRequest)) {
             return getActiveTopic().getOutcome();
         }
         if (_nubRequest.getStatus() != WorkflowStatus.CorrectionRequested) {
@@ -614,49 +576,8 @@ public class EditNubRequest extends AbstractEditController {
         return "";
     }
 
-    @Inject Mailer _mailer;
-
-    public boolean sendNubConfirmationMail() {
-        Account current = _sessionController.getAccount();
-        Account owner = _accountFacade.find(_nubRequest.getAccountId());
-        if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
-            return true;
-        }
-        if (!current.isNubConfirmation()) {
-            current = owner;
-        }
-        if (!owner.isNubConfirmation()) {
-            owner = current;
-        }
-
-        MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
-        if (template == null) {
-            return false;
-        }
-
-        String proxy = _nubRequest.getProxyIKs().trim();
-        if (!proxy.isEmpty()) {
-            proxy = "\r\nSie haben diese Anfrage auch stellvertretend für die folgenden IKs gestellt:\r\n" + proxy + "\r\n";
-        }
-
-        String salutation = _mailer.getFormalSalutation(current);
-        String body = template.getBody()
-                .replace("{formalSalutation}", salutation)
-                .replace("{id}", "N" + _nubRequest.getId())
-                .replace("{name}", _nubRequest.getName())
-                .replace("{ik}", "" + _nubRequest.getIk())
-                .replace("{proxyIks}", proxy)
-                .replace("{targetYear}", "" + _nubRequest.getTargetYear());
-
-        String subject = template.getSubject()
-                .replace("{id}", "N" + _nubRequest.getId())
-                .replace("{ik}", "" + _nubRequest.getIk());
-
-        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), subject, body);
-    }
-
     public String requestApproval() {
-        if (!requestIsComplete()) {
+        if (!requestIsComplete(_nubRequest)) {
             return getActiveTopic().getOutcome();
         }
         if (_nubRequest.getStatus().compareTo(WorkflowStatus.ApprovalRequested) >= 0) {
@@ -715,83 +636,21 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-    String _msg = "";
-    String _elementId = "";
 
-    private boolean requestIsComplete() {
-        _msg = "";
-        String newTopic = "";
-        String ik = "";
-        if (_nubRequest.getIk() != null) {
-            ik = _nubRequest.getIk().toString();
-        }
-        newTopic = checkField(newTopic, ik, "lblIK", "form:ikMulti", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getGender(), 1, 2, "lblSalutation", "form:cbxGender", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getFirstName(), "lblFirstName", "form:firstname", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getLastName(), "lblLastName", "form:lastname", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getStreet(), "lblStreet", "form:street", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getPostalCode(), "lblPostalCode", "form:zip", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getTown(), "lblTown", "form:town", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getPhone(), "lblPhone", "form:phone", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getEmail(), "lblMail", "form:email", NubRequestTabs.tabNubAddress);
-        newTopic = checkField(newTopic, _nubRequest.getName(), "lblAppellation", "form:nubName", NubRequestTabs.tabNubPage1);
-        newTopic = checkField(newTopic, _nubRequest.getDescription(), "lblNubDescription", "form:nubDescription", NubRequestTabs.tabNubPage1);
-        if (!_nubRequest.isHasNoProcs()) {
-            newTopic = checkField(newTopic, _nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures", NubRequestTabs.tabNubPage1);
-        }
-        newTopic = checkField(newTopic, _nubRequest.getIndication(), "lblIndication", "form:nubIndic", NubRequestTabs.tabNubPage2);
-        newTopic = checkField(newTopic, _nubRequest.getReplacement(), "lblNubReplacementPrint", "form:nubReplacement", NubRequestTabs.tabNubPage2);
-        newTopic = checkField(newTopic, _nubRequest.getWhatsNew(), "lblWhatsNew", "form:nubWhatsNew", NubRequestTabs.tabNubPage2);
-        newTopic = checkField(newTopic, _nubRequest.getInHouseSince(), "lblMethodInHouse", "form:nubInHouse", NubRequestTabs.tabNubPage3);
-        newTopic = checkField(newTopic, _nubRequest.getPatientsLastYear(), "lblPatientsLastYear", "form:patientsLastYear", NubRequestTabs.tabNubPage3);
-        newTopic = checkField(newTopic, _nubRequest.getPatientsThisYear(), "lblPatientsThisYear", "form:patientsThisYear", NubRequestTabs.tabNubPage3);
-        newTopic = checkField(newTopic, _nubRequest.getPatientsFuture(), "lblPatientsFuture", "form:patientsFuture", NubRequestTabs.tabNubPage3);
-        newTopic = checkField(newTopic, _nubRequest.getAddCosts(), "lblAddCosts", "form:nubAddCost", NubRequestTabs.tabNubPage4);
-        newTopic = checkField(newTopic, _nubRequest.getWhyNotRepresented(), "lblWhyNotRepresented", "form:nubNotRepresented", NubRequestTabs.tabNubPage4);
-        if (_nubRequest.getRoleId() < 0) {
-            _msg = Utils.getMessage("lblContactRole");
-            newTopic = NubRequestTabs.tabNubAddress.name();
-        }
-        String proxyErr = checkProxyIKs(_nubRequest.getProxyIKs());
-        if (!proxyErr.isEmpty()) {
-            _msg = Utils.getMessage("lblErrorProxyIKs");
-            newTopic = NubRequestTabs.tabNubAddress.name();
-        }
-        if (!_msg.isEmpty()) {
-            _msg = Utils.getMessage("infoMissingFields") + "\\r\\n" + _msg;
-            setActiveTopic(newTopic);
-            String script = "alert ('" + _msg + "');";
-            if (!_elementId.isEmpty()) {
-                script += "\r\n document.getElementById('" + _elementId + "').focus();";
+    private boolean requestIsComplete(NubRequest nubRequest) {
+        MessageContainer message = _nubSessionTools.composeMissingFieldsMessage(nubRequest);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            setActiveTopic(message.getTopic());
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
             }
             _sessionController.setScript(script);
         }
-        return _msg.isEmpty();
+        return !message.containsMessage();
     }
 
-    private String checkField(String newTopic, String value, String msgKey, String elementId, NubRequestTabs tab) {
-        if (Utils.isNullOrEmpty(value)) {
-            _msg += "\\r\\n" + Utils.getMessage(msgKey);
-            if (newTopic.isEmpty()) {
-                newTopic = tab.name();
-                _elementId = elementId;
-            }
-        }
-        return newTopic;
-    }
-
-    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, NubRequestTabs tab) {
-        if (value == null
-                || minValue != null && value.intValue() < minValue.intValue()
-                || maxValue != null && value.intValue() > maxValue.intValue()) {
-            _msg += "\\r\\n" + Utils.getMessage(msgKey);
-            if (newTopic.isEmpty()) {
-                newTopic = tab.name();
-                _elementId = elementId;
-            }
-        }
-        return newTopic;
-    }
 
     // </editor-fold>
     public String downloadTemplate() {

@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.nub;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,22 +18,28 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.nub.NubRequest;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
@@ -39,6 +47,7 @@ import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.TreeNode;
 import org.inek.dataportal.helper.tree.TreeNodeObserver;
 import org.inek.dataportal.helper.tree.YearTreeNode;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 
@@ -301,17 +310,6 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.NubSummary.URL();
     }
 
-    public String sendSelected(RootNode root) {
-        List<NubRequest> nubRequests = collectRequests(root);
-        List<NubRequest> sendNubRequests = new ArrayList<>();
-        for (NubRequest nubRequest : nubRequests) {
-            if (trySendRequest(nubRequest)){
-                sendNubRequests.add(nubRequest);
-            }
-        }
-        return printRequests(sendNubRequests);
-    }
-
     public String printSelected(RootNode root) {
         List<NubRequest> nubRequests = collectRequests(root);
         return printRequests(nubRequests);
@@ -408,11 +406,197 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return nubRequest.getExternalState();
     }
 
+    public String sendSelected(RootNode root) {
+        List<NubRequest> nubRequests = collectRequests(root);
+        List<NubRequest> sendNubRequests = new ArrayList<>();
+        for (NubRequest nubRequest : nubRequests) {
+            if (trySendRequest(nubRequest)){
+                sendNubRequests.add(nubRequest);
+            }
+        }
+        return printRequests(sendNubRequests);
+    }
+
     private boolean trySendRequest(NubRequest nubRequest) {
         if (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() || nubRequest.getStatus() == WorkflowStatus.Unknown){
             return false;
         }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!isSealEnabled(nubRequest)){return false;}
+        if (composeMissingFieldsMessage(nubRequest).containsMessage()){return false;}
+        nubRequest = prepareSeal(nubRequest);
+        try {
+            nubRequest = _nubRequestFacade.saveNubRequest(nubRequest);
+            if (isValidId(nubRequest.getId())) {
+                sendNubConfirmationMail(nubRequest);
+                return true;
+            }
+        } catch (Exception ex) {
+            _logger.log(Level.WARNING, ex.getMessage());
+        }
+        
+        return false;
     }
 
+    private boolean isValidId(Integer id) {
+        return id != null && id >= 0;
+    }
+
+    
+    public NubRequest prepareSeal(NubRequest nubRequest) {
+        nubRequest.setStatus(WorkflowStatus.Accepted);
+        nubRequest.setSealedBy(_sessionController.getAccountId());
+        nubRequest.setDateSealed(Calendar.getInstance().getTime());
+        
+        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
+        if (nubRequest.getTargetYear() < targetYear) {
+            // data from last year, not sealed so far
+            // we need a new id, thus delete old and create new nub request
+            NubRequest copy = ObjectUtils.copy(nubRequest);
+            copy.setId(-1);
+            copy.setTargetYear(targetYear);
+            _nubRequestFacade.remove(nubRequest);
+            nubRequest = copy;
+        }
+        return nubRequest;
+    }
+
+    
+    public boolean isSealEnabled(NubRequest nubRequest) {
+        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk());
+    }
+    
+    public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
+        MessageContainer message = new MessageContainer();
+        String ik = "";
+        if (nubRequest.getIk() != null) {
+            ik = nubRequest.getIk().toString();
+        }
+        checkField(message, ik, "lblIK", "form:ikMulti", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getGender(), 1, 2, "lblSalutation", "form:cbxGender", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getFirstName(), "lblFirstName", "form:firstname", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getLastName(), "lblLastName", "form:lastname", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getStreet(), "lblStreet", "form:street", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getPostalCode(), "lblPostalCode", "form:zip", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getTown(), "lblTown", "form:town", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getPhone(), "lblPhone", "form:phone", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getEmail(), "lblMail", "form:email", EditNubRequest.NubRequestTabs.tabNubAddress);
+        checkField(message, nubRequest.getName(), "lblAppellation", "form:nubName", EditNubRequest.NubRequestTabs.tabNubPage1);
+        checkField(message, nubRequest.getDescription(), "lblNubDescription", "form:nubDescription", EditNubRequest.NubRequestTabs.tabNubPage1);
+        if (!nubRequest.isHasNoProcs()) {
+            checkField(message, nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures", EditNubRequest.NubRequestTabs.tabNubPage1);
+        }
+        checkField(message, nubRequest.getIndication(), "lblIndication", "form:nubIndic", EditNubRequest.NubRequestTabs.tabNubPage2);
+        checkField(message, nubRequest.getReplacement(), "lblNubReplacementPrint", "form:nubReplacement", EditNubRequest.NubRequestTabs.tabNubPage2);
+        checkField(message, nubRequest.getWhatsNew(), "lblWhatsNew", "form:nubWhatsNew", EditNubRequest.NubRequestTabs.tabNubPage2);
+        checkField(message, nubRequest.getInHouseSince(), "lblMethodInHouse", "form:nubInHouse", EditNubRequest.NubRequestTabs.tabNubPage3);
+        checkField(message, nubRequest.getPatientsLastYear(), "lblPatientsLastYear", "form:patientsLastYear", EditNubRequest.NubRequestTabs.tabNubPage3);
+        checkField(message, nubRequest.getPatientsThisYear(), "lblPatientsThisYear", "form:patientsThisYear", EditNubRequest.NubRequestTabs.tabNubPage3);
+        checkField(message, nubRequest.getPatientsFuture(), "lblPatientsFuture", "form:patientsFuture", EditNubRequest.NubRequestTabs.tabNubPage3);
+        checkField(message, nubRequest.getAddCosts(), "lblAddCosts", "form:nubAddCost", EditNubRequest.NubRequestTabs.tabNubPage4);
+        checkField(message, nubRequest.getWhyNotRepresented(), "lblWhyNotRepresented", "form:nubNotRepresented", EditNubRequest.NubRequestTabs.tabNubPage4);
+        if (nubRequest.getRoleId() < 0) {
+            message.setMessage(Utils.getMessage("lblContactRole"));
+            message.setTopic(EditNubRequest.NubRequestTabs.tabNubAddress.name());
+        }
+        String proxyErr = checkProxyIKs(nubRequest.getProxyIKs());
+        if (!proxyErr.isEmpty()) {
+            message.setMessage(Utils.getMessage("lblErrorProxyIKs"));
+            message.setTopic(EditNubRequest.NubRequestTabs.tabNubAddress.name());
+        }
+        return message;
+    }
+
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId, EditNubRequest.NubRequestTabs tab) {
+        if (Utils.isNullOrEmpty(value)) {
+            applyMessageValues(message, msgKey, tab, elementId);
+        }
+    }
+
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, EditNubRequest.NubRequestTabs tab) {
+        if (value == null
+                || minValue != null && value < minValue
+                || maxValue != null && value > maxValue) {
+            applyMessageValues(message, msgKey, tab, elementId);
+        }
+    }
+
+    private void applyMessageValues(MessageContainer message, String msgKey, EditNubRequest.NubRequestTabs tab, String elementId) {
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        if (message.getTopic().isEmpty()) {
+            message.setTopic(tab.name());
+            message.setElementId(elementId);
+        }
+    }
+
+    @Inject private CustomerFacade _customerFacade;
+
+    public String checkProxyIKs(String value) {
+        String iks[] = value.split("\\s|,|\r|\n");
+        StringBuilder invalidIKs = new StringBuilder();
+        for (String ik : iks) {
+            if (ik.isEmpty()) {
+                continue;
+            }
+            if (!_customerFacade.isValidIK(ik)) {
+                if (invalidIKs.length() > 0) {
+                    invalidIKs.append(", ");
+                }
+                invalidIKs.append(ik);
+            }
+        }
+        if (invalidIKs.length() > 0) {
+            if (invalidIKs.indexOf(",") < 0) {
+                invalidIKs.insert(0, "Ungültige IK: ");
+            } else {
+                invalidIKs.insert(0, "Ungültige IKs: ");
+            }
+        }
+        return invalidIKs.toString();
+    }
+
+    @Inject Mailer _mailer;
+
+    public boolean sendNubConfirmationMail(NubRequest nubRequest) {
+        Account current = _sessionController.getAccount();
+        Account owner = _accountFacade.find(nubRequest.getAccountId());
+        if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
+            return true;
+        }
+        if (!current.isNubConfirmation()) {
+            current = owner;
+        }
+        if (!owner.isNubConfirmation()) {
+            owner = current;
+        }
+
+        MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
+        if (template == null) {
+            return false;
+        }
+
+        String proxy = nubRequest.getProxyIKs().trim();
+        if (!proxy.isEmpty()) {
+            proxy = "\r\nSie haben diese Anfrage auch stellvertretend für die folgenden IKs gestellt:\r\n" + proxy + "\r\n";
+        }
+
+        String salutation = _mailer.getFormalSalutation(current);
+        String body = template.getBody()
+                .replace("{formalSalutation}", salutation)
+                .replace("{id}", "N" + nubRequest.getId())
+                .replace("{name}", nubRequest.getName())
+                .replace("{ik}", "" + nubRequest.getIk())
+                .replace("{proxyIks}", proxy)
+                .replace("{targetYear}", "" + nubRequest.getTargetYear());
+
+        String subject = template.getSubject()
+                .replace("{id}", "N" + nubRequest.getId())
+                .replace("{ik}", "" + nubRequest.getIk());
+
+        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), subject, body);
+    }
+
+    
 }
