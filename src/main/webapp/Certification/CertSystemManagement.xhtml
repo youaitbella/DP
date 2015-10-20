@@ -142,10 +142,10 @@
                 </h:commandLink>
 
                 <h:outputLabel value="" styleClass="element50"/> <!-- fill element only -->
-                <h:outputLabel rendered="#{certManager.systemChanged}" value="Daten geändert" styleClass="changed"/>
+                <h:outputLabel id="changeId" rendered="#{certManager.systemChanged}" value="Daten geändert" styleClass="changed"/>
 
                 <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
-                             value="#{certManager.findFreshGrouper()}" var="grouper" columnClasses="colIcon, colValue, col17, colValue, colValue"
+                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, col17, colValue, colValue"
                              styleClass="ruledTable marginTop">
                     <h:column id="colDeleteId" >
                         <f:facet name="header">
@@ -165,7 +165,7 @@
                         <h:selectOneMenu rendered="#{grouper.accountId le 0}"
                                          styleClass="inputlong" id="mnuAgent" value="#{grouper.accountId}">
                             <f:selectItems value="#{certManager.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                            <f:ajax event="change" render="@this mnuSystem btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}" />
+                            <f:ajax event="change" render="@this mnuSystem btnSystemSave :logout:remaining certButtons:btnSystemSave" listener="#{certManager.systemChangeListener}" />
                         </h:selectOneMenu>
                         <h:outputText rendered="#{grouper.accountId gt 0}"
                                       value="#{certManager.getAccountDisplayName(grouper.accountId)} (#{grouper.accountId})"/>
@@ -214,9 +214,8 @@
                         </f:facet>
                         <h:commandLink styleClass="certWebsiteButton #{certManager.getCertHpInactiveClass(grouper)}" 
                                        disabled="#{certManager.isCertVendorOnWebsite(grouper)}"
-                                       title="#{certManager.getCertWebsiteDate(grouper)}"
-                                       action="#{certManager.addedHp(grouper)}">
-                            <f:ajax render="@form :logout:remaining certButtons:btnSystemSave"/>
+                                       title="#{certManager.getCertWebsiteDate(grouper)}">
+                            <f:ajax render="@form :logout:remaining certButtons:btnSystemSave" listener="#{certManager.addedHp(grouper)}"/>
                         </h:commandLink>
                     </h:column>
                 </h:dataTable>

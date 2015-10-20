@@ -156,7 +156,8 @@ public class CertManager {
             }
         }
         _system.setGrouperList(savedGroupers);
-        _system = _systemFacade.save(_system);
+        _systemFacade.save(_system);
+        _system = _systemFacade.findFresh(_system.getId());
         persistFiles(new File(_system.getSystemRoot(), "Spec"));
         persistFiles(new File(_system.getSystemRoot(), "Daten"));
         setSystemChanged(false);
