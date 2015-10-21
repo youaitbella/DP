@@ -25,7 +25,7 @@
                     <tr>
                         <td class="colIcon">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
-                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.modelLifeTable.deleteEntry(modelLife)}"/>
                             </h:commandLink>

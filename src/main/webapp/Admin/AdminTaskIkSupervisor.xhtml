@@ -15,7 +15,7 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{adminIkSupervisor.deleteIkSupervisor(info)}" immediate="true" >
-                        <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                         <cb:confirmDelete/>
                     </h:commandLink>
                 </h:column>
@@ -71,8 +71,7 @@
 
             <div class="inputPart">
                 <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
-                <h:inputText id="ik" value="#{adminIkSupervisor.ik}" styleClass="inputmedium" required="true">
-                    <f:validator validatorId="IkValidator"/>
+                <h:inputText id="ik" value="#{adminIkSupervisor.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
                     <f:ajax render="@this ikName msgIk :logout:remaining" />
                 </h:inputText>
                 <h:outputLabel id="ikName" value="#{sessionController.getIkName(adminIkSupervisor.ik)}" styleClass="marginLeft"/>

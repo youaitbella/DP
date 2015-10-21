@@ -141,8 +141,7 @@
                         <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
                         <br/>
                         <h:inputText styleClass="input" id="ik" value="#{register.accountRequest.IK}"
-                                     required="#{register.ikRequired}" requiredMessage="#{msg.msgValueNeeded}" maxlength="9">
-                            <f:validator validatorId="IkValidator"/>
+                                     required="#{register.ikRequired}" requiredMessage="#{msg.msgValueNeeded}" maxlength="9" validator="#{sessionTools.checkIk}">
                             <f:ajax event="blur" render="@this msgIk"/>
                         </h:inputText>
                     </p>

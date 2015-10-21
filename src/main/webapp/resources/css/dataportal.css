@@ -387,14 +387,14 @@ div#wrapper {
 #content .activemenu a{
     background: #043358;
     color: #fff;
-    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
     background-position: right;
     background-repeat: no-repeat;
 }
 
 #content .activemenu a:hover,
 #content .activemenu a:focus {
-    background-image: url("/DataPortal/javax.faces.resource/menu_active.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
     background-position: right;
     background-repeat: no-repeat;
 }
@@ -856,11 +856,11 @@ a.button, a.secondaryButton, a.midButton, a.smallButton, span.button, label.butt
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 16px 16px;
-    background-image: url("/DataPortal/javax.faces.resource/home.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/home.png.xhtml");
 }
 
 .certWebsiteButtonInactive {
-    background-image: url("/DataPortal/javax.faces.resource/home_inactive.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/home_inactive.png.xhtml");
 }
 
 .bigButton, .sendButton{
@@ -942,7 +942,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 
 .sendButton{
     background-color: #4aa628;
-    background-image: url("/DataPortal/javax.faces.resource/arrow_go.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/arrow_go.png.xhtml");
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -950,7 +950,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 .sendButton:hover{
     color: white;
     box-shadow: 0px 0px 5px 1px #437A1E;
-    background-image: url("/DataPortal/javax.faces.resource/arrow_go_hover.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/arrow_go_hover.png.xhtml");
 }
 
 .addIcon:before, .sendButton:after, .addButton:before{
@@ -960,7 +960,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 .addButton, .addIcon{
     color: white;
     background-color: #043358;
-    background-image: url("/DataPortal/javax.faces.resource/add.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/add.png.xhtml");
     background-repeat: no-repeat;
     background-position: left center;
 }
@@ -968,7 +968,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 .addButton:hover, .addIcon:hover{
     color: white;
     box-shadow: 0px 0px 5px 1px #437A1E;
-    background-image: url("/DataPortal/javax.faces.resource/add_hover.png.xhtml?ln=Icon/small");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/add_hover.png.xhtml");
 }
 
 .rightAllign {
@@ -1076,7 +1076,7 @@ div.modelIntYesNo {
     font-weight: bold;
     width: 22px;
     height: 22px;
-    background-image: url("/DataPortal/javax.faces.resource/Red-Ball-icon.png.xhtml?ln=Icon/medium");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/medium/Red-Ball-icon.png.xhtml");
     background-repeat: no-repeat;
     text-align: center;
 }

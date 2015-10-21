@@ -30,7 +30,7 @@
 
                         <td class="colIcon alignBottom">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
-                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="adjustmentForm :logout:remaining" 
                                         listener="#{editModelIntention.adjustmentTable.deleteEntry(adjustment)}"/>

@@ -30,8 +30,8 @@
             Do not use resources the JSF way, because they would be cached, although a new version might be provided.
             Use standrd html tags combined with a version. This ensures a reload after each compile/deployment cycls
             -->
-            <h:outputStylesheet name="dataportal.css" library="css" />
-            <h:outputScript name="clientutils.js" library="script"/>
+            <h:outputStylesheet name="css/dataportal.css"/>
+            <h:outputScript name="script/clientutils.js"/>
         </ui:remove>
         
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/dataportal.css.xhtml?ln=css&amp;version=#{applicationTools.version}" />
@@ -52,7 +52,7 @@
         <div id="wrapper">
             <div id="top">
                 <div class="left">
-                    <h:graphicImage alt="InEK GmbH" name="InEK.gif" library="Image"/>
+                    <h:graphicImage alt="InEK GmbH" name="Image/InEK.gif"/>
                 </div>
                 <div class="right">
                     <div id="globalLinks">

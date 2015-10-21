@@ -24,7 +24,7 @@
 
                         <td class="colIcon alignBottom">
                             <h:commandLink action="#{editUserMaintenance.removeAdditionalIK(ik)}" >
-                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                                 <f:ajax event="blur" render="tblAdditionalIKs :logout:remaining"/>
                             </h:commandLink>
                         </td>
@@ -32,8 +32,7 @@
                         <td class="col14 alignBottom">
                             <h:panelGrid columns="1">
                                 <h:message id="msgIk#{status.index}" for="ik#{status.index}" styleClass="errorMessage"/>
-                                <h:inputText id="ik#{status.index}" value="#{ik}">
-                                    <f:validator validatorId="IkValidator" />
+                                <h:inputText id="ik#{status.index}" value="#{ik}" validator="#{sessionTools.checkIk}">
                                     <f:converter converterId="IntegerConverter" />
                                     <f:ajax event="blur" render="@this msgIk#{status.index} name#{status.index} :logout:remaining"/>
                                 </h:inputText>

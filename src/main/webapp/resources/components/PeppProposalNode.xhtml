@@ -36,7 +36,7 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink action="#{peppProposalList.printPeppProposal(node.proposalInfo.id)}" immediate="true" >
-                    <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
                 </h:commandLink>
             </h:column>
             
@@ -45,8 +45,8 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink action="#{peppProposalList.deletePeppProposal(node.proposalInfo.id)}" immediate="true" rendered="#{cc.attrs.showDelete and node.proposalInfo.status.value lt 90}">
-                    <h:graphicImage alt="löschen" name="#{node.proposalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
-                                    library="Icon/small" title="#{node.proposalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                    <h:graphicImage alt="löschen" name="Icon/small/#{node.proposalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
+                                    title="#{node.proposalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     <cb:confirmDelete/>
                 </h:commandLink>
             </h:column>
@@ -56,7 +56,7 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink action="#{peppProposalList.editPeppProposal(node.proposalInfo.id)}" immediate="true" >
-                    <h:graphicImage alt="Status" name="#{node.proposalInfo.status.icon}" library="Icon/small"
+                    <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}" 
                                     title="#{node.proposalInfo.status.description}" value=""
                                     rendered="#{node.proposalInfo.status.icon.length() gt 0}"/>
                 </h:commandLink>

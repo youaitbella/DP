@@ -12,8 +12,7 @@
 
             <div class="inputPart">
                 <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
-                <h:inputText id="ik" value="#{adminChangeNub.ik}" styleClass="inputmedium" required="true">
-                    <f:validator validatorId="IkValidator"/>
+                <h:inputText id="ik" value="#{adminChangeNub.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
                     <f:ajax render="@this ikName msgIk accountInfos :logout:remaining" />
                 </h:inputText>
                 <h:outputLabel id="ikName" value="#{sessionController.getIkName(adminChangeNub.ik)}" styleClass="marginLeft"/>

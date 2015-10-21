@@ -11,8 +11,8 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:graphicImage alt="empty Box symbol" name="box_open.png" library="Icon/small" rendered="#{!dropBoxList.containsFiles(p)}"/>
-            <h:graphicImage alt="filled Box symbol" name="box_full.png" library="Icon/small" rendered="#{dropBoxList.containsFiles(p)}"/>
+            <h:graphicImage alt="empty Box symbol" name="Icon/small/box_open.png" rendered="#{!dropBoxList.containsFiles(p)}"/>
+            <h:graphicImage alt="filled Box symbol" name="Icon/small/box_full.png" rendered="#{dropBoxList.containsFiles(p)}"/>
         </h:column>
         <h:column id="colIK">
             <f:facet name="header">

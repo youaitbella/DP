@@ -40,7 +40,7 @@
 
                         <td class="colIcon alignBottom">
                             <h:commandLink rendered="#{!editModelIntention.readOnly}">
-                                <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                                 <cb:confirmDelete/>
                                 <f:ajax render="costForm :logout:remaining" listener="#{editModelIntention.costTable.deleteEntry(cost)}"/>
                             </h:commandLink>
@@ -50,8 +50,7 @@
                             <h:panelGrid columns="1">
                                 <h:message id="msgIk#{status.index}" for="ik#{status.index}" styleClass="errorMessage"/>
                                 <h:inputText styleClass="fullWidth" id="ik#{status.index}" value="#{cost.ik}"
-                                             required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:validator validatorId="IkValidator"/>
+                                             required="true" readonly="#{editModelIntention.readOnly}" validator="#{sessionTools.checkIk}">
                                     <f:ajax event="blur" render="@this :logout:remaining msgIk#{status.index}"/>
                                 </h:inputText>
                             </h:panelGrid>

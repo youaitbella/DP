@@ -24,7 +24,7 @@
             <ui:repeat value="#{drgProposalTreeHandler.editNode.children}" var="accountNode" >
                 <div style="margin-left:16px;">
                     <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                         <f:ajax render="@this proposalEdit :logout:remaining"/>
                     </h:commandLink>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
@@ -50,7 +50,7 @@
             <ui:repeat value="#{drgProposalTreeHandler.viewNode.children}" var="year">
                 <p>
                 <h:commandLink action="#{year.toggle}" immediate="true" >
-                    <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                    <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                     <f:ajax render="@this NubYear :logout:remaining"/>
                 </h:commandLink>
                 <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Vorschläge für #{year.id}" immediate="true" />
@@ -59,7 +59,7 @@
                     <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
                         <div style="margin-left:16px;">
                             <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                                <h:graphicImage alt="auf/zuklappen" name="#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                                 <f:ajax render="@this proposalShow :logout:remaining"/>
                             </h:commandLink>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>

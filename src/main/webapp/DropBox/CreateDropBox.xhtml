@@ -34,9 +34,8 @@
                     <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
                     <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
                     <br/>
-                    <h:selectOneMenu styleClass="input" id="ik" value="#{dropBoxCreator.ik}" required="#{dropBoxCreator.ikRequired}" requiredMessage="#{msg.lblChooseEntry}">
+                    <h:selectOneMenu styleClass="input" id="ik" value="#{dropBoxCreator.ik}" required="#{dropBoxCreator.ikRequired}" requiredMessage="#{msg.lblChooseEntry}" validator="#{sessionTools.checkIk}">
                         <f:selectItems value="#{dropBoxCreator.ikItems}"/>
-                        <f:validator validatorId="IkValidator"/>
                         <f:ajax event="change" render="@this :logout:remaining msgIk"/>
                     </h:selectOneMenu>
                 </p>

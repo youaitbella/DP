@@ -20,9 +20,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.CustomerType;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.dropbox.DropBoxType;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DropBoxTypeFacade;
 import org.inek.dataportal.facades.TrashMailFacade;
@@ -37,7 +39,6 @@ import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 @SessionScoped
 public class SessionTools implements Serializable {
 
-    @Inject private SessionController _sesssionController;
     private List<SelectItem> _roleItems;
     private List<SelectItem> _customerTypeItems;
     private List<Integer> _hospitals;
@@ -166,6 +167,16 @@ public class SessionTools implements Serializable {
         }
         String domain = address.substring(address.indexOf("@") + 1);
         return !_trashMailfacade.exists(domain);
-
     }
+    
+    @Inject CustomerFacade _customerFacade;
+    
+    public void checkIk(FacesContext context, UIComponent component, Object value) {
+        if (value == null || value.toString().isEmpty()){return;} 
+        if (!_customerFacade.isValidIK("" + value)){
+            String msg = Utils.getMessage("errIK");
+            throw new ValidatorException(new FacesMessage(msg));
+        }
+    }
+    
 }

@@ -22,7 +22,7 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{modelIntentionList.printModelIntention(model.id)}" immediate="true" >
-                        <h:graphicImage alt="drucken" name="print.png" library="Icon/small" title="Druckansicht" value=""/>
+                        <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
                     </h:commandLink>
                 </h:column>
                 <h:column>
@@ -30,7 +30,7 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" immediate="true" >
-                        <h:graphicImage alt="Status" name="#{model.status.icon}" library="Icon/small" value="" title="#{model.status.description}" rendered="#{model.status.icon.length() gt 0}"/>
+                        <h:graphicImage alt="Status" name="Icon/small/#{model.status.icon}" value="" title="#{model.status.description}" rendered="#{model.status.icon.length() gt 0}"/>
                     </h:commandLink>
                 </h:column>
                 <h:column id="colIK">

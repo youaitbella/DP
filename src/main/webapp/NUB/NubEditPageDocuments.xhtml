@@ -9,8 +9,8 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 template="NubEdit.xhtml">
     <ui:define name="editContent">
-        <h:outputStylesheet name="fileuploader.css" library="css"/>
-        <h:outputScript name="fileuploader.js" library="script"/>
+        <h:outputStylesheet name="css/fileuploader.css"/>
+        <h:outputScript name="script/fileuploader.js"/>
         <script>
             var fileCounter = 0;
             function createUploader() {
@@ -59,7 +59,7 @@
                             <h:outputText value=""/>
                         </f:facet>
                         <h:commandLink action="#{editNubRequest.deleteDocument(file.name)}" immediate="true" >
-                            <h:graphicImage alt="#{msg.btnDelete}" name="delete.png" library="Icon/small" title="#{msg.btnDelete}" value=""/>
+                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                             <cb:confirmDelete/>
                         </h:commandLink>
                     </h:column>

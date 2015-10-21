@@ -635,7 +635,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _viewAction;
     }
 
-    public void setViwAction(String action) {
+    public void setViewAction(String action) {
         _viewAction = action;
     }
     

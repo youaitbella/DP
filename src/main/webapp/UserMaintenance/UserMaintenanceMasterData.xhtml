@@ -111,8 +111,8 @@
                              requiredMessage="#{msg.msgValueNeeded}"
                              required="#{editUserMaintenance.ikRequired}"
                              maxlength="9"
+                             validator="#{sessionTools.checkIk}"
                              >
-                    <f:validator validatorId="IkValidator" />
                     <f:ajax event="blur" render="@this :logout:remaining msgIk"/>
                 </h:inputText>
             </p>

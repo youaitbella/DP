@@ -13,7 +13,7 @@
                 <h:outputText value=""/>
             </f:facet>
             <h:commandLink action="#{editDocument.downloadDocument(doc.value1)}" >
-                <h:graphicImage alt="Attach" name="attach.png" library="Icon/small" title="" value=""/>
+                <h:graphicImage alt="Attach" name="Icon/small/attach.png" title="" value=""/>
                 <f:ajax event="blur" render="@all"/>
             </h:commandLink>
         </h:column>
@@ -38,7 +38,7 @@
                 <h:outputText value="gel."/>
             </f:facet>
             <h:commandLink action="#{editDocument.downloadDocument(doc.value1)}" immediate="true" >
-                <h:graphicImage id="readImg" alt="gelesen?" name="#{documentList.readDoc(doc.value1)}" library="Icon/small" title="gelesen?" value=""/>
+                <h:graphicImage id="readImg" alt="gelesen?" name="Icon/small/#{documentList.readDoc(doc.value1)}" title="gelesen?" value=""/>
                 <f:ajax event="blur" render="@all"/>
             </h:commandLink>
         </h:column>

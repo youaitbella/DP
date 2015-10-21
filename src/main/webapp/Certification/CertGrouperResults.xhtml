@@ -163,7 +163,7 @@
                     <h:inputText id="txtAttach" styleClass="inputlong" value="#{certGrouperResults.attachement}">
                         <f:ajax event="blur" render="@this fileExists :logout:remaining" />
                     </h:inputText>&nbsp;
-                    <h:graphicImage id="fileExists" library="Icon/small" name="#{certGrouperResults.attachementExists()}" />
+                    <h:graphicImage id="fileExists" name="Icon/small/#{certGrouperResults.attachementExists()}" />
                 </h:panelGroup>
 
                 <div class="inputPart">

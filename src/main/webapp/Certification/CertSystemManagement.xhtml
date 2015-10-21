@@ -152,7 +152,7 @@
                             <h:outputText value=""/>
                         </f:facet>
                         <h:commandLink  immediate="true" >
-                            <h:graphicImage alt="löschen" name="delete.png" library="Icon/small" title="Löschen" value=""/>
+                            <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                             <cb:confirmDelete/>
                             <f:ajax render="@form :logout:remaining" listener="#{certManager.deleteGrouper(grouper)}"/>
                         </h:commandLink>
@@ -182,7 +182,7 @@
                         <f:facet name="header">
                             <h:outputText value="@"/>
                         </f:facet>
-                        <h:graphicImage rendered="#{certGrouperResults.needMail(grouper)}" library="Icon/small" title="#{certGrouperResults.getMailDate(grouper)}" name="#{certGrouperResults.getMailIcon(grouper)}" />
+                        <h:graphicImage rendered="#{certGrouperResults.needMail(grouper)}"  title="#{certGrouperResults.getMailDate(grouper)}" name="Icon/small/#{certGrouperResults.getMailIcon(grouper)}" />
                     </h:column>
 
                     <h:column id="colPass">
