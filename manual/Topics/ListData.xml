@@ -122,7 +122,19 @@
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Mengenoperationen</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Vor den Datensätzen befindet sich jeweils ein Ankreuzfeld. Hier können Sie einen oder mehrere Datensätze markieren und dann auf diese Menge eine gemeinsame Operation anwenden.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Druckansicht ]</text><text styleclass="Normal" translate="true"> stellt alle markierten Datensätze in der Druckansicht dar. Dies ermöglicht Ihnen, alle oder eine Auswahl von Datensätzen mit einem Kommando zu &quot;drucken&quot;. Da das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> nicht Ihren Drucker direkt ansprechen kann, erfolgt die Ausgabe in einer Druckansicht. Diese können Sie nun mittels Druckfunktion Ihres Browsers ausdrucken. Verfügen &#160;Sie über einen &quot;PDF-Drucker&quot;, so erzeugen Sie so ein PDF-Dokument mit der gewünschten Auswahl an Datensätzen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Jeweils unterhalb der Liste der offenen wie auch an das InEK gesendeten Datensätze befindet sich eine Auswahlbox für die gewünschte Mengenoperation. Diese beziehen sich auf die markierten (angehakten) Datensätze der jeweiligen Liste. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Standardmäßig wird die Aktion &quot;zur Druckansicht&quot; angeboten. Diese stellt alle markierten Datensätze in der Druckansicht dar. Dies ermöglicht Ihnen, alle oder eine Auswahl von Datensätzen mit einem Kommando zu &quot;drucken&quot;. Da das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> nicht Ihren Drucker direkt ansprechen kann, erfolgt die Ausgabe in einer Druckansicht. Diese können Sie nun mittels Druckfunktion Ihres Browsers ausdrucken. Verfügen &#160;Sie über einen &quot;PDF-Drucker&quot;, so erzeugen Sie so ein PDF-Dokument mit der gewünschten Auswahl an Datensätzen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die weiteren Aktionen sind abhängig von der jeweils genutzten Funktion sowie der Liste. Derzeit werden folgende Aktionen unterstützt:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="10" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">offene NUB-Anfragen: &quot;ans InEK senden&quot;</text><br/><text styleclass="Normal" translate="true">Sendet alle offenen Datensätze an das InEK, sofern möglich. Ein Datensatz muss vollständig gefüllt sein und Sie über das Recht verfügen, diesen auch an das InEK senden zu dürfen. Datensätze, welche diese Voraussetzung nicht erfüllen, werden &#160;nicht gesendet. Sofern nicht alle Datensätze gesendet werden können, erhalten Sie eine entsprechende Meldung.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[Start]</text><text styleclass="Normal" translate="true"> startet die gewählte Aktion und führt diese für alle markierten Datensätze aus, soweit dies für den jeweiligen Datensatz zulässig ist.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Markierungen können Sie auch in größerem Stile über zwei spezielle Schaltflächen setzen oder entfernen:</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Alle auswählen ]</text><text styleclass="Normal" translate="true"> markiert alle angezeigten Datensätze.</text></para>
     <para styleclass="Normal"></para>

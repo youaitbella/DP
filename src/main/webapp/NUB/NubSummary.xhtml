@@ -52,13 +52,13 @@
                 </div>
             </ui:repeat>
 
-            <div class="toolBar marginLeft">
-                <h:commandLink styleClass="button" action="#{nubSessionTools.printSelected(nubSessionTools.editNode)}"  immediate="true" value="#{msg.btnPrintSelected}"/>
-                <h:commandLink styleClass="button" action="#{nubSessionTools.sendSelected(nubSessionTools.editNode)}"  immediate="true" value="#{msg.btnSaveAndClose}">
-                        <cb:confirmSeal/>
-                </h:commandLink>
-            </div>
-            <div class="marginLeft">
+            <div class="borderBottom paddingBottom">
+                <h:outputLabel styleClass="label marginLeft" value="#{msg.lblSelection}"/>
+                <h:selectOneMenu value="#{nubSessionTools.editAction}" styleClass="label20 marginElement">
+                    <f:selectItems value="#{nubSessionTools.editActions}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                    <f:ajax/>
+                </h:selectOneMenu>
+                <h:commandLink styleClass="midButton marginLeft" action="#{nubSessionTools.startAction(nubSessionTools.editNode)}"  immediate="true" value="#{msg.btnStartAction}"/>
                 <h:commandLink styleClass="secondaryButton" immediate="true" value="#{msg.btnSelectAll}">
                     <f:ajax listener="#{nubSessionTools.selectAll(nubSessionTools.editNode)}" render="@form :logout:remaining"/>
                 </h:commandLink>
@@ -67,7 +67,6 @@
                 </h:commandLink>
             </div>
 
-            
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
@@ -82,11 +81,11 @@
 
             <ui:repeat value="#{nubSessionTools.viewNode.children}" var="year">
                 <p>
-                    <h:commandLink action="#{year.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this NubYear :logout:remaining"/>
-                    </h:commandLink>
-                    <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
+                <h:commandLink action="#{year.toggle}" immediate="true" >
+                    <h:graphicImage alt="auf/zuklappen" name="#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" library="Icon/small" title="Details auf/zuklappen" value=""/>
+                    <f:ajax render="@this NubYear :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
                 </p>
                 <div jsf:id="NubYear">
                     <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
@@ -109,10 +108,13 @@
                 </div>
             </ui:repeat>
 
-            <div class="toolBar marginLeft">
-                <h:commandLink styleClass="button" action="#{nubSessionTools.printSelected(nubSessionTools.viewNode)}"  immediate="true" value="#{msg.btnPrintSelected}"/>
-            </div>
-            <div class="marginLeft">
+            <div class="paddingBottom">
+                <h:outputLabel styleClass="label marginLeft" value="#{msg.lblSelection}"/>
+                <h:selectOneMenu value="#{nubSessionTools.viewAction}" styleClass="label20 marginElement">
+                    <f:selectItems value="#{nubSessionTools.viewActions}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                    <f:ajax/>
+                </h:selectOneMenu>
+                <h:commandLink styleClass="midButton marginLeft" action="#{nubSessionTools.startAction(nubSessionTools.viewNode)}"  immediate="true" value="#{msg.btnStartAction}"/>
                 <h:commandLink styleClass="secondaryButton" immediate="true" value="#{msg.btnSelectAll}">
                     <f:ajax listener="#{nubSessionTools.selectAll(nubSessionTools.viewNode)}" render="@form :logout:remaining"/>
                 </h:commandLink>
@@ -120,6 +122,7 @@
                     <f:ajax listener="#{nubSessionTools.deselectAll(nubSessionTools.viewNode)}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </div>
+
 
         </h:form>
     </ui:define>

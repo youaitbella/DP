@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
@@ -254,9 +254,19 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         } else {
             infos = obtainNubInfosForEdit(partnerId);
         }
+        List<Integer> checked = new ArrayList<>();
+        for (TreeNode child : accountTreeNode.getChildren()){
+            if (child.isChecked()){
+                checked.add(child.getId());
+            }
+        }
         accountTreeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
-            accountTreeNode.getChildren().add(ProposalInfoTreeNode.create(accountTreeNode, info, this));
+            ProposalInfoTreeNode node = ProposalInfoTreeNode.create(accountTreeNode, info, this);
+            if (checked.contains(node.getId())){
+                node.setChecked(true);
+            }
+            accountTreeNode.getChildren().add(node);
         }
     }
 
@@ -410,19 +420,32 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         List<NubRequest> nubRequests = collectRequests(root);
         List<NubRequest> sendNubRequests = new ArrayList<>();
         for (NubRequest nubRequest : nubRequests) {
-            if (trySendRequest(nubRequest)){
+            if (trySendRequest(nubRequest)) {
                 sendNubRequests.add(nubRequest);
             }
+        }
+        int total = nubRequests.size();
+        int send = sendNubRequests.size();
+        if (total > send) {
+            String msg = (total - send) + " Anfragen von " + total + " konnten nicht gesendet werden.\n"
+                    + "Möglicherweise sind diese noch unvollständig oder Sie verfügen nicht über die Sendeberechtigung.\n"
+                    + "Bitte senden Sie diese einzeln, um eine ausführliche Meldung zu erhalten.";
+            String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
         }
         return printRequests(sendNubRequests);
     }
 
     private boolean trySendRequest(NubRequest nubRequest) {
-        if (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() || nubRequest.getStatus() == WorkflowStatus.Unknown){
+        if (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() || nubRequest.getStatus() == WorkflowStatus.Unknown) {
             return false;
         }
-        if (!isSealEnabled(nubRequest)){return false;}
-        if (composeMissingFieldsMessage(nubRequest).containsMessage()){return false;}
+        if (!isSealEnabled(nubRequest)) {
+            return false;
+        }
+        if (composeMissingFieldsMessage(nubRequest).containsMessage()) {
+            return false;
+        }
         nubRequest = prepareSeal(nubRequest);
         try {
             nubRequest = _nubRequestFacade.saveNubRequest(nubRequest);
@@ -433,7 +456,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         } catch (Exception ex) {
             _logger.log(Level.WARNING, ex.getMessage());
         }
-        
+
         return false;
     }
 
@@ -441,12 +464,11 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return id != null && id >= 0;
     }
 
-    
     public NubRequest prepareSeal(NubRequest nubRequest) {
         nubRequest.setStatus(WorkflowStatus.Accepted);
         nubRequest.setSealedBy(_sessionController.getAccountId());
         nubRequest.setDateSealed(Calendar.getInstance().getTime());
-        
+
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         if (nubRequest.getTargetYear() < targetYear) {
             // data from last year, not sealed so far
@@ -460,14 +482,13 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return nubRequest;
     }
 
-    
     public boolean isSealEnabled(NubRequest nubRequest) {
         if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk());
     }
-    
+
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
         MessageContainer message = new MessageContainer();
         String ik = "";
@@ -598,5 +619,48 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), subject, body);
     }
 
+    private String _editAction = "print";
+
+    public String getEditAction() {
+        return _editAction;
+    }
+
+    public void setEditAction(String action) {
+        _editAction = action;
+    }
+    
+    private String _viewAction = "print";
+
+    public String getViewAction() {
+        return _viewAction;
+    }
+
+    public void setViwAction(String action) {
+        _viewAction = action;
+    }
+    
+    public List<SelectItem> getEditActions() {
+        List<SelectItem> actions = new ArrayList<>();
+        actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
+        actions.add(new SelectItem("send", Utils.getMessage("actionSend")));
+        return actions;
+    }
+
+    public List<SelectItem> getViewActions() {
+        List<SelectItem> actions = new ArrayList<>();
+        actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
+        return actions;
+    }
+
+    public String startAction(RootNode root) {
+        String action = (root == getEditNode()) ? _editAction : _viewAction;
+        switch (action){
+            case "print":
+                return printSelected(root);
+            case "send":
+                return sendSelected(root);
+        }
+        return "";
+    }
     
 }

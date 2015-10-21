@@ -42,6 +42,12 @@ hr.simpleLine {
     color: #7F9BAF;
 }
 
+.borderBottom {
+    border-bottom-width: 1px;
+    border-bottom-color: #7F9BAF;
+    border-bottom-style: solid;
+}
+
 h1 {
     font-size: 2em;
     font-weight: bold;
@@ -840,7 +846,6 @@ a.button, a.secondaryButton, a.midButton, a.smallButton, span.button, label.butt
     border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
-    min-width: 150px;
 }
 
 .certWebsiteButton {
@@ -905,13 +910,14 @@ a.button, .midButton, .smallButton, input.button, label.button{
 a.secondaryButton{
     background-color: #7F9BAF;
     color: white;
+    min-width: 10em;
 }
 
 .changed{
     background-color: gold;
 }
 
-a.button, a.secondaryButton, label.button, span.button{
+a.button, label.button, span.button{
     min-width: 150px;
 }
 
@@ -1028,6 +1034,10 @@ div.modelIntYesNo {
 
 .marginTop {
     margin-top: 5px;
+}
+
+.paddingBottom {
+    padding-bottom: 1em;
 }
 
 .marginLeft {
