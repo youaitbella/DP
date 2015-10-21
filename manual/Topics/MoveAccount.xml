@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Übertragung Benutzerkonto</title>
   <body>
     <header>
@@ -8,8 +8,7 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Mitarbeiter oder deren Zuständigkeiten wechseln, kann der Wunsch auftreten, ein Benutzerkonto des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> auf einen anderen Anwender zu übertragen. Dies kann wie folgt geschehen, wobei Anwender A sein Konto an Anwender B abgibt:</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><var styleclass="Normal"></var></para>
-    <list id="13" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
+    <list id="1" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Normal" translate="true">Sofern Anwender A sein Kennwort an anderer Stelle persönlich nutzt, ändert Anwender A sein Kennwort im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anwender A gibt Anwender B das Kennwort zum Benutzerkonto bekannt. </text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anwender A trägt in den Stammdaten die E-Mail-Adresse von Anwender B ein.</text></li>
