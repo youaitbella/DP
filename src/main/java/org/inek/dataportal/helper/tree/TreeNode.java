@@ -8,6 +8,7 @@ package org.inek.dataportal.helper.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * TreeNode and its descendents are used to encapsulate the tree status as well
@@ -32,6 +33,10 @@ public abstract class TreeNode {
 
     public Collection<TreeNode> getChildren() {
         return _children;
+    }
+    
+    public Collection<TreeNode> copyChildren() {
+        return new CopyOnWriteArrayList<>(getChildren());
     }
     
     public Collection<TreeNode> getSortedChildren() {
@@ -69,7 +74,7 @@ public abstract class TreeNode {
 
     // </editor-fold>   
     // <editor-fold defaultstate="collapsed" desc="Property Checked">    
-    private boolean _isChecked;
+    private boolean _isChecked = false;
 
     public boolean isChecked() {
         return _isChecked;
@@ -143,8 +148,7 @@ public abstract class TreeNode {
         if (_observer != null) {
             _observer.obtainChildren(this, getChildren());
         }
-        List<TreeNode> children = new ArrayList<>(getChildren());
-        for (TreeNode child : children) {
+        for (TreeNode child : copyChildren()) {
             child.refresh();
         }
     }

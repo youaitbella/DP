@@ -255,7 +255,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             infos = obtainNubInfosForEdit(partnerId);
         }
         List<Integer> checked = new ArrayList<>();
-        for (TreeNode child : accountTreeNode.getChildren()) {
+        for (TreeNode child : accountTreeNode.copyChildren()) {
             if (child.isChecked()) {
                 checked.add(child.getId());
             }
