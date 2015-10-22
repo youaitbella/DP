@@ -255,15 +255,15 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             infos = obtainNubInfosForEdit(partnerId);
         }
         List<Integer> checked = new ArrayList<>();
-        for (TreeNode child : accountTreeNode.getChildren()){
-            if (child.isChecked()){
+        for (TreeNode child : accountTreeNode.getChildren()) {
+            if (child.isChecked()) {
                 checked.add(child.getId());
             }
         }
         accountTreeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
             ProposalInfoTreeNode node = ProposalInfoTreeNode.create(accountTreeNode, info, this);
-            if (checked.contains(node.getId())){
+            if (checked.contains(node.getId())) {
                 node.setChecked(true);
             }
             accountTreeNode.getChildren().add(node);
@@ -628,7 +628,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public void setEditAction(String action) {
         _editAction = action;
     }
-    
+
     private String _viewAction = "print";
 
     public String getViewAction() {
@@ -638,29 +638,114 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public void setViewAction(String action) {
         _viewAction = action;
     }
-    
+
     public List<SelectItem> getEditActions() {
         List<SelectItem> actions = new ArrayList<>();
         actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
         actions.add(new SelectItem("send", Utils.getMessage("actionSend")));
+        actions.add(new SelectItem("take", Utils.getMessage("actionTake")));
         return actions;
     }
 
     public List<SelectItem> getViewActions() {
         List<SelectItem> actions = new ArrayList<>();
         actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
+        actions.add(new SelectItem("copy", Utils.getMessage("actionCopy")));
+        actions.add(new SelectItem("take", Utils.getMessage("actionTake")));
         return actions;
     }
 
     public String startAction(RootNode root) {
         String action = (root == getEditNode()) ? _editAction : _viewAction;
-        switch (action){
+        _sessionController.logMessage("Batch: " + action);
+        switch (action) {
             case "print":
                 return printSelected(root);
             case "send":
                 return sendSelected(root);
+            case "copy":
+                return copySelected(root);
+            case "take":
+                return takeSelected(root);
         }
         return "";
     }
-    
+
+    private String copySelected(RootNode root) {
+        List<NubRequest> nubRequests = collectRequests(root);
+        for (NubRequest nubRequest : nubRequests) {
+            copyNubRequest(nubRequest);
+        }
+        String msg = nubRequests.size() + " Anfragen wurden übernommen.";
+        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+        _sessionController.setScript(script);
+        return "";
+    }
+
+    public boolean copyNubRequest(NubRequest nubRequest) {
+        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
+        int targetAccountId = _sessionController.getAccountId();
+        NubRequest copy = ObjectUtils.copy(nubRequest);
+        copy.setId(-1);
+        copy.setStatus(WorkflowStatus.New);
+        copy.setDateSealed(null);
+        copy.setSealedBy(0);
+        copy.setLastModified(null);
+        copy.setCreationDate(null);
+        copy.setDateOfReview(null);
+        copy.setExternalState("");
+        copy.setByEmail(false);
+        copy.setErrorText("");
+        copy.setCreatedBy(targetAccountId);
+        copy.setLastChangedBy(targetAccountId);
+        if (copy.getAccountId() != targetAccountId) {
+            // from partner
+            copy.setPatientsLastYear("");
+            copy.setPatientsThisYear("");
+            copy.setPatientsFuture("");
+            copy.setHelperId(copy.getAccountId());
+            Account partner = _accountFacade.find(copy.getAccountId());
+            copy.setFormFillHelper("Kooperationspartner: " + partner.getCompany());
+            copy.setAccountId(_sessionController.getAccountId());
+            getNubController().populateMasterData(copy, _sessionController.getAccount());
+        } else if (copy.getTargetYear() == targetYear - 1) {
+            // from previous year
+            copy.setPatientsLastYear(nubRequest.getPatientsThisYear());
+            copy.setPatientsThisYear(nubRequest.getPatientsFuture());
+            copy.setPatientsFuture("");
+        } else {
+            // elder
+            copy.setPatientsLastYear("");
+            copy.setPatientsThisYear("");
+            copy.setPatientsFuture("");
+        }
+        copy.setTargetYear(targetYear);
+        copy = _nubRequestFacade.saveNubRequest(copy);
+        return copy.getId() != -1;
+    }
+
+    private NubController getNubController() {
+        return (NubController) _sessionController.getFeatureController(Feature.NUB);
+    }
+
+    private String takeSelected(RootNode root) {
+        List<NubRequest> nubRequests = collectRequests(root);
+        int count = 0;
+        for (NubRequest nubRequest : nubRequests) {
+            if (_cooperationTools.isTakeEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk())) {
+                nubRequest.setAccountId(_sessionController.getAccountId());
+                _nubRequestFacade.saveNubRequest(nubRequest);
+                count++;
+            }
+        }
+        int total = nubRequests.size();
+        String msg = (count) + " von " + total + " Anfragen konnten in Ihren \"Besitz\" übernommen werden.";
+        if (total > count) {
+            msg += "\nDie übrigen Anfragen befanden sich bereits in Ihrem Besitz oder Sie sind nicht berechtigt, diese zu übernehmen.";
+        }
+        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+        _sessionController.setScript(script);
+        return "";
+    }
+
 }

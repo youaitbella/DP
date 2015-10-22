@@ -663,48 +663,11 @@ public class EditNubRequest extends AbstractEditController {
     AccountFacade _accountFacade;
 
     public void copyNubRequest(AjaxBehaviorEvent event) {
-        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
-        int targetAccountId = _sessionController.getAccountId();
-        NubRequest copy = ObjectUtils.copy(_nubRequest);
-        copy.setId(-1);
-        copy.setStatus(WorkflowStatus.New);
-        copy.setDateSealed(null);
-        copy.setSealedBy(0);
-        copy.setLastModified(null);
-        copy.setCreationDate(null);
-        copy.setDateOfReview(null);
-        copy.setExternalState("");
-        copy.setByEmail(false);
-        copy.setErrorText("");
-        copy.setCreatedBy(targetAccountId);
-        copy.setLastChangedBy(targetAccountId);
-        if (copy.getAccountId() != targetAccountId) {
-            // from partner
-            copy.setPatientsLastYear("");
-            copy.setPatientsThisYear("");
-            copy.setPatientsFuture("");
-            copy.setHelperId(copy.getAccountId());
-            Account partner = _accountFacade.find(copy.getAccountId());
-            copy.setFormFillHelper("Kooperationspartner: " + partner.getCompany());
-            copy.setAccountId(_sessionController.getAccountId());
-            getNubController().populateMasterData(copy, _sessionController.getAccount());
-        } else if (copy.getTargetYear() == targetYear - 1) {
-            // from previous year
-            copy.setPatientsLastYear(_nubRequest.getPatientsThisYear());
-            copy.setPatientsThisYear(_nubRequest.getPatientsFuture());
-            copy.setPatientsFuture("");
-        } else {
-            // elder
-            copy.setPatientsLastYear("");
-            copy.setPatientsThisYear("");
-            copy.setPatientsFuture("");
-        }
-        copy.setTargetYear(targetYear);
-        copy = _nubRequestFacade.saveNubRequest(copy);
-        if (copy.getId() != -1) {
+        if (_nubSessionTools.copyNubRequest(_nubRequest)){
             Utils.showMessageInBrowser("NUB erfolgreich angelegt");
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
     @Inject PortalMessageFacade _messageFacade;

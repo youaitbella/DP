@@ -54,7 +54,7 @@
 
             <div class="borderBottom paddingBottom">
                 <h:outputLabel styleClass="label marginLeft" value="#{msg.lblSelection}"/>
-                <h:selectOneMenu value="#{nubSessionTools.editAction}" styleClass="label20 marginElement">
+                <h:selectOneMenu value="#{nubSessionTools.editAction}" styleClass="label marginElement">
                     <f:selectItems value="#{nubSessionTools.editActions}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                     <f:ajax/>
                 </h:selectOneMenu>
@@ -110,7 +110,7 @@
 
             <div class="paddingBottom">
                 <h:outputLabel styleClass="label marginLeft" value="#{msg.lblSelection}"/>
-                <h:selectOneMenu value="#{nubSessionTools.viewAction}" styleClass="label20 marginElement">
+                <h:selectOneMenu value="#{nubSessionTools.viewAction}" styleClass="label marginElement">
                     <f:selectItems value="#{nubSessionTools.viewActions}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                     <f:ajax/>
                 </h:selectOneMenu>
