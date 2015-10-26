@@ -320,17 +320,6 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return Pages.NubSummary.URL();
     }
 
-    public String printSelected(RootNode root) {
-        List<NubRequest> nubRequests = collectRequests(root);
-        return printRequests(nubRequests);
-    }
-
-    private List<NubRequest> collectRequests(RootNode root) {
-        List<Integer> selectedRequests = root.getSelectedIds(ProposalInfoTreeNode.class);
-        List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
-        return nubRequests;
-    }
-
     private String printRequests(List<NubRequest> nubRequests) {
         if (nubRequests.isEmpty()) {
             return "";
@@ -416,8 +405,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return nubRequest.getExternalState();
     }
 
-    public String sendSelected(RootNode root) {
-        List<NubRequest> nubRequests = collectRequests(root);
+    private String sendSelected(List<NubRequest> nubRequests) {
         List<NubRequest> sendNubRequests = new ArrayList<>();
         for (NubRequest nubRequest : nubRequests) {
             if (trySendRequest(nubRequest)) {
@@ -656,23 +644,30 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     public String startAction(RootNode root) {
+        List<NubRequest> nubRequests = collectRequests(root);
         String action = (root == getEditNode()) ? _editAction : _viewAction;
-        _sessionController.logMessage("Batch: " + action);
+        _sessionController.logMessage("Batch: " + action + "; count: " + nubRequests.size());
+
         switch (action) {
             case "print":
-                return printSelected(root);
+                return printRequests(nubRequests);
             case "send":
-                return sendSelected(root);
+                return sendSelected(nubRequests);
             case "copy":
-                return copySelected(root);
+                return copySelected(nubRequests);
             case "take":
-                return takeSelected(root);
+                return takeSelected(nubRequests);
         }
         return "";
     }
 
-    private String copySelected(RootNode root) {
-        List<NubRequest> nubRequests = collectRequests(root);
+    private List<NubRequest> collectRequests(RootNode root) {
+        List<Integer> selectedRequests = root.getSelectedIds(ProposalInfoTreeNode.class);
+        List<NubRequest> nubRequests = _nubRequestFacade.find(selectedRequests);
+        return nubRequests;
+    }
+
+    private String copySelected(List<NubRequest> nubRequests) {
         for (NubRequest nubRequest : nubRequests) {
             copyNubRequest(nubRequest);
         }
@@ -728,8 +723,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return (NubController) _sessionController.getFeatureController(Feature.NUB);
     }
 
-    private String takeSelected(RootNode root) {
-        List<NubRequest> nubRequests = collectRequests(root);
+    private String takeSelected(List<NubRequest> nubRequests) {
         int count = 0;
         for (NubRequest nubRequest : nubRequests) {
             if (_cooperationTools.isTakeEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk())) {
