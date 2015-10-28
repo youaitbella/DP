@@ -204,12 +204,21 @@
       </topicref>
       <topicref type="topic" id="422987052331027" build="ALL" modified="2015-10-21T14:20:14.215Z" icon="0" href="E-Mail-Template">
         <caption translate="true">E-Mail-Template</caption>
+        <topicref type="topic" id="423048653803773" build="ALL" modified="2015-10-27T16:27:57.093Z" icon="0" href="E-Mail-Typ">
+          <caption translate="true">E-Mail-Typ</caption>
+        </topicref>
+        <topicref type="topic" id="423047224023237" build="ALL" modified="2015-10-27T16:30:18.888Z" icon="0" href="E-Mail-Platzhalter">
+          <caption translate="true">E-Mail-Platzhalter</caption>
+        </topicref>
       </topicref>
       <topicref type="topic" id="422985181019370" build="ALL" modified="2015-10-21T14:20:20.805Z" icon="0" href="Mailversand">
         <caption translate="true">Mailversand</caption>
       </topicref>
       <topicref type="topic" id="422985586821799" build="ALL" modified="2015-10-21T14:20:33.951Z" icon="0" href="Grouperzertifizierung">
         <caption translate="true">Grouperzertifizierung</caption>
+      </topicref>
+      <topicref type="topic" id="423005735963257" build="ALL" modified="2015-10-23T11:22:41.021Z" icon="0" href="Pruefservice">
+        <caption translate="true">Prüfservice</caption>
       </topicref>
     </topicref>
   </topicref>

@@ -1,9 +1,36 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" status="" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title>Ergebnis</title>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Ergebnis</title>
   <body>
-    <header><para styleclass="Heading1">Ergebnis</para></header>
-    <para styleclass="Normal">Geben Sie hier den Text ein.</para>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Ergebnis</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Über einen Klick auf den </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Ergebnis]</text><text styleclass="Normal" translate="true">-Knopf auf der </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Systemverwaltung" styleclass="Normal" translate="true">Systemverwaltungs-Seite</link><text styleclass="Normal" translate="true"> kommt man auf die unten abgebildete Seite. Diese Seite zeigt in Abhängigkeit des aktuellen Zertifizierungsstatus, verschiedene Formulare an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Formulare sind alle nachfolgend abgebildet und beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="cert-grouper-unknown.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wenn der </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Ergebnis]</text><text styleclass="Normal" translate="true">-Knopf gedrückt wird und der Grouperhersteller befindet sich in einem unbekannten bzw. neuem Status, dann wird hier lediglich der Zertifizierungsstatus angezeigt und kein Formular.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="cert-password-requested.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Ansicht erscheint, wenn der Grouperhersteller sich in dem Status &quot;</text><text styleclass="Normal" style="font-style:italic;" translate="true">Passwort abgefragt</text><text styleclass="Normal" translate="true">&quot; befindet. Neu ist die Schaltfläche </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Reset 1-Step]</text><text styleclass="Normal" translate="true">. Klickt man auf die Schaltfläche, so wird der aktuelle Status um einen Schritt zurückgesetzt. Hilfreich wenn es z.B. Upload-Fehler gab und der Hersteller seine Daten erneut hochladen muss. Das Zurücksetzen eines ganzen Systems ist </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Systemverwaltung" styleclass="Normal" translate="true">hier</link><text styleclass="Normal" translate="true"> beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="cert-enter-errors.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Oben abgebildetes Formular erscheint, sobald der Hersteller seine Daten hochgeladen hat. Über den </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Pruefservice" styleclass="Normal" translate="true">Prüfservice</link><text styleclass="Normal" translate="true"> können die hochgeladenen Dateien mit den von uns hinterlegten Referenzen abgeglichen werden. Sollte es Abweichungen gegeben haben, so werden diese zusammen gerechnet und die Anzahl der Abweichungen bzw. Fehler müssen in das entsprechende, oben abgebildete Textfeld eingetragen werden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das Textfeld zu der Beschreibung &quot;</text><text styleclass="Normal" style="font-style:italic;" translate="true">Geprüft am</text><text styleclass="Normal" translate="true">&quot; wird standardmäßig mit dem aktuellen Datum gefüllt. Dies ist in der Regel auch das korrekte Datum.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach einem Klick auf </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Eintragen]</text><text styleclass="Normal" translate="true"> werden die angegebenen Daten in die Datenbank geschrieben und der Hersteller erhält den entsprechenden Status. Anschließend wird man auf ein E-Mail-Versand-Formular weitergeleitet, welches unterhalb dieses Abschnitts dargestellt ist.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">TODO: Email-Formulare beschreiben. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="cert-final-view.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wenn der Grouperhersteller sich in dem Status &quot;Grouper zertifiziert&quot; befindet, dann wird die obere Ansicht angezeigt. Es werden alle relevanten Daten dargestellt.</text></para>
   </body>
 </topic>

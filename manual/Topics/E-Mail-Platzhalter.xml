@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">E-Mail-Platzhalter</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">E-Mail-Platzhalter</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wenn man E-Mails auf Grouperhersteller-Ebene verschickt, kann man folgende Platzhalter für die E-Mail-Templates verwenden:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="2" style="head-row-background-color:none; alt-row-background-color:#dddddd;">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Platzhalter</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Beschreibung</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">{company}</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Firmenname</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">{sender}</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Vor- und Nachname des Accounts der die E-Mail verschicken wird.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="height:18px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">{salutation}</text></para>
+        </td>
+        <td style="height:18px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Anrede (mit Komma am Ende)</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

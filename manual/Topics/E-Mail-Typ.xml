@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">E-Mail-Typ</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">E-Mail-Typ</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die verschiedenen, auswählbaren E-Mail-Typen für E-Mail-Vorlagen der Zertifizierung:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="8" colcount="2" style="background-color:none; head-row-background-color:none; alt-row-background-color:#dbdbdd;">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">E-Mail-Typ</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Verwendungszweck</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Eröffnungsemail</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Wird verwendet um eine Systemeröffnung zu kennzeichnen. Ausgewählt werden kann diese E-Mail-Vorlage im Reiter &quot;Mailversand&quot;. </text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Informationsemail</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieser E-Mail-Typ wird verwendet, wenn es sich um eine normale Informationsemail an die Hersteller handelt. Z.B. wenn es Anpassungen an den von uns bereitgestellten Daten gab. Ausgewählt werden kann diese E-Mail-Vorlage im Reiter &quot;Mailversand&quot;</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Fehler-Testphase</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese E-Mail-Vorlage wird verwendet, wenn der Grouperhersteller Fehler in seinen übermittelten Daten hatte. Folglich kann man auf diese E-Mail nur über die &quot;Ergebnis&quot;-Schaltfläche zugreifen und wenn für den Hersteller Fehler eingetragen wurden.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Testphase-Bestanden</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese E-Mail-Vorlage wird verwendet, wenn der Grouperhersteller keine Fehler in seinen übermittelten Daten hatte. Folglich kann man auf diese E-Mail nur über die &quot;Ergebnis&quot;-Schaltfläche zugreifen und wenn für den Hersteller keine Fehler eingetragen wurden.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Fehler-Zertifizierungsphase</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie &quot;Fehler-Testphase&quot;, aber erst zugänglich wenn der Hersteller sich in der Zertifizierungsphase befindet.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Zertifiziert-Email</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie &quot;Testphase-Bestanden&quot;, aber erst zugänglich wenn der Hersteller sich in der Zertifizierungsphase befindet.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Zertifikat-Email</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Für interne Information an die Verwaltung. Auswählbar nachdem der Hersteller über seine bestandene Zertifizierung informiert wurde.</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>
