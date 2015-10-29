@@ -1,9 +1,46 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" status="" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title>Mailversand</title>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Mailversand</title>
   <body>
-    <header><para styleclass="Heading1">Mailversand</para></header>
-    <para styleclass="Normal">Geben Sie hier den Text ein.</para>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Mailversand</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Tab für den Mailversand gilt für E-Mails an mehrere Grouperhersteller. Es kann nur an die Hersteller gesendet werden, die einem System zugeordnet sind, oder man erstellt sich eine eigene Empfängerliste, an die gesendet wird.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">E-Mails für einzelne Herstersteller über Ihren aktuellen Zertifizierungstatus, werden auf der </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Ergebnis" styleclass="Normal" translate="true">Ergebnis-Seite</link><text styleclass="Normal" translate="true"> versendet, wenn der Hersteller sich in dem entsprechenden Status befindet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="cert-email-sending.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Template</text><text styleclass="Normal" translate="true">: Hier wird das E-Mail-Template ausgewählt, welches als Vorlage dienen soll. Erstellt werden diese Template auf der </text><link displaytype="text" defaultstyle="true" type="topiclink" href="E-Mail-Template" styleclass="Normal" translate="true">E-Mail-Template-Seite</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">System-Empfängerliste</text><text styleclass="Normal" translate="true">: Soll die E-Mail nur an Ansprechpartner aus einem System gehen, kann man hier das gewünschte System auswählen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">eigene Empfängerliste</text><text styleclass="Normal" translate="true">: Möchte man statt der System-Empfängerliste lieber an eine eigens erstellte Liste E-Mails übermitteln, so wählt man diese hier aus. Zum Erstellen einer neuen Empfängerliste wählt man hier keine aus, sondern füllt das untere Textfeld </text><text styleclass="Normal" style="font-style:italic;" translate="true">Bezeichnung </text><text styleclass="Normal" style="font-style:normal;" translate="true">und klickt anschließend auf </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Empfängerliste speichern]</text><text styleclass="Normal" style="font-style:normal;" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bezeichnung</text><text styleclass="Normal" translate="true">: Der Name der eigenen Empfängerliste. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Empfänger-Auswahl</text><text styleclass="Normal" translate="true">: Sollen der ausgewählten Empfängerliste noch weitere Empfänger hinzugefügt werden, kann man dies über diese Auswahlbox tun. In der Auswahlbox befinden sich alle Accounts, die dem Zertifizierungsfeature angehören. Durch einen Klick auf </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Empfänger hinzufügen]</text><text styleclass="Normal" translate="true"> wird der ausgewählte Empfänger der Liste hinzugefügt. Anschließend muss die Empfängerliste noch über </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Empfängerliste speichern]</text><text styleclass="Normal" translate="true"> gespeichert werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Empfängerliste löschen]</text><text styleclass="Normal" translate="true">: Löscht die ausgewählte Empfängerliste.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">einzelner Empfänger</text><text styleclass="Normal" translate="true">: Hier kann ein einzelner Empfänger ausgewählt werden, an den z.B. eine Informationsemail gehen soll. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Anhang</text><text styleclass="Normal" translate="true">: Es kann der Pfad zu einer Datei angegeben werden. Z.B. </text><text styleclass="Normal" style="font-style:italic;" translate="true">\\vFileserver01\company$\EDV\meinePdf.pdf. </text><text styleclass="Normal" style="font-style:normal;" translate="true"> Sobald man auf </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[E-Mail-Vorschau]</text><text styleclass="Normal" style="font-style:normal;" translate="true"> klickt, sollte unter der Vorschau ein grüner Pfad zu sehen sein. Sollte der Pfad rot sein, so existiert die Datei nicht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; font-style:normal;" translate="true">E-Mail für System</text><text styleclass="Normal" style="font-style:normal;" translate="true">: Hier können Sie noch ein System auswählen, sollte die E-Mail an einen einzelnen Empfänger bzw. an eine eigene Empfängerliste geschickt werden. Dies kann z.B. in der Auswertung abgefragt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[E-Mail-Vorschau]</text><text styleclass="Normal" style="font-style:normal;" translate="true">: Das ausgewählte E-Mail-Template wird für jeden Empfänger vorbereitet. Man kann sich die zu sendende E-Mail noch ein letztes Mal anschauen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="cert-mail-send.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; font-style:normal;" translate="true">Empfänger</text><text styleclass="Normal" style="font-style:normal;" translate="true">: Hier kann ausgewählt werden, für welchen Empfänger die Vorschau betrachtet werden soll.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; font-style:normal;" translate="true">Betreff</text><text styleclass="Normal" style="font-style:normal;" translate="true">: Der Betreff, der gesendet wird.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; font-style:normal;" translate="true">Inhalt</text><text styleclass="Normal" style="font-style:normal;" translate="true">: Der Inhalt, der gesendet wird. Alle Platzhalter wurden übersetzt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Emails abschicken]:</text><text styleclass="Normal" style="font-style:normal;" translate="true"> Schickt alle E-Mails ab.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-style:normal;" translate="true">Sobald der </text><text styleclass="Normal" style="font-weight:bold; color:#122b49;" translate="true">[Emails abschicken]</text><text styleclass="Normal" style="font-style:normal;" translate="true">-Knopf gedrückt wurde, wird noch eine Status-Tabelle am Ende der Seite angezeigt. Hier kann noch einmal gesehen werden, an wen E-Mails gesendet wurden und ob diese auch an kam.</text></para>
   </body>
 </topic>
