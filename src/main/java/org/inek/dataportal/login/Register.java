@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -37,7 +38,7 @@ public class Register implements Serializable {
     private String _password;
     private String _repeatPassword;
     private String _repeatEmail;
-    private AccountRequest _account;
+    private AccountRequest _accountRequest;
     @Inject private SessionTools _sessionTools;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
@@ -49,12 +50,12 @@ public class Register implements Serializable {
 
     @PostConstruct
     private void init() {
-        _account = new AccountRequest();
+        _accountRequest = new AccountRequest();
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public AccountRequest getAccountRequest() {
-        return _account;
+        return _accountRequest;
     }
 
     public boolean isApproved() {
@@ -137,7 +138,7 @@ public class Register implements Serializable {
      * @return
      */
     public String getIkRequired() {
-        return _sessionTools.isHospital(_account.getCustomerTypeId()) ? "true" : "false";
+        return _sessionTools.isHospital(_accountRequest.getCustomerTypeId()) ? "true" : "false";
     }
 
     public void checkApproval(FacesContext context, UIComponent component, Object value) {
@@ -148,9 +149,12 @@ public class Register implements Serializable {
     }
 
     public String register() {
-        if (!_accountFacade.existsMailOrUser(_account.getEmail()) && _accountRequestFacade.findByMailOrUser(_account.getEmail()) == null) {
-            _account.setPassword(_password);
-            if (!_accountRequestFacade.createAccountRequest(_account)) {
+        if (_accountFacade.isReRegister(_accountRequest.getEmail())){
+            return Pages.LoginFinishRegister.URL();
+        }
+        if (!_accountFacade.existsMailOrUser(_accountRequest.getEmail()) && _accountRequestFacade.findByMailOrUser(_accountRequest.getEmail()) == null) {
+            _accountRequest.setPassword(_password);
+            if (!_accountRequestFacade.createAccountRequest(_accountRequest)) {
                 Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
                 return "";
             }

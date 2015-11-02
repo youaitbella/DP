@@ -24,6 +24,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -138,10 +139,12 @@ public class NubRequest implements Serializable {
 
     @Documentation(key = "lblFillHelper")
     @Column(name = "nubFormFillHelper")
+    @Size(max=1000)
     private String _formFillHelper = "";
 
     @Documentation(key = "lblAppellation")
     @Column(name = "nubName")
+    @Size(max=200)
     private String _name = "";
 
     @Documentation(key = "lblAltAppellation")
@@ -210,14 +213,17 @@ public class NubRequest implements Serializable {
 
     @Documentation(key = "lblPatientsLastYear")
     @Column(name = "nubPatientsLastYear")
+    @Size(max=1000)
     private String _patientsLastYear = "";
 
     @Documentation(key = "lblPatientsThisYear")
     @Column(name = "nubPatientsThisYear")
+    @Size(max=1000)
     private String _patientsThisYear = "";
 
     @Documentation(key = "lblPatientsFuture")
     @Column(name = "nubPatientsFuture")
+    @Size(max=1000)
     private String _patientsFuture = "";
 
     @Documentation(key = "lblAddCosts")

@@ -25,6 +25,7 @@ import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
@@ -51,7 +52,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     public AccountFacade() {
         super(Account.class);
     }
-    
+
 //    public String getDatabaseName() {
 //        String ret = "Properties: ";
 //        for(Object key : getEntityManager().getEntityManagerFactory().) {
@@ -59,7 +60,6 @@ public class AccountFacade extends AbstractFacade<Account> {
 //        }
 //        return ret;
 //    }
-    
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
         List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).getResultList();
@@ -69,6 +69,20 @@ public class AccountFacade extends AbstractFacade<Account> {
         return null;
     }
 
+    public Account findByMail(String mail) {
+        String query = "SELECT a FROM Account a WHERE a._email = :mail";
+        return getEntityManager().createQuery(query, Account.class).setParameter("mail", mail).getSingleResult();
+    }
+
+    public Boolean existsMail(String mail) {
+        try {
+            findByMail(mail);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public Boolean existsMailOrUser(final String mailOrUser) {
         if (mailOrUser == null || mailOrUser.length() == 0) {
             return false;
@@ -76,7 +90,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         return findByMailOrUser(mailOrUser) != null;
     }
 
-    
     public Set<Account> getAccountsWithRequestedFeatures() {
         String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._featureState = :state";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
@@ -84,7 +97,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         return new HashSet<>(acc);
     }
 
-    
     public List<Account> getAccountsForIds(Collection<Integer> ids) {
         if (ids.isEmpty()) {
             return new ArrayList<>();
@@ -95,7 +107,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         return accounts;
     }
 
-    
     public List<Account> getInekAcounts() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Account> cq = cb.createQuery(Account.class);
@@ -106,7 +117,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         return query.getResultList();
     }
 
-    
     public List<SelectItem> getInekAgents() {
 //        CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
 //        CriteriaQuery<SelectItem> cQuery = cBuilder.createQuery(SelectItem.class);
@@ -133,7 +143,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         return agents;
     }
 
-    
     public List<Account> getAccounts4Feature(Feature feature) {
         String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple) ORDER BY a._company";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
@@ -278,6 +287,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     @Inject Mailer _mailer;
+
     public boolean requestPassword(final String mail, final String password) {
         if (StringUtil.isNullOrEmpty(mail) || StringUtil.isNullOrEmpty(password)) {
             return false;
@@ -309,6 +319,16 @@ public class AccountFacade extends AbstractFacade<Account> {
         getLogger().log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
         _pwdRequestFacade.remove(request);
         return false;
+    }
+
+    public boolean isReRegister(String email) {
+        try {
+            Account account = findByMail(email);
+            _mailer.sendReRegisterMail(account);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
 }

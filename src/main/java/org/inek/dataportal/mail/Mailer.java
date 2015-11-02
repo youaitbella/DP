@@ -169,6 +169,17 @@ public class Mailer {
         return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
+    public boolean sendReRegisterMail(Account account) {
+        MailTemplate template = getMailTemplate("AccountReRegistrationMail");
+        if (template == null) {
+            return false;
+        }
+        String salutation = getFormalSalutation(account);
+        String body = template.getBody()
+                .replace("{formalSalutation}", salutation);
+        return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
+    }
+
     public boolean sendMailActivationMail(AccountChangeMail changeMail) {
         MailTemplate template = getMailTemplate("MailActivationMail");
         if (template == null) {
