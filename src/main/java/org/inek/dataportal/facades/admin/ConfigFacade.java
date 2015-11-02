@@ -70,12 +70,12 @@ public class ConfigFacade extends AbstractFacade<Config> {
         save(ConfigKey.IsNubSendEnabled.name(), true);
     }
 
-    @Schedule(month = "11", dayOfMonth = "4", hour = "0")
+    @Schedule(month = "11", dayOfMonth = "3", hour = "0")
     private void disableCreateNub() {
         save(ConfigKey.IsNubCreateEnabled.name(), false);
     }
 
-    @Schedule(month = "11", dayOfMonth = "5", hour = "0")
+    @Schedule(month = "11", dayOfMonth = "4", hour = "0")
     private void disableSendNub() {
         save(ConfigKey.IsNubSendEnabled.name(), false);
     }
