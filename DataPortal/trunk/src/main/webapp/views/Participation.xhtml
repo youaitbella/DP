@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/index.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="mainContent">
+        <h:form id="table">
+            <ace:dataTable  id="a1_kh_table"
+                            value="#{entities.a1}"
+                            var="a1kh"
+                            resizableColumns="true"
+                          >
+            <ace:column id="bundesland" headerText="Bundesland" sortBy="#{a1kh.bundesland}"
+                            filterBy="#{a1kh.bundesland}" filterMatchMode="contains">
+                <h:outputText id="bundeslandCell" value="#{a1kh.bundesland}"/>
+            </ace:column>
+                <ace:column id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{a1kh.anzahlKh}"
+                            filterBy="#{a1kh.anzahlKh}" filterMatchMode="contains">
+                <h:outputText id="numKhCell" value="#{a1kh.anzahlKh}"/>
+            </ace:column>
+                <ace:column id="numCases" headerText="Anzahl Fälle" sortBy="#{a1kh.anzahlFälle}"
+                            filterBy="#{a1kh.anzahlFälle}" filterMatchMode="contains">
+                <h:outputText id="numCasesCell" value="#{a1kh.anzahlFälle}"/>
+            </ace:column>
+                <ace:column id="bundeslandCode" headerText="Bundesland Code" sortBy="#{a1kh.bundeslandCode}"
+                            filterBy="#{a1kh.bundeslandCode}" filterMatchMode="contains">
+                <h:outputText id="bundeslandCodeCell" value="#{a1kh.bundeslandCode}"/>
+            </ace:column>
+        </ace:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
