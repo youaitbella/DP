@@ -2,9 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.inek</groupId>
+    <parent>
+        <groupId>org.inek</groupId>
+        <artifactId>DataPortalParent</artifactId>
+        <version>2016.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
     <artifactId>Begleitforschung</artifactId>
-    <version>2015.10-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Begleitforschung</name>

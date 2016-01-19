@@ -5,9 +5,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
     <groupId>org.inek</groupId>
     <artifactId>DataPortalParent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2016.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -15,5 +19,30 @@
         <module>PortalResources</module>
         <module>Begleitforschung</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>   <!-- 3.2 and 3.3 whith Java 8 (u60)run into compiler error when build without clean -->
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArguments>
+                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
