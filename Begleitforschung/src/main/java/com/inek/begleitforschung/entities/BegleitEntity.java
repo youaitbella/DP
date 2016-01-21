@@ -11,7 +11,7 @@ package com.inek.begleitforschung.entities;
  */
 public interface BegleitEntity {
     
-    public final static String BASE_FILE_PATH = "\\\\vFileserver01\\company$\\EDV\\Projekte\\InEK-Browsers\\Begleitforschung";
+    public final static String BASE_FILE_PATH = "//vFileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung";
     
     public String getFileName();
     public String getHeadLine();

@@ -5,6 +5,7 @@
  */
 package com.inek.begleitforschung;
 
+import com.inek.begleitforschung.entities.BegleitEntity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class MenuController {
     
     public List<MenuItem> getDataYears() {
         List<MenuItem> dataYears = new ArrayList<>();
-        String path = "\\\\vFileserver01\\company$\\EDV\\Projekte\\InEK-Browsers\\Begleitforschung";
+        String path = BegleitEntity.BASE_FILE_PATH;
         String[] directories;
         directories = new File(path).list((File current, String name) -> new File(current, name).isDirectory()); 
         int i = 0;
