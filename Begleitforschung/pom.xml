@@ -21,6 +21,13 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>PortalLib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces</artifactId>
             <version>4.0.0</version>
