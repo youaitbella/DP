@@ -21,6 +21,7 @@
         <module>DataPortal</module>
         <module>PortalResources</module>
         <module>Begleitforschung</module>
+        <module>PortalLib</module>
     </modules>
 
     <build>

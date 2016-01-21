@@ -3,25 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper.tree;
+package org.inek.portallib.tree;
 
 /**
  *
  * @author muellermi
  */
-public class YearTreeNode extends TreeNode{
+public class RootNode extends TreeNode {
 
-
-    private YearTreeNode(TreeNode parent, int year) {
+    private RootNode(TreeNode parent, int id) {
         super(parent);
-        setId(year);
+        setId(id);
     }
 
-    public static YearTreeNode create(TreeNode parent, int year, TreeNodeObserver observer) {
-        YearTreeNode node = new YearTreeNode(parent, year);
+    public static RootNode create(int id, TreeNodeObserver observer) {
+        RootNode node = new RootNode(null, id);
         node.registerObserver(observer);
         return node;
     }
 
-    
 }
