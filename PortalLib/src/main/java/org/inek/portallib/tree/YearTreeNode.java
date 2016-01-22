@@ -5,9 +5,6 @@
  */
 package org.inek.portallib.tree;
 
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-
 /**
  *
  * @author muellermi
