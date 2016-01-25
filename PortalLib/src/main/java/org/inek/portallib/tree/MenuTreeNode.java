@@ -5,57 +5,94 @@
  */
 package org.inek.portallib.tree;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  *
  * @author muellermi
  */
-public class MenuTreeNode extends TreeNode {
+public class MenuTreeNode {
 
-    private static int _autoId = 0;
+    // <editor-fold defaultstate="collapsed" desc="Property Level">    
     private final int _level;
+
+    public int getLevel() {
+        return _level;
+    }
+    // </editor-fold>   
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Text">    
     private final String _text;
 
     public String getText() {
         return _text;
     }
+    // </editor-fold>   
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Url">    
+    private final String _url;
 
     public String getUrl() {
         return _url;
     }
-    private final String _url;
+    // </editor-fold>   
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Children">    
+    private final Collection<MenuTreeNode> _children = new ArrayList<>();
 
-    public int getLevel() {
-        return _level;
+    public Collection<MenuTreeNode> getChildren() {
+        return _children;
     }
+    // </editor-fold>   
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Expanded">    
+    private boolean _isExpanded;
 
-    private MenuTreeNode() {
-        this(null, "", "");
+    public boolean isExpanded() {
+        return _isExpanded;
     }
-
-    private MenuTreeNode(MenuTreeNode parent, String text, String url) {
-        super(parent);
-        setId(_autoId++);
+    // </editor-fold>   
+    
+    private MenuTreeNode(int level, String text, String url) {
+        _isExpanded = level == 0;
+        _level = level;
         _text = text;
         _url = url;
-        if (parent == null) {
-            _level = 0;
+    }
+
+    public static MenuTreeNode createRoot(String text, String url) {
+        MenuTreeNode node = new MenuTreeNode(0, text, url);
+        return node;
+    }
+
+    public MenuTreeNode addChild(String text, String url) {
+        MenuTreeNode node = new MenuTreeNode(_level + 1, text, url);
+        _children.add(node);
+        return node;
+    }
+
+    public void toggle() {
+        if (_isExpanded) {
+            collapse();
         } else {
-            _observer = parent._observer;
-            _level = parent.getLevel() + 1;
-            parent.getChildren().add(this);
+            expand();
         }
     }
 
-    public static MenuTreeNode createRoot(TreeNodeObserver observer) {
-        MenuTreeNode node = new MenuTreeNode();
-        node.expand();
-        node.registerObserver(observer);
-        return node;
+    public void expand() {
+        _isExpanded = true;
     }
 
-    public static MenuTreeNode create(MenuTreeNode parent, String text, String url) {
-        MenuTreeNode node = new MenuTreeNode(parent, text, url);
-        return node;
+    public void collapse() {
+        for (MenuTreeNode node : _children){
+            node.collapse();
+        }
+        _isExpanded = false;
+    }
+
+    public boolean hasChildrenToShow() {
+        return _isExpanded && _children.size() > 0;
     }
 
 }

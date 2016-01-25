@@ -9,8 +9,9 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-            <inek:MenuNode parentNode="#{mainMenu.menuRoot.children}"/>
             <h1>Here the menu goes</h1>
-
+            <h:form>
+            <inek:MenuNode parentNode="#{mainMenu.menuRoot}"/>
+            </h:form>
 
 </ui:composition>

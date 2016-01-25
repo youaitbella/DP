@@ -20,40 +20,40 @@ public class MenuTreeNodeTest {
     
     @Before
     public void setUp() {
-        _menuRoot = MenuTreeNode.createRoot(null);
+        _menuRoot = MenuTreeNode.createRoot("", "");
     }
     
     @Test
     public void levelOfFirstEntryIsOne() {
-        MenuTreeNode menuNode= MenuTreeNode.create(_menuRoot, "item1", "item1.xhtml");
+        MenuTreeNode menuNode= _menuRoot.addChild("item1", "item1.xhtml");
         assertThat (menuNode.getLevel(), is(1));
     }
     
     @Test
     public void levelOfSubEntryIsTwo() {
-        MenuTreeNode menuNode= MenuTreeNode.create(_menuRoot, "item1", "item1.xhtml");
-        MenuTreeNode menuSubNode= MenuTreeNode.create(menuNode, "item1.1", "item1-1.xhtml");
+        MenuTreeNode menuNode= _menuRoot.addChild("item1", "item1.xhtml");
+        MenuTreeNode menuSubNode= menuNode.addChild("item1.1", "item1-1.xhtml");
         assertThat (menuSubNode.getLevel(), is(2));
     }
 
     @Test
     public void levelOfSecondEntryIsOne() {
-        MenuTreeNode menuNode1 = MenuTreeNode.create(_menuRoot, "item1", "item1.xhtml");
-        MenuTreeNode menuNode2 = MenuTreeNode.create(_menuRoot, "item2", "item2.xhtml");
+        _menuRoot.addChild("item1", "item1.xhtml");
+        MenuTreeNode menuNode2 = _menuRoot.addChild("item2", "item2.xhtml");
         assertThat (menuNode2.getLevel(), is(1));
     }
     
     @Test
     public void countOfTwoChildrenIsTwo() {
-        MenuTreeNode menuNode1 = MenuTreeNode.create(_menuRoot, "item1", "item1.xhtml");
-        MenuTreeNode menuNode2 = MenuTreeNode.create(_menuRoot, "item2", "item2.xhtml");
+        _menuRoot.addChild("item1", "item1.xhtml");
+        _menuRoot.addChild("item2", "item2.xhtml");
         assertThat (_menuRoot.getChildren().size(), is(2));
     }
     @Test
     public void countOfTwoChildrenPlusSubNodesIsTwo() {
-        MenuTreeNode menuNode1 = MenuTreeNode.create(_menuRoot, "item1", "item1.xhtml");
-        MenuTreeNode.create(menuNode1, "item1.1", "item1-1.xhtml");
-        MenuTreeNode menuNode2 = MenuTreeNode.create(_menuRoot, "item2", "item2.xhtml");
+        MenuTreeNode menuNode1 = _menuRoot.addChild("item1", "item1.xhtml");
+        menuNode1.addChild("item1.1", "item1-1.xhtml");
+        _menuRoot.addChild("item2", "item2.xhtml");
         assertThat (_menuRoot.getChildren().size(), is(2));
     }
     

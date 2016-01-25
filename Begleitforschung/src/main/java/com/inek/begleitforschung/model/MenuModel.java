@@ -6,13 +6,10 @@
 package com.inek.begleitforschung.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.inek.portallib.tree.MenuTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
 
 /**
  *
@@ -20,7 +17,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
  */
 @SessionScoped
 @Named
-public class MenuModel implements Serializable, TreeNodeObserver{
+public class MenuModel implements Serializable{
     private MenuTreeNode _menuRoot;
 
     public MenuTreeNode getMenuRoot() {
@@ -29,27 +26,27 @@ public class MenuModel implements Serializable, TreeNodeObserver{
     
     @PostConstruct
     private void Init(){
-        _menuRoot = MenuTreeNode.createRoot(null);
-        _menuRoot.expand();
-        MenuTreeNode node = MenuTreeNode.create(_menuRoot, "Datenbasis", "database.xhtml");
-        MenuTreeNode.create(node, "Beteiligung an der Datenübermittlung", "d1.xhtml");
-        MenuTreeNode.create(node, "Datenqualität", "d1.xhtml");
-        MenuTreeNode.create(node, "Unspezifische Kodierung", "d1.xhtml");
-        node = MenuTreeNode.create(_menuRoot, "KH-Strukturdaten", "kh.xhtml");
-        MenuTreeNode.create(node, "Größenklassen (Bettenzahl) / Bundesland", "kh1.xhtml");
-        node = MenuTreeNode.create(_menuRoot, "G-DRG-System", "kh.xhtml");
-        MenuTreeNode subNode = MenuTreeNode.create(node, "Hauptabteilungen", "kh1.xhtml");
-        MenuTreeNode.create(subNode, "wenig komplexe Leistungen", "kh1.xhtml");
-    }
+        _menuRoot = MenuTreeNode.createRoot("", "");
+        MenuTreeNode node1 = _menuRoot.addChild("Datenbasis", "/views/Participation.xhtml");
+        node1.addChild("Beteiligung an der Datenübermittlung", "/views/Participation.xhtml");
+        node1.addChild("Datenqualität", "/views/Participation.xhtml");
+        node1.addChild("Unspezifische Kodierung", "/views/Participation.xhtml");
+        
+        node1 = _menuRoot.addChild("KH-Strukturdaten", "/views/Participation.xhtml");
+        node1.addChild("Größenklassen (Bettenzahl) / Bundesland", "/views/Participation.xhtml");
+        
+        node1 = _menuRoot.addChild("G-DRG-System", "/views/Participation.xhtml");
+        MenuTreeNode node2 = node1.addChild("Hauptabteilungen", "/views/Participation.xhtml");
+        node2.addChild("wenig komplexe Leistungen", "/views/Participation.xhtml");
+        node2.addChild("komplexe Leistungen", "/views/Participation.xhtml");
+        node2.addChild("häufige Leistungen", "/views/Participation.xhtml");
 
-    @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        node1 = _menuRoot.addChild("Vollstationäre Falldaten", "/views/Participation.xhtml");
+        node2 = node1.addChild("Versorgung in den Hauptabteilungen", "/views/Participation.xhtml");
+        MenuTreeNode node3 = node2.addChild("Demographische und medizinische Merkmale", "/views/Participation.xhtml");
+        MenuTreeNode node4 = node3.addChild("nach Hauptdiagnosen", "/views/Participation.xhtml");
+        node4.addChild("HD Kapitel", "/views/Participation.xhtml");
+        node4.addChild("HD Gruppe", "/views/Participation.xhtml");
     }
-
-    @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+   
 }

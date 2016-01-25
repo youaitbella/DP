@@ -24,13 +24,7 @@ public class MainMenu {
         return _menuModel.getMenuRoot();
     }
     
-    private String _name = "test";
-
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        this._name = name;
+    public String callMenu(String url){
+        return url;
     }
 }

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="node" class="org.inek.portallib.tree.MenuTreeNode"/> 
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:commandLink action="#{cc.attrs.node.toggle}" immediate="true" >
+            <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{cc.attrs.node.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+            <f:ajax render="@form"/>
+        </h:commandLink>
+        <h:commandLink styleClass="inlineBlock" action="#{mainMenu.callMenu(cc.attrs.node.url)}" value="#{cc.attrs.node.text}" immediate="true" />
+
+    </cc:implementation>
+</html>
