@@ -106,6 +106,8 @@ public enum Pages {
     CertCertification("/Certification/CertCertification"),
     CertGrouperResults("/Certification/CertGrouperResults"),
     //
+    PartAgency("/Agency/PartAgency"),
+    //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
     PrintMultipleView("/common/PrintMultipleView"),

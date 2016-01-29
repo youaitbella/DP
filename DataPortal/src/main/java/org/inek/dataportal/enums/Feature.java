@@ -15,7 +15,8 @@ public enum Feature {
     COOPERATION(8, "Kooperation", false),
     MODEL_INTENTION(9, "Modellvorhaben Psy", false),
     DOCUMENTS(10, "Dokumente", false),
-    CERT(11, "Zertifizierung", true) 
+    CERT(11, "Zertifizierung", true), 
+    AGENCY(12, "Behörde", true)
     
     ;
 
