@@ -143,6 +143,10 @@ public class Utils {
 
     public static String getClientIP() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        return getClientIp(request);
+    }
+
+    public static String getClientIp(HttpServletRequest request) {
         String forwardInfo = request.getHeader("X-FORWARDED-FOR");
         if (forwardInfo == null) {
             return request.getRemoteAddr();

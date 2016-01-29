@@ -282,20 +282,26 @@ public class SessionController implements Serializable {
      * @param password
      * @return
      */
-    public boolean login(String mailOrUser, String password) {
-        _account = _accountFacade.getAccount(mailOrUser, password);
-        if (_account == null) {
-            logMessage("Login failed");
+    private boolean login(String mailOrUser, String password) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
+        if (!login(mailOrUser, password, loginInfo)) {
             return false;
         }
-        logMessage("Login: IP=" + Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent());
-        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            if (context != null) {
-                // if called from DatenDienst, there is no context
-                FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(36000); // session timeout extended to 10 hour
-            }
+
+        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de") && isInternalClient()) {
+            FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(36000); // session timeout extended to 10 hour
         }
+        return true;
+    }
+
+    public boolean login(String mailOrUser, String password, String loginInfo) {
+        _account = _accountFacade.getAccount(mailOrUser, password);
+        if (_account == null) {
+            logMessage("Login failed: " + loginInfo);
+            return false;
+        }
+        logMessage("Login successful: " + loginInfo);
         initFeatures();
         return true;
     }
