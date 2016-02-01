@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StreamUtils;
 
 public abstract class AbstractUploadServlet extends HttpServlet {
 
@@ -69,28 +70,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
      * @throws IOException
      */
     protected byte[] stream2blob(InputStream is) throws IOException {
-        byte[] buffer = new byte[8192];
-        byte[] tempBlob = new byte[8192];
-        int n;
-        int offset = 0;
-        while ((n = is.read(buffer)) >= 0) {
-            if (offset + n > tempBlob.length) {
-                byte[] newTemp = new byte[tempBlob.length * 2];
-                System.arraycopy(tempBlob, 0, newTemp, 0, offset);
-                tempBlob = newTemp;
-            }
-            System.arraycopy(buffer, 0, tempBlob, offset, n);
-            offset += n;
-        }
-
-        byte[] blob;
-        if (offset == tempBlob.length) {
-            blob = tempBlob;
-        } else {
-            blob = new byte[offset];
-            System.arraycopy(tempBlob, 0, blob, 0, offset);
-        }
-        return blob;
+        return StreamUtils.stream2blob(is);
     }
 
 }

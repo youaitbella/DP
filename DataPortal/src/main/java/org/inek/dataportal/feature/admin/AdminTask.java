@@ -50,6 +50,7 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
         addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
         addTopic(AdminTaskTabs.tabAdminTaskChangeNub.name(), Pages.AdminTaskChangeNub.URL());
+        addTopic(AdminTaskTabs.tabAdminTaskUploadDoc.name(), Pages.AdminTaskUploadDoc.URL());
 
     }
 
@@ -60,7 +61,8 @@ public class AdminTask extends AbstractEditController {
         tabAdminTaskRoleMapping,
         tabAdminTaskMailTemplate,
         tabAdminTaskIkSupervisor,
-        tabAdminTaskChangeNub;
+        tabAdminTaskChangeNub,
+        tabAdminTaskUploadDoc;
     }
 
     @PostConstruct
@@ -163,6 +165,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
 
@@ -240,6 +243,7 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
     @Inject AccountFacade _accountFacade;
 
