@@ -8,7 +8,6 @@ package org.inek.dataportal.feature.admin;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -19,8 +18,10 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Agency;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.enums.DocumentTarget;
 import org.inek.dataportal.facades.AgencyFacade;
+import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -36,7 +37,7 @@ public class AdminUploadDoc {
 
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
     private DocumentTarget _documentTarget = DocumentTarget.Account;
 
@@ -81,7 +82,6 @@ public class AdminUploadDoc {
     }
 
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property File">
     private Part _file;
 
@@ -128,16 +128,32 @@ public class AdminUploadDoc {
     }
 
     public void uploadDoc() {
+    }
+
+    public String saveDocument() {
         try {
             if (_file != null) {
                 byte[] document = StreamUtils.stream2blob(_file.getInputStream());
                 String name = _file.getName();
+                if (_documentTarget == DocumentTarget.Account){
+                storeDocument(name, document, _account.getId());
+                }else{
+                    //todo: determine all account ids and store
+                }
+                
             }
         } catch (IOException | NoSuchElementException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload failed!"));
         }
+        return "";
     }
-    
 
-    
+    @Inject AccountDocumentFacade _docFacade;
+    private void storeDocument(String name, byte[] document, int accountId){
+        AccountDocument accountDocument = new AccountDocument();
+        accountDocument.setAccountId(accountId);
+        accountDocument.setContent(document);
+        accountDocument.setName(name);
+        _docFacade.persist(accountDocument);
+    }
 }

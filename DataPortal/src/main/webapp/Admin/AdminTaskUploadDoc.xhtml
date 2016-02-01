@@ -16,7 +16,7 @@
                 </h:selectOneRadio>
             </f:ajax>
         </h:form>
-        
+
         <h:form id="Account" rendered="#{adminUploadDoc.documentTarget eq 'Account'}" styleClass="marginTop">
             <div class="inputPart">
                 <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
@@ -47,31 +47,32 @@
 
             <br/>
         </h:form>
-        
+
         <h:form id="Agency" rendered="#{adminUploadDoc.documentTarget eq 'Agency'}" styleClass="marginTop">
             <h:selectOneMenu value="#{adminUploadDoc.agency}">
                 <f:selectItems value="#{adminUploadDoc.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency}"/>
             </h:selectOneMenu>
         </h:form>
-        
-    <h:form id="documentUploadForm" enctype="multipart/form-data">
-        <div class="uploadFile">
-            <h:inputFile styleClass="hiddenFile" id="file" value="#{adminUploadDoc.file}" title="#{msg.btnUploadDocument}">
-                <f:ajax listener="#{adminUploadDoc.uploadDoc()}" render="@form"/>
-            </h:inputFile>
-            <div class="fakeFile">
-                <h:outputLabel styleClass="button" value="#{msg.btnUploadDocument}"/>
+
+        <h:form id="documentUploadForm" enctype="multipart/form-data">
+            <div class="uploadFile">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{adminUploadDoc.file}" title="#{msg.btnUploadDocument}">
+                    <f:ajax listener="#{adminUploadDoc.uploadDoc()}" render="@form"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel styleClass="button" value="#{msg.btnUploadDocument}"/>
+                </div>
             </div>
-        </div>
+            <div
     </h:form>
 
 
 
 
-        <h:form>
-            <h:commandLink styleClass="bigButton" action="#{adminUploadDoc.changeOwner}" value="#{msg.btnChangeOwner}" immediate="true">
-                <cb:confirmTake/>
-            </h:commandLink>
-        </h:form>
-    </ui:define>
+    <h:form  rendered="#{adminUploadDoc.file ne null}" styleClass="marginTop">
+        <h:commandLink styleClass="bigButton" action="#{adminUploadDoc.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true">
+            <cb:confirmTake/>
+        </h:commandLink>
+    </h:form>
+</ui:define>
 </ui:composition>
