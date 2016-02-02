@@ -1,7 +1,10 @@
 package org.inek.dataportal.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountFeature;
 
 /**
  *
@@ -12,7 +15,7 @@ import javax.persistence.*;
 public class Agency implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agID")
@@ -27,7 +30,7 @@ public class Agency implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
+    // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "agName")
     private String _name;
 
@@ -40,6 +43,22 @@ public class Agency implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="List Accounts">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "mapAccountAgency",
+            joinColumns = @JoinColumn(name = "maaAgencyId"),
+            inverseJoinColumns = @JoinColumn(name = "maaAccountId"))
+    private List<Account> _accounts;    
+
+    public List<Account> getAccounts() {
+        return _accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        _accounts = accounts;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

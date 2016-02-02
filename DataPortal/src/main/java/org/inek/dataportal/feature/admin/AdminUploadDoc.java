@@ -39,7 +39,7 @@ public class AdminUploadDoc {
     @Inject private AccountFacade _accountFacade;
 
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
-    private DocumentTarget _documentTarget = DocumentTarget.Account;
+    private DocumentTarget _documentTarget = DocumentTarget.Agency;
 
     public DocumentTarget getDocumentTarget() {
         return _documentTarget;
@@ -63,14 +63,14 @@ public class AdminUploadDoc {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Agency">
-    private Agency _agency;
+    private int _agencyId = 1;
 
-    public Agency getAgency() {
-        return _agency;
+    public int getAgency() {
+        return _agencyId;
     }
 
-    public void setAgency(Agency agency) {
-        _agency = agency;
+    public void setAgency(int agency) {
+        _agencyId = agency;
     }
     // </editor-fold>
 
@@ -134,13 +134,16 @@ public class AdminUploadDoc {
         try {
             if (_file != null) {
                 byte[] document = StreamUtils.stream2blob(_file.getInputStream());
-                String name = _file.getName();
-                if (_documentTarget == DocumentTarget.Account){
-                storeDocument(name, document, _account.getId());
-                }else{
-                    //todo: determine all account ids and store
+                String name = _file.getSubmittedFileName();
+                if (_documentTarget == DocumentTarget.Account) {
+                    storeDocument(name, document, _account.getId());
+                } else {
+                    Agency agency = _agencyFacade.find(_agencyId);
+                    for (Account account : agency.getAccounts()) {
+                        storeDocument(name, document, account.getId());
+                    }
                 }
-                
+                _file = null;
             }
         } catch (IOException | NoSuchElementException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload failed!"));
@@ -149,7 +152,8 @@ public class AdminUploadDoc {
     }
 
     @Inject AccountDocumentFacade _docFacade;
-    private void storeDocument(String name, byte[] document, int accountId){
+
+    private void storeDocument(String name, byte[] document, int accountId) {
         AccountDocument accountDocument = new AccountDocument();
         accountDocument.setAccountId(accountId);
         accountDocument.setContent(document);

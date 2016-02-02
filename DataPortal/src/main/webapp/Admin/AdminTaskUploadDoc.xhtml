@@ -5,14 +5,15 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="editContent">
         <h:form>
-            <f:ajax render="@all">
+            <f:ajax render="@all :logout:remaining">
                 <h:selectOneRadio styleClass="radioGroup" id="radDocumentTarget" value="#{adminUploadDoc.documentTarget}" >
-                    <f:selectItem itemLabel="#{msg.lblUserAccount} &nbsp;" itemValue="Account"/>
                     <f:selectItem itemLabel="#{msg.lblAgency} &nbsp;" itemValue="Agency"/>
+                    <f:selectItem itemLabel="#{msg.lblUserAccount} &nbsp;" itemValue="Account"/>
                 </h:selectOneRadio>
             </f:ajax>
         </h:form>
@@ -49,8 +50,9 @@
         </h:form>
 
         <h:form id="Agency" rendered="#{adminUploadDoc.documentTarget eq 'Agency'}" styleClass="marginTop">
-            <h:selectOneMenu value="#{adminUploadDoc.agency}">
-                <f:selectItems value="#{adminUploadDoc.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency}"/>
+            <h:selectOneMenu value="#{adminUploadDoc.agency}" styleClass="inputmedium">
+                <f:selectItems value="#{adminUploadDoc.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency.id}"/>
+                <f:ajax render="@this  :logout:remaining"/>
             </h:selectOneMenu>
         </h:form>
 
@@ -63,16 +65,19 @@
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadDocument}"/>
                 </div>
             </div>
-            <div
-    </h:form>
+            
+            <div  jsf:rendered="#{adminUploadDoc.file ne null}" class="marginTop">
+            <div>
+                <h:outputLabel value="#{msg.lblFile}: #{adminUploadDoc.file.submittedFileName}"/>
+            </div>
+            <h:commandLink styleClass="bigButton" action="#{adminUploadDoc.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true">
+                <cb:confirmTake/>
+            </h:commandLink>
+        </div>
+        </h:form>
 
 
 
 
-    <h:form  rendered="#{adminUploadDoc.file ne null}" styleClass="marginTop">
-        <h:commandLink styleClass="bigButton" action="#{adminUploadDoc.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true">
-            <cb:confirmTake/>
-        </h:commandLink>
-    </h:form>
-</ui:define>
+    </ui:define>
 </ui:composition>
