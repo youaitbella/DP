@@ -317,7 +317,8 @@ div#wrapper {
 }
 
 #content li.tab,
-#content li.activetab {
+#content li.activetab,
+#content li.hiddentab {
     list-style-type: none;
     display: inline-block;
     border-style: solid;
@@ -336,6 +337,11 @@ div#wrapper {
 #content li.activetab {
     background-color: #7F9BAF;
     border-color:  #C6D2DB #56748a #7F9BAF #C6D2DB;
+}
+
+#content li.hiddentab {
+    background-color: transparent;
+    border-color:  transparent;
 }
 
 #content li.tab a,
@@ -514,15 +520,16 @@ div#wrapper {
     width: 20%;
 }
 
-.element21 {
-    display:inline-block;
-    width: 21.5%;
-}
-
 .element25 {
     box-sizing: border-box;
     display:inline-block;
-    width: 24.5%;
+    width: 24.6%;
+}
+
+.element33 {
+    box-sizing: border-box;
+    display:inline-block;
+    width: 33%;
 }
 
 .element30 {

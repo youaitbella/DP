@@ -4,21 +4,19 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
         <h:form id="tabForm">
             <h1><h:commandLink value="#{msg.nameADMIN}" /></h1>
             <div class="tab">
                 <ul class="tab">
-                    <li class="tab element25">
-                    <h:outputLabel value=" " styleClass="fullWithCentered"/>
-                    </li>
-                    <ui:repeat value="#{adminTask.visibleTopics}" var="topic">
-                        <li class="#{topic.active ? 'activetab' : 'tab'} element25">
-                            <h:commandLink value="#{topic.title}" action="#{adminTask.changeTabPage(topic.key)}" styleClass="fullWithCentered"
-                                           immediate="true">
-                            </h:commandLink>
+                    <ui:repeat value="#{adminTask.visibleTopics}" var="topic" varStatus="status">
+                        <li class="#{topic.active ? 'activetab' : 'tab'} #{status.index lt 3 ? 'element33' : 'element25'}">
+                        <h:commandLink value="#{topic.title}" action="#{adminTask.changeTabPage(topic.key)}" styleClass="fullWithCentered"
+                                       immediate="true">
+                        </h:commandLink>
                         </li>
                     </ui:repeat>
                 </ul>
