@@ -3,15 +3,11 @@
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
-            <h1>Here the menu goes</h1>
             <h:form>
-            <inek:MenuNode parentNode="#{mainMenu.menuRoot}"/>
+                <inek:MenuNode parentNode="#{mainMenu.menuRoot}"/>
             </h:form>
 
 </ui:composition>
