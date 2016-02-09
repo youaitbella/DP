@@ -18,13 +18,21 @@ import org.inek.portallib.tree.MenuTreeNode;
 @Named
 @RequestScoped
 public class MainMenu {
+
     @Inject private MenuModel _menuModel;
-    
+
     public MenuTreeNode getMenuRoot() {
         return _menuModel.getMenuRoot();
     }
-    
-    public String callMenu(String url){
+
+    public String callMenu(String url) {
         return url;
     }
+
+
+    public String toggle(MenuTreeNode node) {
+        node.toggle();
+        return "";
+    }
+
 }

@@ -2,46 +2,35 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
-      xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
-    <cc:interface>
+    <!--cc:interface componentType="treeComposite"-->
+    <cc:interface componentType="treeComposite">
         <cc:attribute name="parentNode" class="org.inek.portallib.tree.MenuTreeNode"/> 
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <ui:repeat value="#{cc.attrs.parentNode.children}" var="node" rendered="#{cc.attrs.parentNode.hasChildrenToShow()}">
-            <div style="margin-left:16px;">
-                <inek:MenuItem node="#{node}"/>
-                <ui:repeat value="#{node.children}" var="node2" rendered="#{node.hasChildrenToShow()}">
-                    <div style="margin-left:16px;">
-                        <inek:MenuItem node="#{node2}"/>
-                        <ui:repeat value="#{node2.children}" var="node3" rendered="#{node2.hasChildrenToShow()}">
-                            <div style="margin-left:16px;">
-                                <inek:MenuItem node="#{node3}"/>
-                                <ui:repeat value="#{node3.children}" var="node4" rendered="#{node3.hasChildrenToShow()}">
-                                    <div style="margin-left:16px;">
-                                        <inek:MenuItem node="#{node4}"/>
-                                        <ui:repeat value="#{node4.children}" var="node5" rendered="#{node4.hasChildrenToShow()}">
-                                            <div style="margin-left:16px;">
-                                                <inek:MenuItem node="#{node5}"/>
-                                            </div>
-                                        </ui:repeat>
-                                    </div>
-                                </ui:repeat>
-                            </div>
-                        </ui:repeat>
-                    </div>
-                </ui:repeat>
-            </div>
-        </ui:repeat>
 
+        <h:panelGroup id="menu#{cc.attrs.parentNode.hashCode()}">
+            <c:if test="#{cc.attrs.parentNode.hasChildrenToShow()}">
+                <c:forEach items="#{cc.attrs.parentNode.children}" var="node" varStatus="status">
+                    <h:commandLink styleClass="inlineBlock" action="#{mainMenu.callMenu(node.url)}" value="#{node.text}" immediate="true" />
+                    <h:commandLink rendered="#{node.children.size() gt 0}">
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{node.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                        <f:ajax listener="#{node.toggle}" render="menu#{cc.attrs.parentNode.hashCode()}"/>
+                    </h:commandLink>
+
+                    <div style="margin-left:16px;">
+                        <inek:MenuNode parentNode="#{cc.parent.attrs.parentNode.children[status.index]}"/>
+                    </div>
+                </c:forEach>
+            </c:if>
+        </h:panelGroup>
     </cc:implementation>
 </html>
