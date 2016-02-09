@@ -9,7 +9,7 @@
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
-    <!--cc:interface componentType="treeComposite"-->
+    <!-- to use this component recursive, we have to trick JSF, see http://balusc.omnifaces.org/2016/02/recursive-tree-of-composite-components.html-->
     <cc:interface componentType="treeComposite">
         <cc:attribute name="parentNode" class="org.inek.portallib.tree.MenuTreeNode"/> 
     </cc:interface>
