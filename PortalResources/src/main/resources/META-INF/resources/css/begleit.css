@@ -1,3 +1,55 @@
-#menu > ul > li {
+#menu li {
     border: none !important;
+}
+
+.bf-menu-item {
+    border: solid #7F9BAF 1px;
+    cursor: pointer;
+    width: 279px;
+    padding-left: 6px;
+    font-size: 18px;
+}
+
+.bf-menu-item:hover{
+    color: white;
+    background-color: #7F9BAF;
+}
+
+.bf-menu-item > span {
+    font-size: 10px;
+}
+
+.bf-menu-item-2 {
+    display: block !important;
+    font-size: 16px !important;
+    margin-left: 8px !important;
+    width: 262px !important;
+}
+
+.bf-menu-item-3 {
+    display: block !important;
+    font-size: 14px !important;
+    margin-left: 16px !important;
+    width: 254px !important;
+}
+
+.bf-menu-item-4 {
+    display: block !important;
+    font-size: 14px !important;
+    margin-left: 24px !important;
+    width: 246px !important;
+}
+
+.bf-menu-item-5 {
+    display: block !important;
+    font-size: 14px !important;
+    margin-left: 32px !important;
+    width: 238px !important;
+}
+
+.bf-menu-item-6 {
+    display: block !important;
+    font-size: 14px !important;
+    margin-left: 40px !important;
+    width: 230px !important;
 }
