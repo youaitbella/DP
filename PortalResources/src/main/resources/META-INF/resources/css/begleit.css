@@ -53,3 +53,8 @@
     margin-left: 40px !important;
     width: 230px !important;
 }
+
+.bf-active-menu {
+    background-color: #7F9BAF;
+    color: white !important;
+}

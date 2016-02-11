@@ -6,6 +6,7 @@
 package com.inek.begleitforschung.model;
 
 import java.io.Serializable;
+import javax.faces.context.FacesContext;
 import org.inek.portallib.tree.MenuTreeNode;
 
 /**
@@ -19,14 +20,15 @@ public class MenuModel implements Serializable{
     public MenuModel(int year) {
         _dataYear = year;
         _menuRoot = MenuTreeNode.createRoot(_dataYear+"", "");
+        String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         MenuTreeNode node1 = _menuRoot.addChild("Datenbasis", "");
-        node1.addChild("Beteiligung an der Datenübermittlung", "/views/Participation1.xhtml?dataYear=" + _dataYear);
-        node1.addChild("Datenqualität", "/views/Participation2.xhtml?dataYear="+_dataYear);
-        node1.addChild("Unspezifische Kodierung", "/views/Participation3.xhtml");
+        node1.addChild("Beteiligung an der Datenübermittlung", baseUrl+"/views/Participation.xhtml?dataYear=" + _dataYear);
+        node1.addChild("Datenqualität", "link");
+        node1.addChild("Unspezifische Kodierung", "link");
         
         node1 = _menuRoot.addChild("KH-Strukturdaten", "");
-        node1.addChild("Größenklassen (Bettenzahl) / Bundesland", "/views/Participation5.xhtml");
-        node1.addChild("Größenklasse (Fälle) / Trägerschaft", "/views/Participation5.xhtml");
+        node1.addChild("Größenklassen (Bettenzahl) / Bundesland", "link");
+        node1.addChild("Größenklasse (Fälle) / Trägerschaft", "link");
         node1.addChild("CMI-Klassen / Größen (Betten)", "/views/Participation5.xhtml");
         
         node1 = _menuRoot.addChild("G-DRG-System", "");
