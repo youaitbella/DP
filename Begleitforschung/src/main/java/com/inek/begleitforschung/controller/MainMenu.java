@@ -7,11 +7,10 @@ package com.inek.begleitforschung.controller;
 
 import com.inek.begleitforschung.model.MenuModel;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.portallib.tree.MenuTreeNode;
 
@@ -109,6 +108,7 @@ public class MainMenu {
                 continue;
             }
         }
+        Collections.reverse(dataYears);
         return dataYears;
     }
 }

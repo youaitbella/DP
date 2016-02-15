@@ -125,8 +125,6 @@
             }
             
             function menuState() {
-                //var path = window.location.pathname;
-                //var filename = path.match(/.*\/([^/]+)\.([^?]+)/i)[1];
                 var url = window.location.pathname + window.location.search;
                 var activeMenuLink = $("a[href='"+url+"']");
                 activeMenuLink.addClass("bf-active-menu");
