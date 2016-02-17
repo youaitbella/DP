@@ -22,6 +22,9 @@ public class C_111_211 {
     private double _fractionM; // Anteilm
     private double _fractionU; // Anteilu
 
+    public C_111_211() {
+    }
+    
     public C_111_211(int _type, String _mdc, String _name, int _sumA, int _sumAw, int _sumAm, int _sumAu, double _fractionW, double _fractionM, double _fractionU) {
         this._type = _type;
         this._mdc = _mdc;
