@@ -8,6 +8,7 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.pepp.PeppProposal;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
@@ -66,7 +67,7 @@ public class PeppProposalList {
     }
     
     public String checkIfButtonEnabled() {
-        if(_sessionController.isEnabled("IsPeppProposalCreateEnabled"))
+        if(_sessionController.isEnabled(ConfigKey.IsPeppProposalCreateEnabled))
             return "";
         return "buttonDisabled";
     }

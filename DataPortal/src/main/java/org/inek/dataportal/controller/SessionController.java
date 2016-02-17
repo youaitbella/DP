@@ -1,5 +1,6 @@
 package org.inek.dataportal.controller;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.Log;
+import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
@@ -623,48 +625,23 @@ public class SessionController implements Serializable {
      * @return
      */
     public boolean isEnabled(ConfigKey key) {
-        return isEnabled(key.name());
+        return _config.readBool(key);
     }
 
-    public boolean isEnabled(String key) {
-        if (!isValidKey(key)) {
-            return false;
-        }
-        if (_boolConfig.containsKey(key)) {
-            return _boolConfig.get(key);
-        }
-        boolean value = _config.read(key, false);
-        _boolConfig.put(key, value);
-        return value;
+    public boolean isEnabled(Feature key) {
+        return _config.readBool(key);
     }
-
-    public void setEnabled(String key, boolean value) {
-        if (isValidKey(key)) {
-            _config.save(key, value);
-            _boolConfig.put(key, value);
-        }
+    
+    public String readConfig(ConfigKey key) {
+        return _config.read(key);
     }
-
-    /**
-     * Checks, whether the key is the name of a Feature or ConfigKey
-     *
-     * @param key
-     * @return
-     */
-    private boolean isValidKey(String key) {
-        try {
-            Feature.valueOf(key);
-            return true;
-        } catch (IllegalArgumentException ex) {
-            // might be a config key, not a feature
-        }
-        try {
-            ConfigKey.valueOf(key);
-            return true;
-        } catch (IllegalArgumentException ex) {
-            _logger.log(Level.WARNING, "Illegal config key: {0}", key);
-        }
-        return false;
+    
+    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
+    public File getSystemRoot(RemunerationSystem system) {
+        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
+        File systemRoot = new File(root, system.getFileName());
+        return systemRoot;
     }
-
+    // </editor-fold>
+    
 }

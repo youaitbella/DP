@@ -33,10 +33,10 @@ import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.account.Person;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.PropertyKey;
-import org.inek.dataportal.utils.PropertyManager;
 
 /**
  *
@@ -50,6 +50,7 @@ public class Mailer {
 
     @Inject
     MailTemplateFacade _mailTemplateFacade;
+    @Inject private ConfigFacade _config;
 
     public boolean sendMail(String recipient, String subject, String body) {
         return sendMail(recipient, "", subject, body);
@@ -142,7 +143,7 @@ public class Mailer {
         if (template == null) {
             String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
             String msg = "Server: " + serverName + "\r\n Mail template not found: " + name + "\r\n";
-            sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), "MailTemplate not found", msg);
+            sendMail(_config.read(ConfigKey.ExceptionEmail), "MailTemplate not found", msg);
         }
         return template;
     }
@@ -160,7 +161,7 @@ public class Mailer {
         }
         String salutation = getFormalSalutation(accountRequest);
         String codedUser = Utils.encodeUrl(accountRequest.getUser());
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + codedUser;
+        String link = _config.read(ConfigKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + codedUser;
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{link}", link)
@@ -185,7 +186,7 @@ public class Mailer {
         if (template == null) {
             return false;
         }
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
+        String link = _config.read(ConfigKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
                 .replace("{link}", link)
@@ -201,7 +202,7 @@ public class Mailer {
             return false;
         }
         String salutation = getFormalSalutation(account);
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
+        String link = _config.read(ConfigKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
 
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
@@ -246,7 +247,7 @@ public class Mailer {
 
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
         String subject = "Exception reported by Server " + name;
-        sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg.toString());
+        sendMail(_config.read(ConfigKey.ExceptionEmail), subject, msg.toString());
     }
 
 }

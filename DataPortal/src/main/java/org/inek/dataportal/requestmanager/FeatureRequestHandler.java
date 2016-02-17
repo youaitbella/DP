@@ -13,15 +13,15 @@ import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DateUtils;
-import org.inek.dataportal.utils.PropertyKey;
-import org.inek.dataportal.utils.PropertyManager;
 
 /**
  *
@@ -34,6 +34,7 @@ public class FeatureRequestHandler {
     @Inject private AccountFeatureRequestFacade _facade;
     @Inject private ContactRoleFacade _roleFacade;
     @Inject private CustomerFacade _customerFacade;
+    @Inject private ConfigFacade _config;
 
     public boolean handleFeatureRequest(Account account, Feature feature) {
         AccountFeatureRequest featureRequest = _facade.findByAccountIdAndFeature(account.getId(), feature);
@@ -60,7 +61,7 @@ public class FeatureRequestHandler {
         if (template == null) {
             return false;
         }
-        String link = PropertyManager.INSTANCE.getProperty(PropertyKey.LocalManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
+        String link = _config.read(ConfigKey.LocalManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
         String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
         String body = template.getBody()
@@ -72,7 +73,7 @@ public class FeatureRequestHandler {
                 .replace("{phone}", account.getPhone())
                 .replace("{company}", account.getCompany())
                 .replace("{ik}", account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
-        String mailAddress = PropertyManager.INSTANCE.getProperty(PropertyKey.ManagerEmail);
+        String mailAddress = _config.read(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
     }

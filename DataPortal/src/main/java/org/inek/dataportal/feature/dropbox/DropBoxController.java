@@ -7,20 +7,21 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.entities.dropbox.DropBoxItem;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.helper.*;
-import org.inek.dataportal.utils.PropertyKey;
-import org.inek.dataportal.utils.PropertyManager;
 
 /**
  *
@@ -44,7 +45,7 @@ public class DropBoxController extends AbstractFeatureController {
     }
 
     public String getUploadRoot() {
-        return PropertyManager.INSTANCE.getProperty(PropertyKey.FolderRoot);
+        return getSessionController().readConfig(ConfigKey.FolderRoot);
     }
     // </editor-fold>
 
@@ -71,7 +72,8 @@ public class DropBoxController extends AbstractFeatureController {
         if (dropBox == null) {
             throw new IllegalStateException("no valid dropBox available");
         }
-        File uploadRoot = new File(getUploadRoot(), PropertyManager.INSTANCE.getProperty(PropertyKey.FolderUpload));
+        
+        File uploadRoot = new File(getUploadRoot(), getSessionController().readConfig(ConfigKey.FolderUpload));
         File path = new File(uploadRoot, dropBox.getDirectory());
         return path;
     }

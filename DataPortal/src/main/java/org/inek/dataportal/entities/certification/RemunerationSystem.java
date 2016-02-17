@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.RemunSystem;
-import org.inek.dataportal.utils.PropertyKey;
-import org.inek.dataportal.utils.PropertyManager;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 
 /**
  *
@@ -27,6 +29,8 @@ import org.inek.dataportal.utils.PropertyManager;
 @Entity
 @Table(name = "System", schema = "crt")
 public class RemunerationSystem implements Serializable {
+    @Transient
+    @Inject private ConfigFacade _config;
 
     // <editor-fold defaultstate="collapsed" desc="Properties">
     // <editor-fold defaultstate="collapsed" desc="id">
@@ -190,7 +194,7 @@ public class RemunerationSystem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="SystemRoot">
     public File getSystemRoot() {
-        File root = new File(PropertyManager.INSTANCE.getProperty(PropertyKey.CertiFolderRoot), "System " + getYearSystem());
+        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + getYearSystem());
         File systemRoot = new File(root, getFileName());
         return systemRoot;
     }

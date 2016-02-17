@@ -20,12 +20,11 @@ import javax.faces.event.ExceptionQueuedEventContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.PropertyKey;
-import org.inek.dataportal.utils.PropertyManager;
 import org.jboss.weld.exceptions.WeldException;
 
 /**
@@ -86,7 +85,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 if (targetPage.isEmpty()) {
                     targetPage = Pages.InvalidConversation.RedirectURL();
                 }
-            } else if (exception instanceof ELException) {
+            } else if (exception instanceof ELException && !exception.getMessage().toLowerCase().contains("not logged in")) {
                 String head = "[PortalExceptionHandler ELException] ";
                 _logger.log(Level.SEVERE, head, exception);
                 collectException(messageCollector, head, exception);
@@ -189,7 +188,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         }
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
         String subject = "Exception reported by Server " + name;
-        _mailer.sendMail(PropertyManager.INSTANCE.getProperty(PropertyKey.ExceptionEmail), subject, msg);
+        _mailer.sendMail(_sessionController.readConfig(ConfigKey.ExceptionEmail), subject, msg);
     }
 
 }

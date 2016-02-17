@@ -52,7 +52,7 @@ public class NubReminder {
      * one week and one day before the official end of delivery
      */
     public void remindSeal() {
-        if (!_config.read(ConfigKey.RemindNubSeal.name(), false)) {
+        if (!_config.readBool(ConfigKey.RemindNubSeal)) {
             _logger.log(Level.INFO, "RemindNubSeal is not enabled");
             return;
         }

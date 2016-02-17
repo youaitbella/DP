@@ -103,8 +103,6 @@ public class EditDrgProposal extends AbstractEditController {
     private void init() {
 
         //_logger.log(Level.WARNING, "Init EditDrgProposal");
-        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String idString = requestParameterMap.get("proposalId");
         Object drgId = Utils.getFlash().get("drgId");
         if (drgId == null) {
             _drgProposal = newDrgProposal();

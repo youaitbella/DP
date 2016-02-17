@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
@@ -24,8 +25,6 @@ import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.PropertyKey;
-import org.inek.dataportal.utils.PropertyManager;
 
 @WebServlet(urlPatterns = {"/upload/tool"}, name = "ToolUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
@@ -72,7 +71,7 @@ public class ToolUploadServlet extends HttpServlet {
 
     private void getClientVersion(HttpUtil httpUtil) {
 //        httpUtil.writeStatus(PropertyManager.INSTANCE.getProperty(PropertyKey.ClientVersion));
-        httpUtil.writeStatus(_config.read("DataServiceClientVersion", "???"));
+        httpUtil.writeStatus(_config.read(ConfigKey.DataServiceClientVersion));
     }
     @Inject private ConfigFacade _config;
 
@@ -126,7 +125,7 @@ public class ToolUploadServlet extends HttpServlet {
         dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription("DataTool: " + filename);
-        int typeId = PropertyManager.INSTANCE.getPropertyAsInt(PropertyKey.DropBoxTypeId);
+        int typeId = _config.readInt(ConfigKey.DropBoxTypeId);
         dropBox.setDropboxType(_sessionTools.getDropBoxType(typeId));
         dropBox.setIK(ik);
         return _dropBoxFacade.createDropBox(dropBox);

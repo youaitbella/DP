@@ -128,7 +128,7 @@ public class EditCert extends AbstractEditController {
      * @return folder if ok, null otherwise
      */
     public Optional getUploadFolder(RemunerationSystem system, String folderName) {
-        File folder = new File(system.getSystemRoot(), folderName);
+        File folder = new File(_sessionController.getSystemRoot(system), folderName);
         try {
             folder.mkdirs();
         } catch (Exception ex) {

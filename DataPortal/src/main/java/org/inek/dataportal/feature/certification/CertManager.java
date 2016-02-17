@@ -158,8 +158,8 @@ public class CertManager {
         _system.setGrouperList(savedGroupers);
         _systemFacade.save(_system);
         _system = _systemFacade.findFresh(_system.getId());
-        persistFiles(new File(_system.getSystemRoot(), "Spec"));
-        persistFiles(new File(_system.getSystemRoot(), "Daten"));
+        persistFiles(new File(_sessionController.getSystemRoot(_system), "Spec"));
+        persistFiles(new File(_sessionController.getSystemRoot(_system), "Daten"));
         setSystemChanged(false);
         return "";
     }
@@ -206,8 +206,8 @@ public class CertManager {
     }
 
     private void cleanupUploadFiles() {
-        deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
-        deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
+        deleteFiles(new File(_sessionController.getSystemRoot(_system), "Spec"), ".*\\.upload");
+        deleteFiles(new File(_sessionController.getSystemRoot(_system), "Daten"), ".*\\.upload");
     }
 
     public void deleteFiles(File dir, final String fileNamePattern) {

@@ -268,7 +268,7 @@ public class EditUserMaintenance extends AbstractEditController {
             if (feature == Feature.ADMIN || feature == Feature.DOCUMENTS) {
                 continue;
             } // can't be configured
-            if (!configuredFeatures.contains(feature) && _sessionController.isEnabled(feature.name())) {
+            if (!configuredFeatures.contains(feature) && _sessionController.isEnabled(feature)) {
                 features.add(new FeatureEditorDAO(createAccountFeature(feature), _sessionController.getAccount()));
             }
         }
