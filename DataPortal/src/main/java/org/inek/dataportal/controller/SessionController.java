@@ -628,6 +628,11 @@ public class SessionController implements Serializable {
         return _config.readBool(key);
     }
 
+    public boolean isEnabled(String name) {
+        ConfigKey key = ConfigKey.valueOf(name);
+        return isEnabled(key);
+    }
+
     public boolean isEnabled(Feature key) {
         return _config.readBool(key);
     }

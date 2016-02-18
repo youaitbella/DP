@@ -7,8 +7,8 @@ package org.inek.dataportal.enums;
 public enum ConfigKey {
 
     IsNubCreateEnabled(false),
-    IsNubSendEnabled(false),
-    RemindNubSeal(false),
+    IsNubSendEnabled(true),
+    RemindNubSeal(true),
     IsDrgProposalCreateEnabled(true),
     IsDrgProposalSendEnabled(true),
     IsPeppProposalCreateEnabled(true),
@@ -24,7 +24,7 @@ public enum ConfigKey {
     LocalManagerURL("http://vdataportal01:8080/DataPortal"),
     ExceptionEmail("PortalAdmin@inek-drg.de"),
     ManagerEmail("dsportalanmeldungen@inek-drg.de");
-    
+
     //
     Object _defaultValue;
 
