@@ -18,7 +18,7 @@ public enum ConfigKey {
     ApplicationURL("https://daten.inek.org"),
     FolderRoot("//vFileserver01/company$/EDV/Datenportal/"),
     CertiFolderRoot("//vFileserver01/company$/EDV/Projekte/Zertifizierung/Pruefung/"),
-    DropBoxTypeId("1"),
+    DropBoxTypeId(1),
     FolderUpload("upload"),
     ManagerURL("https://daten.inek.org/DataPortal"),
     LocalManagerURL("http://vdataportal01:8080/DataPortal"),
@@ -28,10 +28,7 @@ public enum ConfigKey {
     //
     Object _defaultValue;
 
-    private ConfigKey(boolean defaultValue) {
-        _defaultValue = defaultValue;
-    }
-    private ConfigKey(String defaultValue) {
+    private ConfigKey(Object defaultValue) {
         _defaultValue = defaultValue;
     }
 

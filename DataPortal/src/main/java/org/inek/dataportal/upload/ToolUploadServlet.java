@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -20,7 +21,6 @@ import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
-import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.StreamHelper;
@@ -36,6 +36,15 @@ public class ToolUploadServlet extends HttpServlet {
     @Inject private SessionTools _sessionTools;
     @Inject private DropBoxFacade _dropBoxFacade;
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.sendRedirect("/DataPortal");
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HttpUtil httpUtil = new HttpUtil(request, response);
@@ -70,10 +79,8 @@ public class ToolUploadServlet extends HttpServlet {
     }
 
     private void getClientVersion(HttpUtil httpUtil) {
-//        httpUtil.writeStatus(PropertyManager.INSTANCE.getProperty(PropertyKey.ClientVersion));
-        httpUtil.writeStatus(_config.read(ConfigKey.DataServiceClientVersion));
+        httpUtil.writeStatus(_sessionController.readConfig(ConfigKey.DataServiceClientVersion));
     }
-    @Inject private ConfigFacade _config;
 
     private boolean loginAndResponseFailure(String emailOrUser, String password, HttpUtil httpUtil) throws IOException {
     String message = "IP=" + Utils.getClientIp(httpUtil.getRequest()) + "; DatenDienst";
@@ -125,7 +132,7 @@ public class ToolUploadServlet extends HttpServlet {
         dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription("DataTool: " + filename);
-        int typeId = _config.readInt(ConfigKey.DropBoxTypeId);
+        int typeId = _sessionController.readConfigInt(ConfigKey.DropBoxTypeId);
         dropBox.setDropboxType(_sessionTools.getDropBoxType(typeId));
         dropBox.setIK(ik);
         return _dropBoxFacade.createDropBox(dropBox);

@@ -641,6 +641,14 @@ public class SessionController implements Serializable {
         return _config.read(key);
     }
     
+    public int readConfigInt(ConfigKey key) {
+        return _config.readInt(key);
+    }
+    
+    public boolean readConfigBool(ConfigKey key) {
+        return _config.readBool(key);
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="SystemRoot">
     public File getSystemRoot(RemunerationSystem system) {
         File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());

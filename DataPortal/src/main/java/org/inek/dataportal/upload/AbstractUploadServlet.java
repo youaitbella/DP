@@ -20,6 +20,14 @@ public abstract class AbstractUploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.sendRedirect("/DataPortal");
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+        }
+    }
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HttpUtil httpUtil = new HttpUtil(request, response);
         try {

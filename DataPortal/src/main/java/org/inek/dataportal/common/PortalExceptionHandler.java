@@ -188,7 +188,11 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         }
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
         String subject = "Exception reported by Server " + name;
-        _mailer.sendMail(_sessionController.readConfig(ConfigKey.ExceptionEmail), subject, msg);
+        if (_sessionController == null) {
+            _mailer.sendMail(ConfigKey.ExceptionEmail.getDefault(), "[no sessionController] " + subject, msg);
+        } else {
+            _mailer.sendMail(_sessionController.readConfig(ConfigKey.ExceptionEmail), subject, msg);
+        }
     }
 
 }
