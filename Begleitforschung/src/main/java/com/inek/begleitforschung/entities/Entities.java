@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -25,7 +26,7 @@ public class Entities implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="C fields">
     
-    private List<C_111_211> _c_111_211;
+    private List<C_111_211> _c_111_211; 
     private List<C_111_211> _c_111;
     private List<C_111_211> _c_211;
     
@@ -43,20 +44,14 @@ public class Entities implements Serializable {
     
         public List<C_111_211> getC_111(int dataYear) {
             if(_c_111 == null) {
-                _c_111 = new ArrayList<>();
-                getC_111_211(dataYear).stream().filter((c) -> (c.getType() == 1)).forEach((c) -> {
-                    _c_111.add(c);
-                });
+                _c_111 = getC_111_211(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
             }
             return _c_111;
         }
 
         public List<C_111_211> getC_211(int dataYear) {
             if(_c_211 == null) {
-                _c_211 = new ArrayList<>();
-                getC_111_211(dataYear).stream().filter((c) -> (c.getType() == 2)).forEach((c) -> {
-                    _c_211.add(c);
-                });
+                _c_211 = getC_111_211(dataYear).stream().filter((c) -> (c.getType() == 2)).collect(Collectors.toList());
             }
             return _c_211;
         }
@@ -70,20 +65,14 @@ public class Entities implements Serializable {
         
         public List<C_112_212> getC_112(int dataYear) {
             if(_c_112 == null) {
-                _c_112 = new ArrayList<>();
-                getC_112_212(dataYear).stream().filter((c) -> (c.getType() == 1)).forEach((c) -> {
-                    _c_112.add(c);
-                });
+                _c_112 = getC_112_212(dataYear).stream().filter((c) -> (c.getType() == 1)).collect(Collectors.toList());
             }
             return _c_112;
         }
         
         public List<C_112_212> getC_212(int dataYear) {
             if(_c_212 == null) {
-                _c_212 = new ArrayList<>();
-                getC_112_212(dataYear).stream().filter((c) -> (c.getType() == 2)).forEach((c) -> {
-                    _c_212.add(c);
-                });
+                _c_212 = getC_112_212(dataYear).stream().filter((c) -> (c.getType() == 2)).collect(Collectors.toList());
             }
             return _c_212;
         }
@@ -97,20 +86,14 @@ public class Entities implements Serializable {
         
         public List<C_113_213> getC_113(int dataYear) {
             if(_c_113 == null) {
-                _c_113 = new ArrayList<>();
-                getC_113_213(dataYear).stream().filter((c) -> (c.getType() == 1)).forEach((c) -> {
-                    _c_113.add(c);
-                });
+                _c_113 = getC_113_213(dataYear).stream().filter((c) -> (c.getType() == 1)).collect(Collectors.toList());
             }
             return _c_113;
         }
         
         public List<C_113_213> getC_213(int dataYear) {
             if(_c_213 == null) {
-                _c_213 = new ArrayList<>();
-                getC_113_213(dataYear).stream().filter((c) -> (c.getType() == 2)).forEach((c) -> {
-                    _c_213.add(c);
-                });
+                _c_213 = getC_113_213(dataYear).stream().filter((c) -> (c.getType() == 2)).collect(Collectors.toList());
             }
             return _c_213;
         }
