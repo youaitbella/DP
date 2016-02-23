@@ -38,6 +38,10 @@ public class Entities implements Serializable {
     private List<C_113_213> _c_113;
     private List<C_113_213> _c_213;
     
+    private List<C_121_221_State_Size> _c_121_221_state_size;
+    private List<C_121_221_State_Size> _c_121_state_size;
+    private List<C_121_221_State_Size> _c_221_state_size;
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -103,6 +107,27 @@ public class Entities implements Serializable {
                 _c_113_213 = mapC_113_213(readDataFile(dataYear, "C_113_213"));
             }
             return _c_113_213;
+        }
+        
+        public List<C_121_221_State_Size> getC_121_State_Size(int dataYear) {
+            if(_c_121_state_size == null) {
+                _c_121_state_size = getC_121_221_State_Size(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
+            }
+            return _c_121_state_size;
+        }
+        
+        public List<C_121_221_State_Size> getC_221_State_Size(int dataYear) {
+            if(_c_221_state_size == null) {
+                _c_221_state_size = getC_121_221_State_Size(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
+            }
+            return _c_221_state_size;
+        }
+        
+        private List<C_121_221_State_Size> getC_121_221_State_Size(int dataYear) {
+            if(_c_121_221_state_size == null) {
+                _c_121_221_state_size = mapC_121_221_State_Size(readDataFile(dataYear, "C_121_221_Bundesland_Groesse(Betten)_FZ_VWD_CMI"));
+            }
+            return _c_121_221_state_size;
         }
     
     // <editor-fold defaultstate="collapsed" desc="sum">
@@ -240,6 +265,16 @@ public class Entities implements Serializable {
             for(String[] x : data) {
                 C_113_213 y = new C_113_213(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
                         Double.parseDouble(x[5]), Integer.parseInt(x[6]), Double.parseDouble(x[7]), Integer.parseInt(x[8]), Double.parseDouble(x[9]));
+                list.add(y);
+            }
+            return list;
+        }
+        
+        private List<C_121_221_State_Size> mapC_121_221_State_Size(List<String[]> data) {
+            List<C_121_221_State_Size> list = new ArrayList<>();
+            for(String[] x : data) {
+                C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
+                        Double.parseDouble(x[5]), Double.parseDouble(x[6]), Double.parseDouble(x[7]),x[8], x[9]);
                 list.add(y);
             }
             return list;
