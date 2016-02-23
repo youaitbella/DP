@@ -16,6 +16,13 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        <h:form>
+            <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
+                <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
+                
+            </h:selectOneMenu>
+        </h:form>
+        
         <h:form id="dataTable">
             <ace:dataTable  id="c121-table"
                             value="#{entities.getC_113(param['dataYear'])}"

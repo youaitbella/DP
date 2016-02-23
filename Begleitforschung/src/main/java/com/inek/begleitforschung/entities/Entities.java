@@ -20,13 +20,8 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class Entities implements Serializable {
-    private final ApplicationData _appData;
-    
-    @Inject
-    public Entities(ApplicationData appData){
-        _appData = appData;
-    }
-    
+    @Inject private ApplicationData _appData;
+   
     // <editor-fold defaultstate="collapsed" desc="C fields">
     
     private List<C_111_211> _c_111_211; 
