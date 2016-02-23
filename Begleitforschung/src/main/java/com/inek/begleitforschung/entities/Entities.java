@@ -22,7 +22,7 @@ import javax.inject.Named;
 @SessionScoped
 public class Entities implements Serializable {
     
-    private final static String BASE_PATH = "W:\\EDV\\Projekte\\InEK-Browsers\\Begleitforschung\\";
+    private final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
     
     // <editor-fold defaultstate="collapsed" desc="C fields">
     
@@ -285,7 +285,7 @@ public class Entities implements Serializable {
     // </editor-fold>
     
     private List<String[]> readDataFile(int dataYear, String fileName) {
-        String file = BASE_PATH + dataYear + "\\" + fileName + ".csv";
+        String file = BASE_PATH + dataYear + "/" + fileName + ".csv";
         List<String[]> data = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));

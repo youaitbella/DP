@@ -22,7 +22,7 @@ import org.inek.portallib.tree.MenuTreeNode;
 @RequestScoped
 public class MainMenu {
     
-    private final static String DATA_YEAR_DIR = "W:\\EDV\\Projekte\\InEK-Browsers\\Begleitforschung";
+    private final static String DATA_YEAR_DIR = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
 
     public String callMenu(String url) {
         return url;
