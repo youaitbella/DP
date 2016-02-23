@@ -57,7 +57,7 @@ public class MenuModel implements Serializable{
         node4.addChild("4-Steller", "link");
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
         node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/MagnitudeBedState.xhtml?dataYear="+_dataYear);
-        node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", "link");
+        node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/"+_dataYear);
         node3.addChild("Häufigkeit von Operationen", "link");
         
         node2 = node1.addChild("Belegärztliche Versorgung", "");

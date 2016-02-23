@@ -42,6 +42,12 @@ public class Entities implements Serializable {
     private List<C_121_221_State_Size> _c_121_state_size;
     private List<C_121_221_State_Size> _c_221_state_size;
     
+    private List<C_122_222> _c_122_222;
+    private List<C_122_222> _c_122_A;
+    private List<C_122_222> _c_122_E;
+    private List<C_122_222> _c_222_A;
+    private List<C_122_222> _c_222_E;
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -128,6 +134,37 @@ public class Entities implements Serializable {
                 _c_121_221_state_size = mapC_121_221_State_Size(readDataFile(dataYear, "C_121_221_Bundesland_Groesse(Betten)_FZ_VWD_CMI"));
             }
             return _c_121_221_state_size;
+        }
+        
+        public List<C_122_222> getC_122_A(int dataYear) {
+            if(_c_122_A == null)
+                _c_122_A = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 'A')).collect(Collectors.toList());
+            return _c_122_A;
+        }
+        
+        public List<C_122_222> getC_122_E(int dataYear) {
+            if(_c_122_E == null)
+                _c_122_E = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 'E')).collect(Collectors.toList());
+            return _c_122_E;
+        }
+        
+        public List<C_122_222> getC_222_A(int dataYear) {
+            if(_c_222_A == null)
+                _c_222_A = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 'A')).collect(Collectors.toList());
+            return _c_222_A;
+        }
+        
+        public List<C_122_222> getC_222_E(int dataYear) {
+            if(_c_222_E == null)
+                _c_222_E = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 'E')).collect(Collectors.toList());
+            return _c_222_E;
+        }
+        
+        private List<C_122_222> getC_122_222(int dataYear) {
+            if(_c_122_222 == null) {
+                _c_122_222 = mapC_122_222(readDataFile(dataYear, "C_122_222"));
+            }
+            return _c_122_222;
         }
     
     // <editor-fold defaultstate="collapsed" desc="sum">
@@ -275,6 +312,15 @@ public class Entities implements Serializable {
             for(String[] x : data) {
                 C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
                         Double.parseDouble(x[5]), Double.parseDouble(x[6]), Double.parseDouble(x[7]),x[8], x[9]);
+                list.add(y);
+            }
+            return list;
+        }
+        
+        private List<C_122_222> mapC_122_222(List<String[]> data) {
+            List<C_122_222> list = new ArrayList<>();
+            for(String[] x : data) {
+                C_122_222 y = new C_122_222(Integer.parseInt(x[0]), x[1].charAt(0), x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]));
                 list.add(y);
             }
             return list;
