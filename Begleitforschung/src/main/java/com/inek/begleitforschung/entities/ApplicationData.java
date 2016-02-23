@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -27,12 +28,17 @@ public class ApplicationData {
 
     public final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
 
-    private List<KeyValue<Integer, String>> _states;
-    public List<KeyValue<Integer, String>> getStates() {
+    private Map<Integer, String> _states;
+    public Map<Integer, String> obtainStateMap() {
         if (_states == null){
-            _states = readDataFile("Bundesland").stream().map(a -> new KeyValue<>(Integer.parseInt(a[0]), a[1])).collect(Collectors.toList());
+            List<String[]> data = readDataFile("Bundesland");
+             _states = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
         }
         return _states;
+    }
+
+    public List<KeyValue<Integer, String>> getStates() {
+        return obtainStateMap().entrySet().stream().map(e -> new KeyValue<>(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
 
     public List<String[]> readDataFile(String fileName) {

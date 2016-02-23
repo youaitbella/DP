@@ -19,64 +19,47 @@ and open the template in the editor.
         <h:form>
             <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
                 <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
-                
+                <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>
         
         <h:form id="dataTable">
             <ace:dataTable  id="c121-table"
-                            value="#{entities.getC_113(param['dataYear'])}"
+                            value="#{infoByHospitalSizeController.getData(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                           >
-                <ace:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
-                                filterBy="#{x.drg}" filterMatchMode="contains">
-                    <h:outputText id="drgCell" value="#{x.drg}"/>
+                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{x.bedSort}"
+                                filterBy="#{x.bedSort}" filterMatchMode="contains">
+                    <h:outputText id="sizegCell" value="#{x.bedSort}"/>
                 </ace:column>
-                <ace:column styleClass="data-table-left" id="name" headerText="DRG-Name" sortBy="#{x.name}"
-                            filterBy="#{x.name}" filterMatchMode="contains">
-                    <h:outputText id="nameCell" value="#{x.name}">
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumA" headerText="Anz. Fälle" sortBy="#{x.sumA}"
-                            filterBy="#{x.sumA}" filterMatchMode="contains">
-                    <h:outputText id="sumACell" value="#{x.sumA}">
+                <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{x.numHospital}"
+                            filterBy="#{x.numHospital}" filterMatchMode="contains">
+                    <h:outputText id="hospitalCountCell" value="#{x.numHospital}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLos" headerText="mittlere Vwd." sortBy="#{x.avgLos}"
+                <ace:column styleClass="data-table-right" id="avgCases" headerText="mittl. Fallzahl" sortBy="#{x.avgCases}"
+                            filterBy="#{x.avgCases}" filterMatchMode="contains">
+                    <h:outputText id="avgCasesCell" value="#{x.avgCases}">
+                        <f:convertNumber pattern="###,###,###"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="avgLos" headerText="mittl. Vwd. KH" sortBy="#{x.avgLos}"
                             filterBy="#{x.avgLos}" filterMatchMode="contains">
                     <h:outputText id="avgLosCell" value="#{x.avgLos}">
-                        <f:convertNumber pattern="###,###,###.##"/>
+                        <f:convertNumber pattern="###,###,###.#"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgStdDeviation" headerText="Stdabw. Vwd." sortBy="#{x.avgStdDeviation}"
-                            filterBy="#{x.avgStdDeviation}" filterMatchMode="contains">
-                    <h:outputText id="avgStdDeviationCell" value="#{x.avgStdDeviation}">
-                        <f:convertNumber pattern="###,###,###.##"/>
+                <ace:column styleClass="data-table-right" id="avgCmi" headerText="mittl. CMI. KH" sortBy="#{x.cmi}"
+                            filterBy="#{x.cmi}" filterMatchMode="contains">
+                    <h:outputText id="avgCmiCell" value="#{x.cmi}">
+                        <f:convertNumber pattern="###,###,###.###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumKla" headerText="Anz. Kurzlg." sortBy="#{x.sumKla}"
-                            filterBy="#{x.sumKla}" filterMatchMode="contains">
-                    <h:outputText id="sumKlaCell" value="#{x.sumKla}">
-                        <f:convertNumber pattern="###,###,###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumLla" headerText="Anz. Langlg." sortBy="#{x.sumLla}"
-                            filterBy="#{x.sumLla}" filterMatchMode="contains">
-                    <h:outputText id="sumLlaCell" value="#{x.sumLla}">
-                        <f:convertNumber pattern="###,###,###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionKla" headerText="Ant. Kurzlg." sortBy="#{x.fractionKla}"
-                            filterBy="#{x.fractionKla}" filterMatchMode="contains">
-                    <h:outputText id="fractionKlaCell" value="#{x.fractionKla}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionLla" headerText="Ant. Langlg." sortBy="#{x.fractionLla}"
-                            filterBy="#{x.fractionLla}" filterMatchMode="contains">
-                    <h:outputText id="fractionLlaCell" value="#{x.fractionLla}">
+                <ace:column styleClass="data-table-right" id="fractionCases" headerText="Ant. Stundenfälle" sortBy="#{x.amtStf}"
+                            filterBy="#{x.amtStf}" filterMatchMode="contains">
+                    <h:outputText id="fractionCasesCell" value="#{x.amtStf}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
