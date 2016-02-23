@@ -170,6 +170,46 @@ public class Entities implements Serializable {
             x.add(sum);
             return x;
         }
+        
+        public List<C_113_213> getC_113_sum() {
+            List<C_113_213> x = new ArrayList<>();
+            C_113_213 sum = new C_113_213(1, "", "", 0, 0.0, 0.0, 0, 0.0, 0, 0.0);
+            for(C_113_213 c : _c_113) {
+                sum.setSumA(sum.getSumA()+c.getSumA());
+                sum.setAvgLos(sum.getAvgLos() + c.getAvgLos());
+                sum.setAvgStdDeviation(sum.getAvgStdDeviation() + c.getAvgStdDeviation());
+                sum.setSumKla(sum.getSumKla() + c.getSumKla());
+                sum.setSumLla(sum.getSumLla() + c.getSumLla());
+                sum.setFractionKla(sum.getSumKla() + c.getFractionKla());
+                sum.setFractionLla(sum.getSumLla() + c.getSumLla());
+            }
+            sum.setAvgLos(sum.getAvgLos() / _c_113.size());
+            sum.setAvgStdDeviation(sum.getAvgStdDeviation() / _c_113.size());
+            sum.setFractionKla((float)sum.getSumKla()/sum.getSumA());
+            sum.setFractionLla((float)sum.getSumLla()/sum.getSumA());
+            x.add(sum);
+            return x;
+        }
+        
+        public List<C_113_213> getC_213_sum() {
+            List<C_113_213> x = new ArrayList<>();
+            C_113_213 sum = new C_113_213(1, "", "", 0, 0.0, 0.0, 0, 0.0, 0, 0.0);
+            for(C_113_213 c : _c_213) {
+                sum.setSumA(sum.getSumA()+c.getSumA());
+                sum.setAvgLos(sum.getAvgLos() + c.getAvgLos());
+                sum.setAvgStdDeviation(sum.getAvgStdDeviation() + c.getAvgStdDeviation());
+                sum.setSumKla(sum.getSumKla() + c.getSumKla());
+                sum.setSumLla(sum.getSumLla() + c.getSumLla());
+                sum.setFractionKla(sum.getSumKla() + c.getFractionKla());
+                sum.setFractionLla(sum.getSumLla() + c.getSumLla());
+            }
+            sum.setAvgLos(sum.getAvgLos() / _c_213.size());
+            sum.setAvgStdDeviation(sum.getAvgStdDeviation() / _c_213.size());
+            sum.setFractionKla((float)sum.getSumKla()/sum.getSumA());
+            sum.setFractionLla((float)sum.getSumLla()/sum.getSumA());
+            x.add(sum);
+            return x;
+        }
     
     // </editor-fold>
     

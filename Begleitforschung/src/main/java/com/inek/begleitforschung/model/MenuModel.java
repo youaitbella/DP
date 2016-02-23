@@ -46,7 +46,7 @@ public class MenuModel implements Serializable{
         node3 = node2.addChild("Demographische und medizinische Merkmale", "");
         node3.addChild("nach MDC und Geschlecht", baseUrl+"/views/CharacteristicsMdcGender.xhtml?dataYear="+_dataYear);
         node3.addChild("nach Altersklassen und Geschlecht", baseUrl+"/views/AgeGender.xhtml?dataYear="+_dataYear);
-        node3.addChild("nach DRG", "link");
+        node3.addChild("nach DRG", baseUrl+"/views/Drg.xhtml?dataYear="+_dataYear);
         MenuTreeNode node4 = node3.addChild("nach Hauptdiagnosen (Alterskl.)", "");
         node4.addChild("Kapitel", "/views/Participationf.xhtml");
         node4.addChild("Gruppe", "/views/Participationg.xhtml");
@@ -64,7 +64,7 @@ public class MenuModel implements Serializable{
         node3 = node2.addChild("Demographische und medizinische Merkmale", "");
         node3.addChild("nach MDC und Geschlecht", baseUrl+"/views/SlipMcCharacteristicsMdcGender.xhtml?dataYear="+_dataYear);
         node3.addChild("nach Altersklassen und Geschlecht", baseUrl+"/views/SlipMcAgeGender.xhtml?dataYear="+_dataYear);
-        node3.addChild("nach DRG", "link");
+        node3.addChild("nach DRG", baseUrl+"/views/SlipMcDrg.xhtml?dataYear="+_dataYear);
         
         node4 = node3.addChild("nach Hauptdiagnosen (Alterskl.)", "");
         node4.addChild("Kapitel", "link");
