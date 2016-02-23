@@ -5,13 +5,12 @@
  */
 package com.inek.begleitforschung.entities;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -21,8 +20,12 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class Entities implements Serializable {
+    private final ApplicationData _appData;
     
-    private final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
+    @Inject
+    public Entities(ApplicationData appData){
+        _appData = appData;
+    }
     
     // <editor-fold defaultstate="collapsed" desc="C fields">
     
@@ -68,7 +71,7 @@ public class Entities implements Serializable {
 
         private List<C_111_211> getC_111_211(int dataYear) {
             if(_c_111_211 == null) {
-                _c_111_211 = mapC_111_211(readDataFile(dataYear, "C_111_211"));
+                _c_111_211 = mapC_111_211(_appData.readDataFile(dataYear, "C_111_211"));
             }
             return _c_111_211;
         }
@@ -89,7 +92,7 @@ public class Entities implements Serializable {
         
         private List<C_112_212> getC_112_212(int dataYear) {
             if(_c_112_212 == null) {
-                _c_112_212 = mapC_112_212(readDataFile(dataYear, "C_112_212"));
+                _c_112_212 = mapC_112_212(_appData.readDataFile(dataYear, "C_112_212"));
             }
             return _c_112_212;
         }
@@ -110,7 +113,7 @@ public class Entities implements Serializable {
         
         private List<C_113_213> getC_113_213(int dataYear) {
             if(_c_113_213 == null) {
-                _c_113_213 = mapC_113_213(readDataFile(dataYear, "C_113_213"));
+                _c_113_213 = mapC_113_213(_appData.readDataFile(dataYear, "C_113_213"));
             }
             return _c_113_213;
         }
@@ -131,7 +134,7 @@ public class Entities implements Serializable {
         
         private List<C_121_221_State_Size> getC_121_221_State_Size(int dataYear) {
             if(_c_121_221_state_size == null) {
-                _c_121_221_state_size = mapC_121_221_State_Size(readDataFile(dataYear, "C_121_221_Bundesland_Groesse(Betten)_FZ_VWD_CMI"));
+                _c_121_221_state_size = mapC_121_221_State_Size(_appData.readDataFile(dataYear, "C_121_221_Bundesland_Groesse(Betten)_FZ_VWD_CMI"));
             }
             return _c_121_221_state_size;
         }
@@ -162,7 +165,7 @@ public class Entities implements Serializable {
         
         private List<C_122_222> getC_122_222(int dataYear) {
             if(_c_122_222 == null) {
-                _c_122_222 = mapC_122_222(readDataFile(dataYear, "C_122_222"));
+                _c_122_222 = mapC_122_222(_appData.readDataFile(dataYear, "C_122_222"));
             }
             return _c_122_222;
         }
@@ -326,28 +329,4 @@ public class Entities implements Serializable {
             return list;
         }
 
-    // </editor-fold>
-    
-    // </editor-fold>
-    
-    private List<String[]> readDataFile(int dataYear, String fileName) {
-        String file = BASE_PATH + dataYear + "/" + fileName + ".csv";
-        List<String[]> data = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            boolean firstLine = true;
-            while((line = reader.readLine()) != null) {
-                if(firstLine) {
-                    firstLine = false;
-                    continue;
-                }
-                line = line.replaceAll(",", ".");
-                data.add(line.split(";"));
-            }
-        } catch(Exception ex) {
-            
-        }
-        return data;
-    }
 }

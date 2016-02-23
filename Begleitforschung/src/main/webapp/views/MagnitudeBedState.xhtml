@@ -76,56 +76,58 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         <h3 class="text-center">Summentabelle</h3>
+        <!--
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"
-                            value="#{entities.c_121_sum}"
+                            value="# {entities.c_121_sum}"
                                 var="x"
                                 resizableColumns="true"
                               >
-                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle Gesamt" sortBy="#{x.sumA}"
+                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle Gesamt" sortBy="# {x.sumA}"
                             >
-                    <h:outputText id="sumCasesSumCell" value="#{x.sumA}">
+                    <h:outputText id="sumCasesSumCell" value="# {x.sumA}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="mittlere Vwd." sortBy="#{x.avgLos}"
+                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="mittlere Vwd." sortBy="# {x.avgLos}"
                             >
-                    <h:outputText id="avgLosSumCell" value="#{x.avgLos}">
+                    <h:outputText id="avgLosSumCell" value="# {x.avgLos}">
                         <f:convertNumber pattern="###,###,###.##"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgStdDeviationSum" headerText="Stdabw. Vwd." sortBy="#{x.avgStdDeviation}"
+                <ace:column styleClass="data-table-right" id="avgStdDeviationSum" headerText="Stdabw. Vwd." sortBy="# {x.avgStdDeviation}"
                             >
-                    <h:outputText id="avgStdDeviationSumCell" value="#{x.avgStdDeviation}">
+                    <h:outputText id="avgStdDeviationSumCell" value="# {x.avgStdDeviation}">
                         <f:convertNumber pattern="###,###,###.##"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumKlaSum" headerText="Anz. Kurzlg." sortBy="#{x.sumKla}"
+                <ace:column styleClass="data-table-right" id="sumKlaSum" headerText="Anz. Kurzlg." sortBy="# {x.sumKla}"
                             >
-                    <h:outputText id="sumKlaSumCell" value="#{x.sumKla}">
+                    <h:outputText id="sumKlaSumCell" value="# {x.sumKla}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumLlaSum" headerText="Anz. Langlg." sortBy="#{x.sumLla}"
+                <ace:column styleClass="data-table-right" id="sumLlaSum" headerText="Anz. Langlg." sortBy="# {x.sumLla}"
                             >
-                    <h:outputText id="sumLlaSumCell" value="#{x.sumLla}">
+                    <h:outputText id="sumLlaSumCell" value="# {x.sumLla}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionKlaSum" headerText="Ant. Kurzlg." sortBy="#{x.fractionKla}"
+                <ace:column styleClass="data-table-right" id="fractionKlaSum" headerText="Ant. Kurzlg." sortBy="# {x.fractionKla}"
                             >
-                    <h:outputText id="fractionKlaSumCell" value="#{x.fractionKla}">
+                    <h:outputText id="fractionKlaSumCell" value="# {x.fractionKla}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionLlaSum" headerText="Ant. Langlg." sortBy="#{x.fractionLla}"
+                <ace:column styleClass="data-table-right" id="fractionLlaSum" headerText="Ant. Langlg." sortBy="# {x.fractionLla}"
                             >
-                    <h:outputText id="fractionLlaSumCell" value="#{x.fractionLla}">
+                    <h:outputText id="fractionLlaSumCell" value="# {x.fractionLla}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>
         </h:form>
+        -->
         <h3 class="text-center">Hinweise</h3>
         <p class="info-text">
             Kurzlieger = Alle unterhalb der unteren Grenzverweildauer entlassenen / verlegten Fälle<br/>
