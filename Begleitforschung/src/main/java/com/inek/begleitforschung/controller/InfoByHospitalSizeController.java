@@ -28,15 +28,21 @@ public class InfoByHospitalSizeController {
 
     public void setState(int state) {
         _state = state;
+        _data = null;
     }
  
+    private List<C_121_221_State_Size> _data;
+    
     @Inject private Entities _entities;
         public List<C_121_221_State_Size> getData(int dataYear) {
-            return _entities
+            if (_data == null){
+            _data= _entities
                     .getC_121_State_Size(dataYear)
                     .stream()
-                    .filter(d -> _state == 0 || _state == d.getStateCode())
+                    .filter(d -> _state == d.getStateCode())
                     .collect(Collectors.toList());
+            }
+            return _data;
         }
     
 }
