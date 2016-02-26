@@ -7,9 +7,13 @@ package com.inek.begleitforschung.controller;
 
 import com.inek.begleitforschung.entities.C_121_221_State_Size;
 import com.inek.begleitforschung.entities.Entities;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -18,8 +22,25 @@ import javax.inject.Named;
  * @author muellermi
  */
 @Named
-@RequestScoped
-public class InfoByHospitalSizeController {
+@ViewScoped
+public class InfoByHospitalSizeController implements Serializable {
+
+    @PostConstruct
+    private void init() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        _dataYear = Integer.parseInt(params.get("dataYear"));
+        _type = Integer.parseInt(params.get("type"));
+        redData();
+    }
+
+    private void redData() {
+        _data = _entities
+                .getC_121_221_State_Size(_dataYear)
+                .stream()
+                .filter(c -> c.getType() == _type)
+                .filter(d -> _state == d.getStateCode())
+                .collect(Collectors.toList());
+    }
     private int _state;
 
     public int getState() {
@@ -28,19 +49,15 @@ public class InfoByHospitalSizeController {
 
     public void setState(int state) {
         _state = state;
-        _data = null;
+        redData();
     }
-    private List<C_121_221_State_Size> _data;
     @Inject private Entities _entities;
-        public List<C_121_221_State_Size> getData(int dataYear) {
-            if (_data == null){
-            _data= _entities
-                    .getC_121_State_Size(dataYear)
-                    .stream()
-                    .filter(d -> _state == d.getStateCode())
-                    .collect(Collectors.toList());
-            }
-            return _data;
-        }
-    
+    private List<C_121_221_State_Size> _data;  // this field is needed by the ice faces data table
+    private int _dataYear = 0;
+    private int _type = 0;
+
+    public List<C_121_221_State_Size> getData() {
+        return _data;
+    }
+
 }

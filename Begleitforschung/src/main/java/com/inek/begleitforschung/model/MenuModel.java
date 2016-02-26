@@ -56,7 +56,7 @@ public class MenuModel implements Serializable{
         node4.addChild("Bereich", "link");
         node4.addChild("4-Steller", "link");
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
-        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear);
+        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=1");
         node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/CasesPrimaryDepartment.xhtml?dataYear="+_dataYear);
         node3.addChild("Häufigkeit von Operationen", baseUrl+"/views/NumOperationsPrimary.xhtml?dataYear="+_dataYear);
         
@@ -77,7 +77,7 @@ public class MenuModel implements Serializable{
         node4.addChild("4-Steller", "link");
         
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
-        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSizeSlipMc.xhtml?dataYear="+_dataYear);
+        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=2");
         node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/CasesSlipMc.xhtml?dataYear="+_dataYear);
         node3.addChild("Häufigkeit von Operationen", baseUrl+"/views/NumOperationsSlipMc.xhtml?dataYear="+_dataYear);
         

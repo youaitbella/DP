@@ -28,6 +28,7 @@ public class ApplicationData {
 
     public final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
 
+    // <editor-fold defaultstate="collapsed" desc="States">
     private Map<Integer, String> _states;
     public Map<Integer, String> obtainStateMap() {
         if (_states == null){
@@ -38,9 +39,44 @@ public class ApplicationData {
     }
 
     public List<KeyValue<Integer, String>> getStates() {
+        // this getter is needed becaus JSF up to versio 2.2 cant't handle maps - eagerly awaiting JSF 2.3 ;-)
         return obtainStateMap().entrySet().stream().map(e -> new KeyValue<>(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="BedClasses">
+    private Map<Integer, String> _bedClasses;
+    public Map<Integer, String> obtainBedClassMap() {
+        if (_bedClasses == null){
+            List<String[]> data = readDataFile("Bettenstufe");
+             _bedClasses = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
+        }
+        return _bedClasses;
+    }
+
+    public List<KeyValue<Integer, String>> getBedClasses() {
+        // this getter is needed becaus JSF up to versio 2.2 cant't handle maps - eagerly awaiting JSF 2.3 ;-)
+        return obtainBedClassMap().entrySet().stream().map(e -> new KeyValue<>(e.getKey(), e.getValue())).collect(Collectors.toList());
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Responsibles">
+    private Map<Integer, String> _responsibles;
+    public Map<Integer, String> obtainResponsibleMap() {
+        if (_responsibles == null){
+            List<String[]> data = readDataFile("Traeger");
+             _responsibles = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
+        }
+        return _responsibles;
+    }
+
+    public List<KeyValue<Integer, String>> getResponsibles() {
+        // this getter is needed becaus JSF up to versio 2.2 cant't handle maps - eagerly awaiting JSF 2.3 ;-)
+        return obtainResponsibleMap().entrySet().stream().map(e -> new KeyValue<>(e.getKey(), e.getValue())).collect(Collectors.toList());
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="read data">
     public List<String[]> readDataFile(String fileName) {
         return readDataFile(new File(BASE_PATH), fileName);
     }
@@ -59,5 +95,6 @@ public class ApplicationData {
             return Collections.EMPTY_LIST;
         }
     }
+    // </editor-fold>
 
 }

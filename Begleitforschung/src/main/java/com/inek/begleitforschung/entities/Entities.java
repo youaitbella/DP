@@ -138,7 +138,7 @@ public class Entities implements Serializable {
             return _c_221_state_size;
         }
         
-        private List<C_121_221_State_Size> getC_121_221_State_Size(int dataYear) {
+        public List<C_121_221_State_Size> getC_121_221_State_Size(int dataYear) {
             if(_c_121_221_state_size == null) {
                 _c_121_221_state_size = mapC_121_221_State_Size(_appData.readDataFile(dataYear, "C_121_221_Bundesland_Groesse(Betten)_FZ_VWD_CMI"));
             }
