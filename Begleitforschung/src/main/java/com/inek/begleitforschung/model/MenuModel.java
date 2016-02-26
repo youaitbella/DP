@@ -27,7 +27,7 @@ public class MenuModel implements Serializable{
         node1.addChild("Unspezifische Kodierung", "link");
         
         node1 = _menuRoot.addChild("KH-Strukturdaten", "");
-        node1.addChild("Größenklassen (Bettenzahl) / Bundesland", "link");
+        node1.addChild("Größenklassen (Bettenzahl) / Bundesland", baseUrl+"/views/BedClasses.xhtml?dataYear=" + _dataYear);
         node1.addChild("Größenklasse (Fälle) / Trägerschaft", "link");
         node1.addChild("CMI-Klassen / Größen (Betten)", "/views/Participation5.xhtml");
         
