@@ -16,22 +16,24 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
-        <h:form>
+        <h1>Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland</h1>
+        <h:form styleClass="verticalSpace">
+            Bundesland
             <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
                 <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>
         
-        <h:form id="dataTable">
+        <h:form id="dataTable" styleClass="verticalSpace">
             <ace:dataTable  id="c121-table"
                             value="#{infoByHospitalSizeController.getData(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                           >
-                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{x.bedSort}"
-                                filterBy="#{x.bedSort}" filterMatchMode="contains">
-                    <h:outputText id="sizegCell" value="#{x.bedSort}"/>
+                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{x.level}"
+                                filterBy="#{x.level}" filterMatchMode="contains">
+                    <h:outputText id="sizegCell" value="#{x.level}"/>
                 </ace:column>
                 <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{x.numHospital}"
                             filterBy="#{x.numHospital}" filterMatchMode="contains">
