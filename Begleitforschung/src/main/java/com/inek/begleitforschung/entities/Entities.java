@@ -46,6 +46,10 @@ public class Entities implements Serializable {
     private List<C_122_222> _c_222_A;
     private List<C_122_222> _c_222_E;
     
+    private List<NumOperations> _numOperations;
+    private List<NumOperations> _numOperationsPrimary;
+    private List<NumOperations> _numOperationsSlipMc;
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -163,6 +167,27 @@ public class Entities implements Serializable {
                 _c_122_222 = mapC_122_222(_appData.readDataFile(dataYear, "C_122_222"));
             }
             return _c_122_222;
+        }
+        
+        public List<NumOperations> getNumOperationsPrimary(int dataYear) {
+            if(_numOperationsPrimary == null) {
+                _numOperationsPrimary = getNumOperations(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
+            }
+            return _numOperations;
+        }
+        
+        public List<NumOperations> getNumOperationsSlipMc(int dataYear) {
+            if(_numOperationsSlipMc == null) {
+                _numOperationsSlipMc = getNumOperations(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
+            }
+            return _numOperationsSlipMc;
+        }
+        
+        private List<NumOperations> getNumOperations(int dataYear) {
+            if(_numOperations == null) {
+                _numOperations = mapNumOperations(_appData.readDataFile(dataYear, "C_123_223"));
+            }
+            return _numOperations;
         }
     
     // <editor-fold defaultstate="collapsed" desc="sum">
@@ -319,6 +344,16 @@ public class Entities implements Serializable {
             List<C_122_222> list = new ArrayList<>();
             for(String[] x : data) {
                 C_122_222 y = new C_122_222(Integer.parseInt(x[0]), x[1].charAt(0), x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]));
+                list.add(y);
+            }
+            return list;
+        }
+        
+        private List<NumOperations> mapNumOperations(List<String[]> data) {
+            List<NumOperations> list = new ArrayList<>();
+            for(String[] x : data) {
+                NumOperations y = new NumOperations(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5]),
+                        Double.parseDouble(x[6]), Double.parseDouble(x[7]), Double.parseDouble(x[8]), Double.parseDouble(x[9]), Double.parseDouble(x[10]));
                 list.add(y);
             }
             return list;
