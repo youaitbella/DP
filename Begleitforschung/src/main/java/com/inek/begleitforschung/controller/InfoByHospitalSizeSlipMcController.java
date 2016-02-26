@@ -7,9 +7,10 @@ package com.inek.begleitforschung.controller;
 
 import com.inek.begleitforschung.entities.C_121_221_State_Size;
 import com.inek.begleitforschung.entities.Entities;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -18,8 +19,8 @@ import javax.inject.Named;
  * @author muellermi
  */
 @Named
-@RequestScoped
-public class InfoByHospitalSizeController {
+@ViewScoped
+public class InfoByHospitalSizeSlipMcController implements Serializable {
     private int _state;
 
     public int getState() {
@@ -30,17 +31,18 @@ public class InfoByHospitalSizeController {
         _state = state;
         _data = null;
     }
+    
     private List<C_121_221_State_Size> _data;
     @Inject private Entities _entities;
         public List<C_121_221_State_Size> getData(int dataYear) {
-            if (_data == null){
-            _data= _entities
-                    .getC_121_State_Size(dataYear)
+             if (_data == null){
+                _data =  _entities
+                    .getC_221_State_Size(dataYear)
                     .stream()
-                    .filter(d -> _state == d.getStateCode())
+                    .filter(d -> _state == 0 || _state == d.getStateCode())
                     .collect(Collectors.toList());
-            }
-            return _data;
+             }
+             return _data;
         }
     
 }

@@ -16,53 +16,33 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
-        <h1>Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland</h1>
-        <h:form styleClass="verticalSpace">
-            Bundesland
-            <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
-                <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
-                <f:ajax render="@all"/>
-            </h:selectOneMenu>
-        </h:form>
+        <h1>Kapitel</h1>
         
         <h:form id="dataTable" styleClass="verticalSpace">
-            <ace:dataTable  id="c121-table"
-                            value="#{infoByHospitalSizeController.getData(param['dataYear'])}"
+            <ace:dataTable  id="table"
+                            value="#{entities.getPartialInpatientCaresPdChapter(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                           >
-                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{x.level}"
-                                filterBy="#{x.level}" filterMatchMode="contains">
-                    <h:outputText id="sizegCell" value="#{x.level}"/>
+                <ace:column styleClass="data-table-left" id="area" headerText="Kapitel" sortBy="#{x.area}"
+                                filterBy="#{x.area}" filterMatchMode="contains">
+                    <h:outputText id="areaCell" value="#{x.area}"/>
                 </ace:column>
-                <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{x.numHospital}"
-                            filterBy="#{x.numHospital}" filterMatchMode="contains">
-                    <h:outputText id="hospitalCountCell" value="#{x.numHospital}">
+                <ace:column styleClass="data-table-left" id="areaName" headerText="Kapitelname" sortBy="#{x.areaName}"
+                            filterBy="#{x.areaName}" filterMatchMode="contains">
+                    <h:outputText id="areaNameCell" value="#{x.areaName}">
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="numKh" headerText="Anzahl KH" sortBy="#{x.numKh}"
+                            filterBy="#{x.numKh}" filterMatchMode="contains">
+                    <h:outputText id="numKhCell" value="#{x.numKh}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgCases" headerText="mittl. Fallzahl" sortBy="#{x.avgCases}"
-                            filterBy="#{x.avgCases}" filterMatchMode="contains">
-                    <h:outputText id="avgCasesCell" value="#{x.avgCases}">
+                <ace:column styleClass="data-table-right" id="numPartialInpatient" headerText="Fallzahl" sortBy="#{x.numPartialInpatient}"
+                            filterBy="#{x.numPartialInpatient}" filterMatchMode="contains">
+                    <h:outputText id="numPartialInpatientCell" value="#{x.numPartialInpatient}">
                         <f:convertNumber pattern="###,###,###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLos" headerText="mittl. Vwd. KH" sortBy="#{x.avgLos}"
-                            filterBy="#{x.avgLos}" filterMatchMode="contains">
-                    <h:outputText id="avgLosCell" value="#{x.avgLos}">
-                        <f:convertNumber pattern="###,###,###.#"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="avgCmi" headerText="mittl. CMI. KH" sortBy="#{x.cmi}"
-                            filterBy="#{x.cmi}" filterMatchMode="contains">
-                    <h:outputText id="avgCmiCell" value="#{x.cmi}">
-                        <f:convertNumber pattern="###,###,###.###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionCases" headerText="Ant. Stundenfälle" sortBy="#{x.amtStf}"
-                            filterBy="#{x.amtStf}" filterMatchMode="contains">
-                    <h:outputText id="fractionCasesCell" value="#{x.amtStf}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>
@@ -122,10 +102,9 @@ and open the template in the editor.
         -->
         <h3 class="text-center">Hinweise</h3>
         <p class="info-text">
-            Stundenfälle: Fälle mit identischem Aufnahme- und Entlassungsgrund<br/>
-            ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>
-            ohne zusätzliche Prüfung auf Umsetzung der Regelungen zur Fallzusammenführung<br/>
-            Spalten mttl. Vwd. KH und mittl. CMI KH: jeweils ungewichtete arithmetische Mittelwerte)
+            Die Übermittlungsverpflichtung macht keine eindeutige Vorgabe, daher kann in der Datenerhebung<br/>
+            (je nach Softwaresystem) ein teilstationärer Datensatz für alle Behandlungen in einem Quartal oder aber<br/>
+            für jede einzelne Behandlung stehen.
         </p>
     </ui:define>
 

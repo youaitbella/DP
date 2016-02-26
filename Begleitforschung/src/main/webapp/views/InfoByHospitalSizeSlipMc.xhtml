@@ -16,18 +16,16 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
-        <h1>Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland</h1>
-        <h:form styleClass="verticalSpace">
-            Bundesland
-            <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
+        <h:form>
+            <h:selectOneMenu value="#{infoByHospitalSizeSlipMcController.state}">
                 <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>
         
-        <h:form id="dataTable" styleClass="verticalSpace">
+        <h:form id="dataTable">
             <ace:dataTable  id="c121-table"
-                            value="#{infoByHospitalSizeController.getData(param['dataYear'])}"
+                            value="#{infoByHospitalSizeSlipMcController.getData(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                           >
@@ -125,7 +123,7 @@ and open the template in the editor.
             Stundenfälle: Fälle mit identischem Aufnahme- und Entlassungsgrund<br/>
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>
             ohne zusätzliche Prüfung auf Umsetzung der Regelungen zur Fallzusammenführung<br/>
-            Spalten mttl. Vwd. KH und mittl. CMI KH: jeweils ungewichtete arithmetische Mittelwerte)
+            Spalten mttl. Vwd. KH und mittl. CMI KH: jeweils ungewichtete arithmetische Mittelwerte
         </p>
     </ui:define>
 

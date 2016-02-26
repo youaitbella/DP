@@ -50,6 +50,13 @@ public class Entities implements Serializable {
     private List<NumOperations> _numOperationsPrimary;
     private List<NumOperations> _numOperationsSlipMc;
     
+    private List<PartialInpatientCare> _partialInpatientCares;
+    private List<PartialInpatientCare> _partialInpatientCaresPdChapter;
+    private List<PartialInpatientCare> _partialInpatientCaresPdGroup;
+    private List<PartialInpatientCare> _partialInpatientCaresPdCat;
+    private List<PartialInpatientCare> _partialInpatientCaresProcChapter;
+    private List<PartialInpatientCare> _partialInpatientCaresProcArea;
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -188,6 +195,48 @@ public class Entities implements Serializable {
                 _numOperations = mapNumOperations(_appData.readDataFile(dataYear, "C_123_223"));
             }
             return _numOperations;
+        }
+        
+        public List<PartialInpatientCare> getPartialInpatientCaresPdChapter(int dataYear){
+            if(_partialInpatientCaresPdChapter == null) {
+                _partialInpatientCaresPdChapter = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
+            }
+            return _partialInpatientCaresPdChapter;
+        }
+        
+        public List<PartialInpatientCare> getPartialInpatientCaresPdGroup(int dataYear){
+            if(_partialInpatientCaresPdGroup == null) {
+                _partialInpatientCaresPdGroup = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
+            }
+            return _partialInpatientCaresPdGroup;
+        }
+        
+        public List<PartialInpatientCare> getPartialInpatientCaresPdCat(int dataYear){
+            if(_partialInpatientCaresPdCat == null) {
+                _partialInpatientCaresPdCat = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 3)).collect(Collectors.toList());
+            }
+            return _partialInpatientCaresPdCat;
+        }
+        
+        public List<PartialInpatientCare> getPartialInpatientCaresProcChapter(int dataYear){
+            if(_partialInpatientCaresProcChapter == null) {
+                _partialInpatientCaresProcChapter = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 4)).collect(Collectors.toList());
+            }
+            return _partialInpatientCaresProcChapter;
+        }
+        
+        public List<PartialInpatientCare> getPartialInpatientCaresProcArea(int dataYear){
+            if(_partialInpatientCaresProcArea == null) {
+                _partialInpatientCaresProcArea = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 5)).collect(Collectors.toList());
+            }
+            return _partialInpatientCaresProcArea;
+        }
+        
+        private List<PartialInpatientCare> getInpatientCares(int dataYear) {
+            if(_partialInpatientCares == null) {
+                _partialInpatientCares = mapPartialInpatientCares(_appData.readDataFile(dataYear, "D"));
+            }
+            return _partialInpatientCares;
         }
     
     // <editor-fold defaultstate="collapsed" desc="sum">
@@ -358,5 +407,13 @@ public class Entities implements Serializable {
             }
             return list;
         }
-
+        
+        private List<PartialInpatientCare> mapPartialInpatientCares(List<String[]> data) {
+            List<PartialInpatientCare> list = new ArrayList<>();
+            for(String[] x : data) {
+                PartialInpatientCare y = new PartialInpatientCare(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]));
+                list.add(y);
+            }
+            return list;
+        }
 }

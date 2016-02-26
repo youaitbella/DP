@@ -77,19 +77,19 @@ public class MenuModel implements Serializable{
         node4.addChild("4-Steller", "link");
         
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
-        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", "link");
+        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSizeSlipMc.xhtml?dataYear="+_dataYear);
         node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/CasesSlipMc.xhtml?dataYear="+_dataYear);
         node3.addChild("Häufigkeit von Operationen", baseUrl+"/views/NumOperationsSlipMc.xhtml?dataYear="+_dataYear);
         
         node1 = _menuRoot.addChild("Teilstationäre Fälle", "");
         node2 = node1.addChild("Hauptdiagnosen", "");
-        node2.addChild("Kapitel", "link");
-        node2.addChild("Gruppe", "link");
-        node2.addChild("Kategorie", "link");
+        node2.addChild("Kapitel", baseUrl+"/views/PartialInpatientPdChapter.xhtml?dataYear="+_dataYear);
+        node2.addChild("Gruppe", baseUrl+"/views/PartialInpatientPdGroup.xhtml?dataYear="+_dataYear);
+        node2.addChild("Kategorie", baseUrl+"/views/PartialInpatientPdCat.xhtml?dataYear="+_dataYear);
         
         node2 = node1.addChild("Prozeduren", "");
-        node2.addChild("Kapitel", "link");
-        node2.addChild("Bereich", "link");
+        node2.addChild("Kapitel", baseUrl+"/views/PartialInpatientProcChapter.xhtml?dataYear="+_dataYear);
+        node2.addChild("Bereich", baseUrl+"/views/PartialInpatientProcArea.xhtml?dataYear="+_dataYear);
     }
     
     public MenuTreeNode getMenuRoot() {
