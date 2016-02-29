@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<map xmlns:xsi="http://www.w3.org/2001/XInclude">
+  <topicref type="topic" id="408937680032260" build="ALL" modified="2011-12-20T14:11:13.466Z" icon="0" href="Introduction">
+    <caption translate="true">Einführung</caption>
+    <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
+      <caption translate="true">Funktionsüberblick</caption>
+    </topicref>
+    <topicref type="topic" id="40896998482239" build="ALL" modified="2011-12-20T14:50:15.680Z" icon="0" href="TermsOfUse">
+      <caption translate="true">Nutzungsbedingungen</caption>
+    </topicref>
+    <topicref type="topic" id="408974107274135" build="ALL" modified="2011-12-20T14:50:22.618Z" icon="0" href="Preconditions">
+      <caption translate="true">Systemvoraussetzung</caption>
+    </topicref>
+    <topicref type="topic" id="408994603040857" build="ALL" modified="2011-12-22T14:07:48.848Z" icon="0" href="Notes">
+      <caption translate="true">Hinweise</caption>
+    </topicref>
+    <topicref type="topic" id="412405087457661" build="ALL" modified="2012-11-27T16:00:00.452Z" icon="0" href="enhancement">
+      <caption translate="true">Weiterentwicklung / Anfragen</caption>
+    </topicref>
+  </topicref>
+  <topicref type="topic" id="40909291588247" build="ALL" modified="2012-01-03T08:32:28.309Z" icon="0" href="Usage">
+    <caption translate="true">Bedienung</caption>
+    <topicref type="topic" id="409113749238586" build="ALL" modified="2011-12-06T15:36:09.418Z" icon="0" href="BaseHandling">
+      <caption translate="true">Allgemeine Bedienung</caption>
+    </topicref>
+    <topicref type="topic" id="41230772331373" build="ALL" modified="2012-11-19T15:55:06.622Z" icon="0" href="help">
+      <caption translate="true">Hilfe</caption>
+    </topicref>
+  </topicref>
+  <topicref type="topic" id="409114983099281" build="ALL" modified="2012-01-03T09:13:47.575Z" icon="0">
+    <caption translate="true">Anhang</caption>
+    <topicref type="topic" id="409114459986317" build="ALL" modified="2012-01-03T09:14:08.997Z" icon="0" href="TestedBrowsers">
+      <caption translate="true">Getestete Browser</caption>
+    </topicref>
+    <topicref type="topic" id="417814645315789" build="ALL" modified="2014-05-22T11:16:18.452Z" icon="0" href="Glossar">
+      <caption translate="true">Glossar</caption>
+    </topicref>
+  </topicref>
+</map>

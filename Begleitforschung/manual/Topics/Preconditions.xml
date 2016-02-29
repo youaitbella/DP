@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Systemvoraussetzung</title>
+  <keywords>
+    <keyword translate="true">Betriebssystem</keyword>
+    <keyword translate="true">Browser</keyword>
+    <keyword translate="true">Java</keyword>
+    <keyword translate="true">JavaScript</keyword>
+    <keyword translate="true">Schreibrechte</keyword>
+    <keyword translate="true">Systemvoraussetzung</keyword>
+    <keyword translate="true">WebBrowser</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Systemvoraussetzung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beim </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> handelt es sich um eine Applikation, die auf einem Server des InEK läuft. Als Benutzerschnittstelle wird ein Webbrowser wie beispielsweise </text><text styleclass="Normal" style="font-style:italic;" translate="true">Firefox</text><text styleclass="Normal" translate="true"> oder </text><text styleclass="Normal" style="font-style:italic;" translate="true">Internet Explorer</text><text styleclass="Normal" translate="true"> eingesetzt. Somit können Sie es unabhängig vom einem bestimmten Betriebssystem überall dort einsetzen, wo ein entsprechender Browser verfügbar ist. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> nutzt aktuelle Techniken wie CSS und Ajax, die von den meisten modernen Browsern unterstützt werden. Sollten Sie noch einen älteren Browser im Einsatz haben, kann dies die Darstellung beeinflussen. Beispielsweise beherrschen ältere Browser noch nicht abgerundete Ecken; sie werden dann eckig angezeigt. Dies sieht nicht ganz so schön aus, beeinträchtigt die Funktionalität jedoch nicht. Wichtig ist, im Browser die Ausführung von JavaScript zu erlauben. Dies ist in der Regel jedoch so eingestellt. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Aus Angst vor Bedrohungen wurde vor einigen Jahren geraten, JavaScript abzuschalten. JavaScript ist zwar eine Programmiersprache, jedoch läuft diese im Browser in einer geschützten Umgebung ab. Dies sichert beispielsweise Ihr Dateisystem vor unberechtigten Zugriffen. Es gibt zwar im Browser - unabhängig von JavaScript - die Möglichkeit, Dateien auszuwählen und per Upload an der Server zu schicken, aber nicht, diese Dateien im Browser zu verarbeiten. Insofern kann das </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> auch Ihre Daten nur übermitteln, nicht aber prüfen.</text><br/><text styleclass="Hinweis" translate="true">JavaScript ist inzwischen etabliert. Manche Administratoren schalten dies jedoch aus Gewohnheit noch ab. Sollte dies bei Ihnen der Fall sein, erhalten Sie vom </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> eine entsprechende Meldung. Bitten Sie dann Ihren Administrator, JavaScript freizuschalten, zumindest für diese Anwendung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das dem Browser zugrunde liegende Protokoll (HTTP) ist so aufgebaut, dass der Browser eine Anfrage an den Server sendet, dieser antwortet und damit die Kommunikation beendet ist. Der Wechsel auf eine andere Seite (auch innerhalb des Datenportals) löst eine neue Anfrage aus. Ohne weitere Maßnahmen kennt der Server die vorherige Aktion, z.B. Ihre Anmeldung nicht. Damit dennoch ein geordneter Programmablauf möglich ist, sendet der Server eine eindeutige Kennung (die sogenannte Session-Id) an den Browser. Der Browser sendet diese bei der nächsten Anfrage mit. So kann der Server die zur Kennung gehörenden Daten laden und weiß, in welchen Status sich Ihre Arbeit befindet. Diese Session-Id wird in einer kleinen Datei, Cookie genannt, von Ihrem Browser verwaltet. Ihr Browser sendet diese Daten bei der nächsten Anfrage automatisch mit. Der Browser stellt dabei sicher, dass diese Daten nur an die Adresse übermittelt werden, von denen sie stammen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Verwendung von Cookies ist für viele Web-Applikationen erforderlich. In den meisten Browsern sind Cookies standardmäßig eingeschaltet. Sollten Sie die Verwendung von Cookies abgeschaltet haben, so kann das InEK-Datenportal den Status Ihrer Anmeldung nicht korrekt verwalten. Als Folge kommt es beim Aufruf der gewünschten Funktion zu einer Time-Out-Meldung. Bitte achten Sie darauf, dass in Ihrem Browser Cookies grundsätzlich, oder zumindest für die Site daten.inek.org, erlaubt sind.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

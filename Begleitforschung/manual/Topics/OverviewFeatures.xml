@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Funktionsüberblick</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Funktionsüberblick</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bietet Ihnen einen Überblick über Krankenhausfalldaten.</text></para>
+    <para styleclass="Normal"></para>
+    <list id="10" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Datenbasis</text><br/><text styleclass="Bullet Text" translate="true">Anzahl und Qualität der Falldaten</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Krankenhaus-Strkuturdaten</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">...</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In einigen wenigen Fällen liegen gemäß der Selektion von Daten lediglich Einzelfalldaten anstelle aggregierter Werte vor. Damit es nicht möglich wird, anhand solcher Daten auf eine bestimmte Person zu schließen, werden derartige Einzelfalldaten &quot;geschwärzt&quot;. Bei numerischen Werten geschieht dies derart, dass hier eine -999 eingetragen wird. Aufgrund dieser &quot;Schwärzungen&quot; können die Daten nicht einfach summiert werden. Die angegebenen Summentabellen beinhalten jedoch die Original-Summen und können daher von der Summe angezeigter Daten abweichen.</text></para>
+  </body>
+</topic>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Hilfe</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Hilfe</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Dialogführung ist so gestaltet, dass diese weitgehend intuitiv bedient werden kann. Dennoch, was einer Person als völlig klar erscheint, mag einer anderen als recht undurchsichtig vorkommen. Aus diesem Grunde stehen Ihnen zusätzliche Informationen als Hilfestellung zur Verfügung:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="23" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anwenderhandbuch</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Tooltips</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das Anwenderhandbuch (also dieses Dokument) steht Ihnen in aktueller Version </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> im linken Navigationsbereich des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> zur Verfügung. Je nachdem, wie Ihr System eingestellt ist, wird es direkt im Browser angezeigt oder zum Download angeboten. Sollte das Handbuch bei Ihnen nicht im Browser angezeigt werden, so nutzen Sie nicht (nur) die bei Ihnen gespeicherte Version: Sollte das Handbuch aktualisiert werden, erhalten Sie über die Navigation die jeweils aktuelle Fassung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Als Tooltip wird ein Text bezeichnet, der zu einzelnen Dialogelementen in Form von Sprechblasen bzw. in einem &quot;schwebenden&quot; Rahmen eingeblendet wird. Fahren Sie mit der Maus über ein Eingabeelement und verweilen dort (Zeiger still belassen), so wird nach kurzer Zeit ein solcher Text eingeblendet.</text></para>
+  </body>
+</topic>
