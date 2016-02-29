@@ -16,13 +16,15 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        <h1>CMI-Klassen / Größen (Betten)</h1>
         <h:form>
+            Bettenklasse
             <h:selectOneMenu value="#{bedClassesController.bedClass}">
                 <f:selectItems value="#{applicationData.bedClasses}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>
-        
+
         <h:form id="dataTable">
             <!--
             <ace:dataTable  id="c121-table"

@@ -14,8 +14,8 @@ import org.inek.portallib.tree.MenuTreeNode;
  * @author muellermi
  */
 public class MenuModel implements Serializable{
-    private MenuTreeNode _menuRoot;
-    private int _dataYear;
+    private final MenuTreeNode _menuRoot;
+    private final int _dataYear;
     
     public MenuModel(int year) {
         _dataYear = year;

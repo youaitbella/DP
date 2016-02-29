@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.inek.begleitforschung.controller;
+package com.inek.begleitforschung.controller.structural;
 
+import com.inek.begleitforschung.entities.BedClass;
 import com.inek.begleitforschung.entities.C_121_221_State_Size;
 import com.inek.begleitforschung.entities.Entities;
 import java.io.Serializable;
@@ -23,44 +24,42 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class InfoByHospitalSizeController implements Serializable {
-
+public class CmiByBedClassController implements Serializable{
     private int _dataYear = 0;
-    private int _type = 0;
 
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         _dataYear = Integer.parseInt(params.get("dataYear"));
-        _type = Integer.parseInt(params.get("type"));
         readData();
     }
 
     private void readData() {
         _data = _entities
-                .getC_121_221_State_Size(_dataYear)
+                .getBedClasses(_dataYear)
                 .stream()
-                .filter(c -> c.getType() == _type)
-                .filter(d -> _state == d.getStateCode())
                 .collect(Collectors.toList());
     }
 
-    private int _state;
+    // <editor-fold defaultstate="collapsed" desc="Property BedClass">
+    private int _bedClass;
 
-    public int getState() {
-        return _state;
+    public int getBedClass() {
+        return _bedClass;
     }
 
-    public void setState(int state) {
-        _state = state;
+    public void setBedClass(int bedClass) {
+        _bedClass = bedClass;
         readData();
     }
+    // <//editor-fold>
     
     @Inject private Entities _entities;
-    private List<C_121_221_State_Size> _data;  // this field is needed by the ice faces data table
+    private List<BedClass> _data;  // this field is needed by the ice faces data table
 
-    public List<C_121_221_State_Size> getData() {
+    public List<BedClass> getData() {
         return _data;
     }
 
+    
 }

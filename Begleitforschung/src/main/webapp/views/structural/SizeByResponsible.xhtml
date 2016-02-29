@@ -16,9 +16,11 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
-        <h:form>
-            <h:selectOneMenu value="#{bedClassesController.bedClass}">
-                <f:selectItems value="#{applicationData.bedClasses}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
+        <h1>Größenklasse (Fälle) / Trägerschaft</h1>
+        <h:form styleClass="verticalSpace">
+            Träger
+            <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
+                <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>

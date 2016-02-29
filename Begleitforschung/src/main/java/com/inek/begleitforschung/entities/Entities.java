@@ -56,11 +56,13 @@ public class Entities implements Serializable {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
-    
-        public List<BedClass> getBedClasses(int dataYear) {
-        return mapBedClass(_appData.readDataFile(dataYear, "B_1_KH_Bundesland_Groesse(Betten)"));
-    }
+    public List<BedClass> getBedClasses(int dataYear) {
 
+        List<String[]> data = _appData.readDataFile(dataYear, "B_1_KH_Bundesland_Groesse(Betten)");
+        return data.stream()
+                .map(d -> new BedClass(d[1], Integer.parseInt(d[2]), Double.parseDouble(d[3]), Integer.parseInt(d[4])))
+                .collect(Collectors.toList());
+    }
 
     public List<C_111_211> getC_111(int dataYear) {
         if (_c_111 == null) {
@@ -334,11 +336,6 @@ public class Entities implements Serializable {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="mapper">
-    private List<BedClass> mapBedClass(List<String[]> data) {
-        return Collections.EMPTY_LIST; // todo
-    }
-    
-    
     private List<C_111_211> mapC_111_211(List<String[]> data) {
         List<C_111_211> list = new ArrayList<>();
         for (String[] x : data) {

@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.inek.begleitforschung.controller;
+package com.inek.begleitforschung.controller.structural;
 
 import com.inek.begleitforschung.entities.BedClass;
-import com.inek.begleitforschung.entities.C_121_221_State_Size;
 import com.inek.begleitforschung.entities.Entities;
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +23,7 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class BedClassesController implements Serializable{
+public class SizeByResponsibleController implements Serializable{
     private int _dataYear = 0;
 
     @PostConstruct
@@ -41,16 +40,19 @@ public class BedClassesController implements Serializable{
                 .collect(Collectors.toList());
     }
 
-    private int _bedClass;
+    // <editor-fold defaultstate="collapsed" desc="Property Responsible">
+    private int _responsible;
 
-    public int getBedClass() {
-        return _bedClass;
+    public int getResponsible() {
+        return _responsible;
     }
 
-    public void setBedClass(int bedClass) {
-        _bedClass = bedClass;
+    public void setResponsible(int responsible) {
+        _responsible = responsible;
         readData();
     }
+    // </editor-fold>
+    
     @Inject private Entities _entities;
     private List<BedClass> _data;  // this field is needed by the ice faces data table
 
