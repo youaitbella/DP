@@ -29,7 +29,7 @@ public class MenuModel implements Serializable{
         node1 = _menuRoot.addChild("KH-Strukturdaten", "");
         node1.addChild("Größenklassen (Bettenzahl) / Bundesland", baseUrl+"/views/structural/SizeByState.xhtml?dataYear=" + _dataYear);
         node1.addChild("Größenklasse (Fälle) / Trägerschaft", baseUrl+"/views/structural/SizeByResponsible.xhtml?dataYear=" + _dataYear);
-        node1.addChild("CMI-Klassen / Größen (Betten)", "/views/structural/CmiByBedClass.xhtml");
+        node1.addChild("CMI-Klassen / Größen (Betten)", "/views/structural/CmiByBedClass.xhtml" + _dataYear);
         
         node1 = _menuRoot.addChild("G-DRG-System", "");
         MenuTreeNode node2 = node1.addChild("Hauptabteilungen", "");
