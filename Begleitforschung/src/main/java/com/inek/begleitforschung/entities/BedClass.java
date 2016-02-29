@@ -13,7 +13,7 @@ public class BedClass {
 
     public BedClass(String level, int hospitalCount, double hospitalFraction, int stateId) {
         _level = level;
-        _stateId = hospitalCount;
+        _hospitalCount = hospitalCount;
         _hospitalFraction = hospitalFraction;
         _stateId = stateId;
     }

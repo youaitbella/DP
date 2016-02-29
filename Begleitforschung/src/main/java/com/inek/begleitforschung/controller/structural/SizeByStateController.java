@@ -62,5 +62,7 @@ public class SizeByStateController implements Serializable{
         return _data;
     }
 
-    
+    public int getTotal(){
+        return _data.stream().mapToInt(c -> c.getHospitalCount()).sum();
+    }
 }
