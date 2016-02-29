@@ -48,7 +48,7 @@ public class MenuModel implements Serializable{
         node3.addChild("nach Altersklassen und Geschlecht", baseUrl+"/views/AgeGender.xhtml?dataYear="+_dataYear);
         node3.addChild("nach DRG", baseUrl+"/views/Drg.xhtml?dataYear="+_dataYear);
         MenuTreeNode node4 = node3.addChild("nach Hauptdiagnosen (Alterskl.)", "");
-        node4.addChild("Kapitel", "/views/Participationf.xhtml");
+        node4.addChild("Kapitel", baseUrl+"/views/PrimaryDiagsProcsInpatientPdChapter.xhtml?dataYear="+_dataYear);
         node4.addChild("Gruppe", "/views/Participationg.xhtml");
         node4.addChild("Kategorie", "link");
         node4 = node3.addChild("nach Prozeduren (Alterskl.)", "link");

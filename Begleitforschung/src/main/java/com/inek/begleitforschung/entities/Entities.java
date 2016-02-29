@@ -55,6 +55,14 @@ public class Entities implements Serializable {
     private List<PartialInpatientCare> _partialInpatientCaresPdCat;
     private List<PartialInpatientCare> _partialInpatientCaresProcChapter;
     private List<PartialInpatientCare> _partialInpatientCaresProcArea;
+    
+    private List<PrimaryDiagsProcs> _primaryDiagsProcs;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdChapter;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdGroup;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdCat;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcChapter;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcArea;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcCode;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -243,6 +251,20 @@ public class Entities implements Serializable {
         }
         return _partialInpatientCares;
     }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdChapter(int dataYear) {
+        if(_primaryDiagsProcsInpatientPdChapter == null) {
+            _primaryDiagsProcsInpatientPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 1)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsInpatientPdChapter;
+    }
+    
+    private List<PrimaryDiagsProcs> getPrimaryDiagsProcs(int dataYear) {
+        if(_primaryDiagsProcs == null) {
+            _primaryDiagsProcs = mapPrimaryDiagsProcs(_appData.readDataFile(dataYear, "C_1_2abc"));
+        }
+        return _primaryDiagsProcs;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="sum">
     public List<C_111_211> getC_111_sum() {
@@ -418,5 +440,24 @@ public class Entities implements Serializable {
         }
         return list;
     }
-
+    
+    private List<PrimaryDiagsProcs> mapPrimaryDiagsProcs(List<String[]> data) {
+        List<PrimaryDiagsProcs> list = new ArrayList<>();
+        for(String[] x : data) {
+            PrimaryDiagsProcs y = new PrimaryDiagsProcs(Integer.parseInt(x[0]), Integer.parseInt(x[1]),
+                    x[2], x[3], Integer.parseInt(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]),
+                    Integer.parseInt(x[7]), Integer.parseInt(x[8]), Integer.parseInt(x[9]), Integer.parseInt(x[10]),
+                    Integer.parseInt(x[11]), Integer.parseInt(x[12]), Integer.parseInt(x[13]), Integer.parseInt(x[14]),
+                    Integer.parseInt(x[15]), Integer.parseInt(x[16]), Integer.parseInt(x[17]), Integer.parseInt(x[18]),
+                    Integer.parseInt(x[19]), Integer.parseInt(x[20]), Integer.parseInt(x[21]), Integer.parseInt(x[22]),
+                    Integer.parseInt(x[23]), Integer.parseInt(x[24]), Integer.parseInt(x[25]), Integer.parseInt(x[26]),
+                    Double.parseDouble(x[27]), Double.parseDouble(x[28]), Double.parseDouble(x[29]), Double.parseDouble(x[30]),
+                    Double.parseDouble(x[31]), Double.parseDouble(x[32]), Double.parseDouble(x[33]), Double.parseDouble(x[34]),
+                    Double.parseDouble(x[35]), Double.parseDouble(x[36]), Double.parseDouble(x[37]), Double.parseDouble(x[38]),
+                    Double.parseDouble(x[39]), Double.parseDouble(x[40]), Double.parseDouble(x[41]), Double.parseDouble(x[42]),
+                    Double.parseDouble(x[43]), Double.parseDouble(x[44]), Double.parseDouble(x[45]), Double.parseDouble(x[46]));
+            list.add(y);
+        }
+        return list;
+    }
 }
