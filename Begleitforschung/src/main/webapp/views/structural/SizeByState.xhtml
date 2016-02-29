@@ -20,7 +20,7 @@ and open the template in the editor.
         <h:form styleClass="verticalSpace">
             Bundesland
             <h:selectOneMenu value="#{sizeByStateController.state}">
-                <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
+                <f:selectItems value="#{applicationData.states}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>

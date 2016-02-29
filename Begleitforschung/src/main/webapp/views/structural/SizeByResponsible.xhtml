@@ -19,45 +19,37 @@ and open the template in the editor.
         <h1>Größenklasse (Fälle) / Trägerschaft</h1>
         <h:form styleClass="verticalSpace">
             Träger
-            <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
-                <f:selectItems value="#{applicationData.states}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
+            <h:selectOneMenu value="#{sizeByResponsibleController.responsible}">
+                <f:selectItems value="#{applicationData.responsibles}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>
         
         <h:form id="dataTable">
-            <!--
-            <ace:dataTable  id="c121-table"
-                            value="# {infoByHospitalSizeController.getData(param['dataYear'])}"
-                            var="x"
+            <ace:dataTable  id="bedclass-table"
+                            value="#{sizeByResponsibleController.data}"
+                            var="data"
                             resizableColumns="true"
                           >
-                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="# {x.level}"
-                                filterBy="# {x.level}" filterMatchMode="contains">
-                    <h:outputText id="sizegCell" value="# {x.level}"/>
+                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.level}"
+                                filterBy="#{data.level}" filterMatchMode="contains">
+                    <h:outputText id="sizegCell" value="#{data.level}"/>
                 </ace:column>
-                <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="# {x.numHospital}"
-                            filterBy="# {x.numHospital}" filterMatchMode="contains">
-                    <h:outputText id="hospitalCountCell" value="# {x.numHospital}">
+                <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}"
+                            filterBy="#{data.hospitalCount}" filterMatchMode="contains">
+                    <h:outputText id="hospitalCountCell" value="#{data.hospitalCount}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgCases" headerText="mittl. Fallzahl" sortBy="# {x.avgCases}"
-                            filterBy="# {x.avgCases}" filterMatchMode="contains">
-                    <h:outputText id="avgCasesCell" value="# {x.avgCases}">
-                        <f:convertNumber pattern="###,###,###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionCases" headerText="Ant. Stundenfälle" sortBy="# {x.amtStf}"
-                            filterBy="# {x.amtStf}" filterMatchMode="contains">
-                    <h:outputText id="fractionCasesCell" value="# {x.amtStf}">
+                <ace:column styleClass="data-table-right" id="fractionCases" headerText="Anteil KH" sortBy="#{data.hospitalFraction}"
+                            filterBy="#{data.hospitalFraction}" filterMatchMode="contains">
+                    <h:outputText id="fractionCasesCell" value="#{data.hospitalFraction}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>
-            -->
         </h:form>
-        <h3 class="text-center">Hinweise</h3>
+        <h3 class="text-center">Anzahl KH gesamt: #{sizeByResponsibleController.total}</h3>
     </ui:define>
 
 </ui:composition>

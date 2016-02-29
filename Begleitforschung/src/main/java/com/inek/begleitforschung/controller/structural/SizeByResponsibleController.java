@@ -5,7 +5,7 @@
  */
 package com.inek.begleitforschung.controller.structural;
 
-import com.inek.begleitforschung.entities.BedClass;
+import com.inek.begleitforschung.entities.structural.SizeClass;
 import com.inek.begleitforschung.entities.Entities;
 import java.io.Serializable;
 import java.util.List;
@@ -35,8 +35,9 @@ public class SizeByResponsibleController implements Serializable{
 
     private void readData() {
         _data = _entities
-                .getBedClasses(_dataYear)
+                .getSizeClasses(_dataYear)
                 .stream()
+                .filter(c -> c.getResponsibleId() == _responsible)
                 .collect(Collectors.toList());
     }
 
@@ -54,10 +55,14 @@ public class SizeByResponsibleController implements Serializable{
     // </editor-fold>
     
     @Inject private Entities _entities;
-    private List<BedClass> _data;  // this field is needed by the ice faces data table
+    private List<SizeClass> _data;  // this field is needed by the ice faces data table
 
-    public List<BedClass> getData() {
+    public List<SizeClass> getData() {
         return _data;
+    }
+
+        public int getTotal(){
+        return _data.stream().mapToInt(c -> c.getHospitalCount()).sum();
     }
 
     

@@ -20,7 +20,7 @@ and open the template in the editor.
         <h:form>
             Bettenklasse
             <h:selectOneMenu value="#{bedClassesController.bedClass}">
-                <f:selectItems value="#{applicationData.bedClasses}" var="state" itemLabel="#{state.value}" itemValue="#{state.key}"/>
+                <f:selectItems value="#{applicationData.bedClasses}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
         </h:form>

@@ -5,9 +5,10 @@
  */
 package com.inek.begleitforschung.entities;
 
+import com.inek.begleitforschung.entities.structural.BedClass;
+import com.inek.begleitforschung.entities.structural.SizeClass;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
@@ -57,10 +58,16 @@ public class Entities implements Serializable {
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
     public List<BedClass> getBedClasses(int dataYear) {
-
         List<String[]> data = _appData.readDataFile(dataYear, "B_1_KH_Bundesland_Groesse(Betten)");
         return data.stream()
                 .map(d -> new BedClass(d[1], Integer.parseInt(d[2]), Double.parseDouble(d[3]), Integer.parseInt(d[4])))
+                .collect(Collectors.toList());
+    }
+
+    public List<SizeClass> getSizeClasses(int dataYear) {
+        List<String[]> data = _appData.readDataFile(dataYear, "B_2_KH_Traeger_Groesse(Faelle)");
+        return data.stream()
+                .map(d -> new SizeClass(d[1], Integer.parseInt(d[2]), Double.parseDouble(d[3]), Integer.parseInt(d[5])))
                 .collect(Collectors.toList());
     }
 
