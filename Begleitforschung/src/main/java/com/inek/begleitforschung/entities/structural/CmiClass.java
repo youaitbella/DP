@@ -9,27 +9,15 @@ package com.inek.begleitforschung.entities.structural;
  *
  * @author muellermi
  */
-public class SizeClass {
+public class CmiClass {
 
-    public SizeClass(String level, String levelSort, int hospitalCount, double hospitalFraction, int responsibleId) {
+    public CmiClass(String level, String levelSort, int hospitalCount, double hospitalFraction, int bedClassId) {
         _level = level;
         _levelSort = levelSort;
         _hospitalCount = hospitalCount;
         _hospitalFraction = hospitalFraction;
-        _responsibleId = responsibleId;
+        _bedClassId = bedClassId;
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Property Hospital count">
-    private int _hospitalCount;
-
-    public int getHospitalCount() {
-        return _hospitalCount;
-    }
-
-    public void setHospitalCount(int hospitalCount) {
-        _hospitalCount = hospitalCount;
-    }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Level">
     private String _level;
@@ -55,6 +43,18 @@ public class SizeClass {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Hospital count">
+    private int _hospitalCount;
+
+    public int getHospitalCount() {
+        return _hospitalCount;
+    }
+
+    public void setHospitalCount(int hospitalCount) {
+        _hospitalCount = hospitalCount;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Hospital fraction">
     private double _hospitalFraction;
 
@@ -67,15 +67,15 @@ public class SizeClass {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ResponsibleId">
-    private int _responsibleId;
+    // <editor-fold defaultstate="collapsed" desc="Property BedClassId">
+    private int _bedClassId;
 
-    public int getResponsibleId() {
-        return _responsibleId;
+    public int getBedClassId() {
+        return _bedClassId;
     }
 
-    public void setResponsibleId(int responsibleId) {
-        _responsibleId = responsibleId;
+    public void setBedClassId(int bedClassId) {
+        _bedClassId = bedClassId;
     }
     // </editor-fold>
 

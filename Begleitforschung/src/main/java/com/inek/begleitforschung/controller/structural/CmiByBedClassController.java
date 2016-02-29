@@ -5,9 +5,8 @@
  */
 package com.inek.begleitforschung.controller.structural;
 
-import com.inek.begleitforschung.entities.structural.BedClass;
-import com.inek.begleitforschung.entities.C_121_221_State_Size;
 import com.inek.begleitforschung.entities.Entities;
+import com.inek.begleitforschung.entities.structural.CmiClass;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +35,9 @@ public class CmiByBedClassController implements Serializable{
 
     private void readData() {
         _data = _entities
-                .getBedClasses(_dataYear)
+                .getCmiClasses(_dataYear)
                 .stream()
+                .filter(c -> c.getBedClassId() == _bedClass)
                 .collect(Collectors.toList());
     }
 
@@ -55,11 +55,14 @@ public class CmiByBedClassController implements Serializable{
     // <//editor-fold>
     
     @Inject private Entities _entities;
-    private List<BedClass> _data;  // this field is needed by the ice faces data table
+    private List<CmiClass> _data;  // this field is needed by the ice faces data table
 
-    public List<BedClass> getData() {
+    public List<CmiClass> getData() {
         return _data;
     }
 
-    
+    public int getTotal() {
+        return _data.stream().mapToInt(c -> c.getHospitalCount()).sum();
+    }
+   
 }

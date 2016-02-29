@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.inek.begleitforschung.entities.structural;
 
 /**
@@ -11,24 +6,13 @@ package com.inek.begleitforschung.entities.structural;
  */
 public class BedClass {
 
-    public BedClass(String level, int hospitalCount, double hospitalFraction, int stateId) {
+    public BedClass(String level, String levelSort, int hospitalCount, double hospitalFraction, int stateId) {
         _level = level;
+        _levelSort = levelSort;
         _hospitalCount = hospitalCount;
         _hospitalFraction = hospitalFraction;
         _stateId = stateId;
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Property Hospital count">
-    private int _hospitalCount;
-
-    public int getHospitalCount() {
-        return _hospitalCount;
-    }
-
-    public void setHospitalCount(int hospitalCount) {
-        _hospitalCount = hospitalCount;
-    }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Level">
     private String _level;
@@ -42,6 +26,30 @@ public class BedClass {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property LevelSort">
+    private String _levelSort;
+
+    public String getLevelSort() {
+        return _levelSort;
+    }
+
+    public void setLevelSort(String levelSort) {
+        _levelSort = levelSort;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Hospital count">
+    private int _hospitalCount;
+
+    public int getHospitalCount() {
+        return _hospitalCount;
+    }
+
+    public void setHospitalCount(int hospitalCount) {
+        _hospitalCount = hospitalCount;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Hospital fraction">
     private double _hospitalFraction;
 

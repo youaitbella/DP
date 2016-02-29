@@ -23,7 +23,8 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class SizeByResponsibleController implements Serializable{
+public class SizeByResponsibleController implements Serializable {
+
     private int _dataYear = 0;
 
     @PostConstruct
@@ -53,7 +54,7 @@ public class SizeByResponsibleController implements Serializable{
         readData();
     }
     // </editor-fold>
-    
+
     @Inject private Entities _entities;
     private List<SizeClass> _data;  // this field is needed by the ice faces data table
 
@@ -61,9 +62,8 @@ public class SizeByResponsibleController implements Serializable{
         return _data;
     }
 
-        public int getTotal(){
+    public int getTotal() {
         return _data.stream().mapToInt(c -> c.getHospitalCount()).sum();
     }
 
-    
 }
