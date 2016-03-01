@@ -23,8 +23,8 @@ public class MenuModel implements Serializable{
         String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         MenuTreeNode node1 = _menuRoot.addChild("Datenbasis", "");
         node1.addChild("Beteiligung an der Datenübermittlung", baseUrl+"/views/Participation.xhtml?dataYear=" + _dataYear);
-        node1.addChild("Datenqualität", "link");
-        node1.addChild("Unspezifische Kodierung", "link");
+        node1.addChild("Datenqualität", baseUrl+"/views/DataQuality.xhtml?dataYear="+_dataYear);
+        node1.addChild("Unspezifische Kodierung", baseUrl+"/views/UnspecificCoding.xhtml?dataYear="+_dataYear);
         
         node1 = _menuRoot.addChild("KH-Strukturdaten", "");
         node1.addChild("Größenklassen (Bettenzahl) / Bundesland", baseUrl+"/views/structural/SizeByState.xhtml?dataYear=" + _dataYear);

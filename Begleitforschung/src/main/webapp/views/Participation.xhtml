@@ -14,25 +14,29 @@
     <ui:define name="mainContent">
         <h:form id="table">
             <ace:dataTable  id="a1_kh_table"
-                            value="#{entities.a1}"
-                            var="a1kh"
+                            value="#{entities.getParticipation(param['dataYear'])}"
+                            var="x"
                             resizableColumns="true"
                           >
-            <ace:column id="bundesland" headerText="Bundesland" sortBy="#{a1kh.bundesland}"
-                            filterBy="#{a1kh.bundesland}" filterMatchMode="contains">
-                <h:outputText id="bundeslandCell" value="#{a1kh.bundesland}"/>
+                <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
+                            filterBy="#{x.state}" filterMatchMode="contains">
+                <h:outputText id="bundeslandCell" value="#{x.state}"/>
             </ace:column>
-                <ace:column id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{a1kh.anzahlKh}"
-                            filterBy="#{a1kh.anzahlKh}" filterMatchMode="contains">
-                <h:outputText id="numKhCell" value="#{a1kh.anzahlKh}"/>
+                <ace:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}"
+                            filterBy="#{x.numHospitals}" filterMatchMode="contains">
+                <h:outputText id="numKhCell" value="#{x.numHospitals}">
+                    <f:convertNumber pattern="###,###,###" />
+                </h:outputText>
             </ace:column>
-                <ace:column id="numCases" headerText="Anzahl Fälle" sortBy="#{a1kh.anzahlFälle}"
-                            filterBy="#{a1kh.anzahlFälle}" filterMatchMode="contains">
-                <h:outputText id="numCasesCell" value="#{a1kh.anzahlFälle}"/>
+                <ace:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}"
+                            filterBy="#{x.numCases}" filterMatchMode="contains">
+                <h:outputText id="numCasesCell" value="#{x.numCases}">
+                    <f:convertNumber pattern="###,###,###" />
+                </h:outputText>
             </ace:column>
-                <ace:column id="bundeslandCode" headerText="Bundesland Code" sortBy="#{a1kh.bundeslandCode}"
-                            filterBy="#{a1kh.bundeslandCode}" filterMatchMode="contains">
-                <h:outputText id="bundeslandCodeCell" value="#{a1kh.bundeslandCode}"/>
+                <ace:column styleClass="data-table-right" id="bundeslandCode" headerText="Bundesland Code" sortBy="#{x.stateCode}"
+                            filterBy="#{x.stateCode}" filterMatchMode="contains">
+                <h:outputText id="bundeslandCodeCell" value="#{x.stateCode}"/>
             </ace:column>
         </ace:dataTable>
         </h:form>

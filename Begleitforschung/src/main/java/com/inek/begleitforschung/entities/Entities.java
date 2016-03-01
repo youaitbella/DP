@@ -69,6 +69,12 @@ public class Entities implements Serializable {
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcChapter;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcArea;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcCode;
+    
+    private List<DataQuality> _dataQuality;
+    
+    private List<UnspecificCoding> _unspecificCoding;
+    
+    private List<Participation> _participation;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -348,6 +354,27 @@ public class Entities implements Serializable {
         }
         return _primaryDiagsProcs;
     }
+    
+    public List<DataQuality> getDataQuality(int dataYear) {
+        if(_dataQuality == null) {
+            _dataQuality = mapDataQuality(_appData.readDataFile(dataYear, "A_2_Datenqualitaet"));
+        }
+        return _dataQuality;
+    }
+    
+    public List<UnspecificCoding> getUnspecificCoding(int dataYear) {
+        if(_unspecificCoding == null) {
+            _unspecificCoding = mapUnspecificCoding(_appData.readDataFile(dataYear, "A_3_Unspezif_Kodierung"));
+        }
+        return _unspecificCoding;
+    }
+    
+    public List<Participation> getParticipation(int dataYear) {
+        if(_participation == null) {
+            _participation = mapParticipation(_appData.readDataFile(dataYear, "A_1_KH"));
+        }
+        return _participation;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="sum">
     public List<C_111_211> getC_111_sum() {
@@ -539,6 +566,33 @@ public class Entities implements Serializable {
                     Double.parseDouble(x[35]), Double.parseDouble(x[36]), Double.parseDouble(x[37]), Double.parseDouble(x[38]),
                     Double.parseDouble(x[39]), Double.parseDouble(x[40]), Double.parseDouble(x[41]), Double.parseDouble(x[42]),
                     Double.parseDouble(x[43]), Double.parseDouble(x[44]), Double.parseDouble(x[45]), Double.parseDouble(x[46]));
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<DataQuality> mapDataQuality(List<String[]> data) {
+        List<DataQuality> list = new ArrayList<>();
+        for(String[] x : data) {
+            DataQuality y = new DataQuality(x[0], Integer.parseInt(x[1]), Double.parseDouble(x[2])); 
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<UnspecificCoding> mapUnspecificCoding(List<String[]> data) {
+        List<UnspecificCoding> list = new ArrayList<>();
+        for(String[] x : data) {
+            UnspecificCoding y = new UnspecificCoding(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), Double.parseDouble(x[3]), Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6]));
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<Participation> mapParticipation(List<String[]> data) {
+        List<Participation> list = new ArrayList<>();
+        for(String[] x : data) {
+            Participation y = new Participation(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), x[3]);
             list.add(y);
         }
         return list;

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/index.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="mainContent">
+        <h1>Unspezifische Kodierung</h1>
+        <h:form id="dataTable">
+            <ace:dataTable  id="c113-table"
+                            value="#{entities.getUnspecificCoding(param['dataYear'])}"
+                            var="x"
+                            resizableColumns="true"
+                          >
+                <ace:column styleClass="data-table-left" id="type" headerText="Art" sortBy="#{x.type}"
+                                filterBy="#{x.type}" filterMatchMode="contains">
+                    <h:outputText id="typeCell" value="#{x.type}"/>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="numSd" headerText="Anz. ND gesamt" sortBy="#{x.numSd}"
+                            filterBy="#{x.numSd}" filterMatchMode="contains">
+                    <h:outputText id="numSdCell" value="#{x.numSd}">
+                        <f:convertNumber pattern="###,###,###"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="numSdU" headerText="Anz. ND ges. unspez." sortBy="#{x.numSdU}"
+                            filterBy="#{x.numSdU}" filterMatchMode="contains">
+                    <h:outputText id="numSdUCell" value="#{x.numSdU}">
+                        <f:convertNumber pattern="###,###,###"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="fractionSdU" headerText="Anteil ND unspez." sortBy="#{x.fractionSdU}"
+                            filterBy="#{x.fractionSdU}" filterMatchMode="contains">
+                    <h:outputText id="fractionSdUCell" value="#{x.fractionSdU}">
+                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="numProc" headerText="Anz. Proz. gesamt" sortBy="#{x.numProc}"
+                            filterBy="#{x.numProc}" filterMatchMode="contains">
+                    <h:outputText id="numProcCell" value="#{x.numProc}">
+                        <f:convertNumber pattern="###,###,###"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="numProcU" headerText="Anz. Proz. ges. unspez." sortBy="#{x.numProcU}"
+                            filterBy="#{x.numProcU}" filterMatchMode="contains">
+                    <h:outputText id="numProcUCell" value="#{x.numProcU}">
+                        <f:convertNumber pattern="###,###,###"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="fractionProcU" headerText="Anteil Proz. unspez." sortBy="#{x.fractionProcU}"
+                            filterBy="#{x.fractionProcU}" filterMatchMode="contains">
+                    <h:outputText id="fractionProcUCell" value="#{x.fractionProcU}">
+                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                    </h:outputText>
+                </ace:column>
+            </ace:dataTable>
+        </h:form>
+        <h3 class="text-center">Hinweise</h3>
+        <p class="info-text">
+            Unspezifische Nebendiagnosen: Kodierung endet auf ".9"<br/>
+            Unspezifische Prozeduren: Kodierung endet auf "y"<br/><br/>
+            
+            Datenbasis: Alle angenommenen Fälle
+        </p>
+    </ui:define>
+
+</ui:composition>
