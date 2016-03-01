@@ -49,12 +49,12 @@ public class MenuModel implements Serializable{
         node3.addChild("nach DRG", baseUrl+"/views/Drg.xhtml?dataYear="+_dataYear);
         MenuTreeNode node4 = node3.addChild("nach Hauptdiagnosen (Alterskl.)", "");
         node4.addChild("Kapitel", baseUrl+"/views/PrimaryDiagsProcsInpatientPdChapter.xhtml?dataYear="+_dataYear);
-        node4.addChild("Gruppe", "/views/Participationg.xhtml");
-        node4.addChild("Kategorie", "link");
-        node4 = node3.addChild("nach Prozeduren (Alterskl.)", "link");
-        node4.addChild("Kapitel", "link");
-        node4.addChild("Bereich", "link");
-        node4.addChild("4-Steller", "link");
+        node4.addChild("Gruppe", baseUrl+"/views/PrimaryDiagsProcsInpatientPdGroup.xhtml?dataYear="+_dataYear);
+        node4.addChild("Kategorie", baseUrl+"/views/PrimaryDiagsProcsInpatientPdCat.xhtml?dataYear="+_dataYear);
+        node4 = node3.addChild("nach Prozeduren (Alterskl.)", "");
+        node4.addChild("Kapitel", baseUrl+"/views/PrimaryDiagsProcsInpatientProcChapter.xhtml?dataYear="+_dataYear);
+        node4.addChild("Bereich", baseUrl+"/views/PrimaryDiagsProcsInpatientProcArea.xhtml?dataYear="+_dataYear);
+        node4.addChild("4-Steller", baseUrl+"/views/PrimaryDiagsProcsInpatientProcCode.xhtml?dataYear="+_dataYear);
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
         node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=1");
         node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/CasesPrimaryDepartment.xhtml?dataYear="+_dataYear);
@@ -67,14 +67,14 @@ public class MenuModel implements Serializable{
         node3.addChild("nach DRG", baseUrl+"/views/SlipMcDrg.xhtml?dataYear="+_dataYear);
         
         node4 = node3.addChild("nach Hauptdiagnosen (Alterskl.)", "");
-        node4.addChild("Kapitel", "link");
-        node4.addChild("Gruppe", "link");
-        node4.addChild("Kategorie", "link");
+        node4.addChild("Kapitel", baseUrl+"/views/PrimaryDiagsProcsSlipMcPdChapter.xhtml?dataYear="+_dataYear);
+        node4.addChild("Gruppe", baseUrl+"/views/PrimaryDiagsProcsSlipMcPdGroup.xhtml?dataYear="+_dataYear);
+        node4.addChild("Kategorie", baseUrl+"/views/PrimaryDiagsProcsSlipMcPdCat.xhtml?dataYear="+_dataYear);
         
         node4 = node3.addChild("nach Prozeduren (Alterskl.)", "");
-        node4.addChild("Kapitel", "link");
-        node4.addChild("Bereich", "link");
-        node4.addChild("4-Steller", "link");
+        node4.addChild("Kapitel", baseUrl+"/views/PrimaryDiagsProcsSlipMcProcChapter.xhtml?dataYear="+_dataYear);
+        node4.addChild("Bereich", baseUrl+"/views/PrimaryDiagsProcsSlipMcProcArea.xhtml?dataYear="+_dataYear);
+        node4.addChild("4-Steller", baseUrl+"/views/PrimaryDiagsProcsSlipMcProcCode.xhtml?dataYear="+_dataYear);
         
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
         node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=2");

@@ -63,6 +63,12 @@ public class Entities implements Serializable {
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcChapter;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcArea;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcCode;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcPdChapter;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcPdGroup;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcPdCat;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcChapter;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcArea;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcCode;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -257,6 +263,83 @@ public class Entities implements Serializable {
             _primaryDiagsProcsInpatientPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdChapter;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdGroup(int dataYear) {
+        if(_primaryDiagsProcsInpatientPdGroup == null) {
+            _primaryDiagsProcsInpatientPdGroup = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 1)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsInpatientPdGroup;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdCat(int dataYear) {
+        if(_primaryDiagsProcsInpatientPdCat == null) {
+            _primaryDiagsProcsInpatientPdCat = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 1)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsInpatientPdCat;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcChapter(int dataYear) {
+        if(_primaryDiagsProcsInpatientProcChapter == null) {
+            _primaryDiagsProcsInpatientProcChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 2)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsInpatientProcChapter;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcArea(int dataYear) {
+        if(_primaryDiagsProcsInpatientProcArea == null) {
+            _primaryDiagsProcsInpatientProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 2)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsInpatientProcArea;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcCode(int dataYear) {
+        if(_primaryDiagsProcsInpatientProcCode == null) {
+            _primaryDiagsProcsInpatientProcCode = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 2)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsInpatientProcCode;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdChapter(int dataYear) {
+        if(_primaryDiagsProcsSlipMcPdChapter == null) {
+            _primaryDiagsProcsSlipMcPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 3)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsSlipMcPdChapter;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdGroup(int dataYear) {
+        if(_primaryDiagsProcsSlipMcPdGroup == null) {
+            _primaryDiagsProcsSlipMcPdGroup = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 3)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsSlipMcPdGroup;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdCat(int dataYear) {
+        if(_primaryDiagsProcsSlipMcPdCat == null) {
+            _primaryDiagsProcsSlipMcPdCat = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 3)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsSlipMcPdCat;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcChapter(int dataYear) {
+        if(_primaryDiagsProcsSlipMcProcChapter == null) {
+            _primaryDiagsProcsSlipMcProcChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 4)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsSlipMcProcChapter;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcArea(int dataYear) {
+        if(_primaryDiagsProcsSlipMcProcArea == null) {
+            _primaryDiagsProcsSlipMcProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 4)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsSlipMcProcArea;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcCode(int dataYear) {
+        if(_primaryDiagsProcsSlipMcProcCode == null) {
+            _primaryDiagsProcsSlipMcProcCode = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 4)).collect(Collectors.toList());
+        }
+        return _primaryDiagsProcsSlipMcProcCode;
     }
     
     private List<PrimaryDiagsProcs> getPrimaryDiagsProcs(int dataYear) {
