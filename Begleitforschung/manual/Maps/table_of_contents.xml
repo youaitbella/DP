@@ -2,6 +2,9 @@
 <map xmlns:xsi="http://www.w3.org/2001/XInclude">
   <topicref type="topic" id="408937680032260" build="ALL" modified="2011-12-20T14:11:13.466Z" icon="0" href="Introduction">
     <caption translate="true">Einführung</caption>
+    <topicref type="topic" id="424302901003248" build="ALL" modified="2016-03-01T08:32:02.710Z" icon="0" href="Begleitforschung">
+      <caption translate="true">Begleitforschung gem. § 17b Abs. 8 KHG</caption>
+    </topicref>
     <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
       <caption translate="true">Funktionsüberblick</caption>
     </topicref>
