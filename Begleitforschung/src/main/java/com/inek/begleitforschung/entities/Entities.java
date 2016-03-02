@@ -75,6 +75,14 @@ public class Entities implements Serializable {
     private List<UnspecificCoding> _unspecificCoding;
     
     private List<Participation> _participation;
+    
+    private List<SystemRated> _systemRated;
+    private List<SystemRated> _systemRatedPdLessComplex;
+    private List<SystemRated> _systemRatedPdComplex;
+    private List<SystemRated> _systemRatedPdFrequently;
+    private List<SystemRated> _systemRatedSlipMcLessComplex;
+    private List<SystemRated> _systemRatedSlipMcComplex;
+    private List<SystemRated> _systemRatedSlipMcFrequently;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -375,6 +383,55 @@ public class Entities implements Serializable {
         }
         return _participation;
     }
+    
+    public List<SystemRated> getSystemRatedPdLessComplex(int dataYear) {
+        if(_systemRatedPdLessComplex == null) {
+            _systemRatedPdLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
+        }
+        return _systemRatedPdLessComplex;
+    }
+    
+    public List<SystemRated> getSystemRatedPdComplex(int dataYear) {
+        if(_systemRatedPdComplex == null) {
+            _systemRatedPdComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
+        }
+        return _systemRatedPdComplex;
+    }
+    
+    public List<SystemRated> getSystemRatedPdFrequently(int dataYear) {
+        if(_systemRatedPdFrequently == null) {
+            _systemRatedPdFrequently = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 3)).collect(Collectors.toList());
+        }
+        return _systemRatedPdFrequently;
+    }
+    
+    public List<SystemRated> getSystemRatedSlipMcLessComplex(int dataYear) {
+        if(_systemRatedSlipMcLessComplex == null) {
+            _systemRatedSlipMcLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 4)).collect(Collectors.toList());
+        }
+        return _systemRatedSlipMcLessComplex;
+    }
+    
+    public List<SystemRated> getSystemRatedSlipMcComplex(int dataYear) {
+        if(_systemRatedSlipMcComplex == null) {
+            _systemRatedSlipMcComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 5)).collect(Collectors.toList());
+        }
+        return _systemRatedSlipMcComplex;
+    }
+    
+    public List<SystemRated> getSystemRatedSlipMcFrequently(int dataYear) {
+        if(_systemRatedSlipMcFrequently == null) {
+            _systemRatedSlipMcFrequently = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 6)).collect(Collectors.toList());
+        }
+        return _systemRatedSlipMcFrequently;
+    }
+    
+    private List<SystemRated> getSystemRated(int dataYear) {
+        if(_systemRated == null) {
+            _systemRated = mapSystemRated(_appData.readDataFile(dataYear, "E"));
+        }
+        return _systemRated;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="sum">
     public List<C_111_211> getC_111_sum() {
@@ -593,6 +650,15 @@ public class Entities implements Serializable {
         List<Participation> list = new ArrayList<>();
         for(String[] x : data) {
             Participation y = new Participation(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), x[3]);
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<SystemRated> mapSystemRated(List<String[]> data) {
+        List<SystemRated> list = new ArrayList<>();
+        for(String[] x : data) {
+            SystemRated y = new SystemRated(Integer.parseInt(x[0]), x[1], x[2], Double.parseDouble(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5]));
             list.add(y);
         }
         return list;

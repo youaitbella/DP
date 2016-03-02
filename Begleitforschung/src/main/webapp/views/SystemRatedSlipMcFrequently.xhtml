@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/index.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="mainContent">
+        <h1>20 häufigsten Fallgruppen</h1>
+        <h:form id="table">
+            <ace:dataTable  id="data-table"
+                            value="#{entities.getSystemRatedSlipMcFrequently(param['dataYear'])}"
+                            var="x"
+                            resizableColumns="true"
+                          >
+            <ace:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
+                            filterBy="#{x.drg}" filterMatchMode="contains">
+                <h:outputText id="drgCell" value="#{x.drg}"/>
+            </ace:column>
+            <ace:column styleClass="data-table-left" id="name" headerText="DRG-Name" sortBy="#{x.name}"
+                        filterBy="#{x.name}" filterMatchMode="contains">
+            <h:outputText id="nameCell" value="#{x.name}">
+            </h:outputText>
+            </ace:column>
+            <ace:column styleClass="data-table-right" id="relativeWeight" headerText="Relativgewicht" sortBy="#{x.relativeWeight}"
+                            filterBy="#{x.relativeWeight}" filterMatchMode="contains">
+                <h:outputText id="relativeWeightCell" value="#{x.relativeWeight}">
+                    <f:convertNumber minFractionDigits="3" maxFractionDigits="3"/>
+                </h:outputText>
+            </ace:column>
+            <ace:column styleClass="data-table-right" id="numPrimaryDepartment" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
+                            filterBy="#{x.numPrimaryDepartment}" filterMatchMode="contains">
+                <h:outputText id="numPrimaryDepartmentCell" value="#{x.numPrimaryDepartment}">
+                    <f:convertNumber pattern="###,###,###" />
+                </h:outputText>
+            </ace:column>
+            <ace:column styleClass="data-table-right" id="fractionOverall" headerText="Anteil" sortBy="#{x.fractionOverall}"
+                            filterBy="#{x.fractionOverall}" filterMatchMode="contains">
+                <h:outputText id="fractionOverallCell" value="#{x.fractionOverall}">
+                    <f:convertNumber type="percent" minFractionDigits="2"/>
+                </h:outputText>
+            </ace:column>
+        </ace:dataTable>
+        </h:form>
+        <h3 class="text-center">Hinweise</h3>
+        <p class="info-text">
+            ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>
+            Spalte "Anteil": Bezogen auf Gesamt-Fallzahl bei belegärztlicher Versorgung ohne 1-Belegungstag-DRGs
+        </p>
+    </ui:define>
+
+</ui:composition>
+

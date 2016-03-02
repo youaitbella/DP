@@ -33,13 +33,13 @@ public class MenuModel implements Serializable{
         
         node1 = _menuRoot.addChild("G-DRG-System", "");
         MenuTreeNode node2 = node1.addChild("Hauptabteilungen", "");
-        node2.addChild("20 niedrigst bewertete Fallgruppen", "/views/Participation8.xhtml");
-        node2.addChild("20 höchst bewertete Fallgruppen", "/views/Participation9.xhtml");
-        node2.addChild("20 häufigste Fallgruppen", "/views/Participationa.xhtml");
+        node2.addChild("20 niedrigst bewertete Fallgruppen", baseUrl+"/views/SystemRatedPdLessComplex.xhtml?dataYear="+_dataYear);
+        node2.addChild("20 höchst bewertete Fallgruppen", baseUrl+"/views/SystemRatedPdComplex.xhtml?dataYear="+_dataYear);
+        node2.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedPdFrequently.xhtml?dataYear="+_dataYear);
         MenuTreeNode node3 = node1.addChild("belegärztliche Versorgung", "");
-        node3.addChild("20 niedrigst bewertete Fallgruppen", "/views/Participation8.xhtml");
-        node3.addChild("20 höchst bewertete Fallgruppen", "/views/Participation9.xhtml");
-        node3.addChild("20 häufigste Fallgruppen", "/views/Participationa.xhtml");
+        node3.addChild("20 niedrigst bewertete Fallgruppen", baseUrl+"/views/SystemRatedSlipMcLessComplex.xhtml?dataYear="+_dataYear);
+        node3.addChild("20 höchst bewertete Fallgruppen", baseUrl+"/views/SystemRatedSlipMcComplex.xhtml?dataYear="+_dataYear);
+        node3.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedSlipMcFrequently.xhtml?dataYear="+_dataYear);
 
         node1 = _menuRoot.addChild("Vollstationäre Falldaten", "");
         node2 = node1.addChild("Versorgung in den Hauptabteilungen", "");
