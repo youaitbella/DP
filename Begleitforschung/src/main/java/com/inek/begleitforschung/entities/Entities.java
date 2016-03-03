@@ -29,6 +29,7 @@ public class Entities implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="C fields">
     private List<C_111_211> _c_111_211;
     private List<C_111_211> _c_111;
+    private List<C_111_211> _c_111_sum;
     private List<C_111_211> _c_211;
 
     private List<C_112_212> _c_112_212;
@@ -434,20 +435,11 @@ public class Entities implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="sum">
-    public List<C_111_211> getC_111_sum() {
-        List<C_111_211> x = new ArrayList<>();
-        C_111_211 sum = new C_111_211(1, "", "", 0, 0, 0, 0, 0.0, 0.0, 0.0);
-        for (C_111_211 c : _c_111) {
-            sum.setSumA(sum.getSumA() + c.getSumA());
-            sum.setSumAw(sum.getSumAw() + c.getSumAw());
-            sum.setSumAm(sum.getSumAm() + c.getSumAm());
-            sum.setSumAu(sum.getSumAu() + c.getSumAu());
+    public List<C_111_211> getC_111_sum(int dataYear) {
+        if(_c_111_sum == null) {
+            _c_111_sum = mapC_111_211_sum(_appData.readDataFile(dataYear, "C_111_sum"));
         }
-        sum.setFractionW((float) sum.getSumAw() / sum.getSumA());
-        sum.setFractionM((float) sum.getSumAm() / sum.getSumA());
-        sum.setFractionU((float) sum.getSumAu() / sum.getSumA());
-        x.add(sum);
-        return x;
+        return _c_111_sum;
     }
 
     public List<C_111_211> getC_211_sum() {
@@ -659,6 +651,15 @@ public class Entities implements Serializable {
         List<SystemRated> list = new ArrayList<>();
         for(String[] x : data) {
             SystemRated y = new SystemRated(Integer.parseInt(x[0]), x[1], x[2], Double.parseDouble(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5]));
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<C_111_211> mapC_111_211_sum(List<String[]> data) {
+        List<C_111_211> list = new ArrayList<>();
+        for(String[] x : data) {
+            C_111_211 y = new C_111_211(1, "", "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]));
             list.add(y);
         }
         return list;
