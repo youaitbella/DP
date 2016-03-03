@@ -9,73 +9,84 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="editContent">
-        <h:form>
+        <h:form id="uploadDocs" enctype="multipart/form-data">
             <f:ajax render="@all :logout:remaining">
                 <h:selectOneRadio styleClass="radioGroup" id="radDocumentTarget" value="#{adminUploadDoc.documentTarget}" >
                     <f:selectItem itemLabel="#{msg.lblAgency} &nbsp;" itemValue="Agency"/>
                     <f:selectItem itemLabel="#{msg.lblUserAccount} &nbsp;" itemValue="Account"/>
                 </h:selectOneRadio>
             </f:ajax>
-        </h:form>
 
-        <h:form id="Account" rendered="#{adminUploadDoc.documentTarget eq 'Account'}" styleClass="marginTop">
-            <div class="inputPart">
-                <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
-                <h:inputText id="UserEmail" value="#{adminUploadDoc.email}" validator="#{adminUploadDoc.checkEmail}" styleClass="inputlong">
-                    <f:ajax render="@this msgUserEmail accountId msgAccountId UserName UserInstitute :logout:remaining"/>
-                </h:inputText>
-                <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
-            </div>                    
+            <h:panelGroup id="Account" rendered="#{adminUploadDoc.documentTarget eq 'Account'}" styleClass="marginTop">
+                <div class="inputPart">
+                    <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
+                    <h:inputText id="UserEmail" value="#{adminUploadDoc.email}" validator="#{adminUploadDoc.checkEmail}" styleClass="inputlong">
+                        <f:ajax render="@form :logout:remaining" immediate="true"/>
+                    </h:inputText>
+                    <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
+                </div>                    
 
-            <div class="inputPart">
-                <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
-                <h:inputText id="accountId" value="#{adminUploadDoc.accountId}" validator="#{adminUploadDoc.checkAccountId}" styleClass="inputmedium">
-                    <f:ajax render="@this msgAccountId UserEmail msgUserEmail UserName UserInstitute :logout:remaining"/>
-                </h:inputText>
-                <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
-            </div>        
+                <div class="inputPart">
+                    <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
+                    <h:inputText id="accountId" value="#{adminUploadDoc.accountId}" validator="#{adminUploadDoc.checkAccountId}" styleClass="inputmedium">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:inputText>
+                    <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
+                </div>        
 
-            <div class="inputPart">
-                <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
-                <h:inputText id="UserName" value="#{adminUploadDoc.account.firstName} #{adminUploadDoc.account.lastName}" disabled="true" styleClass="inputlong"/>
-            </div>        
+                <div class="inputPart">
+                    <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
+                    <h:inputText id="UserName" value="#{adminUploadDoc.account.firstName} #{adminUploadDoc.account.lastName}" disabled="true" styleClass="inputlong"/>
+                </div>        
 
-            <div class="inputPart">
-                <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
-                <h:inputText id="UserInstitute" value="#{adminUploadDoc.account.company}" disabled="true" styleClass="inputlong"/>
-            </div>        
+                <div class="inputPart">
+                    <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
+                    <h:inputText id="UserInstitute" value="#{adminUploadDoc.account.company}" disabled="true" styleClass="inputlong"/>
+                </div>        
 
+            </h:panelGroup>
 
-            <br/>
-        </h:form>
-
-        <h:form id="Agency" rendered="#{adminUploadDoc.documentTarget eq 'Agency'}" styleClass="marginTop">
-            <h:selectOneMenu value="#{adminUploadDoc.agency}" styleClass="inputmedium">
-                <f:selectItems value="#{adminUploadDoc.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency.id}"/>
-                <f:ajax render="@this  :logout:remaining"/>
-            </h:selectOneMenu>
-        </h:form>
-
-        <h:form id="documentUploadForm" enctype="multipart/form-data">
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{adminUploadDoc.file}" title="#{msg.btnUploadDocument}">
-                    <f:ajax listener="#{adminUploadDoc.uploadDoc()}" render="@form"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadDocument}"/>
+            <h:panelGroup id="Agency" rendered="#{adminUploadDoc.documentTarget eq 'Agency'}" styleClass="marginTop">
+                <div>
+                    <h:selectOneMenu value="#{adminUploadDoc.agency}" styleClass="inputmedium" hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="Bitte wählen..." itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{adminUploadDoc.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency.id}"/>
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:selectOneMenu>
                 </div>
-            </div>
-            
-            <div  jsf:rendered="#{adminUploadDoc.file ne null}" class="marginTop">
-            <div>
-                <h:outputLabel value="#{msg.lblFile}: #{adminUploadDoc.file.submittedFileName}"/>
-            </div>
-            <h:commandLink styleClass="bigButton" action="#{adminUploadDoc.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true">
-                <cb:confirmTake/>
-            </h:commandLink>
-        </div>
-        </h:form>
+            </h:panelGroup>
 
+            <h:panelGroup id="lastDocs" rendered="#{adminUploadDoc.lastDocuments.size() gt 0}" styleClass="marginTop">
+                <br/>
+                <h:outputLabel value="Zuletzt geladene Dokumente:" styleClass="label"/>
+                <ui:repeat value="#{adminUploadDoc.lastDocuments}" var="name">
+                    <p>#{name}</p>
+                </ui:repeat>
+            </h:panelGroup>
+
+            <hr/>
+
+            <h:panelGroup id="documentUpload">
+                <div class="uploadFile">
+                    <h:inputFile styleClass="hiddenFile" id="file" value="#{adminUploadDoc.file}" title="#{msg.btnUploadDocument}">
+                        <f:ajax listener="#{adminUploadDoc.uploadDoc()}" render="documentUpload"/>
+                    </h:inputFile>
+                    <div class="fakeFile">
+                        <h:outputLabel styleClass="button" value="#{msg.btnUploadDocument}"/>
+                    </div>
+                </div>
+
+                <div  jsf:rendered="#{adminUploadDoc.file ne null}" class="marginTop">
+                    <div>
+                        <h:outputLabel value="#{msg.lblFile}: #{adminUploadDoc.file.submittedFileName}"/>
+                    </div>
+                    <h:commandLink styleClass="bigButton" action="#{adminUploadDoc.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true">
+                        <cb:confirmTake/>
+                    </h:commandLink>
+                </div>
+            </h:panelGroup>
+
+        </h:form>
 
 
 

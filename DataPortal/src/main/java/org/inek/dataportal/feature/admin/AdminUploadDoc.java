@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.faces.application.FacesMessage;
@@ -47,6 +48,7 @@ public class AdminUploadDoc {
 
     public void setDocumentTarget(DocumentTarget documentTarget) {
         _documentTarget = documentTarget;
+        loadLastDocuments();
     }
     // </editor-fold>
 
@@ -63,14 +65,15 @@ public class AdminUploadDoc {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Agency">
-    private int _agencyId = 1;
+    private Integer _agencyId;
 
-    public int getAgency() {
+    public Integer getAgency() {
         return _agencyId;
     }
 
-    public void setAgency(int agency) {
+    public void setAgency(Integer agency) {
         _agencyId = agency;
+        loadLastDocuments();
     }
     // </editor-fold>
 
@@ -82,6 +85,7 @@ public class AdminUploadDoc {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property File">
     private Part _file;
 
@@ -100,10 +104,12 @@ public class AdminUploadDoc {
 
     public void setEmail(String email) {
         _account = _accountFacade.findByMailOrUser(email);
+        loadLastDocuments();
     }
 
     public void setAccountId(int accountId) {
         _account = _accountFacade.find(accountId);
+        loadLastDocuments();
     }
 
     public int getAccountId() {
@@ -127,6 +133,33 @@ public class AdminUploadDoc {
         }
     }
 
+    private List<String> _docs = new ArrayList<>();
+    
+    public List<String> getLastDocuments() {
+        return _docs;
+    }
+    
+    public void loadLastDocuments() {
+        _docs.clear();
+        if (_documentTarget == DocumentTarget.Account) {
+            addDocuments(_docs, _account);
+        } else {
+            if (_agencyId == null){return;}
+            Agency agency = _agencyFacade.find(_agencyId);
+            if (agency == null){return;}
+            for (Account account : agency.getAccounts()) {
+                addDocuments(_docs, account);
+            }
+        }
+    }
+
+    private void addDocuments(List<String> docs, Account account) {
+        if (account == null){return;}
+        for(String name : _docFacade.getNewDocs(account.getId())){
+            if (!docs.contains(name)){docs.add(name);}
+        }
+    }
+    
     public void uploadDoc() {
     }
 
@@ -160,4 +193,5 @@ public class AdminUploadDoc {
         accountDocument.setName(name);
         _docFacade.persist(accountDocument);
     }
+
 }
