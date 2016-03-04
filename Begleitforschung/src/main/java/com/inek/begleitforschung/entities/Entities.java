@@ -30,11 +30,14 @@ public class Entities implements Serializable {
     private List<C_111_211> _c_111_211;
     private List<C_111_211> _c_111;
     private List<C_111_211> _c_111_sum;
+    private List<C_112_212> _c_112_sum;
     private List<C_111_211> _c_211;
+    private List<C_111_211> _c_211_sum;
 
     private List<C_112_212> _c_112_212;
     private List<C_112_212> _c_112;
     private List<C_112_212> _c_212;
+    private List<C_112_212> _c_212_sum;
 
     private List<C_113_213> _c_113_213;
     private List<C_113_213> _c_113;
@@ -442,52 +445,25 @@ public class Entities implements Serializable {
         return _c_111_sum;
     }
 
-    public List<C_111_211> getC_211_sum() {
-        List<C_111_211> x = new ArrayList<>();
-        C_111_211 sum = new C_111_211(1, "", "", 0, 0, 0, 0, 0.0, 0.0, 0.0);
-        for (C_111_211 c : _c_211) {
-            sum.setSumA(sum.getSumA() + c.getSumA());
-            sum.setSumAw(sum.getSumAw() + c.getSumAw());
-            sum.setSumAm(sum.getSumAm() + c.getSumAm());
-            sum.setSumAu(sum.getSumAu() + c.getSumAu());
+    public List<C_111_211> getC_211_sum(int dataYear) {
+        if(_c_211_sum == null) {
+            _c_211_sum = mapC_111_211_sum(_appData.readDataFile(dataYear, "C_211_sum"));
         }
-        sum.setFractionW((float) sum.getSumAw() / sum.getSumA());
-        sum.setFractionM((float) sum.getSumAm() / sum.getSumA());
-        sum.setFractionU((float) sum.getSumAu() / sum.getSumA());
-        x.add(sum);
-        return x;
+        return _c_211_sum;
     }
 
-    public List<C_112_212> getC_112_sum() {
-        List<C_112_212> x = new ArrayList<>();
-        C_112_212 sum = new C_112_212(1, "", 0, 0, 0, 0, 0.0, 0.0, 0.0, "");
-        for (C_112_212 c : _c_112) {
-            sum.setSumA(sum.getSumA() + c.getSumA());
-            sum.setSumAw(sum.getSumAw() + c.getSumAw());
-            sum.setSumAm(sum.getSumAm() + c.getSumAm());
-            sum.setSumAu(sum.getSumAu() + c.getSumAu());
+    public List<C_112_212> getC_112_sum(int dataYear) {
+        if(_c_112_sum == null) {
+            _c_112_sum = map_C_112_212_sum(_appData.readDataFile(dataYear, "C_112_sum"));
         }
-        sum.setFractionW((float) sum.getSumAw() / sum.getSumA());
-        sum.setFractionM((float) sum.getSumAm() / sum.getSumA());
-        sum.setFractionU((float) sum.getSumAu() / sum.getSumA());
-        x.add(sum);
-        return x;
+        return _c_112_sum;
     }
 
-    public List<C_112_212> getC_212_sum() {
-        List<C_112_212> x = new ArrayList<>();
-        C_112_212 sum = new C_112_212(1, "", 0, 0, 0, 0, 0.0, 0.0, 0.0, "");
-        for (C_112_212 c : _c_212) {
-            sum.setSumA(sum.getSumA() + c.getSumA());
-            sum.setSumAw(sum.getSumAw() + c.getSumAw());
-            sum.setSumAm(sum.getSumAm() + c.getSumAm());
-            sum.setSumAu(sum.getSumAu() + c.getSumAu());
+    public List<C_112_212> getC_212_sum(int dataYear) {
+        if(_c_212_sum == null) {
+            _c_212_sum = map_C_112_212_sum(_appData.readDataFile(dataYear, "C_212_sum"));
         }
-        sum.setFractionW((float) sum.getSumAw() / sum.getSumA());
-        sum.setFractionM((float) sum.getSumAm() / sum.getSumA());
-        sum.setFractionU((float) sum.getSumAu() / sum.getSumA());
-        x.add(sum);
-        return x;
+        return _c_212_sum;
     }
 
     public List<C_113_213> getC_113_sum() {
@@ -664,4 +640,13 @@ public class Entities implements Serializable {
         }
         return list;
     }
+    
+    private List<C_112_212> map_C_112_212_sum(List<String[]> data) {
+        List<C_112_212> list = new ArrayList<>();
+        for(String[] x : data) {
+            C_112_212 y = new C_112_212(1, "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]),"");
+            list.add(y);
+        }
+        return list;
+    } 
 }
