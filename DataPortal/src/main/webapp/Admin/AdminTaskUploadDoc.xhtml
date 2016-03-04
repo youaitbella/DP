@@ -49,7 +49,7 @@
             <h:panelGroup id="Agency" rendered="#{adminUploadDoc.documentTarget eq 'Agency'}" styleClass="marginTop">
                 <div>
                     <h:selectOneMenu value="#{adminUploadDoc.agency}" styleClass="inputmedium" hideNoSelectionOption="true">
-                        <f:selectItem itemLabel="Bitte wählen..." itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{adminUploadDoc.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency.id}"/>
                         <f:ajax render="@form :logout:remaining"/>
                     </h:selectOneMenu>
@@ -58,7 +58,7 @@
 
             <h:panelGroup id="lastDocs" rendered="#{adminUploadDoc.lastDocuments.size() gt 0}" styleClass="marginTop">
                 <br/>
-                <h:outputLabel value="Zuletzt geladene Dokumente:" styleClass="label"/>
+                <h:outputLabel value="#{msg.lblLatestFiles}:" styleClass="label"/>
                 <ui:repeat value="#{adminUploadDoc.lastDocuments}" var="name">
                     <p>#{name}</p>
                 </ui:repeat>

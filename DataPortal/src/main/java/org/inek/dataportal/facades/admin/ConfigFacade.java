@@ -19,16 +19,17 @@ public class ConfigFacade extends AbstractFacade<Config> {
     }
 
     public void save(ConfigKey key, String value) {
-        Config config = new Config();
-        config.setKey(key.name());
-        config.setValue(value);
-        merge(config);
+        save (key.name(), value);
     }
 
     public void save(Feature feature, boolean value) {
+        save (ConfigKey.Feature + ":" + feature.name(), "" + value);
+    }
+
+    private void save(String key, String value) {
         Config config = new Config();
-        config.setKey("feature_" + feature.name());
-        config.setValue("" + value);
+        config.setKey(key);
+        config.setValue(value);
         merge(config);
     }
 
@@ -42,21 +43,31 @@ public class ConfigFacade extends AbstractFacade<Config> {
         return config.getValue();
     }
 
+    public String read(ConfigKey key, String appendix) {
+        String fullKey = key.name() + ":" + appendix;
+        Config config = findFresh(fullKey);
+        
+        if (config == null) {
+            save(fullKey, key.getDefault());
+            return key.getDefault();
+        }
+        return config.getValue();
+    }
+
     public void save(ConfigKey key, boolean value) {
         save(key, "" + value);
     }
 
     public boolean readBool(ConfigKey key) {
-        Config config = findFresh(key.name());
-        if (config == null) {
-            save(key, key.getBoolDefault());
-            return key.getBoolDefault();
-        }
-        return Boolean.parseBoolean(config.getValue());
+        return Boolean.parseBoolean(read(key));
+    }
+
+    public boolean readBool(ConfigKey key, String appendix) {
+        return Boolean.parseBoolean(read(key, appendix));
     }
 
     public boolean readBool(Feature feature) {
-        Config config = findFresh("feature_" + feature.name());
+        Config config = findFresh(ConfigKey.Feature + ":" + feature.name());
         if (config == null) {
             save(feature, true);
             return true;
