@@ -67,12 +67,12 @@ public class DropBoxController extends AbstractFeatureController {
     public File getUploadDir() throws IllegalStateException {
         return getUploadDir(_currentDropBox);
     }
-    
+
     public File getUploadDir(DropBox dropBox) throws IllegalStateException {
         if (dropBox == null) {
             throw new IllegalStateException("no valid dropBox available");
         }
-        
+
         File uploadRoot = new File(getUploadRoot(), getSessionController().readConfig(ConfigKey.FolderUpload));
         File path = new File(uploadRoot, dropBox.getDirectory());
         return path;
@@ -90,7 +90,7 @@ public class DropBoxController extends AbstractFeatureController {
      * @return
      */
     public List<DropBoxItem> getUploadedFiles(DropBox dropBox) {
-        if (dropBox == null){
+        if (dropBox == null) {
             _logger.log(Level.WARNING, "MissingDropBox");
             return new ArrayList<>();
         }
@@ -138,7 +138,7 @@ public class DropBoxController extends AbstractFeatureController {
             }
         }
     }
-    
+
     private void addEmailInfo(DropBox dropBox) {
         PrintWriter pw = null;
         try {
@@ -147,6 +147,9 @@ public class DropBoxController extends AbstractFeatureController {
             String fileName = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
             File file = new File(dir, fileName);
             pw = new PrintWriter(new FileOutputStream(file));
+            if (getAccount().isReportViaPortal()) {
+                pw.println("Account.Mail=" + getAccount().getEmail());
+            }
             pw.println("From=" + getAccount().getEmail());
             pw.println("Accept=Dropbox");
             pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
@@ -163,7 +166,6 @@ public class DropBoxController extends AbstractFeatureController {
         File file = new File(getUploadDir(dropBox), fileName);
         file.delete();
     }
-
 
     private boolean deleteDir(File dir) {
         boolean isDeleted = true;

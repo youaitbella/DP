@@ -118,6 +118,19 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property ReportViaPortal">
+    @Column(name = "acReportViaPortal")
+    private boolean _reportViaPortal;
+
+    public boolean isReportViaPortal() {
+        return _reportViaPortal;
+    }
+
+    public void setReportViaPortal(boolean reportViaPortal) {
+        _reportViaPortal = reportViaPortal;
+    }
+    // </editor-fold>
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")

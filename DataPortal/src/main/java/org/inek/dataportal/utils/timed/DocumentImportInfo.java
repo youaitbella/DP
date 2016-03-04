@@ -17,12 +17,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import javax.inject.Inject;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.utils.StreamUtils;
 
@@ -32,17 +34,18 @@ import org.inek.dataportal.utils.StreamUtils;
  */
 public class DocumentImportInfo {
 
-    @Inject private AccountFacade _accountFacade;
+    private static final Logger _logger = Logger.getLogger("DocumentLoader");
+
     List<String> _infoFile = new ArrayList<>();
-    private final Set<Integer> _accountIds = new HashSet<>();
+    private final Set<Account> _accounts = new HashSet<>();
     private final Map<String, String> _fileDomains = new HashMap<>();
     private final Map<String, byte[]> _files = new HashMap<>();
+    private String _sender = "datenportal@inek.org";
     private String _subject = "";
     private String _body = "";
     private String _error = "";
     private String _version = "";
 
-    
     public DocumentImportInfo(File file, AccountFacade accountFacade) {
         try {
             extractFiles(file);
@@ -68,7 +71,7 @@ public class DocumentImportInfo {
             }
         }
     }
-    
+
     private void extractInfos(AccountFacade accountFacade) {
         StringBuilder body = new StringBuilder();
 
@@ -87,12 +90,17 @@ public class DocumentImportInfo {
 
             switch (key) {
                 case "account.id":
-                    _accountIds.add(Integer.parseInt(value));
+                    try {
+                        _accounts.add(accountFacade.find(Integer.parseInt(value)));
+                    } catch (Exception ex) {
+                        _logger.log(Level.WARNING, "Unknown account id");
+                    }
                     break;
                 case "account.mail":
                     try {
-                        _accountIds.add(accountFacade.findByMail(value).getId());
+                        _accounts.add(accountFacade.findByMail(value));
                     } catch (Exception ex) {
+                        _logger.log(Level.WARNING, "Unknown account mail");
                     }
                     break;
                 case "version":
@@ -104,10 +112,17 @@ public class DocumentImportInfo {
                 case "approval.mail":
                     // todo
                     break;
-                case "subject":
+                case "mail.sender":
+                    if (value.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")) {
+                        _sender = value;
+                    }else {
+                        _logger.log(Level.WARNING, "Wrong format sender");
+                    }
+                    break;
+                case "mail.subject":
                     _subject = value;
                     break;
-                case "body":
+                case "mail.body":
                     body.append(value).append("\n");
                     break;
                 default:
@@ -120,9 +135,8 @@ public class DocumentImportInfo {
         _body = body.toString();
     }
 
-
-    public Set<Integer> getAccountIds() {
-        return _accountIds;
+    public Set<Account> getAccounts() {
+        return _accounts;
     }
 
     public Map<String, String> getFileDomains() {
@@ -131,6 +145,10 @@ public class DocumentImportInfo {
 
     public Map<String, byte[]> getFiles() {
         return _files;
+    }
+
+    public String getSender() {
+        return _sender;
     }
 
     public String getSubject() {
@@ -149,7 +167,7 @@ public class DocumentImportInfo {
         return _version;
     }
 
-    public boolean isValid (){
+    public boolean isValid() {
         return _error.isEmpty() && _version.equals("1.0");
     }
 }

@@ -8,6 +8,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
@@ -23,8 +24,8 @@ import org.inek.dataportal.mail.Mailer;
 @Startup
 public class DocumentLoader {
 
-    private final static String ImportDir = "Import.Dataportal";
     private static final Logger _logger = Logger.getLogger("DocumentLoader");
+    private final static String ImportDir = "Import.Dataportal";
 
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;
@@ -66,7 +67,7 @@ public class DocumentLoader {
 
     private void handleContainer(File file) {
         DocumentImportInfo importInfo = new DocumentImportInfo(file, _accountFacade);
-        if (!importInfo.isValid()){
+        if (!importInfo.isValid()) {
             _logger.log(Level.WARNING, "Could not import " + importInfo.getError());
             return;
         }
@@ -77,16 +78,29 @@ public class DocumentLoader {
 
     private void createDocuments(DocumentImportInfo importInfo) {
         Map<String, byte[]> files = importInfo.getFiles();
-        for (int accountId : importInfo.getAccountIds()) {
+        for (Account account : importInfo.getAccounts()) {
             for (String name : files.keySet()) {
                 AccountDocument accountDocument = new AccountDocument();
-                accountDocument.setAccountId(accountId);
+                accountDocument.setAccountId(account.getId());
                 accountDocument.setContent(files.get(name));
                 accountDocument.setName(name);
                 _docFacade.persist(accountDocument);
             }
-            if (!importInfo.getSubject().isEmpty()){
-                _mailer.sendMail(_accountFacade.find(accountId).getEmail(), importInfo.getSubject(), importInfo.getBody());
+            String subject = importInfo.getSubject();
+            String body = importInfo.getBody();
+
+            if ((subject.isEmpty() || body.isEmpty()) && account.isMessageCopy()) {
+                // todo: replace by infos from  mail template
+                subject = "Fehlerprotokolle verfügbar";
+                body = "Guten Tag,\n"
+                        + "\n"
+                        + "im InEK Datenportal sind neue Dokumente für Sie verfügbar.\n"
+                        + "\n"
+                        + "Freundliche Grüße\n"
+                        + "InEK GmbH";
+            }
+            if (!subject.isEmpty() && !body.isEmpty()) {
+                _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), "", subject, body);
             }
         }
     }
