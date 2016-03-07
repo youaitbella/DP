@@ -8,6 +8,13 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Im folgenden finden Sie größere Änderungen am </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> seit November 2012 in umgekehrter chronologischer Reihenfolge gelistet.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">07.03.2016</text></para>
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Löschen von Dokumenten</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Neue DropBox wechselt sofort in den Upload-Modus</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Reportzustellung wahlweise via InEK Datenportal (statt E-Mail)</text></li>
+    </list>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">09.09.2015</text></para>
     <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Verbesserte Handhabung bei gleichzeitiger Änderung von Daten</text></li>

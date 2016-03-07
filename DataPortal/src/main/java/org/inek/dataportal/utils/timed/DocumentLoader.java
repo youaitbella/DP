@@ -92,7 +92,7 @@ public class DocumentLoader {
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
 
-            if ((subject.isEmpty() || body.isEmpty()) && account.isMessageCopy()) {
+            if (subject.isEmpty() || body.isEmpty()) {
                 // todo: replace by infos from  mail template
                 subject = "Fehlerprotokolle verfügbar";
                 body = "Guten Tag,\n"

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Dokumente</title>
+  <keywords>
+    <keyword translate="true">Dokumente</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion Dokumente dient der Anzeige von Dokumenten, die Ihnen vom InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bereitgestellt wurden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Dokumente vorhanden sind, erscheint der Eintrag </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> im Navigationsmenü. Die Anzahl der ungelesenen Dokumente wird deutlich sichtbar in einem Kreis auf der Navigationsschaltfläche dargestellt. In den Stammdaten, Bereich Funktionen, können Sie die Platzierung innerhalb des Navigationsmenü verändern. Ähnlich wie Stammdaten, ist der Menüpunkt jedoch nicht komplett abwählbar. Dies soll eine sofortige Information sicherstellen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> aus dem Navigationsmenü, so gelangen Sie in die entsprechende Funktion.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Documents.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Funktion Dokumente</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hier werden alle vorhandene Dokumente gelistet. In der ersten Spalte (</text><text styleclass="Normal" style="font-style:italic;" translate="true">gel.</text><text styleclass="Normal" translate="true">) ist markiert, ob es sich um ein neues Dokument handelt oder um ein bereits &quot;gelesenes&quot;. Dies wird über ein entsprechendes Symbol, gelbes Dreieck für ungelesen bzw. grüner Haken für gelesen, link in der Liste angezeigt. Platzieren Sie den Mauszeiger über dieses Symbol, so wird nach kurzer Zeit des Lese-Status im Klartext eingeblendet. Ein Dokument gilt dann im Sinne des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> als gelesen, wenn Sie es erstmalig geöffnet oder auf Ihren Rechner heruntergeladen haben. Ob Sie dies tatsächlich gelesen haben, kann das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> &#160;nicht erkennen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei einem gelesenen Dokument erscheint in der zweiten Spalte ein Löschsymbol, mittels dem Sie das Dokument jederzeit löschen können. Nach Ablauf des unter </text><text styleclass="Normal" style="font-style:italic;" translate="true">verfügbar bis</text><text styleclass="Normal" translate="true"> angegebenen Datums wird ein Dokument automatisch gelöscht. Wie lange ein Dokument verfügbar ist, hängt von der Art des Dokuments ab. So sind beispielsweise Fehlerprotokolle nur wenige Monate verfügbar währen NUB-Antworten erst nach ca. drei Jahren automatisch gelöscht werden.</text></para>
+  </body>
+</topic>

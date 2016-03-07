@@ -75,8 +75,8 @@ public class DropBoxCreator  {
     }
 
     public String create() {
-        createDropBox();
-        return Pages.MainApp.URL();
+        Utils.getFlash().put("dbId", createDropBox());
+        return Pages.DropBoxUpload.URL();
     }
 
     public String cancel() {
@@ -87,13 +87,14 @@ public class DropBoxCreator  {
         return _sessionTools.getDropBoxType(_dropboxTypeId).isNeedsIK() ? "true" : "false";
     }
     
-    private void createDropBox() {
+    private int createDropBox() {
         DropBox dropBox = new DropBox();
         dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription(_description);
         dropBox.setDropboxType(_sessionTools.getDropBoxType(_dropboxTypeId));
         dropBox.setIK(_ik);
-        _dropBoxFacade.createDropBox(dropBox);
+        dropBox = _dropBoxFacade.createDropBox(dropBox);
+        return dropBox.getDropBoxId();
     }
 }
