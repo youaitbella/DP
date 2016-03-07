@@ -122,7 +122,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         String jpql = "SELECT d from DropBox d join Account a WHERE d._accountId = a._id and d._validUntil + a._dropBoxHoldTime < :date";
         TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
         query.setParameter("date", Calendar.getInstance().getTime());
-        dumpSql(query);
+        //dumpSql(query);
         return query.getResultList();
     }
 

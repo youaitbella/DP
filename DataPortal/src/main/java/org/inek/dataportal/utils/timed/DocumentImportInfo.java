@@ -45,11 +45,13 @@ public class DocumentImportInfo {
     private String _body = "";
     private String _error = "";
     private String _version = "";
+    private String _parent ="";
 
     public DocumentImportInfo(File file, AccountFacade accountFacade) {
         try {
             extractFiles(file);
             extractInfos(accountFacade);
+            _parent = file.getParentFile().getParentFile().getName();
         } catch (IOException ex) {
             _error = ex.getMessage();
         }
@@ -62,7 +64,7 @@ public class DocumentImportInfo {
                 ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
-                if (entry.getName().equalsIgnoreCase("DataportalDocument.info")) {
+                if (entry.getName().endsWith(".DataportalDocumentInfo")) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(zis));
                     _infoFile = reader.lines().collect(Collectors.toList());
                 } else {
@@ -82,7 +84,7 @@ public class DocumentImportInfo {
             }
             String[] parts = line.split("=");
             if (parts.length != 2) {
-                _error = "Invalid DataportalDocument.info";
+                _error = "Invalid DataportalDocumentInfo";
                 break;
             }
             String key = parts[0].trim().toLowerCase();
@@ -127,7 +129,7 @@ public class DocumentImportInfo {
                     break;
                 default:
                     if (key.startsWith("$") && key.endsWith("$")) {
-                        String name = key.substring(1, key.length() - 1);
+                        String name = key.substring(1, key.length() - 1).toLowerCase();
                         _fileDomains.put(name, value);
                     }
             }
@@ -170,4 +172,17 @@ public class DocumentImportInfo {
     public boolean isValid() {
         return _error.isEmpty() && _version.equals("1.0");
     }
+    
+    public String getParent() {
+        return _parent;
+    }
+
+    String getDomain(String name) {
+        String key = name.toLowerCase();
+        if (_fileDomains.containsKey(key)){
+            return _fileDomains.get(key);
+        }
+        return _parent;
+    }
+    
 }

@@ -68,7 +68,7 @@ public class DocumentLoader {
     private void handleContainer(File file) {
         DocumentImportInfo importInfo = new DocumentImportInfo(file, _accountFacade);
         if (!importInfo.isValid()) {
-            _logger.log(Level.WARNING, "Could not import " + importInfo.getError());
+            _logger.log(Level.WARNING, "Could not import {0}", importInfo.getError());
             return;
         }
 
@@ -77,6 +77,7 @@ public class DocumentLoader {
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
+        int validity = _config.readInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
             for (String name : files.keySet()) {
@@ -84,6 +85,8 @@ public class DocumentLoader {
                 accountDocument.setAccountId(account.getId());
                 accountDocument.setContent(files.get(name));
                 accountDocument.setName(name);
+                accountDocument.setValidity(validity);
+                accountDocument.setDomain(importInfo.getDomain(name));
                 _docFacade.persist(accountDocument);
             }
             String subject = importInfo.getSubject();

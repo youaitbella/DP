@@ -18,6 +18,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -54,6 +55,20 @@ public class EditDocument extends AbstractEditController {
         return "";
     }
 
+    public String deleteDocument(int docId){
+        AccountDocument doc = _accDocFacade.find(docId);
+        _accDocFacade.remove(doc);
+        return "";
+    }
+    
+    public String getConfirmMessage(String name, String dateString) {
+        String msg = name  + " vom " + dateString + "\n"
+                + Utils.getMessage("msgConfirmDelete");
+        msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
+        return "return confirm ('" + msg + "');";
+    }
+
+    
     @Override
     protected void addTopics() {
 

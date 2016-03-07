@@ -98,8 +98,6 @@ public enum Pages {
     //
     Cert("/Certification/Cert"),
     PartCert("/Certification/PartCert"),
-    ListCert("/Certification/ListCert"),
-    CertSummary("/Certification/CertSummary"),
     CertSystemManagement("/Certification/CertSystemManagement"),
     CertMail("/Certification/CertMail"),
     CertMailTemplate("/Certification/CertMailTemplate"),

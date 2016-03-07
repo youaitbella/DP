@@ -26,7 +26,8 @@ public enum ConfigKey {
     ManagerURL("https://daten.inek.org/DataPortal"),
     LocalManagerURL("http://vdataportal01:8080/DataPortal"),
     ExceptionEmail("PortalAdmin@inek-drg.de"),
-    ManagerEmail("dsportalanmeldungen@inek-drg.de");
+    ManagerEmail("dsportalanmeldungen@inek-drg.de"), 
+    ReportValidity(60);
 
     //
     Object _defaultValue;

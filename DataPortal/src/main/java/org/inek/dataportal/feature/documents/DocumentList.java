@@ -10,7 +10,7 @@ import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.structures.Triple;
+import org.inek.dataportal.helper.structures.DocInfo;
 
 @Named
 @RequestScoped
@@ -23,7 +23,7 @@ public class DocumentList {
     @Inject PortalMessageFacade _messageFacade;
     @Inject CooperationRequestFacade _cooperationRequestFacade;
     
-    public List<Triple> getDocuments() {
+    public List<DocInfo> getDocuments() {
         return _accountDocFacade.getDocInfos(_sessionController.getAccountId());
     }
 
@@ -32,7 +32,7 @@ public class DocumentList {
     }
 
     public String readDoc(int docId) {
-        if (_accountDocFacade.readDoc(docId)) {
+        if (_accountDocFacade.isDocRead(docId)) {
             return "tick.png";
         }
         return "error.png";
@@ -40,10 +40,10 @@ public class DocumentList {
 
     public boolean renderNumDocs(String topic) {
         if (topic.equals("Dokumente")) {
-            List<Triple> docs = getDocuments();
+            List<DocInfo> docs = getDocuments();
             if (getDocuments().size() > 0) {
-                for (Triple doc : docs) {
-                    if (!_accountDocFacade.readDoc((int) doc.getValue1())) {
+                for (DocInfo doc : docs) {
+                    if (!_accountDocFacade.isDocRead((int) doc.getId())) {
                         return true;
                     }
                 }
@@ -59,9 +59,9 @@ public class DocumentList {
     public String getNumberOfUnreadDocs(String topic) {
         int count = 0;
         if (topic.equals("Dokumente")) {
-            List<Triple> docs = new ArrayList<>();
-            for (Triple doc : getDocuments()) {
-                if (!_accountDocFacade.readDoc((int) doc.getValue1())) {
+            List<DocInfo> docs = new ArrayList<>();
+            for (DocInfo doc : getDocuments()) {
+                if (!_accountDocFacade.isDocRead((int) doc.getId())) {
                     docs.add(doc);
                 }
             }

@@ -15,7 +15,7 @@
     <ui:define name="content">
         <h:form id="tabs">
             <h1>
-                <h:commandLink value="#{msg.nameCERT}" action="#{sessionController.navigate(sessionTools.pages.CertSummary)}" immediate="true"/>
+                #{msg.nameCERT}
             </h1>
             <h:panelGroup rendered="#{sessionController.isInekUser('CERT')}" styleClass="tab" layout="block">
                 <ul class="tab">
