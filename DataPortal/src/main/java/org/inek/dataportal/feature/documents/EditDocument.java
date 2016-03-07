@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
@@ -32,11 +33,15 @@ public class EditDocument extends AbstractEditController {
 
     @Inject
     private AccountDocumentFacade _accDocFacade;
+    @Inject SessionController _sessionController;
 
     public String downloadDocument(int docId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         AccountDocument doc = _accDocFacade.find(docId);
+        if (_sessionController.getAccountId() != doc.getAccountId()){
+            return "";
+        }        
         try {
             byte[] buffer = doc.getContent();
             externalContext.setResponseHeader("Content-Type", "text/plain");
@@ -57,7 +62,9 @@ public class EditDocument extends AbstractEditController {
 
     public String deleteDocument(int docId){
         AccountDocument doc = _accDocFacade.find(docId);
-        _accDocFacade.remove(doc);
+        if (_sessionController.getAccountId() == doc.getAccountId()){
+            _accDocFacade.remove(doc);
+        }
         return "";
     }
     
@@ -67,7 +74,6 @@ public class EditDocument extends AbstractEditController {
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
-
     
     @Override
     protected void addTopics() {
