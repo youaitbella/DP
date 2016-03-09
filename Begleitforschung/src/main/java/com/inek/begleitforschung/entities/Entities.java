@@ -61,6 +61,7 @@ public class Entities implements Serializable {
     private List<PartialInpatientCare> _partialInpatientCaresProcArea;
     
     private List<PrimaryDiagsProcs> _primaryDiagsProcs;
+    private List<PrimaryDiagsProcs> _primaryDiagsInpatientPdSum;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdChapter;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdGroup;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdCat;
@@ -367,6 +368,13 @@ public class Entities implements Serializable {
         return _primaryDiagsProcs;
     }
     
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdSum(int dataYear) {
+        if(_primaryDiagsInpatientPdSum == null) {
+            _primaryDiagsInpatientPdSum = mapPartialInpatientCaresSum(_appData.readDataFile(dataYear, "C_114_sum"));
+        }
+        return _primaryDiagsInpatientPdSum;
+    }
+    
     public List<DataQuality> getDataQuality(int dataYear) {
         if(_dataQuality == null) {
             _dataQuality = mapDataQuality(_appData.readDataFile(dataYear, "A_2_Datenqualitaet"));
@@ -648,5 +656,25 @@ public class Entities implements Serializable {
             list.add(y);
         }
         return list;
-    } 
+    }
+    
+    private List<PrimaryDiagsProcs> mapPartialInpatientCaresSum(List<String[]> data) {
+        List<PrimaryDiagsProcs> list = new ArrayList<>();
+        for(String[] x : data) {
+            PrimaryDiagsProcs y = new PrimaryDiagsProcs(1, 1,
+                    "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1]), Double.parseDouble(x[2]),
+                    Integer.parseInt(x[3]), Integer.parseInt(x[4]), Integer.parseInt(x[5]), Integer.parseInt(x[6]),
+                    Integer.parseInt(x[7]), Integer.parseInt(x[8]), Integer.parseInt(x[9]), Integer.parseInt(x[10]),
+                    Integer.parseInt(x[11]), Integer.parseInt(x[12]), Integer.parseInt(x[13]), Integer.parseInt(x[14]),
+                    Integer.parseInt(x[15]), Integer.parseInt(x[16]), Integer.parseInt(x[17]), Integer.parseInt(x[18]),
+                    Integer.parseInt(x[19]), Integer.parseInt(x[20]), Integer.parseInt(x[21]), Integer.parseInt(x[22]),
+                    Double.parseDouble(x[23]), Double.parseDouble(x[24]), Double.parseDouble(x[25]), Double.parseDouble(x[26]),
+                    Double.parseDouble(x[27]), Double.parseDouble(x[28]), Double.parseDouble(x[29]), Double.parseDouble(x[30]),
+                    Double.parseDouble(x[31]), Double.parseDouble(x[32]), Double.parseDouble(x[33]), Double.parseDouble(x[34]),
+                    Double.parseDouble(x[35]), Double.parseDouble(x[36]), Double.parseDouble(x[37]), Double.parseDouble(x[38]),
+                    Double.parseDouble(x[39]), Double.parseDouble(x[40]), Double.parseDouble(x[41]), Double.parseDouble(x[42]));
+            list.add(y);
+        }
+        return list;
+    }
 }
