@@ -103,7 +103,7 @@ public class DocumentLoader {
                         + "InEK GmbH";
             }
             if (!subject.isEmpty() && !body.isEmpty()) {
-                _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), "", subject, body);
+                _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), "fehlerverfahren@inek-drg.de", subject, body);
             }
         }
     }

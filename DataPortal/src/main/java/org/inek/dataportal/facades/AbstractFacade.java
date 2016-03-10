@@ -3,6 +3,7 @@ package org.inek.dataportal.facades;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,7 +12,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.persistence.jpa.JpaQuery;
-
 
 /**
  *
@@ -50,14 +50,29 @@ public abstract class AbstractFacade<T> {
     }
 
     public void persist(T entity) {
-        _em.persist(entity);
-        _em.flush();
+        try {
+            _em.persist(entity);
+            _em.flush();
+        } catch (Exception ex) {
+            // EJB wont populate any exection up to a caller. It allways forces a rollback.
+            // To check for those kind of problems, we log it and re-throw the exception
+            _logger.log(Level.SEVERE, ex.getMessage());
+            throw ex;
+        }
     }
 
     public T merge(T entity) {
-        T savedEntity = _em.merge(entity);
-        _em.flush();
-        return savedEntity;
+        try {
+            T mergedEntity = _em.merge(entity);
+            _em.flush();
+            return mergedEntity;
+        } catch (Exception ex) {
+            // EJB wont populate any exection up to a caller. It allways forces a rollback.
+            // To check for those kind of problems, we log it and return a null
+            // at the caller level we may chack for null or let it crash and catch an exception there
+            _logger.log(Level.SEVERE, ex.getMessage());
+            return null;
+        }
     }
 
     public void remove(T entity) {

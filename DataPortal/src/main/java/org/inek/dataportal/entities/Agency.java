@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountFeature;
 
 /**
  *
