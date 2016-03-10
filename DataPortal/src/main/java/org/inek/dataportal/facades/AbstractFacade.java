@@ -49,7 +49,7 @@ public abstract class AbstractFacade<T> {
         _em = em;
     }
 
-    public void persist(T entity) {
+    protected void persist(T entity) {
         try {
             _em.persist(entity);
             _em.flush();

@@ -77,7 +77,7 @@ public class MessageService {
         portalMessage.setKeyId(keyId);
         portalMessage.setSubject(subject);
         portalMessage.setMessage(message);
-        _messageFacade.persist(portalMessage);
+        _messageFacade.save(portalMessage);
     }
 
 }

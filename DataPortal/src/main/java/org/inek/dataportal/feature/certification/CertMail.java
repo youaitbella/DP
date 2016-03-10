@@ -226,7 +226,7 @@ public class CertMail implements Serializable {
                 _emailReceivers.remove(er);
             });
             _emailReceivers.stream().forEach((er) -> {
-                _emailReceiverFacade.persist(er);
+                _emailReceiverFacade.save(er);
             });
         } else {
             if (_receiverListsName.isEmpty()) {
@@ -238,9 +238,9 @@ public class CertMail implements Serializable {
             MapEmailReceiverLabel label = new MapEmailReceiverLabel();
             label.setEmailReceiverLabelId(_emailReceiverFacade.getHighestEmailReceiverListId() + 1);
             label.setLabel(_receiverListsName);
-            _emailReceiverLabelFacade.persist(label);
+            _emailReceiverLabelFacade.save(label);
             _emailReceivers.stream().forEach((er) -> {
-                _emailReceiverFacade.persist(er);
+                _emailReceiverFacade.save(er);
             });
         }
         initEmailReceiversTemplateList();
@@ -442,7 +442,7 @@ public class CertMail implements Serializable {
         log.setType(mt.getType());
         log.setReceiverAccountId(_accFacade.findByMailOrUser(emailAddress).getId());
         log.setSenderAccountId(_sessionController.getAccountId());
-        _emailLogFacade.persist(log);
+        _emailLogFacade.save(log);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">

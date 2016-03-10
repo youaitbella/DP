@@ -478,7 +478,7 @@ public class CertGrouperResults {
            el.setTemplateId(_mtFacade.findByName(_templateEmailCertificate).getId());
            _grouper.setCertStatus(CertStatus.CertificationPassed);
            _grouper.setCertification(new Date());
-           _elFacade.persist(el);
+           _elFacade.save(el);
             try {
                 Grouper savedGrouper = _grouperFacade.merge(_grouper);
                 _grouper = savedGrouper;
@@ -653,7 +653,7 @@ public class CertGrouperResults {
             el.setSystemId(_grouper.getSystemId());
             el.setTemplateId(_mtFacade.findByName(_selectedTemplate).getId());
             el.setType(_mtFacade.findByName(_selectedTemplate).getType());
-            _elFacade.persist(el);
+            _elFacade.save(el);
         }
         return "";
     }

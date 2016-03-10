@@ -24,4 +24,8 @@ public class LogFacade extends AbstractFacade<Log> {
         query.setParameter("date", logDate).executeUpdate();
     }
 
+    public void save(Log log) {
+        persist(log);
+    }
+
 }

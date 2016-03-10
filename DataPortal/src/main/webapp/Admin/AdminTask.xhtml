@@ -13,7 +13,8 @@
             <div class="tab">
                 <ul class="tab">
                     <ui:repeat value="#{adminTask.visibleTopics}" var="topic" varStatus="status" rendered="#{sessionController.isInekUser('ADMIN')}">
-                        <li class="#{topic.active ? 'activetab' : 'tab'} #{status.index lt 3 ? 'element33' : 'element25'}">
+                        <!--li class="# {topic.active ? 'activetab' : 'tab'} # {status.index lt 3 ? 'element33' : 'element25'}"-->
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" action="#{adminTask.changeTabPage(topic.key)}" styleClass="fullWithCentered"
                                        immediate="true">
                         </h:commandLink>

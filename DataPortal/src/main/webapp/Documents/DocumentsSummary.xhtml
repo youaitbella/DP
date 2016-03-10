@@ -13,11 +13,12 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form" prependId="false">
-            <h1>#{msg.lblDocuments}</h1>
-            <h:outputLabel id="noDocs" rendered="#{!documentList.renderDocList()}" value="#{msg.lblNoDocs}" />
+        <h1>#{msg.lblDocuments}</h1>
+
+        <h:form id="form">
             <ui:include src="#{sessionTools.pages.ListDocuments}"/>
         </h:form>
+        
     </ui:define>
 
 </ui:composition>

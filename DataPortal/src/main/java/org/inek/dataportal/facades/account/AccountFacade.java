@@ -226,7 +226,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         AccountPwd accountPwd = new AccountPwd();
         accountPwd.setAccountId(account.getId());
         accountPwd.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
-        _accountPwdFacade.persist(accountPwd);
+        _accountPwdFacade.save(accountPwd);
         _accountRequestFacade.remove(accountRequest);
         return true;
     }
@@ -307,7 +307,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             request.setAccountId(account.getId());
             request.setActivationKey(UUID.randomUUID().toString());
             request.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
-            _pwdRequestFacade.persist(request);
+            _pwdRequestFacade.save(request);
         } else {
             request.setActivationKey(UUID.randomUUID().toString());
             request.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));

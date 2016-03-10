@@ -10,9 +10,11 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
+import org.inek.dataportal.entities.account.DocumentDomain;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 
@@ -30,6 +32,7 @@ public class DocumentLoader {
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;
     @Inject private AccountDocumentFacade _docFacade;
+    @Inject private DocumentDomainFacade _docDomain;
     @Inject private Mailer _mailer;
 
     @Schedule(hour = "*", minute = "*/1", info = "every minute")
@@ -77,6 +80,7 @@ public class DocumentLoader {
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
+        
         int validity = _config.readInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
@@ -86,8 +90,9 @@ public class DocumentLoader {
                 accountDocument.setContent(files.get(name));
                 accountDocument.setName(name);
                 accountDocument.setValidity(validity);
-                accountDocument.setDomain(importInfo.getDomain(name));
-                _docFacade.persist(accountDocument);
+                DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
+                accountDocument.setDomain(domain);
+                _docFacade.save(accountDocument);
             }
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();

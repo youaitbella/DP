@@ -31,4 +31,8 @@ public class EmailLogFacade extends AbstractFacade<EmailLog> {
         return null;
     }
 
+    public void save(EmailLog el) {
+        persist(el);
+    }
+
 }

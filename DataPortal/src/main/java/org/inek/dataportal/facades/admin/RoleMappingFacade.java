@@ -10,5 +10,9 @@ public class RoleMappingFacade extends AbstractFacade<RoleMapping> {
     public RoleMappingFacade (){
         super(RoleMapping.class);
     }
+
+    public void save(RoleMapping mapping) {
+        persist(mapping);
+    }
     
 }

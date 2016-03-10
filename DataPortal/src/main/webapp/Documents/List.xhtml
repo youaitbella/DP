@@ -1,23 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="Manager.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ez="http://java.sun.com/jsf/composite/components"
 
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <ui:define name="title">
-        title
-    </ui:define>
+    <ui:define name="documentContent">
 
-    <ui:define name="content">
-        <h:form id="form" prependId="false">
-            <h1>#{msg.lblDocuments}</h1>
-            <h:outputLabel id="noDocs" rendered="#{!documentList.renderDocList()}" value="#{msg.lblNoDocs}" />
+        <h:form id="form">
             <ui:include src="#{sessionTools.pages.ListDocuments}"/>
         </h:form>
+        
     </ui:define>
 
 </ui:composition>

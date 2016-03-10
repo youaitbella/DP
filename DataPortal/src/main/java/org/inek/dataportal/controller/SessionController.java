@@ -247,7 +247,7 @@ public class SessionController implements Serializable {
             accountId = _account.getId();
         }
         Log log = new Log(accountId, sessionId, msg);
-        _logFacade.persist(log);
+        _logFacade.save(log);
     }
 
     private String retrieveSessionId() {

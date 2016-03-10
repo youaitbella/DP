@@ -54,4 +54,8 @@ public class AccountFeatureRequestFacade extends AbstractFacade<AccountFeatureRe
         }
     }
 
+    public void save(AccountFeatureRequest featureRequest) {
+        persist(featureRequest);
+    }
+
 }

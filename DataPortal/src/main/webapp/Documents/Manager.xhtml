@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ez="http://java.sun.com/jsf/composite/components"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{msg.lblDocuments}</h1>
+
+        <h:form id="tabs">
+            <h:panelGroup rendered="#{sessionController.isInekUser('DOCUMENTS')}" styleClass="tab" layout="block">
+                <ul class="tab">
+                    <c:forEach items="#{documentsEditController.visibleTopics}" var="topic">
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                            <h:commandLink value="#{topic.title}" action="#{documentsEditController.changeTabPage(topic.key)}"
+                                           immediate="true">
+                            </h:commandLink>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </h:panelGroup>
+        </h:form>
+        
+        <div class="edit" jsf:rendered="#{sessionController.isInekUser('DOCUMENTS')}">
+            <ui:insert name="documentContent" >Content</ui:insert>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

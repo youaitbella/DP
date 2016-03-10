@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.admin;
+package org.inek.dataportal.feature.documents;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,10 +21,12 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Agency;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
+import org.inek.dataportal.entities.account.DocumentDomain;
 import org.inek.dataportal.enums.DocumentTarget;
 import org.inek.dataportal.facades.AgencyFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.StreamUtils;
@@ -33,14 +36,17 @@ import org.inek.dataportal.utils.StreamUtils;
  * @author muellermi
  */
 @Named
-@FeatureScoped(name = "AdminTask")
-public class AdminUploadDoc {
+@FeatureScoped(name = "Documents")
+public class DocumentUpload {
 
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
 
+    public DocumentUpload() {
+        System.out.println("ctor DocumentUpload");
+    }
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
-    private DocumentTarget _documentTarget = DocumentTarget.Agency;
+    private DocumentTarget _documentTarget = DocumentTarget.Account;
 
     public DocumentTarget getDocumentTarget() {
         return _documentTarget;
@@ -85,7 +91,36 @@ public class AdminUploadDoc {
     }
 
     // </editor-fold>
-    
+    // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
+    private int _availability = 60;
+
+    public int getAvailability() {
+        return _availability;
+    }
+
+    public void setAvailability(int availability) {
+        _availability = availability;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Domain">
+    private DocumentDomain _domain;
+
+    public Integer getDomainId() {
+        return _domain == null ? null :  _domain.getId();
+    }
+
+    public void setDomainId(Integer domainId) {
+        _domain = domainId == null ? null : _domainFacade.find(domainId);
+    }
+    // </editor-fold>
+
+    @Inject DocumentDomainFacade _domainFacade;
+
+    public List<DocumentDomain> getDomains() {
+        return _domainFacade.findAll();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property File">
     private Part _file;
 
@@ -134,19 +169,23 @@ public class AdminUploadDoc {
     }
 
     private List<String> _docs = new ArrayList<>();
-    
+
     public List<String> getLastDocuments() {
         return _docs;
     }
-    
+
     public void loadLastDocuments() {
         _docs.clear();
         if (_documentTarget == DocumentTarget.Account) {
             addDocuments(_docs, _account);
         } else {
-            if (_agencyId == null){return;}
+            if (_agencyId == null) {
+                return;
+            }
             Agency agency = _agencyFacade.find(_agencyId);
-            if (agency == null){return;}
+            if (agency == null) {
+                return;
+            }
             for (Account account : agency.getAccounts()) {
                 addDocuments(_docs, account);
             }
@@ -154,12 +193,16 @@ public class AdminUploadDoc {
     }
 
     private void addDocuments(List<String> docs, Account account) {
-        if (account == null){return;}
-        for(String name : _docFacade.getNewDocs(account.getId())){
-            if (!docs.contains(name)){docs.add(name);}
+        if (account == null) {
+            return;
+        }
+        for (String name : _docFacade.getNewDocs(account.getId())) {
+            if (!docs.contains(name)) {
+                docs.add(name);
+            }
         }
     }
-    
+
     public void uploadDoc() {
     }
 
@@ -191,7 +234,8 @@ public class AdminUploadDoc {
         accountDocument.setAccountId(accountId);
         accountDocument.setContent(document);
         accountDocument.setName(name);
-        _docFacade.persist(accountDocument);
+        accountDocument.setDomain(_domain);
+        _docFacade.save(accountDocument);
     }
 
 }

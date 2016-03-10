@@ -42,4 +42,8 @@ public class PasswordRequestFacade extends AbstractFacade<PasswordRequest> {
         }
     }
 
+    public void save(PasswordRequest request) {
+        persist(request);
+    }
+
 }

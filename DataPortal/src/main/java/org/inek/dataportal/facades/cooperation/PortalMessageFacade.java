@@ -82,4 +82,8 @@ public class PortalMessageFacade extends AbstractFacade<PortalMessage> {
         return cb.equal(request.get("_toAccountId"), accountId);
     }
 
+    public void save(PortalMessage portalMessage) {
+        persist(portalMessage);
+    }
+
 }

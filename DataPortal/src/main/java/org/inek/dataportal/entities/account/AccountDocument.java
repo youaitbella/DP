@@ -8,12 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import org.inek.dataportal.utils.DateUtils;
 
 @Entity
@@ -25,7 +28,7 @@ public class AccountDocument implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adId")
-    private Integer _adId;
+    private Integer _id;
     
     @Column(name = "adAccountId")
     private Integer _accountId;
@@ -41,9 +44,6 @@ public class AccountDocument implements Serializable {
     @Column(name = "adName")
     private String _name;
     
-    @Column(name = "adDomain")
-    private String _domain;
-
     @Lob
     @Column(name = "adContent")
     private byte[] _content;
@@ -52,27 +52,27 @@ public class AccountDocument implements Serializable {
     private boolean _read;
     
     public Integer getId() {
-        return _adId;
+        return _id;
     }
 
-    public void setId(Integer _id) {
-        this._adId = _id;
+    public void setId(Integer id) {
+        _id = id;
     }
 
     public Integer getAccountId() {
         return _accountId;
     }
 
-    public void setAccountId(Integer _accountId) {
-        this._accountId = _accountId;
+    public void setAccountId(Integer accountId) {
+        _accountId = accountId;
     }
 
     public Date getTimestamp() {
         return _timestamp;
     }
 
-    public void setTimestamp(Date _timestamp) {
-        this._timestamp = _timestamp;
+    public void setTimestamp(Date timestamp) {
+        _timestamp = timestamp;
     }
 
     public Date getValidUntil() {
@@ -80,39 +80,50 @@ public class AccountDocument implements Serializable {
     }
 
     public void setValidUntil(Date validUntil) {
-        this._validUntil = validUntil;
+        _validUntil = validUntil;
     }
     
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        _name = name;
     }
 
-    public String getDomain() {
+    @Column(name = "adDocumentDomainId", updatable = false, insertable = false)
+    private int _domainId;
+
+    public int getDomainId() {
+        return _domainId;
+    }
+
+    @OneToOne()
+    @JoinColumn(name = "adDocumentDomainId")
+    private DocumentDomain _domain;
+
+    public DocumentDomain getDomain() {
         return _domain;
     }
 
-    public void setDomain(String domain) {
-        this._domain = domain;
+    public void setDomain(DocumentDomain domain) {
+        _domain = domain;
     }
     
     public byte[] getContent() {
         return _content;
     }
 
-    public void setContent(byte[] _content) {
-        this._content = _content;
+    public void setContent(byte[] content) {
+        _content = content;
     }
 
     public boolean isRead() {
         return _read;
     }
 
-    public void setRead(boolean _read) {
-        this._read = _read;
+    public void setRead(boolean read) {
+        _read = read;
     }
     
     @Transient
@@ -123,7 +134,7 @@ public class AccountDocument implements Serializable {
     }
 
     public void setValidity(int validity) {
-        this._validity = validity;
+        _validity = validity;
     }
     
     @PrePersist

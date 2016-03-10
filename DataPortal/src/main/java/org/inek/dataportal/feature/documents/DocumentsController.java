@@ -24,7 +24,11 @@ public class DocumentsController extends AbstractFeatureController {
     
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblDocuments"), Pages.DocumentsSummary.URL());
+        if (getSessionController().isInekUser(Feature.DOCUMENTS)) {
+            topics.addTopic(getMsg().getString("lblDocuments"), Pages.DocumentsList.URL());
+        } else {
+            topics.addTopic(getMsg().getString("lblDocuments"), Pages.DocumentsSummary.URL());
+        }
     }
 
     @Override

@@ -49,7 +49,7 @@ public class FeatureRequestHandler {
         featureRequest.setApprovalKey(UUID.randomUUID().toString());
         if (sendApprovalRequestMail(account, featureRequest)) {
             featureRequest.tagCreationDate();
-            _facade.persist(featureRequest);
+            _facade.save(featureRequest);
             return true;
         }
         return false;
