@@ -40,7 +40,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author muellermi
  */
 @Named
-@FeatureScoped
+@FeatureScoped(name = "UserMaintenance")
 public class EditUserMaintenance extends AbstractEditController {
     // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit. After save, replace the account object in sessionConctoller.
 

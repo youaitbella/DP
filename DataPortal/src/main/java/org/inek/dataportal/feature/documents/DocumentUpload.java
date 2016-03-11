@@ -219,6 +219,7 @@ public class DocumentUpload {
                         storeDocument(name, document, account.getId());
                     }
                 }
+                _sessionController.alertClient("Gespeichert: " + _file.getName());
                 _file = null;
             }
         } catch (IOException | NoSuchElementException e) {

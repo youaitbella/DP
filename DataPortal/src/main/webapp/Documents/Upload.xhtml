@@ -57,14 +57,14 @@
             </h:panelGroup>
 
             <div class="inputPart">
-                <h:outputLabel value="#{msg.lblDomain}" styleClass="label20"/>
+                <h:outputLabel value="#{msg.lblAvailability}" styleClass="label20"/>
                 <h:inputText value="#{documentUpload.availability}" >
                     <f:ajax render="@form :logout:remaining"/>
                 </h:inputText>
             </div>        
 
             <div>
-                <h:outputLabel value="#{msg.lblAvailability}" styleClass="label20"/>
+                <h:outputLabel value="#{msg.lblDomain}" styleClass="label20"/>
                 <h:selectOneMenu id="domainId" value="#{documentUpload.domainId}" styleClass="inputmedium" hideNoSelectionOption="true" required="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
                     <f:selectItems value="#{documentUpload.domains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
@@ -98,8 +98,7 @@
                     <div>
                         <h:outputLabel value="#{msg.lblFile}: #{documentUpload.file.submittedFileName}"/>
                     </div>
-                    <h:commandLink styleClass="bigButton" action="#{documentUpload.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true">
-                    </h:commandLink>
+                    <h:commandLink styleClass="bigButton" action="#{documentUpload.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true"/>
                 </div>
                 
                 <h:messages />
