@@ -31,7 +31,7 @@ public class AccountPwdFacade extends AbstractFacade<AccountPwd> {
         return accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId));
     }
 
-    void save(AccountPwd accountPwd) {
+    public void save(AccountPwd accountPwd) {
         persist(accountPwd);
     }
 
