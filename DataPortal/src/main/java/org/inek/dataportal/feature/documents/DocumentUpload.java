@@ -6,7 +6,6 @@
 package org.inek.dataportal.feature.documents;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,7 +35,7 @@ import org.inek.dataportal.utils.StreamUtils;
  * @author muellermi
  */
 @Named
-@FeatureScoped(name = "Documents")
+@FeatureScoped(name = "DocumentUpload")
 public class DocumentUpload {
 
     @Inject private SessionController _sessionController;

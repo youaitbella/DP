@@ -126,6 +126,7 @@ public enum Pages {
     AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
     AdminTaskIkSupervisor("/Admin/AdminTaskIkSupervisor"),
     AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
+    AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
     DocumentsUpload("/Documents/Upload"),
     DocumentsList("/Documents/List"),

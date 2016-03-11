@@ -10,11 +10,10 @@ import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
 
 @Named
-@FeatureScoped(name = "Documents")
+@RequestScoped
 public class DocumentList{
 
     @Inject AccountDocumentFacade _accountDocFacade;

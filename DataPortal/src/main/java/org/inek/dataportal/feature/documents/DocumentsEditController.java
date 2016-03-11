@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.documents;
 
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -19,7 +20,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author muellermi
  */
 @Named
-@FeatureScoped(name = "Documents")
+@FeatureScoped(name = "DocumentUpload")
 public class DocumentsEditController extends AbstractEditController {
     private static final Logger _logger = Logger.getLogger("DocumentsMangager");
 
