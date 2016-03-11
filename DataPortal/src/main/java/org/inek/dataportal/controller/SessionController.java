@@ -349,7 +349,7 @@ public class SessionController implements Serializable {
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, _account, this));
         }
-        if (!hasDocument && userHasDocuments()) {
+        if (!hasDocument && (userHasDocuments() || isInekUser(Feature.DOCUMENTS, true) )) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, _account, this));
             persistDocumentFeature();
         }
