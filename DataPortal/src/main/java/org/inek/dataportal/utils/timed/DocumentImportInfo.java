@@ -65,7 +65,7 @@ public class DocumentImportInfo {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 if (entry.getName().endsWith(".DataportalDocumentInfo")) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(zis));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(zis, "UTF-8"));
                     _infoFile = reader.lines().collect(Collectors.toList());
                 } else {
                     _files.put(entry.getName(), StreamUtils.stream2blob(zis));
