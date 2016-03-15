@@ -4,16 +4,20 @@
  */
 package org.inek.dataportal.facades;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.entities.dropbox.DropBox;
+import org.inek.dataportal.enums.ConfigKey;
 
 /**
  *
@@ -95,7 +99,8 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return dropbox;
     }
 
-    @Schedule(hour = "1")
+    //@Schedule(hour = "1")
+    @Schedule(hour = "*", minute = "*/1")
     private void cleanDropBoxes() {
         deleteInvalid();
         deleteOldDropBoxes();
@@ -110,20 +115,34 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
 
     private void deleteOldDropBoxes() {
         List<DropBox> oldBoxes = findAllOutdated();
-        for (DropBox dropBox : oldBoxes){
+        for (DropBox dropBox : oldBoxes) {
             delete(dropBox);
         }
     }
+    @Inject private ApplicationTools _appTools;
 
     private void delete(DropBox dropBox) {
         _logger.log(Level.WARNING, "Remove invalid DropBox {0}", dropBox.getDropBoxId());
-        //File uploadRoot = new File(getUploadRoot(), getSessionController().readConfig(ConfigKey.FolderUpload));
-        //File path = new File(uploadRoot, dropBox.getDirectory());
-        
+        File uploadDir = new File(_appTools.readConfig(ConfigKey.FolderRoot), _appTools.readConfig(ConfigKey.FolderUpload));
+        File dropBoxDir = new File(uploadDir, dropBox.getDirectory());
+        deleteDirectory(dropBoxDir);
         remove(dropBox);
     }
 
-    
+    public static void deleteDirectory(File dir) {
+        if (!dir.isDirectory()) {
+            return ;
+        }
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()) {
+                deleteDirectory(file);
+            } else {
+                file.delete();
+            }
+        }
+        dir.delete();
+    }
+
     public List<DropBox> findAllOutdated() {
         String jpql = "SELECT d from DropBox d join Account a WHERE d._accountId = a._id and d._validUntil + a._dropBoxHoldTime < :date";
         TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
