@@ -21,6 +21,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -60,14 +61,11 @@ public class EditPeppProposal extends AbstractEditController {
     @Inject CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private ProcedureFacade _procedureFacade;
-    @Inject
-    private DiagnosisFacade _diagnosisFacade;
-    @Inject
-    private PeppProposalFacade _peppProposalFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private ProcedureFacade _procedureFacade;
+    @Inject private DiagnosisFacade _diagnosisFacade;
+    @Inject private PeppProposalFacade _peppProposalFacade;
+    @Inject ApplicationTools _appTools;
     private String _script;
     private PeppProposal _peppProposal;
 
@@ -342,21 +340,21 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());

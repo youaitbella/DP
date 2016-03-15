@@ -16,7 +16,7 @@
 
         <p>
             <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
-                           disabled="#{!sessionController.isEnabled('IsPeppProposalCreateEnabled')}"/>
+                           disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}"/>
         </p>
     </div>
 </ui:composition>

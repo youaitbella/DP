@@ -42,7 +42,7 @@
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
-                               disabled="#{!sessionController.isEnabled('IsDrgProposalCreateEnabled')}"/>
+                               disabled="#{!applicationTools.isEnabled('IsDrgProposalCreateEnabled')}"/>
             </div>
 
             <h4><h:outputLabel value="#{msg.infoSealedProposal}"/></h4>

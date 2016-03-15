@@ -90,6 +90,7 @@ public class DocumentUpload {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
 

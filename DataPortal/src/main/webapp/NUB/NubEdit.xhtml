@@ -91,7 +91,7 @@
 
                     <h:commandLink styleClass="bigButton"
                                    value="#{msg.btnNewFromNub}"
-                                   rendered="#{sessionController.isEnabled('IsNubCreateEnabled') and (editNubRequest.nubRequest.dateSealed != null or !editNubRequest.ownNub)}"
+                                   rendered="#{applicationTools.isEnabled('IsNubCreateEnabled') and (editNubRequest.nubRequest.dateSealed != null or !editNubRequest.ownNub)}"
                                    >
                         <f:ajax listener="#{editNubRequest.copyNubRequest}"/>
                     </h:commandLink>

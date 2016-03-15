@@ -37,6 +37,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     private final ExceptionHandler _wrapped;
     @Inject private Mailer _mailer;
     @Inject private SessionController _sessionController;
+    @Inject ApplicationTools _appTools;
 
     PortalExceptionHandler(ExceptionHandler wrapped) {
         _wrapped = wrapped;
@@ -188,10 +189,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         }
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
         String subject = "Exception reported by Server " + name;
-        if (_sessionController == null) {
-            _mailer.sendMail(ConfigKey.ExceptionEmail.getDefault(), "[no sessionController] " + subject, msg);
+        if (_appTools == null) {
+            _mailer.sendMail(ConfigKey.ExceptionEmail.getDefault(), "[no application tools available] " + subject, msg);
         } else {
-            _mailer.sendMail(_sessionController.readConfig(ConfigKey.ExceptionEmail), subject, msg);
+            _mailer.sendMail(_appTools.readConfig(ConfigKey.ExceptionEmail), subject, msg);
         }
     }
 

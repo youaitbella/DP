@@ -3,7 +3,6 @@ package org.inek.dataportal.controller;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
@@ -33,7 +33,6 @@ import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
@@ -612,49 +611,9 @@ public class SessionController implements Serializable {
         return Pages.Login.RedirectURL();
     }
 
-    @Inject private ConfigFacade _config;
-    private final Map<String, Boolean> _boolConfig = new HashMap<>();
-
-    /**
-     * Reads a configuration value either from DB or cache and returns it. Once
-     * a value is read, it will be cached until the end of the current session.
-     * This reduces DB traffic. Any change during the session (except setEnabled
-     * for the same session) will be ignored.
-     *
-     * @param key
-     * @return
-     */
-    public boolean isEnabled(ConfigKey key) {
-        return _config.readBool(key);
-    }
-
-    public boolean isEnabled(String name) {
-        ConfigKey key = ConfigKey.valueOf(name);
-        return isEnabled(key);
-    }
-
-    public boolean isEnabled(Feature key) {
-        return _config.readBool(key);
-    }
+    @Inject ApplicationTools _appTools;
     
-    public String readConfig(ConfigKey key) {
-        return _config.read(key);
+    public ApplicationTools getApplicationTools(){
+        return _appTools;
     }
-    
-    public int readConfigInt(ConfigKey key) {
-        return _config.readInt(key);
-    }
-    
-    public boolean readConfigBool(ConfigKey key) {
-        return _config.readBool(key);
-    }
-    
-    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
-    public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
-        File systemRoot = new File(root, system.getFileName());
-        return systemRoot;
-    }
-    // </editor-fold>
-    
 }

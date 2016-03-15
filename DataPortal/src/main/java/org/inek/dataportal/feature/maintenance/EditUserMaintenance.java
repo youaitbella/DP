@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -55,6 +56,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
     private static final Logger _logger = Logger.getLogger("EditUserMaintenance");
 
+    @Inject ApplicationTools _appTools;
     @Inject private SessionTools _sessionTools;
     @Inject private NubSessionTools _nubSessionTools;
     @Inject private SessionController _sessionController;
@@ -268,7 +270,7 @@ public class EditUserMaintenance extends AbstractEditController {
             if (feature == Feature.ADMIN || feature == Feature.DOCUMENTS) {
                 continue;
             } // can't be configured
-            if (!configuredFeatures.contains(feature) && _sessionController.isEnabled(feature)) {
+            if (!configuredFeatures.contains(feature) && _appTools.isEnabled(feature)) {
                 features.add(new FeatureEditorDAO(createAccountFeature(feature), _sessionController.getAccount()));
             }
         }

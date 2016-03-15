@@ -24,6 +24,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Customer;
@@ -69,6 +70,7 @@ public class EditNubRequest extends AbstractEditController {
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private CustomerFacade _customerFacade;
     @Inject private NubSessionTools _nubSessionTools;
+    @Inject ApplicationTools _appTools;
     private NubRequest _nubRequest;
     private NubRequest _nubRequestBaseline;
     private CooperativeRight _cooperativeRight;
@@ -485,21 +487,21 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isUpdateEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
         return _cooperationTools.isUpdateEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());

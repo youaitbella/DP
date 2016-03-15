@@ -20,6 +20,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -58,14 +59,12 @@ public class EditDrgProposal extends AbstractEditController {
     @Inject private CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private ProcedureFacade _procedureFacade;
-    @Inject
-    private DiagnosisFacade _diagnosisFacade;
-    @Inject
-    private DrgProposalFacade _drgProposalFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private ProcedureFacade _procedureFacade;
+    @Inject private DiagnosisFacade _diagnosisFacade;
+    @Inject private DrgProposalFacade _drgProposalFacade;
+    @Inject ApplicationTools _appTools;
+    
     private String _script;
     private DrgProposal _drgProposal;
 
@@ -419,21 +418,21 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_sessionController.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());

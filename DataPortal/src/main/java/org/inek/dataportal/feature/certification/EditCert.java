@@ -16,6 +16,7 @@ import java.util.zip.ZipInputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.Feature;
@@ -36,6 +37,7 @@ public class EditCert extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditCert");
 
+    @Inject ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
 
@@ -128,7 +130,7 @@ public class EditCert extends AbstractEditController {
      * @return folder if ok, null otherwise
      */
     public Optional getUploadFolder(RemunerationSystem system, String folderName) {
-        File folder = new File(_sessionController.getSystemRoot(system), folderName);
+        File folder = new File(_appTools.getSystemRoot(system), folderName);
         try {
             folder.mkdirs();
         } catch (Exception ex) {

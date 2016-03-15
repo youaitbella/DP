@@ -1,5 +1,6 @@
 package org.inek.dataportal.common;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -7,8 +8,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 
 @Named @ApplicationScoped
 public class ApplicationTools {
@@ -16,6 +22,8 @@ public class ApplicationTools {
     private Properties _properties;
 
     private static final Logger _logger = Logger.getLogger("ApplicationTools");
+    @Inject
+    private ConfigFacade _config;
 
     /**
      *
@@ -49,5 +57,38 @@ public class ApplicationTools {
             return " (vdata02)";
         return "";
     }
+
+    public boolean isEnabled(ConfigKey key) {
+        return _config.readBool(key);
+    }
+
+    public boolean isEnabled(String name) {
+        ConfigKey key = ConfigKey.valueOf(name);
+        return isEnabled(key);
+    }
+
+    public boolean isEnabled(Feature key) {
+        return _config.readBool(key);
+    }
+
+    public String readConfig(ConfigKey key) {
+        return _config.read(key);
+    }
+
+    public int readConfigInt(ConfigKey key) {
+        return _config.readInt(key);
+    }
+
+    public boolean readConfigBool(ConfigKey key) {
+        return _config.readBool(key);
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
+    public File getSystemRoot(RemunerationSystem system) {
+        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
+        File systemRoot = new File(root, system.getFileName());
+        return systemRoot;
+    }
+    // </editor-fold>
 
 }

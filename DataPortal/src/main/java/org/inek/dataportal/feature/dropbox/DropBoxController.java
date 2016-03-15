@@ -10,8 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
@@ -20,7 +18,6 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
-import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.helper.*;
 
 /**
@@ -45,7 +42,7 @@ public class DropBoxController extends AbstractFeatureController {
     }
 
     public String getUploadRoot() {
-        return getSessionController().readConfig(ConfigKey.FolderRoot);
+        return getSessionController().getApplicationTools().readConfig(ConfigKey.FolderRoot);
     }
     // </editor-fold>
 
@@ -73,7 +70,7 @@ public class DropBoxController extends AbstractFeatureController {
             throw new IllegalStateException("no valid dropBox available");
         }
 
-        File uploadRoot = new File(getUploadRoot(), getSessionController().readConfig(ConfigKey.FolderUpload));
+        File uploadRoot = new File(getUploadRoot(), getSessionController().getApplicationTools().readConfig(ConfigKey.FolderUpload));
         File path = new File(uploadRoot, dropBox.getDirectory());
         return path;
     }

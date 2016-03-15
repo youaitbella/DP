@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
@@ -32,6 +33,7 @@ public class ToolUploadServlet extends HttpServlet {
 
     private static final Logger _logger = Logger.getLogger("ToolUploadServlet");
     private static final long serialVersionUID = 1L;
+    @Inject ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
     @Inject private SessionTools _sessionTools;
     @Inject private DropBoxFacade _dropBoxFacade;
@@ -79,7 +81,7 @@ public class ToolUploadServlet extends HttpServlet {
     }
 
     private void getClientVersion(HttpUtil httpUtil) {
-        httpUtil.writeStatus(_sessionController.readConfig(ConfigKey.DataServiceClientVersion));
+        httpUtil.writeStatus(_appTools.readConfig(ConfigKey.DataServiceClientVersion));
     }
 
     private boolean loginAndResponseFailure(String emailOrUser, String password, HttpUtil httpUtil) throws IOException {
@@ -132,7 +134,7 @@ public class ToolUploadServlet extends HttpServlet {
         dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription("DataTool: " + filename);
-        int typeId = _sessionController.readConfigInt(ConfigKey.DropBoxTypeId);
+        int typeId = _appTools.readConfigInt(ConfigKey.DropBoxTypeId);
         dropBox.setDropboxType(_sessionTools.getDropBoxType(typeId));
         dropBox.setIK(ik);
         return _dropBoxFacade.createDropBox(dropBox);

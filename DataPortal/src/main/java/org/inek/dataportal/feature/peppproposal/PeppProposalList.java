@@ -4,6 +4,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -26,6 +27,7 @@ public class PeppProposalList {
     @Inject PeppProposalFacade _peppProposalFacade;
     @Inject SessionController _sessionController;
     @Inject CooperationTools _cooperationTools;
+    @Inject ApplicationTools _appTools;
 
     public List<ProposalInfo> getPeppProposals() {
         return _peppProposalFacade.getPeppProposalInfos(_sessionController.getAccountId(), DataSet.AllOpen);
@@ -67,7 +69,7 @@ public class PeppProposalList {
     }
     
     public String checkIfButtonEnabled() {
-        if(_sessionController.isEnabled(ConfigKey.IsPeppProposalCreateEnabled))
+        if(_appTools.isEnabled(ConfigKey.IsPeppProposalCreateEnabled))
             return "";
         return "buttonDisabled";
     }

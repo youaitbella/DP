@@ -67,11 +67,11 @@
             </div>
 
             <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
-                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
-                <div jsf:rendered="#{not sessionController.isEnabled('IsNubCreateEnabled')}">
+                <div jsf:rendered="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">
                     <h:outputText value="#{msg.msgNoNubCreatable}" />
                 </div>
             </div>

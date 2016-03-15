@@ -21,16 +21,16 @@
                                action="#{nubRequestList.newNubRequest}"
                                immediate="true"
                                value="#{msg.btnNewRequest}"
-                               disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"/>
+                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"/>
 
                 <h:commandLink styleClass="bigButton"
                                action="#{nubRequestList.newNubRequestFromTemplate}"
-                               disabled="#{not sessionController.isEnabled('IsNubCreateEnabled')}"
+                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true"
                                value="#{msg.lblNewFromTemplate}"/>
 
             </p>
-            <div jsf:rendered="#{not sessionController.isEnabled('IsNubCreateEnabled')}">
+            <div jsf:rendered="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">
                 <h:outputText value="#{msg.msgNoNubCreatable}" />
             </div>
             <br/>

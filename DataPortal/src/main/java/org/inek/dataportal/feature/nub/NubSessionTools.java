@@ -19,6 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
@@ -60,6 +61,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private SessionController _sessionController;
+    @Inject ApplicationTools _appTools;
 
     private String _nubFilter = "";
 
@@ -471,7 +473,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     public boolean isSealEnabled(NubRequest nubRequest) {
-        if (!_sessionController.isEnabled(ConfigKey.IsNubSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk());

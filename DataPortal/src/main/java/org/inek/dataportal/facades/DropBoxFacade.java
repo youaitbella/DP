@@ -104,17 +104,23 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
     private void deleteInvalid() {
         List<DropBox> dropboxes = findInvalid();
         for (DropBox dropBox : dropboxes) {
-            _logger.log(Level.WARNING, "Remove invalid DropBox {0}", dropBox.getDropBoxId());
-            remove(dropBox);
+            delete(dropBox);
         }
     }
 
     private void deleteOldDropBoxes() {
         List<DropBox> oldBoxes = findAllOutdated();
         for (DropBox dropBox : oldBoxes){
-            _logger.log(Level.WARNING, "Remove old DropBox {0}", dropBox.getDropBoxId());
-            remove(dropBox);
+            delete(dropBox);
         }
+    }
+
+    private void delete(DropBox dropBox) {
+        _logger.log(Level.WARNING, "Remove invalid DropBox {0}", dropBox.getDropBoxId());
+        //File uploadRoot = new File(getUploadRoot(), getSessionController().readConfig(ConfigKey.FolderUpload));
+        //File path = new File(uploadRoot, dropBox.getDirectory());
+        
+        remove(dropBox);
     }
 
     

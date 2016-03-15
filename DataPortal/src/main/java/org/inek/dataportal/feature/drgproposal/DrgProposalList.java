@@ -4,6 +4,7 @@ package org.inek.dataportal.feature.drgproposal;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
@@ -21,10 +22,11 @@ public class DrgProposalList {
     @Inject DrgProposalFacade _drgProposalFacade;
     @Inject SessionController _sessionController;
     @Inject CooperationTools _cooperationTools;
+    @Inject ApplicationTools _appTools;
 
     
     public String checkIfButtonEnabled() {
-        if(_sessionController.isEnabled(ConfigKey.IsDrgProposalCreateEnabled))
+        if(_appTools.isEnabled(ConfigKey.IsDrgProposalCreateEnabled))
             return "";
         return "buttonDisabled";
     }
