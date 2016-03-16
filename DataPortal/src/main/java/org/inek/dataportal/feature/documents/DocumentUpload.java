@@ -236,6 +236,7 @@ public class DocumentUpload {
         accountDocument.setContent(document);
         accountDocument.setName(name);
         accountDocument.setDomain(_domain);
+        accountDocument.setUploadAccountId(_sessionController.getAccountId());
         _docFacade.save(accountDocument);
     }
 

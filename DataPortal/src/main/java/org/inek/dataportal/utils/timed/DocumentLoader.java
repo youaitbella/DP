@@ -92,6 +92,7 @@ public class DocumentLoader {
                 accountDocument.setValidity(validity);
                 DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
                 accountDocument.setDomain(domain);
+                accountDocument.setUploadAccountId(importInfo.getUploadAccount().getId());
                 _docFacade.save(accountDocument);
             }
             String subject = importInfo.getSubject();

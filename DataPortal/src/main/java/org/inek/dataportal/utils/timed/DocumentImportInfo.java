@@ -46,6 +46,7 @@ public class DocumentImportInfo {
     private String _error = "";
     private String _version = "";
     private String _parent ="";
+    private Account _uploadAccount;
 
     public DocumentImportInfo(File file, AccountFacade accountFacade) {
         try {
@@ -114,6 +115,20 @@ public class DocumentImportInfo {
                 case "approval.mail":
                     // todo
                     break;
+                case "upload.id":
+                    try {
+                        _uploadAccount = accountFacade.find(Integer.parseInt(value));
+                    } catch (Exception ex) {
+                        _logger.log(Level.WARNING, "Unknown account id");
+                    }
+                    break;
+                case "upload.mail":
+                    try {
+                        _uploadAccount = accountFacade.findByMail(value);
+                    } catch (Exception ex) {
+                        _logger.log(Level.WARNING, "Unknown account mail");
+                    }
+                    break;
                 case "mail.sender":
                     if (value.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")) {
                         _sender = value;
@@ -135,12 +150,19 @@ public class DocumentImportInfo {
             }
         }
         _body = body.toString();
+        if (_uploadAccount == null){
+            _uploadAccount = accountFacade.find(0);
+        }
     }
 
     public Set<Account> getAccounts() {
         return _accounts;
     }
 
+    public Account getUploadAccount(){
+        return _uploadAccount;
+    }
+    
     public Map<String, String> getFileDomains() {
         return _fileDomains;
     }

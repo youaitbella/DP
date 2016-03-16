@@ -29,9 +29,32 @@ public class AccountDocument implements Serializable {
     @Column(name = "adId")
     private Integer _id;
     
+    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "adAccountId")
-    private Integer _accountId;
+    private int _accountId;
+
+    public int getAccountId() {
+        return _accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        _accountId = accountId;
+    }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property UploadAccountId">
+    @Column(name = "adUploadAccountId")
+    private int _uploadAccountId;
+
+    public int getUploadAccountId() {
+        return _uploadAccountId;
+    }
+
+    public void setUploadAccountId(int uploadAccountId) {
+        _uploadAccountId = uploadAccountId;
+    }
+    // </editor-fold>
+        
     @Column(name = "adTimestamp")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _timestamp;
@@ -56,14 +79,6 @@ public class AccountDocument implements Serializable {
 
     public void setId(Integer id) {
         _id = id;
-    }
-
-    public Integer getAccountId() {
-        return _accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        _accountId = accountId;
     }
 
     public Date getTimestamp() {

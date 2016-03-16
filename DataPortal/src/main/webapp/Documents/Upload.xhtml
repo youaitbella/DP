@@ -9,6 +9,39 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="documentContent">
+        <h:outputStylesheet name="css/fileuploader.css"/>
+        <h:outputScript name="script/fileuploader.js"/>
+        <script>
+            var fileCounter = 0;
+            function createUploader() {
+                var uploader = new qq.FileUploader({
+                    element: document.getElementById('file-uploader'),
+                    action: '/DataPortal/upload/nubrequest',
+                    debug: true,
+                    allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
+                    onSubmit: function (id, fileName) {
+                        fileCounter++;
+                    },
+                    onCancel: function (id, fileName) {
+                        fileCounter--;
+                        if (fileCounter === 0) {
+                        }
+                    },
+                    onComplete: function (id, fileName, responseJSON) {
+                        fileCounter--;
+                        if (fileCounter === 0) {
+                            document.getElementById('form:refresh').click();
+                        }
+                    },
+                    template: '<div class="qq-uploader">' +
+                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                            '<div class="qq-upload-button">Datei hochladen</div>' +
+                            '<ul class="qq-upload-list"></ul>' +
+                            '</div>'
+                });
+            }
+        </script>
+
         <h:form id="uploadDocs" enctype="multipart/form-data">
             <f:ajax render="@all :logout:remaining">
                 <h:selectOneRadio styleClass="radioGroup" id="radDocumentTarget" value="#{documentUpload.documentTarget}" >
