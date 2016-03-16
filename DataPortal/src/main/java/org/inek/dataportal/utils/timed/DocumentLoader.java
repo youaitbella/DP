@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
+import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -80,7 +81,7 @@ public class DocumentLoader {
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
-        
+
         int validity = _config.readInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
@@ -97,21 +98,31 @@ public class DocumentLoader {
             }
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
+            String bcc = "fehlerverfahren@inek-drg.de";
 
             if (subject.isEmpty() || body.isEmpty()) {
-                // todo: replace by infos from  mail template
-                subject = "Fehlerprotokolle verfügbar";
-                body = "Guten Tag,\n"
-                        + "\n"
-                        + "im InEK Datenportal sind neue Dokumente für Sie verfügbar.\n"
-                        + "\n"
-                        + "Freundliche Grüße\n"
-                        + "InEK GmbH";
+                MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
+                if (template == null) {
+                    // dump fallback
+                    subject = "Neue Dokumente im InEK Datenportal";
+                    body = "Guten Tag,\n"
+                            + "\n"
+                            + "im InEK Datenportal sind neue Dokumente für Sie verfügbar.\n"
+                            + "\n"
+                            + "Freundliche Grüße\n"
+                            + "InEK GmbH";
+
+                } else {
+                    String salutation = _mailer.getFormalSalutation(account);
+                    body = template.getBody().replace("{formalSalutation}", salutation);
+                    bcc = template.getBcc();
+                    subject = template.getSubject();
+                }
             }
             if (!subject.isEmpty() && !body.isEmpty()) {
-                _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), "fehlerverfahren@inek-drg.de", subject, body);
+                _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), bcc, subject, body);
             }
         }
-    }
 
+    }
 }

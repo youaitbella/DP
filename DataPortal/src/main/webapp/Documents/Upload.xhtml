@@ -9,40 +9,40 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="documentContent">
-        <h:outputStylesheet name="css/fileuploader.css"/>
-        <h:outputScript name="script/fileuploader.js"/>
-        <script>
-            var fileCounter = 0;
-            function createUploader() {
-                var uploader = new qq.FileUploader({
-                    element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/nubrequest',
-                    debug: true,
-                    allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
-                    onSubmit: function (id, fileName) {
-                        fileCounter++;
-                    },
-                    onCancel: function (id, fileName) {
-                        fileCounter--;
-                        if (fileCounter === 0) {
-                        }
-                    },
-                    onComplete: function (id, fileName, responseJSON) {
-                        fileCounter--;
-                        if (fileCounter === 0) {
-                            document.getElementById('form:refresh').click();
-                        }
-                    },
-                    template: '<div class="qq-uploader">' +
-                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                            '<div class="qq-upload-button">Datei hochladen</div>' +
-                            '<ul class="qq-upload-list"></ul>' +
-                            '</div>'
-                });
-            }
-        </script>
+        <h:form id="form">
+            <h:outputStylesheet name="css/fileuploader.css"/>
+            <h:outputScript name="script/fileuploader.js"/>
+            <script>
+                var fileCounter = 0;
+                function createUploader() {
+                    var uploader = new qq.FileUploader({
+                        element: document.getElementById('file-uploader'),
+                        action: '/DataPortal/upload/document',
+                        debug: true,
+                        allowedExtensions: ['zip', 'png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
+                        onSubmit: function (id, fileName) {
+                            fileCounter++;
+                        },
+                        onCancel: function (id, fileName) {
+                            fileCounter--;
+                            if (fileCounter === 0) {
+                            }
+                        },
+                        onComplete: function (id, fileName, responseJSON) {
+                            fileCounter--;
+                            if (fileCounter === 0) {
+                                document.getElementById('form:refresh').click();
+                            }
+                        },
+                        template: '<div class="qq-uploader">' +
+                                '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                                '<div class="qq-upload-button">Datei hochladen</div>' +
+                                '<ul class="qq-upload-list"></ul>' +
+                                '</div>'
+                    });
+                }
+            </script>
 
-        <h:form id="uploadDocs" enctype="multipart/form-data">
             <f:ajax render="@all :logout:remaining">
                 <h:selectOneRadio styleClass="radioGroup" id="radDocumentTarget" value="#{documentUpload.documentTarget}" >
                     <f:selectItem itemLabel="#{msg.lblUserAccount} &nbsp;" itemValue="Account"/>
@@ -67,14 +67,19 @@
                     <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
                 </div>        
 
-                <div class="inputPart">
+                <div class="inputPart" jsf:rendered="#{documentUpload.account ne null}">
                     <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
                     <h:inputText id="UserName" value="#{documentUpload.account.firstName} #{documentUpload.account.lastName}" disabled="true" styleClass="inputlong"/>
                 </div>        
 
-                <div class="inputPart">
+                <div class="inputPart" jsf:rendered="#{documentUpload.account ne null}">
                     <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
                     <h:inputText id="UserInstitute" value="#{documentUpload.account.company}" disabled="true" styleClass="inputlong"/>
+                </div>        
+
+                <div class="inputPart" jsf:rendered="#{documentUpload.account ne null}">
+                    <h:outputLabel value="#{msg.lblIK}" styleClass="label20"/>
+                    <h:inputText id="UserIk" value="#{documentUpload.account.IK}" disabled="true" styleClass="inputlong"/>
                 </div>        
 
             </h:panelGroup>
@@ -116,26 +121,41 @@
 
             <hr/>
 
-            <h:panelGroup id="documentUpload">
-                <div class="uploadFile">
-                    <h:inputFile styleClass="hiddenFile" id="file" value="#{documentUpload.file}" title="#{msg.btnUploadDocument}">
-                        <f:ajax listener="#{documentUpload.uploadDoc()}" render="documentUpload"/>
-                    </h:inputFile>
-                    <div class="fakeFile">
-                        <h:outputLabel styleClass="button" value="#{msg.btnUploadDocument}"/>
-                    </div>
+            <div class="inputPart">
+                <div id="file-uploader">
+                    <script>
+                        createUploader();
+                    </script>
                 </div>
 
-                  
-                <div  jsf:rendered="#{documentUpload.file ne null and documentUpload.domainId gt 0 and (documentUpload.account ne null or documentUpload.agency ne null)}" class="marginTop">
-                    <div>
-                        <h:outputLabel value="#{msg.lblFile}: #{documentUpload.file.submittedFileName}"/>
-                    </div>
-                    <h:commandLink styleClass="bigButton" action="#{documentUpload.saveDocument}" value="#{msg.btnSaveDocument}" immediate="true"/>
-                </div>
-                
-                <h:messages />
-            </h:panelGroup>
+                <!-- next comes a hidden element to force a JSF conform refresh -->
+                <h:commandLink id="refresh" style="display: none" action="#{documentUpload.refresh}" value="refresh"/>
+            </div>
+
+            <div class="inputPart">
+                <h:panelGroup rendered="#{documentUpload.documents.size() > 0}">
+                    <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
+                    <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+                                  value="#{documentUpload.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+
+                        <h:column id="colDeleteId">
+                            <h:commandLink action="#{documentUpload.deleteDocument(file)}" immediate="true" >
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <cb:confirmDelete/>
+                            </h:commandLink>
+                        </h:column>
+
+                        <h:column id="colName">
+                            <h:commandLink id="filename" value="#{file.name}" action="#{documentUpload.downloadDocument(file)}" immediate="true" />
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+
+            </div>
+
+            <div  jsf:rendered="#{documentUpload.documents.size() gt 0 and documentUpload.domainId ne null and (documentUpload.account ne null or documentUpload.agency ne null)}" class="marginTop">
+                <h:commandLink styleClass="bigButton" action="#{documentUpload.saveDocument}" value="#{msg.btnSaveDocuments}" immediate="true"/>
+            </div>
 
         </h:form>
 

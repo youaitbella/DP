@@ -5,22 +5,20 @@
  */
 package org.inek.dataportal.feature.documents;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Agency;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
+import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.DocumentTarget;
 import org.inek.dataportal.facades.AgencyFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
@@ -28,7 +26,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.utils.StreamUtils;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -40,6 +38,8 @@ public class DocumentUpload {
 
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
+    @Inject private Mailer _mailer;
+    private List<AccountDocument> _documents = new ArrayList<>();
 
     public DocumentUpload() {
         System.out.println("ctor DocumentUpload");
@@ -88,9 +88,8 @@ public class DocumentUpload {
     public List<Agency> getAgencies() {
         return _agencyFacade.findAll();
     }
-
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
 
@@ -107,7 +106,7 @@ public class DocumentUpload {
     private DocumentDomain _domain;
 
     public Integer getDomainId() {
-        return _domain == null ? null :  _domain.getId();
+        return _domain == null ? null : _domain.getId();
     }
 
     public void setDomainId(Integer domainId) {
@@ -121,30 +120,14 @@ public class DocumentUpload {
         return _domainFacade.findAll();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Property File">
-    private Part _file;
-
-    public Part getFile() {
-        return _file;
-    }
-
-    public void setFile(Part file) {
-        _file = file;
-    }
-    // </editor-fold>
-
     public String getEmail() {
         return _account == null ? "" : _account.getEmail();
     }
 
     public void setEmail(String email) {
-        _account = _accountFacade.findByMailOrUser(email);
-        loadLastDocuments();
     }
 
     public void setAccountId(int accountId) {
-        _account = _accountFacade.find(accountId);
-        loadLastDocuments();
     }
 
     public int getAccountId() {
@@ -152,20 +135,33 @@ public class DocumentUpload {
     }
 
     public void checkEmail(FacesContext context, UIComponent component, Object value) {
-        String email = (String) value;
-        Account account = _accountFacade.findByMailOrUser(email);
-        if (account == null) {
+        String email = "" + value;
+        _account = _accountFacade.findByMailOrUser(email);
+        if (_account != null && _account.getId() <= 0) {
+            // system accounts are not allowed here
+            _account = null;
+        }
+        if (_account == null) {
             String msg = Utils.getMessage("errUnknownEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
+        loadLastDocuments();
     }
 
     public void checkAccountId(FacesContext context, UIComponent component, Object value) {
-        Account account = _accountFacade.find((int) value);
-        if (account == null) {
+        if (value == null) {
+            _account = null;
+        } else {
+            _account = _accountFacade.find((int) value);
+        }
+        if (_account != null && _account.getId() <= 0) {
+            _account = null;
+        }
+        if (_account == null) {
             String msg = Utils.getMessage("errUnknownAccount");
             throw new ValidatorException(new FacesMessage(msg));
         }
+        loadLastDocuments();
     }
 
     private List<String> _docs = new ArrayList<>();
@@ -174,8 +170,11 @@ public class DocumentUpload {
         return _docs;
     }
 
-    public void loadLastDocuments() {
+    private void loadLastDocuments() {
         _docs.clear();
+        if (_account == null) {
+            return;
+        }
         if (_documentTarget == DocumentTarget.Account) {
             addDocuments(_docs, _account);
         } else {
@@ -207,37 +206,78 @@ public class DocumentUpload {
     }
 
     public String saveDocument() {
-        try {
-            if (_file != null) {
-                byte[] document = StreamUtils.stream2blob(_file.getInputStream());
-                String name = _file.getSubmittedFileName();
-                if (_documentTarget == DocumentTarget.Account) {
-                    storeDocument(name, document, _account.getId());
-                } else {
-                    Agency agency = _agencyFacade.find(_agencyId);
-                    for (Account account : agency.getAccounts()) {
-                        storeDocument(name, document, account.getId());
-                    }
-                }
-                _sessionController.alertClient("Gespeichert: " + _file.getName());
-                _file = null;
-            }
-        } catch (IOException | NoSuchElementException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Upload failed!"));
+        if (_documents.isEmpty()) {
+            return "";
         }
+        for (AccountDocument accountDocument : _documents) {
+            if (_documentTarget == DocumentTarget.Account) {
+                storeDocument(accountDocument, _account.getId());
+            } else {
+                Agency agency = _agencyFacade.find(_agencyId);
+                for (Account account : agency.getAccounts()) {
+                    storeDocument(accountDocument, account.getId());
+                }
+            }
+        }
+        sendNotification();
+        _documents.clear();
+        loadLastDocuments();
         return "";
     }
 
     @Inject AccountDocumentFacade _docFacade;
 
-    private void storeDocument(String name, byte[] document, int accountId) {
-        AccountDocument accountDocument = new AccountDocument();
+    private void storeDocument(AccountDocument accountDocument, int accountId) {
         accountDocument.setAccountId(accountId);
-        accountDocument.setContent(document);
-        accountDocument.setName(name);
         accountDocument.setDomain(_domain);
         accountDocument.setUploadAccountId(_sessionController.getAccountId());
         _docFacade.save(accountDocument);
+    }
+
+    public List<AccountDocument> getDocuments() {
+        return _documents;
+    }
+
+    public String deleteDocument(AccountDocument doc) {
+        _documents.remove(doc);
+        return "";
+    }
+
+    public String downloadDocument(AccountDocument doc) {
+        return Utils.downloadDocument(doc);
+    }
+
+    public String refresh() {
+        return "";
+    }
+
+    private void sendNotification() {
+        String subject;
+        String body;
+        String bcc;
+
+        MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
+        if (template == null) {
+            // dump fallback
+            bcc = "datenportal@inek.org";
+            subject = "Neue Dokumente im InEK Datenportal";
+            body = "Guten Tag,\n"
+                    + "\n"
+                    + "im InEK Datenportal sind neue Dokumente für Sie verfügbar.\n"
+                    + "\n"
+                    + "Freundliche Grüße\n"
+                    + "InEK GmbH";
+
+        } else {
+            String salutation = _mailer.getFormalSalutation(_account);
+            body = template.getBody().replace("{formalSalutation}", salutation);
+            bcc = template.getBcc();
+            subject = template.getSubject();
+        }
+
+        if (!subject.isEmpty() && !body.isEmpty()) {
+            _mailer.sendMailFrom("datenportal@inek.org", _account.getEmail(), bcc, subject, body);
+        }
     }
 
 }

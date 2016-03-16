@@ -16,14 +16,21 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.utils.DateUtils;
 
 @Entity
 @Table(name = "AccountDocument")
-public class AccountDocument implements Serializable {
+public class AccountDocument implements Serializable, Document {
     
     private static final long serialVersionUID = 1L;
     
+    public AccountDocument() {}
+
+    public AccountDocument(String name) {
+        _name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adId")
