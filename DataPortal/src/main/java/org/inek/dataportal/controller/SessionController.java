@@ -348,7 +348,7 @@ public class SessionController implements Serializable {
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, _account, this));
         }
-        if (!hasDocument && (userHasDocuments() || isInekUser(Feature.DOCUMENTS, true) )) {
+        if (!hasDocument && (userHasDocuments() || isInekUser(Feature.DOCUMENTS) )) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, _account, this));
             persistDocumentFeature();
         }
@@ -358,8 +358,7 @@ public class SessionController implements Serializable {
     }
 
     private boolean userHasDocuments() {
-        List<AccountDocument> docs = _accDocFacade.findAll(_account.getId());
-        return docs.size() > 0;
+        return _accDocFacade.count(_account.getId()) > 0;
     }
 
     private void persistDocumentFeature() {

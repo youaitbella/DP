@@ -45,8 +45,9 @@ public class DocumentImportInfo {
     private String _body = "";
     private String _error = "";
     private String _version = "";
-    private String _parent ="";
+    private String _parent = "";
     private Account _uploadAccount;
+    private Account _approvalAccount;
 
     public DocumentImportInfo(File file, AccountFacade accountFacade) {
         try {
@@ -110,10 +111,20 @@ public class DocumentImportInfo {
                     _version = value;
                     break;
                 case "approval.id":
-                    // todo
+                    try {
+                        _approvalAccount = accountFacade.find(Integer.parseInt(value));
+                    } catch (Exception ex) {
+                        _logger.log(Level.WARNING, "Unknown account id");
+                        getDefaultApprovalAccount(accountFacade);
+                    }
                     break;
                 case "approval.mail":
-                    // todo
+                    try {
+                        _approvalAccount = accountFacade.findByMail(value);
+                    } catch (Exception ex) {
+                        _logger.log(Level.WARNING, "Unknown account mail");
+                        getDefaultApprovalAccount(accountFacade);
+                    }
                     break;
                 case "upload.id":
                     try {
@@ -132,7 +143,7 @@ public class DocumentImportInfo {
                 case "mail.sender":
                     if (value.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")) {
                         _sender = value;
-                    }else {
+                    } else {
                         _logger.log(Level.WARNING, "Wrong format sender");
                     }
                     break;
@@ -150,8 +161,11 @@ public class DocumentImportInfo {
             }
         }
         _body = body.toString();
-        if (_uploadAccount == null){
+        if (_uploadAccount == null) {
             _uploadAccount = accountFacade.find(0);
+        }
+        if (_approvalAccount == null) {
+            _approvalAccount = accountFacade.find(0);
         }
     }
 
@@ -159,10 +173,14 @@ public class DocumentImportInfo {
         return _accounts;
     }
 
-    public Account getUploadAccount(){
+    public Account getUploadAccount() {
         return _uploadAccount;
     }
-    
+
+    public Account getApprovalAccount() {
+        return _approvalAccount;
+    }
+
     public Map<String, String> getFileDomains() {
         return _fileDomains;
     }
@@ -194,17 +212,25 @@ public class DocumentImportInfo {
     public boolean isValid() {
         return _error.isEmpty() && _version.equals("1.0");
     }
-    
+
     public String getParent() {
         return _parent;
     }
 
     String getDomain(String name) {
         String key = name.toLowerCase();
-        if (_fileDomains.containsKey(key)){
+        if (_fileDomains.containsKey(key)) {
             return _fileDomains.get(key);
         }
         return _parent;
     }
-    
+
+    private void getDefaultApprovalAccount(AccountFacade accountFacade) {
+        try {
+            _approvalAccount = accountFacade.findByMail("dirk.bauder@inek-drg.de");  // todo: make configurable
+        } catch (Exception ex) {
+            _logger.log(Level.WARNING, "Unknown approval default");
+        }
+    }
+
 }

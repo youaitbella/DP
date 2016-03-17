@@ -2,11 +2,14 @@ package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
@@ -20,10 +23,17 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
-        List<AccountDocument> docs = findAll(accountId);
+        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, d._validUntil, d._read, d._accountId, d._uploadAccountId FROM AccountDocument d join DocumentDomain dd WHERE d._domainId = dd._id and  d._accountId = :accountId ORDER BY d._id DESC";
+        // does not work properly :(
+//        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
+//        query.setParameter("accountId", accountId);
+//        return query.getResultList();
+        Query query = getEntityManager().createQuery(sql);
+        query.setParameter("accountId", accountId);
+        List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
-        for (AccountDocument doc : docs) {
-            docInfos.add(new DocInfo(doc.getId(), doc.getName(), doc.getDomain().getName(), doc.getTimestamp(), doc.getValidUntil(), doc.isRead()));
+        for (Object[] obj : objects){
+            docInfos.add(new DocInfo((int)obj[0], (String)obj[1], (String)obj[2], (Date)obj[3], (Date)obj[4], (boolean)obj[5], (int)obj[6], (int)obj[7]));
         }
         return docInfos;
     }
@@ -37,12 +47,19 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     public List<AccountDocument> findAll(int accountId) {
-        String sql = "SELECT p FROM AccountDocument p WHERE p._accountId = :accountId ORDER BY p._id DESC";
+        String sql = "SELECT d FROM AccountDocument d WHERE d._accountId = :accountId ORDER BY d._id DESC";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
 
+    public long count(int accountId) {
+        String sql = "SELECT count(d._id) FROM AccountDocument d WHERE d._accountId = :accountId";
+        Query query = getEntityManager().createQuery(sql, Long.class);
+        query.setParameter("accountId", accountId);
+        return (long) query.getSingleResult();
+    }
+    
     public boolean isDocRead(int docId) {
         AccountDocument doc = find(docId);
         if (doc.isRead()) {

@@ -15,14 +15,18 @@ public class DocInfo {
     private final Date _created;
     private final Date _validUntil;
     private final boolean _isRead;
+    private final int _accountId;
+    private final int _agentId;
 
-    public DocInfo(int id, String name, String domain, Date created, Date validUntil, boolean isRead) {
+    public DocInfo(int id, String name, String domain, Date created, Date validUntil, boolean isRead, int accountId, int agentId) {
         _id = id;
         _name = name;
         _domain = domain;
         _created = created;
         _validUntil = validUntil;
         _isRead = isRead;
+        _accountId = accountId;
+        _agentId = agentId;
     }
 
     public int getId() {
@@ -58,4 +62,13 @@ public class DocInfo {
     public boolean isRead(){
         return _isRead;
     }
+    
+    public int getAccountId() {
+        return _accountId;
+    }
+
+    public int getAgentId() {
+        return _agentId;
+    }
+    
 }

@@ -11,11 +11,13 @@ import javax.inject.Inject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
+import org.inek.dataportal.entities.account.WaitingDocument;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
+import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 
@@ -32,7 +34,8 @@ public class DocumentLoader {
 
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;
-    @Inject private AccountDocumentFacade _docFacade;
+    @Inject private AccountDocumentFacade _accountDocFacade;
+    @Inject private WaitingDocumentFacade _waitingDocFacade;
     @Inject private DocumentDomainFacade _docDomain;
     @Inject private Mailer _mailer;
 
@@ -86,16 +89,13 @@ public class DocumentLoader {
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
             for (String name : files.keySet()) {
-                AccountDocument accountDocument = new AccountDocument();
-                accountDocument.setAccountId(account.getId());
-                accountDocument.setContent(files.get(name));
-                accountDocument.setName(name);
-                accountDocument.setValidity(validity);
-                DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
-                accountDocument.setDomain(domain);
-                accountDocument.setUploadAccountId(importInfo.getUploadAccount().getId());
-                _docFacade.save(accountDocument);
+                if (importInfo.getApprovalAccount().getId() > 0) {
+                    createWaitingDocument(account, files, name, validity, importInfo);
+                } else {
+                    createAccountDocument(account, files, name, validity, importInfo);
+                }
             }
+            Account receipient = importInfo.getApprovalAccount().getId() > 0 ? importInfo.getApprovalAccount() : account;
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
             String bcc = "fehlerverfahren@inek-drg.de";
@@ -113,16 +113,38 @@ public class DocumentLoader {
                             + "InEK GmbH";
 
                 } else {
-                    String salutation = _mailer.getFormalSalutation(account);
+                    String salutation = _mailer.getFormalSalutation(receipient);
                     body = template.getBody().replace("{formalSalutation}", salutation);
                     bcc = template.getBcc();
                     subject = template.getSubject();
                 }
             }
-            if (!subject.isEmpty() && !body.isEmpty()) {
-                _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), bcc, subject, body);
-            }
+            _mailer.sendMailFrom(importInfo.getSender(), receipient.getEmail(), bcc, subject, body);
         }
 
+    }
+
+    private void createWaitingDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo) {
+        WaitingDocument doc = new WaitingDocument();
+        doc.setAccountId(account.getId());
+        doc.setContent(files.get(name));
+        doc.setName(name);
+        doc.setValidity(validity);
+        DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
+        doc.setDomain(domain);
+        doc.setAgentAccountId(importInfo.getApprovalAccount().getId());
+        _waitingDocFacade.save(doc);
+    }
+
+    private void createAccountDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo) {
+        AccountDocument doc = new AccountDocument();
+        doc.setAccountId(account.getId());
+        doc.setContent(files.get(name));
+        doc.setName(name);
+        doc.setValidity(validity);
+        DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
+        doc.setDomain(domain);
+        doc.setUploadAccountId(importInfo.getUploadAccount().getId());
+        _accountDocFacade.save(doc);
     }
 }
