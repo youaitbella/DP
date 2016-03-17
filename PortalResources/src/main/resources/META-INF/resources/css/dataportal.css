@@ -906,12 +906,12 @@ a.button, a.secondaryButton, a.midButton, a.smallButton, span.button, label.butt
 }
 
 .buttonDisabled {
-    background-color: gray;
+    background-color: gray !important;
 }
 
 .buttonDisabled:hover {
-    cursor: default;
-    box-shadow: 0px 0px 0px 0px #FFF;
+    cursor: default !important;
+    box-shadow: 0px 0px 0px 0px #FFF !important;
 }
 
 span.button {
