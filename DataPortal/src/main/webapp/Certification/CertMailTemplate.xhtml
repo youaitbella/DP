@@ -11,7 +11,7 @@
     <ui:define name="editContent">
         <h2>Email-Template</h2>
 
-       <h:form id="maiTemplateForm">
+        <h:form id="maiTemplateForm">
             <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
             <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{certMailTemplate.templateId}" immediate="true" disabled="#{certMailTemplate.templateChanged}">
                 <f:selectItems value="#{certMailTemplate.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
@@ -31,7 +31,7 @@
                     <f:ajax render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
-            
+
             <div class="inputPart">
                 <h:outputLabel for="mnuEmailType" value="Email-Typ"/>
                 <h:selectOneMenu id="mnuEmailType" styleClass="inputwide" value="#{certMailTemplate.emailType}" immediate="true" disabled="#{certMailTemplate.templateChanged}">
@@ -39,7 +39,20 @@
                     <f:ajax render="@form :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:selectOneMenu>
             </div>
-            
+
+            <div class="inputPart">
+                <h:outputLabel for="txtFrom" value="#{msg.lblFrom}"/>
+                <h:message for="txtFrom" id="msgFrom" styleClass="errorMessage"/>
+                <h:inputText id="txtFrom"
+                             value="#{certMailTemplate.mailTemplate.from}"
+                             styleClass="inputwide"
+                             required="true"
+                             disabled="#{certMailTemplate.mailTemplate == null}">
+                    <f:validator validatorId="EmailValidator"/>
+                    <f:ajax render="@this msgFrom mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
+                </h:inputText>
+            </div>
+
             <div class="inputPart">
                 <h:outputLabel for="txtBcc" value="#{msg.lblBcc}"/>
                 <h:message for="txtBcc" id="msgBcc" styleClass="errorMessage"/>
@@ -48,6 +61,7 @@
                              styleClass="inputwide"
                              required="false"
                              disabled="#{certMailTemplate.mailTemplate == null}">
+                    <f:validator validatorId="EmailValidator"/>
                     <f:ajax render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{certMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>

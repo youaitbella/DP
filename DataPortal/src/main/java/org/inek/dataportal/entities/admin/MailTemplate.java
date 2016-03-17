@@ -76,6 +76,20 @@ public class MailTemplate implements Serializable {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property Sender">
+    @Column (name = "mtFrom")
+    private String _from = "";
+    
+    @Size(max = 100)
+    public String getFrom() {
+        return _from;
+    }
+
+    public void setFrom(String value) {
+        _from = value;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Subject">
     @Column (name = "mtSubject")
     private String _subject;

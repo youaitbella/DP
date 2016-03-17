@@ -10,6 +10,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,11 +20,14 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.DocumentTarget;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AgencyFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
+import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
@@ -114,6 +118,26 @@ public class DocumentUpload {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
+    private String _mailTemplate;
+
+    public String getMailTemplate() {
+        return _mailTemplate;
+    }
+
+    public void setMailTemplate(String mailTemplate) {
+        _mailTemplate = mailTemplate;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property MailTemplates">
+    @Inject private MailTemplateFacade _mailTemplateFacade;
+
+    public List<MailTemplate> getMailTemplates() {
+        return _mailTemplateFacade.findTemplatesByFeature(Feature.DOCUMENTS);
+    }
+    // </editor-fold>    
+
     @Inject DocumentDomainFacade _domainFacade;
 
     public List<DocumentDomain> getDomains() {
@@ -202,7 +226,11 @@ public class DocumentUpload {
         }
     }
 
-    public void uploadDoc() {
+    public boolean isSaveEnabled() {
+        return _documents.size() > 0
+                && _domain != null
+                && _mailTemplate != null
+                && (_account != null || _agencyId != null);
     }
 
     public String saveDocument() {
@@ -252,32 +280,13 @@ public class DocumentUpload {
     }
 
     private void sendNotification() {
-        String subject;
-        String body;
-        String bcc;
+        MailTemplate template = _mailer.getMailTemplate(_mailTemplate);
+        String salutation = _mailer.getFormalSalutation(_account);
+        String body = template.getBody().replace("{formalSalutation}", salutation);
+        String bcc = template.getBcc();
+        String subject = template.getSubject();
 
-        MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
-        if (template == null) {
-            // dump fallback
-            bcc = "datenportal@inek.org";
-            subject = "Neue Dokumente im InEK Datenportal";
-            body = "Guten Tag,\n"
-                    + "\n"
-                    + "im InEK Datenportal sind neue Dokumente für Sie verfügbar.\n"
-                    + "\n"
-                    + "Freundliche Grüße\n"
-                    + "InEK GmbH";
-
-        } else {
-            String salutation = _mailer.getFormalSalutation(_account);
-            body = template.getBody().replace("{formalSalutation}", salutation);
-            bcc = template.getBcc();
-            subject = template.getSubject();
-        }
-
-        if (!subject.isEmpty() && !body.isEmpty()) {
-            _mailer.sendMailFrom("datenportal@inek.org", _account.getEmail(), bcc, subject, body);
-        }
+        _mailer.sendMailFrom("datenportal@inek.org", _account.getEmail(), bcc, subject, body);
     }
 
 }

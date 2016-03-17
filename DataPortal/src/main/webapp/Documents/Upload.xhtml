@@ -97,18 +97,29 @@
             <div class="inputPart">
                 <h:outputLabel value="#{msg.lblAvailability}" styleClass="label20"/>
                 <h:inputText value="#{documentUpload.availability}" >
-                    <f:ajax render="@form :logout:remaining"/>
+                    <f:ajax render="sendButton :logout:remaining"/>
                 </h:inputText>
             </div>        
 
-            <div>
+            <div class="inputPart">
                 <h:outputLabel value="#{msg.lblDomain}" styleClass="label20"/>
                 <h:selectOneMenu id="domainId" value="#{documentUpload.domainId}" styleClass="inputmedium" hideNoSelectionOption="true" required="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
                     <f:selectItems value="#{documentUpload.domains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
-                    <f:ajax render="@form :logout:remaining"/>
+                    <f:ajax render="sendButton :logout:remaining"/>
                 </h:selectOneMenu>
                 <h:message for="domainId" styleClass="errorMessage"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel styleClass="label20">
+                    Mail-Vorlage:
+                </h:outputLabel>
+                <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium" value="#{documentUpload.mailTemplate}" hideNoSelectionOption="true" required="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{documentUpload.mailTemplates}"  var="template" itemLabel="#{template.name}" itemValue="#{template.name}"/>
+                    <f:ajax render="@this sendButton :logout:remaining"/>
+                </h:selectOneMenu> 
             </div>
 
             <h:panelGroup id="lastDocs" rendered="#{documentUpload.lastDocuments.size() gt 0}" styleClass="marginTop">
@@ -153,13 +164,14 @@
 
             </div>
 
-            <div  jsf:rendered="#{documentUpload.documents.size() gt 0 and documentUpload.domainId ne null and (documentUpload.account ne null or documentUpload.agency ne null)}" class="marginTop">
-                <h:commandLink styleClass="bigButton" action="#{documentUpload.saveDocument}" value="#{msg.btnSaveDocuments}" immediate="true"/>
+            <div  class="marginTop">
+                <h:commandLink id="sendButton" styleClass="sendButton #{documentUpload.saveEnabled ? '' : 'buttonDisabled'}" 
+                               action="#{documentUpload.saveDocument}" 
+                               value="#{msg.btnStoreAndNotify}" immediate="true"
+                               disabled="#{!documentUpload.saveEnabled}"/>
             </div>
 
         </h:form>
-
-
 
     </ui:define>
 </ui:composition>

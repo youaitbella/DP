@@ -247,6 +247,12 @@ public class CertGrouperResults {
         return _mtFacade.findByName(_selectedTemplate).getBcc();
     }
     
+    public String getFrom() {
+        if(_selectedTemplate.isEmpty())
+            return "";
+        return _mtFacade.findByName(_selectedTemplate).getFrom();
+    }
+    
     public String getAttachement() {
         if(_attachement.isEmpty())
             _attachement = buildAttachementString();
@@ -468,8 +474,7 @@ public class CertGrouperResults {
     
     public String sendCertificateEmail() {
         EmailLog el = new EmailLog();
-        String bcc = _mtFacade.findByName(_templateEmailCertificate).getBcc();
-        if(_mailer.sendMailFrom(CertMail.SenderEmailAddress, _receiverEmailCertificate, bcc, getEmailCertificateSubject(), getEmailCertificateBody())) {
+        if(_mailer.sendMailFrom(getFrom(), _receiverEmailCertificate, getBCC(), getEmailCertificateSubject(), getEmailCertificateBody())) {
            el.setType(CertMailType.Certificate.getId());
            el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getId());
            el.setSenderAccountId(_sessionController.getAccountId());
@@ -643,9 +648,9 @@ public class CertGrouperResults {
     }
     
     public String sendMail() {
-        if(!needsAttachement())
-            _attachement = "";
-        if(_mailer.sendMailFrom(CertMail.SenderEmailAddress, getReiceiver(), getCC(), getBCC(), getSubject(), getBody(), _attachement)) {
+        if(!needsAttachement()){_attachement = "";}
+        
+        if(_mailer.sendMailFrom(getFrom(), getReiceiver(), getCC(), getBCC(), getSubject(), getBody(), _attachement)) {
             EmailLog el = new EmailLog();
             el.setReceiverAccountId(_accFacade.findByMailOrUser(getReiceiver()).getId());
             el.setSenderAccountId(_sessionController.getAccount().getId());

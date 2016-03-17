@@ -43,7 +43,6 @@ import org.inek.dataportal.mail.Mailer;
 public class CertMail implements Serializable {
 
     private static final Logger _logger = Logger.getLogger("CertMail");
-    public static String SenderEmailAddress = "Zertifizierung2015@inek-drg.de"; // TODO: Load sender email from template.
 
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;
@@ -417,7 +416,7 @@ public class CertMail implements Serializable {
                     .replace("{company}", company)
                     .replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
             try {
-                if(!_mailer.sendMailFrom(SenderEmailAddress, emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement))
+                if(!_mailer.sendMailFrom(mt.getFrom(), emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement))
                     throw new Exception("Fehler bei Mailversand!");
                 createEmailLogEntry(version, mt, emailAddress);
                 _emailSentInfoDataTable.add(new Triple(emailAddressInfo, mt.getBcc(), "Erfolgreich"));

@@ -45,6 +45,19 @@
             </div>
 
             <div class="inputPart">
+                <h:outputLabel for="txtFrom" value="#{msg.lblFrom}"/>
+                <h:message for="txtFrom" id="msgFrom" styleClass="errorMessage"/>
+                <h:inputText id="txtFrom"
+                             value="#{adminTask.mailTemplate.from}"
+                             styleClass="inputwide"
+                             required="true"
+                             disabled="#{adminTask.mailTemplate == null}">
+                    <f:validator validatorId="EmailValidator"/>
+                    <f:ajax render="@this msgFrom mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                </h:inputText>
+            </div>
+
+            <div class="inputPart">
                 <h:outputLabel for="txtBcc" value="#{msg.lblBcc}"/>
                 <h:message for="txtBcc" id="msgBcc" styleClass="errorMessage"/>
                 <h:inputText id="txtBcc"
@@ -52,6 +65,7 @@
                              styleClass="inputwide"
                              required="false"
                              disabled="#{adminTask.mailTemplate == null}">
+                    <f:validator validatorId="EmailValidator"/>
                     <f:ajax render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
