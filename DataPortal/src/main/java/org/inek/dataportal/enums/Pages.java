@@ -129,6 +129,7 @@ public enum Pages {
     AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
     DocumentsUpload("/Documents/Upload"),
+    DocumentsApproval("/Documents/Approval"),
     DocumentsList("/Documents/List"),
     DocumentsSummary("/Documents/DocumentsSummary"),
     ListDocuments("/Documents/ListDocuments");

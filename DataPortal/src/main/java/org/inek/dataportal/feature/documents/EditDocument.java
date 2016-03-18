@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.AccountDocument;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -39,7 +40,7 @@ public class EditDocument extends AbstractEditController {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         AccountDocument doc = _accDocFacade.find(docId);
-        if (_sessionController.getAccountId() != doc.getAccountId()){
+        if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)){
             return "";
         }        
         try {

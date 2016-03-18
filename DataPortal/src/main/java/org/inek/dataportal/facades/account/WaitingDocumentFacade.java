@@ -7,6 +7,8 @@ import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.WaitingDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
@@ -19,22 +21,37 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         super(WaitingDocument.class);
     }
 
-    public List<DocInfo> getDocInfos(int accountId) {
-        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, null, false, d._accountId, d._agentAccountId FROM WaitingDocument d join DocumentDomain dd WHERE d._domainId = dd._id and  d._accountId = :accountId ORDER BY d._id DESC";
+    public List<DocInfo> getDocInfos(int agentAccountId) {
+//        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, null, false, d._accountId, d._agentAccountId, a._ik "
+//                + "FROM WaitingDocument d "
+//                + "join DocumentDomain dd "
+//                + "join Account a "
+//                + "WHERE d._accountId = a._id and d._domainId = dd._id and d._agentAccountId = :accountId ORDER BY d._id DESC";
+        String sql = "SELECT d._id, d._name, d._name, d._timestamp, null, false, d._accountId, d._agentAccountId, a._ik, a._company, a._town "
+                + "FROM WaitingDocument d "
+                + "join DocumentDomain dd "
+                + "join Account a "
+                + "WHERE d._domainId = dd._id and d._accountId = a._id and d._agentAccountId = :accountId ORDER BY d._id DESC";
         // does not work properly :(
 //        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
 //        query.setParameter("accountId", accountId);
 //        return query.getResultList();
         Query query = getEntityManager().createQuery(sql);
-        query.setParameter("accountId", accountId);
+        dumpSql(query);
+        query.setParameter("accountId", agentAccountId);
         List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
-        for (Object[] obj : objects){
-            docInfos.add(new DocInfo((int)obj[0], (String)obj[1], (String)obj[2], (Date)obj[3], (Date)obj[4], (boolean)obj[5], (int)obj[6], (int)obj[7]));
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10]));
         }
         return docInfos;
     }
 
+    public List<Account> getAgents() {
+        String sql = "SELECT distinct a FROM WaitingDocument d join Account a WHERE d._agentAccountId = a._id";
+        TypedQuery<Account> query = getEntityManager().createQuery(sql, Account.class);
+        return query.getResultList();
+    }
 
     @Schedule(hour = "2", minute = "15", info = "once a day")
     // for test: @Schedule(hour = "*", minute = "*/1", info = "once a minute")

@@ -8,8 +8,6 @@ import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
@@ -33,7 +31,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects){
-            docInfos.add(new DocInfo((int)obj[0], (String)obj[1], (String)obj[2], (Date)obj[3], (Date)obj[4], (boolean)obj[5], (int)obj[6], (int)obj[7]));
+            docInfos.add(new DocInfo((int)obj[0], (String)obj[1], (String)obj[2], (Date)obj[3], (Date)obj[4], (boolean)obj[5], (int)obj[6], (int)obj[7], ""));
         }
         return docInfos;
     }

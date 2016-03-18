@@ -6,7 +6,6 @@
 package org.inek.dataportal.feature.documents;
 
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -31,11 +30,13 @@ public class DocumentsEditController extends AbstractEditController {
         if (_sessionController.isInekUser(Feature.DOCUMENTS)) {
             addTopic(DocumentsTabs.tabDocuments.name(), Pages.DocumentsList.URL());
             addTopic(DocumentsTabs.tabUpload.name(), Pages.DocumentsUpload.URL());
+            addTopic(DocumentsTabs.tabApproval.name(), Pages.DocumentsApproval.URL());
         }
     }
 
     private enum DocumentsTabs {
         tabUpload,
+        tabApproval,
         tabDocuments;
     }
     

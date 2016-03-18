@@ -15,9 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.Transient;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.utils.DateUtils;
 
 @Entity
 @Table(name = "WaitingDocument")
@@ -49,7 +47,7 @@ public class WaitingDocument implements Serializable, Document {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property UploadAccountId">
+    // <editor-fold defaultstate="collapsed" desc="Property AgentAccountId">
     @Column(name = "wdAgentAccountId")
     private int _agentAccountId;
 
@@ -91,14 +89,22 @@ public class WaitingDocument implements Serializable, Document {
         _timestamp = timestamp;
     }
 
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public void setName(String name) {
         _name = name;
     }
 
+    @Column(name = "wdDocumentDomainId", updatable = false, insertable = false)
+    private int _domainId;
+
+    public int getDomainId() {
+        return _domainId;
+    }
     @OneToOne()
     @JoinColumn(name = "wdDocumentDomainId")
     private DocumentDomain _domain;
@@ -131,6 +137,19 @@ public class WaitingDocument implements Serializable, Document {
 
     public void setValidity(int validity) {
         _validity = validity;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property JsonMail">
+    @Column(name = "wdJsonMail")
+    private String _jsonMail;
+
+    public String getJsonMail() {
+        return _jsonMail;
+    }
+
+    public void setJsonMail(String jsonMail) {
+        _jsonMail = jsonMail;
     }
     // </editor-fold>
     

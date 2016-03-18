@@ -17,8 +17,9 @@ public class DocInfo {
     private final boolean _isRead;
     private final int _accountId;
     private final int _agentId;
+    private final String _tag;
 
-    public DocInfo(int id, String name, String domain, Date created, Date validUntil, boolean isRead, int accountId, int agentId) {
+    public DocInfo(int id, String name, String domain, Date created, Date validUntil, boolean isRead, int accountId, int agentId, String tag) {
         _id = id;
         _name = name;
         _domain = domain;
@@ -27,6 +28,7 @@ public class DocInfo {
         _isRead = isRead;
         _accountId = accountId;
         _agentId = agentId;
+        _tag = tag;
     }
 
     public int getId() {
@@ -39,6 +41,10 @@ public class DocInfo {
 
     public String getDomain() {
         return _domain;
+    }
+
+    public String getTag() {
+        return _tag;
     }
 
     public Date getCreated() {

@@ -226,6 +226,7 @@ public class DocumentImportInfo {
     }
 
     private void getDefaultApprovalAccount(AccountFacade accountFacade) {
+        if (_approvalAccount != null){return;}
         try {
             _approvalAccount = accountFacade.findByMail("dirk.bauder@inek-drg.de");  // todo: make configurable
         } catch (Exception ex) {

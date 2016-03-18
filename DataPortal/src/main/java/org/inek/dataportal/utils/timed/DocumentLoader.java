@@ -8,6 +8,8 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
@@ -84,17 +86,9 @@ public class DocumentLoader {
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
-
         int validity = _config.readInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
-            for (String name : files.keySet()) {
-                if (importInfo.getApprovalAccount().getId() > 0) {
-                    createWaitingDocument(account, files, name, validity, importInfo);
-                } else {
-                    createAccountDocument(account, files, name, validity, importInfo);
-                }
-            }
             Account receipient = importInfo.getApprovalAccount().getId() > 0 ? importInfo.getApprovalAccount() : account;
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
@@ -102,21 +96,23 @@ public class DocumentLoader {
 
             if (subject.isEmpty() || body.isEmpty()) {
                 MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
-                if (template == null) {
-                    // dump fallback
-                    subject = "Neue Dokumente im InEK Datenportal";
-                    body = "Guten Tag,\n"
-                            + "\n"
-                            + "im InEK Datenportal sind neue Dokumente für Sie verfügbar.\n"
-                            + "\n"
-                            + "Freundliche Grüße\n"
-                            + "InEK GmbH";
+                String salutation = _mailer.getFormalSalutation(receipient);
+                body = template.getBody().replace("{formalSalutation}", salutation);
+                bcc = template.getBcc();
+                subject = template.getSubject();
+            }
 
+            for (String name : files.keySet()) {
+                if (importInfo.getApprovalAccount().getId() > 0) {
+                    JsonObject jsonMail = Json.createObjectBuilder()
+                            .add("from", importInfo.getSender())
+                            .add("bcc", bcc)
+                            .add("subject", subject)
+                            .add("body", body)
+                            .build();
+                    createWaitingDocument(account, files, name, validity, importInfo, jsonMail);
                 } else {
-                    String salutation = _mailer.getFormalSalutation(receipient);
-                    body = template.getBody().replace("{formalSalutation}", salutation);
-                    bcc = template.getBcc();
-                    subject = template.getSubject();
+                    createAccountDocument(account, files, name, validity, importInfo);
                 }
             }
             _mailer.sendMailFrom(importInfo.getSender(), receipient.getEmail(), bcc, subject, body);
@@ -124,7 +120,7 @@ public class DocumentLoader {
 
     }
 
-    private void createWaitingDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo) {
+    private void createWaitingDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo, JsonObject jsonMail) {
         WaitingDocument doc = new WaitingDocument();
         doc.setAccountId(account.getId());
         doc.setContent(files.get(name));
@@ -133,6 +129,7 @@ public class DocumentLoader {
         DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
         doc.setDomain(domain);
         doc.setAgentAccountId(importInfo.getApprovalAccount().getId());
+        doc.setJsonMail(jsonMail.toString());
         _waitingDocFacade.save(doc);
     }
 
