@@ -29,14 +29,16 @@ public class DocumentsEditController extends AbstractEditController {
     protected void addTopics() {
         if (_sessionController.isInekUser(Feature.DOCUMENTS)) {
             addTopic(DocumentsTabs.tabDocuments.name(), Pages.DocumentsList.URL());
-            addTopic(DocumentsTabs.tabUpload.name(), Pages.DocumentsUpload.URL());
             addTopic(DocumentsTabs.tabApproval.name(), Pages.DocumentsApproval.URL());
+            addTopic(DocumentsTabs.tabUpload.name(), Pages.DocumentsUpload.URL());
+            addTopic(DocumentsTabs.tabViewUploaded.name(), Pages.DocumentsViewer.URL());
         }
     }
 
     private enum DocumentsTabs {
         tabUpload,
         tabApproval,
+        tabViewUploaded,
         tabDocuments;
     }
     

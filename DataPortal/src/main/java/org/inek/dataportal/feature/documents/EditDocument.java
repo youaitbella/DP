@@ -40,9 +40,9 @@ public class EditDocument extends AbstractEditController {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         AccountDocument doc = _accDocFacade.find(docId);
-        if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)){
+        if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
-        }        
+        }
         try {
             byte[] buffer = doc.getContent();
             externalContext.setResponseHeader("Content-Type", "text/plain");
@@ -56,26 +56,28 @@ public class EditDocument extends AbstractEditController {
             return Pages.Error.URL();
         }
         facesContext.responseComplete();
-        doc.setRead(true);
+        if (_sessionController.getAccountId() == doc.getAccountId()) {
+            doc.setRead(true);
+        }
         _accDocFacade.merge(doc);
         return "";
     }
 
-    public String deleteDocument(int docId){
+    public String deleteDocument(int docId) {
         AccountDocument doc = _accDocFacade.find(docId);
-        if (_sessionController.getAccountId() == doc.getAccountId()){
+        if (_sessionController.getAccountId() == doc.getAccountId()) {
             _accDocFacade.remove(doc);
         }
         return "";
     }
-    
+
     public String getConfirmMessage(String name, String dateString) {
-        String msg = name  + " vom " + dateString + "\n"
+        String msg = name + " vom " + dateString + "\n"
                 + Utils.getMessage("msgConfirmDelete");
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
-    
+
     @Override
     protected void addTopics() {
 

@@ -27,7 +27,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
 //                + "join DocumentDomain dd "
 //                + "join Account a "
 //                + "WHERE d._accountId = a._id and d._domainId = dd._id and d._agentAccountId = :accountId ORDER BY d._id DESC";
-        String sql = "SELECT d._id, d._name, d._name, d._timestamp, null, false, d._accountId, d._agentAccountId, a._ik, a._company, a._town "
+        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, null, false, d._accountId, d._agentAccountId, a._ik, a._company, a._town "
                 + "FROM WaitingDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "

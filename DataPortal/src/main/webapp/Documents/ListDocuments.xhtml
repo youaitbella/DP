@@ -15,7 +15,7 @@
             <f:facet name="header">
                 <h:outputText value="gel."/>
             </f:facet>
-            <h:graphicImage id="readImg" alt="gelesen?" name="Icon/small/#{documentList.readDoc(doc.id)}" title="gelesen?" value=""/>
+            <h:graphicImage id="readImg" alt="gelesen?" name="Icon/small/#{doc.read ? 'tick.png' : 'new.png'}" title="gelesen?" value=""/>
         </h:column>
 
         <h:column id="colAttach">

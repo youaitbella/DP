@@ -36,6 +36,22 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         return docInfos;
     }
 
+    public List<DocInfo> getSupervisedDocInfos(int accountId) {
+        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, null, d._read, d._accountId, d._uploadAccountId, a._ik, a._company, a._town "
+                + "FROM AccountDocument d "
+                + "join DocumentDomain dd "
+                + "join Account a "
+                + "WHERE d._domainId = dd._id and d._accountId = a._id and d._uploadAccountId = :accountId ORDER BY d._read, d._timestamp DESC";
+        Query query = getEntityManager().createQuery(sql);
+        query.setParameter("accountId", accountId);
+        List<Object[]> objects = query.getResultList();
+        List<DocInfo> docInfos = new ArrayList<>();
+        for (Object[] obj : objects){
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10]));
+        }
+        return docInfos;
+    }
+
     public List<String> getNewDocs(int accountId) {
         String sql = "SELECT d._name FROM AccountDocument d WHERE d._accountId = :accountId and d._timestamp > :referenceDate ORDER BY d._id DESC";
         Query query = getEntityManager().createQuery(sql, String.class);

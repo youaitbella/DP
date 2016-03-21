@@ -1,6 +1,5 @@
 package org.inek.dataportal.controller;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +18,9 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.Customer;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.Log;
-import org.inek.dataportal.entities.certification.RemunerationSystem;
-import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
@@ -429,6 +425,7 @@ public class SessionController implements Serializable {
      * is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
+        if (!isInternalClient()){return false;}
         if (_account == null || _account.getInekRoles() == null) {
             return false;
         }

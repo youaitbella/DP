@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="Manager.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="documentContent">
+        <h:form id="approval">
+            <h:outputLabel id="noDocs" rendered="#{!documentViewer.renderDocList()}" value="#{msg.lblNoDocs}" />
+
+            <h:dataTable rendered="#{documentViewer.renderDocList()}"  headerClass="list-header" id="tblDocList" 
+                         value="#{documentViewer.documents}" var="doc" width="100%" rowClasses="row1, row2" columnClasses="colValue, colValue, colValue, colValue, colIcon">
+
+                <h:column id="colIk">
+                    <f:facet name="header">
+                        <h:outputText value="Empfänger"/>
+                    </f:facet>
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.tag}" immediate="true">
+                        <f:ajax event="blur" render="@all"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column id="colDomain">
+                    <f:facet name="header">
+                        <h:outputText value="Bereich"/>
+                    </f:facet>
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.domain}" immediate="true">
+                        <f:ajax event="blur" render="@all"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Dokument"/>
+                    </f:facet>
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.name}" immediate="true">
+                        <f:ajax event="blur" render="@all"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column id="colDate">
+                    <f:facet name="header">
+                        <h:outputText value="Datum"/>
+                    </f:facet>
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.createdString}" immediate="true">
+                        <f:ajax event="blur" render="@all"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column id="colRead">
+                    <f:facet name="header">
+                        <h:outputText value="gel."/>
+                    </f:facet>
+                    <h:graphicImage id="readImg" alt="gelesen?" name="Icon/small/#{doc.read ? 'tick.png' : 'new.png'}" title="gelesen?" value=""/>
+                </h:column>
+
+            </h:dataTable>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

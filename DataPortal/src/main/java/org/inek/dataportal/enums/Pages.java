@@ -132,7 +132,8 @@ public enum Pages {
     DocumentsApproval("/Documents/Approval"),
     DocumentsList("/Documents/List"),
     DocumentsSummary("/Documents/DocumentsSummary"),
-    ListDocuments("/Documents/ListDocuments");
+    ListDocuments("/Documents/ListDocuments"),
+    DocumentsViewer("/Documents/Viewer");
 
     private final String _url;
     private Pages(String url) {
