@@ -27,7 +27,16 @@
               <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-DatenportalZerti.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
-              <task-config-value name="make4include">PDF,user1</task-config-value>
+              <task-config-value name="make4include">PDF,USER1</task-config-value>
+              <task-config-value name="make4status">*</task-config-value>
+            </task-config-group>
+          </export-task>
+          <export-task name="Handbuch intern" format="PDF">
+            <task-config-group name="settings">
+              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-DatenportaIntern.pdf</task-config-value>
+              <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
+              <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
+              <task-config-value name="make4include">USER1,USER2</task-config-value>
               <task-config-value name="make4status">*</task-config-value>
             </task-config-group>
           </export-task>
@@ -42,7 +51,7 @@
               <task-config-value name="highlighthotspots">0</task-config-value>
               <task-config-value name="exportcomments">0</task-config-value>
               <task-config-value name="exportcommentsdate">36526</task-config-value>
-              <task-config-value name="make4include">user1</task-config-value>
+              <task-config-value name="make4include">USER1</task-config-value>
               <task-config-value name="make4status">*</task-config-value>
             </task-config-group>
           </export-task>
@@ -64,73 +73,74 @@
     </helpwindows>
     <styleclasses>
       <styleclass name="Normal" shortcut="49230">
-        <style-set media="screen" type="para">margin-right:5px; margin-left:5px;</style-set>
-        <style-set media="screen" type="text">font-family:Arial; font-size:11pt; letter-spacing:normal;</style-set>
+        <style-set media="screen" type="para">margin-right:5px; margin-left:5px; </style-set>
+        <style-set media="screen" type="text">font-family:Arial; font-size:11pt; letter-spacing:normal; </style-set>
       </styleclass>
       <styleclass name="Bullet Text" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="para">text-indent:-24px; margin-top:4px; margin-bottom:4px; margin-left:29px;</style-set>
+        <style-set media="screen" type="para">text-indent:-24px; margin-top:4px; margin-bottom:4px; margin-left:29px; background-color:#ffffff; border:none; </style-set>
+        <style-set media="screen" type="text">background-color:#ffffff; </style-set>
       </styleclass>
       <styleclass name="Button" parentclass="Normal" shortcut="49218">
-        <style-set media="screen" type="text">background-color:#8ea7b9;</style-set>
+        <style-set media="screen" type="text">font-weight:bold; color:#ffffff; background-color:#000044; </style-set>
       </styleclass>
       <styleclass name="Code Example" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="para">white-space:nowrap; border:none;</style-set>
-        <style-set media="screen" type="text">font-family:'Courier New'; font-size:10pt; letter-spacing:normal;</style-set>
+        <style-set media="screen" type="para">white-space:nowrap; border:none; </style-set>
+        <style-set media="screen" type="text">font-family:'Courier New'; font-size:10pt; letter-spacing:normal; </style-set>
       </styleclass>
       <styleclass name="Comment" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="para">text-align:center;</style-set>
+        <style-set media="screen" type="para">text-align:center; </style-set>
       </styleclass>
       <styleclass name="Heading1" parentclass="Normal" shortcut="49201">
-        <style-set media="screen" type="para">margin-bottom:0px; page-break-after:avoid; border:none;</style-set>
-        <style-set media="screen" type="text">font-size:16pt; font-weight:bold;</style-set>
+        <style-set media="screen" type="para">margin-bottom:0px; page-break-after:avoid; border:none; </style-set>
+        <style-set media="screen" type="text">font-size:16pt; font-weight:bold; </style-set>
       </styleclass>
       <styleclass name="Heading2" parentclass="Normal" shortcut="49202">
-        <style-set media="screen" type="para">margin-top:15px; margin-bottom:10px; page-break-after:avoid; padding:1px; border-color:#c0c0c0; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none;</style-set>
-        <style-set media="screen" type="text">font-size:14pt; color:#000080;</style-set>
-        <style-set media="print" type="para">margin-top:15px; margin-bottom:10px; page-break-after:avoid; padding:1px; border-color:#c0c0c0; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none;</style-set>
-        <style-set media="print" type="text">color:#000080;</style-set>
+        <style-set media="screen" type="para">margin-top:15px; margin-bottom:10px; page-break-after:avoid; padding:1px; border-color:#c0c0c0; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none; </style-set>
+        <style-set media="screen" type="text">font-size:14pt; color:#000080; </style-set>
+        <style-set media="print" type="para">margin-top:15px; margin-bottom:10px; page-break-after:avoid; padding:1px; border-color:#c0c0c0; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none; </style-set>
+        <style-set media="print" type="text">color:#000080; </style-set>
       </styleclass>
       <styleclass name="Heading3" parentclass="Normal" shortcut="49203">
-        <style-set media="screen" type="para">margin-top:12px;</style-set>
-        <style-set media="screen" type="text">font-weight:bold; color:#000080;</style-set>
+        <style-set media="screen" type="para">margin-top:12px; </style-set>
+        <style-set media="screen" type="text">font-weight:bold; color:#000080; </style-set>
       </styleclass>
       <styleclass name="Hinweis" parentclass="Normal" shortcut="49224">
-        <style-set media="screen" type="para">margin-top:20px; margin-right:7px; margin-bottom:15px; margin-left:7px; background-color:#ccffcc; page-break-after:avoid; padding:3px; border-color:#c0c0c0; border-style:single; border-width:1px;</style-set>
+        <style-set media="screen" type="para">margin-top:20px; margin-right:7px; margin-bottom:15px; margin-left:7px; background-color:#ccffcc; page-break-after:avoid; padding:3px; border-color:#c0c0c0; border-style:single; border-width:1px; </style-set>
       </styleclass>
       <styleclass name="Warning" parentclass="Hinweis" shortcut="49239">
-        <style-set media="screen" type="para">margin-right:12px; margin-left:12px; background-color:#ff99cc; padding:5px; border-color:#000000; border-style:thick-outside;</style-set>
+        <style-set media="screen" type="para">margin-right:12px; margin-left:12px; background-color:#ff99cc; padding:5px; border-color:#000000; border-style:thick-outside; </style-set>
       </styleclass>
       <styleclass name="Image Caption" parentclass="Normal" shortcut="49219">
-        <style-set media="screen" type="para">text-align:center;</style-set>
-        <style-set media="screen" type="text">font-family:Arial; font-size:9pt; font-style:italic;</style-set>
+        <style-set media="screen" type="para">text-align:center; </style-set>
+        <style-set media="screen" type="text">font-family:Arial; font-size:9pt; font-style:italic; </style-set>
       </styleclass>
       <styleclass name="Indend" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="para">margin-left:29px;</style-set>
+        <style-set media="screen" type="para">margin-left:29px; </style-set>
       </styleclass>
       <styleclass name="Indend2" parentclass="Indend" shortcut="0">
-        <style-set media="screen" type="para">text-indent:-85px; margin-top:4px; margin-left:114px;</style-set>
+        <style-set media="screen" type="para">text-indent:-85px; margin-top:4px; margin-left:114px; </style-set>
       </styleclass>
       <styleclass name="Notes" parentclass="Normal" shortcut="0"/>
       <styleclass name="SeeAlso" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="para">background-color:#ccffff;</style-set>
-        <style-set media="screen" type="text">font-size:10pt;</style-set>
-        <style-set media="print" type="para">margin-top:19px; page-break-after:avoid; padding:4px; border-style:single; border-width:1px; border-top:none; border-right:none; border-bottom:none; border-left:none;</style-set>
-        <style-set media="print" type="text">font-size:12pt; font-weight:bold; font-style:italic;</style-set>
+        <style-set media="screen" type="para">background-color:#ccffff; </style-set>
+        <style-set media="screen" type="text">font-size:10pt; </style-set>
+        <style-set media="print" type="para">margin-top:19px; page-break-after:avoid; padding:4px; border-style:single; border-width:1px; border-top:none; border-right:none; border-bottom:none; border-left:none; </style-set>
+        <style-set media="print" type="text">font-size:12pt; font-weight:bold; font-style:italic; </style-set>
       </styleclass>
       <styleclass name="SeeAlsoHeadline" parentclass="SeeAlso" shortcut="0">
-        <style-set media="screen" type="para">margin-top:18px; border-color:#000000; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none;</style-set>
+        <style-set media="screen" type="para">margin-top:18px; border-color:#000000; border-style:single; border-width:1px; border-top:none; border-right:none; border-left:none; </style-set>
       </styleclass>
       <styleclass name="SeeAlsoIndent" parentclass="SeeAlso" shortcut="0">
-        <style-set media="screen" type="para">text-indent:48px;</style-set>
+        <style-set media="screen" type="para">text-indent:48px; </style-set>
       </styleclass>
       <styleclass name="Space" parentclass="Normal" shortcut="0">
-        <style-set media="screen" type="para">margin-top:4px; margin-bottom:4px;</style-set>
+        <style-set media="screen" type="para">margin-top:4px; margin-bottom:4px; </style-set>
       </styleclass>
       <styleclass name="Todo" parentclass="Normal" shortcut="24660">
-        <style-set media="screen" type="para">margin-top:5px; margin-right:5px; margin-bottom:5px; margin-left:5px; background-color:#ffff00; padding:5px; border-color:#000000; border-style:thick-outside; border-width:1px; border-top:none; border-bottom:none;</style-set>
+        <style-set media="screen" type="para">margin-top:5px; margin-right:5px; margin-bottom:5px; margin-left:5px; background-color:#ffff00; padding:5px; border-color:#000000; border-style:thick-outside; border-width:1px; border-top:none; border-bottom:none; </style-set>
       </styleclass>
       <tablestyleclass name="Default">
-        <style-set media="screen">width:auto; cell-padding:0px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:none; head-row-background-color:none; alt-row-background-color:none;</style-set>
+        <style-set media="screen">width:auto; cell-padding:0px; cell-spacing:0px; page-break-inside:auto; border-width:0px; border-spacing:0px; cell-border-width:0px; border-style:none; background-color:none; head-row-background-color:none; alt-row-background-color:none; </style-set>
       </tablestyleclass>
     </styleclasses>
     <config-group name="project">
@@ -148,20 +158,20 @@
       <config-value name="autohelpanchor">0</config-value>
       <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\</config-value>
       <config-group name="custombuilds">
-        <config-value name="demo">Demo Build</config-value>
-        <config-value name="user1">User defined 1</config-value>
-        <config-value name="user2">User defined 2</config-value>
-        <config-value name="user3">User defined 3</config-value>
+        <config-value name="DEMO">Demo Build</config-value>
+        <config-value name="USER1">Zerti</config-value>
+        <config-value name="USER2">InEK</config-value>
+        <config-value name="USER3">User defined 3</config-value>
       </config-group>
       <config-value name="imageshortcuts_includebaggage">1</config-value>
-      <config-value name="make4include">user1</config-value>
+      <config-value name="make4include">USER1</config-value>
       <config-value name="make4status">*</config-value>
       <config-value name="make0include">CHM</config-value>
       <config-value name="make0status">*</config-value>
       <config-group name="spellcheck">
         <config-value name="project">1</config-value>
         <config-value name="ignorestyles">Code Example;</config-value>
-        <config-value name="maindictionaries">dict-de_DE-igerman98_2010-05-25.oxt::de_DE_igerman98\de_DE_igerman98.aff::de_DE_igerman98\de_DE_igerman98.dic;</config-value>
+        <config-value name="maindictionaries">dict_de_de-frami_2013-12-06.oxt::de_DE_frami\de_DE_frami.aff::de_DE_frami\de_DE_frami.dic;</config-value>
         <config-value name="customdictionaries">\\vFileserver01\User$\muellermi\Eigene Dateien\HMGlobalUserDict.adu;</config-value>
         <config-value name="activecustomdict">\\vFileserver01\User$\muellermi\Eigene Dateien\HMGlobalUserDict.adu</config-value>
       </config-group>
@@ -360,7 +370,9 @@ document.write('</frameset>');
   <xi:include parse="xml" href="Maps/table_of_contents.xml"/>
   <project-files>
     <file href="Topics/*.xml" build="ALL" filetype="topic">
-      <file-mod href="GrouperCertification.xml" build="USER1"/>
+      <file-mod href="GrouperCertification.xml" build="USER2"/>
+      <file-mod href="CertifyGrouper.xml" build="USER1"/>
+      <file-mod href="Dokumente---Managersicht.xml" build="USER2"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>

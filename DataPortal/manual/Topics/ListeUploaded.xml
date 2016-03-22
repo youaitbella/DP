@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Liste Uploaded</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Liste Uploaded</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die hochgeladenen bzw. freigegebenen Dokumente können zur Kontrolle gelistet werden. Es werden die von Ihnen hochgeladenen bzw. freigegebenen Dokumente mit Status neu oder gelesen angezeigt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DocumentsListUploaded.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Hochgeladene Dokumente sichten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zur Begrenzung der Anzeige werden nur Dokumente gelistet, die jünger als zwei Monate sind. Die Liste ist sortiert nach Status (ungelesen zuerst) und Datum (jüngstes zuerst) und auf max. 100 Dokumente begrenzt.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

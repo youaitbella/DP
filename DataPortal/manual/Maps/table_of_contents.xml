@@ -65,6 +65,21 @@
     <topicref type="topic" id="416693941611566" build="ALL" modified="2014-01-30T13:09:44.382Z" icon="0" href="documents">
       <caption translate="true">Dokumente</caption>
     </topicref>
+    <topicref type="topic" id="424514152763834" build="USER2" modified="2016-03-22T12:01:49.408Z" icon="0" href="Dokumente---Managersicht">
+      <caption translate="true">Dokumente - Managersicht</caption>
+      <topicref type="topic" id="424516082480582" build="ALL" modified="2016-03-22T11:56:32.917Z" icon="0" href="Documentsintern">
+        <caption translate="true">Dokumente</caption>
+      </topicref>
+      <topicref type="topic" id="424512885935341" build="ALL" modified="2016-03-22T12:02:13.339Z" icon="0" href="Approval">
+        <caption translate="true">Freigabe</caption>
+      </topicref>
+      <topicref type="topic" id="42450696532356" build="ALL" modified="2016-03-22T12:02:26.732Z" icon="0" href="Upload">
+        <caption translate="true">Upload</caption>
+      </topicref>
+      <topicref type="topic" id="424516677006382" build="ALL" modified="2016-03-22T12:02:51.134Z" icon="0" href="ListeUploaded">
+        <caption translate="true">Liste Uploaded</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="409112422048944" build="ALL" modified="2011-10-10T10:54:26.295Z" icon="0" href="DropBox">
       <caption translate="true">DropBox</caption>
       <topicref type="topic" id="409492327552373" build="ALL" modified="2012-02-10T10:02:09.998Z" icon="0" href="DropBoxCreate">
@@ -191,8 +206,11 @@
         <caption translate="true">Kooperation konfigurieren</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="419394139251408" build="USER1" modified="2014-10-27T13:50:09.169Z" icon="0" href="GrouperCertification">
+    <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
       <caption translate="true">Grouper-Zertifizierung</caption>
+    </topicref>
+    <topicref type="topic" id="419394139251408" build="USER2" modified="2016-03-22T11:43:41.152Z" icon="0" href="GrouperCertification">
+      <caption translate="true">Grouper-Zertifizierung - Managersicht</caption>
       <topicref type="topic" id="422984980682292" build="ALL" modified="2015-10-21T14:19:59.175Z" icon="0" href="Systemverwaltung">
         <caption translate="true">Systemverwaltung</caption>
         <topicref type="topic" id="422987636500921" build="ALL" modified="2015-10-21T15:39:18.469Z" icon="0" href="Grouperstatus">

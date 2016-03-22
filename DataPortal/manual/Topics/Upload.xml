@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Upload</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Upload</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dokumente werden nicht nur durch externe Programme wie Annahmeprozess, NUB-Tool etc. bereitgestellt, sondern können darüber hinaus auch manuell einem Empfänger zur Verfügung gestellt werden. Für Letzteres dient die Funktion Upload. Dokumente können Sie einer Einzelperson oder einer Gruppe (Behörde zur Verfügung stellen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DocumentsUpload.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Dokumenten-Upload für Einzelperson</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DocumentsUploadAgency.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Dokumenten-Upload für Behörde</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Falle einer Einzelperson geben Sie entweder die E-Mail-Adresse oder die Anwenderkontonummer in das entsprechende Feld ein. Sofern bekannt, werden zur Kontrolle Name, Krankenhaus (bzw. Unternehmen) sowie IK geladen. Bei Behörden dagegen wählen Sie einfach die Behörde aus der Liste.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern innerhalb der letzten 60 Tage bereits Dokumente für den Empfänger hochgeladen wurden, werden diese zur Kontrolle aufgelistet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="3" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:132px;">
+          <list id="3" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+            <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Verfügbarkeit</text></li>
+          </list>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Gibt an, wie lange das oder die Dokumente dem Anwender im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zur Verfügung steht. Nach Ablauf dieser Zeit wird das Dokument aus dem </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> entfernt.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:132px;">
+          <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+            <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bereich</text></li>
+          </list>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Gibt an, für welchen Bereich das oder die Dokumente zur Verfügung gestellt werden. Dies dient der Gruppierung von Dokumenten.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:132px;">
+          <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+            <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Mail-Vorlage</text></li>
+          </list>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählt die Mail-Vorlage zum Senden der Benachrichtigungsmail.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Datei hochladen ]</text><text styleclass="Normal" translate="true"> öffnet einen Dialog um eine oder mehrere Dokumente in das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zu laden. Alternativ können Sie Dokumente auch mittels &quot;Drag and Drop&quot; auf diese Schaltfläche ziehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Aktuell hoch geladene Dokumente werden unterhalb dieser Schaltfläche angezeigt und können bei Bedarf gesichtet oder gelöscht werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DocumentsUploadReady.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Dokumenten-Upload mit hoch geladenem Dokument</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind alle Pflichtfelder gefüllt, so wird die vormals graue Schaltfläche </text><text styleclass="Button" translate="true">[ Speichern und Benachrichtigen ]</text><text styleclass="Normal" translate="true"> aktiv. Mittels Klick auf dieselbe werden die Dokumente beim Anwender gespeichert und dieser per E-Mail benachrichtigt. Die E-Mail ist eine Text-Nachricht ohne Anhang.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

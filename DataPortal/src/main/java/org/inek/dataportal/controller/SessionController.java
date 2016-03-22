@@ -607,6 +607,12 @@ public class SessionController implements Serializable {
         return Pages.Login.RedirectURL();
     }
 
+    public String getManual(){
+        if (_account == null){ return "InEK-Datenportal.pdf";}
+        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")){return "InEK-DatenportalIntern.pdf";}
+        if (_account.getFeatures().stream().anyMatch(f -> f.getFeature() == Feature.CERT)){return "InEK-DatenportalZerti.pdf";}
+        return "InEK-Datenportal.pdf";
+    }
     @Inject ApplicationTools _appTools;
     
     public ApplicationTools getApplicationTools(){
