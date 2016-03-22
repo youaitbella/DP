@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -21,8 +23,21 @@ public class AccountFeatureRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
+    // <editor-fold defaultstate="collapsed" desc="PropertyId">
     @Id
+    @Column(name = "afrId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer _id;
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer id) {
+        _id = id;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "afrAccountId")
     private Integer _accountId;
     public Integer getAccountId() {

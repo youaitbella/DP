@@ -38,14 +38,16 @@ public class FeatureRequestHandler {
 
     public boolean handleFeatureRequest(Account account, Feature feature) {
         AccountFeatureRequest featureRequest = _facade.findByAccountIdAndFeature(account.getId(), feature);
-        if (featureRequest == null) {
-            featureRequest = new AccountFeatureRequest();
-            featureRequest.setAccountId(account.getId());
-            featureRequest.setFeature(feature);
-        } else if (featureRequest.getCreationDate().after(DateUtils.getDateWithDayOffset(-3))) {
-            // an approval process not older than 3 days is still in progress
-            return true;
+        if (featureRequest != null) {
+            if (featureRequest.getCreationDate().after(DateUtils.getDateWithDayOffset(-4))) {
+                // an approval process not older than 3 days is still in progress
+                return true;
+            }
+            _facade.remove(featureRequest);
         }
+        featureRequest = new AccountFeatureRequest();
+        featureRequest.setAccountId(account.getId());
+        featureRequest.setFeature(feature);
         featureRequest.setApprovalKey(UUID.randomUUID().toString());
         if (sendApprovalRequestMail(account, featureRequest)) {
             featureRequest.tagCreationDate();
@@ -56,6 +58,7 @@ public class FeatureRequestHandler {
     }
 
     @Inject Mailer _mailer;
+
     private boolean sendApprovalRequestMail(Account account, AccountFeatureRequest featureRequest) {
         MailTemplate template = _mailer.getMailTemplate("ApprovalRequestMail");
         if (template == null) {
