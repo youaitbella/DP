@@ -104,7 +104,8 @@ h2 a{
 
 div#wrapper {
     text-align: left;
-    width: 1000px;
+    min-width: 800px;
+    max-width: 1150px;
     height: auto;
     margin: 10px auto auto 0px;
     border-width: 0px;
@@ -307,7 +308,7 @@ div#wrapper {
 #content span.tab {
     display: block;
     margin: 20px 0 0 0;
-    width: 698px;
+    width: 100%;
     border-bottom: 3px solid #7F9BAF;
 }
 
