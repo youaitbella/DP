@@ -148,7 +148,7 @@ public class DocumentApproval implements TreeNodeObserver {
         accountDoc.setAccountId(waitingDoc.getAccountId());
         accountDoc.setContent(waitingDoc.getContent());
         accountDoc.setDomain(waitingDoc.getDomain());
-        accountDoc.setUploadAccountId(_sessionController.getAccountId());
+        accountDoc.setAgentAccountId(_sessionController.getAccountId());
         accountDoc.setValidity(waitingDoc.getValidity());
         String jsonMail = waitingDoc.getJsonMail();
         _accountDocFacade.save(accountDoc);

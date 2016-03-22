@@ -14,6 +14,7 @@ import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
@@ -54,7 +55,12 @@ public class PeppProposalList {
             return "";
         }
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
-            _peppProposalFacade.remove(proposal);
+            if (proposal.getStatus().getValue() < 9) {
+                _peppProposalFacade.remove(proposal);
+            } else {
+                proposal.setStatus(WorkflowStatus.Retired);
+                _peppProposalFacade.savePeppProposal(proposal);
+            }
         }
         return "";
     }

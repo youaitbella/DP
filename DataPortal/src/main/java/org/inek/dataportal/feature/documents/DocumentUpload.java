@@ -258,7 +258,7 @@ public class DocumentUpload {
     private void storeDocument(AccountDocument accountDocument, int accountId) {
         accountDocument.setAccountId(accountId);
         accountDocument.setDomain(_domain);
-        accountDocument.setUploadAccountId(_sessionController.getAccountId());
+        accountDocument.setAgentAccountId(_sessionController.getAccountId());
         _docFacade.save(accountDocument);
     }
 

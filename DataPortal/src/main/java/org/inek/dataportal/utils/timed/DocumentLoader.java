@@ -141,7 +141,7 @@ public class DocumentLoader {
         doc.setValidity(validity);
         DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
         doc.setDomain(domain);
-        doc.setUploadAccountId(importInfo.getUploadAccount().getId());
+        doc.setAgentAccountId(importInfo.getUploadAccount().getId());
         _accountDocFacade.save(doc);
     }
 }

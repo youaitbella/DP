@@ -50,21 +50,33 @@ public class AccountDocument implements Serializable, Document {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property UploadAccountId">
-    @Column(name = "adUploadAccountId")
-    private int _uploadAccountId;
+    @Column(name = "adAgentAccountId")
+    private int _agentAccountId;
 
-    public int getUploadAccountId() {
-        return _uploadAccountId;
+    public int getAgentAccountId() {
+        return _agentAccountId;
     }
 
-    public void setUploadAccountId(int uploadAccountId) {
-        _uploadAccountId = uploadAccountId;
+    public void setAgentAccountId(int agentAccountId) {
+        _agentAccountId = agentAccountId;
     }
     // </editor-fold>
         
-    @Column(name = "adTimestamp")
+    @Column(name = "adCreated")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _timestamp;
+    private Date _created;
+    
+    @Column(name = "adLastChanged")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date _lastChanged;
+
+    public Date getLastChanged() {
+        return _lastChanged;
+    }
+
+    public void setLastChanged(Date lastChanged) {
+        this._lastChanged = lastChanged;
+    }
     
     @Column(name = "adValidUntil")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -88,12 +100,12 @@ public class AccountDocument implements Serializable, Document {
         _id = id;
     }
 
-    public Date getTimestamp() {
-        return _timestamp;
+    public Date getCreated() {
+        return _created;
     }
 
-    public void setTimestamp(Date timestamp) {
-        _timestamp = timestamp;
+    public void setCreated(Date created) {
+        _created = created;
     }
 
     public Date getValidUntil() {
@@ -159,12 +171,17 @@ public class AccountDocument implements Serializable, Document {
     }
     
     @PrePersist
-    @PreUpdate
     private void tagCreated() {
-        _timestamp = Calendar.getInstance().getTime();
+        _created = Calendar.getInstance().getTime();
         if (_validUntil == null){
             _validUntil = DateUtils.getDateWithDayOffset(_validity);
         }
+        tagChanged();
+    }
+    
+    @PreUpdate
+    private void tagChanged() {
+        _lastChanged = Calendar.getInstance().getTime();
     }
     
 }

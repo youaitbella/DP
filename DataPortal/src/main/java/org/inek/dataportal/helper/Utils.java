@@ -142,7 +142,9 @@ public class Utils {
     }
 
     public static String getClientIP() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        FacesContext ctxt = FacesContext.getCurrentInstance();
+        if (ctxt == null){return "non-faces request";}
+        HttpServletRequest request = (HttpServletRequest) ctxt.getExternalContext().getRequest();
         return getClientIp(request);
     }
 
