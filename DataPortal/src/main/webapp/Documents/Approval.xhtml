@@ -37,7 +37,7 @@
                                 <f:facet name="header">
                                     <h:outputText value=""/>
                                 </f:facet>
-                                <h:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true" onclick="confirm('Dokument #{docNode.docInfo.name} freigeben?')">
+                                <h:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true" onclick="return confirm('Dokument #{docNode.docInfo.name} freigeben?')">
                                     <h:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
                                 </h:commandLink>
                             </h:column>
@@ -83,7 +83,7 @@
                 </div>
             </ui:repeat>
             
-            <h:commandLink styleClass="bigButton" value="Markierte freigeben" action="#{documentApproval.approveSelected}" onclick="confirm('Alle markierten Dokumente freigeben?')"/>
+            <h:commandLink styleClass="bigButton" value="Markierte freigeben" action="#{documentApproval.approveSelected}" onclick="return confirm('Alle markierten Dokumente freigeben?')"/>
         </h:form>
     </ui:define>
 </ui:composition>
