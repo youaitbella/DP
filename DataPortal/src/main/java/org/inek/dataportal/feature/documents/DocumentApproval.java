@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.documents;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
@@ -21,9 +26,12 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.WaitingDocument;
+import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
+import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
@@ -41,6 +49,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
 @Named
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentApproval implements TreeNodeObserver {
+    private static final Logger _logger = Logger.getLogger("DocumentApproval");
 
     @Inject SessionController _sessionController;
     @Inject WaitingDocumentFacade _waitingDocFacade;
@@ -174,4 +183,28 @@ public class DocumentApproval implements TreeNodeObserver {
         _mailer.sendMailFrom(from, account.getEmail(), bcc, subject, body);
 
     }
+    
+    public String downloadDocument(int docId) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        WaitingDocument doc = _waitingDocFacade.find(docId);
+        if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)) {
+            return "";
+        }
+        try {
+            byte[] buffer = doc.getContent();
+            externalContext.setResponseHeader("Content-Type", "text/plain");
+            externalContext.setResponseHeader("Content-Length", "" + buffer.length);
+            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
+            ByteArrayInputStream is = new ByteArrayInputStream(buffer);
+            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
+
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+            return Pages.Error.URL();
+        }
+        facesContext.responseComplete();
+        return "";
+    }
+    
 }

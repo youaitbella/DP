@@ -46,7 +46,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Empfänger"/>
                                 </f:facet>
-                                <h:commandLink action="#{editDocument.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.tag}" immediate="true">
+                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.tag}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
                                 </h:commandLink>
                             </h:column>
@@ -55,7 +55,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Bereich"/>
                                 </f:facet>
-                                <h:commandLink action="#{editDocument.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.domain}" immediate="true">
+                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.domain}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
                                 </h:commandLink>
                             </h:column>
@@ -64,7 +64,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Dokument"/>
                                 </f:facet>
-                                <h:commandLink action="#{editDocument.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.name}" immediate="true">
+                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.name}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
                                 </h:commandLink>
                             </h:column>
@@ -73,7 +73,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Datum"/>
                                 </f:facet>
-                                <h:commandLink action="#{editDocument.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.createdString}" immediate="true">
+                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.createdString}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
                                 </h:commandLink>
                             </h:column>
