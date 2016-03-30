@@ -71,16 +71,15 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     public Account findByMail(String mail) {
         String query = "SELECT a FROM Account a WHERE a._email = :mail";
-        return getEntityManager().createQuery(query, Account.class).setParameter("mail", mail).getSingleResult();
+        List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mail", mail).getResultList();
+        if (list.size() == 1) {
+            return list.get(0);
+        }
+        return null;
     }
 
     public Boolean existsMail(String mail) {
-        try {
-            findByMail(mail);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+        return findByMail(mail) != null;
     }
 
     public Boolean existsMailOrUser(final String mailOrUser) {

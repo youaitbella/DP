@@ -101,10 +101,11 @@ public class DocumentImportInfo {
                     }
                     break;
                 case "account.mail":
-                    try {
-                        _accounts.add(accountFacade.findByMail(value));
-                    } catch (Exception ex) {
-                        _logger.log(Level.WARNING, "Unknown account mail");
+                    Account account = accountFacade.findByMail(value);
+                    if (account == null) {
+                        _logger.log(Level.WARNING, "Unknown account mail {0}", value);
+                    } else {
+                        _accounts.add(account);
                     }
                     break;
                 case "version":
@@ -119,11 +120,12 @@ public class DocumentImportInfo {
                     }
                     break;
                 case "approval.mail":
-                    try {
-                        _approvalAccount = accountFacade.findByMail(value);
-                    } catch (Exception ex) {
-                        _logger.log(Level.WARNING, "Unknown account mail");
+                    Account approvalAccount = accountFacade.findByMail(value);
+                    if (approvalAccount == null) {
+                        _logger.log(Level.WARNING, "Unknown account mail {0}", value);
                         getDefaultApprovalAccount(accountFacade);
+                    } else {
+                        _approvalAccount = approvalAccount;
                     }
                     break;
                 case "upload.id":
@@ -226,11 +228,12 @@ public class DocumentImportInfo {
     }
 
     private void getDefaultApprovalAccount(AccountFacade accountFacade) {
-        if (_approvalAccount != null){return;}
-        try {
-            _approvalAccount = accountFacade.findByMail("dirk.bauder@inek-drg.de");  // todo: make configurable
-        } catch (Exception ex) {
-            _logger.log(Level.WARNING, "Unknown approval default");
+        if (_approvalAccount != null) {
+            return;
+        }
+        _approvalAccount = accountFacade.findByMail("dirk.bauder@inek-drg.de");  // todo: make configurable
+        if (_approvalAccount == null) {
+            _approvalAccount = accountFacade.findByMail("michael.mueller@inek-drg.de");  // todo: make configurable
         }
     }
 
