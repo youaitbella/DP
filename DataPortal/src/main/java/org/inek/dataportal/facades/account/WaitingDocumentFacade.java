@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.WaitingDocument;
+import org.inek.dataportal.entities.account.WaitingDocumentInfo;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.utils.DateUtils;
@@ -17,32 +20,30 @@ import org.inek.dataportal.utils.DateUtils;
 @Stateless
 public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
 
+    @Inject SessionController _sessionController;
+
     public WaitingDocumentFacade() {
         super(WaitingDocument.class);
     }
 
     public List<DocInfo> getDocInfos(int agentAccountId) {
-//        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, null, false, d._accountId, d._agentAccountId, a._ik "
-//                + "FROM WaitingDocument d "
-//                + "join DocumentDomain dd "
-//                + "join Account a "
-//                + "WHERE d._accountId = a._id and d._domainId = dd._id and d._agentAccountId = :accountId ORDER BY d._id DESC";
-        String sql = "SELECT d._id, d._name, dd._name, d._timestamp, null, false, d._accountId, d._agentAccountId, a._ik, a._company, a._town "
-                + "FROM WaitingDocument d "
-                + "join DocumentDomain dd "
-                + "join Account a "
-                + "WHERE d._domainId = dd._id and d._accountId = a._id and d._agentAccountId = :accountId ORDER BY d._id DESC";
-        // does not work properly :(
-//        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
-//        query.setParameter("accountId", accountId);
-//        return query.getResultList();
-        Query query = getEntityManager().createQuery(sql);
-        dumpSql(query);
+        String sql = "Select d from WaitingDocumentInfo d where d._agentAccountId = :accountId ORDER BY d._id DESC";
+        TypedQuery<WaitingDocumentInfo> query = getEntityManager().createQuery(sql, WaitingDocumentInfo.class);
         query.setParameter("accountId", agentAccountId);
-        List<Object[]> objects = query.getResultList();
+        List<WaitingDocumentInfo> resultList = query.getResultList();
+        
         List<DocInfo> docInfos = new ArrayList<>();
-        for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10]));
+        for (WaitingDocumentInfo info : resultList) {
+            Account account = info.getAccounts().get(0);
+            int ikDoc = info.getIk();
+            int ikAccount = account.getIK();
+            String receipientInfo;
+            if (ikDoc < 0 || ikDoc == ikAccount) {
+                receipientInfo = ikAccount + " " + account.getCompany() + " " + account.getTown();
+            } else {
+                receipientInfo = ikDoc + " " + _sessionController.getIkName(ikDoc);
+            }
+            docInfos.add(new DocInfo((int) info.getId(), info.getName(), info.getDomain().getName(), info.getTimestamp(), null, false, account.getId(), info.getAgentAccountId(), receipientInfo));
         }
         return docInfos;
     }

@@ -48,6 +48,8 @@ public class DocumentImportInfo {
     private String _parent = "";
     private Account _uploadAccount;
     private Account _approvalAccount;
+    private String _defaultDomain = "";
+    private int _ik = -1;
 
     public DocumentImportInfo(File file, AccountFacade accountFacade) {
         try {
@@ -93,6 +95,13 @@ public class DocumentImportInfo {
             String value = parts[1].trim();
 
             switch (key) {
+                case "ik":
+                    try {
+                        _ik = Integer.parseInt(value);
+                    } catch (NumberFormatException ex) {
+                        _logger.log(Level.WARNING, "Parse IK, not a number {0}", value);
+                    }
+                    break;
                 case "account.id":
                     try {
                         _accounts.add(accountFacade.find(Integer.parseInt(value)));
@@ -110,6 +119,9 @@ public class DocumentImportInfo {
                     break;
                 case "version":
                     _version = value;
+                    break;
+                case "document.domain":
+                    _defaultDomain = value;
                     break;
                 case "approval.id":
                     try {
@@ -175,6 +187,10 @@ public class DocumentImportInfo {
         return _accounts;
     }
 
+    public int getIk() {
+        return _ik;
+    }
+
     public Account getUploadAccount() {
         return _uploadAccount;
     }
@@ -224,7 +240,10 @@ public class DocumentImportInfo {
         if (_fileDomains.containsKey(key)) {
             return _fileDomains.get(key);
         }
-        return _parent;
+        if (_defaultDomain.isEmpty()) {
+            return _parent;
+        }
+        return _defaultDomain;
     }
 
     private void getDefaultApprovalAccount(AccountFacade accountFacade) {

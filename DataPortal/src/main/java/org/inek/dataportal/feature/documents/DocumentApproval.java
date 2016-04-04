@@ -34,6 +34,7 @@ import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
+import org.inek.dataportal.helper.structures.Pair;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
 import org.inek.dataportal.mail.Mailer;
@@ -49,6 +50,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
 @Named
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentApproval implements TreeNodeObserver {
+
     private static final Logger _logger = Logger.getLogger("DocumentApproval");
 
     @Inject SessionController _sessionController;
@@ -125,70 +127,78 @@ public class DocumentApproval implements TreeNodeObserver {
     }
 
     public void approveSelected() {
-        Map<Integer, Set<String>> accountMailInfos = new HashMap<>();
-        //Set<Integer> accountIds = new HashSet<>();
-        for (TreeNode node : _rootNode.getSelectedNodes()) {
-            KeyValue<Integer, String> mailInfo = approveAndReturnMailInfo(node.getId());
-            int accountId = mailInfo.getKey();
-            Set<String> mailInfos = accountMailInfos.get(accountId);
-            if (mailInfos == null) {
-                mailInfos = new HashSet<>();
+        Map<String, Set<Account>> mailInfos = new HashMap<>();
+
+        _rootNode.getSelectedNodes().stream().map((node) -> approveAndReturnMailInfo(node.getId())).forEach((mailInfo) -> {
+            // collect mail info to reduce redundant mails
+            String key = mailInfo.getValue1();
+            Set<Account> accounts = mailInfos.get(key);
+            if (accounts == null) {
+                accounts = new HashSet<>();
             }
-            mailInfos.add(mailInfo.getValue());
-            accountMailInfos.put(accountId, mailInfos);
-        }
-        for (Entry<Integer, Set<String>> entry : accountMailInfos.entrySet()) {
-            for (String jsonMail : entry.getValue()) {
-                notify(entry.getKey(), jsonMail);
-            }
+            accounts.addAll(mailInfo.getValue2());
+            mailInfos.put(key, accounts);
+        });
+        
+        for (Entry<String, Set<Account>> entry : mailInfos.entrySet()) {
+                notify(entry.getKey(), entry.getValue());
         }
         _rootNode.refresh();
     }
 
     public void approve(int docId) {
-        KeyValue<Integer, String> mailInfo = approveAndReturnMailInfo(docId);
-        notify(mailInfo.getKey(), mailInfo.getValue());
+        Pair<String, List<Account>> mailInfo = approveAndReturnMailInfo(docId);
+        notify(mailInfo.getValue1(), mailInfo.getValue2());
         _rootNode.refresh();
     }
 
-    public KeyValue<Integer, String> approveAndReturnMailInfo(int docId) {
+    public Pair<String, List<Account>> approveAndReturnMailInfo(int docId) {
         WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
+        List<Account> accounts = waitingDoc.getAccounts();
+        for (Account account : accounts) {
+            createAccountDocument(account, waitingDoc);
+        }
+        String jsonMail = waitingDoc.getJsonMail();
+        //waitingDoc.getAccounts().clear();
+        _waitingDocFacade.remove(waitingDoc);
+        return new Pair<>(jsonMail, accounts);
+    }
+
+    private void createAccountDocument(Account account, WaitingDocument waitingDoc) {
         AccountDocument accountDoc = new AccountDocument(waitingDoc.getName());
-        accountDoc.setAccountId(waitingDoc.getAccountId());
+        accountDoc.setAccountId(account.getId());
         accountDoc.setContent(waitingDoc.getContent());
         accountDoc.setDomain(waitingDoc.getDomain());
-        accountDoc.setAgentAccountId(_sessionController.getAccountId());
+        accountDoc.setAgentAccountId(waitingDoc.getAgentAccountId());
         accountDoc.setValidity(waitingDoc.getValidity());
-        String jsonMail = waitingDoc.getJsonMail();
         _accountDocFacade.save(accountDoc);
-        _waitingDocFacade.remove(waitingDoc);
-        return new KeyValue<>(accountDoc.getAccountId(), jsonMail);
     }
 
     @Inject private Mailer _mailer;
 
-    private void notify(int accountId, String jsonMail) {
+    private void notify(String jsonMail, Collection<Account> accounts) {
         if (jsonMail.isEmpty()) {
             return;
         }
 
-        Account account = _accountFacade.find(accountId);
         Charset charset = Charset.forName("UTF-8");
         JsonReader reader = Json.createReader(new ByteArrayInputStream(jsonMail.getBytes(charset)));
         JsonObject mailInfo = reader.readObject();
         String from = mailInfo.getString("from", "datenportal@inek.org");
         String bcc = mailInfo.getString("bcc");
         String subject = mailInfo.getString("subject");
-        String body = mailInfo.getString("body");
-        _mailer.sendMailFrom(from, account.getEmail(), bcc, subject, body);
-
+        for (Account account : accounts) {
+            String salutation = _mailer.getFormalSalutation(account);
+            String body = mailInfo.getString("body").replace("{formalSalutation}", salutation);
+            _mailer.sendMailFrom(from, account.getEmail(), bcc, subject, body);
+        }
     }
-    
+
     public String downloadDocument(int docId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         WaitingDocument doc = _waitingDocFacade.find(docId);
-        if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)) {
+        if (!_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
         }
         try {
@@ -206,5 +216,5 @@ public class DocumentApproval implements TreeNodeObserver {
         facesContext.responseComplete();
         return "";
     }
-    
+
 }

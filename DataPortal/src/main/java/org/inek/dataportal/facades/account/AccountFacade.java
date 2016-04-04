@@ -134,6 +134,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         cQuery.select(cBuilder.array(idPath, lastNamePath, firstNamePath));
         //cQuery.where(cBuilder.like(accountRoot.get(Account_._email), "%@inek-drg.de"));
         cQuery.where(cBuilder.like(accountRoot.get("_email").as(String.class), "%@inek-drg.de"));
+        cQuery.orderBy(cBuilder.asc(accountRoot.get("_lastName")));
         List<Object[]> valueArray = getEntityManager().createQuery(cQuery).getResultList();
         List<SelectItem> agents = new ArrayList<>();
         for (Object[] values : valueArray) {

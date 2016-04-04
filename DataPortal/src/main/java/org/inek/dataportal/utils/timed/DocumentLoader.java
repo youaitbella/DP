@@ -2,6 +2,7 @@ package org.inek.dataportal.utils.timed;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
@@ -81,7 +82,11 @@ public class DocumentLoader {
             return;
         }
 
-        createDocuments(importInfo);
+        if (importInfo.getApprovalAccount().getId() > 0) {
+            createWaitingDocuments(importInfo);
+        } else {
+            createDocuments(importInfo);
+        }
         file.delete();
     }
 
@@ -89,48 +94,23 @@ public class DocumentLoader {
         int validity = _config.readInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
-            Account receipient = importInfo.getApprovalAccount().getId() > 0 ? importInfo.getApprovalAccount() : account;
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
             String bcc = "fehlerverfahren@inek-drg.de";
 
             if (subject.isEmpty() || body.isEmpty()) {
                 MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
-                String salutation = _mailer.getFormalSalutation(receipient);
+                String salutation = _mailer.getFormalSalutation(account);
                 body = template.getBody().replace("{formalSalutation}", salutation);
                 bcc = template.getBcc();
                 subject = template.getSubject();
             }
 
             for (String name : files.keySet()) {
-                if (importInfo.getApprovalAccount().getId() > 0) {
-                    JsonObject jsonMail = Json.createObjectBuilder()
-                            .add("from", importInfo.getSender())
-                            .add("bcc", bcc)
-                            .add("subject", subject)
-                            .add("body", body)
-                            .build();
-                    createWaitingDocument(account, files, name, validity, importInfo, jsonMail);
-                } else {
-                    createAccountDocument(account, files, name, validity, importInfo);
-                }
+                createAccountDocument(account, files, name, validity, importInfo);
             }
-            _mailer.sendMailFrom(importInfo.getSender(), receipient.getEmail(), bcc, subject, body);
+            _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), bcc, subject, body);
         }
-
-    }
-
-    private void createWaitingDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo, JsonObject jsonMail) {
-        WaitingDocument doc = new WaitingDocument();
-        doc.setAccountId(account.getId());
-        doc.setContent(files.get(name));
-        doc.setName(name);
-        doc.setValidity(validity);
-        DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
-        doc.setDomain(domain);
-        doc.setAgentAccountId(importInfo.getApprovalAccount().getId());
-        doc.setJsonMail(jsonMail.toString());
-        _waitingDocFacade.save(doc);
     }
 
     private void createAccountDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo) {
@@ -144,4 +124,50 @@ public class DocumentLoader {
         doc.setAgentAccountId(importInfo.getUploadAccount().getId());
         _accountDocFacade.save(doc);
     }
+
+    private void createWaitingDocuments(DocumentImportInfo importInfo) {
+        int validity = _config.readInt(ConfigKey.ReportValidity);
+        Map<String, byte[]> files = importInfo.getFiles();
+
+        Account agent = importInfo.getApprovalAccount();
+        String subject = importInfo.getSubject();
+        String body = importInfo.getBody();
+        String bcc = "fehlerverfahren@inek-drg.de";
+
+        if (subject.isEmpty() || body.isEmpty()) {
+            MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
+            body = template.getBody();
+            bcc = template.getBcc();
+            subject = template.getSubject();
+        }
+
+        for (String name : files.keySet()) {
+            JsonObject jsonMail = Json.createObjectBuilder()
+                    .add("from", importInfo.getSender())
+                    .add("bcc", bcc)
+                    .add("subject", subject)
+                    .add("body", body)
+                    .build();
+            createWaitingDocument(name, files.get(name), validity, importInfo, jsonMail);
+        }
+        String salutation = _mailer.getFormalSalutation(agent);
+        body = body.replace("{formalSalutation}", salutation);
+        _mailer.sendMailFrom(importInfo.getSender(), agent.getEmail(), bcc, subject, body);
+    }
+
+    private void createWaitingDocument(String name, byte[] content, int validity, DocumentImportInfo importInfo, JsonObject jsonMail) {
+        WaitingDocument doc = new WaitingDocument();
+        //doc.setAccountId(account.getId());
+        doc.getAccounts().addAll(importInfo.getAccounts());
+        doc.setContent(content);
+        doc.setName(name);
+        doc.setValidity(validity);
+        DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
+        doc.setDomain(domain);
+        doc.setAgentAccountId(importInfo.getApprovalAccount().getId());
+        doc.setIk(importInfo.getIk());
+        doc.setJsonMail(jsonMail.toString());
+        _waitingDocFacade.save(doc);
+    }
+
 }
