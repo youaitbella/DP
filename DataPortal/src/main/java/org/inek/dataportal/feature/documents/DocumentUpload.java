@@ -242,10 +242,13 @@ public class DocumentUpload {
                 Agency agency = _agencyFacade.find(_agencyId);
                 for (Account account : agency.getAccounts()) {
                     storeDocument(accountDocument, account.getId());
+                    sendNotification(account);
                 }
             }
         }
-        sendNotification();
+        if (_documentTarget == DocumentTarget.Account) {
+            sendNotification(_account);
+        }
         _documents.clear();
         loadLastDocuments();
         return "";
@@ -277,14 +280,14 @@ public class DocumentUpload {
         return "";
     }
 
-    private void sendNotification() {
+    private void sendNotification(Account account) {
         MailTemplate template = _mailer.getMailTemplate(_mailTemplate);
-        String salutation = _mailer.getFormalSalutation(_account);
+        String salutation = _mailer.getFormalSalutation(account);
         String body = template.getBody().replace("{formalSalutation}", salutation);
         String bcc = template.getBcc();
         String subject = template.getSubject();
 
-        _mailer.sendMailFrom("datenportal@inek.org", _account.getEmail(), bcc, subject, body);
+        _mailer.sendMailFrom("datenportal@inek.org", account.getEmail(), bcc, subject, body);
     }
 
 }
