@@ -6,7 +6,9 @@
 package org.inek.dataportal.feature.documents;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -235,19 +237,21 @@ public class DocumentUpload {
         if (_documents.isEmpty()) {
             return "";
         }
+        Set<Account> accounts = new HashSet<>();
         for (AccountDocument accountDocument : _documents) {
             if (_documentTarget == DocumentTarget.Account) {
                 storeDocument(accountDocument, _account.getId());
+                accounts.add(_account);
             } else {
                 Agency agency = _agencyFacade.find(_agencyId);
                 for (Account account : agency.getAccounts()) {
                     storeDocument(accountDocument, account.getId());
-                    sendNotification(account);
+                    accounts.add(account);
                 }
             }
         }
-        if (_documentTarget == DocumentTarget.Account) {
-            sendNotification(_account);
+        for (Account account : accounts){
+            sendNotification(account);
         }
         _documents.clear();
         loadLastDocuments();
