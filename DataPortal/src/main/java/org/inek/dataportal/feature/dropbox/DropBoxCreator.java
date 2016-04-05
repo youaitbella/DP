@@ -4,10 +4,11 @@
  */
 package org.inek.dataportal.feature.dropbox;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SessionTools;
@@ -22,8 +23,8 @@ import org.inek.dataportal.helper.Utils;
  * @author muellermi
  */
 @Named
-@RequestScoped
-public class DropBoxCreator  {
+@ViewScoped
+public class DropBoxCreator implements Serializable{
 
     @Inject private org.inek.dataportal.facades.DropBoxFacade _dropBoxFacade;
     @Inject private SessionController _sessionController;
@@ -83,8 +84,8 @@ public class DropBoxCreator  {
         return Pages.MainApp.URL();
     }
 
-    public String getIkRequired(){
-        return _sessionTools.getDropBoxType(_dropboxTypeId).isNeedsIK() ? "true" : "false";
+    public boolean getIkRequired(){
+        return _sessionTools.getDropBoxType(_dropboxTypeId).isNeedsIK();
     }
     
     private int createDropBox() {

@@ -97,15 +97,16 @@ public class DropBoxController extends AbstractFeatureController {
         return dropBox.getItems();
     }
 
-    public void sealDropBox(DropBoxFacade _dropBoxFacade, DropBox dropBox) throws ProcessingException {
+    public File sealDropBox(DropBoxFacade _dropBoxFacade, DropBox dropBox) throws ProcessingException {
         files2items(dropBox);
         dropBox.setComplete(true);
         addEmailInfo(dropBox);
-        moveFiles2Target(dropBox);
+        File target = moveFiles2Target(dropBox);
         _dropBoxFacade.updateDropBox(dropBox);
+        return target;
     }
 
-    private void moveFiles2Target(DropBox dropBox) throws ProcessingException {
+    private File moveFiles2Target(DropBox dropBox) throws ProcessingException {
         File sourceDir = getUploadDir(dropBox);
         File workingFile = new File(sourceDir.getAbsolutePath() + ".zip");
         new StreamHelper().compressFiles(sourceDir.listFiles(), workingFile);
@@ -120,6 +121,7 @@ public class DropBoxController extends AbstractFeatureController {
         if (!deleteDir(sourceDir)) {
             throw new ProcessingException("Could not delete " + sourceDir.getAbsolutePath());
         }
+        return target;
     }
 
     private void files2items(DropBox dropBox) throws IllegalStateException {

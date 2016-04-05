@@ -57,7 +57,7 @@ public class DocumentImportInfo {
             extractInfos(accountFacade);
             _parent = file.getParentFile().getParentFile().getName();
         } catch (IOException ex) {
-            _error = ex.getMessage();
+            _error = ex.getMessage() + " " + ex.getStackTrace()[0];
         }
     }
 
@@ -228,7 +228,7 @@ public class DocumentImportInfo {
     }
 
     public boolean isValid() {
-        return _error.isEmpty() && _version.equals("1.0");
+        return _error.isEmpty() && _version.equals("1.0") && !_accounts.isEmpty();
     }
 
     public String getParent() {

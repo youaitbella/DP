@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.dropbox;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -108,7 +110,10 @@ public class EditDropBox implements Serializable {
     public String sealDropBox() {
         DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         try {
-            dropBoxController.sealDropBox(_dropBoxFacade, _dropBox);
+            File target = dropBoxController.sealDropBox(_dropBoxFacade, _dropBox);
+            if (!_dropBox.getDropboxType().isNeedsIK()){
+                notifyInek(target);
+            }
             return Pages.DropBoxUpload.URL();
         } catch (ProcessingException e) {
             _logger.log(Level.SEVERE, null, e);
@@ -118,6 +123,11 @@ public class EditDropBox implements Serializable {
 
     public String refresh() {
         return "";
+    }
+
+    @Inject Mailer _mailer;
+    private void notifyInek(File target) {
+        _mailer.sendMail("edv@inek-drg.de", "DropBox", "Neue Dokumente per DropBox geliefert: " + target.getAbsolutePath());
     }
 
 }
