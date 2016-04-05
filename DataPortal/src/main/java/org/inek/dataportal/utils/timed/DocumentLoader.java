@@ -3,6 +3,7 @@ package org.inek.dataportal.utils.timed;
 import java.io.File;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
@@ -81,6 +82,10 @@ public class DocumentLoader {
             _logger.log(Level.WARNING, "Could not import {0}", importInfo.getError());
             return;
         }
+        if (importInfo.getFiles().isEmpty()){
+            _logger.log(Level.WARNING, "No files found to import for container {0}", file.getName());
+            return;
+        }
 
         if (importInfo.getApprovalAccount().getId() > 0) {
             createWaitingDocuments(importInfo);
@@ -123,6 +128,8 @@ public class DocumentLoader {
         doc.setDomain(domain);
         doc.setAgentAccountId(importInfo.getUploadAccount().getId());
         _accountDocFacade.save(doc);
+        _accountDocFacade.clearCache();
+        _logger.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{name, account.getId()});
     }
 
     private void createWaitingDocuments(DocumentImportInfo importInfo) {
@@ -168,6 +175,7 @@ public class DocumentLoader {
         doc.setIk(importInfo.getIk());
         doc.setJsonMail(jsonMail.toString());
         _waitingDocFacade.save(doc);
+        _logger.log(Level.INFO, "Document created for approval: {0} for account {1}", new Object[]{name, importInfo.getApprovalAccount().getId()});
     }
 
 }
