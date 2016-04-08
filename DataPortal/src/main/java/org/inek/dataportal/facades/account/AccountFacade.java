@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -329,6 +330,14 @@ public class AccountFacade extends AbstractFacade<Account> {
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    public List<Account> getAccounts4Ik(Integer ik) {
+        String jpql = "SELECT DISTINCT a FROM Account a left join AccountAdditionalIK i WHERE a._reportViaPortal = TRUE and (a._ik = :ik  or a._id = i._accountId and i._ik = :ik) order by a._lastName";
+        Query query = getEntityManager().createQuery(jpql);
+        dumpSql(query);
+        query.setParameter("ik", ik);
+        return query.getResultList();
     }
 
 }

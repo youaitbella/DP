@@ -20,8 +20,12 @@ public class AccountAdditionalIK implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "aaiId")
     private Integer _id;
+    
     @Column(name = "aaiIK")
     private Integer _ik;
+
+    @Column(name = "aaiAccountId")
+    private Integer _accountId;
 
     @Transient
     private String _name;
@@ -38,8 +42,8 @@ public class AccountAdditionalIK implements Serializable {
         return _id;
     }
 
-    public void setId(Integer Id) {
-        this._id = Id;
+    public void setId(Integer id) {
+        this._id = id;
     }
 
     public Integer getIK() {
@@ -48,6 +52,14 @@ public class AccountAdditionalIK implements Serializable {
 
     public void setIK(Integer ik) {
         _ik = ik;
+    }
+
+    public Integer getAccountId() {
+        return _accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        _accountId = accountId;
     }
 
     public String getName() {

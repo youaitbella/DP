@@ -11,5 +11,6 @@ package org.inek.dataportal.enums;
  */
 public enum DocumentTarget {
     Account,
-    Agency;
+    Agency, 
+    IK;
 }

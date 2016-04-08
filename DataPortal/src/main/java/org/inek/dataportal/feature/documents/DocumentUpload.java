@@ -86,11 +86,30 @@ public class DocumentUpload {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property IK">
+    private Integer _ik;
+
+    public Integer getIk() {
+        return _ik;
+    }
+
+    public void setIk(Integer ik) {
+        _ik = ik;
+        loadLastDocuments();
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Agencies">
     @Inject AgencyFacade _agencyFacade;
 
     public List<Agency> getAgencies() {
         return _agencyFacade.findAll();
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Accounts">
+    public List<Account> getAccounts() {
+        return _accountFacade.getAccounts4Ik(_ik);
     }
     // </editor-fold>
 
@@ -196,22 +215,25 @@ public class DocumentUpload {
 
     private void loadLastDocuments() {
         _docs.clear();
-        if (_account == null) {
-            return;
-        }
-        if (_documentTarget == DocumentTarget.Account) {
-            addDocuments(_docs, _account);
-        } else {
-            if (_agencyId == null) {
-                return;
-            }
-            Agency agency = _agencyFacade.find(_agencyId);
-            if (agency == null) {
-                return;
-            }
-            for (Account account : agency.getAccounts()) {
-                addDocuments(_docs, account);
-            }
+        switch (_documentTarget) {
+            case Account:
+                if (_account == null) {
+                    return;
+                }   addDocuments(_docs, _account);
+                break;
+            case Agency:
+                if (_agencyId == null) {
+                    return;
+                }   Agency agency = _agencyFacade.find(_agencyId);
+                if (agency == null) {
+                    return;
+                }   for (Account account : agency.getAccounts()) {
+                    addDocuments(_docs, account);
+                }   break;
+            case IK:
+                break;
+            default:
+                break;
         }
     }
 
@@ -239,18 +261,22 @@ public class DocumentUpload {
         }
         Set<Account> accounts = new HashSet<>();
         for (AccountDocument accountDocument : _documents) {
-            if (_documentTarget == DocumentTarget.Account) {
-                storeDocument(accountDocument, _account.getId());
-                accounts.add(_account);
-            } else {
-                Agency agency = _agencyFacade.find(_agencyId);
-                for (Account account : agency.getAccounts()) {
-                    storeDocument(accountDocument, account.getId());
-                    accounts.add(account);
-                }
+            switch (_documentTarget) {
+                case Account:
+                    storeDocument(accountDocument, _account.getId());
+                    accounts.add(_account);
+                    break;
+                case Agency:
+                    Agency agency = _agencyFacade.find(_agencyId);
+                    for (Account account : agency.getAccounts()) {
+                        storeDocument(accountDocument, account.getId());
+                        accounts.add(account);
+                    }   break;
+                default:
+                    break;
             }
         }
-        for (Account account : accounts){
+        for (Account account : accounts) {
             sendNotification(account);
         }
         _documents.clear();

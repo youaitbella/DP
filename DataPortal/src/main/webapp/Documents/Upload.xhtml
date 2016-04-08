@@ -47,6 +47,7 @@
                 <h:selectOneRadio styleClass="radioGroup" id="radDocumentTarget" value="#{documentUpload.documentTarget}" >
                     <f:selectItem itemLabel="#{msg.lblUserAccount} &nbsp;" itemValue="Account"/>
                     <f:selectItem itemLabel="#{msg.lblAgency} &nbsp;" itemValue="Agency"/>
+                    <f:selectItem itemLabel="#{msg.lblIK} &nbsp;" itemValue="IK"/>
                 </h:selectOneRadio>
             </f:ajax>
 
@@ -91,6 +92,33 @@
                         <f:selectItems value="#{documentUpload.agencies}" var="agency" itemLabel="#{agency.name}" itemValue="#{agency.id}"/>
                         <f:ajax render="@form :logout:remaining"/>
                     </h:selectOneMenu>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup id="IK" rendered="#{documentUpload.documentTarget eq 'IK'}" styleClass="marginTop">
+                <div>
+                    <h:outputLabel value="#{msg.lblIkAbbr}" styleClass="label20"/>
+                    <h:inputText value="#{documentUpload.ik}">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:inputText>
+                </div>
+                <div>
+                    <h:dataTable value="#{documentUpload.accounts}" var="account"
+                                 headerClass="list-header" id="tblAccounts"
+                                 width="100%" rowClasses="row1, row2" columnClasses="colValue, colValuem, colValue, colValue">                        
+                        <h:column>
+                            #{account.firstName}
+                        </h:column>
+                        <h:column>
+                            #{account.lastName}
+                        </h:column>
+                        <h:column>
+                            #{account.email}
+                        </h:column>
+                        <h:column>
+                            #{account.company}
+                        </h:column>
+                    </h:dataTable>
                 </div>
             </h:panelGroup>
 
