@@ -1,9 +1,9 @@
 package org.inek.dataportal.utils.timed;
 
+import com.google.common.io.Files;
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
@@ -43,7 +43,7 @@ public class DocumentLoader {
     @Inject private DocumentDomainFacade _docDomain;
     @Inject private Mailer _mailer;
 
-    @Schedule(hour = "*", minute = "*/1", info = "every minute")
+    @Schedule(hour = "*", minute = "*/5", info = "every 5 minutes")
     private void monitorDocumentRoot() {
         File baseDir = new File(_config.read(ConfigKey.DocumentScanBase));
         for (File dir : baseDir.listFiles()) {
@@ -92,7 +92,15 @@ public class DocumentLoader {
         } else {
             createDocuments(importInfo);
         }
-        file.delete();
+        File importedDir = new File(file.getPath(), "Imported");
+        if(!importedDir.exists())
+            importedDir.mkdir();
+        try {
+            Files.move(file, importedDir);
+        } catch(IOException ex) {
+            file.delete();
+            _logger.log(Level.WARNING, "Moving file {1} to Imported folder failed: {0}", new Object[]{ex.getMessage(), file.getName()});
+        }
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
