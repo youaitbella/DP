@@ -46,6 +46,7 @@ public abstract class TreeNode {
         return _children;
     }
     // </editor-fold>    
+    
     // <editor-fold defaultstate="collapsed" desc="Property Id">    
     private int _id;
 
@@ -57,6 +58,7 @@ public abstract class TreeNode {
         _id = id;
     }
     // </editor-fold>    
+    
     // <editor-fold defaultstate="collapsed" desc="Property Expanded">    
     private boolean _isExpanded;
 
@@ -73,6 +75,7 @@ public abstract class TreeNode {
     }
 
     // </editor-fold>   
+    
     // <editor-fold defaultstate="collapsed" desc="Property Checked">    
     private boolean _isChecked = false;
 
@@ -85,6 +88,7 @@ public abstract class TreeNode {
     }
 
     // </editor-fold>  
+    
     // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
     private String _sortCriteria = "";
     private boolean _isDescending = false;
@@ -110,6 +114,7 @@ public abstract class TreeNode {
     }
 
     // </editor-fold>    
+    
     public void toggle() {
         if (_isExpanded) {
             collapse();

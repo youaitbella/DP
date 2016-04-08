@@ -27,6 +27,7 @@ import java.util.zip.ZipInputStream;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.utils.StreamUtils;
+import org.inek.portallib.util.Helper;
 
 /**
  *
@@ -57,7 +58,7 @@ public class DocumentImportInfo {
             extractInfos(accountFacade);
             _parent = file.getParentFile().getParentFile().getName();
         } catch (IOException ex) {
-            _error = ex.getMessage() + " " + ex.getStackTrace()[0];
+            _error = Helper.collectException(ex, 0);
         }
     }
 
@@ -220,7 +221,7 @@ public class DocumentImportInfo {
     }
 
     public String getError() {
-        return _error;
+        return _accounts.isEmpty() ? "[no valid account found] " + _error : _error;
     }
 
     public String getVersion() {

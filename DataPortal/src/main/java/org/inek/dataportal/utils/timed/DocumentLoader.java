@@ -35,6 +35,7 @@ public class DocumentLoader {
 
     private static final Logger _logger = Logger.getLogger("DocumentLoader");
     private final static String ImportDir = "Import.Dataportal";
+    private final static String ArchiveDir = "Imported";
 
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;
@@ -76,13 +77,25 @@ public class DocumentLoader {
         }
     }
 
-    private void handleContainer(File file) {
+    private void moveToArchive(File file) {
+        try {
+            File archiveDir = new File(file.getParent(), ArchiveDir);
+            if (!archiveDir.exists()) {
+                archiveDir.mkdirs();
+            }
+            file.renameTo(new File(archiveDir, file.getName()));
+        } catch (Exception ex) {
+            _logger.log(Level.INFO, "Could not rename {0}", file.getName());
+        }
+    }
+
+    private synchronized void handleContainer(File file) {
         DocumentImportInfo importInfo = new DocumentImportInfo(file, _accountFacade);
         if (!importInfo.isValid()) {
             _logger.log(Level.WARNING, "Could not import {0}", importInfo.getError());
             return;
         }
-        if (importInfo.getFiles().isEmpty()){
+        if (importInfo.getFiles().isEmpty()) {
             _logger.log(Level.WARNING, "No files found to import for container {0}", file.getName());
             return;
         }
@@ -92,15 +105,7 @@ public class DocumentLoader {
         } else {
             createDocuments(importInfo);
         }
-        File importedDir = new File(file.getPath(), "Imported");
-        if(!importedDir.exists())
-            importedDir.mkdir();
-        try {
-            Files.move(file, importedDir);
-        } catch(IOException ex) {
-            file.delete();
-            _logger.log(Level.WARNING, "Moving file {1} to Imported folder failed: {0}", new Object[]{ex.getMessage(), file.getName()});
-        }
+        moveToArchive(file);
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
