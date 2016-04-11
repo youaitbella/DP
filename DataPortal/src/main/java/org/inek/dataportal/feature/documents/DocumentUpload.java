@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.documents;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -95,6 +96,7 @@ public class DocumentUpload {
 
     public void setIk(Integer ik) {
         _ik = ik;
+        _accounts = _accountFacade.getAccounts4Ik(_ik);
         loadLastDocuments();
     }
     // </editor-fold>
@@ -108,8 +110,10 @@ public class DocumentUpload {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
+    private List<Account> _accounts = Collections.EMPTY_LIST;
+
     public List<Account> getAccounts() {
-        return _accountFacade.getAccounts4Ik(_ik);
+        return _accounts;
     }
     // </editor-fold>
 
@@ -219,18 +223,30 @@ public class DocumentUpload {
             case Account:
                 if (_account == null) {
                     return;
-                }   addDocuments(_docs, _account);
+                }
+                addDocuments(_docs, _account);
                 break;
             case Agency:
                 if (_agencyId == null) {
                     return;
-                }   Agency agency = _agencyFacade.find(_agencyId);
+                }
+                Agency agency = _agencyFacade.find(_agencyId);
                 if (agency == null) {
                     return;
-                }   for (Account account : agency.getAccounts()) {
+                }
+                for (Account account : agency.getAccounts()) {
                     addDocuments(_docs, account);
-                }   break;
+                }
+                break;
             case IK:
+                if (_ik == null || _ik < 0) {
+                    return;
+                }
+                for (Account account : _accounts) {
+                    if (account.isReportViaPortal()) {
+                        addDocuments(_docs, account);
+                    }
+                }
                 break;
             default:
                 break;
@@ -252,7 +268,9 @@ public class DocumentUpload {
         return _documents.size() > 0
                 && _domain != null
                 && _mailTemplate != null
-                && (_account != null || _agencyId != null);
+                && (_documentTarget == DocumentTarget.Account && _account != null 
+                    || _documentTarget == DocumentTarget.Agency && _agencyId != null
+                    || _documentTarget == DocumentTarget.IK && _ik != null);
     }
 
     public String saveDocument() {
@@ -271,7 +289,16 @@ public class DocumentUpload {
                     for (Account account : agency.getAccounts()) {
                         storeDocument(accountDocument, account.getId());
                         accounts.add(account);
-                    }   break;
+                    }
+                    break;
+                case IK:
+                    for (Account account : _accounts) {
+                        if (account.isReportViaPortal()) {
+                            storeDocument(accountDocument, account.getId());
+                            accounts.add(account);
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
