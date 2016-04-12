@@ -34,6 +34,7 @@ public class DocumentLoader {
     private static final Logger _logger = Logger.getLogger("DocumentLoader");
     private final static String ImportDir = "Import.Dataportal";
     private final static String ArchiveDir = "Imported";
+    private final static String FailedDir = "Failed";
 
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;
@@ -56,32 +57,22 @@ public class DocumentLoader {
         if (!_config.readBool(ConfigKey.DocumentScanDir, dir.getName())) {
             return;
         }
-        File importDir = new File(dir, ImportDir);
-        importDir.mkdir();
         for (File file : dir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
-            prepareImport(file);
+            moveFile(ImportDir, file);
         }
+        File importDir = new File(dir, ImportDir);
         for (File file : importDir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
             handleContainer(file);
         }
     }
 
-    private void prepareImport(File file) {
+    private void moveFile(String targetFolder, File file) {
         try {
-            File importDir = new File(file.getParent(), ImportDir);
-            file.renameTo(new File(importDir, file.getName()));
-        } catch (Exception ex) {
-            _logger.log(Level.INFO, "Could not rename {0}", file.getName());
-        }
-    }
-
-    private void moveToArchive(File file) {
-        try {
-            File archiveDir = new File(file.getParent(), ArchiveDir);
-            if (!archiveDir.exists()) {
-                archiveDir.mkdirs();
+            File targetDir = new File(file.getParent(), targetFolder);
+            if (!targetDir.exists()) {
+                targetDir.mkdirs();
             }
-            file.renameTo(new File(archiveDir, file.getName()));
+            file.renameTo(new File(targetDir, file.getName()));
         } catch (Exception ex) {
             _logger.log(Level.INFO, "Could not rename {0}", file.getName());
         }
@@ -91,6 +82,7 @@ public class DocumentLoader {
         DocumentImportInfo importInfo = new DocumentImportInfo(file, _accountFacade);
         if (!importInfo.isValid()) {
             _logger.log(Level.WARNING, "Could not import {0}", importInfo.getError());
+            moveFile(FailedDir, file);
             return;
         }
         if (importInfo.getFiles().isEmpty()) {
@@ -103,7 +95,7 @@ public class DocumentLoader {
         } else {
             createDocuments(importInfo);
         }
-        moveToArchive(file);
+        moveFile(ArchiveDir, file);
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {

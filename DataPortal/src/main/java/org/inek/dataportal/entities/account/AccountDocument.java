@@ -63,11 +63,11 @@ public class AccountDocument implements Serializable, Document {
     // </editor-fold>
         
     @Column(name = "adCreated")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _created;
     
     @Column(name = "adLastChanged")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastChanged;
 
     public Date getLastChanged() {

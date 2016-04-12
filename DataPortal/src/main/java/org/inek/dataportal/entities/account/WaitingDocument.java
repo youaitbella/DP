@@ -82,7 +82,7 @@ public class WaitingDocument implements Serializable, Document {
         
     // <editor-fold defaultstate="collapsed" desc="Property Timestamp">
     @Column(name = "wdTimestamp")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _timestamp;
     
     public Date getTimestamp() {
