@@ -77,7 +77,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Datum"/>
                                 </f:facet>
-                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.createdString}" immediate="true">
+                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.longCreatedString}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
                                 </h:commandLink>
                             </h:column>

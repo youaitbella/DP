@@ -1,6 +1,7 @@
 package org.inek.dataportal.helper.structures;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -56,6 +57,12 @@ public class DocInfo {
         return df.format(_created);
     }
 
+    public String getLongCreatedString() {
+        SimpleDateFormat df = new SimpleDateFormat("dd.mm.yyyy HH:mm");
+        char nbsp = 160;
+        return df.format(_created).replace(' ', nbsp);
+    }
+
     public Date getValidUntil() {
         return _validUntil;
     }
@@ -65,10 +72,10 @@ public class DocInfo {
         return df.format(_validUntil);
     }
 
-    public boolean isRead(){
+    public boolean isRead() {
         return _isRead;
     }
-    
+
     public int getAccountId() {
         return _accountId;
     }
@@ -76,5 +83,5 @@ public class DocInfo {
     public int getAgentId() {
         return _agentId;
     }
-    
+
 }
