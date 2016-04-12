@@ -1,8 +1,6 @@
 package org.inek.dataportal.utils.timed;
 
-import com.google.common.io.Files;
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;

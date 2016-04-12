@@ -42,6 +42,7 @@ import org.inek.portallib.structures.KeyValue;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
+import org.inek.portallib.util.Helper;
 
 /**
  *
@@ -146,6 +147,12 @@ public class DocumentApproval implements TreeNodeObserver {
         _rootNode.refresh();
     }
 
+    public void delete(int docId) {
+        WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
+        _waitingDocFacade.remove(waitingDoc);
+        _rootNode.refresh();
+    }
+
     public void approve(int docId) {
         Pair<String, List<Account>> mailInfo = approveAndReturnMailInfo(docId);
         notify(mailInfo.getValue1(), mailInfo.getValue2());
@@ -203,7 +210,7 @@ public class DocumentApproval implements TreeNodeObserver {
         }
         try {
             byte[] buffer = doc.getContent();
-            externalContext.setResponseHeader("Content-Type", "text/plain");
+            externalContext.setResponseHeader("Content-Type", Helper.getContentType(doc.getName()));
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);

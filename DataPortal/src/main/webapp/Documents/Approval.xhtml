@@ -34,11 +34,15 @@
                             </h:column>
 
                             <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
                                 <h:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true" onclick="return confirm('Dokument #{docNode.docInfo.name} freigeben?')">
                                     <h:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
+                                </h:commandLink>
+                            </h:column>
+
+                            <h:column>
+                                <h:commandLink action="#{documentApproval.delete(docNode.docInfo.id)}" immediate="true" onclick="return confirm('Dokument #{docNode.docInfo.name} löschen?')">
+                                    <h:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                                    <f:ajax render="@all"/>
                                 </h:commandLink>
                             </h:column>
 
@@ -82,7 +86,7 @@
                     </div>
                 </div>
             </ui:repeat>
-            
+
             <h:commandLink styleClass="bigButton" value="Markierte freigeben" action="#{documentApproval.approveSelected}" onclick="return confirm('Alle markierten Dokumente freigeben?')"/>
         </h:form>
     </ui:define>

@@ -36,6 +36,7 @@ import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.nub.EditNubRequest;
+import org.inek.portallib.util.Helper;
 
 /**
  *
@@ -216,7 +217,7 @@ public class Utils {
 
         try {
             byte[] buffer = document.getBytes("UTF-8");
-            externalContext.setResponseHeader("Content-Type", "text/plain");
+            externalContext.setResponseHeader("Content-Type", Helper.getContentType(name));
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + name);
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);

@@ -31,19 +31,25 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         TypedQuery<WaitingDocumentInfo> query = getEntityManager().createQuery(sql, WaitingDocumentInfo.class);
         query.setParameter("accountId", agentAccountId);
         List<WaitingDocumentInfo> resultList = query.getResultList();
-        
+
         List<DocInfo> docInfos = new ArrayList<>();
         for (WaitingDocumentInfo info : resultList) {
-            Account account = info.getAccounts().get(0);
-            int ikDoc = info.getIk();
-            int ikAccount = account.getIK();
             String receipientInfo;
-            if (ikDoc < 0 || ikDoc == ikAccount) {
-                receipientInfo = ikAccount + " " + account.getCompany() + " " + account.getTown();
+            int accountId = 0;
+            if (info.getAccounts().isEmpty()) {
+                receipientInfo = "Kein Empfänger gefunden";
             } else {
-                receipientInfo = ikDoc + " " + _sessionController.getIkName(ikDoc);
+                Account account = info.getAccounts().get(0);
+                accountId = account.getId();
+                int ikDoc = info.getIk();
+                int ikAccount = account.getIK();
+                if (ikDoc < 0 || ikDoc == ikAccount) {
+                    receipientInfo = ikAccount + " " + account.getCompany() + " " + account.getTown();
+                } else {
+                    receipientInfo = ikDoc + " " + _sessionController.getIkName(ikDoc);
+                }
             }
-            docInfos.add(new DocInfo((int) info.getId(), info.getName(), info.getDomain().getName(), info.getTimestamp(), null, false, account.getId(), info.getAgentAccountId(), receipientInfo));
+            docInfos.add(new DocInfo((int) info.getId(), info.getName(), info.getDomain().getName(), info.getTimestamp(), null, false, accountId, info.getAgentAccountId(), receipientInfo));
         }
         return docInfos;
     }

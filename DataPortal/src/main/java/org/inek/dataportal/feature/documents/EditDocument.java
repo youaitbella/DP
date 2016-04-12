@@ -21,6 +21,7 @@ import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
+import org.inek.portallib.util.Helper;
 
 /**
  *
@@ -45,7 +46,7 @@ public class EditDocument extends AbstractEditController {
         }
         try {
             byte[] buffer = doc.getContent();
-            externalContext.setResponseHeader("Content-Type", "text/plain");
+            externalContext.setResponseHeader("Content-Type", Helper.getContentType(doc.getName()));
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);

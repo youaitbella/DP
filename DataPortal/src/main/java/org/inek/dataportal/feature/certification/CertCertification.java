@@ -34,6 +34,7 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
+import org.inek.portallib.util.Helper;
 
 /**
  *
@@ -163,7 +164,7 @@ public class CertCertification {
         ExternalContext externalContext = facesContext.getExternalContext();
         try {
             try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), StreamHelper.BufLen)) {
-                externalContext.setResponseHeader("Content-Type", "text/plain");
+                externalContext.setResponseHeader("Content-Type", Helper.getContentType(file.getName()));
                 externalContext.setResponseHeader("Content-Length", "");
                 externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + file.getName() + "\"");
                 new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
