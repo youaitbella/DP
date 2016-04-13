@@ -58,7 +58,7 @@ public class DocInfo {
     }
 
     public String getLongCreatedString() {
-        SimpleDateFormat df = new SimpleDateFormat("dd.mm.yyyy HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         char nbsp = 160;
         return df.format(_created).replace(' ', nbsp);
     }

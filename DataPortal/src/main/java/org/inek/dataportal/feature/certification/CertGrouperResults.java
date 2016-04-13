@@ -788,7 +788,7 @@ public class CertGrouperResults {
     }
     
     public String getMailDate(Grouper grouper) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         if(!needMail(grouper))
             return "";
         int sysId = grouper.getSystemId();

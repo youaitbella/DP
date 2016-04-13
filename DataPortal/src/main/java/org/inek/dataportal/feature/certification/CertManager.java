@@ -310,7 +310,7 @@ public class CertManager {
     
     public String getCertWebsiteDate(Grouper grouper) {
         if(isCertVendorOnWebsite(grouper)) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
             return sdf.format(grouper.getWebsiteRelease());
         }
         return "";
