@@ -4,7 +4,8 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
         <h:form>
@@ -27,9 +28,14 @@
                     <br/>
                     <h:selectOneMenu styleClass="input" id="dropboxType" value="#{dropBoxCreator.dropboxTypeId}" required="true" requiredMessage="#{msg.lblChooseEntry}">
                         <f:selectItems value="#{sessionTools.dropBoxTypeItems}"/>
-                        <f:ajax event="change" render="@this :logout:remaining msgDropboxType lblIk ik"/>
+                        <f:ajax event="change" render="@form :logout:remaining"/>
                     </h:selectOneMenu>
                 </p>
+
+                <h:panelGroup rendered="#{dropBoxCreator.ikRequired}" styleClass="hintWide" id="DatenDienst">
+                    Für die Krankenhaus Datenlieferung können Sie auch den <a href="http://g-drg.de/cms/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> zum Prüfen, Verschlüsseln und Senden nutzen.
+                </h:panelGroup>
+                
                 <p>
                     <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
                     <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
