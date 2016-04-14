@@ -188,6 +188,7 @@ div#wrapper {
     }
 
     .hint,
+    .hintWide,
     .warning,
     .warningWide{
         box-sizing: border-box;
@@ -214,6 +215,11 @@ div#wrapper {
     .hint{
         border-color: #7F9BAF;
         width: 270px;
+    }
+
+    .hintWide{
+        border-color: #7F9BAF;
+        margin: 0;
     }
 
     .right {
