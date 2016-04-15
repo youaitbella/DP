@@ -16,7 +16,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
-import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.admin.InekRole;

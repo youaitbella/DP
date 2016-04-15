@@ -42,6 +42,7 @@ public class DocumentImportInfo {
     private final Map<String, String> _fileDomains = new HashMap<>();
     private final Map<String, byte[]> _files = new HashMap<>();
     private String _sender = "datenportal@inek.org";
+    private String _bcc = "fehlerverfahren@inek-drg.de";
     private String _subject = "";
     private String _body = "";
     private String _error = "";
@@ -162,6 +163,9 @@ public class DocumentImportInfo {
                         _logger.log(Level.WARNING, "Wrong format sender");
                     }
                     break;
+                case "mail.bcc":
+                    _bcc = value;
+                    break;
                 case "mail.subject":
                     _subject = value;
                     break;
@@ -210,6 +214,10 @@ public class DocumentImportInfo {
 
     public String getSender() {
         return _sender;
+    }
+
+    public String getBcc() {
+        return _bcc;
     }
 
     public String getSubject() {

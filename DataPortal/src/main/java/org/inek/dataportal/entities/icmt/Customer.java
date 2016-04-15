@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.entities;
+package org.inek.dataportal.entities.icmt;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.*;
 
@@ -20,13 +21,27 @@ public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cuId", updatable=false)
+    @Column(name = "cuId")
     private Integer _customerId;
-    @Column(name = "cuIK", updatable=false)
+    @Column(name = "cuIK")
     private Integer _ik = -1;
-    @Column(name = "cuName", updatable=false)
+    @Column(name = "cuName")
     private String _name;
 
+    // <editor-fold defaultstate="collapsed" desc="Property Contacts">
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coCustomerId", referencedColumnName = "cuId")
+    private List<Contact> _contacts;
+
+    public List<Contact> getContacts() {
+        return _contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this._contacts = contacts;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getCustomerId() {
         return _customerId;

@@ -27,7 +27,7 @@ import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;

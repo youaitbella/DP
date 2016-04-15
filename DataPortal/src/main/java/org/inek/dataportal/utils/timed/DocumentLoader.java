@@ -104,7 +104,7 @@ public class DocumentLoader {
         for (Account account : importInfo.getAccounts()) {
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
-            String bcc = "fehlerverfahren@inek-drg.de";
+            String bcc = importInfo.getBcc();
 
             if (subject.isEmpty() || body.isEmpty()) {
                 MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");

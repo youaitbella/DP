@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -22,9 +23,12 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.icmt.Contact;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.DocumentTarget;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AgencyFacade;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
@@ -40,22 +44,22 @@ import org.inek.dataportal.mail.Mailer;
 @Named
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentUpload {
-
+    
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
     private List<AccountDocument> _documents = new ArrayList<>();
-
+    
     public DocumentUpload() {
         System.out.println("ctor DocumentUpload");
     }
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
     private DocumentTarget _documentTarget = DocumentTarget.Account;
-
+    
     public DocumentTarget getDocumentTarget() {
         return _documentTarget;
     }
-
+    
     public void setDocumentTarget(DocumentTarget documentTarget) {
         _documentTarget = documentTarget;
         loadLastDocuments();
@@ -64,11 +68,11 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property Account">
     private Account _account;
-
+    
     public Account getAccount() {
         return _account;
     }
-
+    
     public void setAccount(Account account) {
         _account = account;
     }
@@ -76,11 +80,11 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property Agency">
     private Integer _agencyId;
-
+    
     public Integer getAgency() {
         return _agencyId;
     }
-
+    
     public void setAgency(Integer agency) {
         _agencyId = agency;
         loadLastDocuments();
@@ -89,21 +93,25 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
     private Integer _ik;
-
+    @Inject private CustomerFacade _customerFacade;
+    
     public Integer getIk() {
         return _ik;
     }
-
+    
     public void setIk(Integer ik) {
         _ik = ik;
-        _accounts = _accountFacade.getAccounts4Ik(_ik);
+        Customer customer = _customerFacade.getCustomerByIK(_ik);
+        Set<String> emails = customer.getContacts().stream().filter(c -> c.getPrio() < 90).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails())).collect(Collectors.toSet());
+        _accounts = _accountFacade.getAccounts4Ik(_ik).stream().filter(a -> emails.contains(a.getEmail())).collect(Collectors.toList());
+        
         loadLastDocuments();
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Agencies">
     @Inject AgencyFacade _agencyFacade;
-
+    
     public List<Agency> getAgencies() {
         return _agencyFacade.findAll();
     }
@@ -111,7 +119,7 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
     private List<Account> _accounts = Collections.EMPTY_LIST;
-
+    
     public List<Account> getAccounts() {
         return _accounts;
     }
@@ -119,11 +127,11 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
-
+    
     public int getAvailability() {
         return _availability;
     }
-
+    
     public void setAvailability(int availability) {
         _availability = availability;
     }
@@ -131,11 +139,11 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property Domain">
     private DocumentDomain _domain;
-
+    
     public Integer getDomainId() {
         return _domain == null ? null : _domain.getId();
     }
-
+    
     public void setDomainId(Integer domainId) {
         _domain = domainId == null ? null : _domainFacade.find(domainId);
     }
@@ -143,11 +151,11 @@ public class DocumentUpload {
 
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
     private String _mailTemplate;
-
+    
     public String getMailTemplate() {
         return _mailTemplate;
     }
-
+    
     public void setMailTemplate(String mailTemplate) {
         _mailTemplate = mailTemplate;
     }
@@ -155,32 +163,32 @@ public class DocumentUpload {
 
     // <editor-fold defaultstate="collapsed" desc="Property MailTemplates">
     @Inject private MailTemplateFacade _mailTemplateFacade;
-
+    
     public List<MailTemplate> getMailTemplates() {
         return _mailTemplateFacade.findTemplatesByFeature(Feature.DOCUMENTS);
     }
     // </editor-fold>    
 
     @Inject DocumentDomainFacade _domainFacade;
-
+    
     public List<DocumentDomain> getDomains() {
         return _domainFacade.findAll();
     }
-
+    
     public String getEmail() {
         return _account == null ? "" : _account.getEmail();
     }
-
+    
     public void setEmail(String email) {
     }
-
+    
     public void setAccountId(int accountId) {
     }
-
+    
     public int getAccountId() {
         return _account == null ? 0 : _account.getId();
     }
-
+    
     public void checkEmail(FacesContext context, UIComponent component, Object value) {
         String email = "" + value;
         _account = _accountFacade.findByMailOrUser(email);
@@ -194,7 +202,7 @@ public class DocumentUpload {
         }
         loadLastDocuments();
     }
-
+    
     public void checkAccountId(FacesContext context, UIComponent component, Object value) {
         if (value == null) {
             _account = null;
@@ -210,13 +218,13 @@ public class DocumentUpload {
         }
         loadLastDocuments();
     }
-
+    
     private List<String> _docs = new ArrayList<>();
-
+    
     public List<String> getLastDocuments() {
         return _docs;
     }
-
+    
     private void loadLastDocuments() {
         _docs.clear();
         switch (_documentTarget) {
@@ -252,7 +260,7 @@ public class DocumentUpload {
                 break;
         }
     }
-
+    
     private void addDocuments(List<String> docs, Account account) {
         if (account == null) {
             return;
@@ -263,16 +271,16 @@ public class DocumentUpload {
             }
         }
     }
-
+    
     public boolean isSaveEnabled() {
         return _documents.size() > 0
                 && _domain != null
                 && _mailTemplate != null
-                && (_documentTarget == DocumentTarget.Account && _account != null 
-                    || _documentTarget == DocumentTarget.Agency && _agencyId != null
-                    || _documentTarget == DocumentTarget.IK && _ik != null);
+                && (_documentTarget == DocumentTarget.Account && _account != null
+                || _documentTarget == DocumentTarget.Agency && _agencyId != null
+                || _documentTarget == DocumentTarget.IK && _ik != null);
     }
-
+    
     public String saveDocument() {
         if (_documents.isEmpty()) {
             return "";
@@ -310,41 +318,41 @@ public class DocumentUpload {
         loadLastDocuments();
         return "";
     }
-
+    
     @Inject AccountDocumentFacade _docFacade;
-
+    
     private void storeDocument(AccountDocument accountDocument, int accountId) {
         accountDocument.setAccountId(accountId);
         accountDocument.setDomain(_domain);
         accountDocument.setAgentAccountId(_sessionController.getAccountId());
         _docFacade.save(accountDocument);
     }
-
+    
     public List<AccountDocument> getDocuments() {
         return _documents;
     }
-
+    
     public String deleteDocument(AccountDocument doc) {
         _documents.remove(doc);
         return "";
     }
-
+    
     public String downloadDocument(AccountDocument doc) {
         return Utils.downloadDocument(doc);
     }
-
+    
     public String refresh() {
         return "";
     }
-
+    
     private void sendNotification(Account account) {
         MailTemplate template = _mailer.getMailTemplate(_mailTemplate);
         String salutation = _mailer.getFormalSalutation(account);
         String body = template.getBody().replace("{formalSalutation}", salutation);
         String bcc = template.getBcc();
         String subject = template.getSubject();
-
+        
         _mailer.sendMailFrom("datenportal@inek.org", account.getEmail(), bcc, subject, body);
     }
-
+    
 }

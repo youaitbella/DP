@@ -9,7 +9,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import org.inek.dataportal.entities.Customer;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.admin.MailTemplate;
