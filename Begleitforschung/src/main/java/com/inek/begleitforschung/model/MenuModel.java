@@ -19,7 +19,7 @@ public class MenuModel implements Serializable{
     
     public MenuModel(int year) {
         _dataYear = year;
-        _menuRoot = MenuTreeNode.createRoot(_dataYear+"", "");
+        _menuRoot = MenuTreeNode.createRoot("Datenjahr " + _dataYear, "");
         String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         MenuTreeNode node1 = _menuRoot.addChild("Datenbasis", "");
         node1.addChild("Beteiligung an der Datenübermittlung", baseUrl+"/views/Participation.xhtml?dataYear=" + _dataYear);
@@ -90,6 +90,7 @@ public class MenuModel implements Serializable{
         node2 = node1.addChild("Prozeduren", "");
         node2.addChild("Kapitel", baseUrl+"/views/PartialInpatientProcChapter.xhtml?dataYear="+_dataYear);
         node2.addChild("Bereich", baseUrl+"/views/PartialInpatientProcArea.xhtml?dataYear="+_dataYear);
+        _menuRoot.addChild("Download Daten", baseUrl);
     }
     
     public MenuTreeNode getMenuRoot() {

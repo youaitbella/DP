@@ -48,58 +48,26 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         <h3 class="text-center">Summentabelle</h3>
-        <!--
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"
-                            value="# {entities.c_121_sum}"
+                            value="#{entities.getPartialInpatientCaresPdSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
                               >
-                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle Gesamt" sortBy="# {x.sumA}"
+                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Anzahl KH" sortBy="#{x.numKh}"
                             >
-                    <h:outputText id="sumCasesSumCell" value="# {x.sumA}">
+                    <h:outputText id="sumCasesSumCell" value="#{x.numKh}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="mittlere Vwd." sortBy="# {x.avgLos}"
+                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anzahl TS Gesamt" sortBy="#{x.numPartialInpatient}"
                             >
-                    <h:outputText id="avgLosSumCell" value="# {x.avgLos}">
-                        <f:convertNumber pattern="###,###,###.##"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="avgStdDeviationSum" headerText="Stdabw. Vwd." sortBy="# {x.avgStdDeviation}"
-                            >
-                    <h:outputText id="avgStdDeviationSumCell" value="# {x.avgStdDeviation}">
-                        <f:convertNumber pattern="###,###,###.##"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumKlaSum" headerText="Anz. Kurzlg." sortBy="# {x.sumKla}"
-                            >
-                    <h:outputText id="sumKlaSumCell" value="# {x.sumKla}">
+                    <h:outputText id="avgLosSumCell" value="#{x.numPartialInpatient}">
                         <f:convertNumber pattern="###,###,###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumLlaSum" headerText="Anz. Langlg." sortBy="# {x.sumLla}"
-                            >
-                    <h:outputText id="sumLlaSumCell" value="# {x.sumLla}">
-                        <f:convertNumber pattern="###,###,###"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionKlaSum" headerText="Ant. Kurzlg." sortBy="# {x.fractionKla}"
-                            >
-                    <h:outputText id="fractionKlaSumCell" value="# {x.fractionKla}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionLlaSum" headerText="Ant. Langlg." sortBy="# {x.fractionLla}"
-                            >
-                    <h:outputText id="fractionLlaSumCell" value="# {x.fractionLla}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        -->
         <h3 class="text-center">Hinweise</h3>
         <p class="info-text">
             Die Übermittlungsverpflichtung macht keine eindeutige Vorgabe, daher kann in der Datenerhebung<br/>

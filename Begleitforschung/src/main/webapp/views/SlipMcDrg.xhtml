@@ -78,7 +78,7 @@ and open the template in the editor.
         <h3 class="text-center">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c213-table-sum"
-                            value="#{entities.c_213_sum}"
+                            value="#{entities.getC_213_sum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
                               >

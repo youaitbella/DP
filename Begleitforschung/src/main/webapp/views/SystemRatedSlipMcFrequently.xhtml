@@ -48,6 +48,27 @@
             </ace:column>
         </ace:dataTable>
         </h:form>
+        <h3 class="text-center">Summentabelle</h3>
+        <h:form id="data-table-sum">
+            <ace:dataTable  id="c113-table-sum"
+                            value="#{entities.getSystemRatedSlipMcFrequentlySum(param['dataYear'])}"
+                                var="x"
+                                resizableColumns="true"
+                              >
+                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
+                            >
+                    <h:outputText id="sumCasesSumCell" value="#{x.numPrimaryDepartment}">
+                        <f:convertNumber pattern="###,###,###"/>
+                    </h:outputText>
+                </ace:column>
+                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anteil" sortBy="#{x.fractionOverall}"
+                            >
+                    <h:outputText id="avgLosSumCell" value="#{x.fractionOverall}">
+                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                    </h:outputText>
+                </ace:column>
+            </ace:dataTable>
+        </h:form>
         <h3 class="text-center">Hinweise</h3>
         <p class="info-text">
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>

@@ -41,6 +41,7 @@ public class Entities implements Serializable {
 
     private List<C_113_213> _c_113_213;
     private List<C_113_213> _c_113;
+    private List<C_113_213> _c_113_sum;
     private List<C_113_213> _c_213;
 
     private List<C_122_222> _c_122_222;
@@ -57,20 +58,25 @@ public class Entities implements Serializable {
     private List<PartialInpatientCare> _partialInpatientCaresPdChapter;
     private List<PartialInpatientCare> _partialInpatientCaresPdGroup;
     private List<PartialInpatientCare> _partialInpatientCaresPdCat;
+    private List<PartialInpatientCare> _partialInpatientCaresPdSum;
     private List<PartialInpatientCare> _partialInpatientCaresProcChapter;
     private List<PartialInpatientCare> _partialInpatientCaresProcArea;
+    private List<PartialInpatientCare> _partialInpatientCaresProcSum;
     
     private List<PrimaryDiagsProcs> _primaryDiagsProcs;
     private List<PrimaryDiagsProcs> _primaryDiagsInpatientPdSum;
+    private List<PrimaryDiagsProcs> _primaryDiagsSlipMcPdSum;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdChapter;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdGroup;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientPdCat;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcChapter;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcSum;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcArea;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcCode;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcPdChapter;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcPdGroup;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcPdCat;
+    private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcSum;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcChapter;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcArea;
     private List<PrimaryDiagsProcs> _primaryDiagsProcsSlipMcProcCode;
@@ -83,11 +89,17 @@ public class Entities implements Serializable {
     
     private List<SystemRated> _systemRated;
     private List<SystemRated> _systemRatedPdLessComplex;
+    private List<SystemRated> _systemRatedPdLessComplexSum;
     private List<SystemRated> _systemRatedPdComplex;
+    private List<SystemRated> _systemRatedPdComplexSum;
     private List<SystemRated> _systemRatedPdFrequently;
+    private List<SystemRated> _systemRatedPdFrequentlySum;
     private List<SystemRated> _systemRatedSlipMcLessComplex;
+    private List<SystemRated> _systemRatedSlipMcLessComplexSum;
     private List<SystemRated> _systemRatedSlipMcComplex;
+    private List<SystemRated> _systemRatedSlipMcComplexSum;
     private List<SystemRated> _systemRatedSlipMcFrequently;
+    private List<SystemRated> _systemRatedSlipMcFrequentlySum;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -305,6 +317,20 @@ public class Entities implements Serializable {
         return _primaryDiagsProcsInpatientProcChapter;
     }
     
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcSum(int dataYear) {
+        if(_primaryDiagsProcsInpatientProcSum == null) {
+            _primaryDiagsProcsInpatientProcSum = mapPrimaryDiagProcsProcSum(_appData.readDataFile(dataYear, "C_115_sum"));
+        }
+        return _primaryDiagsProcsInpatientProcSum;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcSum(int dataYear) {
+        if(_primaryDiagsProcsSlipMcProcSum == null) {
+            _primaryDiagsProcsSlipMcProcSum = mapPrimaryDiagProcsProcSum(_appData.readDataFile(dataYear, "C_215_sum"));
+        }
+        return _primaryDiagsProcsSlipMcProcSum;
+    }
+    
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcArea(int dataYear) {
         if(_primaryDiagsProcsInpatientProcArea == null) {
             _primaryDiagsProcsInpatientProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 2)).collect(Collectors.toList());
@@ -373,6 +399,13 @@ public class Entities implements Serializable {
             _primaryDiagsInpatientPdSum = mapPartialInpatientCaresSum(_appData.readDataFile(dataYear, "C_114_sum"));
         }
         return _primaryDiagsInpatientPdSum;
+    }
+    
+    public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdSum(int dataYear) {
+        if(_primaryDiagsSlipMcPdSum == null) { 
+            _primaryDiagsSlipMcPdSum = mapPartialInpatientCaresSum(_appData.readDataFile(dataYear, "C_214_sum"));
+        }
+        return _primaryDiagsSlipMcPdSum;
     }
     
     public List<DataQuality> getDataQuality(int dataYear) {
@@ -444,6 +477,56 @@ public class Entities implements Serializable {
         }
         return _systemRated;
     }
+    
+    public List<PartialInpatientCare> getPartialInpatientCaresPdSum(int dataYear) {
+        if(_partialInpatientCaresPdSum == null) {
+            _partialInpatientCaresPdSum = mapPartInpatientCaresSum(_appData.readDataFile(dataYear, "D_1_sum"));
+        }
+        return _partialInpatientCaresPdSum;
+    }
+    
+    public List<PartialInpatientCare> getPartialInpatientCaresProcSum(int dataYear) {
+        if(_partialInpatientCaresProcSum == null) {
+            _partialInpatientCaresProcSum = mapPartInpatientCaresSum(_appData.readDataFile(dataYear, "D_2_sum"));
+        }
+        return _partialInpatientCaresProcSum;
+    }
+    
+    public List<SystemRated> getSystemRatedPdLessComplexSum(int dataYear) {
+        if(_systemRatedPdLessComplexSum == null)
+            _systemRatedPdLessComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_1a_sum"));
+        return _systemRatedPdLessComplexSum;
+    }
+    
+    public List<SystemRated> getSystemRatedPdComplexSum(int dataYear) {
+        if(_systemRatedPdComplexSum == null)
+            _systemRatedPdComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_2a_sum"));
+        return _systemRatedPdComplexSum;
+    }
+    
+    public List<SystemRated> getSystemRatedPdFrequentlySum(int dataYear) {
+        if(_systemRatedPdFrequentlySum == null)
+            _systemRatedPdFrequentlySum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_3a_sum"));
+        return _systemRatedPdFrequentlySum;
+    }
+    
+    public List<SystemRated> getSystemRatedSlipMcLessComplexSum(int dataYear) {
+        if(_systemRatedSlipMcLessComplexSum == null)
+            _systemRatedSlipMcLessComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_1b_sum"));
+        return _systemRatedSlipMcLessComplexSum;
+    }
+    
+    public List<SystemRated> getSystemRatedSlipMcComplexSum(int dataYear) {
+        if(_systemRatedSlipMcComplexSum == null)
+            _systemRatedSlipMcComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_2b_sum"));
+        return _systemRatedSlipMcComplexSum;
+    }
+    
+    public List<SystemRated> getSystemRatedSlipMcFrequentlySum(int dataYear) {
+        if(_systemRatedSlipMcFrequentlySum == null)
+            _systemRatedSlipMcFrequentlySum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_3b_sum"));
+        return _systemRatedSlipMcFrequentlySum;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="sum">
     public List<C_111_211> getC_111_sum(int dataYear) {
@@ -474,44 +557,16 @@ public class Entities implements Serializable {
         return _c_212_sum;
     }
 
-    public List<C_113_213> getC_113_sum() {
-        List<C_113_213> x = new ArrayList<>();
-        C_113_213 sum = new C_113_213(1, "", "", 0, 0.0, 0.0, 0, 0.0, 0, 0.0);
-        for (C_113_213 c : _c_113) {
-            sum.setSumA(sum.getSumA() + c.getSumA());
-            sum.setAvgLos(sum.getAvgLos() + c.getAvgLos());
-            sum.setAvgStdDeviation(sum.getAvgStdDeviation() + c.getAvgStdDeviation());
-            sum.setSumKla(sum.getSumKla() + c.getSumKla());
-            sum.setSumLla(sum.getSumLla() + c.getSumLla());
-            sum.setFractionKla(sum.getSumKla() + c.getFractionKla());
-            sum.setFractionLla(sum.getSumLla() + c.getSumLla());
-        }
-        sum.setAvgLos(sum.getAvgLos() / _c_113.size());
-        sum.setAvgStdDeviation(sum.getAvgStdDeviation() / _c_113.size());
-        sum.setFractionKla((float) sum.getSumKla() / sum.getSumA());
-        sum.setFractionLla((float) sum.getSumLla() / sum.getSumA());
-        x.add(sum);
-        return x;
+    public List<C_113_213> getC_113_sum(int dataYear) {
+        if(_c_113_sum == null)
+            _c_113_sum = mapC_113_213_sum(_appData.readDataFile(dataYear, "C_113_sum"));
+        return _c_113_sum;
     }
 
-    public List<C_113_213> getC_213_sum() {
-        List<C_113_213> x = new ArrayList<>();
-        C_113_213 sum = new C_113_213(1, "", "", 0, 0.0, 0.0, 0, 0.0, 0, 0.0);
-        for (C_113_213 c : _c_213) {
-            sum.setSumA(sum.getSumA() + c.getSumA());
-            sum.setAvgLos(sum.getAvgLos() + c.getAvgLos());
-            sum.setAvgStdDeviation(sum.getAvgStdDeviation() + c.getAvgStdDeviation());
-            sum.setSumKla(sum.getSumKla() + c.getSumKla());
-            sum.setSumLla(sum.getSumLla() + c.getSumLla());
-            sum.setFractionKla(sum.getSumKla() + c.getFractionKla());
-            sum.setFractionLla(sum.getSumLla() + c.getSumLla());
-        }
-        sum.setAvgLos(sum.getAvgLos() / _c_213.size());
-        sum.setAvgStdDeviation(sum.getAvgStdDeviation() / _c_213.size());
-        sum.setFractionKla((float) sum.getSumKla() / sum.getSumA());
-        sum.setFractionLla((float) sum.getSumLla() / sum.getSumA());
-        x.add(sum);
-        return x;
+    public List<C_113_213> getC_213_sum(int dataYear) {
+        if(_c_113_sum == null)
+            _c_113_sum = mapC_113_213_sum(_appData.readDataFile(dataYear, "C_213_sum"));
+        return _c_113_sum;
     }
 
     // </editor-fold>
@@ -541,6 +596,16 @@ public class Entities implements Serializable {
         for (String[] x : data) {
             C_113_213 y = new C_113_213(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
                     Double.parseDouble(x[5]), Integer.parseInt(x[6]), Double.parseDouble(x[7]), Integer.parseInt(x[8]), Double.parseDouble(x[9]));
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<C_113_213> mapC_113_213_sum(List<String[]> data) {
+        List<C_113_213> list = new ArrayList<>();
+        for (String[] x : data) {
+            C_113_213 y = new C_113_213(1, "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1]),
+                    Double.parseDouble(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6]));
             list.add(y);
         }
         return list;
@@ -579,6 +644,15 @@ public class Entities implements Serializable {
         List<PartialInpatientCare> list = new ArrayList<>();
         for (String[] x : data) {
             PartialInpatientCare y = new PartialInpatientCare(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]));
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<PartialInpatientCare> mapPartInpatientCaresSum(List<String[]> data) {
+        List<PartialInpatientCare> list = new ArrayList<>();
+        for (String[] x : data) {
+            PartialInpatientCare y = new PartialInpatientCare(0, "", "", Integer.parseInt(x[0]), Integer.parseInt(x[1]));
             list.add(y);
         }
         return list;
@@ -640,6 +714,15 @@ public class Entities implements Serializable {
         return list;
     }
     
+    private List<SystemRated> mapSystemRatedSum(List<String[]> data) {
+        List<SystemRated> list = new ArrayList<>();
+        for(String[] x : data) {
+            SystemRated y = new SystemRated(0, "", "", 0.0, Integer.parseInt(x[0]), Double.parseDouble(x[1]));
+            list.add(y);
+        }
+        return list;
+    }
+    
     private List<C_111_211> mapC_111_211_sum(List<String[]> data) {
         List<C_111_211> list = new ArrayList<>();
         for(String[] x : data) {
@@ -673,6 +756,26 @@ public class Entities implements Serializable {
                     Double.parseDouble(x[31]), Double.parseDouble(x[32]), Double.parseDouble(x[33]), Double.parseDouble(x[34]),
                     Double.parseDouble(x[35]), Double.parseDouble(x[36]), Double.parseDouble(x[37]), Double.parseDouble(x[38]),
                     Double.parseDouble(x[39]), Double.parseDouble(x[40]), Double.parseDouble(x[41]), Double.parseDouble(x[42]));
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<PrimaryDiagsProcs> mapPrimaryDiagProcsProcSum(List<String[]> data) {
+        List<PrimaryDiagsProcs> list = new ArrayList<>();
+        for(String[] x : data) {
+            PrimaryDiagsProcs y = new PrimaryDiagsProcs(1, 1,
+                    "", "", Integer.parseInt(x[0]), 0.0, 0.0,
+                    Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Integer.parseInt(x[4]),
+                    Integer.parseInt(x[5]), Integer.parseInt(x[6]), Integer.parseInt(x[7]), Integer.parseInt(x[8]),
+                    Integer.parseInt(x[9]), Integer.parseInt(x[10]), Integer.parseInt(x[11]), Integer.parseInt(x[12]),
+                    Integer.parseInt(x[13]), Integer.parseInt(x[14]), Integer.parseInt(x[15]), Integer.parseInt(x[16]),
+                    Integer.parseInt(x[17]), Integer.parseInt(x[18]), Integer.parseInt(x[19]), Integer.parseInt(x[20]),
+                    Double.parseDouble(x[21]), Double.parseDouble(x[22]), Double.parseDouble(x[23]), Double.parseDouble(x[24]),
+                    Double.parseDouble(x[25]), Double.parseDouble(x[26]), Double.parseDouble(x[27]), Double.parseDouble(x[28]),
+                    Double.parseDouble(x[29]), Double.parseDouble(x[30]), Double.parseDouble(x[31]), Double.parseDouble(x[32]),
+                    Double.parseDouble(x[33]), Double.parseDouble(x[34]), Double.parseDouble(x[35]), Double.parseDouble(x[36]),
+                    Double.parseDouble(x[37]), Double.parseDouble(x[38]), Double.parseDouble(x[39]), Double.parseDouble(x[40]));
             list.add(y);
         }
         return list;
