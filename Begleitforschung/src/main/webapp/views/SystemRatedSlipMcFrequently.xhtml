@@ -12,7 +12,7 @@
                 >
 
     <ui:define name="mainContent">
-        <h1>20 häufigsten Fallgruppen</h1>
+        <h1>E-3b: "Häufige Leistungen": 20 häufigste Fallgruppen (belegärztliche Versorgung), G-DRG-Version #{param['dataYear']}</h1>
         <h:form id="table">
             <ace:dataTable  id="data-table"
                             value="#{entities.getSystemRatedSlipMcFrequently(param['dataYear'])}"
@@ -69,7 +69,7 @@
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Hinweise</h3>
+        
         <p class="info-text">
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>
             Spalte "Anteil": Bezogen auf Gesamt-Fallzahl bei belegärztlicher Versorgung ohne 1-Belegungstag-DRGs

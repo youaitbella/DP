@@ -12,6 +12,7 @@
                 >
 
     <ui:define name="mainContent">
+        <h1>A-1: Beteiligung der Krankenhäuser (KH) an der Datenübermittlung, Datenjahr #{param['dataYear']}</h1>
         <h:form id="table">
             <ace:dataTable  id="a1_kh_table"
                             value="#{entities.getParticipation(param['dataYear'])}"
@@ -33,10 +34,6 @@
                 <h:outputText id="numCasesCell" value="#{x.numCases}">
                     <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
-            </ace:column>
-                <ace:column styleClass="data-table-right" id="bundeslandCode" headerText="Bundesland Code" sortBy="#{x.stateCode}"
-                            filterBy="#{x.stateCode}" filterMatchMode="contains">
-                <h:outputText id="bundeslandCodeCell" value="#{x.stateCode}"/>
             </ace:column>
         </ace:dataTable>
         </h:form>

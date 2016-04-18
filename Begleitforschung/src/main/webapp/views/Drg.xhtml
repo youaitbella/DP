@@ -16,6 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        <h1>C-1-1-3: Vollstationäre Fälle in Hauptabteilungen, nach DRG, G-DRG-Version #{param['dataYear']}, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
             <ace:dataTable  id="c113-table"
                             value="#{entities.getC_113(param['dataYear'])}"
@@ -126,7 +127,7 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Hinweise</h3>
+        
         <p class="info-text">
             Kurzlieger = Alle unterhalb der unteren Grenzverweildauer entlassenen / verlegten Fälle<br/>
             Langlieger = Alle oberhalb der oberen Grenzverweildauer entlassenen / verlegten Fälle<br/>

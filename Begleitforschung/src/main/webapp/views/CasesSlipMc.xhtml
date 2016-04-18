@@ -16,6 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        <h1>C-2-2-2: Fallzahl (vollstat.) in belegärztl. Versorgung nach Anlass/Grund der Aufnahme, Entlassung, Verlegung, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
             <ace:dataTable  id="c222-table-a"
                             value="#{entities.getC_222_A(param['dataYear'])}"
@@ -51,7 +52,7 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Hinweise</h3>
+        
         <p class="info-text">
             E: Aufnahmeanlass Einweisung<br/>
             Z: Aufnahmeanlass Zahnarzt<br/>

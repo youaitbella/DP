@@ -16,6 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        <h1>C-1-1-1: Vollstationäre Fälle in Hauptabteilungen, nach MDC und Geschlecht, G-DRG-Version #{param['dataYear']}, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
             <ace:dataTable  id="c111-table"
                             value="#{entities.getC_111(param['dataYear'])}"
@@ -125,7 +126,7 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Hinweise</h3>
+        
         <p class="info-text">
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztliche Versorgung)
         </p>

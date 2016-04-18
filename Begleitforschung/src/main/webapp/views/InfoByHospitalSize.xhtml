@@ -16,7 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
-        <h1>Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland</h1>
+        <h1>C-1-2-1/C-2-2-1: Vollstationäre Versorgung in Hauptabteilungen/belegärztl. Versorgung nach Größenklassen (Bettenzahl)/Bundesland, Datenjahr #{param['dataYear']}</h1>
         <h:form styleClass="verticalSpace">
             Bundesland
             <h:selectOneMenu value="#{infoByHospitalSizeController.state}">
@@ -120,7 +120,7 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         -->
-        <h3 class="text-center">Hinweise</h3>
+        
         <p class="info-text">
             Stundenfälle: Fälle mit identischem Aufnahme- und Entlassungsdatum<br/>
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>
