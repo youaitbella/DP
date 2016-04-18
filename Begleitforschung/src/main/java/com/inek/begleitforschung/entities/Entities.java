@@ -100,6 +100,9 @@ public class Entities implements Serializable {
     private List<SystemRated> _systemRatedSlipMcComplexSum;
     private List<SystemRated> _systemRatedSlipMcFrequently;
     private List<SystemRated> _systemRatedSlipMcFrequentlySum;
+    
+    private double _percentHa;
+    private double _percentBa;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
@@ -527,6 +530,20 @@ public class Entities implements Serializable {
             _systemRatedSlipMcFrequentlySum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_3b_sum"));
         return _systemRatedSlipMcFrequentlySum;
     }
+    
+    public double getPercentHa(int dataYear) {
+        if(_percentHa == 0) {
+            _percentHa = mapPercent(_appData.readDataFile(dataYear, "Proz_HA_BA"), 1);
+        }
+        return _percentHa;
+    }
+    
+    public double getPercentBa(int dataYear) {
+        if(_percentBa == 0) {
+            _percentBa = mapPercent(_appData.readDataFile(dataYear, "Proz_HA_BA"), 2);
+        }
+        return _percentBa;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="sum">
     public List<C_111_211> getC_111_sum(int dataYear) {
@@ -779,5 +796,14 @@ public class Entities implements Serializable {
             list.add(y);
         }
         return list;
+    }
+    
+    private double mapPercent(List<String[]> data, int type) {
+        for (String[] x : data) {
+            if(Integer.parseInt(x[0]) == type) {
+                return Double.parseDouble(x[1]);
+            }
+        }
+        return 0;
     }
 }

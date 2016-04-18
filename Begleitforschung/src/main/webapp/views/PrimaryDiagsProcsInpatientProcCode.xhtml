@@ -20,7 +20,7 @@ and open the template in the editor.
         
         <h:form id="dataTable" styleClass="verticalSpace">
             <ace:dataTable  id="table"
-                            value="#{entities.getPrimaryDiagsProcsInpatientProcArea(param['dataYear'])}"
+                            value="#{entities.getPrimaryDiagsProcsInpatientProcCode(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                           >
@@ -538,6 +538,8 @@ and open the template in the editor.
         </h:form>
         
         <p class="info-text">
+            Im Durchschnitt hat ein Fall <i><h:outputText value="#{entities.getPercentHa(param['dataYear'])}"><f:convertNumber type="percent" minFractionDigits="2"/></h:outputText></i> Prozeduren.
+            <br/><br />
             ohne Duplikate<br/>
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)
         </p>

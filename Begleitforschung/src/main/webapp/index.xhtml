@@ -110,7 +110,7 @@
                 © InEK GmbH - Institut für das Entgeltsystem im Krankenhaus 2010 - 2016 | Pflichtfelder sind mit * gekennzeichnet.
             </div>
         </div>
-
+        <a href="#top"><div id="to-top"></div></a>
         <script type="text/javascript">
             #{sessionController.script}
                 
@@ -120,6 +120,14 @@
                 });
                 toggleMenu('label.tree-toggler',0);
                 menuState();
+            });
+            
+            $(document).scroll(function() {
+                if($(window).scrollTop() > 150) {
+                    $("#to-top").css("display", "block");
+                } else {
+                    $("#to-top").css("display", "none");
+                }
             });
             
             function toggleMenu(menu,speed) {
@@ -133,6 +141,7 @@
                 activeMenuLink.parentsUntil($("#menu"), "ul").css("display", "block");
             }
         </script>
+        #{downloadController.downloadFile(param["dataYear"], param["download"])}
     </h:body>
 
 </html>

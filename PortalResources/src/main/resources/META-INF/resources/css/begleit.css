@@ -83,3 +83,19 @@ p.info-text {
 .data-table-left {
     text-align: left !important;
 }
+
+#to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    background-image: url("http://icons.iconarchive.com/icons/aha-soft/free-3d-glossy-interface/48/up-icon.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: solid 1px black;
+    cursor: pointer;
+    border-radius: 5px;
+    display: none;
+}

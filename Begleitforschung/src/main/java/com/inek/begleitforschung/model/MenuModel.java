@@ -5,6 +5,7 @@
  */
 package com.inek.begleitforschung.model;
 
+import com.inek.begleitforschung.entities.ApplicationData;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
 import org.inek.portallib.tree.MenuTreeNode;
@@ -90,7 +91,7 @@ public class MenuModel implements Serializable{
         node2 = node1.addChild("Prozeduren", "");
         node2.addChild("Kapitel", baseUrl+"/views/PartialInpatientProcChapter.xhtml?dataYear="+_dataYear);
         node2.addChild("Bereich", baseUrl+"/views/PartialInpatientProcArea.xhtml?dataYear="+_dataYear);
-        _menuRoot.addChild("Download Daten", baseUrl);
+        _menuRoot.addChild("Download Daten", baseUrl + "?dataYear="+_dataYear+"&download=1");
     }
     
     public MenuTreeNode getMenuRoot() {
