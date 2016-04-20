@@ -5,7 +5,6 @@
  */
 package com.inek.begleitforschung.model;
 
-import com.inek.begleitforschung.entities.ApplicationData;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
 import org.inek.portallib.tree.MenuTreeNode;

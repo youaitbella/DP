@@ -68,58 +68,44 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         <h3 class="text-center">Summentabelle</h3>
-        <!--
-        <h:form id="data-table-sum">
-            <ace:dataTable  id="c113-table-sum"
-                            value="# {entities.c_121_sum}"
-                                var="x"
-                                resizableColumns="true"
-                              >
-                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle Gesamt" sortBy="# {x.sumA}"
-                            >
-                    <h:outputText id="sumCasesSumCell" value="# {x.sumA}">
+        <h:form id="sumDataTable" styleClass="verticalSpace">
+            <ace:dataTable  id="table"
+                            value="#{infoByHospitalSizeController.sumData}"
+                            var="x"
+                            resizableColumns="true"
+                          >
+                <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{x.numHospital}"
+                            filterBy="#{x.numHospital}" filterMatchMode="contains">
+                    <h:outputText id="hospitalCountCell" value="#{x.numHospital}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="mittlere Vwd." sortBy="# {x.avgLos}"
-                            >
-                    <h:outputText id="avgLosSumCell" value="# {x.avgLos}">
-                        <f:convertNumber pattern="###,###,###.##"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="avgStdDeviationSum" headerText="Stdabw. Vwd." sortBy="# {x.avgStdDeviation}"
-                            >
-                    <h:outputText id="avgStdDeviationSumCell" value="# {x.avgStdDeviation}">
-                        <f:convertNumber pattern="###,###,###.##"/>
-                    </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumKlaSum" headerText="Anz. Kurzlg." sortBy="# {x.sumKla}"
-                            >
-                    <h:outputText id="sumKlaSumCell" value="# {x.sumKla}">
+                <ace:column styleClass="data-table-right" id="avgCases" headerText="mittl. Fallzahl" sortBy="#{x.avgCases}"
+                            filterBy="#{x.avgCases}" filterMatchMode="contains">
+                    <h:outputText id="avgCasesCell" value="#{x.avgCases}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumLlaSum" headerText="Anz. Langlg." sortBy="# {x.sumLla}"
-                            >
-                    <h:outputText id="sumLlaSumCell" value="# {x.sumLla}">
-                        <f:convertNumber pattern="###,###,###"/>
+                <ace:column styleClass="data-table-right" id="avgLos" headerText="mittl. Vwd. KH" sortBy="#{x.avgLos}"
+                            filterBy="#{x.avgLos}" filterMatchMode="contains">
+                    <h:outputText id="avgLosCell" value="#{x.avgLos}">
+                        <f:convertNumber pattern="###,###,###.#"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionKlaSum" headerText="Ant. Kurzlg." sortBy="# {x.fractionKla}"
-                            >
-                    <h:outputText id="fractionKlaSumCell" value="# {x.fractionKla}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                <ace:column styleClass="data-table-right" id="avgCmi" headerText="mittl. CMI. KH" sortBy="#{x.cmi}"
+                            filterBy="#{x.cmi}" filterMatchMode="contains">
+                    <h:outputText id="avgCmiCell" value="#{x.cmi}">
+                        <f:convertNumber pattern="###,###,###.###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionLlaSum" headerText="Ant. Langlg." sortBy="# {x.fractionLla}"
-                            >
-                    <h:outputText id="fractionLlaSumCell" value="# {x.fractionLla}">
+                <ace:column styleClass="data-table-right" id="fractionCases" headerText="Ant. Stundenfälle" sortBy="#{x.amtStf}"
+                            filterBy="#{x.amtStf}" filterMatchMode="contains">
+                    <h:outputText id="fractionCasesCell" value="#{x.amtStf}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        -->
         
         <p class="info-text">
             Stundenfälle: Fälle mit identischem Aufnahme- und Entlassungsdatum<br/>

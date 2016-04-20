@@ -99,3 +99,7 @@ p.info-text {
     border-radius: 5px;
     display: none;
 }
+
+h1 {
+    font-size: 1.3em;
+}

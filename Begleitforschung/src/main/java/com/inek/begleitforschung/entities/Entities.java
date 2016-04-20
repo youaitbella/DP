@@ -193,6 +193,10 @@ public class Entities implements Serializable {
     public List<C_121_221_State_Size> getC_121_221_State_Size(int dataYear) {
         return mapC_121_221_State_Size(_appData.readDataFile(dataYear, "C_121_221_Bundesland_Groesse(Betten)_FZ_VWD_CMI"));
     }
+    
+    public List<C_121_221_State_Size> getC_121_221_sum(int dataYear) {
+        return mapC_121_221_sum(_appData.readDataFile(dataYear, "C_121_221_sum"));
+    }
 
     public List<C_122_222> getC_122_A(int dataYear) {
         if (_c_122_A == null) {
@@ -441,28 +445,28 @@ public class Entities implements Serializable {
     
     public List<SystemRated> getSystemRatedPdComplex(int dataYear) {
         if(_systemRatedPdComplex == null) {
-            _systemRatedPdComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
+            _systemRatedPdComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 3)).collect(Collectors.toList());
         }
         return _systemRatedPdComplex;
     }
     
     public List<SystemRated> getSystemRatedPdFrequently(int dataYear) {
         if(_systemRatedPdFrequently == null) {
-            _systemRatedPdFrequently = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 3)).collect(Collectors.toList());
+            _systemRatedPdFrequently = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 5)).collect(Collectors.toList());
         }
         return _systemRatedPdFrequently;
     }
     
     public List<SystemRated> getSystemRatedSlipMcLessComplex(int dataYear) {
         if(_systemRatedSlipMcLessComplex == null) {
-            _systemRatedSlipMcLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 4)).collect(Collectors.toList());
+            _systemRatedSlipMcLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _systemRatedSlipMcLessComplex;
     }
     
     public List<SystemRated> getSystemRatedSlipMcComplex(int dataYear) {
         if(_systemRatedSlipMcComplex == null) {
-            _systemRatedSlipMcComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 5)).collect(Collectors.toList());
+            _systemRatedSlipMcComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 4)).collect(Collectors.toList());
         }
         return _systemRatedSlipMcComplex;
     }
@@ -633,6 +637,16 @@ public class Entities implements Serializable {
         for (String[] x : data) {
             C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
                     Double.parseDouble(x[5]), Double.parseDouble(x[6]), Double.parseDouble(x[7]), x[8], x[9]);
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<C_121_221_State_Size> mapC_121_221_sum(List<String[]> data) {
+        List<C_121_221_State_Size> list = new ArrayList<>();
+        for (String[] x : data) {
+            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], "", Integer.parseInt(x[2]), Double.parseDouble(x[3]),
+                    Double.parseDouble(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]), x[7], "");
             list.add(y);
         }
         return list;
