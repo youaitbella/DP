@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Getestete Browser</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Getestete Browser</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wurde und wird vom InEK mit diversen Browsern auf den InEK-Systemen getestet. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wurde und wird vom InEK mit diversen Browsern auf den InEK-Systemen getestet. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte beachten Sie: Weder ist das InEK in der Lage, noch ist es dessen Aufgabe, sämtliche verfügbaren Browser unter allen Betriebssystemen zu testen. </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Browser werden von den jeweiligen Herstellern entwickelt. Insofern kann das InEK keinerlei Gewähr dafür übernehmen, dass das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in Ihrem Browser jederzeit funktioniert. Die folgende Liste gibt daher lediglich Aufschluss über das Verhalten der angeführten Browser im Test beim InEK. Da die Hersteller zunehmend die Implementierung der Standards umsetzen, ist zu erwarten, dass jüngere Versionen der Browser genauso gut oder besser funktionieren.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Browser werden von den jeweiligen Herstellern entwickelt. Insofern kann das InEK keinerlei Gewähr dafür übernehmen, dass der </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in Ihrem Browser jederzeit funktioniert. Die folgende Liste gibt daher lediglich Aufschluss über das Verhalten der angeführten Browser im Test beim InEK. Da die Hersteller zunehmend die Implementierung der Standards umsetzen, ist zu erwarten, dass jüngere Versionen der Browser genauso gut oder besser funktionieren.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die getesteten Browser sind in alphabetischer Reihenfolge aufgeführt.</text></para>
     <para styleclass="Normal"></para>
@@ -38,8 +38,7 @@
       <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Microsoft Internet Explorer (Windows, Version 6, 7 sowie 8, 9 und 10 im Kompatibilitätsmodus)</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <para styleclass="Warning"><text styleclass="Warning" translate="true">Auch wenn die älteren Versionen des Internet Explorers im Test beim InEK nur optische Einschränkungen zeigten, wird von Anwendern teilweise von &quot;Abstürzen&quot; berichtet, insbesondere im Zusammenhang mit der Aktivierung des Zugangs zum InEK Datenportal. Dies scheint durch eine unglückliche Kombination von alter Version, Betriebssystem und haus-spezifischer Internetanbindung verursacht zu werden. Daher rät das InEK zur Verwendung eines aktualisierten Web-Browsers.</text></para>
-    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Beim Hochladen von Dateien (z.B. DropBox oder Anhänge zu anderen Daten) wird im Fehlerfall eine entsprechende Meldung ausgegeben. </text><br/><text styleclass="Hinweis" translate="true">Alle getesteten Versionen des Internet Explorers vor Version 11 zeigen jedoch nach korrektem Upload eine falsch positive Fehlermeldungen. Bitte prüfen Sie bei Verwendung des Internet Explorers nach dem Upload in den jeweiligen Listen, ob die Datei korrekt geladen wurde. </text><br/><text styleclass="Hinweis" translate="true">Bei anderen Browsern ist ein solches Problem nicht bekannt.</text></para>
+    <para styleclass="Warning"><text styleclass="Warning" translate="true">Bitte verwenden Sie einen möglichst aktuellen Internetbrowser.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Optisch sehr schön, derzeit aber nicht bei Funktionen, die eine Bestätigung erfordern (Bereitstellung, Löschung) nutzbar</text></para>
     <para styleclass="Normal" style="margin-left:24px;"></para>
@@ -47,7 +46,5 @@
       <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Safari (Windows, Version 5.1.2)</text></li>
       <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Safari (Mac OS, Version 6)</text></li>
     </list>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bestätigungsfunktionen, wie beispielsweise das Absenden von NUB-Anfragen an das InEK, erfordern eine bestimmte Browsereigenschaft, die den hier genannten Safari Browsern fehlt. Das Datenportal enthält einen entsprechenden Test und gibt die Meldung &quot;Ihr Browser unterstützt nicht alle erforderlichen Funktionen.&quot; aus, sofern bei Ihrem Browser die betreffende Funktion nicht unterstützt wird.</text></para>
   </body>
 </topic>

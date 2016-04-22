@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Druck</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Druck</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mithilfe Ihres Internetbrowser können Sie einzelne Tabellen des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> ausdrucken. Wie Sie Internetseiten mit Ihrem Browser ausdrucken, schauen Sie bitte in der Hilfe bzw. dem Handbuch des verwendeten Internetbrowsers nach. In der Regel können Sie mit der Tastenkombination STRG+P den Druckdialog des Browsers aufrufen und die aktuell zu sehende Seite ausdrucken.</text></para>
+  </body>
+</topic>

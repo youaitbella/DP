@@ -26,17 +26,38 @@
     <topicref type="topic" id="409113749238586" build="ALL" modified="2011-12-06T15:36:09.418Z" icon="0" href="BaseHandling">
       <caption translate="true">Allgemeine Bedienung</caption>
     </topicref>
+    <topicref type="topic" id="424817736441896" build="ALL" modified="2016-04-21T14:31:36.634Z" icon="0" href="Download_Rohdaten">
+      <caption translate="true">Download Rohdaten</caption>
+    </topicref>
+    <topicref type="topic" id="424817670027669" build="ALL" modified="2016-04-21T14:48:47.110Z" icon="0" href="Druck">
+      <caption translate="true">Druck</caption>
+    </topicref>
     <topicref type="topic" id="41230772331373" build="ALL" modified="2012-11-19T15:55:06.622Z" icon="0" href="help">
       <caption translate="true">Hilfe</caption>
     </topicref>
   </topicref>
-  <topicref type="topic" id="409114983099281" build="ALL" modified="2012-01-03T09:13:47.575Z" icon="0">
-    <caption translate="true">Anhang</caption>
-    <topicref type="topic" id="409114459986317" build="ALL" modified="2012-01-03T09:14:08.997Z" icon="0" href="TestedBrowsers">
-      <caption translate="true">Getestete Browser</caption>
+  <topicref type="topic" id="424816701013955" build="ALL" modified="2016-04-21T15:11:59.774Z" icon="0" href="Erlaeuterungen">
+    <caption translate="true">Erläuterungen</caption>
+    <topicref type="topic" id="424815453287343" build="ALL" modified="2016-04-21T15:13:32.627Z" icon="0" href="Formale_Grundlage">
+      <caption translate="true">Formale Grundlage</caption>
     </topicref>
-    <topicref type="topic" id="417814645315789" build="ALL" modified="2014-05-22T11:16:18.452Z" icon="0" href="Glossar">
-      <caption translate="true">Glossar</caption>
+    <topicref type="topic" id="424814839181048" build="ALL" modified="2016-04-21T15:13:49.990Z" icon="0" href="Datengrundlage">
+      <caption translate="true">Datengrundlage</caption>
+    </topicref>
+    <topicref type="topic" id="42479743520019" build="ALL" modified="2016-04-21T15:17:46.432Z" icon="0" href="Datenauswertung">
+      <caption translate="true">Datenauswertung</caption>
+    </topicref>
+    <topicref type="topic" id="42480693257181" build="ALL" modified="2016-04-21T15:20:40.981Z" icon="0" href="Hinweise_zur_Datenaufbereitung">
+      <caption translate="true">Hinweise zur Datenaufbereitung</caption>
+    </topicref>
+    <topicref type="topic" id="424817542007603" build="ALL" modified="2016-04-21T15:25:29.839Z" icon="0" href="Hinweise_zu_weiteren_Datenquel">
+      <caption translate="true">Hinweise zu weiteren Datenquellen</caption>
+    </topicref>
+    <topicref type="topic" id="409114983099281" build="ALL" modified="2012-01-03T09:13:47.575Z" icon="0">
+      <caption translate="true">Anhang</caption>
+      <topicref type="topic" id="409114459986317" build="ALL" modified="2012-01-03T09:14:08.997Z" icon="0" href="TestedBrowsers">
+        <caption translate="true">Getestete Browser</caption>
+      </topicref>
     </topicref>
   </topicref>
 </map>

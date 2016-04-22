@@ -23,6 +23,7 @@ and open the template in the editor.
                             value="#{entities.getPartialInpatientCaresProcArea(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            scrollHeight="450" scrollable="true"
                           >
                 <ace:column styleClass="data-table-left" id="area" headerText="Bereich" sortBy="#{x.area}"
                                 filterBy="#{x.area}" filterMatchMode="contains">

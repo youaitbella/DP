@@ -111,4 +111,12 @@ public class MainMenu {
         Collections.reverse(dataYears);
         return dataYears;
     }
+    
+    public String getInfoByHospitalTitle(int type, int dataYear) {
+        if(type == 1) {
+            return "C-1-2-1: Vollstationäre Versorgung in Hauptabteilungen nach Größenklassen (Bettenzahl)/Bundesland, Datenjahr " + dataYear;
+        } else {
+            return "C-2-2-1: Vollstationäre Versorgung in belegärztl. Versorgung nach Größenklassen (Bettenzahl)/Bundesland, Datenjahr " + dataYear;
+        }
+    }
 }

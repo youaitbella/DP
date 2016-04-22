@@ -16,7 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
-        <h1>C-1-2-1/C-2-2-1: Vollstationäre Versorgung in Hauptabteilungen/belegärztl. Versorgung nach Größenklassen (Bettenzahl)/Bundesland, Datenjahr #{param['dataYear']}</h1>
+        <h1>#{mainMenu.getInfoByHospitalTitle(param['type'], param['dataYear'])}</h1>
         <h:form styleClass="verticalSpace">
             Bundesland
             <h:selectOneMenu value="#{infoByHospitalSizeController.state}">

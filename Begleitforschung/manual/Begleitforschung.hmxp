@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.8" isskin="false" isrepository="false">
+<helpproject xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="helpproject.xsd" version="1.6" isskin="false" isrepository="false">
   <config>
     <namespaces/>
     <export-task-groups>
@@ -37,7 +37,7 @@
         <export-tasks>
           <export-task name="Publish as PDF" format="PDF">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-Begleitforschungsbrowseri.pdf</task-config-value>
+              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-Begleitforschungsbrowser.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="highlighthotspots">0</task-config-value>
               <task-config-value name="exportcomments">0</task-config-value>
@@ -52,6 +52,7 @@
     <helpwindows>
       <helpwindow name="Main" left="-1" top="-1" width="-1" height="-1">
         <caption translate="true">&lt;%TITLE%&gt;</caption>
+        <window-options-hlp autosize="false" maximize="false" posabsolute="true" keepontop="false" buttons="0" headercolor="#F0F0F0" textcolor="#FFFFFF"/>
         <window-options-chm navigation="true" navigationwidth="200" search="true" favorite="true" saveregistry="true" buttons="12366">
           <user-button name="jump1">
             <caption translate="true">jump1</caption>
@@ -146,7 +147,7 @@
       <config-value name="autohelpstart">0</config-value>
       <config-value name="autohelpincrement">1</config-value>
       <config-value name="autohelpanchor">0</config-value>
-      <config-value name="searchpath">.\;.\Baggage\</config-value>
+      <config-value name="searchpath">.\;.\Baggage\;.\screenshots\</config-value>
       <config-group name="custombuilds">
         <config-value name="demo">Demo Build</config-value>
         <config-value name="user1">User defined 1</config-value>
@@ -183,6 +184,11 @@
       <config-group name="schwarzst">
         <config-group name="project">
           <config-value name="lastexport">4</config-value>
+        </config-group>
+      </config-group>
+      <config-group name="vohldo">
+        <config-group name="project">
+          <config-value name="lastexport">0</config-value>
         </config-group>
       </config-group>
     </config-group>

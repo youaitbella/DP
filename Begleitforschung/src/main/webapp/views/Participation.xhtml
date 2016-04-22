@@ -37,6 +37,31 @@
             </ace:column>
         </ace:dataTable>
         </h:form>
+        <h3 class="text-center">Summentabelle</h3>
+        <h:form id="tableSum">
+            <ace:dataTable  id="a1_kh_table"
+                            value="#{entities.getParticipationSum(param['dataYear'])}"
+                            var="x"
+                            resizableColumns="true"
+                          >
+                <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
+                            filterBy="#{x.state}" filterMatchMode="contains">
+                <h:outputText id="bundeslandCell" value="#{x.state}"/>
+            </ace:column>
+                <ace:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}"
+                            filterBy="#{x.numHospitals}" filterMatchMode="contains">
+                <h:outputText id="numKhCell" value="#{x.numHospitals}">
+                    <f:convertNumber pattern="###,###,###" />
+                </h:outputText>
+            </ace:column>
+            <ace:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}"
+                            filterBy="#{x.numCases}" filterMatchMode="contains">
+                <h:outputText id="numCasesCell" value="#{x.numCases}">
+                    <f:convertNumber pattern="###,###,###" />
+                </h:outputText>
+            </ace:column>
+        </ace:dataTable>
+        </h:form>
         <p class="info-text">
             Berücksichtigt wurden Krankenhäuser mit Datenübermittlung (mind. 1 Fall übermittelt)
         </p>

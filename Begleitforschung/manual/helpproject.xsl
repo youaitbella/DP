@@ -3,7 +3,6 @@
 			      xmlns:xi="http://www.w3.org/2001/XInclude"
                               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
 >
-<xsl:output method="html" encoding="utf-8" indent="yes" />
 
 <xsl:param name="projectfile" select="document('Begleitforschung.hmxp')" />
 
@@ -53,7 +52,6 @@
 </xsl:template>
 
 <xsl:template match="/">
-  <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
   <html>
   <xsl:value-of disable-output-escaping="yes" select="'&lt;!-- saved from url=(0029)http://www.helpandmanual.com/ --&gt;'"/>
   <head>

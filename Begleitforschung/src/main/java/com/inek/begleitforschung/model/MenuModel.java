@@ -42,7 +42,7 @@ public class MenuModel implements Serializable{
         node3.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedSlipMcFrequently.xhtml?dataYear="+_dataYear);
 
         node1 = _menuRoot.addChild("Vollstationäre Falldaten", "");
-        node2 = node1.addChild("Versorgung in den Hauptabteilungen", "");
+        node2 = node1.addChild("Versorgung in Hauptabteilungen", "");
         node3 = node2.addChild("Demographische und medizinische Merkmale", "");
         node3.addChild("nach MDC und Geschlecht", baseUrl+"/views/CharacteristicsMdcGender.xhtml?dataYear="+_dataYear);
         node3.addChild("nach Altersklassen und Geschlecht", baseUrl+"/views/AgeGender.xhtml?dataYear="+_dataYear);

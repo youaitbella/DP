@@ -43,6 +43,7 @@ public class Entities implements Serializable {
     private List<C_113_213> _c_113;
     private List<C_113_213> _c_113_sum;
     private List<C_113_213> _c_213;
+    private List<C_113_213> _c_213_sum;
 
     private List<C_122_222> _c_122_222;
     private List<C_122_222> _c_122_A;
@@ -86,6 +87,7 @@ public class Entities implements Serializable {
     private List<UnspecificCoding> _unspecificCoding;
     
     private List<Participation> _participation;
+    private List<Participation> _participationSum;
     
     private List<SystemRated> _systemRated;
     private List<SystemRated> _systemRatedPdLessComplex;
@@ -237,7 +239,7 @@ public class Entities implements Serializable {
         if (_numOperationsPrimary == null) {
             _numOperationsPrimary = getNumOperations(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
         }
-        return _numOperations;
+        return _numOperationsPrimary;
     }
 
     public List<NumOperations> getNumOperationsSlipMc(int dataYear) {
@@ -436,6 +438,13 @@ public class Entities implements Serializable {
         return _participation;
     }
     
+    public List<Participation> getParticipationSum(int dataYear) {
+        if(_participationSum == null) {
+            _participationSum = mapParticipationSum(_appData.readDataFile(dataYear, "A_1_sum"));
+        }
+        return _participationSum;
+    }
+    
     public List<SystemRated> getSystemRatedPdLessComplex(int dataYear) {
         if(_systemRatedPdLessComplex == null) {
             _systemRatedPdLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
@@ -585,10 +594,12 @@ public class Entities implements Serializable {
     }
 
     public List<C_113_213> getC_213_sum(int dataYear) {
-        if(_c_113_sum == null)
-            _c_113_sum = mapC_113_213_sum(_appData.readDataFile(dataYear, "C_213_sum"));
-        return _c_113_sum;
+        if(_c_213_sum == null)
+            _c_213_sum = mapC_113_213_sum(_appData.readDataFile(dataYear, "C_213_sum"));
+        return _c_213_sum;
     }
+    
+    
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="mapper">
@@ -731,6 +742,15 @@ public class Entities implements Serializable {
         List<Participation> list = new ArrayList<>();
         for(String[] x : data) {
             Participation y = new Participation(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), x[3]);
+            list.add(y);
+        }
+        return list;
+    }
+    
+    private List<Participation> mapParticipationSum(List<String[]> data) {
+        List<Participation> list = new ArrayList<>();
+        for(String[] x : data) {
+            Participation y = new Participation(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), "");
             list.add(y);
         }
         return list;
