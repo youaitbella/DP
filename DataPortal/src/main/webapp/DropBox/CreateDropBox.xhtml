@@ -36,6 +36,10 @@
                     Für die Krankenhaus Datenlieferung können Sie auch den <a href="http://g-drg.de/cms/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> zum Prüfen, Verschlüsseln und Senden nutzen.
                 </h:panelGroup>
                 
+                <h:panelGroup rendered="#{!dropBoxCreator.ikRequired}" styleClass="warningWide">
+                    Die DorpBox für Individuelle Datenlieferungen wird nicht automatisch verarbeitet. Bitte nutzen Sie diese nur nach Abpsrache mit dem InEK.
+                </h:panelGroup>
+                
                 <p>
                     <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
                     <h:message id="msgIk" for="ik" styleClass="errorMessage"/>

@@ -42,7 +42,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
                 Account account = info.getAccounts().get(0);
                 accountId = account.getId();
                 int ikDoc = info.getIk();
-                int ikAccount = account.getIK();
+                int ikAccount = account.getIK() == null ? -1 : account.getIK();
                 if (ikDoc < 0 || ikDoc == ikAccount) {
                     receipientInfo = ikAccount + " " + account.getCompany() + " " + account.getTown();
                 } else {
