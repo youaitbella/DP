@@ -1,18 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" status="Complete" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Nutzungsbedingungen</title>
-  <keywords>
-    <keyword translate="true">Gewährleistung</keyword>
-    <keyword translate="true">Haftung</keyword>
-    <keyword translate="true">Nutzungsbedingungen</keyword>
-    <keyword translate="true">Urheberrechtsschutz</keyword>
-  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Nutzungsbedingungen</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das InEK stellt den </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> für interessierte Nutzer kostenlos zur Online-Nutzung auf der Site daten.inek.org, sowie die Datengrundlage zum Download zur Verfügung.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das InEK stellt den </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> für interessierte Nutzer kostenlos zur Online-Nutzung auf der Seite daten.inek.org sowie die Datengrundlage zum Download zur Verfügung.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Mit dem Download bzw. der Nutzung des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> kommt ein Nutzungsvertrag zwischen der InEK GmbH und dem Nutzer zustande. Es gelten dabei die folgenden Nutzungsbedingungen:</text></para>
     <para styleclass="Normal"></para>

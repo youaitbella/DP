@@ -1,13 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" status="Complete" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Hinweise</title>
-  <keywords>
-    <keyword translate="true">Betriebssystem</keyword>
-    <keyword translate="true">Hinweise</keyword>
-    <keyword translate="true">Schaltflächen</keyword>
-    <keyword translate="true">Screenschots</keyword>
-  </keywords>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Hinweise</text></para>
@@ -16,7 +10,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit das InEK neue Funktionen für den </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> erstellt und beschreibt, werden die erforderlichen Bildschirmabbildungen mit einem aktuellen Browser erstellt, während bestehende Abbildungen mit älteren Versionen erstellt wurden. Insofern zeigt auch dieses Handbuch Beispiele unterschiedlicher Browser.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Bildschirmabbildungen wurden teilweise vor Veröffentlichung einer neuen Version erstellt. Daher zeigen manche Abbildungen eine Internetadresse (URL) wie &quot;localhost&quot;. Diese </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Bildschirmabbildungen wurden teilweise vor Veröffentlichung einer neuen Version erstellt. Daher zeigen manche Abbildungen eine Internetadresse (URL) wie &quot;localhost&quot;. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Schaltflächen (Buttons) werden in diesem Handbuch in eckigen Klammern angegeben und optional in Buttonfarbe hervorgehoben. [ Ok ] bzw. &#160;</text><text styleclass="Button" translate="true">[ Ok ]</text><text styleclass="Normal" translate="true"> steht beispielsweise für die Schaltfläche mit der Beschriftung </text><text styleclass="Normal" style="font-style:italic;" translate="true">Ok</text><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Normal"></para>

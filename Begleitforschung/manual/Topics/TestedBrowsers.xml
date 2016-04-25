@@ -12,6 +12,8 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Browser werden von den jeweiligen Herstellern entwickelt. Insofern kann das InEK keinerlei Gewähr dafür übernehmen, dass der </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> in Ihrem Browser jederzeit funktioniert. Die folgende Liste gibt daher lediglich Aufschluss über das Verhalten der angeführten Browser im Test beim InEK. Da die Hersteller zunehmend die Implementierung der Standards umsetzen, ist zu erwarten, dass jüngere Versionen der Browser genauso gut oder besser funktionieren.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Warning"><text styleclass="Warning" translate="true">Bitte verwenden Sie einen möglichst aktuellen Internetbrowser.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die getesteten Browser sind in alphabetischer Reihenfolge aufgeführt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine optimale Darstellung erhalten Sie mit</text></para>
@@ -37,8 +39,6 @@
     <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="margin-left:24px; font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal" style="margin-left:24px;"><text styleclass="Normal" translate="true">Microsoft Internet Explorer (Windows, Version 6, 7 sowie 8, 9 und 10 im Kompatibilitätsmodus)</text></li>
     </list>
-    <para styleclass="Normal"></para>
-    <para styleclass="Warning"><text styleclass="Warning" translate="true">Bitte verwenden Sie einen möglichst aktuellen Internetbrowser.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Optisch sehr schön, derzeit aber nicht bei Funktionen, die eine Bestätigung erfordern (Bereitstellung, Löschung) nutzbar</text></para>
     <para styleclass="Normal" style="margin-left:24px;"></para>
