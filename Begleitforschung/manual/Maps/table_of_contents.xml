@@ -5,9 +5,6 @@
     <topicref type="topic" id="424302901003248" build="ALL" modified="2016-03-01T08:32:02.710Z" icon="0" href="Begleitforschung">
       <caption translate="true">Begleitforschung gem. § 17b Abs. 8 KHG</caption>
     </topicref>
-    <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
-      <caption translate="true">Funktionsüberblick</caption>
-    </topicref>
     <topicref type="topic" id="40896998482239" build="ALL" modified="2011-12-20T14:50:15.680Z" icon="0" href="TermsOfUse">
       <caption translate="true">Nutzungsbedingungen</caption>
     </topicref>
@@ -25,9 +22,21 @@
     <caption translate="true">Bedienung</caption>
     <topicref type="topic" id="409113749238586" build="ALL" modified="2011-12-06T15:36:09.418Z" icon="0" href="BaseHandling">
       <caption translate="true">Allgemeine Bedienung</caption>
+      <topicref type="topic" id="424855240192023" build="ALL" modified="2016-04-25T13:14:52.660Z" icon="0" href="Einteilung_der_Dialoge">
+        <caption translate="true">Einteilung der Dialoge</caption>
+      </topicref>
+      <topicref type="topic" id="424857193188972" build="ALL" modified="2016-04-25T13:15:30.069Z" icon="0" href="Ueberblick_Tabellen-Bedienung">
+        <caption translate="true">Überblick Tabellen-Bedienung</caption>
+        <topicref type="topic" id="424857129612908" build="ALL" modified="2016-04-25T13:16:09.481Z" icon="0" href="Sortierung">
+          <caption translate="true">Sortierung</caption>
+        </topicref>
+        <topicref type="topic" id="424856802897238" build="ALL" modified="2016-04-25T13:16:21.620Z" icon="0" href="Filterung">
+          <caption translate="true">Filterung</caption>
+        </topicref>
+      </topicref>
     </topicref>
-    <topicref type="topic" id="424817736441896" build="ALL" modified="2016-04-21T14:31:36.634Z" icon="0" href="Download_Rohdaten">
-      <caption translate="true">Download Rohdaten</caption>
+    <topicref type="topic" id="424817736441896" build="ALL" modified="2016-04-25T16:15:05.930Z" icon="0" href="Download_Rohdaten">
+      <caption translate="true">Download der zugrunde liegenden Daten</caption>
     </topicref>
     <topicref type="topic" id="424817670027669" build="ALL" modified="2016-04-21T14:48:47.110Z" icon="0" href="Druck">
       <caption translate="true">Druck</caption>

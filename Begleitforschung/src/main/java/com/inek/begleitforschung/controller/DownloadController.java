@@ -34,7 +34,7 @@ public class DownloadController {
             ec.responseReset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
             ec.setResponseContentType("application/zip"); // Check http://www.iana.org/assignments/media-types for all types. Use if necessary ExternalContext#getMimeType() for auto-detection based on filename.
             ec.setResponseContentLength((int)f.length()); // Set it with the file size. This header is optional. It will work if it's omitted, but the download progress will be unknown.
-            ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\""); // The Save As popup magic is done here. You can give it any file name you want, this only won't work in MSIE, it will use current request URL as file name instead.
+            ec.setResponseHeader("Content-Disposition", "attachment; filename=\"InEK-Begleitforschungsbrowser_"+dataYear+".zip\""); // The Save As popup magic is done here. You can give it any file name you want, this only won't work in MSIE, it will use current request URL as file name instead.
 
             OutputStream output = ec.getResponseOutputStream();
             InputStream input = new FileInputStream(f);

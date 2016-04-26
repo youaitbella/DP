@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/index.xhtml"
+                template="/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -16,6 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        #{agreement.checkAgreement()}
         <h1>C-2-1-5a: Vollstationäre Fälle in belegärztl. Versorgung, nach Prozeduren (Kapitel) OPS Version #{param['dataYear']} und Alter, Datenjahr #{param['dataYear']}</h1>
         
         <h:form id="dataTable" styleClass="verticalSpace">
@@ -34,7 +35,7 @@ and open the template in the editor.
                     <h:outputText id="areaNameCell" value="#{x.areaName}">
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="numKh" headerText="Fallzahl" sortBy="#{x.num}"
+                <ace:column styleClass="data-table-right" id="numKh" headerText="Nennungen" sortBy="#{x.num}"
                             filterBy="#{x.num}" filterMatchMode="contains">
                     <h:outputText id="numKhCell" value="#{x.num}">
                         <f:convertNumber pattern="###,###,###"/>

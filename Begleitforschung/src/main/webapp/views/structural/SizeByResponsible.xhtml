@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/index.xhtml"
+                template="/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -11,6 +11,7 @@
                 >
 
     <ui:define name="mainContent">
+        #{agreement.checkAgreement()}
         <h1>B-2: Krankenhäuser mit Datenübermittlung nach Größenklassen (Fallzahl vollstat.)/Trägerschaft, Datenjahr #{param['dataYear']})</h1>
         <h:form styleClass="verticalSpace">
             Träger

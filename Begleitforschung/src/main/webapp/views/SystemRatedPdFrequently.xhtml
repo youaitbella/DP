@@ -2,7 +2,7 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/index.xhtml"
+                template="/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -12,6 +12,7 @@
                 >
 
     <ui:define name="mainContent">
+        #{agreement.checkAgreement()}
         <h1>E-3a: "Häufige Leistungen": 20 häufigste Fallgruppen (Versorgung in Hauptabteilungen), G-DRG-Version #{param['dataYear']}</h1>
         <h:form id="table">
             <ace:dataTable  id="data-table"

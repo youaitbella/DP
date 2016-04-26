@@ -6,9 +6,7 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Weiterentwicklung / Anfragen</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> ermöglicht Ihnen die Übermittlung bestimmter Daten an das InEK. Diese Funktionalität wird künftig weiter ausgebaut. </text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie Wünsche an die Funktionalität des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> haben, so scheuen Sie nicht, Ihre Anregungen dem InEK mitzuteilen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true"> Sollten Sie Wünsche an die Funktionalität des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> haben, so scheuen Sie nicht, Ihre Anregungen dem InEK mitzuteilen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2" style="width:auto; cell-padding:2px; border-width:1px; border-spacing:0px; border-collapse:collapse; cell-border-width:1px; border-color:#000000; border-style:solid; background-color:#e6e6e6; head-row-background-color:#339966; alt-row-background-color:#c0c0c0;">
       <thead style="vertical-align:top">

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Begleitforschung gem. § 17b Abs. 8 KHG</title>
   <body>
     <header>
@@ -12,10 +12,10 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Datenauswertung ist in fünf Datengruppen gegliedert:</text></para>
     <para styleclass="Normal"></para>
-    <list id="12" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Datenbasis</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Krankenhaus-Strukturdaten </text><br/><text styleclass="Bullet Text" translate="true">Klassifizierung nach Bettenzahl, Fallzahl, CMI</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">vollstationäre Falldaten (jeweils für Versorgung durch Hauptabteilungen und belegärztliche Versorgung</text><br/><text styleclass="Bullet Text" translate="true">demographische und medizinische Fallmerkmale, Angaben zum Versorgungsgeschehen im Krankenhaus</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">vollstationäre Falldaten (jeweils für Versorgung durch Hauptabteilungen und belegärztliche Versorgung:</text><br/><text styleclass="Bullet Text" translate="true">demographische und medizinische Fallmerkmale, Angaben zum Versorgungsgeschehen im Krankenhaus)</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">teilstationäre Falldaten</text><br/><text styleclass="Bullet Text" translate="true">Hauptdiagnosen und Prozeduren teilstationärer Fälle</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">G-DRG-System </text><br/><text styleclass="Bullet Text" translate="true">hoch bzw. niedrig bewertete Fallgruppen, häufige Leistungen</text></li>
     </list>

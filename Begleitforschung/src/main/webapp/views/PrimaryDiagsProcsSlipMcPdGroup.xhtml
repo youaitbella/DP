@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/index.xhtml"
+                template="/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -16,6 +16,7 @@ and open the template in the editor.
                 >
 
     <ui:define name="mainContent">
+        #{agreement.checkAgreement()}
         <h1>C-2-1-4b: Vollstationäre Fälle in belegärztl. Versorgung, nach Hauptdiagnosen (Gruppe) ICD-10-GM Version #{param['dataYear']} und Alter, Datenjahr #{param['dataYear']}</h1>
         
         <h:form id="dataTable" styleClass="verticalSpace">

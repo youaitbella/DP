@@ -1,147 +1,34 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      lang="de"
-      >
-
-    <h:head>
-        <title>InEK Begleitforschungsbrowser</title>
-        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="msapplication-config" content="none"/>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-        <ui:remove>
-            <!-- 
-            Do not load the JSF AJAX library, although it might be needed for direct access.
-            JSF will load it independently from the following statement, if AJAX is used.
-            Thus, this lib would be loaded twice.
-            Instead insert a dummy AJAX access by JSF to ensure the library being loaded.
-            JSF will load only once.
-            -->
-            <h:outputScript name="jsf.js" library="javax.faces"/>
-
-            <!-- 
-            Do not use resources the JSF way, because they would be cached, although a new version might be provided.
-            Use standrd html tags combined with a version. This ensures a reload after each compile/deployment cycls
-            -->
-            <h:outputStylesheet name="css/dataportal.css"/>
-            <h:outputScript name="script/clientutils.js"/>
-        </ui:remove>
-
-        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/dataportal.css.xhtml?version=#{applicationTools.version}" />
-        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/begleit.css.xhtml?version=#{applicationTools.version}" />
-        <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
-    </h:head>
-
-    <h:body>
-        <h:inputText value="" styleClass="hide"><f:ajax/></h:inputText> <!-- dummy to ensure jsf.js -->
-        <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
-            <h5>
-                Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
-                Bekanntermaßen kann dies (insbesondere bei Versionen kleiner 9) zu unerwarteten Fehlern ("Abstürzen") führen.
-                Empfehlung: Aktualisieren Sie Ihren Internet Explorer (mind. Version 11) oder nutzen Sie einen anderen modernen Browser.
-                Bitte beachten Sie die entsprechenden Hinweise im Handbuch.
-            </h5>
-        </div>
-        <div id="wrapper">
-            <div id="top">
-                <div class="left">
-                    <h:graphicImage alt="InEK GmbH" name="Image/InEK.gif"/>
-                </div>
-                <div class="right">
-                    <div id="globalLinks">
-                        <ul>
-                            <li class="firstelement"><a href="http://g-drg.de/cms" title="zur Startseite wechseln">Home</a></li>
-                            <li class="lastelement"><a href="http://g-drg.de/cms/Impressum" title="zum Impressum wechseln">Impressum</a></li>
-                        </ul>
-                    </div>
-                    <div class ="head inlineBlock">
-                        InEK Begleitforschungsbrowser
-                    </div>
-
-                    <div class="highlight">
-                        InEK – Institut für das Entgeltsystem im Krankenhaus
-                        <span class="small">01.02.2016</span>
-                    </div>
-                </div>
-            </div>
-            <div class="defloat"></div>
-
-            <div id="content">
-                <div id="menu" class="navi">
-                    <h:outputText value="#{mainMenu.buildMenu()}" escape="false" />
-                    <h:form id="nav">
-                        <ul>
-                            <li>
-                                <a style="border: solid #7F9BAF 1px; cursor: pointer;" href="/Begleitforschung/resources/manual/InEK-Begleitforschungsbrowser.pdf" target="blank"  title="#{msg.titleManual}">Anwenderhandbuch</a>
-                            </li>
-                        </ul>
-                    </h:form>
-                </div>
-                <div class="right">
-                    <noscript>
-                        <h3 class="warningWide">#{msg.msgEnableScript}</h3>
-                    </noscript>
-                    <h:form id="browsertest" rendered="false">
-                        <div jsf:rendered="#{!sessionController.testPerformed}">
-                            <script>
-                                function test() {
-                                    document.getElementById('browsertest:testclick').click();
-                                }
-                                addOnLoadFunction(test);
-                            </script>
-                            <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
-                        </div>
-                        <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
-                            <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
-                        </div>
-                    </h:form>
-                    <ui:insert name="mainContent"></ui:insert>
-                </div>
-                <div class="defloat"></div>
-            </div>
-            <div id="footer">
-                © InEK GmbH - Institut für das Entgeltsystem im Krankenhaus 2010 - 2016 | Pflichtfelder sind mit * gekennzeichnet.
-            </div>
-        </div>
-        <a href="#top"><div id="to-top"></div></a>
-        <script type="text/javascript">
-            #{sessionController.script}
-                
-            $(document).ready(function () {
-                $('label.tree-toggler').click(function () {
-                    toggleMenu(this,400);
-                });
-                toggleMenu('label.tree-toggler',0);
-                menuState();
-            });
-            
-            $(document).scroll(function() {
-                if($(window).scrollTop() > 150) {
-                    $("#to-top").css("display", "block");
-                } else {
-                    $("#to-top").css("display", "none");
-                }
-            });
-            
-            function toggleMenu(menu,speed) {
-                $(menu).parent().children('ul.tree').toggle(speed);
-            }
-            
-            function menuState() {
-                var url = window.location.pathname + window.location.search;
-                var activeMenuLink = $("a[href='"+url+"']");
-                activeMenuLink.addClass("bf-active-menu");
-                activeMenuLink.parentsUntil($("#menu"), "ul").css("display", "block");
-            }
-        </script>
-        #{downloadController.downloadFile(param["dataYear"], param["download"])}
-    </h:body>
-
-</html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+    <ui:define name="mainContent">
+        <h:form rendered="#{!agreement.hasAgreement()}" style="display: inline-block; border: dotted black 1px; padding: 10px; margin: 14px;">
+            Mit Verwendung des InEK-Begleitforschungsbrowsers akzeptieren Sie dessen <a href="/Begleitforschung/agreement.xhtml">Nutzungsbedingungen</a>.<br/>
+            Diese finden Sie im <a href="/Begleitforschung/resources/manual/InEK-Begleitforschungsbrowser.pdf">Anwenderhandbuch</a> (Kapitel 1.2).<br/>
+            <br/>
+            Mit einem Klick auf die untere Schaltfläche stimmen Sie den Nutzungsbedingungen zu.
+            <br/>
+            <h:commandButton class="button" style="padding: 5px;" actionListener="#{agreement.startBrowser()}" value="Nutzungsbedingungen akzeptieren"></h:commandButton>
+        </h:form>
+        <h:panelGroup rendered="#{agreement.hasAgreement()}">
+            <h2>Willkommen zum InEK-Begleitforschungsbrowser</h2>
+            <br/>
+            <span style="border: dotted black 1px; padding: 8px; margin-left: 14px;">
+                Benutzen Sie das Menü auf der linken Seite, um sich die Daten anzuschauen.
+            </span>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -63,39 +63,39 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Datenauswertung erfolgte unter Beachtung von Datenschutzaspekten. Zur Gewährleistung der Anonymität von krankenhausbezogenen Angaben wurden Daten, die nicht bereits durch andere veröffentlichte Quellen verfügbar sind (z.B. in Landeskrankenhausplänen), für eine Anzahl von n=1 Krankenhäusern nicht dargestellt. Entsprechende Ausblendungen der Auswertung betrafen die Tabellen C-1-2-1 und C-2-2-1 (Vollstationäre Versorgung in Hauptabteilungen bzw. in belegärztl. Versorgung nach Größenklassen (Bettenzahl)/Bundesland). Aus dem Bundesdatenschutzgesetz ergibt sich die Verpflichtung zur Wahrung der Anonymität personenbezogener Daten. Entsprechend wurden in den Tabellen der Datengruppen C und D Ausblendungen vorgenommen und Angaben für eine Anzahl von n=1 Behandlungsfällen nicht dargestellt.</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Aussagekraft der vorliegenden Auswertungen ist aufgrund der für die Datenübermittlung gem. § 21 KHEntgG vorgegebenen Datensatzstruktur insbesondere in Bezug auf folgende Aspekte eingeschränkt:</text></para>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Ambulante Behandlung im Krankenhaus gem. §§ 116 SGB V: Im Rahmen eines Vertrags gem. §§ 116, 116a, 116b SGB V im Krankenhaus erbrachte ambulante Leistungen sind nicht in die Datenübermittlung gem. § 21 KHEntgG einbezogen.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Disease-Management-Programme (DMP)/Integrierte Versorgung (IV): Voll- oder teilstationäre Behandlungen im Rahmen von DMP- oder IV-Verträgen gem. § 140a ff. SGB V unterliegen nicht der Datenübermittlungspflicht gem. § 21 KHEntgG.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Einrichtungen: Aus den übermittelten Datensätzen ist bei unterjährigem Abschluss der Budget- und Entgeltverhandlungen nicht zweifelsfrei zu erkennen, ob eine Behandlung ganz oder teilweise in einer als Besondere Einrichtung gem. § 17b Abs. 1 Satz 15 KHG anerkannten Einrichtung durchgeführt wurde.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Leistungen im Regelungsbereich des § 17b Abs. 1 Satz 4 KHG: Aus den Daten gem. § 21 KHEntgG lässt sich nicht erkennen, ob für eine Behandlung die Regelungen des § 17b Abs. 1 Satz 4 KHG für die Notfallversorgung oder die besonderen Aufgaben von Zentren und Schwerpunkten anwendbar sind. </text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Leistungen im Regelungsbereich des § 17b Abs. 1 Satz 6 KHG: Die Daten gem. § 21 KHEntgG enthalten keine Information darüber, ob die Leistung unter den Voraussetzungen des § 17b Abs. 1 Satz 6 KHG für einen Sicherstellungszuschlag erbracht wurde. </text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB): Aufgrund des innovativen Charakters von NUB-Leistungen gem. § 6 Abs. 2 KHEntgG existiert für diese im Regelfall kein OPS-Kode, so dass in den Falldatensätzen ein mit dem abgerechneten NUB-Entgelt korrespondierendes Identifikationsmerkmal der Leistung fehlt. </text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Akutstationäre Versorgung mit anschließender Rehabilitationsmaßnahme: Zwischen den leistungserbringenden Einrichtungen sind vielfach Kooperationsstrukturen etabliert, die eine enge Verzahnung der Akutversorgung mit der Rehabilitation unterstützen sollen. Die Daten gem. § 21 KHEntgG enthalten keine Information über das Vorliegen und ggf. die Art einer Kooperation auf diesem Gebiet.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Akutstationäre Versorgung im Rahmen von Krankenhauskooperationen: Krankenhäuser erbringen oftmals Abschnitte einer Gesamtbehandlung im Rahmen von Kooperationsvereinbarungen. Die Zahl der dabei tatsächlich stattfindenden Verlegungen wird aufgrund der Fallzusammenführungsvorschriften der FPV in den Daten gem. § 21 KHEntgG nicht in gleichem Umfang wiedergegeben.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <list id="1" level="2" type="ul" listtype="bullet" formatstring="&#167;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Entgeltdaten: Eine Auswertung der Datei „Entgelte“ kann aufgrund vielfältiger Unsicherheiten hinsichtlich der Aussagekraft der darin enthaltenen Angaben keinen belastbaren Beitrag im Rahmen einer Begleitforschung liefern.</text></li>
     </list>
   </body>

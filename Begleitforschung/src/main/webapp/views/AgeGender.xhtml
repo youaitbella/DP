@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/index.xhtml"
+                template="/template.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -14,8 +14,8 @@ and open the template in the editor.
                 xmlns:icecore="http://www.icefaces.org/icefaces/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
-
     <ui:define name="mainContent">
+        #{agreement.checkAgreement()}
         <h1>C-1-1-2: Vollstationäre Fälle in Hauptabteilungen, nach Altersklassen und Geschlecht, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
             <ace:dataTable  id="c112-table"
@@ -55,19 +55,19 @@ and open the template in the editor.
                 <ace:column styleClass="data-table-right" id="fractionW" headerText="Ant. Fälle W." sortBy="#{x.fractionW}"
                             filterBy="#{x.fractionW}" filterMatchMode="contains">
                     <h:outputText id="fractionWCell" value="#{x.fractionW}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                        <f:convertNumber type="percent" minFractionDigits="2" />
                     </h:outputText>
                 </ace:column>
                 <ace:column styleClass="data-table-right" id="fractionM" headerText="Ant. Fälle M." sortBy="#{x.fractionM}"
                             filterBy="#{x.fractionM}" filterMatchMode="contains">
                     <h:outputText id="fractionMCell" value="#{x.fractionM}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                        <f:convertNumber type="percent" minFractionDigits="2" />
                     </h:outputText>
                 </ace:column>
                 <ace:column styleClass="data-table-right" id="fractionU" headerText="Ant. Fälle U." sortBy="#{x.fractionU}"
                             filterBy="#{x.fractionU}" filterMatchMode="contains">
                     <h:outputText id="fractionUCell" value="#{x.fractionU}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                        <f:convertNumber type="percent" minFractionDigits="2" />
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>
@@ -106,19 +106,19 @@ and open the template in the editor.
                 <ace:column styleClass="data-table-right" id="fractionWSum" headerText="Ant. Weibl." sortBy="#{x.fractionW}"
                             >
                     <h:outputText id="fractionWSumCell" value="#{x.fractionW}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                        <f:convertNumber type="percent" minFractionDigits="2" />
                     </h:outputText>
                 </ace:column>
                 <ace:column styleClass="data-table-right" id="fractionMSum" headerText="Ant. Männl." sortBy="#{x.fractionM}"
                             >
                     <h:outputText id="fractionMSumCell" value="#{x.fractionM}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                        <f:convertNumber type="percent" minFractionDigits="2" />
                     </h:outputText>
                 </ace:column>
                 <ace:column styleClass="data-table-right" id="fractionUSum" headerText="Ant. Unbest." sortBy="#{x.fractionU}"
                             >
                     <h:outputText id="fractionUSumCell" value="#{x.fractionU}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
+                        <f:convertNumber type="percent" minFractionDigits="2" />
                     </h:outputText>
                 </ace:column>
             </ace:dataTable>

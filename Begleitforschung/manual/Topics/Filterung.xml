@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Filterung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Filterung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald Sie anfangen in dem Textfeld der Spalte zu tippen (blaue Markierung), wird die Spalte gefiltert. Es werden alle Elemente angezeigt, die den von Ihnen eingetippten Text/Wert </text><tab /><text styleclass="Normal" translate="true">enthalten. Bei größeren Tabellen kann dieses Filterung ein paar Sekunden dauern.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Da Zahlenwerte in der Tabelle aufgerundet werden, kann es vorkommen, dass Sie auch Werte in der Tabelle vorfinden, welche nicht Ihre eingegebene Zahl enthalten. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In den Rohdaten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> ist Ihre angegebene Zahl jedoch vorhanden. Sie können sich die </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Download_Rohdaten" styleclass="Normal" translate="true">Rohdaten des Browsers auch herunterladen</link><text styleclass="Normal" translate="true">, siehe folgendes Kapitel 2.2.</text></para>
+  </body>
+</topic>

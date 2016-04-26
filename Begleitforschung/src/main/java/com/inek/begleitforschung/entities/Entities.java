@@ -9,8 +9,11 @@ import com.inek.begleitforschung.entities.structural.BedClass;
 import com.inek.begleitforschung.entities.structural.CmiClass;
 import com.inek.begleitforschung.entities.structural.SizeClass;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -25,6 +28,11 @@ import javax.inject.Named;
 public class Entities implements Serializable {
 
     @Inject private ApplicationData _appData;
+    private NumberFormat _nf;
+    
+    public Entities() {
+        _nf = NumberFormat.getInstance(Locale.GERMANY);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="C fields">
     private List<C_111_211> _c_111_211;
@@ -108,24 +116,24 @@ public class Entities implements Serializable {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="C">
-    public List<BedClass> getBedClasses(int dataYear) {
+    public List<BedClass> getBedClasses(int dataYear)  {
         List<String[]> data = _appData.readDataFile(dataYear, "B_1_KH_Bundesland_Groesse(Betten)");
         return data.stream()
-                .map(d -> new BedClass(d[1], d[5], Integer.parseInt(d[2]), Double.parseDouble(d[3]), Integer.parseInt(d[4])))
+                .map(d -> new BedClass(d[1], d[5], Integer.parseInt(d[2]), Double.parseDouble(d[3].replaceAll(",", ".")), Integer.parseInt(d[4])))
                 .collect(Collectors.toList());
     }
 
-    public List<SizeClass> getSizeClasses(int dataYear) {
+    public List<SizeClass> getSizeClasses(int dataYear) throws ParseException {
         List<String[]> data = _appData.readDataFile(dataYear, "B_2_KH_Traeger_Groesse(Faelle)");
         return data.stream()
-                .map(d -> new SizeClass(d[1], d[6], Integer.parseInt(d[2]), Double.parseDouble(d[3]), Integer.parseInt(d[5])))
+                .map(d -> new SizeClass(d[1], d[6], Integer.parseInt(d[2]), Double.parseDouble(d[3].replaceAll(",", ".")), Integer.parseInt(d[5])))
                 .collect(Collectors.toList());
     }
 
     public List<CmiClass> getCmiClasses(int dataYear) {
         List<String[]> data = _appData.readDataFile(dataYear, "B_3_KH_Groesse(Betten)_CMI");
         return data.stream()
-                .map(d -> new CmiClass(d[1], d[5], Integer.parseInt(d[2]), Double.parseDouble(d[3]), Integer.parseInt(d[0])))
+                .map(d -> new CmiClass(d[1], d[5], Integer.parseInt(d[2]), Double.parseDouble(d[3].replaceAll(",", ".")), Integer.parseInt(d[0])))
                 .collect(Collectors.toList());
     }
 
@@ -607,7 +615,7 @@ public class Entities implements Serializable {
         List<C_111_211> list = new ArrayList<>();
         for (String[] x : data) {
             C_111_211 y = new C_111_211(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]),
-                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Integer.parseInt(x[6]), Double.parseDouble(x[7]), Double.parseDouble(x[8]), Double.parseDouble(x[9]));
+                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Integer.parseInt(x[6]), Double.parseDouble(x[7].replaceAll(",", ".")), Double.parseDouble(x[8].replaceAll(",", ".")), Double.parseDouble(x[9].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -617,7 +625,7 @@ public class Entities implements Serializable {
         List<C_112_212> list = new ArrayList<>();
         for (String[] x : data) {
             C_112_212 y = new C_112_212(Integer.parseInt(x[0]), x[1], Integer.parseInt(x[2]), Integer.parseInt(x[3]),
-                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6]), Double.parseDouble(x[7]), Double.parseDouble(x[8]), x[9]);
+                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")), Double.parseDouble(x[8].replaceAll(",", ".")), x[9]);
             list.add(y);
         }
         return list;
@@ -626,8 +634,8 @@ public class Entities implements Serializable {
     private List<C_113_213> mapC_113_213(List<String[]> data) {
         List<C_113_213> list = new ArrayList<>();
         for (String[] x : data) {
-            C_113_213 y = new C_113_213(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
-                    Double.parseDouble(x[5]), Integer.parseInt(x[6]), Double.parseDouble(x[7]), Integer.parseInt(x[8]), Double.parseDouble(x[9]));
+            C_113_213 y = new C_113_213(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")),
+                    Double.parseDouble(x[5].replaceAll(",", ".")), Integer.parseInt(x[6]), Double.parseDouble(x[7].replaceAll(",", ".")), Integer.parseInt(x[8]), Double.parseDouble(x[9].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -636,8 +644,8 @@ public class Entities implements Serializable {
     private List<C_113_213> mapC_113_213_sum(List<String[]> data) {
         List<C_113_213> list = new ArrayList<>();
         for (String[] x : data) {
-            C_113_213 y = new C_113_213(1, "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1]),
-                    Double.parseDouble(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6]));
+            C_113_213 y = new C_113_213(1, "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1].replaceAll(",", ".")),
+                    Double.parseDouble(x[2].replaceAll(",", ".")), Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")), Integer.parseInt(x[5]), Double.parseDouble(x[6].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -646,8 +654,8 @@ public class Entities implements Serializable {
     private List<C_121_221_State_Size> mapC_121_221_State_Size(List<String[]> data) {
         List<C_121_221_State_Size> list = new ArrayList<>();
         for (String[] x : data) {
-            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4]),
-                    Double.parseDouble(x[5]), Double.parseDouble(x[6]), Double.parseDouble(x[7]), x[8], x[9]);
+            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")),
+                    Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")), x[8], x[9]);
             list.add(y);
         }
         return list;
@@ -656,8 +664,8 @@ public class Entities implements Serializable {
     private List<C_121_221_State_Size> mapC_121_221_sum(List<String[]> data) {
         List<C_121_221_State_Size> list = new ArrayList<>();
         for (String[] x : data) {
-            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], "", Integer.parseInt(x[2]), Double.parseDouble(x[3]),
-                    Double.parseDouble(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]), x[7], "");
+            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], "", Integer.parseInt(x[2]), Double.parseDouble(x[3].replaceAll(",", ".")),
+                    Double.parseDouble(x[4].replaceAll(",", ".")), Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")), x[7], "");
             list.add(y);
         }
         return list;
@@ -675,8 +683,8 @@ public class Entities implements Serializable {
     private List<NumOperations> mapNumOperations(List<String[]> data) {
         List<NumOperations> list = new ArrayList<>();
         for (String[] x : data) {
-            NumOperations y = new NumOperations(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5]),
-                    Double.parseDouble(x[6]), Double.parseDouble(x[7]), Double.parseDouble(x[8]), Double.parseDouble(x[9]), Double.parseDouble(x[10]));
+            NumOperations y = new NumOperations(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5].replaceAll(",", ".")),
+                    Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")), Double.parseDouble(x[8].replaceAll(",", ".")), Double.parseDouble(x[9].replaceAll(",", ".")), Double.parseDouble(x[10].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -704,17 +712,17 @@ public class Entities implements Serializable {
         List<PrimaryDiagsProcs> list = new ArrayList<>();
         for(String[] x : data) {
             PrimaryDiagsProcs y = new PrimaryDiagsProcs(Integer.parseInt(x[0]), Integer.parseInt(x[1]),
-                    x[2], x[3], Integer.parseInt(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]),
+                    x[2], x[3], Integer.parseInt(x[4]), Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")),
                     Integer.parseInt(x[7]), Integer.parseInt(x[8]), Integer.parseInt(x[9]), Integer.parseInt(x[10]),
                     Integer.parseInt(x[11]), Integer.parseInt(x[12]), Integer.parseInt(x[13]), Integer.parseInt(x[14]),
                     Integer.parseInt(x[15]), Integer.parseInt(x[16]), Integer.parseInt(x[17]), Integer.parseInt(x[18]),
                     Integer.parseInt(x[19]), Integer.parseInt(x[20]), Integer.parseInt(x[21]), Integer.parseInt(x[22]),
                     Integer.parseInt(x[23]), Integer.parseInt(x[24]), Integer.parseInt(x[25]), Integer.parseInt(x[26]),
-                    Double.parseDouble(x[27]), Double.parseDouble(x[28]), Double.parseDouble(x[29]), Double.parseDouble(x[30]),
-                    Double.parseDouble(x[31]), Double.parseDouble(x[32]), Double.parseDouble(x[33]), Double.parseDouble(x[34]),
-                    Double.parseDouble(x[35]), Double.parseDouble(x[36]), Double.parseDouble(x[37]), Double.parseDouble(x[38]),
-                    Double.parseDouble(x[39]), Double.parseDouble(x[40]), Double.parseDouble(x[41]), Double.parseDouble(x[42]),
-                    Double.parseDouble(x[43]), Double.parseDouble(x[44]), Double.parseDouble(x[45]), Double.parseDouble(x[46]));
+                    Double.parseDouble(x[27].replaceAll(",", ".")), Double.parseDouble(x[28].replaceAll(",", ".")), Double.parseDouble(x[29].replaceAll(",", ".")), Double.parseDouble(x[30].replaceAll(",", ".")),
+                    Double.parseDouble(x[31].replaceAll(",", ".")), Double.parseDouble(x[32].replaceAll(",", ".")), Double.parseDouble(x[33].replaceAll(",", ".")), Double.parseDouble(x[34].replaceAll(",", ".")),
+                    Double.parseDouble(x[35].replaceAll(",", ".")), Double.parseDouble(x[36].replaceAll(",", ".")), Double.parseDouble(x[37].replaceAll(",", ".")), Double.parseDouble(x[38].replaceAll(",", ".")),
+                    Double.parseDouble(x[39].replaceAll(",", ".")), Double.parseDouble(x[40].replaceAll(",", ".")), Double.parseDouble(x[41].replaceAll(",", ".")), Double.parseDouble(x[42].replaceAll(",", ".")),
+                    Double.parseDouble(x[43].replaceAll(",", ".")), Double.parseDouble(x[44].replaceAll(",", ".")), Double.parseDouble(x[45].replaceAll(",", ".")), Double.parseDouble(x[46].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -723,7 +731,7 @@ public class Entities implements Serializable {
     private List<DataQuality> mapDataQuality(List<String[]> data) {
         List<DataQuality> list = new ArrayList<>();
         for(String[] x : data) {
-            DataQuality y = new DataQuality(x[0], Integer.parseInt(x[1]), Double.parseDouble(x[2])); 
+            DataQuality y = new DataQuality(x[0], Integer.parseInt(x[1]), Double.parseDouble(x[2].replaceAll(",", "."))); 
             list.add(y);
         }
         return list;
@@ -732,7 +740,7 @@ public class Entities implements Serializable {
     private List<UnspecificCoding> mapUnspecificCoding(List<String[]> data) {
         List<UnspecificCoding> list = new ArrayList<>();
         for(String[] x : data) {
-            UnspecificCoding y = new UnspecificCoding(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), Double.parseDouble(x[3]), Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6]));
+            UnspecificCoding y = new UnspecificCoding(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), Double.parseDouble(x[3].replaceAll(",", ".")), Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -759,7 +767,7 @@ public class Entities implements Serializable {
     private List<SystemRated> mapSystemRated(List<String[]> data) {
         List<SystemRated> list = new ArrayList<>();
         for(String[] x : data) {
-            SystemRated y = new SystemRated(Integer.parseInt(x[0]), x[1], x[2], Double.parseDouble(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5]));
+            SystemRated y = new SystemRated(Integer.parseInt(x[0]), x[1], x[2], Double.parseDouble(x[3].replaceAll(",", ".")), Integer.parseInt(x[4]), Double.parseDouble(x[5].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -768,7 +776,7 @@ public class Entities implements Serializable {
     private List<SystemRated> mapSystemRatedSum(List<String[]> data) {
         List<SystemRated> list = new ArrayList<>();
         for(String[] x : data) {
-            SystemRated y = new SystemRated(0, "", "", 0.0, Integer.parseInt(x[0]), Double.parseDouble(x[1]));
+            SystemRated y = new SystemRated(0, "", "", 0.0, Integer.parseInt(x[0]), Double.parseDouble(x[1].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -777,7 +785,7 @@ public class Entities implements Serializable {
     private List<C_111_211> mapC_111_211_sum(List<String[]> data) {
         List<C_111_211> list = new ArrayList<>();
         for(String[] x : data) {
-            C_111_211 y = new C_111_211(1, "", "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]));
+            C_111_211 y = new C_111_211(1, "", "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")), Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -786,7 +794,7 @@ public class Entities implements Serializable {
     private List<C_112_212> map_C_112_212_sum(List<String[]> data) {
         List<C_112_212> list = new ArrayList<>();
         for(String[] x : data) {
-            C_112_212 y = new C_112_212(1, "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4]), Double.parseDouble(x[5]), Double.parseDouble(x[6]),"");
+            C_112_212 y = new C_112_212(1, "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")), Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")),"");
             list.add(y);
         }
         return list;
@@ -796,17 +804,17 @@ public class Entities implements Serializable {
         List<PrimaryDiagsProcs> list = new ArrayList<>();
         for(String[] x : data) {
             PrimaryDiagsProcs y = new PrimaryDiagsProcs(1, 1,
-                    "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1]), Double.parseDouble(x[2]),
+                    "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1].replaceAll(",", ".")), Double.parseDouble(x[2].replaceAll(",", ".")),
                     Integer.parseInt(x[3]), Integer.parseInt(x[4]), Integer.parseInt(x[5]), Integer.parseInt(x[6]),
                     Integer.parseInt(x[7]), Integer.parseInt(x[8]), Integer.parseInt(x[9]), Integer.parseInt(x[10]),
                     Integer.parseInt(x[11]), Integer.parseInt(x[12]), Integer.parseInt(x[13]), Integer.parseInt(x[14]),
                     Integer.parseInt(x[15]), Integer.parseInt(x[16]), Integer.parseInt(x[17]), Integer.parseInt(x[18]),
                     Integer.parseInt(x[19]), Integer.parseInt(x[20]), Integer.parseInt(x[21]), Integer.parseInt(x[22]),
-                    Double.parseDouble(x[23]), Double.parseDouble(x[24]), Double.parseDouble(x[25]), Double.parseDouble(x[26]),
-                    Double.parseDouble(x[27]), Double.parseDouble(x[28]), Double.parseDouble(x[29]), Double.parseDouble(x[30]),
-                    Double.parseDouble(x[31]), Double.parseDouble(x[32]), Double.parseDouble(x[33]), Double.parseDouble(x[34]),
-                    Double.parseDouble(x[35]), Double.parseDouble(x[36]), Double.parseDouble(x[37]), Double.parseDouble(x[38]),
-                    Double.parseDouble(x[39]), Double.parseDouble(x[40]), Double.parseDouble(x[41]), Double.parseDouble(x[42]));
+                    Double.parseDouble(x[23].replaceAll(",", ".")), Double.parseDouble(x[24].replaceAll(",", ".")), Double.parseDouble(x[25].replaceAll(",", ".")), Double.parseDouble(x[26].replaceAll(",", ".")),
+                    Double.parseDouble(x[27].replaceAll(",", ".")), Double.parseDouble(x[28].replaceAll(",", ".")), Double.parseDouble(x[29].replaceAll(",", ".")), Double.parseDouble(x[30].replaceAll(",", ".")),
+                    Double.parseDouble(x[31].replaceAll(",", ".")), Double.parseDouble(x[32].replaceAll(",", ".")), Double.parseDouble(x[33].replaceAll(",", ".")), Double.parseDouble(x[34].replaceAll(",", ".")),
+                    Double.parseDouble(x[35].replaceAll(",", ".")), Double.parseDouble(x[36].replaceAll(",", ".")), Double.parseDouble(x[37].replaceAll(",", ".")), Double.parseDouble(x[38].replaceAll(",", ".")),
+                    Double.parseDouble(x[39].replaceAll(",", ".")), Double.parseDouble(x[40].replaceAll(",", ".")), Double.parseDouble(x[41].replaceAll(",", ".")), Double.parseDouble(x[42].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -822,11 +830,11 @@ public class Entities implements Serializable {
                     Integer.parseInt(x[9]), Integer.parseInt(x[10]), Integer.parseInt(x[11]), Integer.parseInt(x[12]),
                     Integer.parseInt(x[13]), Integer.parseInt(x[14]), Integer.parseInt(x[15]), Integer.parseInt(x[16]),
                     Integer.parseInt(x[17]), Integer.parseInt(x[18]), Integer.parseInt(x[19]), Integer.parseInt(x[20]),
-                    Double.parseDouble(x[21]), Double.parseDouble(x[22]), Double.parseDouble(x[23]), Double.parseDouble(x[24]),
-                    Double.parseDouble(x[25]), Double.parseDouble(x[26]), Double.parseDouble(x[27]), Double.parseDouble(x[28]),
-                    Double.parseDouble(x[29]), Double.parseDouble(x[30]), Double.parseDouble(x[31]), Double.parseDouble(x[32]),
-                    Double.parseDouble(x[33]), Double.parseDouble(x[34]), Double.parseDouble(x[35]), Double.parseDouble(x[36]),
-                    Double.parseDouble(x[37]), Double.parseDouble(x[38]), Double.parseDouble(x[39]), Double.parseDouble(x[40]));
+                    Double.parseDouble(x[21].replaceAll(",", ".")), Double.parseDouble(x[22].replaceAll(",", ".")), Double.parseDouble(x[23].replaceAll(",", ".")), Double.parseDouble(x[24].replaceAll(",", ".")),
+                    Double.parseDouble(x[25].replaceAll(",", ".")), Double.parseDouble(x[26].replaceAll(",", ".")), Double.parseDouble(x[27].replaceAll(",", ".")), Double.parseDouble(x[28].replaceAll(",", ".")),
+                    Double.parseDouble(x[29].replaceAll(",", ".")), Double.parseDouble(x[30].replaceAll(",", ".")), Double.parseDouble(x[31].replaceAll(",", ".")), Double.parseDouble(x[32].replaceAll(",", ".")),
+                    Double.parseDouble(x[33].replaceAll(",", ".")), Double.parseDouble(x[34].replaceAll(",", ".")), Double.parseDouble(x[35].replaceAll(",", ".")), Double.parseDouble(x[36].replaceAll(",", ".")),
+                    Double.parseDouble(x[37].replaceAll(",", ".")), Double.parseDouble(x[38].replaceAll(",", ".")), Double.parseDouble(x[39].replaceAll(",", ".")), Double.parseDouble(x[40].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -835,7 +843,7 @@ public class Entities implements Serializable {
     private double mapPercent(List<String[]> data, int type) {
         for (String[] x : data) {
             if(Integer.parseInt(x[0]) == type) {
-                return Double.parseDouble(x[1]);
+                return Double.parseDouble(x[1].replaceAll(",", "."));
             }
         }
         return 0;

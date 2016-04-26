@@ -169,6 +169,7 @@
       <config-value name="make3include">HTML</config-value>
       <config-value name="make3status">*</config-value>
       <config-value name="imageshortcuts">delete.png;</config-value>
+      <config-group name="bookmarks"/>
     </config-group>
     <config-group name="user">
       <config-group name="muellermi">
@@ -356,6 +357,9 @@ document.write('</frameset>');
       <config-value name="colortext">0</config-value>
       <config-value name="insertseealso">0</config-value>
       <config-value name="insertseealsostyle">-1</config-value>
+    </config-group>
+    <config-group name="liststyles">
+      <config-value name="outline1">LEVELS=9;L0.ListType=3;L0.FormatString=2.1.%0:s;L0.MarkerAlignment=0;L0.LevelReset=0;L0.StartFrom=1;L1.ListType=3;L1.FormatString=2.1.2.%1:s;L1.MarkerAlignment=0;L1.StartFrom=1;L2.ListType=3;L2.FormatString=%0:s.%1:s.%2:s.;L2.MarkerAlignment=0;L2.StartFrom=1;L3.ListType=3;L3.FormatString=%0:s.%1:s.%2:s.%3:s.;L3.MarkerAlignment=0;L3.StartFrom=1;L4.ListType=3;L4.FormatString=%0:s.%1:s.%2:s.%3:s.%4:s.;L4.MarkerAlignment=0;L4.StartFrom=1;L5.ListType=3;L5.FormatString=%0:s.%1:s.%2:s.%3:s.%4:s.%5:s.;L5.MarkerAlignment=0;L5.StartFrom=1;L6.ListType=3;L6.FormatString=%0:s.%1:s.%2:s.%3:s.%4:s.%5:s.%6:s.;L6.MarkerAlignment=0;L6.StartFrom=1;L7.ListType=3;L7.FormatString=%0:s.%1:s.%2:s.%3:s.%4:s.%5:s.%6:s.%7:s.;L7.MarkerAlignment=0;L7.StartFrom=1;L8.ListType=3;L8.FormatString=%0:s.%1:s.%2:s.%3:s.%4:s.%5:s.%6:s.%7:s.%8:s.;L8.MarkerAlignment=0;L8.StartFrom=1;</config-value>
     </config-group>
     <variables>
       <variable id="FIGURE" type="text" translate="true">Abb. &lt;%FIGURE++%&gt;:</variable>

@@ -6,30 +6,6 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Allgemeine Bedienung</text></para>
     </header>
-    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Einteilung der Dialoge</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Dialogseiten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> bestehen im Wesentlichen aus drei Bereichen:</text></para>
-    <para styleclass="Normal"></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Oben: Der </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Kopfbereich</text><text styleclass="Bullet Text" translate="true"> mit Links zur Homepage des InEK und zum Impressum.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Links: </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Navigationsbereich</text><text styleclass="Bullet Text" translate="true">. Hier finden Sie die Menüpunkte zum Anzeigen der Daten.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Rechts: </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Inhaltsbereich</text><text styleclass="Bullet Text" translate="true">. </text><text styleclass="Normal" translate="true">Die Daten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> werden hier angezeigt.</text></li>
-    </list>
-    <para styleclass="Image Caption"><image src="home.png" scale="79.37%" width="1077" height="450" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Startansicht des </text><var styleclass="Image Caption">&lt;%TITLE%&gt;s</var><text styleclass="Image Caption" translate="true">. Roter Bereich: Menü, blauer Bereich: Datenansicht je nach ausgewähltem Menü, grüner Bereich: Kopfzeile mit Links zur InEK-Homepage und Impressum.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der linke Navigationsbereich zeigt die Ihnen zur Verfügung stehenden Datenansichten an. Sie können die einzelnen Menüpunkte mit einem Mausklick auf und zu klappen. Die aktuell besuchte Datenansicht wird mit einer anderen Hintergrundfarbe von den anderen Menüpunkte differenziert.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Überblick Tabellen-Bedienung</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Daten werden in einer tabellarischen Ansicht präsentiert. Sie können Tabellenspalten sortieren und nach bestimmten Inhalten durchsuchen.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="table.PNG" scale="61.71%" width="1184" height="527" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Beispieltabelle der ersten Datenansicht des </text><var styleclass="Image Caption">&lt;%TITLE%&gt;s</var><text styleclass="Image Caption" translate="true">.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Durch einen Klick in die rote Markierung können Sie die Spalte auf- bzw. absteigend sortieren. Sie können mehrere Spalten zum Sortieren auswählen, wenn Sie die STRG-Taste beim Klicken gedrückt halten.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald Sie anfangen in dem Textfeld der Spalte zu tippen (blaue Markierung), wird die Spalte gefiltert. Es werden alle Elemente angezeigt, die den von Ihnen eingetippten Text/Wert enthalten. Bei größeren Tabellen kann dieses Filterung ein paar Sekunden dauern.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Da Zahlenwerte in der Tabelle aufgerundet werden, kann es vorkommen, dass Sie auch Werte in der Tabelle vorfinden, welche nicht Ihre eingegebene Zahl enthalten. In den Rohdaten des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> ist Ihre angegebene Zahl jedoch vorhanden. Sie können sich die </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Download_Rohdaten" styleclass="Normal" translate="true">Rohdaten des Browsers auch herunterladen</link><text styleclass="Normal" translate="true">, siehe folgendes Kapitel 2.2.</text></para>
+    <para styleclass="Heading1"></para>
   </body>
 </topic>
