@@ -14,11 +14,12 @@
     <ui:define name="mainContent">
         #{agreement.checkAgreement()}
         <h1>A-1: Beteiligung der Krankenhäuser (KH) an der Datenübermittlung, Datenjahr #{param['dataYear']}</h1>
-        <h:form id="table">
+        <h:form id="table" styleClass="smallTable">
             <ace:dataTable  id="a1_kh_table"
                             value="#{entities.getParticipation(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            staticHeaders="false"
                           >
                 <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
                             filterBy="#{x.state}" filterMatchMode="contains">
@@ -40,7 +41,8 @@
         </h:form>
         <h3 class="text-center">Summentabelle</h3>
         <h:form id="tableSum">
-            <ace:dataTable  id="a1_kh_table"
+            <ace:dataTable  styleClass="smallTable"
+                            id="a1_kh_table"
                             value="#{entities.getParticipationSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"

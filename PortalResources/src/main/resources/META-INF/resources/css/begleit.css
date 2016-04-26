@@ -103,3 +103,7 @@ p.info-text {
 h1 {
     font-size: 1.3em;
 }
+
+.smallTable {
+    max-width: 900px;
+}

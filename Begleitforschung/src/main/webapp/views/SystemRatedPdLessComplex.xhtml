@@ -19,6 +19,7 @@
                             value="#{entities.getSystemRatedPdLessComplex(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            staticHeaders="false"
                             scrollHeight="450" scrollable="true"
                           >
             <ace:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
@@ -31,7 +32,7 @@
             </h:outputText>
             </ace:column>
             <ace:column styleClass="data-table-right" id="relativeWeight" headerText="Relativgewicht" sortBy="#{x.relativeWeight}"
-                            filterBy="#{x.relativeWeight}" filterMatchMode="contains">
+                        filterBy="#{x.relativeWeight}" filterMatchMode="contains">
                 <h:outputText id="relativeWeightCell" value="#{x.relativeWeight}">
                     <f:convertNumber minFractionDigits="3" maxFractionDigits="3"/>
                 </h:outputText>
@@ -50,6 +51,11 @@
             </ace:column>
         </ace:dataTable>
         </h:form>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                document.getElementById('table:data-table:relativeWeight').click();
+            });
+        </script>
         <h3 class="text-center">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"

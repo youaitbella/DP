@@ -27,6 +27,7 @@
                             value="#{sizeByStateController.data}"
                             var="data"
                             resizableColumns="true"
+                            staticHeaders="false"
                           >
                 <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
                                 filterBy="#{data.level}" filterMatchMode="contains">

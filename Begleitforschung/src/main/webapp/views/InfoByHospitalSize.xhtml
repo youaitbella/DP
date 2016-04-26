@@ -31,6 +31,7 @@ and open the template in the editor.
                             value="#{infoByHospitalSizeController.data}"
                             var="x"
                             resizableColumns="true"
+                            staticHeaders="false"
                           >
                 <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{x.level}"
                                 filterBy="#{x.level}" filterMatchMode="contains">

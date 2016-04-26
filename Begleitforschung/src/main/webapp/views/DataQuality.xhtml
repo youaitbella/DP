@@ -23,6 +23,7 @@ and open the template in the editor.
                             value="#{entities.getDataQuality(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            staticHeaders="false"
                           >
                 <ace:column styleClass="data-table-left" id="type" headerText="Art" sortBy="#{x.type}"
                                 filterBy="#{x.type}" filterMatchMode="contains">

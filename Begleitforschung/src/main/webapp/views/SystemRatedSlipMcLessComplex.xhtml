@@ -20,6 +20,7 @@
                             var="x"
                             resizableColumns="true"
                             scrollHeight="450" scrollable="true"
+                            staticHeaders="false"
                           >
             <ace:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
                             filterBy="#{x.drg}" filterMatchMode="contains">
@@ -50,6 +51,11 @@
             </ace:column>
         </ace:dataTable>
         </h:form>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                document.getElementById('table:data-table:relativeWeight').click();
+            });
+        </script>
         <h3 class="text-center">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"
