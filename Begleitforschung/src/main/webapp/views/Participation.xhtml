@@ -20,6 +20,7 @@
                             var="x"
                             resizableColumns="true"
                             staticHeaders="false"
+                            style="width: 600px;"
                           >
                 <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
                             filterBy="#{x.state}" filterMatchMode="contains">
@@ -39,13 +40,14 @@
             </ace:column>
         </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-center" style="width: 600px;">Summentabelle</h3>
         <h:form id="tableSum">
             <ace:dataTable  styleClass="smallTable"
                             id="a1_kh_table"
                             value="#{entities.getParticipationSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            style="width: 600px;"
                           >
                 <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
                             filterBy="#{x.state}" filterMatchMode="contains">

@@ -13,9 +13,9 @@
     <ui:define name="mainContent">
         #{agreement.checkAgreement()}
         <h1>B-3: Krankenhäuser mit Datenübermittlung nach CMI-Klassen/Größenklassen (Bettenzahl), Datenjahr #{param['dataYear']}</h1>
-        <h:form>
-            Bettenklasse
-            <h:selectOneMenu value="#{cmiByBedClassController.bedClass}">
+        <h:form style="margin-top: 16px; margin-bottom: 10px;">
+            <b>Bettenklasse</b>
+            <h:selectOneMenu value="#{cmiByBedClassController.bedClass}" style="margin-left: 4px;">
                 <f:selectItems value="#{applicationData.bedClasses}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
@@ -26,6 +26,8 @@
                             var="data"
                             resizableColumns="true"
                             staticHeaders="false"
+                            columnPinningControlsInHeader="true"
+                            style="width: 450px;"
                           >
                 <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
                                 filterBy="#{data.level}" filterMatchMode="contains">
@@ -45,7 +47,7 @@
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Anzahl KH gesamt: #{cmiByBedClassController.total}</h3>
+        <h3 class="text-center" style="width: 450px;">Anzahl KH gesamt: #{cmiByBedClassController.total}</h3>
         <p class="info-text">
             ohne zusätzliche Prüfung auf Umsetzung der Regelungen zur Fallzusammenführung<br/>
             ohne Krankenhäuser mit Bettenzahl "ohne Angabe"<br/>

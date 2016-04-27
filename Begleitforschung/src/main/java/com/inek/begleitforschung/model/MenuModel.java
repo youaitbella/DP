@@ -30,20 +30,10 @@ public class MenuModel implements Serializable{
         node1.addChild("Größenklassen (Bettenzahl) / Bundesland", baseUrl+"/views/structural/SizeByState.xhtml?dataYear=" + _dataYear);
         node1.addChild("Größenklasse (Fälle) / Trägerschaft", baseUrl+"/views/structural/SizeByResponsible.xhtml?dataYear=" + _dataYear);
         node1.addChild("CMI-Klassen / Größen (Betten)", baseUrl+"/views/structural/CmiByBedClass.xhtml?dataYear=" + _dataYear);
-        
-        node1 = _menuRoot.addChild("G-DRG-System", "");
-        MenuTreeNode node2 = node1.addChild("Hauptabteilungen", "");
-        node2.addChild("20 niedrigst bewertete Fallgruppen", baseUrl+"/views/SystemRatedPdLessComplex.xhtml?dataYear="+_dataYear);
-        node2.addChild("20 höchst bewertete Fallgruppen", baseUrl+"/views/SystemRatedPdComplex.xhtml?dataYear="+_dataYear);
-        node2.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedPdFrequently.xhtml?dataYear="+_dataYear);
-        MenuTreeNode node3 = node1.addChild("belegärztliche Versorgung", "");
-        node3.addChild("20 niedrigst bewertete Fallgruppen", baseUrl+"/views/SystemRatedSlipMcLessComplex.xhtml?dataYear="+_dataYear);
-        node3.addChild("20 höchst bewertete Fallgruppen", baseUrl+"/views/SystemRatedSlipMcComplex.xhtml?dataYear="+_dataYear);
-        node3.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedSlipMcFrequently.xhtml?dataYear="+_dataYear);
 
         node1 = _menuRoot.addChild("Vollstationäre Falldaten", "");
-        node2 = node1.addChild("Versorgung in Hauptabteilungen", "");
-        node3 = node2.addChild("Demographische und medizinische Merkmale", "");
+        MenuTreeNode node2 = node1.addChild("Versorgung in Hauptabteilungen", "");
+        MenuTreeNode node3 = node2.addChild("Demographische und medizinische Merkmale", "");
         node3.addChild("nach MDC und Geschlecht", baseUrl+"/views/CharacteristicsMdcGender.xhtml?dataYear="+_dataYear);
         node3.addChild("nach Altersklassen und Geschlecht", baseUrl+"/views/AgeGender.xhtml?dataYear="+_dataYear);
         node3.addChild("nach DRG", baseUrl+"/views/Drg.xhtml?dataYear="+_dataYear);
@@ -90,6 +80,17 @@ public class MenuModel implements Serializable{
         node2 = node1.addChild("Prozeduren", "");
         node2.addChild("Kapitel", baseUrl+"/views/PartialInpatientProcChapter.xhtml?dataYear="+_dataYear);
         node2.addChild("Bereich", baseUrl+"/views/PartialInpatientProcArea.xhtml?dataYear="+_dataYear);
+        
+        node1 = _menuRoot.addChild("G-DRG-System", "");
+        node2 = node1.addChild("Hauptabteilungen", "");
+        node2.addChild("20 niedrigst bewertete Fallgruppen", baseUrl+"/views/SystemRatedPdLessComplex.xhtml?dataYear="+_dataYear);
+        node2.addChild("20 höchst bewertete Fallgruppen", baseUrl+"/views/SystemRatedPdComplex.xhtml?dataYear="+_dataYear);
+        node2.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedPdFrequently.xhtml?dataYear="+_dataYear);
+        node3 = node1.addChild("belegärztliche Versorgung", "");
+        node3.addChild("20 niedrigst bewertete Fallgruppen", baseUrl+"/views/SystemRatedSlipMcLessComplex.xhtml?dataYear="+_dataYear);
+        node3.addChild("20 höchst bewertete Fallgruppen", baseUrl+"/views/SystemRatedSlipMcComplex.xhtml?dataYear="+_dataYear);
+        node3.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedSlipMcFrequently.xhtml?dataYear="+_dataYear);
+        
         _menuRoot.addChild("Download Daten", baseUrl + "?dataYear="+_dataYear+"&download=1");
     }
     

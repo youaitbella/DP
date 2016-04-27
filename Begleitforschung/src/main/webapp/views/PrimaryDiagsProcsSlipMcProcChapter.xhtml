@@ -24,7 +24,7 @@ and open the template in the editor.
                             value="#{entities.getPrimaryDiagsProcsSlipMcProcChapter(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            scrollHeight="450" scrollable="true"
+                            scrollHeight="400" scrollable="true"
                             staticHeaders="false"
                           >
                 <ace:column styleClass="data-table-left" id="area" headerText="Kapitel" sortBy="#{x.area}"
@@ -290,6 +290,8 @@ and open the template in the editor.
                             value="#{entities.getPrimaryDiagsProcsSlipMcProcSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            scrollable="true"
+                            scrollHeight="42"
                           >
                 <ace:column styleClass="data-table-right" id="numKh" headerText="Gesamt Anz. Nennungen" sortBy="#{x.num}"
                             filterBy="#{x.num}" filterMatchMode="contains">

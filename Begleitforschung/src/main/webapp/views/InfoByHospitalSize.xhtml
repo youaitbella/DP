@@ -32,6 +32,7 @@ and open the template in the editor.
                             var="x"
                             resizableColumns="true"
                             staticHeaders="false"
+                            style="width: 900px;"
                           >
                 <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{x.level}"
                                 filterBy="#{x.level}" filterMatchMode="contains">
@@ -69,12 +70,13 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-center" style="width: 750px;">Summentabelle</h3>
         <h:form id="sumDataTable" styleClass="verticalSpace">
             <ace:dataTable  id="table"
                             value="#{infoByHospitalSizeController.sumData}"
                             var="x"
                             resizableColumns="true"
+                            style="width: 750px"
                           >
                 <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{x.numHospital}"
                             filterBy="#{x.numHospital}" filterMatchMode="contains">

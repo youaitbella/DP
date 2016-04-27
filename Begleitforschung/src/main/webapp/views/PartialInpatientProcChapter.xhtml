@@ -49,12 +49,13 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-right" style="margin-right: 17px;">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"
                             value="#{entities.getPartialInpatientCaresProcSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
+                                style="width: auto; margin-right: 17px; float: right;"
                               >
                 <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Anzahl KH" sortBy="#{x.numKh}"
                             >
@@ -62,7 +63,7 @@ and open the template in the editor.
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anzahl TS Gesamt" sortBy="#{x.numPartialInpatient}"
+                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anzahl Nennungen" sortBy="#{x.numPartialInpatient}"
                             >
                     <h:outputText id="avgLosSumCell" value="#{x.numPartialInpatient}">
                         <f:convertNumber pattern="###,###,###"/>
@@ -71,7 +72,7 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         
-        <p class="info-text">
+        <p class="info-text" style="clear: both;">
             Die Übermittlungsverpflichtung macht keine eindeutige Vorgabe, daher kann in der Datenerhebung<br/>
             (je nach Softwaresystem) ein teilstationärer Datensatz für alle Behandlungen in einem Quartal oder aber<br/>
             für jede einzelne Behandlung stehen.<br/><br/>

@@ -24,7 +24,8 @@ and open the template in the editor.
                             value="#{entities.getPrimaryDiagsProcsInpatientProcChapter(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            staticHeaders="false"
+                            scrollable="true"
+                            scrollHeight="250"
                           >
                 <ace:column styleClass="data-table-left" id="area" headerText="Kapitel" sortBy="#{x.area}"
                                 filterBy="#{x.area}" filterMatchMode="contains">
@@ -289,6 +290,9 @@ and open the template in the editor.
                             value="#{entities.getPrimaryDiagsProcsInpatientProcSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            scrollable="true"
+                            scrollHeight="42"
+                            style="padding-left: 236px;"
                           >
                 <ace:column styleClass="data-table-right" id="numKh" headerText="Gesamt Anz. Nennungen" sortBy="#{x.num}"
                             filterBy="#{x.num}" filterMatchMode="contains">

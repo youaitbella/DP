@@ -37,7 +37,7 @@
         <export-tasks>
           <export-task name="Publish as PDF" format="PDF">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-Begleitforschungsbrowser.pdf</task-config-value>
+              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\G-DRG-Begleitforschungsbrowser2014.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="highlighthotspots">0</task-config-value>
               <task-config-value name="exportcomments">0</task-config-value>
@@ -135,7 +135,7 @@
       </tablestyleclass>
     </styleclasses>
     <config-group name="project">
-      <config-value name="title" translate="true">InEK Begleitforschungsbrowser</config-value>
+      <config-value name="title" translate="true">G-DRG-Begleitforschungsbrowser</config-value>
       <config-value name="author" translate="true">InEK GmbH</config-value>
       <config-value name="copyright" translate="true">© &lt;%YEAR%&gt; &lt;%AUTHOR%&gt;</config-value>
       <config-value name="versionmajor">1</config-value>

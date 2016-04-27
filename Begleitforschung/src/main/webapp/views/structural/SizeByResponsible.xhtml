@@ -14,8 +14,8 @@
         #{agreement.checkAgreement()}
         <h1>B-2: Krankenhäuser mit Datenübermittlung nach Größenklassen (Fallzahl vollstat.)/Trägerschaft, Datenjahr #{param['dataYear']})</h1>
         <h:form styleClass="verticalSpace">
-            Träger
-            <h:selectOneMenu value="#{sizeByResponsibleController.responsible}">
+            <b>Träger</b>
+            <h:selectOneMenu value="#{sizeByResponsibleController.responsible}" style="margin-left: 4px;">
                 <f:selectItems value="#{applicationData.responsibles}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
@@ -26,6 +26,7 @@
                             var="data"
                             resizableColumns="true"
                             staticHeaders="false"
+                            style="width: 450px;"
                           >
                 <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
                                 filterBy="#{data.level}" filterMatchMode="contains">
@@ -45,7 +46,7 @@
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Anzahl KH gesamt: #{sizeByResponsibleController.total}</h3>
+        <h3 class="text-center" style="width: 450px;">Anzahl KH gesamt: #{sizeByResponsibleController.total}</h3>
     </ui:define>
 
 </ui:composition>

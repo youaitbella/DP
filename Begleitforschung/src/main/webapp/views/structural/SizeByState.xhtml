@@ -14,8 +14,8 @@
         #{agreement.checkAgreement()}
         <h1>B-1: Krankenhäuser mit Datenübermittlung nach Größenklassen (Bettenzahl)/Bundesland, Datenjahr #{param['dataYear']}</h1>
         <h:form styleClass="verticalSpace">
-            Bundesland
-            <h:selectOneMenu value="#{sizeByStateController.state}">
+            <b>Bundesland</b> 
+            <h:selectOneMenu value="#{sizeByStateController.state}" style="margin-left: 4px;">
                 <f:selectItems value="#{applicationData.states}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                 <f:ajax render="@all"/>
             </h:selectOneMenu>
@@ -28,6 +28,7 @@
                             var="data"
                             resizableColumns="true"
                             staticHeaders="false"
+                            style="width: 450px;"
                           >
                 <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
                                 filterBy="#{data.level}" filterMatchMode="contains">
@@ -47,7 +48,7 @@
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Anzahl KH gesamt: #{sizeByStateController.total}</h3>
+        <h3 class="text-center" style="width: 450px;">Anzahl KH gesamt: #{sizeByStateController.total}</h3>
     </ui:define>
 
 </ui:composition>

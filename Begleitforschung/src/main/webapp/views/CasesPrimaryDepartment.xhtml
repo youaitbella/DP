@@ -17,7 +17,7 @@ and open the template in the editor.
 
     <ui:define name="mainContent">
         #{agreement.checkAgreement()}
-        <h1>C-1-2-2: Fallzahl (vollsta.) in Hauptabteilungen nach Anlass/Grund der Aufnahme, Entlassung, Verlegung, Datenjahr #{param['dataYear']}</h1>
+        <h1>C-1-2-2: Fallzahl (vollstat.) in Hauptabteilungen nach Anlass/Grund der Aufnahme, Entlassung, Verlegung, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
             <ace:dataTable  id="c122-table-a"
                             value="#{entities.getC_122_A(param['dataYear'])}"

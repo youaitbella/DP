@@ -25,7 +25,8 @@ and open the template in the editor.
                             var="x"
                             resizableColumns="true"
                             scrollHeight="450" scrollable="true"
-                            staticHeaders="false"
+                            columnPinningControlsInHeader="true"
+                            styleClass="fixedHeaderTable"
                           >
                 <ace:column styleClass="data-table-left" id="area" headerText="4-Steller" sortBy="#{x.area}"
                                 filterBy="#{x.area}" filterMatchMode="contains">
@@ -290,6 +291,8 @@ and open the template in the editor.
                             value="#{entities.getPrimaryDiagsProcsSlipMcProcSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
+                            scrollable="true"
+                            scrollHeight="42"
                           >
                 <ace:column styleClass="data-table-right" id="numKh" headerText="Gesamt Anz. Nennungen" sortBy="#{x.num}"
                             filterBy="#{x.num}" filterMatchMode="contains">

@@ -16,15 +16,15 @@ and open the template in the editor.
                 >
     <ui:define name="mainContent">
         <h:form rendered="#{!agreement.hasAgreement()}" style="display: inline-block; border: dotted black 1px; padding: 10px; margin: 14px;">
-            Mit Verwendung des InEK-Begleitforschungsbrowsers akzeptieren Sie dessen <a href="/Begleitforschung/agreement.xhtml">Nutzungsbedingungen</a>.<br/>
-            Diese finden Sie im <a href="/Begleitforschung/resources/manual/InEK-Begleitforschungsbrowser.pdf">Anwenderhandbuch</a> (Kapitel 1.2).<br/>
+            Mit Verwendung des G-DRG-Begleitforschungsbrowsers akzeptieren Sie dessen <a href="/Begleitforschung/agreement.xhtml">Nutzungsbedingungen</a>.<br/>
+            Diese finden Sie im <a href="/Begleitforschung/resources/manual/G-DRG-Begleitforschungsbrowser.pdf">Anwenderhandbuch</a> (Kapitel 1.2).<br/>
             <br/>
             Mit einem Klick auf die untere Schaltfläche stimmen Sie den Nutzungsbedingungen zu.
             <br/>
             <h:commandButton class="button" style="padding: 5px;" actionListener="#{agreement.startBrowser()}" value="Nutzungsbedingungen akzeptieren"></h:commandButton>
         </h:form>
         <h:panelGroup rendered="#{agreement.hasAgreement()}">
-            <h2>Willkommen zum InEK-Begleitforschungsbrowser</h2>
+            <h2>Willkommen zum G-DRG-Begleitforschungsbrowser</h2>
             <br/>
             <span style="border: dotted black 1px; padding: 8px; margin-left: 14px;">
                 Benutzen Sie das Menü auf der linken Seite, um sich die Daten anzuschauen.

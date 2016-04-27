@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.icefaces.ace.model.table.LazyDataModel;
 
 /**
  *
@@ -30,8 +31,20 @@ public class Entities implements Serializable {
     @Inject private ApplicationData _appData;
     private NumberFormat _nf;
     
+    private Integer pinOrder[] = new Integer[45];
+    
     public Entities() {
         _nf = NumberFormat.getInstance(Locale.GERMANY);
+        
+        //_primaryDiagsProcsInpatientProcCodeLazy = new LazyDataModel<PrimaryDiagsProcs>
+    }
+    
+    public Integer[] getPinOrder() {
+        return pinOrder;
+    }
+
+    public void setPinOrder(Integer[] pinOrder) {
+        this.pinOrder = pinOrder;
     }
 
     // <editor-fold defaultstate="collapsed" desc="C fields">
@@ -848,4 +861,6 @@ public class Entities implements Serializable {
         }
         return 0;
     }
+    
+    private LazyDataModel<PrimaryDiagsProcs> _primaryDiagsProcsInpatientProcCodeLazy;
 }

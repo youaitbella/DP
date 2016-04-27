@@ -8,8 +8,11 @@ package com.inek.begleitforschung.controller.structural;
 import com.inek.begleitforschung.entities.structural.SizeClass;
 import com.inek.begleitforschung.entities.Entities;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -31,10 +34,14 @@ public class SizeByResponsibleController implements Serializable {
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         _dataYear = Integer.parseInt(params.get("dataYear"));
-        readData();
+        try {
+            readData();
+        } catch (ParseException ex) {
+            Logger.getLogger(SizeByResponsibleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void readData() {
+    private void readData() throws ParseException {
         _data = _entities
                 .getSizeClasses(_dataYear)
                 .stream()
@@ -51,7 +58,11 @@ public class SizeByResponsibleController implements Serializable {
 
     public void setResponsible(int responsible) {
         _responsible = responsible;
-        readData();
+        try {
+            readData();
+        } catch (ParseException ex) {
+            Logger.getLogger(SizeByResponsibleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     // </editor-fold>
 

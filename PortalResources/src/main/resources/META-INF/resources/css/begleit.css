@@ -104,6 +104,11 @@ h1 {
     font-size: 1.3em;
 }
 
-.smallTable {
-    max-width: 900px;
+.fixedHeaderTable table:nth-child(1) {
+    width: 100% !important;
+}
+
+td.pinned span {
+    font-size: 0.8em !important;
+    display: block !important;
 }

@@ -24,7 +24,8 @@ and open the template in the editor.
                             var="x"
                             resizableColumns="true"
                             scrollHeight="450" scrollable="true"
-                            staticHeaders="false"
+                            columnPinningControlsInHeader="true"
+                            styleClass="fixedHeaderTable"
                           >
                 <ace:column styleClass="data-table-left" id="level" headerText="Altersstufe" sortBy="#{x.level}"
                                 filterBy="#{x.level}" filterMatchMode="contains">
@@ -74,32 +75,33 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-right" style="margin-right: 17px">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c212-table-sum"
                             value="#{entities.getC_212_sum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
+                                style="margin-right: 17px; width: auto; float: right;"
                               >
-                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle Gesamt" sortBy="#{x.sumA}"
+                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle" sortBy="#{x.sumA}"
                             >
                     <h:outputText id="sumCasesSumCell" value="#{x.sumA}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAwSum" headerText="Fälle Weibl. Gesamt" sortBy="#{x.sumAw}"
+                <ace:column styleClass="data-table-right" id="sumAwSum" headerText="Fälle Weibl." sortBy="#{x.sumAw}"
                             >
                     <h:outputText id="sumAwSumCell" value="#{x.sumAw}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAmSum" headerText="Fälle Männl. Gesamt" sortBy="#{x.sumAm}"
+                <ace:column styleClass="data-table-right" id="sumAmSum" headerText="Fälle Männl." sortBy="#{x.sumAm}"
                             >
                     <h:outputText id="sumAmSumCell" value="#{x.sumAm}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAuSum" headerText="Fälle Unbest. Gesamt" sortBy="#{x.sumAu}"
+                <ace:column styleClass="data-table-right" id="sumAuSum" headerText="Fälle Unbest." sortBy="#{x.sumAu}"
                             >
                     <h:outputText id="sumAuSumCell" value="#{x.sumAu}">
                         <f:convertNumber pattern="###,###,###"/>
@@ -126,7 +128,7 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         
-        <p class="info-text">
+        <p class="info-text" style="clear: both;">
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztliche Versorgung)
         </p>
     </ui:define>

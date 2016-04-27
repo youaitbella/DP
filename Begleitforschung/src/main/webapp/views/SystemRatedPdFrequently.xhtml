@@ -20,7 +20,8 @@
                             var="x"
                             resizableColumns="true"
                             scrollHeight="450" scrollable="true"
-                            staticHeaders="false"
+                            columnPinningControlsInHeader="true"
+                            styleClass="fixedHeaderTable"
                           >
             <ace:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
                             filterBy="#{x.drg}" filterMatchMode="contains">
@@ -57,12 +58,13 @@
                 document.getElementById('table:data-table:numPrimaryDepartment').click();
             });
         </script>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-right" style="margin-right: 17px;">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"
                             value="#{entities.getSystemRatedPdFrequentlySum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
+                                style="width: auto; margin-right: 17px; float: right;"
                               >
                 <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
                             >
@@ -79,7 +81,7 @@
             </ace:dataTable>
         </h:form>
         
-        <p class="info-text">
+        <p class="info-text" style="clear: both;">
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)<br/>
             Spalte "Anteil": Bezogen auf Gesamt-Fallzahl bei Versorgung in Hauptabteilungen ohne 1-Belegungstag-DRGs
         </p>

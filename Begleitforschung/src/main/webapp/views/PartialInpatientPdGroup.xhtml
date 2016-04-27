@@ -25,7 +25,8 @@ and open the template in the editor.
                             var="x"
                             resizableColumns="true"
                             scrollHeight="450" scrollable="true"
-                            staticHeaders="false"
+                            columnPinningControlsInHeader="true"
+                            styleClass="fixedHeaderTable"
                           >
                 <ace:column styleClass="data-table-left" id="area" headerText="Gruppe" sortBy="#{x.area}"
                                 filterBy="#{x.area}" filterMatchMode="contains">
@@ -50,12 +51,13 @@ and open the template in the editor.
                 </ace:column>
             </ace:dataTable>
         </h:form>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-right" style="margin-right: 17px">Summentabelle</h3>
         <h:form id="data-table-sum">
             <ace:dataTable  id="c113-table-sum"
                             value="#{entities.getPartialInpatientCaresPdSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
+                                style="float: right; width: auto; margin-right: 17px;"
                               >
                 <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Anzahl KH" sortBy="#{x.numKh}"
                             >
@@ -63,7 +65,7 @@ and open the template in the editor.
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anzahl TS Gesamt" sortBy="#{x.numPartialInpatient}"
+                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anzahl Fälle" sortBy="#{x.numPartialInpatient}"
                             >
                     <h:outputText id="avgLosSumCell" value="#{x.numPartialInpatient}">
                         <f:convertNumber pattern="###,###,###"/>
@@ -72,7 +74,7 @@ and open the template in the editor.
             </ace:dataTable>
         </h:form>
         
-        <p class="info-text">
+        <p class="info-text" style="clear: both;">
             Die Übermittlungsverpflichtung macht keine eindeutige Vorgabe, daher kann in der Datenerhebung<br/>
             (je nach Softwaresystem) ein teilstationärer Datensatz für alle Behandlungen in einem Quartal oder aber<br/>
             für jede einzelne Behandlung stehen.
