@@ -142,7 +142,7 @@ public class DocumentLoader {
         Account agent = importInfo.getApprovalAccount();
         String subject = importInfo.getSubject();
         String body = importInfo.getBody();
-        String bcc = "fehlerverfahren@inek-drg.de";
+        String bcc = importInfo.getBcc();
 
         if (subject.isEmpty() || body.isEmpty()) {
             MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
@@ -160,9 +160,13 @@ public class DocumentLoader {
                     .build();
             createWaitingDocument(name, files.get(name), validity, importInfo, jsonMail);
         }
+
+        MailTemplate template = _mailer.getMailTemplate("Neue Dokumente");
+        body = template.getBody();
+        subject = "Neue Dokumente: " + subject;
         String salutation = _mailer.getFormalSalutation(agent);
         body = body.replace("{formalSalutation}", salutation);
-        _mailer.sendMailFrom(importInfo.getSender(), agent.getEmail(), bcc, subject, body);
+        _mailer.sendMailFrom(importInfo.getSender(), agent.getEmail(), "", subject, body);
     }
 
     private void createWaitingDocument(String name, byte[] content, int validity, DocumentImportInfo importInfo, JsonObject jsonMail) {
