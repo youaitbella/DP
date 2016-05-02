@@ -30,41 +30,42 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         query.setParameter("accountId", accountId);
         List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
-        for (Object[] obj : objects){
-            docInfos.add(new DocInfo((int)obj[0], (String)obj[1], (String)obj[2], (Date)obj[3], (Date)obj[4], (boolean)obj[5], (int)obj[6], (int)obj[7], ""));
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], ""));
         }
         return docInfos;
     }
 
-    public List<DocInfo> getSupervisedDocInfos(int accountId) {
-        String sql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, a._ik, a._company, a._town "
+    public List<DocInfo> getSupervisedDocInfos(int accountId, String filter, int maxAge) {
+        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, a._ik, a._company, a._town, a._firstName, a._lastName "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
-                + "WHERE d._domainId = dd._id and d._accountId = a._id and d._agentAccountId = :accountId ORDER BY d._read, d._created DESC";
-        Query query = getEntityManager().createQuery(sql);
-        query.setParameter("accountId", accountId);
-        List<Object[]> objects = query.getResultList();
-        List<DocInfo> docInfos = new ArrayList<>();
-        for (Object[] obj : objects){
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10]));
-        }
-        return docInfos;
-    }
-
-    public List<DocInfo> getSupervisedDocInfos() {
-        String sql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, a._ik, a._company, a._town "
-                + "FROM AccountDocument d "
-                + "join DocumentDomain dd "
-                + "join Account a "
-                + "WHERE d._domainId = dd._id and d._accountId = a._id and d._created > :refDate "
+                + "WHERE d._domainId = dd._id and d._accountId = a._id "
+                + (accountId < 0 ? "" : "and d._agentAccountId = :accountId ")
+                + "and d._created > :refDate "
+                + (filter.isEmpty() ? "" : " and (d._name like :filter or a._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter)")
                 + "ORDER BY d._read, d._created DESC";
-        Query query = getEntityManager().createQuery(sql).setMaxResults(100);
-        query.setParameter("refDate", DateUtils.getDateWithDayOffset(-30));
+        Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
+        if (accountId >= 0) {
+            query.setParameter("accountId", accountId);
+        }
+        if (!filter.isEmpty()){
+            int numFilter;
+            try{
+                numFilter = Integer.parseInt(filter);
+            }catch(Exception ex){
+                numFilter = -999;
+            }
+            query.setParameter("numFilter", numFilter);
+            query.setParameter("filter", "%" +filter + "%");
+        }
+        query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
+        //dumpSql(query);
         List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
-        for (Object[] obj : objects){
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10]));
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10] + " (" + obj[11] + " " + obj[12] + ")"));
         }
         return docInfos;
     }
@@ -90,7 +91,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         query.setParameter("accountId", accountId);
         return (long) query.getSingleResult();
     }
-    
+
     public boolean isDocRead(int docId) {
         AccountDocument doc = find(docId);
         if (doc.isRead()) {

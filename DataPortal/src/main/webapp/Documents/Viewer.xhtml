@@ -10,6 +10,15 @@
 
     <ui:define name="documentContent">
         <h:form id="approval">
+            <div class="inputPart">
+                <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
+                <h:inputText id="filter" styleClass="input marginRight" value="#{documentViewer.filter}"/>
+                <h:outputLabel value="Alter bis: " styleClass="label marginRight" for="maxAge"/>
+                <h:inputText id="maxAge" styleClass="marginRight" value="#{documentViewer.maxAge}"/>
+                <h:outputLabel value="(Tage)" styleClass="label marginRight" for="maxAge"/>
+                <h:commandButton value="go" styleClass="smallButton" action="#{documentViewer.reload}" immediate="false"/>
+            </div>
+
             <h:outputLabel id="noDocs" rendered="#{!documentViewer.renderDocList()}" value="#{msg.lblNoDocs}" />
 
             <h:dataTable rendered="#{documentViewer.renderDocList()}"  headerClass="list-header" id="tblDocList" 
