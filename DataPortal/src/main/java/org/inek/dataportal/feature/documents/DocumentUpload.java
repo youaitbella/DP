@@ -23,7 +23,6 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
 import org.inek.dataportal.entities.admin.MailTemplate;
-import org.inek.dataportal.entities.icmt.Contact;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.DocumentTarget;
 import org.inek.dataportal.enums.Feature;
@@ -48,7 +47,7 @@ public class DocumentUpload {
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
-    private List<AccountDocument> _documents = new ArrayList<>();
+    private final List<AccountDocument> _documents = new ArrayList<>();
     
     public DocumentUpload() {
         System.out.println("ctor DocumentUpload");
@@ -102,8 +101,8 @@ public class DocumentUpload {
     public void setIk(Integer ik) {
         _ik = ik;
         Customer customer = _customerFacade.getCustomerByIK(_ik);
-        Set<String> emails = customer.getContacts().stream().filter(c -> c.getPrio() < 90).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails())).collect(Collectors.toSet());
-        _accounts = _accountFacade.getAccounts4Ik(_ik).stream().filter(a -> emails.contains(a.getEmail())).collect(Collectors.toList());
+        Set<String> emails = customer.getContacts().stream().filter(c -> c.getPrio() < 90).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
+        _accounts = _accountFacade.getAccounts4Ik(_ik).stream().filter(a -> emails.contains(a.getEmail().toLowerCase())).collect(Collectors.toList());
         
         loadLastDocuments();
     }

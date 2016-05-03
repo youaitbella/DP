@@ -74,8 +74,8 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         String sql = "SELECT d._name FROM AccountDocument d WHERE d._accountId = :accountId and d._created > :referenceDate ORDER BY d._id DESC";
         Query query = getEntityManager().createQuery(sql, String.class);
         query.setParameter("accountId", accountId);
-        query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
-        return query.getResultList();
+        query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-30));
+        return query.setMaxResults(5).getResultList();
     }
 
     public List<AccountDocument> findAll(int accountId) {
