@@ -26,7 +26,9 @@
 
                 <h:column id="colIk">
                     <f:facet name="header">
-                        <h:outputText value="Empfänger"/>
+                        <h:commandLink value="Empfänger #{documentViewer.sortCriteria.equals('receipient') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                            <f:ajax listener="#{documentViewer.setSortCriteria('receipient')}" render="@form :logout:remaining"/>
+                        </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.tag}" immediate="true">
                         <f:ajax event="blur" render="@all"/>
@@ -35,7 +37,9 @@
 
                 <h:column id="colDomain">
                     <f:facet name="header">
-                        <h:outputText value="Bereich"/>
+                        <h:commandLink value="Bereich #{documentViewer.sortCriteria.equals('domain') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                            <f:ajax listener="#{documentViewer.setSortCriteria('domain')}" render="@form :logout:remaining"/>
+                        </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.domain}" immediate="true">
                         <f:ajax event="blur" render="@all"/>
@@ -44,7 +48,9 @@
 
                 <h:column id="colName">
                     <f:facet name="header">
-                        <h:outputText value="Dokument"/>
+                        <h:commandLink value="Dokument #{documentViewer.sortCriteria.equals('document') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                            <f:ajax listener="#{documentViewer.setSortCriteria('document')}" render="@form :logout:remaining"/>
+                        </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.name}" immediate="true">
                         <f:ajax event="blur" render="@all"/>
@@ -53,7 +59,9 @@
 
                 <h:column id="colDate">
                     <f:facet name="header">
-                        <h:outputText value="Datum"/>
+                        <h:commandLink value="Datum #{documentViewer.sortCriteria.equals('date') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                            <f:ajax listener="#{documentViewer.setSortCriteria('date')}" render="@form :logout:remaining"/>
+                        </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.longCreatedString}" immediate="true">
                         <f:ajax event="blur" render="@all"/>
@@ -62,7 +70,9 @@
 
                 <h:column id="colRead">
                     <f:facet name="header">
-                        <h:outputText value="gel."/>
+                        <h:commandLink value="gel. #{documentViewer.sortCriteria.equals('read') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                            <f:ajax listener="#{documentViewer.setSortCriteria('read')}" render="@form :logout:remaining"/>
+                        </h:commandLink>
                     </f:facet>
                     <h:graphicImage id="readImg" alt="gelesen?" name="Icon/small/#{doc.read ? 'tick.png' : 'new.png'}" title="gelesen?" value=""/>
                 </h:column>
