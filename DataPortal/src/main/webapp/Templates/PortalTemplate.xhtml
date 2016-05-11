@@ -36,22 +36,6 @@
         
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/dataportal.css.xhtml?version=#{applicationTools.version}" />
         <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
-        <!-- Piwik -->
-        <script type="text/javascript">
-          var _paq = _paq || [];
-          _paq.push(["setDomains", ["*.daten.inek.org"]]);
-          _paq.push(['trackPageView']);
-          _paq.push(['enableLinkTracking']);
-          (function() {
-            var u="//services.g-drg.de/piwik/";
-            _paq.push(['setTrackerUrl', u+'piwik.php']);
-            _paq.push(['setSiteId', 6]);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-          })();
-        </script>
-        <noscript><p><img src="//services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
-        <!-- End Piwik Code -->
     </h:head>
 
     <h:body>
@@ -147,6 +131,22 @@
         <script type="text/javascript">
             #{sessionController.script}
         </script>
+        <!-- Piwik -->
+        <script type="text/javascript">
+          var _paq = _paq || [];
+          _paq.push(["setDomains", ["*.daten.inek.org"]]);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="http://services.g-drg.de/piwik/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 6]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src='#{request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
+          })();
+        </script>
+        <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
+        <!-- End Piwik Code -->
     </h:body>
 
 </html>
