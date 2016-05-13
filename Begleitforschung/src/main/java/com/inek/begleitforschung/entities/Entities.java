@@ -14,11 +14,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.icefaces.ace.model.table.LazyDataModel;
+import org.icefaces.ace.model.table.SortCriteria;
 
 /**
  *
@@ -34,9 +36,7 @@ public class Entities implements Serializable {
     private Integer pinOrder[] = new Integer[45];
     
     public Entities() {
-        _nf = NumberFormat.getInstance(Locale.GERMANY);
-        
-        //_primaryDiagsProcsInpatientProcCodeLazy = new LazyDataModel<PrimaryDiagsProcs>
+        _nf = NumberFormat.getInstance(Locale.GERMANY); 
     }
     
     public Integer[] getPinOrder() {
