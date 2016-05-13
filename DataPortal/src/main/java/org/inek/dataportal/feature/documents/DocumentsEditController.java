@@ -21,6 +21,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @Named
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentsEditController extends AbstractEditController {
+
     private static final Logger _logger = Logger.getLogger("DocumentsMangager");
 
     @Inject private SessionController _sessionController;
@@ -30,8 +31,10 @@ public class DocumentsEditController extends AbstractEditController {
         if (_sessionController.isInekUser(Feature.DOCUMENTS)) {
             addTopic(DocumentsTabs.tabDocuments.name(), Pages.DocumentsList.URL());
             addTopic(DocumentsTabs.tabApproval.name(), Pages.DocumentsApproval.URL());
-            addTopic(DocumentsTabs.tabUpload.name(), Pages.DocumentsUpload.URL());
-            addTopic(DocumentsTabs.tabViewUploaded.name(), Pages.DocumentsViewer.URL());
+            if (_sessionController.isInternalClient()) {
+                addTopic(DocumentsTabs.tabUpload.name(), Pages.DocumentsUpload.URL());
+                addTopic(DocumentsTabs.tabViewUploaded.name(), Pages.DocumentsViewer.URL());
+            }
         }
     }
 
@@ -41,5 +44,5 @@ public class DocumentsEditController extends AbstractEditController {
         tabViewUploaded,
         tabDocuments;
     }
-    
+
 }

@@ -425,7 +425,7 @@ public class SessionController implements Serializable {
      * is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
-        if (!isInternalClient()){return false;}
+        if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()){return false;}  // documents partially allowed from outside!
         if (_account == null || _account.getInekRoles() == null) {
             return false;
         }
