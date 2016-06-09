@@ -219,6 +219,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             return false;
         }
         if (!accountRequest.getPasswordHash().equals(Crypt.getHash("SHA", password)) || !accountRequest.getActivationKey().equals(activationKey)) {
+            getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
         }
         Account account = ObjectUtil.copyObject(Account.class, accountRequest);

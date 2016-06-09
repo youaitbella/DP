@@ -36,7 +36,7 @@ public class PiwikServlet extends HttpServlet {
             response.setStatus(200);
             String ip = getIp(request);
             String userAgent = getUserAgent(request);
-            if(getParam.contains("jfwid%3D")) {
+            if(getParam.contains("jfwid%3D") && getParam.contains("&urlref=")) {
                 int jfwidStart = getParam.indexOf("jfwid%3D");
                 int jfwidEnd = getParam.indexOf("&urlref=");
                 String wid = getParam.substring(jfwidStart, jfwidEnd);

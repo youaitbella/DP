@@ -131,7 +131,7 @@
         <script type="text/javascript">
             #{sessionController.script}
         </script>
-        <!-- Piwik -->
+        <!-- Piwik ->
         <script type="text/javascript">
           var _paq = _paq || [];
           _paq.push(["setDomains", ["*.daten.inek.org"]]);
@@ -142,11 +142,11 @@
             _paq.push(['setTrackerUrl', u+'piwik.php']);
             _paq.push(['setSiteId', 6]);
             var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src='#{request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src='# {request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
           })();
         </script>
         <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
-        <!-- End Piwik Code -->
+        <!- End Piwik Code -->
     </h:body>
 
 </html>
