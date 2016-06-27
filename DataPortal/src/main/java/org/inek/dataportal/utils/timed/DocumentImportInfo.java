@@ -73,6 +73,11 @@ public class DocumentImportInfo {
                 if (entry.getName().endsWith(".DataportalDocumentInfo")) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(zis, "UTF-8"));
                     _infoFile = reader.lines().collect(Collectors.toList());
+                    String firstLine = _infoFile.get(0);
+                    if (firstLine.startsWith("\uFEFF")){
+                        // ignore BOM if present
+                        _infoFile.set(0, firstLine.substring(1));
+                    }
                 } else {
                     _files.put(entry.getName(), StreamUtils.stream2blob(zis));
                 }

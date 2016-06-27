@@ -44,6 +44,7 @@ public class DocumentLoader {
     @Inject private Mailer _mailer;
 
     @Schedule(hour = "*", minute = "*/5", info = "every 5 minutes")
+//    @Schedule(hour = "*", minute = "*", second = "*/5", info = "every 5 minutes") // for testing purpose
     private void monitorDocumentRoot() {
         File baseDir = new File(_config.read(ConfigKey.DocumentScanBase));
         for (File dir : baseDir.listFiles()) {
