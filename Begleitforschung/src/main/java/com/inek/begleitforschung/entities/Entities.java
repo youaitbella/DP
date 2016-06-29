@@ -47,7 +47,7 @@ public class Entities implements Serializable {
         this.pinOrder = pinOrder;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="C fields">
+    // <editor-fold defaultstate="collapsed" desc="fields">
     private List<C_111_211> _c_111_211;
     private List<C_111_211> _c_111;
     private List<C_111_211> _c_111_sum;

@@ -4,9 +4,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.Asynchronous;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -27,8 +25,6 @@ import org.inek.dataportal.mail.Mailer;
  *
  * @author muellermi
  */
-@Singleton
-@Startup
 public class DocumentLoader {
 
     private static final Logger _logger = Logger.getLogger("DocumentLoader");
@@ -43,18 +39,8 @@ public class DocumentLoader {
     @Inject private DocumentDomainFacade _docDomain;
     @Inject private Mailer _mailer;
 
-    @Schedule(hour = "*", minute = "*/5", info = "every 5 minutes")
-//    @Schedule(hour = "*", minute = "*", second = "*/5", info = "every 5 minutes") // for testing purpose
-    private void monitorDocumentRoot() {
-        File baseDir = new File(_config.read(ConfigKey.DocumentScanBase));
-        for (File dir : baseDir.listFiles()) {
-            if (dir.isDirectory()) {
-                checkDocumentFolder(dir);
-            }
-        }
-    }
-
-    private void checkDocumentFolder(File dir) {
+    @Asynchronous
+    public void checkDocumentFolder(File dir) {
         if (!_config.readBool(ConfigKey.DocumentScanDir, dir.getName())) {
             return;
         }

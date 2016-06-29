@@ -31,6 +31,7 @@ public class PiwikServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        HttpURLConnection con = null;
         try {
             String getParam = request.getQueryString();
             response.setStatus(200);
@@ -43,15 +44,19 @@ public class PiwikServlet extends HttpServlet {
                 getParam = getParam.replaceAll(wid, "");
             }
             URL piwik = new URL("http://services.g-drg.de/piwik/piwik.php?"+getParam);
-            HttpURLConnection con = (HttpURLConnection) piwik.openConnection();
+            con = (HttpURLConnection) piwik.openConnection();
             con.setRequestProperty("User-Agent", userAgent);
             con.setRequestProperty("X-FORWARDED-FOR", ip);
             con.setRequestProperty("REMOTE-ADDR", ip);
             con.getResponseCode();
+            con.disconnect();
         } catch (MalformedURLException ex) {
             Logger.getLogger(PiwikServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(PiwikServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if(con != null)
+                con.disconnect();
         }
     }
     
