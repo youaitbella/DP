@@ -15,7 +15,7 @@ import org.inek.dataportal.feature.documents.DocumentUpload;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 @WebServlet(urlPatterns = {"/upload/document"}, name = "DocumentUploadServlet")
-@MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1024)
 public class DocumentUploadServlet extends AbstractUploadServlet {
 
     @Inject SessionController _sessionController;

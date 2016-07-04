@@ -82,6 +82,8 @@ public class DocumentImportInfo {
                     _files.put(entry.getName(), StreamUtils.stream2blob(zis));
                 }
             }
+        } catch (Exception ex) {
+            _logger.log(Level.SEVERE, "Couldn't extract import document. (" + file.getName() + "). " + ex.getMessage());
         }
     }
 
