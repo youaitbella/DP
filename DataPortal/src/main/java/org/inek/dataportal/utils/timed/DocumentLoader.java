@@ -39,8 +39,25 @@ public class DocumentLoader {
     @Inject private DocumentDomainFacade _docDomain;
     @Inject private Mailer _mailer;
 
+    private int _waitCounter = 0;
     @Asynchronous
-    public void checkDocumentFolder(File dir) {
+    public void monitorDocumentRoot() {
+        if (_waitCounter > 0){
+            _waitCounter--;
+            return;
+        }
+        _waitCounter = 30;
+        File baseDir = new File(_config.read(ConfigKey.DocumentScanBase));
+        for (File dir : baseDir.listFiles()) {
+            if (dir.isDirectory()) {
+                _logger.log(Level.INFO, "Check document folder ({0})", dir);
+                checkDocumentFolder(dir);
+            }
+        }
+        _waitCounter = 0;
+    }
+
+    private void checkDocumentFolder(File dir) {
         if (!_config.readBool(ConfigKey.DocumentScanDir, dir.getName())) {
             return;
         }

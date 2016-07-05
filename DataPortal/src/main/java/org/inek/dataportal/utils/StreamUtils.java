@@ -33,9 +33,6 @@ public class StreamUtils {
         int offset = 0;
         try {
             while ((n = is.read(buffer)) >= 0) {
-                if (offset + n > Integer.MAX_VALUE - 10000){
-                    System.out.println("Offset: " + offset + ", n: " + n + ", Total: " + (offset + n));
-                }
                 if (offset + n > Integer.MAX_VALUE - remaining) {
                     throw new IllegalArgumentException("Data too long for byte array");
                 }

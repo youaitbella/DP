@@ -22,24 +22,18 @@ import org.inek.dataportal.facades.admin.ConfigFacade;
 @Startup
 @Singleton
 public class DocumentLoaderSchedule {
-    
+
     private static final Logger _logger = Logger.getLogger("DocumentLoaderSchedule");
-    
-    @Inject 
+
+    @Inject
     private ConfigFacade _config;
-    
+
     @Inject
     private DocumentLoader _docLoader;
-    
-    @Schedule(hour = "*", minute = "*/1", info = "every 5 minutes")
-//    @Schedule(hour = "*", minute = "*", second = "*/5", info = "every 5 minutes") // for testing purpose
+
+    @Schedule(hour = "*", minute = "*/1", info = "every 1 minute")
+    //    @Schedule(hour = "*", minute = "*", second = "*/5", info = "every 5 minutes") // for testing purpose
     private void monitorDocumentRoot() {
-        File baseDir = new File(_config.read(ConfigKey.DocumentScanBase));
-        for (File dir : baseDir.listFiles()) {
-            if (dir.isDirectory()) {
-                _logger.log(Level.INFO, "Check document folder ({0})", dir);
-                _docLoader.checkDocumentFolder(dir);
-            }
-        }
+        _docLoader.monitorDocumentRoot();
     }
 }
