@@ -13,15 +13,16 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.feature.documents.DocumentUpload;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.utils.StreamUtils;
 
 @WebServlet(urlPatterns = {"/upload/document"}, name = "DocumentUploadServlet")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1024)
+@MultipartConfig(fileSizeThreshold = 16 * 1024 * 1024, maxFileSize = Integer.MAX_VALUE - 5)
 public class DocumentUploadServlet extends AbstractUploadServlet {
 
     @Inject SessionController _sessionController;
 
     @Override
-    protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
+    protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException, IllegalArgumentException {
         HttpSession session = httpUtil.getRequest().getSession();
         Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
@@ -33,7 +34,20 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
         if (!documents.contains(document)) {
             documents.add(document);
         }
-        document.setContent(stream2blob(is));
+        document.setContent(StreamUtils.stream2blob(is, getInitialSize(httpUtil)));
+    }
+
+    private int getInitialSize(HttpUtil httpUtil) {
+        long initialSize;
+        try{
+            initialSize  = Long.parseLong(httpUtil.getRequest().getHeader("Content-Length"));
+        } catch (NumberFormatException ex){
+            initialSize = 8192;
+        }
+        if (initialSize > Integer.MAX_VALUE - 8){
+            return Integer.MAX_VALUE - 8;
+        }
+        return (int)initialSize;
     }
 
 }

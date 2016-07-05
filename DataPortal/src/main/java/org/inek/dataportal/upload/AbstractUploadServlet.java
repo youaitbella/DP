@@ -38,21 +38,21 @@ public abstract class AbstractUploadServlet extends HttpServlet {
             }
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_OK);
             httpUtil.writeStatus("{\"success\": true}");
-        } catch (IOException | ServletException e) {
+        } catch (IOException | ServletException | IllegalArgumentException e) {
             _logger.log(Level.WARNING, "FileUploadServlet got Exception: {0}{1}", new Object[]{e.getMessage(), e.getStackTrace()[0].toString()});
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             httpUtil.writeStatus("{\"success\": false, \"message\": \"" + e.getMessage() + "\"}");
         }
     }
 
-    private void doSingleUpload(HttpUtil httpUtil) throws IOException {
+    private void doSingleUpload(HttpUtil httpUtil) throws IOException, IllegalArgumentException {
         String filename = httpUtil.getRequest().getHeader("X-File-Name");
         try (InputStream is = httpUtil.getRequest().getInputStream()) {
             stream2Document(Utils.decodeUrl(filename), is, httpUtil);
         }
     }
 
-    private void doMultipart(HttpUtil httpUtil) throws IOException, ServletException {
+    private void doMultipart(HttpUtil httpUtil) throws IOException, ServletException, IllegalArgumentException {
         Object[] parts = httpUtil.getRequest().getParts().toArray();
 
         for (int i = 0; i < parts.length; i++) {
@@ -77,7 +77,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
      * @return
      * @throws IOException
      */
-    protected byte[] stream2blob(InputStream is) throws IOException {
+    protected byte[] stream2blob(InputStream is) throws IOException, IllegalArgumentException {
         return StreamUtils.stream2blob(is);
     }
 

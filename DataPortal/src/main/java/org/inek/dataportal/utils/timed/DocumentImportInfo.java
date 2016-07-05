@@ -58,7 +58,7 @@ public class DocumentImportInfo {
             extractFiles(file);
             extractInfos(accountFacade);
             _parent = file.getParentFile().getParentFile().getName();
-        } catch (IOException ex) {
+        } catch (IOException | IllegalArgumentException ex) {
             _error = Helper.collectException(ex, 0);
         }
     }
@@ -84,6 +84,7 @@ public class DocumentImportInfo {
             }
         } catch (Exception ex) {
             _logger.log(Level.SEVERE, "Couldn't extract import document. (" + file.getName() + "). " + ex.getMessage());
+            throw ex;
         }
     }
 
