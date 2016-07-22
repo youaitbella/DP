@@ -5,14 +5,11 @@
  */
 package org.inek.dataportal.utils.timed;
 
-import java.io.File;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 
 /**
