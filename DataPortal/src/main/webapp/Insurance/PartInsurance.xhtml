@@ -10,6 +10,10 @@
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.InsuranceSummary)}" value="#{msg.lblInsurance}" immediate="true"/>
         </h2>
         <div class="paddingElement">
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton" action="#{insuranceMessageList.newInsuranceMessage}" 
+                               immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
+            </div>
         </div>
     </ui:composition>
 </html>

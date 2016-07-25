@@ -30,7 +30,6 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.enums.CodeType;
@@ -50,7 +49,6 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 

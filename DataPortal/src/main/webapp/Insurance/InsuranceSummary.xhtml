@@ -19,7 +19,10 @@
 
             <h1>#{msg.lblInsurance}</h1>
 
-
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton" action="#{insuranceMessageList.newInsuranceMessage}" 
+                               immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
+            </div>
         </h:form>
     </ui:define>
 
