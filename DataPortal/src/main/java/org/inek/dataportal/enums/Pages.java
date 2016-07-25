@@ -106,6 +106,10 @@ public enum Pages {
     //
     PartAgency("/Agency/PartAgency"),
     //
+    PartInsurance("/Insurance/PartInsurance"),
+    InsuranceSummary("/Insurance/InsuranceSummary"),
+    InsuranceNubMessage("/Insurance/InsuranceNubMessage"),
+    //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
     PrintMultipleView("/common/PrintMultipleView"),

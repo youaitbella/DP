@@ -21,6 +21,7 @@ import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
+import org.inek.dataportal.feature.insurance.InsuranceController;
 
 /**
  *
@@ -53,6 +54,8 @@ public class FeatureFactory {
                 return new CertController(sessionController);
             case AGENCY:
                 return new AgencyController(sessionController);
+            case INSURANCE:
+                return new InsuranceController(sessionController);
         }
         throw new IllegalArgumentException("no such controller");
     }

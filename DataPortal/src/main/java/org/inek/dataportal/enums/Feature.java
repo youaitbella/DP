@@ -16,9 +16,8 @@ public enum Feature {
     MODEL_INTENTION(9, "Modellvorhaben Psy", false),
     DOCUMENTS(10, "Dokumente", false),
     CERT(11, "Zertifizierung", true), 
-    AGENCY(12, "Behörde", true)
-    
-    ;
+    AGENCY(12, "Behörde", true),
+    INSURANCE(13, "Krankenkasse", true);
 
     private Feature(int id, String description, boolean needsApproval) {
         _id = id;
