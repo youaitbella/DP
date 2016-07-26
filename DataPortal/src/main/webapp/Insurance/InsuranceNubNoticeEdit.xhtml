@@ -8,7 +8,7 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="content">
-        <h:form id="form">
+        <h:form id="topics">
             <h1>
                 <h:commandLink value="#{msg.nameINSURANCE}" action="#{sessionController.navigate(sessionTools.pages.InsuranceSummary)}" immediate="true"/>
             </h1>
@@ -16,17 +16,19 @@
                 <ul class="tab">
                     <ui:repeat value="#{editInsuranceNubNotice.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editInsuranceNubNotice.changeTabPage(topic.key)}"
-                                           immediate="true">
-                            </h:commandLink>
+                        <h:commandLink value="#{topic.title}" action="#{editInsuranceNubNotice.changeTabPage(topic.key)}"
+                                       immediate="true">
+                        </h:commandLink>
                         </li>
                     </ui:repeat>
                 </ul>
             </div>
+        </h:form>
 
-            <div class="edit">
-                <ui:insert name="editContent">Content</ui:insert>
+        <div class="edit">
+            <ui:insert name="editContent">Content</ui:insert>
 
+            <h:form id="buttons">
                 <div class="toolBar  floatContainer">
                     <h:commandLink styleClass="bigButton" 
                                    action="#{editInsuranceNubNotice.save}" 
@@ -44,9 +46,8 @@
                     </h:commandLink>
 
                 </div>
-            </div>
-
-        </h:form>
+            </h:form>
+        </div>
 
     </ui:define>
 

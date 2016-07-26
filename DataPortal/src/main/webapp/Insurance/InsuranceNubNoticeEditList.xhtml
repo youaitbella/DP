@@ -13,16 +13,16 @@
 
         <h:form id="costUploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" >
             <div class="uploadFile">
-                <!--h:inputFile styleClass="hiddenFile" id="file" value="# {editInsuranceNubNotice.file}" title="# {msg.btnUploadMessage}">
-                    <f:ajax listener="# {editInsuranceNubNotice.uploadMessages()}" render="messageForm"/>
-                </h:inputFile-->
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}">
+                    <f:ajax listener="#{editInsuranceNubNotice.uploadMessages()}" render="messageForm"/>
+                </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadMessage}"/>
                 </div>
             </div>
         </h:form>
 
-        <h:form id="messageForm" enctype="multipart/form-data">
+        <h:form id="messageForm">
 
             <table class="fullWidth">
                 <thead>
@@ -110,11 +110,11 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                           rendered="#{!editInsuranceNubNotice.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addNewMessage()}"/>
+            </h:commandLink>
         </h:form>
-        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                       rendered="#{!editInsuranceNubNotice.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addNewMessage()}"/>
-        </h:commandLink>
 
     </ui:define>
 </ui:composition>

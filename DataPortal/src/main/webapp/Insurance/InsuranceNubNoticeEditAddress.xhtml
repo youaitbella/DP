@@ -8,40 +8,43 @@
 
     <ui:define name="editContent">
 
-        <div class="inputPart">
-            <h:outputLabel for="insuranceName" styleClass="label" value="#{msg.lblInsuranceName}:" />
-            <h:message for="insuranceName" id="msgInsuranceName" styleClass="errorMessage"/>
-            <br />
-            <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" maxlength="100" id="insuranceName" 
-                         value="#{editInsuranceNubNotice.notice.insuranceName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
-                <f:ajax event="blur" render="@this :logout:remaining msgInsuranceName"/>
-            </h:inputText>
-        </div>
-        
-        <div class="inputPart">
-            <h:outputLabel for="insuranceIk" styleClass="label" value="#{msg.lblInsuranceIk}:" />
-            <h:message for="insuranceIk" id="msgInsuranceIk" styleClass="errorMessage"/>
-            <br />
-            <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" id="insuranceIk" 
-                         value="#{editInsuranceNubNotice.notice.insuranceIk}">
-                                    <f:converter converterId="IntegerConverter" />
-                <f:ajax event="blur" render="@this :logout:remaining msgInsuranceIk"/>
-            </h:inputText>
-        </div>
+        <h:form id="addressForm" enctype="multipart/form-data">
 
-        <div class="inputPart">
-            <h:outputLabel for="hospitalIk" styleClass="label" value="#{msg.lblHospitalIk}:" />
-            <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
-            <br />
-            <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" id="hospitalIk" 
-                         value="#{editInsuranceNubNotice.notice.hospitalIk}"
-                          required="true" requiredMessage="#{msg.msgValueNeeded}"
-                           validator="#{sessionTools.checkIk}">
-                                    <f:converter converterId="IntegerConverter" />
-                <f:ajax event="blur" render="@this :logout:remaining msgHospitalIk hospitalName"/>
-            </h:inputText>
-             <h:outputText  id="hospitalName" value="#{sessionController.getIkName(ik)}"/>
-        </div>
-        
+            <div class="inputPart">
+                <h:outputLabel for="insuranceName" styleClass="label" value="#{msg.lblInsuranceName}:" />
+                <h:message for="insuranceName" id="msgInsuranceName" styleClass="errorMessage"/>
+                <br />
+                <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" maxlength="100" id="insuranceName" 
+                             value="#{editInsuranceNubNotice.notice.insuranceName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                    <f:ajax event="blur" render="@this :logout:remaining msgInsuranceName"/>
+                </h:inputText>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="insuranceIk" styleClass="label" value="#{msg.lblInsuranceIk}:" />
+                <h:message for="insuranceIk" id="msgInsuranceIk" styleClass="errorMessage"/>
+                <br />
+                <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" id="insuranceIk" 
+                             value="#{editInsuranceNubNotice.notice.insuranceIk}">
+                    <f:converter converterId="IntegerConverter" />
+                    <f:ajax event="blur" render="@this :logout:remaining msgInsuranceIk"/>
+                </h:inputText>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="hospitalIk" styleClass="label" value="#{msg.lblHospitalIk}:" />
+                <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
+                <br />
+                <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" id="hospitalIk" 
+                             value="#{editInsuranceNubNotice.notice.hospitalIk}"
+                             required="true" requiredMessage="#{msg.msgValueNeeded}"
+                             validator="#{sessionTools.checkIk}">
+                    <f:converter converterId="IntegerConverter" />
+                    <f:ajax event="blur" render="@this :logout:remaining msgHospitalIk hospitalName"/>
+                </h:inputText>
+                <h:outputText  id="hospitalName" value="#{sessionController.getIkName(ik)}"/>
+            </div>
+
+        </h:form>
     </ui:define>
 </ui:composition>
