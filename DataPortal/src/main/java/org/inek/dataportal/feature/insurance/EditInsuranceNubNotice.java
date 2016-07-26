@@ -9,9 +9,14 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.InsuranceNubNoticeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -20,43 +25,66 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author muellermi
  */
 @Named
-@FeatureScoped
-public class EditInsuranceMessage extends AbstractEditController {
+@FeatureScoped(name = "Insurance")
+public class EditInsuranceNubNotice extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditInsuranceMessage");
+    private static final Logger _logger = Logger.getLogger("EditInsuranceNubNotice");
 
+    // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">    
     @Override
     protected void addTopics() {
-        addTopic(NubRequestTabs.tabMessageAdress.name(), Pages.InsuranceMessageEditAddress.URL());
-        addTopic(NubRequestTabs.tabMessageList.name(), Pages.InsuranceMessageEditList.URL());
+        addTopic(NubRequestTabs.tabMessageAdress.name(), Pages.InsuranceNubNoticeEditAddress.URL());
+        addTopic(NubRequestTabs.tabMessageList.name(), Pages.InsuranceNubNoticeEditList.URL());
     }
 
     enum NubRequestTabs {
-
         tabMessageAdress,
         tabMessageList;
     }
+    // </editor-fold>
 
-    public EditInsuranceMessage() {
+    @Inject private InsuranceNubNoticeFacade _noticeFacade;
+    @Inject SessionController _sessionController;
+
+    public EditInsuranceNubNotice() {
     }
 
-    // </editor-fold>
     @PostConstruct
     private void init() {
+        int id = 0;  // todo: determine correct id
+        _notice = findFresh(id);
     }
 
-    public boolean getProvideEnabled(){
+    private InsuranceNubNotice findFresh(int id){
+        InsuranceNubNotice notice = _noticeFacade.findFresh(id);
+        if (notice == null){
+            Account account = _sessionController.getAccount();
+            notice = new InsuranceNubNotice();
+            notice.setInsuranceName(account.getCompany());
+            notice.setInsuranceIk(account.getIK());
+            notice.setAccountId(account.getId());
+        }
+        return notice;
+    }
+    
+    private InsuranceNubNotice _notice;
+
+    public InsuranceNubNotice getNotice() {
+        return _notice;
+    }
+
+    public boolean getProvideEnabled() {
         return true;
     }
-    public boolean getReadOnly(){
+
+    public boolean getReadOnly() {
         return false;
     }
-    
-    
+
     public void addNewMessage() {
-        
+
     }
-    
+
     public String save() {
         return "";
 
@@ -64,13 +92,15 @@ public class EditInsuranceMessage extends AbstractEditController {
 
     /**
      * provide the message to InEK
-     * @return 
+     *
+     * @return
      */
     public String provide() {
         return "";
     }
 
     private Part _file;
+
     public Part getFile() {
         return _file;
     }
@@ -93,6 +123,5 @@ public class EditInsuranceMessage extends AbstractEditController {
         } catch (IOException | NoSuchElementException e) {
         }
     }
-
 
 }

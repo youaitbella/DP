@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="InsuranceMessageEdit.xhtml"
+                template="InsuranceNubNoticeEdit.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -11,11 +11,11 @@
 
     <ui:define name="editContent">
 
-        <h:form id="costUploadForm" enctype="multipart/form-data" rendered="#{!editInsuranceMessage.readOnly}">
+        <h:form id="costUploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" >
             <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceMessage.file}" title="#{msg.btnUploadMessage}">
-                    <f:ajax listener="#{editInsuranceMessage.uploadMessages()}" render="messageForm"/>
-                </h:inputFile>
+                <!--h:inputFile styleClass="hiddenFile" id="file" value="# {editInsuranceNubNotice.file}" title="# {msg.btnUploadMessage}">
+                    <f:ajax listener="# {editInsuranceNubNotice.uploadMessages()}" render="messageForm"/>
+                </h:inputFile-->
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadMessage}"/>
                 </div>
@@ -112,8 +112,8 @@
             </table>
         </h:form>
         <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                       rendered="#{!editInsuranceMessage.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceMessage.addNewMessage()}"/>
+                       rendered="#{!editInsuranceNubNotice.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addNewMessage()}"/>
         </h:commandLink>
 
     </ui:define>

@@ -14,9 +14,9 @@
             </h1>
             <div class="tab">
                 <ul class="tab">
-                    <ui:repeat value="#{editInsuranceMessage.visibleTopics}" var="topic">
+                    <ui:repeat value="#{editInsuranceNubNotice.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editInsuranceMessage.changeTabPage(topic.key)}"
+                            <h:commandLink value="#{topic.title}" action="#{editInsuranceNubNotice.changeTabPage(topic.key)}"
                                            immediate="true">
                             </h:commandLink>
                         </li>
@@ -29,16 +29,16 @@
 
                 <div class="toolBar  floatContainer">
                     <h:commandLink styleClass="bigButton" 
-                                   action="#{editInsuranceMessage.save}" 
+                                   action="#{editInsuranceNubNotice.save}" 
                                    value="#{msg.btnSave}" 
                                    immediate="true">
                         <f:ajax render="@all"/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editInsuranceMessage.provide}"
+                                   action="#{editInsuranceNubNotice.provide}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editInsuranceMessage.provideEnabled}"
+                                   rendered="#{editInsuranceNubNotice.provideEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>

@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.nub;
+package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,15 +10,15 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "NubInsuranceMessage")
-public class NubInsuranceMessage implements Serializable {
+@Table(name = "InsuranceNubNoticeItem")
+public class InsuranceNubNoticeItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "nimID")
+    @Column(name = "inniID")
     private int _id = -1;
 
     public int getId() {
@@ -30,61 +30,21 @@ public class NubInsuranceMessage implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Year">
-    @Column(name = "nimYear")
-    private int _year = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property InsuranceNubNoticeId">
+    @Column(name = "inniInsuranceNubNoticeId")
+    private int _insuranceNubNoticeId;
 
-    public int getYear() {
-        return _year;
+    public int getInsuranceNubNoticeId() {
+        return _insuranceNubNoticeId;
     }
 
-    public void setYear(int value) {
-        _year = value;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Column(name = "nimAccountId")
-    private int _accountId = -1;
-
-    public int getAccountId() {
-        return _accountId;
-    }
-
-    public void setAccountId(int value) {
-        _accountId = value;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property IK">
-    @Column(name = "nimIK")
-    private int _ik = -1;
-
-    public int getIK() {
-        return _ik;
-    }
-
-    public void setIK(int value) {
-        _ik = value;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Date">
-    @Column(name = "nimDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _date;
-
-    public Date getDate() {
-        return _date;
-    }
-
-    public void setDate(Date value) {
-        _date = value;
+    public void setInsuranceNubNoticeId(int value) {
+        _insuranceNubNoticeId = value;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property InekMethodId">
-    @Column(name = "nimInekMethodId")
+    @Column(name = "inniInekMethodId")
     private int _inekMethodId = -1;
 
     public int getInekMethodId() {
@@ -97,7 +57,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Procedures">
-    @Column(name = "nimProcedures")
+    @Column(name = "inniProcedures")
     private String _procedures = "";
     // this is defined as a string, not mapped to the procedure table
     // because combined entries are allowed:
@@ -114,7 +74,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Amount">
-    @Column(name = "nimAmount")
+    @Column(name = "inniAmount")
     private BigDecimal _amount = new BigDecimal(0d);
 
     public BigDecimal getAmount() {
@@ -127,7 +87,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property UnitId">
-    @Column(name = "nimUnitId")
+    @Column(name = "inniUnitId")
     private int _unitId = -1;
 
     public int getUnitId() {
@@ -140,7 +100,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Price">
-    @Column(name = "nimPrice")
+    @Column(name = "inniPrice")
     private BigDecimal _price = new BigDecimal(0d);
 
     public BigDecimal getPrice() {
@@ -153,7 +113,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property Quantity">
-    @Column(name = "nimQuantity")
+    @Column(name = "inniQuantity")
     private int _quantity = -1;
 
     public int getQuantity() {
@@ -166,7 +126,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeId">
-    @Column(name = "nimRemunerationTypeId")
+    @Column(name = "inniRemunerationTypeId")
     private int _remunerationTypeId = -1;
 
     public int getRemunerationTypeId() {
@@ -179,7 +139,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Note">
-    @Column(name = "nimNote")
+    @Column(name = "inniNote")
     private String _note = "";
 
     public String getNote() {
@@ -192,7 +152,7 @@ public class NubInsuranceMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property NubRequestId">
-    @Column(name = "nimNubRequestId")
+    @Column(name = "inniNubRequestId")
     private int _nubRequestId = -1;
 
     public int getNubRequestId() {
@@ -212,16 +172,16 @@ public class NubInsuranceMessage implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof NubInsuranceMessage)) {
+        if (!(object instanceof InsuranceNubNoticeItem)) {
             return false;
         }
-        NubInsuranceMessage other = (NubInsuranceMessage) object;
+        InsuranceNubNoticeItem other = (InsuranceNubNoticeItem) object;
         return _id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.entities.NubInsuranceMessage[id=" + _id + "]";
+        return "org.inek.entities.InsuranceNubNoticeItem[id=" + _id + "]";
     }
     // </editor-fold>
 
