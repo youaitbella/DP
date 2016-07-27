@@ -21,7 +21,7 @@ and open the template in the editor.
             <br/>
             Mit einem Klick auf die untere Schaltfläche stimmen Sie den Nutzungsbedingungen zu.
             <br/>
-            <h:commandLink class="button" immediate="true" style="padding: 5px;" actionListener="#{agreement.startBrowser()}" value="Nutzungsbedingungen akzeptieren"></h:commandLink>
+            <h:commandLink class="button" immediate="true" style="padding: 5px;" action="#{agreement.start()}" value="Nutzungsbedingungen akzeptieren"></h:commandLink>
         </h:form>
         <h:panelGroup rendered="#{agreement.hasAgreement()}">
             <h2>Willkommen zum G-DRG-Begleitforschungsbrowser</h2>
