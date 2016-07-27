@@ -49,4 +49,9 @@ public class Agreement implements Serializable {
             fc.getExternalContext()
                     .redirect(((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath());
     }
+    
+    public String start(){
+        acceptedAgreement();
+        return "index?faces-redirect=true";
+    }
 }

@@ -88,20 +88,6 @@
                     <noscript>
                         <h3 class="warningWide">#{msg.msgEnableScript}</h3>
                     </noscript>
-                    <h:form id="browsertest" rendered="false">
-                        <div jsf:rendered="#{!sessionController.testPerformed}">
-                            <script>
-                                function test() {
-                                    document.getElementById('browsertest:testclick').click();
-                                }
-                                addOnLoadFunction(test);
-                            </script>
-                            <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
-                        </div>
-                        <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
-                            <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
-                        </div>
-                    </h:form>
                     <ui:insert name="mainContent">
                     </ui:insert>
                 </div>
@@ -113,7 +99,6 @@
         </div>
         <a href="#top"><div id="to-top"></div></a>
         <script type="text/javascript">
-            #{sessionController.script}
                 
             $(document).ready(function () {
                 $('label.tree-toggler').click(function () {

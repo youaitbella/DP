@@ -11,17 +11,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
 /**
  *
  * @author vohldo
  */
-@Named
-@ApplicationScoped
+
 public class DownloadController {
     
     
