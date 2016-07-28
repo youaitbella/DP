@@ -1,6 +1,7 @@
 package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -158,7 +159,17 @@ public class InsuranceNubNotice implements Serializable {
         _items = items;
     }
     
+    @PrePersist
+    private void tagCreationDate() {
+        _creationDate = Calendar.getInstance().getTime();
+        tagLastChange();
+    }
     
+    @PreUpdate
+    private void tagLastChange() {
+        _lastChange = Calendar.getInstance().getTime();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

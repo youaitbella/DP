@@ -23,96 +23,119 @@
         </h:form>
 
         <h:form id="messageForm">
-                <h:dataTable  headerClass="list-header" id="tblDropBoxes"
-                              value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
-                              columnClasses="colIcon, colValue">
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink action="#{editInsuranceNubNotice.deleteItem(item)}" immediate="true" >
-                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                            <cb:confirmDelete/>
-                        </h:commandLink>
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblNubId}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.externalId}"
-                    </h:column>
+            <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+                          value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
+                          columnClasses="colIcon, colValue">
 
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblName}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.externalId}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblDosageForm}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.dosageFormId}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblAmount}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.amount}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblUnit}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.unitId}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblCount}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.quantity}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblPrice}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.price}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblRemunerationCode}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.remunerationTypeId}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblProcedures}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.procedures}"
-                    </h:column>
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblComment}"/>
-                        </f:facet>
-                        <h:inputText value="#{item.note}"
-                    </h:column>
-                    
-                </h:dataTable>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{editInsuranceNubNotice.deleteItem(item)}" immediate="true" >
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblNubId}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.externalId}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblName}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.externalId}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblDosageForm}"/>
+                    </f:facet>
+                    <h:selectOneMenu styleClass="inputwide"
+                                     value="#{item.dosageFormId}"
+                                     required="true">
+                        <f:selectItems value="#{editInsuranceNubNotice.dosageForms}" var="dosageForm" itemLabel="#{dosageForm.text}" itemValue="#{dosageForm.id}"/>
+                        <f:ajax render="@this :logout:remaining"/>
+                    </h:selectOneMenu>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblAmount}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.amount}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblUnit}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.unitId}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblCount}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.quantity}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblPrice}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.price}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblRemunerationCode}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.remunerationTypeId}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblProcedures}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.procedures}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblComment}"/>
+                    </f:facet>
+                    <h:inputText value="#{item.note}">
+                        <f:ajax render="@this :logout:remaining "/>
+                    </h:inputText>
+                </h:column>
+
+            </h:dataTable>
 
 
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editInsuranceNubNotice.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addNewMessage()}"/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addItem}"/>
             </h:commandLink>
         </h:form>
 

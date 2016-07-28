@@ -3,6 +3,7 @@ package org.inek.dataportal.entities.insurance;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -196,16 +197,75 @@ public class InsuranceNubNoticeItem implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        return _id;
+        if (_id > 0) {
+            return _id;
+        }
+
+        int hash = 7;
+        hash = 67 * hash + this._insuranceNubNoticeId;
+        hash = 67 * hash + this._inekMethodId;
+        hash = 67 * hash + Objects.hashCode(this._procedures);
+        hash = 67 * hash + this._dosageFormId;
+        hash = 67 * hash + Objects.hashCode(this._amount);
+        hash = 67 * hash + this._unitId;
+        hash = 67 * hash + Objects.hashCode(this._price);
+        hash = 67 * hash + this._quantity;
+        hash = 67 * hash + this._remunerationTypeId;
+        hash = 67 * hash + Objects.hashCode(this._note);
+        hash = 67 * hash + this._nubRequestId;
+        return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof InsuranceNubNoticeItem)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        InsuranceNubNoticeItem other = (InsuranceNubNoticeItem) object;
-        return _id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final InsuranceNubNoticeItem other = (InsuranceNubNoticeItem) obj;
+        if (_id > 0 || other._id > 0) {
+            return _id == other._id;
+        }
+
+        if (this._insuranceNubNoticeId != other._insuranceNubNoticeId) {
+            return false;
+        }
+        if (this._inekMethodId != other._inekMethodId) {
+            return false;
+        }
+        if (this._dosageFormId != other._dosageFormId) {
+            return false;
+        }
+        if (this._unitId != other._unitId) {
+            return false;
+        }
+        if (this._quantity != other._quantity) {
+            return false;
+        }
+        if (this._remunerationTypeId != other._remunerationTypeId) {
+            return false;
+        }
+        if (this._nubRequestId != other._nubRequestId) {
+            return false;
+        }
+        if (!Objects.equals(this._procedures, other._procedures)) {
+            return false;
+        }
+        if (!Objects.equals(this._note, other._note)) {
+            return false;
+        }
+        if (!Objects.equals(this._amount, other._amount)) {
+            return false;
+        }
+        if (!Objects.equals(this._price, other._price)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

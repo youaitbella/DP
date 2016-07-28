@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.insurance;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.enums.Pages;
@@ -44,7 +46,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
     // </editor-fold>
 
-    @Inject private InsuranceFacade _noticeFacade;
+    @Inject private InsuranceFacade _insuranceFacade;
     @Inject SessionController _sessionController;
 
     public EditInsuranceNubNotice() {
@@ -57,7 +59,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     private InsuranceNubNotice findFresh(int id){
-        InsuranceNubNotice notice = _noticeFacade.findFreshNubNotice(id);
+        InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(id);
         if (notice == null){
             Account account = _sessionController.getAccount();
             notice = new InsuranceNubNotice();
@@ -74,6 +76,10 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return _notice;
     }
 
+    public List<DosageForm> getDosageForms(){
+        return _insuranceFacade.getDosageForms();
+    }
+
     public boolean getProvideEnabled() {
         return true;
     }
@@ -83,7 +89,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void addItem() {
-
+        _notice.getItems().add(new InsuranceNubNoticeItem());
     }
 
     public void deleteItem(InsuranceNubNoticeItem item){
@@ -91,7 +97,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
     
     public String save() {
-        _noticeFacade.saveNubNotice(_notice);
+        _insuranceFacade.saveNubNotice(_notice);
         return "";
     }
 
