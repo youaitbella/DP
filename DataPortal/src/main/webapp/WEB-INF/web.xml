@@ -39,6 +39,16 @@
         <location>/common/NotAllowed.xhtml</location>
     </error-page>
 
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/common/TimeOut.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/common/Error.xhtml</location>
+    </error-page>
+
     <!--listener>
         <listener-class>org.inek.dataportal.admin.SessionCounter</listener-class>
     </listener-->

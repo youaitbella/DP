@@ -15,8 +15,9 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
+import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.facades.InsuranceNubNoticeFacade;
+import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -43,7 +44,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
     // </editor-fold>
 
-    @Inject private InsuranceNubNoticeFacade _noticeFacade;
+    @Inject private InsuranceFacade _noticeFacade;
     @Inject SessionController _sessionController;
 
     public EditInsuranceNubNotice() {
@@ -56,7 +57,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     private InsuranceNubNotice findFresh(int id){
-        InsuranceNubNotice notice = _noticeFacade.findFresh(id);
+        InsuranceNubNotice notice = _noticeFacade.findFreshNubNotice(id);
         if (notice == null){
             Account account = _sessionController.getAccount();
             notice = new InsuranceNubNotice();
@@ -81,13 +82,17 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return false;
     }
 
-    public void addNewMessage() {
+    public void addItem() {
 
     }
 
+    public void deleteItem(InsuranceNubNoticeItem item){
+        _notice.getItems().remove(item);
+    }
+    
     public String save() {
+        _noticeFacade.saveNubNotice(_notice);
         return "";
-
     }
 
     /**

@@ -2,7 +2,10 @@ package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.*;
+import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
@@ -17,7 +20,7 @@ public class InsuranceNubNotice implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "innID")
+    @Column(name = "innId")
     private int _id = -1;
 
     public int getId() {
@@ -55,6 +58,27 @@ public class InsuranceNubNotice implements Serializable {
     public void setLastChange(Date value) {
         _lastChange = value;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property WorkflowStatusId">
+    @Column(name = "innWorkflowStatusId")
+    private int _workflowStatusId = -1;
+
+    public int getWorkflowStatusId() {
+        return _workflowStatusId;
+    }
+
+    public void setWorkflowStatusId(int value) {
+        _workflowStatusId = value;
+    }
+    
+    public WorkflowStatus getWorkflowStatus() {
+        return WorkflowStatus.fromValue(_workflowStatusId);
+    }
+
+    public void setWorkflowStatus(WorkflowStatus value) {
+        _workflowStatusId = value.getValue();
+    }    
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
@@ -122,6 +146,19 @@ public class InsuranceNubNotice implements Serializable {
     }
     // </editor-fold>
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "inniInsuranceNubNoticeId", referencedColumnName = "innId")
+    private List<InsuranceNubNoticeItem> _items = new Vector<>();
+
+    public List<InsuranceNubNoticeItem> getItems() {
+        return _items;
+    }
+
+    public void setItems(List<InsuranceNubNoticeItem> items) {
+        _items = items;
+    }
+    
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

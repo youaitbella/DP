@@ -23,6 +23,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.nub.InekMethod;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
@@ -36,16 +37,20 @@ import org.inek.dataportal.utils.DateUtils;
  * @author muellermi
  */
 @Stateless
-public class NubRequestFacade extends AbstractFacade<NubRequest> {
-
-    public NubRequestFacade() {
-        super(NubRequest.class);
-    }
+public class NubRequestFacade extends AbstractDataAccess{
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
         return findAll(accountId, -1, -1, dataSet, filter);
     }
 
+    public NubRequest find (int id){
+        return super.find(NubRequest.class, id);
+    }
+    
+    public NubRequest findFresh (int id){
+        return super.findFresh(NubRequest.class, id);
+    }
+    
     public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
@@ -107,7 +112,7 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         }
         return merge(nubRequest);
     }
-
+    
     /**
      * A list of NUB infos for display usage, e.g. lists
      *
@@ -239,6 +244,10 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         return query.getResultList();
     }
     
+    public List<InekMethod> getInekMethods(){
+        return super.findAll(InekMethod.class);
+    }
+    
     @Schedule(hour = "0", info = "once a day")
     private void check4NubOrphantCorrections() {
         Date date = DateUtils.getDateWithDayOffset(-5);
@@ -257,6 +266,11 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         TypedQuery<NubRequestHistory> query = getEntityManager().createQuery(jpql, NubRequestHistory.class);
         query.setParameter("nubId", nubRequest.getId());
         NubRequestHistory nubRequestHistory = query.getResultList().get(0);
+        copy(nubRequestHistory, nubRequest);
+        saveNubRequest(nubRequest);
+    }
+
+    private void copy(NubRequestHistory nubRequestHistory, NubRequest nubRequest) {
         nubRequest.setDisplayName(nubRequestHistory.getDisplayName());
         nubRequest.setIk(nubRequestHistory.getIk());
         nubRequest.setIkName(nubRequestHistory.getIkName());
@@ -298,7 +312,6 @@ public class NubRequestFacade extends AbstractFacade<NubRequest> {
         nubRequest.setLastChangedBy(nubRequestHistory.getLastChangedBy());
         nubRequest.setLastModified(nubRequestHistory.getLastModified());
         nubRequest.setStatus(WorkflowStatus.Taken);
-        saveNubRequest(nubRequest);
     }
     
 }

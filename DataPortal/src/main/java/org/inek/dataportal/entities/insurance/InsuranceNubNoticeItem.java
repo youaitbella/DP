@@ -73,6 +73,19 @@ public class InsuranceNubNoticeItem implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property DosageFormId">
+    @Column(name = "inniDosageFormId")
+    private int _dosageFormId;
+
+    public int getDosageFormId() {
+        return _dosageFormId;
+    }
+
+    public void setDosageFormId(int value) {
+        _dosageFormId = value;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Amount">
     @Column(name = "inniAmount")
     private BigDecimal _amount = new BigDecimal(0d);
@@ -111,7 +124,7 @@ public class InsuranceNubNoticeItem implements Serializable {
         _price = value;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Quantity">
     @Column(name = "inniQuantity")
     private int _quantity = -1;
@@ -124,7 +137,7 @@ public class InsuranceNubNoticeItem implements Serializable {
         _quantity = value;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeId">
     @Column(name = "inniRemunerationTypeId")
     private int _remunerationTypeId = -1;
@@ -161,6 +174,22 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     public void setNubRequestId(int value) {
         _nubRequestId = value;
+    }
+
+    public String getExternalId() {
+        return "N" + _nubRequestId;
+    }
+
+    public void setExternalId(String id) {
+        if (id.startsWith("N")) {
+            try {
+                _nubRequestId = Integer.parseInt(id.substring(1));
+            } catch (NumberFormatException ex) {
+                _nubRequestId = 0;
+            }
+        } else {
+            _nubRequestId = 0;
+        }
     }
     // </editor-fold>
 
