@@ -18,6 +18,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
+import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -78,6 +79,10 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public List<DosageForm> getDosageForms(){
         return _insuranceFacade.getDosageForms();
+    }
+
+    public List<Unit> getUnits(){
+        return _insuranceFacade.getUnits();
     }
 
     public boolean getProvideEnabled() {

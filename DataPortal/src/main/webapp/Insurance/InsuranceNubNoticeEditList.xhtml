@@ -59,9 +59,8 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblDosageForm}"/>
                     </f:facet>
-                    <h:selectOneMenu styleClass="inputwide"
-                                     value="#{item.dosageFormId}"
-                                     required="true">
+                    <h:selectOneMenu value="#{item.dosageFormId}" hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.dosageForms}" var="dosageForm" itemLabel="#{dosageForm.text}" itemValue="#{dosageForm.id}"/>
                         <f:ajax render="@this :logout:remaining"/>
                     </h:selectOneMenu>
@@ -80,9 +79,11 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblUnit}"/>
                     </f:facet>
-                    <h:inputText value="#{item.unitId}">
-                        <f:ajax render="@this :logout:remaining "/>
-                    </h:inputText>
+                    <h:selectOneMenu value="#{item.unitId}" hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{editInsuranceNubNotice.units}" var="unit" itemLabel="#{unit.text}" itemValue="#{unit.id}"/>
+                        <f:ajax render="@this :logout:remaining"/>
+                    </h:selectOneMenu>
                 </h:column>
 
                 <h:column>

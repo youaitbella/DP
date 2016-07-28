@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
+import org.inek.dataportal.entities.insurance.Unit;
 
 /**
  *
@@ -34,6 +35,10 @@ public class InsuranceFacade extends AbstractDataAccess {
 
     public List<DosageForm> getDosageForms() {
         return findAll(DosageForm.class);
+    }
+
+    public List<Unit> getUnits() {
+        return findAll(Unit.class);
     }
     
 }
