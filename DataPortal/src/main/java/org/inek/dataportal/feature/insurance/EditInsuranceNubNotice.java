@@ -22,6 +22,7 @@ import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
@@ -48,20 +49,18 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     // </editor-fold>
 
     @Inject private InsuranceFacade _insuranceFacade;
-    @Inject SessionController _sessionController;
-
-    public EditInsuranceNubNotice() {
-    }
+    @Inject private SessionController _sessionController;
 
     @PostConstruct
     private void init() {
-        int id = 0;  // todo: determine correct id
+        Object noticeId = Utils.getFlash().get("noticeId");
+        int id = noticeId == null ? 0 : (int) noticeId;
         _notice = findFresh(id);
     }
 
-    private InsuranceNubNotice findFresh(int id){
+    private InsuranceNubNotice findFresh(int id) {
         InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(id);
-        if (notice == null){
+        if (notice == null) {
             Account account = _sessionController.getAccount();
             notice = new InsuranceNubNotice();
             notice.setInsuranceName(account.getCompany());
@@ -70,18 +69,18 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         return notice;
     }
-    
+
     private InsuranceNubNotice _notice;
 
     public InsuranceNubNotice getNotice() {
         return _notice;
     }
 
-    public List<DosageForm> getDosageForms(){
+    public List<DosageForm> getDosageForms() {
         return _insuranceFacade.getDosageForms();
     }
 
-    public List<Unit> getUnits(){
+    public List<Unit> getUnits() {
         return _insuranceFacade.getUnits();
     }
 
@@ -94,13 +93,15 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void addItem() {
-        _notice.getItems().add(new InsuranceNubNoticeItem());
+        InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
+        item.setInsuranceNubNoticeId(_notice.getId());
+        _notice.getItems().add(item);
     }
 
-    public void deleteItem(InsuranceNubNoticeItem item){
+    public void deleteItem(InsuranceNubNoticeItem item) {
         _notice.getItems().remove(item);
     }
-    
+
     public String save() {
         _insuranceFacade.saveNubNotice(_notice);
         return "";

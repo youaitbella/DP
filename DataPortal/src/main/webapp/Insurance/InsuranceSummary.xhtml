@@ -19,10 +19,13 @@
 
             <h1>#{msg.lblInsurance}</h1>
 
+            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
+
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.newInsuranceNubNotice}" 
                                immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
             </div>
+
         </h:form>
     </ui:define>
 

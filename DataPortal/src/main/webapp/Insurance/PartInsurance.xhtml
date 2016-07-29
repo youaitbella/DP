@@ -9,12 +9,16 @@
         <h2>
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.InsuranceSummary)}" value="#{msg.lblInsurance}" immediate="true"/>
         </h2>
-        <div class="paddingElement">
-            <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.newInsuranceNubNotice}" 
-                               immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
-            </div>
+
+        <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
+
+        <div class="toolBar marginLeft">
+            <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.newInsuranceNubNotice}" 
+                           immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
         </div>
+
+        <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
+
     </ui:composition>
 </html>
 

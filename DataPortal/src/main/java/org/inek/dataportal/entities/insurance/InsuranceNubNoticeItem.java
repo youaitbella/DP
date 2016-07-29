@@ -46,7 +46,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property InekMethodId">
     @Column(name = "inniInekMethodId")
-    private int _inekMethodId = -1;
+    private int _inekMethodId;
 
     public int getInekMethodId() {
         return _inekMethodId;
@@ -102,7 +102,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property UnitId">
     @Column(name = "inniUnitId")
-    private int _unitId = -1;
+    private int _unitId;
 
     public int getUnitId() {
         return _unitId;
@@ -128,7 +128,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Quantity">
     @Column(name = "inniQuantity")
-    private int _quantity = -1;
+    private int _quantity = 1;
 
     public int getQuantity() {
         return _quantity;
@@ -141,7 +141,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeId">
     @Column(name = "inniRemunerationTypeId")
-    private int _remunerationTypeId = -1;
+    private int _remunerationTypeId;
 
     public int getRemunerationTypeId() {
         return _remunerationTypeId;
@@ -167,7 +167,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NubRequestId">
     @Column(name = "inniNubRequestId")
-    private int _nubRequestId = -1;
+    private int _nubRequestId;
 
     public int getNubRequestId() {
         return _nubRequestId;

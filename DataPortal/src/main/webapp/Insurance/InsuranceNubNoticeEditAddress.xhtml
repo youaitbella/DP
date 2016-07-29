@@ -32,6 +32,17 @@
             </div>
 
             <div class="inputPart">
+                <h:outputLabel for="year" styleClass="label" value="#{msg.lblYear}:" />
+                <h:message for="year" id="msgYear" styleClass="errorMessage"/>
+                <br />
+                <h:inputText styleClass="inputSmall" readonly="#{editInsuranceNubNotice.readOnly}" id="year" 
+                             value="#{editInsuranceNubNotice.notice.year}">
+                    <f:converter converterId="IntegerConverter" />
+                    <f:ajax event="blur" render="@this :logout:remaining msgYear"/>
+                </h:inputText>
+            </div>
+
+            <div class="inputPart">
                 <h:outputLabel for="hospitalIk" styleClass="label" value="#{msg.lblHospitalIk}:" />
                 <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
                 <br />

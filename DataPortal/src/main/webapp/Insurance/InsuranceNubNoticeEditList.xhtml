@@ -23,7 +23,7 @@
         </h:form>
 
         <h:form id="messageForm">
-            <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+            <h:dataTable  headerClass="list-header" 
                           value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
                           columnClasses="colIcon, colValue">
 
@@ -60,7 +60,7 @@
                         <h:outputText value="#{msg.lblDosageForm}"/>
                     </f:facet>
                     <h:selectOneMenu value="#{item.dosageFormId}" hideNoSelectionOption="true">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.dosageForms}" var="dosageForm" itemLabel="#{dosageForm.text}" itemValue="#{dosageForm.id}"/>
                         <f:ajax render="@this :logout:remaining"/>
                     </h:selectOneMenu>
@@ -80,7 +80,7 @@
                         <h:outputText value="#{msg.lblUnit}"/>
                     </f:facet>
                     <h:selectOneMenu value="#{item.unitId}" hideNoSelectionOption="true">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.units}" var="unit" itemLabel="#{unit.text}" itemValue="#{unit.id}"/>
                         <f:ajax render="@this :logout:remaining"/>
                     </h:selectOneMenu>

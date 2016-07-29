@@ -7,31 +7,29 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
+import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.InsuranceFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
 @RequestScoped
 public class InsuranceNubNoticeList {
 
     private static final Logger _logger = Logger.getLogger("InsuranceNubNoticeList");
-    @Inject SessionController _sessionController;
 
-    private List<InsuranceNubNotice> _openMessages;
-    private List<InsuranceNubNotice> _providedMessages;
+    @Inject private InsuranceFacade _insuranceFacade;
+    @Inject private SessionController _sessionController;
 
-    public List<InsuranceNubNotice> getNubRequests() {
-        if (_openMessages == null) {
-            // todo: _openMessages = ...
-        }
-        return _openMessages;
+    public List<InsuranceNubNotice> getOpenNotices() {
+         return _insuranceFacade.getAccountNotices(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 
-    public List<InsuranceNubNotice> getSealedNubRequests() {
-        if (_providedMessages == null) {
-            //_providedMessages = ...
-        }
-        return _providedMessages;
+    public List<InsuranceNubNotice> getProvidedNotices() {
+        return _insuranceFacade.getAccountNotices(_sessionController.getAccountId(), DataSet.AllSealed);
     }
 
     public String newInsuranceNubNotice() {
@@ -41,5 +39,39 @@ public class InsuranceNubNoticeList {
         return Pages.InsuranceNubNoticeEditAddress.URL();
     }
 
+    public String editNotice(int noticeId) {
+        Utils.getFlash().put("noticeId", noticeId);
+        return Pages.InsuranceNubNoticeEditAddress.URL();
+    }
+    
+    public String getConfirmMessage(int noticeId) {
+        InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(noticeId);
+        String msg = "Meldung für " + notice.getHospitalIk() + "\n"
+                + (notice.getWorkflowStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+        msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
+        return "return confirm ('" + msg + "');";
+    }
+    public String deleteNotice(int noticeId) {
+        InsuranceNubNotice notice = _insuranceFacade.findNubNotice(noticeId);
+        if (notice == null) {
+            return "";
+        }
+        if (_sessionController.isMyAccount(notice.getAccountId())) {
+            if (notice.getWorkflowStatusId() < WorkflowStatus.Provided.getValue()) {
+                _insuranceFacade.remove(notice);
+            } else {
+                notice.setWorkflowStatus(WorkflowStatus.Retired);
+                _insuranceFacade.saveNubNotice(notice);
+            }
+        }
+        return "";
+    }
+    
+    public String printNotice(int noticeId) {
+        Utils.getFlash().put("headLine", Utils.getMessage("nameMODEL_INTENTION"));
+        Utils.getFlash().put("targetPage", Pages.ModelIntentionSummary.URL());
+        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_insuranceFacade.findNubNotice(noticeId)));
+        return Pages.PrintView.URL();
+    }
 
 }
