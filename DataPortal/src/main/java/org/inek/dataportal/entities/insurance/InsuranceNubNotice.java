@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -97,6 +98,7 @@ public class InsuranceNubNotice implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Year">
     @Column(name = "innYear")
+    @Documentation(key = "lblYear")
     private int _year = -1;
 
     public int getYear() {
@@ -149,6 +151,7 @@ public class InsuranceNubNotice implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inniInsuranceNubNoticeId", referencedColumnName = "innId")
+    @Documentation(key = "tabMessageList")
     private List<InsuranceNubNoticeItem> _items = new Vector<>();
 
     public List<InsuranceNubNoticeItem> getItems() {

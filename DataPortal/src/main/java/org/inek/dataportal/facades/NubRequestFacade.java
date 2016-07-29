@@ -23,7 +23,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.nub.InekMethod;
+import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
@@ -37,21 +37,25 @@ import org.inek.dataportal.utils.DateUtils;
  * @author muellermi
  */
 @Stateless
-public class NubRequestFacade extends AbstractDataAccess{
+public class NubRequestFacade extends AbstractDataAccess {
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
         return findAll(accountId, -1, -1, dataSet, filter);
     }
 
-    public NubRequest find (int id){
+    public NubRequest find(int id) {
         return super.find(NubRequest.class, id);
     }
-    
-    public NubRequest findFresh (int id){
+
+    public NubRequest findFresh(int id) {
         return super.findFresh(NubRequest.class, id);
     }
-    
+
     public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
+        return findAll(accountId, ik, false, year, dataSet, filter);
+    }
+
+    public List<NubRequest> findAll(int accountId, int ik, boolean includeProxyIks, int year, DataSet dataSet, String filter) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
         Root request = cq.from(NubRequest.class);
@@ -85,7 +89,11 @@ public class NubRequestFacade extends AbstractDataAccess{
             condition = cb.and(condition, isFiltered);
         }
         if (ik > 0) {
-            condition = cb.and(condition, cb.equal(request.get("_ik"), ik));
+            Predicate ikCondition = cb.equal(request.get("_ik"), ik);
+            if (includeProxyIks) {
+                ikCondition = cb.or(ikCondition, cb.like(request.get("_proxyIKs"), "" + ik));
+            }
+            condition = cb.and(condition, ikCondition);
         }
         if (year > 0) {
             condition = cb.and(condition, cb.equal(request.get("_targetYear"), year));
@@ -112,7 +120,7 @@ public class NubRequestFacade extends AbstractDataAccess{
         }
         return merge(nubRequest);
     }
-    
+
     /**
      * A list of NUB infos for display usage, e.g. lists
      *
@@ -203,20 +211,19 @@ public class NubRequestFacade extends AbstractDataAccess{
 //        query.setParameter("ik", ik);
 //        List<AccountInfo> infos = query.getResultList();
 //        return infos;
-        
+
         // although the compiler tells us something else, this is what we get
         List<AccountInfo> infos = new ArrayList<>();
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("ik", ik);
         List<Object[]> objects = query.getResultList();
-        for (Object[] obj : objects){
-            AccountInfo info = new AccountInfo((Account)obj[0], (boolean)obj[1], (int)(long)obj[2]);
+        for (Object[] obj : objects) {
+            AccountInfo info = new AccountInfo((Account) obj[0], (boolean) obj[1], (int) (long) obj[2]);
             infos.add(info);
         }
         return infos;
     }
 
-    
     public Map<Integer, Integer> countOpenPerIk() {
         return NubRequestFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
     }
@@ -237,17 +244,19 @@ public class NubRequestFacade extends AbstractDataAccess{
     }
 
     public List<NubRequest> find(List<Integer> requestIds) {
-        if (requestIds.isEmpty()){return Collections.EMPTY_LIST;}
+        if (requestIds.isEmpty()) {
+            return Collections.EMPTY_LIST;
+        }
         String jpql = "SELECT p FROM NubRequest p WHERE p._id in :requestIds  ";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("requestIds", requestIds);
         return query.getResultList();
     }
-    
-    public List<InekMethod> getInekMethods(){
+
+    public List<InekMethod> getInekMethods() {
         return super.findAll(InekMethod.class);
     }
-    
+
     @Schedule(hour = "0", info = "once a day")
     private void check4NubOrphantCorrections() {
         Date date = DateUtils.getDateWithDayOffset(-5);
@@ -256,7 +265,7 @@ public class NubRequestFacade extends AbstractDataAccess{
         query.setParameter("date", date);
         query.setParameter("status", WorkflowStatus.CorrectionRequested.getValue());
         List<NubRequest> nubRequests = query.getResultList();
-        for (NubRequest nubRequest : nubRequests){
+        for (NubRequest nubRequest : nubRequests) {
             resetNubRequest(nubRequest);
         }
     }
@@ -313,5 +322,5 @@ public class NubRequestFacade extends AbstractDataAccess{
         nubRequest.setLastModified(nubRequestHistory.getLastModified());
         nubRequest.setStatus(WorkflowStatus.Taken);
     }
-    
+
 }

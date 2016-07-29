@@ -6,10 +6,13 @@ package org.inek.dataportal.facades;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.Unit;
+import org.inek.dataportal.entities.insurance.InekMethod;
+import org.inek.dataportal.entities.insurance.NubMethodInfo;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 
@@ -55,4 +58,24 @@ public class InsuranceFacade extends AbstractDataAccess {
         return findAll(Unit.class);
     }
     
+    public List<InekMethod> getInekMethods() {
+        return findAll(InekMethod.class);
+    }
+    
+    public List<NubMethodInfo> getNubMethodInfos(int ik, int year) {
+        String sql = "select prDatenportalId, prNubName, prFkCaId, caName "
+                + "from nub.dbo.NubRequest "
+                + "join nub.dbo.category on prFkCaId = caId "
+                + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
+                + "where (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
+                + "order by prDatenportalId";
+        Query query = getEntityManager().createNativeQuery(sql, NubMethodInfo.class);
+        query.setParameter(1, ik);
+        query.setParameter(2, ik);
+        query.setParameter(3, year);
+        return query.getResultList();
+    }
+    
+/*
+    */    
 }

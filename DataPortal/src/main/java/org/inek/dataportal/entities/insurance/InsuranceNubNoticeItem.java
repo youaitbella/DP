@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -59,6 +60,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Procedures">
     @Column(name = "inniProcedures")
+    @Documentation
     private String _procedures = "";
     // this is defined as a string, not mapped to the procedure table
     // because combined entries are allowed:
@@ -76,6 +78,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property DosageFormId">
     @Column(name = "inniDosageFormId")
+    @Documentation
     private int _dosageFormId;
 
     public int getDosageFormId() {

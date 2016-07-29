@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
@@ -19,6 +21,8 @@ import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
+import org.inek.dataportal.entities.insurance.InekMethod;
+import org.inek.dataportal.entities.insurance.NubMethodInfo;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -74,6 +78,18 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public InsuranceNubNotice getNotice() {
         return _notice;
+    }
+
+    public List<SelectItem> getInekMethods() {
+        return getNubMethodInfos()
+                .stream()
+                .sorted((n, m) -> n.getMethodName().compareTo(m.getMethodName()))
+                .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [" + i.getRequestId() + "]", i.getRequestName()))
+                .collect(Collectors.toList());
+    }
+
+    public List<NubMethodInfo> getNubMethodInfos() {
+        return _insuranceFacade.getNubMethodInfos(_notice.getHospitalIk(), _notice.getYear());
     }
 
     public List<DosageForm> getDosageForms() {
