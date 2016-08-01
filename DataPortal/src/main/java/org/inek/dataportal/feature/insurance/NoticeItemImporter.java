@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.insurance;
 import java.math.BigDecimal;
 import java.util.Optional;
 import javax.inject.Inject;
+import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
@@ -30,6 +31,12 @@ public class NoticeItemImporter {
         return _totalCount;
     }
 
+    private int _errorCount = 0;
+
+    public int getErrorCount() {
+        return _errorCount;
+    }
+
     private InsuranceNubNotice _notice;
 
     void setNotice(InsuranceNubNotice notice) {
@@ -41,7 +48,7 @@ public class NoticeItemImporter {
     }
 
     public String getMessage() {
-        return _totalCount + " Zeilen gelesen\r\n\r\n" + _errorMsg;
+        return (_totalCount - _errorCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorMsg;
     }
 
     public void tryImportLine(String line) {
@@ -67,6 +74,7 @@ public class NoticeItemImporter {
             _notice.getItems().add(item);
         } catch (IllegalArgumentException ex) {
             _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + ex.getMessage();
+            _errorCount++;
         }
     }
 
@@ -77,66 +85,78 @@ public class NoticeItemImporter {
         }
         try {
             int number = Integer.parseInt(dataString);
-            // todo: check whether requstId exist for given IK or retrieve request id for given seqNo
+            if (isRequestId && !_insuranceFacade.existsNubRequest(number, _notice.getHospitalIk(), _notice.getYear())) {
+                throw new IllegalArgumentException("Verfahrensnummer " + dataString + " existiert nicht für IK " + _notice.getHospitalIk() + " in Jahr " + _notice.getYear());
+            }
+            if (!isRequestId) {
+                number = _insuranceFacade.retrieveRequestId(number, _notice.getHospitalIk(), _notice.getYear());
+                if (number < 0) {
+                    throw new IllegalArgumentException("Zur lfd. Nummmer " + dataString + " existiert keine Anfrage für IK " + _notice.getHospitalIk() + " in Jahr " + _notice.getYear());
+                }
+            }
             item.setNubRequestId(number);
         } catch (NumberFormatException ex) {
             throw new IllegalArgumentException(Utils.getMessage("msgMissingIdOrSequence"));
         }
     }
 
-    private void tryImportDosageForm(InsuranceNubNoticeItem item, String string) {
-        Optional<DosageForm> dosageFormOpt = _insuranceFacade.getDosageForm(string);
+    private void tryImportDosageForm(InsuranceNubNoticeItem item, String dataString) {
+        Optional<DosageForm> dosageFormOpt = _insuranceFacade.getDosageForm(dataString);
         if (dosageFormOpt.isPresent()) {
             item.setDosageFormId(dosageFormOpt.get().getId());
         } else {
-            throw new IllegalArgumentException(Utils.getMessage("msgUnknowDosageForm") + ": " + string);
+            throw new IllegalArgumentException(Utils.getMessage("msgUnknowDosageForm") + ": " + dataString);
         }
     }
 
-    private void tryImportAmount(InsuranceNubNoticeItem item, String string) {
+    private void tryImportAmount(InsuranceNubNoticeItem item, String dataString) {
         try {
-            BigDecimal amount = new BigDecimal(string);
+            BigDecimal amount = new BigDecimal(dataString);
             item.setAmount(amount);
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + string);
+            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 
-    private void tryImportUnit(InsuranceNubNoticeItem item, String string) {
-        Optional<Unit> unitOpt = _insuranceFacade.getUnit(string);
+    private void tryImportUnit(InsuranceNubNoticeItem item, String dataString) {
+        Optional<Unit> unitOpt = _insuranceFacade.getUnit(dataString);
         if (unitOpt.isPresent()) {
             item.setUnitId(unitOpt.get().getId());
         } else {
-            throw new IllegalArgumentException(Utils.getMessage("msgUnknownUnit") + ": " + string);
+            throw new IllegalArgumentException(Utils.getMessage("msgUnknownUnit") + ": " + dataString);
         }
     }
 
-    private void tryImportQuantity(InsuranceNubNoticeItem item, String string) {
+    private void tryImportQuantity(InsuranceNubNoticeItem item, String dataString) {
         try {
-            int quantity = Integer.parseInt(string);
+            int quantity = Integer.parseInt(dataString);
             item.setQuantity(quantity);
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + string);
+            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 
-    private void tryImportPrice(InsuranceNubNoticeItem item, String string) {
+    private void tryImportPrice(InsuranceNubNoticeItem item, String dataString) {
         try {
-            BigDecimal price = new BigDecimal(string);
+            BigDecimal price = new BigDecimal(dataString);
             item.setPrice(price);
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + string);
+            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 
-    private void tryImportRemunerationKey(InsuranceNubNoticeItem item, String string) {
-        // todo: check and get id
-        item.setRemunerationTypeId(44109024);
+    private void tryImportRemunerationKey(InsuranceNubNoticeItem item, String dataString) {
+        Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(dataString);
+        if (remunTypeOpt.isPresent()) {
+            //item.setRemunerationTypeId(remunTypeOpt.get().getId());
+        } else {
+            throw new IllegalArgumentException(Utils.getMessage("msgUnknownUnit") + ": " + dataString);
+        }
     }
 
-    private void tryImportProcedures(InsuranceNubNoticeItem item, String string) {
+    private void tryImportProcedures(InsuranceNubNoticeItem item, String dataString) {
         // todo: check existance of opCodes
-        item.setProcedures(string);
+        item.setProcedures(dataString);
     }
 
 }

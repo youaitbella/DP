@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -589,12 +590,12 @@ public class EditModelIntention extends AbstractEditController {
             FacesContext.getCurrentInstance().responseComplete();
             return;
         }
-        RemunerationType type = _remunerationTypeFacade.find(code);
-        if (type == null) {
-            FacesContext.getCurrentInstance().responseComplete();
+        Optional<RemunerationType> optType = _remunerationTypeFacade.findByCode(code);
+        if (optType.isPresent()) {
+            remuneration.setText(optType.get().getText());
             return;
         }
-        remuneration.setText(type.getText());
+        FacesContext.getCurrentInstance().responseComplete();
     }
 
     public void addNewRemuneration() {

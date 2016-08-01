@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.Unit;
@@ -86,6 +87,17 @@ public class InsuranceFacade extends AbstractDataAccess {
         return findAll(InekMethod.class);
     }
 
+    public Optional<RemunerationType> getRemunerationType(String text) {
+        String jql = "select r from RemunerationType r where r._charId = :text";
+        TypedQuery<RemunerationType> query = getEntityManager().createQuery(jql, RemunerationType.class);
+        query.setParameter("text", text);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
     public List<NubMethodInfo> getNubMethodInfos(int ik, int year) {
         String sql = "select prDatenportalId, prNubName, prFkCaId, caName "
                 + "from nub.dbo.NubRequest "
@@ -100,6 +112,39 @@ public class InsuranceFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    /*
-     */
+    public boolean existsNubRequest(int requestId, int hospitalIk, int year) {
+        String sql = "select 1 "
+                + "from nub.dbo.NubRequest "
+                + "join nub.dbo.category on prFkCaId = caId "
+                + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
+                + "where prDatenportalId = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
+                + "order by prDatenportalId";
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter(1, requestId);
+        query.setParameter(2, hospitalIk);
+        query.setParameter(3, hospitalIk);
+        query.setParameter(4, year);
+        return query.getResultList().size() > 0;
+    }
+
+    public int retrieveRequestId(int sequence, int hospitalIk, int year) {
+        String sql = "select prDatenportalId "
+                + "from nub.dbo.NubRequest "
+                + "join nub.dbo.category on prFkCaId = caId "
+                + "join nub.dbo.categoryInfoByYear on prFkCaId = ciFkCaId and prYear = ciBaseYear "
+                + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
+                + "where ciSequence = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
+                + "order by prDatenportalId";
+        
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter(1, sequence);
+        query.setParameter(2, hospitalIk);
+        query.setParameter(3, hospitalIk);
+        query.setParameter(4, year);
+        List resultList = query.getResultList();
+        if (resultList.size() > 0){
+            return (int) resultList.get(0);
+        }
+        return -1;
+    }
 }

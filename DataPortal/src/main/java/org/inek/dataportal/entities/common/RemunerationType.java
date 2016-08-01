@@ -14,18 +14,18 @@ public class RemunerationType implements Serializable {
 
     @Id
     @Column (name = "rtCharId")
-    private String _id;
+    private String _charId;
     
     @Column (name = "rtText")
     private String _text;
     
     // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
-    public String getId() {
-        return _id;
+    public String getCharId() {
+        return _charId;
     }
 
-    public void setId(String id) {
-        _id = id;
+    public void setCharId(String charId) {
+        _charId = charId;
     }
     
     public String getText() {
@@ -44,18 +44,18 @@ public class RemunerationType implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
+        hash += (_charId != null ? _charId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the _id fields are not set
+        // TODO: Warning - this method won't work in the case the _charId fields are not set
         if (!(object instanceof RemunerationType)) {
             return false;
         }
         RemunerationType other = (RemunerationType) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
+        if ((this._charId == null && other._charId != null) || (this._charId != null && !this._charId.equals(other._charId))) {
             return false;
         }
         return true;
@@ -63,7 +63,7 @@ public class RemunerationType implements Serializable {
 
     @Override
     public String toString() {
-        return this.getClass().getName() + "[ id=" + _id + " ]";
+        return this.getClass().getName() + "[ id=" + _charId + " ]";
     }
     // </editor-fold>
 
