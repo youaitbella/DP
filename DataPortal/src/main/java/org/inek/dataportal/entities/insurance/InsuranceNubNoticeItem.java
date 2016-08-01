@@ -2,8 +2,8 @@ package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 import javax.persistence.*;
 import org.inek.dataportal.utils.Documentation;
 
@@ -16,6 +16,9 @@ import org.inek.dataportal.utils.Documentation;
 public class InsuranceNubNoticeItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Transient
+    private final UUID _uuid = UUID.randomUUID();
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -34,13 +37,13 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property InsuranceNubNoticeId">
     @Column(name = "inniInsuranceNubNoticeId")
-    private int _insuranceNubNoticeId;
+    private Integer _insuranceNubNoticeId;
 
-    public int getInsuranceNubNoticeId() {
+    public Integer getInsuranceNubNoticeId() {
         return _insuranceNubNoticeId;
     }
 
-    public void setInsuranceNubNoticeId(int value) {
+    public void setInsuranceNubNoticeId(Integer value) {
         _insuranceNubNoticeId = value;
     }
     // </editor-fold>
@@ -203,7 +206,7 @@ public class InsuranceNubNoticeItem implements Serializable {
         if (_id > 0) {
             return _id;
         }
-
+        //return _uuid.hashCode();
         int hash = 7;
         hash = 67 * hash + this._insuranceNubNoticeId;
         hash = 67 * hash + this._inekMethodId;
@@ -235,6 +238,7 @@ public class InsuranceNubNoticeItem implements Serializable {
             return _id == other._id;
         }
 
+        //return _uuid.equals(other._uuid);
         if (this._insuranceNubNoticeId != other._insuranceNubNoticeId) {
             return false;
         }

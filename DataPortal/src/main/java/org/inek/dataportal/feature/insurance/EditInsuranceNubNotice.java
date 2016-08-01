@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,7 +22,6 @@ import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
-import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.insurance.NubMethodInfo;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.InsuranceFacade;
@@ -70,6 +70,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             notice.setInsuranceName(account.getCompany());
             notice.setInsuranceIk(account.getIK());
             notice.setAccountId(account.getId());
+            notice.setWorkflowStatusId(0);
         }
         return notice;
     }
@@ -110,7 +111,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public void addItem() {
         InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
-        item.setInsuranceNubNoticeId(_notice.getId());
+//        if (_notice.getId() > 0) {
+//            item.setInsuranceNubNoticeId(_notice.getId());
+//        }
         _notice.getItems().add(item);
     }
 
@@ -120,6 +123,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public String save() {
         _insuranceFacade.saveNubNotice(_notice);
+        _sessionController.alertClient(Utils.getMessage("msgSave"));
         return "";
     }
 
@@ -142,16 +146,22 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _file = file;
     }
 
-    public void uploadMessages() {
+    @Inject Instance<NoticeItemImporter> _importProvider;
+
+    public void uploadNotices() {
         try {
             if (_file != null) {
-                Scanner scanner = new Scanner(_file.getInputStream(),
-                        "UTF-8");
-                int countSuccess = 0;
-                int countFail = 0;
+                Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                NoticeItemImporter itemImporter = _importProvider.get();
+                itemImporter.setNotice(_notice);
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
+                    itemImporter.tryImportLine(line);
                 }
+                _sessionController.alertClient(itemImporter.getMessage());
             }
         } catch (IOException | NoSuchElementException e) {
         }

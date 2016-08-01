@@ -13,8 +13,8 @@
         <h2>Test</h2>
         <h:form id="costUploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" >
             <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}">
-                    <f:ajax listener="#{editInsuranceNubNotice.uploadMessages()}" render="messageForm"/>
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}" >
+                    <f:ajax listener="#{editInsuranceNubNotice.uploadNotices()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadMessage}"/>
@@ -22,6 +22,7 @@
             </div>
         </h:form>
 
+        
         <h:form id="messageForm">
             <h:dataTable  headerClass="list-header" id="tblNotices"
                           value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 

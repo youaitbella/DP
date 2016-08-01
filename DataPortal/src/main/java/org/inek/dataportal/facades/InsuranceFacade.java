@@ -5,6 +5,7 @@
 package org.inek.dataportal.facades;
 
 import java.util.List;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -23,25 +24,26 @@ import org.inek.dataportal.enums.WorkflowStatus;
 @Stateless
 public class InsuranceFacade extends AbstractDataAccess {
 
-    public InsuranceNubNotice findNubNotice (int id){
+    public InsuranceNubNotice findNubNotice(int id) {
         return super.find(InsuranceNubNotice.class, id);
     }
-    
-    public InsuranceNubNotice findFreshNubNotice (int id){
+
+    public InsuranceNubNotice findFreshNubNotice(int id) {
         return super.findFresh(InsuranceNubNotice.class, id);
     }
-   
-    public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet){
+
+    public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet) {
         String sql = "SELECT n FROM InsuranceNubNotice n WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
         TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getValue() : WorkflowStatus.Provided.getValue() -1;
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getValue() : WorkflowStatus.Retired.getValue() -1;
+        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getValue() : WorkflowStatus.Provided.getValue() - 1;
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getValue() : WorkflowStatus.Retired.getValue() - 1;
         query.setParameter("accountId", accountId);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
         return query.getResultList();
-        
+
     }
+
     public InsuranceNubNotice saveNubNotice(InsuranceNubNotice notice) {
         if (notice.getId() == -1) {
             persist(notice);
@@ -54,14 +56,36 @@ public class InsuranceFacade extends AbstractDataAccess {
         return findAll(DosageForm.class);
     }
 
+    public Optional<DosageForm> getDosageForm(String text) {
+        String jql = "select d from DosageForm d where d._text = :text";
+        TypedQuery<DosageForm> query = getEntityManager().createQuery(jql, DosageForm.class);
+        query.setParameter("text", text);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
     public List<Unit> getUnits() {
         return findAll(Unit.class);
     }
-    
+
+    public Optional<Unit> getUnit(String text) {
+        String jql = "select u from Unit u where u._text = :text";
+        TypedQuery<Unit> query = getEntityManager().createQuery(jql, Unit.class);
+        query.setParameter("text", text);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
     public List<InekMethod> getInekMethods() {
         return findAll(InekMethod.class);
     }
-    
+
     public List<NubMethodInfo> getNubMethodInfos(int ik, int year) {
         String sql = "select prDatenportalId, prNubName, prFkCaId, caName "
                 + "from nub.dbo.NubRequest "
@@ -75,7 +99,7 @@ public class InsuranceFacade extends AbstractDataAccess {
         query.setParameter(3, year);
         return query.getResultList();
     }
-    
-/*
-    */    
+
+    /*
+     */
 }

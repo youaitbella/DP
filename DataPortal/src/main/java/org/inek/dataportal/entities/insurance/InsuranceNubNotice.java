@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 import javax.persistence.*;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -151,6 +152,7 @@ public class InsuranceNubNotice implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inniInsuranceNubNoticeId", referencedColumnName = "innId")
+    @OrderBy("_id")
     @Documentation(key = "tabMessageList")
     private List<InsuranceNubNoticeItem> _items = new Vector<>();
 
@@ -172,20 +174,35 @@ public class InsuranceNubNotice implements Serializable {
     private void tagLastChange() {
         _lastChange = Calendar.getInstance().getTime();
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 5;
+        hash = 59 * hash + this._id;
+        hash = 59 * hash + Objects.hashCode(this._items);
+        return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof InsuranceNubNotice)) {
+    @Override    
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        InsuranceNubNotice other = (InsuranceNubNotice) object;
-        return _id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final InsuranceNubNotice other = (InsuranceNubNotice) obj;
+        if (this._id != other._id) {
+            return false;
+        }
+        if (!Objects.equals(this._items, other._items)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
