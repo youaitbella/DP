@@ -105,7 +105,7 @@ h2 a{
 div#wrapper {
     text-align: left;
     min-width: 950px;
-    max-width: 1150px;
+    max-width: 1250px;
     height: auto;
     margin: 10px auto auto 0px;
     border-width: 0px;
@@ -744,6 +744,10 @@ select:active, select:focus{
     width: 5%;
 }
 
+.col06{
+    width: 6%;
+}
+
 .colIcon{
     width:16px;
 }
@@ -752,16 +756,35 @@ select:active, select:focus{
     border: none;
 }
 
-.colId, .colShort{
+.colId, .colShort, col08{
     width: 8%;
 }
 
+.col09{
+    width: 9%;
+}
 .col11{
     width: 11%;
 }
 
-.colIk{
+.col03em{
+    width: 3em;
+}
+
+.colIk, .col06em{
     width: 6em;
+}
+
+.col07em{
+    width: 7em;
+}
+
+.col10em{
+    width: 10em;
+}
+
+.col16em{
+    width: 16em;
 }
 
 .colValue{
