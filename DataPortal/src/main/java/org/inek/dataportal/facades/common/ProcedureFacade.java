@@ -4,8 +4,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.feature.nub.EditNubRequest;
 
 /**
  *
@@ -48,24 +50,38 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
 
     
     public String findProcedure(String code, int firstYear, int lastYear) {
-        StringBuilder where = new StringBuilder();
-        where.append("(p._code = :code or p._codeShort = :code)");
-        if (firstYear > 2000) {
-            where.append(" and p._lastYear >= ").append(firstYear);
-        }
-        if (lastYear > 2000) {
-            where.append(" and p._firstYear <= ").append(lastYear);
-        }
-        String query = "SELECT p FROM ProcedureInfo p WHERE " + where + " order by p._firstYear desc";
-        List<ProcedureInfo> results = getEntityManager().createQuery(query, ProcedureInfo.class).setParameter("code", code).getResultList();
+        String jql = "SELECT p FROM ProcedureInfo p "
+                + "WHERE (p._code = :code or p._codeShort = :code) and p._lastYear >= :firstYear and p._firstYear <= :lastYear "
+                + "order by p._firstYear desc";
+        TypedQuery<ProcedureInfo> query = getEntityManager().createQuery(jql, ProcedureInfo.class);
+        query.setParameter("code", code);
+        query.setParameter("firstYear", firstYear);
+        query.setParameter("lastYear", lastYear);
+        List<ProcedureInfo> results = query.getResultList();
         return results.size() > 0 ? results.get(0).getCode() : "";
-//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<ProcedureInfo> cq = cb.createQuery(ProcedureInfo.class);
-//        Root<ProcedureInfo> proc = cq.from(ProcedureInfo.class);
-//        cq.select(proc).where(cb.equal(proc.get("code"), search));
-//        TypedQuery<ProcedureInfo> q = em.createQuery(cq);
-//        List<ProcedureInfo> results = q.getResultList();
-//        return results.size() > 0 ? results.get(0).getCode() : "";
+    }
+
+    public String checkProcedures(String value, int firstYear, int lastYear) {
+        return checkProcedures(value, firstYear, lastYear, "\\s");
+    }
+    
+    public String checkProcedures(String value, int firstYear, int lastYear, String splitRegex) {
+        String[] codes = value.split(splitRegex);
+        StringBuilder invalidCodes = new StringBuilder();
+        for (String code : codes) {
+            if (code.isEmpty()){continue;}
+            if (findProcedure(code, firstYear, lastYear).equals("")) {
+                invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(code);
+            }
+        }
+        if (invalidCodes.length() > 0) {
+            if (invalidCodes.indexOf(",") > 0) {
+                invalidCodes.insert(0, "Unbekannte Codes: ");
+            } else {
+                invalidCodes.insert(0, "Unbekannter Code: ");
+            }
+        }
+        return invalidCodes.toString();
     }
 
 }

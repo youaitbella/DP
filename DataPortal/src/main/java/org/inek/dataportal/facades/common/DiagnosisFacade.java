@@ -6,8 +6,7 @@ package org.inek.dataportal.facades.common;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.common.DiagnosisInfo;
 import org.inek.dataportal.facades.AbstractFacade;
 
@@ -52,17 +51,38 @@ public class DiagnosisFacade extends AbstractFacade<DiagnosisInfo> {
 
     
     public String findDiagnosis(String code, int firstYear, int lastYear) {
-        StringBuilder where = new StringBuilder();
-        where.append("(d._code = :code or d._codeShort = :code)");
-        if (firstYear > 2000) {
-            where.append(" and d._lastYear >= ").append(firstYear);
-        }
-        if (lastYear > 2000) {
-            where.append(" and d._firstYear <= ").append(lastYear);
-        }
-        String query = "SELECT d FROM DiagnosisInfo d WHERE " + where + " order by d._firstYear desc";
-        List<DiagnosisInfo> results = getEntityManager().createQuery(query, DiagnosisInfo.class).setParameter("code", code).getResultList();
+        String jql = "SELECT d FROM DiagnosisInfo d "
+                + "WHERE (d._code = :code or d._codeShort = :code) and d._lastYear >= :firstYear and d._firstYear <= :lastYear "
+                + "order by d._firstYear desc";
+        TypedQuery<DiagnosisInfo> query = getEntityManager().createQuery(jql, DiagnosisInfo.class);
+        query.setParameter("code", code);
+        query.setParameter("firstYear", firstYear);
+        query.setParameter("lastYear", lastYear);
+        List<DiagnosisInfo> results = query.getResultList();
         return results.size() > 0 ? results.get(0).getCode() : "";
     }
 
+    public String checkDiagnoses(String value, int firstYear, int lastYear) {
+        return checkDiagnoses(value, firstYear, lastYear, "\\s");
+    }
+    
+    public String checkDiagnoses(String value, int firstYear, int lastYear, String splitRegex) {
+        String[] codes = value.split(splitRegex);
+        StringBuilder invalidCodes = new StringBuilder();
+        for (String code : codes) {
+            if (code.isEmpty()){continue;}
+            if (findDiagnosis(code, firstYear, lastYear).equals("")) {
+                invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(code);
+            }
+        }
+        if (invalidCodes.length() > 0) {
+            if (invalidCodes.indexOf(",") > 0) {
+                invalidCodes.insert(0, "Unbekannte Codes: ");
+            } else {
+                invalidCodes.insert(0, "Unbekannter Code: ");
+            }
+        }
+        return invalidCodes.toString();
+    }
+    
 }

@@ -615,6 +615,12 @@ select:active, select:focus{
     width: 100%;
 }
 
+.areaLow {
+    min-height: 1.5em;
+    height: 1.5em;
+    max-height: 8em;
+}
+
 .third {
     display: inline-block;
     width: 29.5%;

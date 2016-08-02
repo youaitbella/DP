@@ -48,16 +48,32 @@ public class InsuranceNubNoticeItem implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property InekMethodId">
-    @Column(name = "inniInekMethodId")
-    private int _inekMethodId;
+    // <editor-fold defaultstate="collapsed" desc="Property NubRequestId">
+    @Column(name = "inniNubRequestId")
+    private int _nubRequestId;
 
-    public int getInekMethodId() {
-        return _inekMethodId;
+    public int getNubRequestId() {
+        return _nubRequestId;
     }
 
-    public void setInekMethodId(int value) {
-        _inekMethodId = value;
+    public void setNubRequestId(int value) {
+        _nubRequestId = value;
+    }
+
+    public String getExternalId() {
+        return "N" + _nubRequestId;
+    }
+
+    public void setExternalId(String id) {
+        if (id.startsWith("N")) {
+            try {
+                _nubRequestId = Integer.parseInt(id.substring(1));
+            } catch (NumberFormatException ex) {
+                _nubRequestId = 0;
+            }
+        } else {
+            _nubRequestId = 0;
+        }
     }
     // </editor-fold>
 
@@ -145,16 +161,16 @@ public class InsuranceNubNoticeItem implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeId">
-    @Column(name = "inniRemunerationTypeId")
-    private int _remunerationTypeId;
+    // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeCharId">
+    @Column(name = "inniRemunerationTypeCharId")
+    private int _remunerationTypeCharId;
 
-    public int getRemunerationTypeId() {
-        return _remunerationTypeId;
+    public int getRemunerationTypeCharId() {
+        return _remunerationTypeCharId;
     }
 
-    public void setRemunerationTypeId(int value) {
-        _remunerationTypeId = value;
+    public void setRemunerationTypeCharId(int value) {
+        _remunerationTypeCharId = value;
     }
     // </editor-fold>
 
@@ -171,35 +187,6 @@ public class InsuranceNubNoticeItem implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property NubRequestId">
-    @Column(name = "inniNubRequestId")
-    private int _nubRequestId;
-
-    public int getNubRequestId() {
-        return _nubRequestId;
-    }
-
-    public void setNubRequestId(int value) {
-        _nubRequestId = value;
-    }
-
-    public String getExternalId() {
-        return "N" + _nubRequestId;
-    }
-
-    public void setExternalId(String id) {
-        if (id.startsWith("N")) {
-            try {
-                _nubRequestId = Integer.parseInt(id.substring(1));
-            } catch (NumberFormatException ex) {
-                _nubRequestId = 0;
-            }
-        } else {
-            _nubRequestId = 0;
-        }
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -209,14 +196,13 @@ public class InsuranceNubNoticeItem implements Serializable {
         //return _uuid.hashCode();
         int hash = 7;
         hash = 67 * hash + this._insuranceNubNoticeId;
-        hash = 67 * hash + this._inekMethodId;
         hash = 67 * hash + Objects.hashCode(this._procedures);
         hash = 67 * hash + this._dosageFormId;
         hash = 67 * hash + Objects.hashCode(this._amount);
         hash = 67 * hash + this._unitId;
         hash = 67 * hash + Objects.hashCode(this._price);
         hash = 67 * hash + this._quantity;
-        hash = 67 * hash + this._remunerationTypeId;
+        hash = 67 * hash + this._remunerationTypeCharId;
         hash = 67 * hash + Objects.hashCode(this._note);
         hash = 67 * hash + this._nubRequestId;
         return hash;
@@ -239,10 +225,7 @@ public class InsuranceNubNoticeItem implements Serializable {
         }
 
         //return _uuid.equals(other._uuid);
-        if (this._insuranceNubNoticeId != other._insuranceNubNoticeId) {
-            return false;
-        }
-        if (this._inekMethodId != other._inekMethodId) {
+        if (!Objects.equals(this._insuranceNubNoticeId, other._insuranceNubNoticeId)) {
             return false;
         }
         if (this._dosageFormId != other._dosageFormId) {
@@ -254,7 +237,7 @@ public class InsuranceNubNoticeItem implements Serializable {
         if (this._quantity != other._quantity) {
             return false;
         }
-        if (this._remunerationTypeId != other._remunerationTypeId) {
+        if (this._remunerationTypeCharId != other._remunerationTypeCharId) {
             return false;
         }
         if (this._nubRequestId != other._nubRequestId) {

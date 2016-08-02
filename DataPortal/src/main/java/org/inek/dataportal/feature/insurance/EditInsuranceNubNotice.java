@@ -12,9 +12,14 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.print.attribute.standard.Severity;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -23,8 +28,10 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.NubMethodInfo;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.InsuranceFacade;
+import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -53,7 +60,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     // </editor-fold>
 
     @Inject private InsuranceFacade _insuranceFacade;
+    @Inject private ProcedureFacade _procedureFacade;
     @Inject private SessionController _sessionController;
+    
 
     @PostConstruct
     private void init() {
@@ -109,6 +118,15 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return false;
     }
 
+    public void validateProcedures(FacesContext context, UIComponent component, Object value){
+        int targetYear = _notice.getYear();
+        String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear, targetYear, "\\s|,|\\+");
+        if (invalidCodes.length() > 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, invalidCodes, invalidCodes);
+            throw new ValidatorException(msg);
+        }
+    }
+    
     public void addItem() {
         InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
 //        if (_notice.getId() > 0) {

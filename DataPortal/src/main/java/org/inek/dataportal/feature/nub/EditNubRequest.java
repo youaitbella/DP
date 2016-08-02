@@ -290,26 +290,14 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public void checkProcedureCodes(FacesContext context, UIComponent component, Object value) {
-        String codes[] = value.toString().split("\\s");
-        StringBuilder invalidCodes = new StringBuilder();
-        for (String code : codes) {
-            if (_procedureFacade.findProcedure(code, Utils.getTargetYear(Feature.NUB) - 1, Utils.getTargetYear(Feature.NUB)).equals("")) {
-                if (invalidCodes.length() > 0) {
-                    invalidCodes.append(", ");
-                }
-                invalidCodes.append(code);
-            }
-        }
+        int targetYear = Utils.getTargetYear(Feature.NUB);
+        String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear - 1, targetYear);
         if (invalidCodes.length() > 0) {
-            if (invalidCodes.indexOf(",") > 0) {
-                invalidCodes.insert(0, "Unbekannte Codes: ");
-            } else {
-                invalidCodes.insert(0, "Unbekannter Code: ");
-            }
-            FacesMessage msg = new FacesMessage(invalidCodes.toString());
+            FacesMessage msg = new FacesMessage(invalidCodes);
             throw new ValidatorException(msg);
         }
     }
+
 
     public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
         String msg = _nubSessionTools.checkProxyIKs(value.toString());

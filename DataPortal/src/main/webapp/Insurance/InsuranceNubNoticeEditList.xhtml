@@ -22,7 +22,7 @@
             </div>
         </h:form>
 
-        
+
         <h:form id="messageForm">
             <h:dataTable  headerClass="list-header" id="tblNotices"
                           value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
@@ -113,7 +113,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblRemunerationCode}"/>
                     </f:facet>
-                    <h:inputText value="#{item.remunerationTypeId}" styleClass="fullWidth">
+                    <h:inputText value="#{item.remunerationTypeCharId}" styleClass="fullWidth">
                         <f:ajax render="@this :logout:remaining "/>
                     </h:inputText>
                 </h:column>
@@ -122,23 +122,28 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblProcedures}"/>
                     </f:facet>
-                    <h:inputText value="#{item.procedures}" styleClass="fullWidth">
-                        <f:ajax render="@this :logout:remaining "/>
-                    </h:inputText>
+                    <h:inputTextarea id="proc" value="#{item.procedures}" styleClass="areaLow fullWidth" validator="#{editInsuranceNubNotice.validateProcedures}">
+                        <f:ajax render="@this :logout:remaining globalMessages msgProc"/>
+                    </h:inputTextarea>
+                    <h:message for="proc" id="msgProc" styleClass="errorMessage"/>
                 </h:column>
 
-                <h:column class="inputWide">
+                <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblComment}"/>
                     </f:facet>
-                    <h:inputText value="#{item.note}" styleClass="fullWidth">
+                    <h:inputTextarea value="#{item.note}" styleClass="areaLow fullWidth">
                         <f:ajax render="@this :logout:remaining "/>
-                    </h:inputText>
+                    </h:inputTextarea>
                 </h:column>
 
             </h:dataTable>
-
-
+        </h:form>
+        <h:form id="globalMessages">
+            <div class="errorMessage">
+                Fehler: 
+                <h:messages styleClass="errorMessage" showDetail="false" tooltip="true" globalOnly="false"/>
+            </div>
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editInsuranceNubNotice.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addItem}"/>

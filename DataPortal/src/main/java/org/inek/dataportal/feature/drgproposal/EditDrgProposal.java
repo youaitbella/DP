@@ -333,32 +333,19 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public void checkDiagnosisCodes(FacesContext context, UIComponent component, Object value) {
-        checkCodes(value.toString(), CodeType.Diag);
+        int targetYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
+        String invalidCodes = _diagnosisFacade.checkDiagnoses(value.toString(), targetYear - 2, targetYear - 1);
+        if (invalidCodes.length() > 0) {
+            FacesMessage msg = new FacesMessage(invalidCodes);
+            throw new ValidatorException(msg);
+        }
     }
 
     public void checkProcedureCodes(FacesContext context, UIComponent component, Object value) {
-        checkCodes(value.toString(), CodeType.Proc);
-    }
-
-    private void checkCodes(String codeString, CodeType type) throws ValidatorException {
-        String codes[] = codeString.split("\\s");
-        StringBuilder invalidCodes = new StringBuilder();
-        for (String code : codes) {
-            if (type.equals(CodeType.Diag) && _diagnosisFacade.findDiagnosis(code, Utils.getTargetYear(Feature.DRG_PROPOSAL) - 2, Utils.getTargetYear(Feature.DRG_PROPOSAL) -1).equals("")
-                    || type.equals(CodeType.Proc) && _procedureFacade.findProcedure(code, Utils.getTargetYear(Feature.DRG_PROPOSAL) - 2, Utils.getTargetYear(Feature.DRG_PROPOSAL) - 1).equals("")) {
-                if (invalidCodes.length() > 0) {
-                    invalidCodes.append(", ");
-                }
-                invalidCodes.append(code);
-            }
-        }
+        int targetYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
+        String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear - 2, targetYear - 1);
         if (invalidCodes.length() > 0) {
-            if (invalidCodes.indexOf(",") > 0) {
-                invalidCodes.insert(0, "Unbekannte Codes: ");
-            } else {
-                invalidCodes.insert(0, "Unbekannter Code: ");
-            }
-            FacesMessage msg = new FacesMessage(invalidCodes.toString());
+            FacesMessage msg = new FacesMessage(invalidCodes);
             throw new ValidatorException(msg);
         }
     }
