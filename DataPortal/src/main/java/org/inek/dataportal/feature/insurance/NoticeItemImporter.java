@@ -14,6 +14,7 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.facades.InsuranceFacade;
+import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -23,6 +24,7 @@ import org.inek.dataportal.helper.Utils;
 public class NoticeItemImporter {
 
     @Inject private InsuranceFacade _insuranceFacade;
+    @Inject private ProcedureFacade _procedureFacade;
 
     private String _errorMsg = "";
     private int _totalCount = 0;
@@ -146,16 +148,22 @@ public class NoticeItemImporter {
     }
 
     private void tryImportRemunerationKey(InsuranceNubNoticeItem item, String dataString) {
-        Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(dataString);
-        if (remunTypeOpt.isPresent()) {
-            //item.setRemunerationTypeId(remunTypeOpt.get().getId());
-        } else {
-            throw new IllegalArgumentException(Utils.getMessage("msgUnknownUnit") + ": " + dataString);
+        if (dataString.length() != 8) {
+            throw new IllegalArgumentException(Utils.getMessage("msgInvalidRemunerationKey") + ": " + dataString);
         }
+        Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(dataString);
+        if (!remunTypeOpt.isPresent()) {
+            _errorMsg += "\r\nWarnung in Zeile " + _totalCount + ": Handelt es sich bei " + dataString + " um einen gültigen Entgeltschlüssel?";
+        }
+        item.setRemunerationTypeCharId(dataString);
     }
 
     private void tryImportProcedures(InsuranceNubNoticeItem item, String dataString) {
-        // todo: check existance of opCodes
+        int targetYear = _notice.getYear();
+        String invalidCodes = _procedureFacade.checkProcedures(dataString, targetYear, targetYear, "\\s|,|\\+");
+        if (invalidCodes.length() > 0) {
+            throw new IllegalArgumentException(invalidCodes);
+        }
         item.setProcedures(dataString);
     }
 

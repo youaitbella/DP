@@ -163,13 +163,13 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeCharId">
     @Column(name = "inniRemunerationTypeCharId")
-    private int _remunerationTypeCharId;
+    private String _remunerationTypeCharId;
 
-    public int getRemunerationTypeCharId() {
+    public String getRemunerationTypeCharId() {
         return _remunerationTypeCharId;
     }
 
-    public void setRemunerationTypeCharId(int value) {
+    public void setRemunerationTypeCharId(String value) {
         _remunerationTypeCharId = value;
     }
     // </editor-fold>
@@ -195,16 +195,16 @@ public class InsuranceNubNoticeItem implements Serializable {
         }
         //return _uuid.hashCode();
         int hash = 7;
-        hash = 67 * hash + this._insuranceNubNoticeId;
-        hash = 67 * hash + Objects.hashCode(this._procedures);
-        hash = 67 * hash + this._dosageFormId;
-        hash = 67 * hash + Objects.hashCode(this._amount);
-        hash = 67 * hash + this._unitId;
-        hash = 67 * hash + Objects.hashCode(this._price);
-        hash = 67 * hash + this._quantity;
-        hash = 67 * hash + this._remunerationTypeCharId;
-        hash = 67 * hash + Objects.hashCode(this._note);
-        hash = 67 * hash + this._nubRequestId;
+        hash = 67 * hash + _insuranceNubNoticeId;
+        hash = 67 * hash + Objects.hashCode(_procedures);
+        hash = 67 * hash + _dosageFormId;
+        hash = 67 * hash + Objects.hashCode(_amount);
+        hash = 67 * hash + _unitId;
+        hash = 67 * hash + Objects.hashCode(_price);
+        hash = 67 * hash + _quantity;
+        hash = 67 * hash + Objects.hashCode(_remunerationTypeCharId);
+        hash = 67 * hash + Objects.hashCode(_note);
+        hash = 67 * hash + _nubRequestId;
         return hash;
     }
 
@@ -225,34 +225,34 @@ public class InsuranceNubNoticeItem implements Serializable {
         }
 
         //return _uuid.equals(other._uuid);
-        if (!Objects.equals(this._insuranceNubNoticeId, other._insuranceNubNoticeId)) {
+        if (!Objects.equals(_insuranceNubNoticeId, other._insuranceNubNoticeId)) {
             return false;
         }
-        if (this._dosageFormId != other._dosageFormId) {
+        if (_dosageFormId != other._dosageFormId) {
             return false;
         }
-        if (this._unitId != other._unitId) {
+        if (_unitId != other._unitId) {
             return false;
         }
-        if (this._quantity != other._quantity) {
+        if (_quantity != other._quantity) {
             return false;
         }
-        if (this._remunerationTypeCharId != other._remunerationTypeCharId) {
+        if (_remunerationTypeCharId != other._remunerationTypeCharId) {
             return false;
         }
-        if (this._nubRequestId != other._nubRequestId) {
+        if (_nubRequestId != other._nubRequestId) {
             return false;
         }
-        if (!Objects.equals(this._procedures, other._procedures)) {
+        if (!Objects.equals(_procedures, other._procedures)) {
             return false;
         }
-        if (!Objects.equals(this._note, other._note)) {
+        if (!Objects.equals(_note, other._note)) {
             return false;
         }
-        if (!Objects.equals(this._amount, other._amount)) {
+        if (!Objects.equals(_amount, other._amount)) {
             return false;
         }
-        if (!Objects.equals(this._price, other._price)) {
+        if (!Objects.equals(_price, other._price)) {
             return false;
         }
         return true;

@@ -87,15 +87,16 @@ public class InsuranceFacade extends AbstractDataAccess {
         return findAll(InekMethod.class);
     }
 
-    public Optional<RemunerationType> getRemunerationType(String text) {
-        String jql = "select r from RemunerationType r where r._charId = :text";
+    public Optional<RemunerationType> getRemunerationType(String charId) {
+        String jql = "select r from RemunerationType r where r._charId = :charId";
         TypedQuery<RemunerationType> query = getEntityManager().createQuery(jql, RemunerationType.class);
-        query.setParameter("text", text);
-        try {
-            return Optional.of(query.getSingleResult());
-        } catch (Exception ex) {
-            return Optional.empty();
+        query.setParameter("charId", charId);
+        query.setMaxResults(1);
+        List<RemunerationType> remunTypes = query.getResultList();
+        if (remunTypes.size() == 1) {
+            return Optional.of(remunTypes.get(0));
         }
+        return Optional.empty();
     }
 
     public List<NubMethodInfo> getNubMethodInfos(int ik, int year) {
@@ -135,14 +136,14 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
                 + "where ciSequence = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
                 + "order by prDatenportalId";
-        
+
         Query query = getEntityManager().createNativeQuery(sql);
         query.setParameter(1, sequence);
         query.setParameter(2, hospitalIk);
         query.setParameter(3, hospitalIk);
         query.setParameter(4, year);
         List resultList = query.getResultList();
-        if (resultList.size() > 0){
+        if (resultList.size() > 0) {
             return (int) resultList.get(0);
         }
         return -1;
