@@ -108,8 +108,8 @@ public enum Pages {
     //
     PartInsurance("/Insurance/PartInsurance"),
     InsuranceSummary("/Insurance/InsuranceSummary"),
-    InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEditAddress"),
-    InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEditList"),
+    InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEdit"),
+    InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
     //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),

@@ -7,6 +7,7 @@ package org.inek.dataportal.feature.insurance;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import javax.print.attribute.standard.Severity;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
@@ -123,6 +125,22 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear, targetYear, "\\s|,|\\+");
         if (invalidCodes.length() > 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, invalidCodes, invalidCodes);
+            throw new ValidatorException(msg);
+        }
+    }
+    
+    public void validateRemuneration(FacesContext context, UIComponent component, Object value){
+        if("".equals(value.toString())) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kein Entgeltschlüssel angegeben", "Kein Entgeltschlüssel angegeben");
+            throw new ValidatorException(msg);
+        }
+        if(value.toString().length() != 8) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Entgeltschlüssel müssen 8 Zeichen lang sein.", "Entgeltschlüssel müssen 8 Zeichen lang sein.");
+            throw new ValidatorException(msg);
+        }
+        Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
+        if (!remunTypeOpt.isPresent()) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ggf. ungültiger Entgeltschlüssel.", "Ggf. ungültiger Entgeltschlüssel.");
             throw new ValidatorException(msg);
         }
     }

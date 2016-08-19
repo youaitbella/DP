@@ -172,9 +172,10 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblRemunerationCode}"/>
                     </f:facet>
-                    <h:inputText value="#{item.remunerationTypeCharId}" styleClass="fullWidth">
-                        <f:ajax render="@this :logout:remaining "/>
+                    <h:inputText id="remun" value="#{item.remunerationTypeCharId}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateRemuneration}">
+                        <f:ajax render="@this :logout:remaining msgRemun"/>
                     </h:inputText>
+                    <h:message for="remun" id="msgRemun" styleClass="errorMessage"/>
                 </h:column>
 
                 <h:column>
