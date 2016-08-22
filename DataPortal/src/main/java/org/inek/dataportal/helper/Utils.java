@@ -141,6 +141,11 @@ public class Utils {
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
+    
+    public static UIComponent getUiComponentById(FacesContext context, String id) {
+        UIViewRoot root = context.getViewRoot();
+        return root.findComponent(id);
+    }
 
     public static String getClientIP() {
         FacesContext ctxt = FacesContext.getCurrentInstance();
