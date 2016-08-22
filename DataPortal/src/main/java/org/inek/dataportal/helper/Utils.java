@@ -142,9 +142,33 @@ public class Utils {
         }
     }
     
-    public static UIComponent getUiComponentById(FacesContext context, String id) {
-        UIViewRoot root = context.getViewRoot();
-        return root.findComponent(id);
+    public static UIComponent findComponent(String id) {
+        UIComponent result = null;
+        UIComponent root = FacesContext.getCurrentInstance().getViewRoot();
+        if (root != null) {
+            result = findComponent(root, id);
+        }
+        return result;
+    }
+
+    private static UIComponent findComponent(UIComponent root, String id) {
+        UIComponent result = null;
+        if (root.getId().equals(id))
+            return root;
+
+        for (UIComponent child : root.getChildren()) {
+            String containerId = child.getNamingContainer() != null ? child.getNamingContainer().getClientId() : "";
+            if(!containerId.equals(""))
+                containerId += ":";
+            if (child.getId().equals(containerId+id)) {
+                result = child;
+                break;
+            }
+            result = findComponent(child, id);
+            if (result != null)
+                break;
+        }
+        return result;
     }
 
     public static String getClientIP() {

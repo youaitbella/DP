@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlMessage;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
@@ -140,8 +143,14 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
         if (!remunTypeOpt.isPresent()) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ggf. ungültiger Entgeltschlüssel.", "Ggf. ungültiger Entgeltschlüssel.");
-            throw new ValidatorException(msg);
+            String labelRemunId = "msgRemun";
+            HtmlMessage remunLabel = (HtmlMessage)Utils.findComponent(labelRemunId);
+            remunLabel.setStyle("color: blue;");
+            try {
+                remunLabel.encodeAll(context);
+            } catch (IOException ex) {
+                Logger.getLogger(EditInsuranceNubNotice.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
