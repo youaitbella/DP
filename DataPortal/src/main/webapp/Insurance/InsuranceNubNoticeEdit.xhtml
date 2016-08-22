@@ -35,7 +35,7 @@
                 <h:outputLabel for="insuranceIk" styleClass="label" value="#{msg.lblInsuranceIk}:" />
                 <h:message for="insuranceIk" id="msgInsuranceIk" styleClass="errorMessage"/>
                 <br />
-                <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" id="insuranceIk" 
+                <h:inputText styleClass="inputSmall" readonly="#{editInsuranceNubNotice.readOnly}" id="insuranceIk" 
                              value="#{editInsuranceNubNotice.notice.insuranceIk}">
                     <f:converter converterId="IntegerConverter" />
                     <f:ajax event="blur" render="@this :logout:remaining msgInsuranceIk"/>
@@ -57,19 +57,17 @@
                 <h:outputLabel for="hospitalIk" styleClass="label" value="#{msg.lblHospitalIk}:" />
                 <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
                 <br />
-                <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" id="hospitalIk" 
+                <h:inputText styleClass="inputSmall" readonly="#{editInsuranceNubNotice.readOnly}" id="hospitalIk" 
                              value="#{editInsuranceNubNotice.notice.hospitalIk}"
                              required="true" requiredMessage="#{msg.msgValueNeeded}"
                              validator="#{sessionTools.checkIk}">
                     <f:converter converterId="IntegerConverter" />
                     <f:ajax event="blur" render="@this :logout:remaining msgHospitalIk hospitalName"/>
                 </h:inputText>
-                <h:outputText  id="hospitalName" value="#{sessionController.getIkName(ik)}"/>
+                <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editInsuranceNubNotice.notice.hospitalIk)}"/>
             </div>
 
         </h:form>
-        
-        
         
         <h:form id="costUploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" style="margin-top: 40px;">
             <div class="uploadFile">
