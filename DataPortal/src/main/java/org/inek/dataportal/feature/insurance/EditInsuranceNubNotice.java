@@ -18,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlMessage;
 import javax.faces.component.html.HtmlOutputLabel;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
@@ -133,7 +134,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
     
     public void validateRemuneration(FacesContext context, UIComponent component, Object value){
-        if("".equals(value.toString())) {
+        String labelRemunId = "msgRemun";
+        HtmlMessage remunLabel = (HtmlMessage)Utils.findComponent(labelRemunId);
+        if(value.equals("")) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kein Entgeltschlüssel angegeben", "Kein Entgeltschlüssel angegeben");
             throw new ValidatorException(msg);
         }
@@ -143,15 +146,13 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
         if (!remunTypeOpt.isPresent()) {
-            String labelRemunId = "msgRemun";
-            HtmlMessage remunLabel = (HtmlMessage)Utils.findComponent(labelRemunId);
             remunLabel.setStyle("color: blue;");
-            try {
-                remunLabel.encodeAll(context);
-            } catch (IOException ex) {
-                Logger.getLogger(EditInsuranceNubNotice.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            remunLabel.setId("test");
+            HtmlOutputText text = new HtmlOutputText();
+            text.setValue("Test");
+            remunLabel.getChildren().add(text);
         }
+        context.getPartialViewContext().getRenderIds().add(remunLabel.getClientId());
     }
     
     public void addItem() {
