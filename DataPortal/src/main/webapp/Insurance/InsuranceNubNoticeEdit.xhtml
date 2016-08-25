@@ -152,16 +152,16 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblCount}"/>
                     </f:facet>
-                    <h:inputText value="#{item.quantity}" requred="true" styleClass="fullWidth">
+                    <h:inputText value="#{item.quantity}" required="true" styleClass="fullWidth">
                         <f:ajax render="@this :logout:remaining "/>
                     </h:inputText>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText required="true" value="#{msg.lblPrice}"/>
+                        <h:outputText value="#{msg.lblPrice}"/>
                     </f:facet>
-                    <h:inputText value="#{item.price}" styleClass="fullWidth">
+                    <h:inputText required="true" value="#{item.price}" styleClass="fullWidth">
                         <f:ajax render="@this :logout:remaining "/>
                     </h:inputText>
                 </h:column>

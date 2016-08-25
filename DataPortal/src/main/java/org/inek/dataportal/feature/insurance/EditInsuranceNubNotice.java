@@ -180,6 +180,18 @@ public class EditInsuranceNubNotice extends AbstractEditController {
      */
     public String provide() {
         // TODO: Check validity.
+        String validatorMessage = "";
+        for(InsuranceNubNoticeItem item : _notice.getItems()) {
+            if(item.getNote() == null || item.getNote().equals(""))
+                validatorMessage += "Bezeichnung ist ein Pflichtfeld.\n";
+            if(item.getAmount() == null)
+                validatorMessage += "Anzahl ist ein Pflichtfeld.\n";
+            if(item.getPrice() == null)
+                validatorMessage += "Preis ist ein Pflichtfeld.\n";
+            if(item.getRemunerationTypeCharId() == null || item.getRemunerationTypeCharId().equals(""))
+                validatorMessage += "Entgeltschlüssel ist ein Pflichtfeld.\n";
+        }
+        _sessionController.setScript(validatorMessage);
         return "";
     }
 
