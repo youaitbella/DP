@@ -146,13 +146,13 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
         if (!remunTypeOpt.isPresent()) {
+            FacesContext.getCurrentInstance().addMessage(component.getClientId(), new FacesMessage(FacesMessage.SEVERITY_INFO, "Kein Entgeltschlüssel angegeben", "Kein Entgeltschlüssel angegeben"));
 //            remunLabel.setStyle("color: blue;");
 //            remunLabel.setId("test");
 //            HtmlOutputText text = new HtmlOutputText();
 //            text.setValue("Test");
 //            remunLabel.getChildren().add(text);
         }
-//        context.getPartialViewContext().getRenderIds().add(remunLabel.getClientId());
     }
     
     public void addItem() {
@@ -192,7 +192,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 validatorMessage += "Entgeltschlüssel ist ein Pflichtfeld.\n";
         }
         if(!validatorMessage.equals(""))
-            _sessionController.setScript(validatorMessage);
+            _sessionController.alertClient(validatorMessage);
         return "";
     }
 
