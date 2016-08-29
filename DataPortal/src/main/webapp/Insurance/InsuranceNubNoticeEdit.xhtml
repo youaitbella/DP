@@ -173,7 +173,7 @@
                     <h:inputText id="remun" required="true" value="#{item.remunerationTypeCharId}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateRemuneration}">
                         <f:ajax render="@this :logout:remaining msgRemun"/>
                     </h:inputText>
-                    <h:message for="remun" id="msgRemun" styleClass="errorMessage" />
+                    <h:message for="remun" id="msgRemun" errorClass="errorMessage" infoClass="infoMessage"/>
                 </h:column>
 
                 <h:column>

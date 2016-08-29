@@ -137,21 +137,26 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         String labelRemunId = "msgRemun";
         HtmlMessage remunLabel = (HtmlMessage)Utils.findComponent(labelRemunId);
         if(value.equals("")) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kein Entgeltschlüssel angegeben", "Kein Entgeltschlüssel angegeben");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Kein Entgeltschlüssel angegeben",
+                    "Kein Entgeltschlüssel angegeben");
             throw new ValidatorException(msg);
         }
         if(value.toString().length() != 8) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Entgeltschlüssel müssen 8 Zeichen lang sein.", "Entgeltschlüssel müssen 8 Zeichen lang sein.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Entgeltschlüssel müssen 8 Zeichen lang sein.",
+                    "Entgeltschlüssel müssen 8 Zeichen lang sein.");
             throw new ValidatorException(msg);
         }
         Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
         if (!remunTypeOpt.isPresent()) {
-            FacesContext.getCurrentInstance().addMessage(component.getClientId(), new FacesMessage(FacesMessage.SEVERITY_INFO, "Kein Entgeltschlüssel angegeben", "Kein Entgeltschlüssel angegeben"));
-//            remunLabel.setStyle("color: blue;");
-//            remunLabel.setId("test");
-//            HtmlOutputText text = new HtmlOutputText();
-//            text.setValue("Test");
-//            remunLabel.getChildren().add(text);
+            FacesContext.getCurrentInstance().addMessage(component.getClientId(),
+                new FacesMessage(
+                    FacesMessage.SEVERITY_INFO,
+                    "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft.",
+                    "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft."
+                )
+            );
         }
     }
     
@@ -179,21 +184,24 @@ public class EditInsuranceNubNotice extends AbstractEditController {
      * @return
      */
     public String provide() {
-        // TODO: Check validity.
         String validatorMessage = "";
+        int lines = 1;
         for(InsuranceNubNoticeItem item : _notice.getItems()) {
-            if(item.getNote() == null || item.getNote().equals(""))
-                validatorMessage += "Bezeichnung ist ein Pflichtfeld.\n";
+            if(item.getExternalId() == null || item.getExternalId().equals("N0"))
+                validatorMessage += "Zeile "+lines+": Name ist ein Pflichtfeld.\n";
             if(item.getAmount() == null)
-                validatorMessage += "Anzahl ist ein Pflichtfeld.\n";
+                validatorMessage += "Zeile "+lines+": Anzahl ist ein Pflichtfeld.\n";
             if(item.getPrice() == null)
-                validatorMessage += "Preis ist ein Pflichtfeld.\n";
-            if(item.getRemunerationTypeCharId() == null || item.getRemunerationTypeCharId().equals(""))
-                validatorMessage += "Entgeltschlüssel ist ein Pflichtfeld.\n";
+                validatorMessage += "Zeile "+lines+": Preis ist ein Pflichtfeld.\n";
+            if(item.getRemunerationTypeCharId().length() > 8 ||
+                    item.getRemunerationTypeCharId().length() < 1)
+                validatorMessage += "Zeile "+lines+": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
+            lines++;
         }
-        if(!validatorMessage.equals(""))
+        if(!validatorMessage.equals("")) {
             _sessionController.alertClient(validatorMessage);
-        return "";
+            return "";
+        }
     }
 
     private Part _file;
