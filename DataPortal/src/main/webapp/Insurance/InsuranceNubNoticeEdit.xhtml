@@ -162,7 +162,7 @@
                         <h:outputText value="#{msg.lblPrice}"/>
                     </f:facet>
                     <h:inputText required="true" value="#{item.price}" styleClass="fullWidth">
-                        <f:ajax render="@this :logout:remaining "/>
+                        <f:ajax event="blur" render="@this :logout:remaining "/>
                     </h:inputText>
                 </h:column>
 

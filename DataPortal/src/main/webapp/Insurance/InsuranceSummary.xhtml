@@ -25,7 +25,9 @@
                 <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.newInsuranceNubNotice}" 
                                immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
             </div>
-
+            
+            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
+            
         </h:form>
     </ui:define>
 

@@ -36,6 +36,7 @@ import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.NubMethodInfo;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -202,6 +203,10 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             _sessionController.alertClient(validatorMessage);
             return "";
         }
+        _notice.setWorkflowStatus(WorkflowStatus.Provided);
+        _insuranceFacade.merge(_notice);
+        _sessionController.alertClient("Krankenkassenmeldung wurde erfolgreich eingereicht.");
+        return Pages.InsuranceSummary.RedirectURL();
     }
 
     private Part _file;

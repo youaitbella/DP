@@ -34,13 +34,19 @@ public class InsuranceFacade extends AbstractDataAccess {
     }
 
     public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM InsuranceNubNotice n WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
+        String sql = "SELECT n FROM InsuranceNubNotice n WHERE n._accountId = :accountId and n._workflowStatusId = :state ORDER BY n._year, n._id";
         TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getValue() : WorkflowStatus.Provided.getValue() - 1;
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getValue() : WorkflowStatus.Retired.getValue() - 1;
         query.setParameter("accountId", accountId);
-        query.setParameter("minStatus", minStatus);
-        query.setParameter("maxStatus", maxStatus);
+        WorkflowStatus wfs = WorkflowStatus.New;
+        switch(dataSet) {
+            case AllOpen:
+                wfs = WorkflowStatus.New;
+                break;
+            case AllSealed:
+                wfs = WorkflowStatus.Provided;
+                break;
+        }
+        query.setParameter("state", wfs.getValue());
         return query.getResultList();
 
     }

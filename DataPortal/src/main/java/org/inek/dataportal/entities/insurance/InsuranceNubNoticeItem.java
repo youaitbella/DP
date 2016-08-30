@@ -163,7 +163,7 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property RemunerationTypeCharId">
     @Column(name = "inniRemunerationTypeCharId")
-    private String _remunerationTypeCharId;
+    private String _remunerationTypeCharId = "";
 
     public String getRemunerationTypeCharId() {
         return _remunerationTypeCharId;
