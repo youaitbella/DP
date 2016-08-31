@@ -715,7 +715,7 @@ public class EditNubRequest extends AbstractEditController {
             throw new ValidatorException(msg);
         }
         String nubId = value+"";
-        if(nubId.startsWith(nubId)) {
+        if(nubId.startsWith("N")) {
             nubId = nubId.replaceFirst("N", "");
             int nId = Integer.parseInt(nubId);
             _formerNubName = _nubRequestFacade.find(nId).getName();
