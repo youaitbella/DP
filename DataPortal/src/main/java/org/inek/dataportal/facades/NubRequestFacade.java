@@ -332,8 +332,6 @@ public class NubRequestFacade extends AbstractDataAccess {
         int results = query.getResultList().size();
         if(results > 1)
             throw new Exception("Error: Too many results where found (ID: " + formerNubId+ ", IK: " + ik + ")");
-        if(results == 0)
-            return false;
-        return true;
+        return results != 0;
     }
 }
