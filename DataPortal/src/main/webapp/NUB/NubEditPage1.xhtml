@@ -34,11 +34,25 @@
             <h:outputLabel styleClass="label" for="nubFormerRequest" value="#{editNubRequest.formerNubCurrentYearLabel}"/>
             <h:message for="nubFormerRequest" id="msgNubFormerRequest" styleClass="errorMessage"/>
             <br/>
-            <h:selectOneRadio id="nubFormerYearRadio">
-                <f:selectItem value="0" itemLabel="Nein" />
-                <f:selectItem value="1" itemLabel="Ja" />
-            </h:selectOneRadio>
+            <f:ajax render="@form :logout:remaining">
+                <h:selectOneRadio styleClass="radioGroup" id="nubFormerRequestGroup" value="#{editNubRequest.nubRequest.formerRequest}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
+                </h:selectOneRadio>
+            </f:ajax>
         </div>
+        
+        <h:panelGroup id="infoFormerRequest" rendered="#{editNubRequest.nubRequest.formerRequest == 1}">
+            <h:outputLabel styleClass="label" for="nubFormerRequestValue" value="#{msg.lblFormerExternalId}"/><br/>
+            <h:inputText  styleClass="inputmedium" id="nubFormerRequestValue" 
+                          readonly="#{editNubRequest.readOnly}" 
+                          value="#{editNubRequest.nubRequest.formerExternalId}"
+                          required="#{editNubRequest.nubRequest.formerRequest == 1}" requiredMessage="#{msg.msgValueNeeded}">
+                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
+                <f:ajax event="blur" render="@this :logout:remaining nubFormerRequestValue msgNubRequestValue"/>
+            </h:inputText>
+            <h:message for="nubFormerRequestValue" id="msgNubRequestValue" styleClass="errorMessage"/>
+        </h:panelGroup>
 
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubDescription" value="#{msg.lblNubDescription}"/>
