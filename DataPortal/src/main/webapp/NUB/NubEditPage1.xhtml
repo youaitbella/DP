@@ -35,7 +35,9 @@
             <h:message for="nubFormerRequest" id="msgNubFormerRequest" styleClass="errorMessage"/>
             <br/>
             <f:ajax render="@form :logout:remaining">
-                <h:selectOneRadio styleClass="radioGroup" id="nubFormerRequestGroup" value="#{editNubRequest.nubRequest.formerRequest}" >
+                <h:selectOneRadio styleClass="radioGroup" id="nubFormerRequest" 
+                                  required="true"
+                                  value="#{editNubRequest.nubRequest.formerRequest}" >
                     <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
                     <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
                 </h:selectOneRadio>
