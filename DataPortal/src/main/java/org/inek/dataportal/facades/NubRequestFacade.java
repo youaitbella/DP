@@ -357,4 +357,11 @@ public class NubRequestFacade extends AbstractDataAccess {
             return false;
         return true;
     }
+    
+    public String getOldNubIdName(String id) {
+        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId";
+        TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
+        query.setParameter("exId", id);
+        return query.getResultList().get(0).getName();
+    }
 }

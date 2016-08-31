@@ -705,6 +705,7 @@ public class EditNubRequest extends AbstractEditController {
     }
     
     public void checkExistingNubProposalId(FacesContext context, UIComponent component, Object value) {
+        _formerNubName = "";
         if(_nubRequest.getIk() == 0 ||_nubRequest.getIk() == -1) {
             FacesMessage msg = new FacesMessage("Bitte vergeben Sie eine IK für diese NUB.");
             throw new ValidatorException(msg);
@@ -713,5 +714,27 @@ public class EditNubRequest extends AbstractEditController {
             FacesMessage msg = new FacesMessage("Die angegebene NUB-Nummer ist unbekannt.");
             throw new ValidatorException(msg);
         }
+        String nubId = value+"";
+        if(nubId.startsWith(nubId)) {
+            nubId = nubId.replaceFirst("N", "");
+            int nId = Integer.parseInt(nubId);
+            _formerNubName = _nubRequestFacade.find(nId).getName();
+        } else {
+            _formerNubName = _nubRequestFacade.getOldNubIdName(nubId);
+        }
+
+    }
+    
+    private String _formerNubName = "";
+    public String getFormerNubName() {
+        return _formerNubName;
+    }
+    
+    public String getFormerNubNameShort() {
+        int maxLength = 50;
+        if(_formerNubName.length() > maxLength) {
+            _formerNubName = new StringBuilder(_formerNubName).insert(maxLength-3, "...").substring(0, maxLength);
+        }
+        return _formerNubName;
     }
 }
