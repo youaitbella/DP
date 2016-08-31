@@ -29,6 +29,16 @@
                 <f:ajax event="blur" render="@this :logout:remaining msgNubAltName"/>
             </h:inputTextarea>
         </div>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="nubFormerRequest" value="#{editNubRequest.formerNubCurrentYearLabel}"/>
+            <h:message for="nubFormerRequest" id="msgNubFormerRequest" styleClass="errorMessage"/>
+            <br/>
+            <h:selectOneRadio id="nubFormerYearRadio">
+                <f:selectItem value="0" itemLabel="Nein" />
+                <f:selectItem value="1" itemLabel="Ja" />
+            </h:selectOneRadio>
+        </div>
 
         <div class="inputPart">
             <h:outputLabel styleClass="label" for="nubDescription" value="#{msg.lblNubDescription}"/>

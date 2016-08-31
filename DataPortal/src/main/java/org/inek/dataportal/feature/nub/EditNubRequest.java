@@ -698,5 +698,9 @@ public class EditNubRequest extends AbstractEditController {
         return Pages.NubSummary.RedirectURL();
     }
     // </editor-fold>
-
+    
+    public String getFormerNubCurrentYearLabel() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        return String.format(Utils.getMessage("lblFormerRequest"), currentYear+"");
+    }
 }
