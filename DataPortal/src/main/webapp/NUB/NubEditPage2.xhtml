@@ -14,59 +14,68 @@
             <h:outputLabel styleClass="label" for="nubMedicalDevice" value="#{msg.lblMedicalDevice}"/>
             <h:message for="nubMedicalDevice" id="msgNubMedicalDevice" styleClass="errorMessage"/>
             <br/>
-            <f:ajax render="@form :logout:remaining">
-                <h:selectOneRadio styleClass="radioGroup" id="nubMedicalDevice" value="#{editNubRequest.nubRequest.medicalDevice}" >
-                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
-                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
-                </h:selectOneRadio>
-            </f:ajax>
+            <h:selectOneRadio styleClass="radioGroup" id="nubMedicalDevice" 
+                              required="true"
+                              value="#{editNubRequest.nubRequest.medicalDevice}" >
+                <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
+                <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
+                <f:ajax render="@form :logout:remaining"/>
+            </h:selectOneRadio>
         </div>
 
-        <h:panelGroup id="infoMedicalDevice" rendered="#{editNubRequest.nubRequest.medicalDevice == 1}">
-            <div class="inputPart">
+        <h:panelGroup id="infoMedicalDevice" rendered="#{editNubRequest.nubRequest.medicalDevice == 1}" styleClass="inputWide">
+            <div class="inputPart floatContainer">
                 <h:outputLabel styleClass="label" for="nubRiscClass" value="#{msg.lblRiscClass}"/>
                 <h:message for="nubRiscClass" id="msgNubRiscClass" styleClass="errorMessage"/>
                 <br/>
-                <f:ajax render="@this :logout:remaining msgNubRiscClass nubRiscClassComment">
-                    <h:selectOneRadio styleClass="radioGroup" id="nubRiscClass" value="#{editNubRequest.nubRequest.riscClass}" >
-                        <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
-                        <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
-                        <f:selectItem itemLabel="#{msg.lblOther} &nbsp;" itemValue="2" />
-                    </h:selectOneRadio>
-                </f:ajax>
-                <h:message for="nubRiscClassComment" id="msgNubRiscClassComment" styleClass="errorMessage"/>
-                <h:inputText  styleClass="areaWideLow" id="nubRiscClassComment" 
-                              readonly="#{editNubRequest.readOnly}" 
-                              value="#{editNubRequest.nubRequest.riscClassComment}" 
-                              required="#{editNubRequest.nubRequest.riscClass == 2}" requiredMessage="#{msg.msgValueNeeded}">
-                    <f:validator validatorId="PredominantPrintableAsciiValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgNubRiscClassComment"/>
-                </h:inputText>
+                <h:selectOneRadio styleClass="radioGroup" 
+                                  required="true"
+                                  style="display: block; float: left; width: 13.5em;"
+                                  id="nubRiscClass" value="#{editNubRequest.nubRequest.riscClass}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
+                    <f:selectItem itemLabel="#{msg.lblOther}:" itemValue="2" />
+                    <f:ajax render="@this :logout:remaining msgNubRiscClass nubRiscClassComment"/>
+                </h:selectOneRadio>
+
+                <div style="display: block; float: left; width: calc(100% - 13.5em);">
+                    <h:inputText  styleClass="inputwide" 
+                                  style="display: block; float: left"
+                                  id="nubRiscClassComment" 
+                                  readonly="#{editNubRequest.readOnly}" 
+                                  disabled="#{editNubRequest.nubRequest.riscClass != 2}"
+                                  value="#{editNubRequest.nubRequest.riscClassComment}" 
+                                  required="#{editNubRequest.nubRequest.riscClass == 2}" requiredMessage="#{msg.msgValueNeeded}">
+                        <f:validator validatorId="PredominantPrintableAsciiValidator"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgNubRiscClassComment"/>
+                    </h:inputText>
+                    <h:message for="nubRiscClassComment" id="msgNubRiscClassComment" styleClass="errorMessage"/>
+                </div>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel styleClass="label" for="nubTradeName" value="#{msg.lblTradeName}"/>
                 <h:message for="nubTradeName" id="msgNubTradeName" styleClass="errorMessage"/>
                 <br/>
-                <h:inputTextarea  styleClass="areaWideLow" id="nubTradeName" 
+                <h:inputText  styleClass="inputwide" id="nubTradeName" 
                                   readonly="#{editNubRequest.readOnly}" 
                                   value="#{editNubRequest.nubRequest.tradeName}" 
                                   required="#{editNubRequest.nubRequest.medicalDevice == 1}" requiredMessage="#{msg.msgValueNeeded}">
                     <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                     <f:ajax event="blur" render="@this :logout:remaining msgNubTradeName"/>
-                </h:inputTextarea>
+                </h:inputText>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel styleClass="label" for="nubCeMark" value="#{msg.lblCeMark}"/>
                 <h:message for="nubCeMark" id="msgNubCeMark" styleClass="errorMessage"/>
                 <br/>
-                <h:inputTextarea  styleClass="areaWideLow" id="nubCeMark" 
+                <h:inputText  styleClass="inputwide" id="nubCeMark" 
                                   readonly="#{editNubRequest.readOnly}" 
                                   value="#{editNubRequest.nubRequest.ceMark}" >
                     <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                     <f:ajax event="blur" render="@this :logout:remaining msgNubCeMark"/>
-                </h:inputTextarea>
+                </h:inputText>
             </div>
         </h:panelGroup>
 

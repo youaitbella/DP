@@ -499,6 +499,15 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (!nubRequest.isHasNoProcs()) {
             checkField(message, nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures", EditNubRequest.NubRequestTabs.tabNubPage1);
         }
+
+        checkField(message, (int) nubRequest.getMedicalDevice(), 0, 1, "lblMedicalDevice", "form:nubMedicalDevice", EditNubRequest.NubRequestTabs.tabNubPage2);
+        if (nubRequest.getMedicalDevice() == 1) {
+            checkField(message, (int) nubRequest.getRiscClass(), 0, 2, "lblRiscClass", "form:nubRiscClass", EditNubRequest.NubRequestTabs.tabNubPage2);
+            if (nubRequest.getRiscClass() == 2) {
+                checkField(message, nubRequest.getTradeName(), "lblRiscClassComment", "form:nubTradeName", EditNubRequest.NubRequestTabs.tabNubPage2);
+            }
+            checkField(message, nubRequest.getTradeName(), "lblTradeName", "form:nubRiscClassComment", EditNubRequest.NubRequestTabs.tabNubPage2);
+        }
         checkField(message, nubRequest.getIndication(), "lblIndication", "form:nubIndic", EditNubRequest.NubRequestTabs.tabNubPage2);
         checkField(message, nubRequest.getReplacement(), "lblNubReplacementPrint", "form:nubReplacement", EditNubRequest.NubRequestTabs.tabNubPage2);
         checkField(message, nubRequest.getWhatsNew(), "lblWhatsNew", "form:nubWhatsNew", EditNubRequest.NubRequestTabs.tabNubPage2);

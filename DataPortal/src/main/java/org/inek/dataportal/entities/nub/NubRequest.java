@@ -211,7 +211,7 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property RiscClassComment">
     @Documentation(key = "lblComment")
     @Column(name = "nubRiscClassComment")
-    @Size(max = 500)
+    @Size(max = 200)
     private String _riscClassComment = "";
 
     public String getRiscClassComment() {
