@@ -40,6 +40,9 @@ public class NubFormerRequest implements Serializable {
     
     @Column(name = "nfrNubName")
     private String _name = "";
+    
+    @Column(name = "nfrInekMethod")
+    private int _inekMethod;
 
     public int getId() {
         return _id;
@@ -71,5 +74,13 @@ public class NubFormerRequest implements Serializable {
 
     public void setName(String _name) {
         this._name = _name;
+    }
+
+    public int getInekMethod() {
+        return _inekMethod;
+    }
+
+    public void setInekMethod(int _inekMethod) {
+        this._inekMethod = _inekMethod;
     }
 }
