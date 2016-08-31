@@ -24,6 +24,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.insurance.InekMethod;
+import org.inek.dataportal.entities.nub.NubFormerRequest;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
@@ -322,5 +323,17 @@ public class NubRequestFacade extends AbstractDataAccess {
         nubRequest.setLastModified(nubRequestHistory.getLastModified());
         nubRequest.setStatus(WorkflowStatus.Taken);
     }
-
+    
+    public boolean checkFormerNubId(String formerNubId, int ik) throws Exception {
+        String jpql = "SELECT p FROM NubFormerRequest p WHERE p.nfrExternalId = :exId AND nfrIK = :ik";
+        TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
+        query.setParameter("exId", formerNubId);
+        query.setParameter("ik", ik);
+        int results = query.getResultList().size();
+        if(results > 1)
+            throw new Exception("Error: Too many results where found (ID: " + formerNubId+ ", IK: " + ik + ")");
+        if(results == 0)
+            return false;
+        return true;
+    }
 }
