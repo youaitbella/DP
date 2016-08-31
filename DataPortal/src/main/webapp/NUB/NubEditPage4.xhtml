@@ -37,7 +37,7 @@
             </h:inputTextarea>
         </div>
 
-        <div class="inputPart">
+        <h:panelGroup class="inputPart" rendered="#{editNubRequest.nubRequest.id gt 0 and editNubRequest.nubRequest.id lt 1700000}">
             <h:outputLabel styleClass="label" value="#{msg.lblNubAlreadySended}"/>
             <br/>
             <div class="inputPart" style="margin-left: 28px;">
@@ -51,7 +51,7 @@
                 </h:selectBooleanCheckbox>
                 <h:outputLabel id="byOtherHospitalLabel" value="#{msg.lblByOtherHospital}"/>
             </div>
-        </div>
+        </h:panelGroup>
 
         <br/>
     </ui:define>
