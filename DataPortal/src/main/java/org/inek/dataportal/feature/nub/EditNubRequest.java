@@ -19,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
@@ -116,6 +117,8 @@ public class EditNubRequest extends AbstractEditController {
     public void changedIk() {
         if (_nubRequest != null) {
             Customer c = _customerFacade.getCustomerByIK(_nubRequest.getIk());
+            _nubRequest.setFormerExternalId("");
+            _formerNubName = "";
             if (c.getName() == null || c.getName().equals("")) {
                 if (_nubRequest.getIkName() == null || c.getName() == null) {
                     _nubRequest.setIkName("");
@@ -731,7 +734,7 @@ public class EditNubRequest extends AbstractEditController {
     }
     
     public String getFormerNubNameShort() {
-        int maxLength = 50;
+        int maxLength = 75;
         if(_formerNubName.length() > maxLength) {
             _formerNubName = new StringBuilder(_formerNubName).insert(maxLength-3, "...").substring(0, maxLength);
         }

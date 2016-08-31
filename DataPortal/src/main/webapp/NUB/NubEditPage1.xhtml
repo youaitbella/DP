@@ -57,7 +57,8 @@
                 <f:ajax event="blur" render="@this :logout:remaining nubFormerRequestValue formerNubName msgNubRequestValue"/>
             </h:inputText>
             <h:message for="nubFormerRequestValue" id="msgNubRequestValue" styleClass="errorMessage"/>
-            <h:outputLabel title="#{editNubRequest.formerNubName}" styleClass="label infoMessage" id="formerNubName" value="#{editNubRequest.formerNubNameShort}"/>
+            <h:outputLabel title="#{editNubRequest.formerNubName}" 
+                           styleClass="label infoMessage" id="formerNubName" value="#{editNubRequest.formerNubNameShort}"/>
         </h:panelGroup>
 
         <div class="inputPart">
