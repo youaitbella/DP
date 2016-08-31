@@ -324,14 +324,37 @@ public class NubRequestFacade extends AbstractDataAccess {
         nubRequest.setStatus(WorkflowStatus.Taken);
     }
     
-    public boolean checkFormerNubId(String formerNubId, int ik) throws Exception {
-        String jpql = "SELECT p FROM NubFormerRequest p WHERE p.nfrExternalId = :exId AND nfrIK = :ik";
+    public boolean checkFormerNubId(String formerNubId, int ik) {
+        if(formerNubId.startsWith("N"))
+            return checkNewNubId(formerNubId, ik);
+        return checkOldNubId(formerNubId, ik);
+    }
+    
+    private boolean checkOldNubId(String formerNubId, int ik) {
+        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId AND p._ik = :ik";
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
         query.setParameter("exId", formerNubId);
         query.setParameter("ik", ik);
         int results = query.getResultList().size();
-        if(results > 1)
-            throw new Exception("Error: Too many results where found (ID: " + formerNubId+ ", IK: " + ik + ")");
-        return results != 0;
+        if(results == 0)
+            return false;
+        return true;
+    }
+    
+    private boolean checkNewNubId(String formerNubId, int ik) {
+        String jpql = "SELECT p FROM NubRequest p WHERE p._id = :exId AND p._ik = :ik AND p._status >= 20 AND p._status < 200";
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
+        int nubId = 0;
+        try {
+            nubId = Integer.parseInt(formerNubId.replaceFirst("N", ""));
+        } catch (Exception ex) {
+            return false;
+        }
+        query.setParameter("exId",nubId);
+        query.setParameter("ik", ik);
+        int results = query.getResultList().size();
+        if(results == 0)
+            return false;
+        return true;
     }
 }

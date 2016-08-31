@@ -47,7 +47,10 @@
             <h:inputText  styleClass="inputmedium" id="nubFormerRequestValue" 
                           readonly="#{editNubRequest.readOnly}" 
                           value="#{editNubRequest.nubRequest.formerExternalId}"
-                          required="#{editNubRequest.nubRequest.formerRequest == 1}" requiredMessage="#{msg.msgValueNeeded}">
+                          required="#{editNubRequest.nubRequest.formerRequest == 1}" 
+                          requiredMessage="#{msg.msgValueNeeded}"
+                          validator="#{editNubRequest.checkExistingNubProposalId}"
+                          >
                 <f:validator validatorId="PredominantPrintableAsciiValidator"/>
                 <f:ajax event="blur" render="@this :logout:remaining nubFormerRequestValue msgNubRequestValue"/>
             </h:inputText>

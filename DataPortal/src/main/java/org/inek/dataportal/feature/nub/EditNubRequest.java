@@ -703,4 +703,15 @@ public class EditNubRequest extends AbstractEditController {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         return String.format(Utils.getMessage("lblFormerRequest"), currentYear+"");
     }
+    
+    public void checkExistingNubProposalId(FacesContext context, UIComponent component, Object value) {
+        if(_nubRequest.getIk() == 0 ||_nubRequest.getIk() == -1) {
+            FacesMessage msg = new FacesMessage("Bitte vergeben Sie eine IK für diese NUB.");
+            throw new ValidatorException(msg);
+        }
+        if(!_nubRequestFacade.checkFormerNubId(value+"", _nubRequest.getIk())) {
+            FacesMessage msg = new FacesMessage("Die angegebene NUB-Nummer ist unbekannt.");
+            throw new ValidatorException(msg);
+        }
+    }
 }
