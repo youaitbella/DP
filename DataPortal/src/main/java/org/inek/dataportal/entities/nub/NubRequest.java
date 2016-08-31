@@ -150,7 +150,111 @@ public class NubRequest implements Serializable {
     @Documentation(key = "lblAltAppellation")
     @Column(name = "nubAltName")
     private String _altName = "";
+    
+    // <editor-fold defaultstate="collapsed" desc="Property FormerRequest">
+    @Documentation(key = "lblFormerRequestShort", translateValue = "255=Angabe fehlt; 0=Nein; 1=Ja")
+    @Column(name = "nubFormerRequest")
+    private byte _formerRequest = (byte) 255;
 
+    public byte getFormerRequest() {
+        return _formerRequest;
+    }
+
+    public void setFormerRequest(byte formerRequest) {
+        _formerRequest = formerRequest;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property FormerExternalId">
+    @Documentation(key = "lblFormerExternalId")
+    @Column(name = "nubFormerExternalId")
+    private String _formerExternalId = "";
+
+    public String getFormerExternalId() {
+        return _formerExternalId;
+    }
+
+    public void setFormerExternalId(String formerExternalId) {
+        _formerExternalId = formerExternalId;
+    }
+    // </editor-fold>
+
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MedicalDevice">
+    @Documentation(key = "lblMedicalDeviceShort", translateValue = "255=Angabe fehlt; 0=Nein; 1=Ja")
+    @Column(name = "nubMedicalDevice")
+    private byte _medicalDevice = (byte) 255;
+
+    public byte getMedicalDevice() {
+        return _medicalDevice;
+    }
+
+    public void setMedicalDevice(byte medicalDevice) {
+        _medicalDevice = medicalDevice;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property RiscClass">
+    @Documentation(key = "lblRiscClass", translateValue = "255=Angabe fehlt; 0=Nein; 1=Ja; 2=Sonstiges")
+    @Column(name = "nubRiscClass")
+    private byte _riscClass = (byte) 255;
+
+    public byte getRiscClass() {
+        return _riscClass;
+    }
+
+    public void setRiscClass(byte riscClass) {
+        _riscClass = riscClass;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property RiscClassComment">
+    @Documentation(key = "lblComment")
+    @Column(name = "nubRiscClassComment")
+    @Size(max = 500)
+    private String _riscClassComment = "";
+
+    public String getRiscClassComment() {
+        return _riscClassComment;
+    }
+
+    public void setRiscClassComment(String riscClassComment) {
+        _riscClassComment = riscClassComment;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property TradeName">
+    @Documentation(key = "lblTradeNameShort")
+    @Column(name = "nubTradeName")
+    @Size(max = 200)
+    private String _tradeName = "";
+
+    public String getTradeName() {
+        return _tradeName;
+    }
+
+    public void setTradeName(String tradeName) {
+        _tradeName = tradeName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CeMark">
+    @Documentation(key = "lblCeMarkShort")
+    @Column(name = "nubCeMark")
+    @Size(max = 200)
+    private String _ceMark = "";
+
+    public String getCeMark() {
+        return _ceMark;
+    }
+
+    public void setCeMark(String ceMark) {
+        _ceMark = ceMark;
+    }
+    // </editor-fold>
+
+
+    
     @Documentation(key = "lblDescription")
     @Column(name = "nubDescription")
     private String _description = "";
