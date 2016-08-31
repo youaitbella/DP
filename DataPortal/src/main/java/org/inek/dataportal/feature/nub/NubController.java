@@ -60,6 +60,11 @@ public class NubController extends AbstractFeatureController {
         appendLine(sb, NubFieldKey.Description, nubRequest.getDescription());
         appendLine(sb, NubFieldKey.ProcCodes, nubRequest.getProcs());
         appendLine(sb, NubFieldKey.Procedures, nubRequest.getProcedures());
+        appendLine(sb, NubFieldKey.MedicalDevice, "" + nubRequest.getMedicalDevice());
+        appendLine(sb, NubFieldKey.RiscClass, "" + nubRequest.getRiscClass());
+        appendLine(sb, NubFieldKey.RiscClassComment, nubRequest.getRiscClassComment());
+        appendLine(sb, NubFieldKey.TradeName, nubRequest.getTradeName());
+        appendLine(sb, NubFieldKey.CeMark, nubRequest.getCeMark());
         appendLine(sb, NubFieldKey.Indication, nubRequest.getIndication());
         appendLine(sb, NubFieldKey.Replacement, nubRequest.getReplacement());
         appendLine(sb, NubFieldKey.WhatsNew, nubRequest.getWhatsNew());
@@ -137,6 +142,21 @@ public class NubController extends AbstractFeatureController {
                     break;
                 case Procedures:
                     request.setProcedures(restoreBreaks(content));
+                    break;
+                case MedicalDevice:
+                    request.setMedicalDevice(getByteValue(content));
+                    break;
+                case RiscClass:
+                    request.setRiscClass(getByteValue(content));
+                    break;
+                case RiscClassComment:
+                    request.setRiscClassComment(restoreBreaks(content));
+                    break;
+                case TradeName:
+                    request.setTradeName(restoreBreaks(content));
+                    break;
+                case CeMark:
+                    request.setCeMark(restoreBreaks(content));
                     break;
                 case Indication:
                     request.setIndication(restoreBreaks(content));
@@ -225,6 +245,14 @@ public class NubController extends AbstractFeatureController {
         proposal.setPhone(phone);
         proposal.setFax(account.getCustomerFax());
         proposal.setEmail(account.getEmail());
+    }
+
+    private byte getByteValue(String content) {
+        try{
+            return Byte.parseByte(content);
+        }catch (Exception ex){
+            return 0;
+        }
     }
 
 }
