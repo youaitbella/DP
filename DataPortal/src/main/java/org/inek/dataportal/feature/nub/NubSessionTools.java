@@ -495,6 +495,10 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         checkField(message, nubRequest.getPhone(), "lblPhone", "form:phone", EditNubRequest.NubRequestTabs.tabNubAddress);
         checkField(message, nubRequest.getEmail(), "lblMail", "form:email", EditNubRequest.NubRequestTabs.tabNubAddress);
         checkField(message, nubRequest.getName(), "lblAppellation", "form:nubName", EditNubRequest.NubRequestTabs.tabNubPage1);
+        checkField(message, (int) nubRequest.getFormerRequest(), 0, 1, "lblFormerRequestShort", "form:nubFormerRequest", EditNubRequest.NubRequestTabs.tabNubPage1);
+        if (nubRequest.getFormerRequest() == 1) {
+            checkField(message, nubRequest.getFormerExternalId(), "lblFormerExternalId", "form:nubFormerRequestValue", EditNubRequest.NubRequestTabs.tabNubPage1);
+        }
         checkField(message, nubRequest.getDescription(), "lblNubDescription", "form:nubDescription", EditNubRequest.NubRequestTabs.tabNubPage1);
         if (!nubRequest.isHasNoProcs()) {
             checkField(message, nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures", EditNubRequest.NubRequestTabs.tabNubPage1);
