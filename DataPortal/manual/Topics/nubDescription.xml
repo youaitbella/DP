@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Beschreibung</title>
   <body>
     <header>
@@ -14,6 +14,8 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Wurde für diese angefragte Untersuchungs- und Behandlungsmethode von Ihrem Krankenhaus bereits ... an das InEK übermittelt?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">An dieser Stelle geben Sie an, ob von Ihrem Krankenhaus für diese Untersuchungs- und Behandlungsmethode bereits früher eine Anfrage gestellt wurde. Falls ja, wird ein weiteres Feld sichtbar, in dem Sie die frühere Verfahrensnummer angeben. Im Falle mehrerer früherer Anfragen geben Sie bevorzugt die jüngste Verfahrensnummer an..</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Angefragte Untersuchungs- und Behandlungsmethode</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte eine prägnante Kurzbezeichnung mit einer Länge von maximal 200 Zeichen der angefragten Methode an. Wenn es sich um ein Medikament handelt, geben Sie bitte den Wirkstoffnamen an.</text></para>
