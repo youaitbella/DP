@@ -38,45 +38,30 @@
                 <h:selectOneRadio styleClass="radioGroup" id="nubFormerRequest" 
                                   required="true"
                                   value="#{editNubRequest.nubRequest.formerRequest}" >
-                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
                     <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
                 </h:selectOneRadio>
             </f:ajax>
+            <div style="float: right;">
+            <h:outputLabel rendered="#{editNubRequest.nubRequest.formerRequest == 1}" styleClass="label" value="Frühere Verfahrensnummer Filter: " />
+            <h:inputText rendered="#{editNubRequest.nubRequest.formerRequest == 1}" value="#{editNubRequest.formerNubIdFilterText}" id="formerNubNameFilter">
+                <f:ajax event="blur" render="@form formerNubsEmpty nubFormerIdsSelectBox" />
+            </h:inputText>
+            </div>
         </div>
         
         <h:panelGroup id="infoFormerRequest" rendered="#{editNubRequest.nubRequest.formerRequest == 1}">
             <h:outputLabel styleClass="label" for="nubFormerRequestValue" value="#{msg.lblFormerExternalId}"/><br/>
-            <h:inputText  styleClass="inputmedium" id="nubFormerRequestValue" 
-                          readonly="#{editNubRequest.readOnly}" 
-                          value="#{editNubRequest.nubRequest.formerExternalId}"
-                          required="#{editNubRequest.nubRequest.formerRequest == 1}" 
-                          requiredMessage="#{msg.msgValueNeeded}"
-                          validator="#{editNubRequest.checkExistingNubProposalId}"
-                          >
-                <f:validator validatorId="PredominantPrintableAsciiValidator"/>
-                <f:ajax event="blur" render="@this :logout:remaining nubFormerRequestValue formerNubName msgNubRequestValue"/>
-            </h:inputText>
+            <h:selectOneMenu rendered="#{editNubRequest.allNubIds.size() > 0}"
+                                style="width: 100%; max-width: 100%;" 
+                                id="nubFormerIdsSelectBox" 
+                                value="#{editNubRequest.nubRequest.formerExternalId}" 
+                                validator="#{editNubRequest.checkExistingNubProposalId}">
+                <f:ajax event="change" render="@this :logout:remaining nubFormerRequestValue formerNubName msgNubRequestValue"/>
+                <f:selectItems value="#{editNubRequest.allNubIds}" var="item" itemLabel="#{item.id} | #{item.name}" itemValue="#{item.id}"/>
+            </h:selectOneMenu>
+            <h:outputLabel id="formerNubsEmpty" styleClass="errorMessage" rendered="#{editNubRequest.allNubIds.size() == 0}" value="Keine vorherigen NUB-Anfragen vorhanden." />
             <h:message for="nubFormerRequestValue" id="msgNubRequestValue" styleClass="errorMessage"/>
-            <h:outputLabel title="#{editNubRequest.formerNubName}" 
-                           styleClass="label infoMessage" id="formerNubName" value="#{editNubRequest.formerNubNameShort}"/>
-            <div style="float: right;">
-                <h:selectBooleanCheckbox id="nubFormerShowSearch" value="#{editNubRequest.showNubFormerIdSearch}" label="lblShowNubFormerIdSearch">
-                    <f:ajax event="change" render="@form"/>
-                </h:selectBooleanCheckbox>
-                <h:outputLabel styleClass="label" value=" alte NUB-Nummern-Suche anzeigen" id="lblShowNubFormerIdSearch"/>
-            </div>
-            <h:panelGroup style="float: left; max-width: 100%;" id="nubFormerIdSearchBox" rendered="#{editNubRequest.showNubFormerIdSearch}">
-                <div class="groupBox" style="margin: 10px 0 10px 0; padding: 6px;">
-                    <div class="groupBoxElement">
-                        <h:outputLabel styleClass="label" value="vorhandene NUBs: " />
-                        <h:selectOneListbox style="max-width: 100%;" size="6" id="nubFormerIdsSelectBox" value="#{editNubRequest.nubRequest.formerExternalId}" 
-                                            validator="#{editNubRequest.checkExistingNubProposalId}">
-                            <f:ajax event="change" render="@this :logout:remaining nubFormerRequestValue formerNubName msgNubRequestValue"/>
-                            <f:selectItems value="#{editNubRequest.allNubIds}" var="item" itemLabel="#{item.id} | #{item.name}" itemValue="#{item.id}"/>
-                        </h:selectOneListbox>
-                    </div>
-                </div>
-            </h:panelGroup>
         </h:panelGroup>
 
         <div class="inputPart">

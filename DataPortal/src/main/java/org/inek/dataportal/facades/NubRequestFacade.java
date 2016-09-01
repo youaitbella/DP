@@ -381,23 +381,25 @@ public class NubRequestFacade extends AbstractDataAccess {
         return query;
     }
     
-    private TypedQuery<NubFormerRequest> getQueryForOldNubIds(int ik) {
-        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._ik = :ik";
+    private TypedQuery<NubFormerRequest> getQueryForOldNubIds(int ik, String filter) {
+        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._ik = :ik AND p._name LIKE :filter";
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
         query.setParameter("ik", ik);
+        query.setParameter("filter", "%"+filter+"%");
         return query;
     }
-    private TypedQuery<NubRequest> getQueryForNewNubIds(int ik) {
+    private TypedQuery<NubRequest> getQueryForNewNubIds(int ik, String filter) {
         int targetYear = Calendar.getInstance().get(Calendar.YEAR);
-        String jpql = "SELECT p FROM NubRequest p WHERE p._ik = :ik AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
+        String jpql = "SELECT p FROM NubRequest p WHERE p._ik = :ik AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear +" AND p._name LIKE :filter";
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("ik", ik);
+        query.setParameter("filter", "%"+filter+"%");
         return query;
     }
     
-    public List<NubFormerRequestMerged> getExistingNubIds(int ik) {
+    public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter) {
         List<NubFormerRequestMerged> list = new ArrayList<>();
-        TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik);
+        TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
         for(NubFormerRequest nfr : oldIdsQuery.getResultList()) {
             NubFormerRequestMerged m = new NubFormerRequestMerged();
             m.setId(nfr.getExternalId());
@@ -405,7 +407,7 @@ public class NubRequestFacade extends AbstractDataAccess {
             m.setName(nfr.getName());
             list.add(m);
         }
-        TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik);
+        TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter);
         for(NubRequest nr : newIdsQuery.getResultList()) {
             NubFormerRequestMerged m = new NubFormerRequestMerged();
             m.setId(nr.getExternalId());

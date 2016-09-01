@@ -119,7 +119,6 @@ public class EditNubRequest extends AbstractEditController {
         if (_nubRequest != null) {
             Customer c = _customerFacade.getCustomerByIK(_nubRequest.getIk());
             _nubRequest.setFormerExternalId("");
-            _formerNubName = "";
             if (c.getName() == null || c.getName().equals("")) {
                 if (_nubRequest.getIkName() == null || c.getName() == null) {
                     _nubRequest.setIkName("");
@@ -709,7 +708,6 @@ public class EditNubRequest extends AbstractEditController {
     }
     
     public void checkExistingNubProposalId(FacesContext context, UIComponent component, Object value) {
-        _formerNubName = "";
         if(_nubRequest.getIk() == 0 ||_nubRequest.getIk() == -1) {
             FacesMessage msg = new FacesMessage("Bitte vergeben Sie eine IK für diese NUB.");
             throw new ValidatorException(msg);
@@ -718,45 +716,19 @@ public class EditNubRequest extends AbstractEditController {
             FacesMessage msg = new FacesMessage("Die angegebene NUB-Nummer ist unbekannt.");
             throw new ValidatorException(msg);
         }
-        String nubId = value+"";
-        if(nubId.startsWith("N")) {
-            nubId = nubId.replaceFirst("N", "");
-            int nId = Integer.parseInt(nubId);
-            _formerNubName = _nubRequestFacade.find(nId).getName();
-        } else {
-            _formerNubName = _nubRequestFacade.getOldNubIdName(nubId);
-        }
-
     }
     
-    private String _formerNubName = "";
-    public String getFormerNubName() {
-        return _formerNubName;
-    }
-    
-    public String getFormerNubNameShort() {
-        int maxLength = 62;
-        if(_formerNubName.length() > maxLength) {
-            _formerNubName = new StringBuilder(_formerNubName).insert(maxLength-3, "...").substring(0, maxLength);
-        }
-        return _formerNubName;
-    }
-    
-    private boolean _showNubFormerIdSearch = false;
-    public boolean getShowNubFormerIdSearch() {
-        return _showNubFormerIdSearch;
+    private String _formerNubIdFilterText = "";
+    public String getFormerNubIdFilterText() {
+        return _formerNubIdFilterText;
     }
 
-    public void setShowNubFormerIdSearch(boolean _showNubFormerIdSearch) {
-        this._showNubFormerIdSearch = _showNubFormerIdSearch;
+    public void setFormerNubIdFilterText(String _formerNubIdFilterText) {
+        this._formerNubIdFilterText = _formerNubIdFilterText;
     }
     
     
     public List<NubFormerRequestMerged> getAllNubIds() {
-        return _nubRequestFacade.getExistingNubIds(_nubRequest.getIk());
-    }
-    
-    public void changedFormerNubIdItem(String id) {
-        _formerNubName = id;
+        return _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"));
     }
 }
