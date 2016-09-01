@@ -24,7 +24,9 @@
     <para styleclass="Normal"></para>
     <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Besondere Hinweise sind wie dieser Text in einem Rahmen mit getöntem Hintergrund (bei Farbdarstellung: Pastell-Grün) dargestellt.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die jeweils aktuelle Version dieses Anwenderhandbuchs erhalten Sie zur Anzeige bzw. zum Download direkt im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die jeweils aktuelle Version dieses Anwenderhandbuchs erhalten Sie zur Anzeige bzw. zum Download direkt im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true">. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Je nach Browser kann es vorkommen, dass dieser nicht direkt beim Datenportal anfragt, sondern Ihnen eine ältere Version (sofern Sie früher einmal eine abgerufen haben) aus seinem Cache (Pufferspeicher) anzeigt. Die meisten Browser bieten Ihnen eine Aktualisierungsfunktion (oftmals die Taste {F5}), um die Daten erneut abzurufen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Stand dieses Handbuchs: </text><var styleclass="Normal">&lt;%DATE%&gt;</var></para>
   </body>

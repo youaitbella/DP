@@ -16,7 +16,7 @@
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Beruht die neue Untersuchungs- und Behandlungsmethode vollständig oder in Teilen auf den Einsatz eines Medizinproduktes?</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Angabe ist verpflichtend im Hinblick </text><text styleclass="Hinweis" translate="true">Hinblick auf Umsetzung des § 137h SGBV. Sofern die NUB </text><text styleclass="Normal" translate="true">auf den Einsatz eines Medizinproduktes beruht, wird der Dialog um weitere Felder ergänzt.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Angabe ist verpflichtend im Hinblick </text><text styleclass="Hinweis" translate="true">auf Umsetzung des § 137h SGBV. Sofern die NUB </text><text styleclass="Normal" translate="true">auf den Einsatz eines Medizinproduktes beruht, wird der Dialog um weitere Felder ergänzt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="NubRequestMedicalDevice.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zusätzliche Felder für Angaben zu Medizinprodukten</text></para>
