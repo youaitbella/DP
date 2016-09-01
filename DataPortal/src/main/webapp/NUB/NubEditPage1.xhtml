@@ -59,13 +59,13 @@
             <h:message for="nubFormerRequestValue" id="msgNubRequestValue" styleClass="errorMessage"/>
             <h:outputLabel title="#{editNubRequest.formerNubName}" 
                            styleClass="label infoMessage" id="formerNubName" value="#{editNubRequest.formerNubNameShort}"/>
-            <div>
+            <div style="float: right;">
                 <h:selectBooleanCheckbox id="nubFormerShowSearch" value="#{editNubRequest.showNubFormerIdSearch}" label="lblShowNubFormerIdSearch">
                     <f:ajax event="change" render="@form"/>
                 </h:selectBooleanCheckbox>
                 <h:outputLabel styleClass="label" value=" alte NUB-Nummern-Suche anzeigen" id="lblShowNubFormerIdSearch"/>
             </div>
-            <h:panelGroup id="nubFormerIdSearchBox" rendered="#{editNubRequest.showNubFormerIdSearch}">
+            <h:panelGroup style="float: left; max-width: 100%;" id="nubFormerIdSearchBox" rendered="#{editNubRequest.showNubFormerIdSearch}">
                 <div class="groupBox" style="margin: 10px 0 10px 0; padding: 6px;">
                     <div class="groupBoxElement">
                         <h:outputLabel styleClass="label" value="vorhandene NUBs: " />
