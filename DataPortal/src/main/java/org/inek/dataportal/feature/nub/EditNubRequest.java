@@ -31,6 +31,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.enums.CodeType;
@@ -734,10 +735,28 @@ public class EditNubRequest extends AbstractEditController {
     }
     
     public String getFormerNubNameShort() {
-        int maxLength = 75;
+        int maxLength = 62;
         if(_formerNubName.length() > maxLength) {
             _formerNubName = new StringBuilder(_formerNubName).insert(maxLength-3, "...").substring(0, maxLength);
         }
         return _formerNubName;
+    }
+    
+    private boolean _showNubFormerIdSearch = false;
+    public boolean getShowNubFormerIdSearch() {
+        return _showNubFormerIdSearch;
+    }
+
+    public void setShowNubFormerIdSearch(boolean _showNubFormerIdSearch) {
+        this._showNubFormerIdSearch = _showNubFormerIdSearch;
+    }
+    
+    
+    public List<NubFormerRequestMerged> getAllNubIds() {
+        return _nubRequestFacade.getExistingNubIds(_nubRequest.getIk());
+    }
+    
+    public void changedFormerNubIdItem(String id) {
+        _formerNubName = id;
     }
 }

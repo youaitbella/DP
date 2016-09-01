@@ -25,6 +25,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.nub.NubFormerRequest;
+import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
@@ -331,10 +332,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
     
     private boolean checkOldNubId(String formerNubId, int ik) {
-        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId AND p._ik = :ik";
-        TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
-        query.setParameter("exId", formerNubId);
-        query.setParameter("ik", ik);
+        TypedQuery<NubFormerRequest> query = getQueryForOldNubIds(formerNubId, ik);
         int results = query.getResultList().size();
         if(results == 0)
             return false;
@@ -342,20 +340,15 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
     
     private boolean checkNewNubId(String formerNubId, int ik) {
-        String jpql = "SELECT p FROM NubRequest p WHERE p._id = :exId AND p._ik = :ik AND p._status >= 20 AND p._status < 200";
-        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
-        int nubId = 0;
         try {
-            nubId = Integer.parseInt(formerNubId.replaceFirst("N", ""));
-        } catch (Exception ex) {
+            TypedQuery<NubRequest> query = getQueryForNewNubIds(formerNubId, ik);
+            int results = query.getResultList().size();
+            if(results == 0)
+                return false;
+            return true;
+        } catch(Exception ex) {
             return false;
         }
-        query.setParameter("exId",nubId);
-        query.setParameter("ik", ik);
-        int results = query.getResultList().size();
-        if(results == 0)
-            return false;
-        return true;
     }
     
     public String getOldNubIdName(String id) {
@@ -363,5 +356,63 @@ public class NubRequestFacade extends AbstractDataAccess {
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
         query.setParameter("exId", id);
         return query.getResultList().get(0).getName();
+    }
+    
+    private TypedQuery<NubFormerRequest> getQueryForOldNubIds(String id, int ik) {
+        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId AND p._ik = :ik";
+        TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
+        query.setParameter("exId", id);
+        query.setParameter("ik", ik);
+        return query;
+    }
+    
+    private TypedQuery<NubRequest> getQueryForNewNubIds(String id, int ik) {
+        int targetYear = Calendar.getInstance().get(Calendar.YEAR);
+        String jpql = "SELECT p FROM NubRequest p WHERE p._id = :exId AND p._ik = :ik AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
+        int nubId = 0;
+        try {
+            nubId = Integer.parseInt(id.replaceFirst("N", ""));
+        } catch (Exception ex) {
+            throw ex;
+        }
+        query.setParameter("exId",nubId);
+        query.setParameter("ik", ik);
+        return query;
+    }
+    
+    private TypedQuery<NubFormerRequest> getQueryForOldNubIds(int ik) {
+        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._ik = :ik";
+        TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
+        query.setParameter("ik", ik);
+        return query;
+    }
+    private TypedQuery<NubRequest> getQueryForNewNubIds(int ik) {
+        int targetYear = Calendar.getInstance().get(Calendar.YEAR);
+        String jpql = "SELECT p FROM NubRequest p WHERE p._ik = :ik AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
+        query.setParameter("ik", ik);
+        return query;
+    }
+    
+    public List<NubFormerRequestMerged> getExistingNubIds(int ik) {
+        List<NubFormerRequestMerged> list = new ArrayList<>();
+        TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik);
+        for(NubFormerRequest nfr : oldIdsQuery.getResultList()) {
+            NubFormerRequestMerged m = new NubFormerRequestMerged();
+            m.setId(nfr.getExternalId());
+            m.setIk(nfr.getIk());
+            m.setName(nfr.getName());
+            list.add(m);
+        }
+        TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik);
+        for(NubRequest nr : newIdsQuery.getResultList()) {
+            NubFormerRequestMerged m = new NubFormerRequestMerged();
+            m.setId(nr.getExternalId());
+            m.setIk(nr.getIk());
+            m.setName(nr.getName());
+            list.add(m);
+        }
+        return list;
     }
 }
