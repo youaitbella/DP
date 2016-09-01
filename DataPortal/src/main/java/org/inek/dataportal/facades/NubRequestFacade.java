@@ -399,22 +399,34 @@ public class NubRequestFacade extends AbstractDataAccess {
     
     public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter) {
         List<NubFormerRequestMerged> list = new ArrayList<>();
-        TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
-        for(NubFormerRequest nfr : oldIdsQuery.getResultList()) {
-            NubFormerRequestMerged m = new NubFormerRequestMerged();
-            m.setId(nfr.getExternalId());
-            m.setIk(nfr.getIk());
-            m.setName(nfr.getName());
-            list.add(m);
-        }
+        
         TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter);
-        for(NubRequest nr : newIdsQuery.getResultList()) {
+        newIdsQuery.getResultList().stream()
+                .sorted((n1, n2)-> Integer.compare(n2.getId(), n1.getId()))
+                .map((nr) -> {
             NubFormerRequestMerged m = new NubFormerRequestMerged();
             m.setId(nr.getExternalId());
             m.setIk(nr.getIk());
             m.setName(nr.getName());
+            return m;
+        }).forEachOrdered((m) -> {
             list.add(m);
-        }
+        });
+
+        TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
+        oldIdsQuery.getResultList().stream()
+                .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
+                        .compareTo((n1.getExternalId().startsWith("1") ? "" : "0") + n1.getExternalId()))
+                .map((nfr) -> {
+            NubFormerRequestMerged m = new NubFormerRequestMerged();
+            m.setId(nfr.getExternalId());
+            m.setIk(nfr.getIk());
+            m.setName(nfr.getName());
+            return m;
+        }).forEachOrdered((m) -> {
+            list.add(m);
+        });
+        
         return list;
     }
 }
