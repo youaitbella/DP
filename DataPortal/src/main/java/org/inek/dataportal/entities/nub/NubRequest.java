@@ -152,7 +152,7 @@ public class NubRequest implements Serializable {
     private String _altName = "";
     
     // <editor-fold defaultstate="collapsed" desc="Property FormerRequest">
-    @Documentation(key = "lblFormerRequestShort", translateValue = "255=Angabe fehlt; 0=Nein; 1=Ja")
+    @Documentation(key = "lblFormerRequestShort", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes")
     @Column(name = "nubFormerRequest")
     private byte _formerRequest = (byte) 255;
 
@@ -181,7 +181,7 @@ public class NubRequest implements Serializable {
 
     
     // <editor-fold defaultstate="collapsed" desc="Property MedicalDevice">
-    @Documentation(key = "lblMedicalDeviceShort", translateValue = "255=Angabe fehlt; 0=Nein; 1=Ja")
+    @Documentation(key = "lblMedicalDeviceShort", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes")
     @Column(name = "nubMedicalDevice")
     private byte _medicalDevice = (byte) 255;
 
@@ -195,7 +195,7 @@ public class NubRequest implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property RiscClass">
-    @Documentation(key = "lblRiscClass", translateValue = "255=Angabe fehlt; 0=Nein; 1=Ja; 2=Sonstiges")
+    @Documentation(key = "lblRiscClass", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes; 2=lblOther")
     @Column(name = "nubRiscClass")
     private byte _riscClass = (byte) 255;
 
