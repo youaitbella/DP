@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.insurance;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -163,6 +164,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     
     public void addItem() {
         InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
+        item.setInsuranceNubNoticeId(_notice.getId());
 //        if (_notice.getId() > 0) {
 //            item.setInsuranceNubNoticeId(_notice.getId());
 //        }
@@ -187,12 +189,14 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     public String provide() {
         String validatorMessage = "";
         int lines = 1;
+        if(_notice.getItems().isEmpty())
+            validatorMessage += "Es gibt keine Meldungen, die ans InEK gesendet werden könnten.";
         for(InsuranceNubNoticeItem item : _notice.getItems()) {
             if(item.getExternalId() == null || item.getExternalId().equals("N0"))
                 validatorMessage += "Zeile "+lines+": Name ist ein Pflichtfeld.\n";
             if(item.getAmount() == null)
                 validatorMessage += "Zeile "+lines+": Anzahl ist ein Pflichtfeld.\n";
-            if(item.getPrice() == null)
+            if(item.getPrice() == null || item.getPrice().intValue() == 0)
                 validatorMessage += "Zeile "+lines+": Preis ist ein Pflichtfeld.\n";
             if(item.getRemunerationTypeCharId().length() > 8 ||
                     item.getRemunerationTypeCharId().length() < 1)
@@ -205,6 +209,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         _notice.setWorkflowStatus(WorkflowStatus.Provided);
         _insuranceFacade.merge(_notice);
+        _insuranceFacade.clearCache();
         _sessionController.alertClient("Krankenkassenmeldung wurde erfolgreich eingereicht.");
         return Pages.InsuranceSummary.RedirectURL();
     }

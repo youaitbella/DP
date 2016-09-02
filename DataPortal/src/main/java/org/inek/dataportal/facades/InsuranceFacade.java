@@ -14,6 +14,7 @@ import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InekMethod;
+import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.NubMethodInfo;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -54,7 +55,10 @@ public class InsuranceFacade extends AbstractDataAccess {
     public InsuranceNubNotice saveNubNotice(InsuranceNubNotice notice) {
         if (notice.getId() == -1) {
             persist(notice);
-            return notice;
+            refresh(notice);
+            for (InsuranceNubNoticeItem item : notice.getItems()) {
+                item.setInsuranceNubNoticeId(notice.getId());
+            }
         }
         return merge(notice);
     }
