@@ -42,24 +42,23 @@
                     <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
                 </h:selectOneRadio>
             </f:ajax>
-            <div style="float: right;">
-                <h:outputLabel rendered="#{editNubRequest.nubRequest.formerRequest == 1}" styleClass="label" value="Such-Filter: " />
-                <h:inputText rendered="#{editNubRequest.nubRequest.formerRequest == 1}" value="#{editNubRequest.formerNubIdFilterText}" id="formerNubNameFilter">
-                    <f:ajax event="blur" render="@form formerNubsEmpty nubFormerIdsSelectBox" />
-                </h:inputText>
-            </div>
         </div>
 
         <h:panelGroup id="infoFormerRequest" rendered="#{editNubRequest.nubRequest.formerRequest == 1}">
-            <h:outputLabel styleClass="label" for="nubFormerRequestValue" value="#{msg.lblFormerExternalId}"/><br/>
+            <h:outputLabel styleClass="label marginRight" for="nubFormerRequestValue" value="#{msg.lblFormerExternalId}"/>
+            <h:outputLabel rendered="#{editNubRequest.nubRequest.formerRequest == 1}" styleClass="label" style="margin-left: 3em;" value="Such-Filter: " />
+            <h:inputText rendered="#{editNubRequest.nubRequest.formerRequest == 1}" value="#{editNubRequest.formerNubIdFilterText}" id="formerNubNameFilter">
+                <f:ajax event="blur" render="@form formerNubsEmpty nubFormerIdsSelectBox" />
+            </h:inputText>
+            <br/>
             <h:selectOneMenu rendered="#{editNubRequest.allNubIds.size() > 0}"
                              style="width: 100%; max-width: 100%;" 
                              id="nubFormerIdsSelectBox" 
                              value="#{editNubRequest.nubRequest.formerExternalId}" 
                              validator="#{editNubRequest.checkExistingNubProposalId}"
-                             hideNoSelectionOption="false"> <!--todo: use "true" -->
+                             hideNoSelectionOption="true"> 
                 <f:ajax event="change" render="@this :logout:remaining nubFormerRequestValue formerNubName msgNubRequestValue"/>
-                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="" noSelectionOption="true"/>
                 <f:selectItems value="#{editNubRequest.allNubIds}" var="item" itemLabel="#{item.id} | #{item.name}" itemValue="#{item.id}"/>
             </h:selectOneMenu>
             <h:outputLabel id="formerNubsEmpty" styleClass="errorMessage" rendered="#{editNubRequest.allNubIds.size() == 0}" value="Keine vorherigen NUB-Anfragen vorhanden." />
