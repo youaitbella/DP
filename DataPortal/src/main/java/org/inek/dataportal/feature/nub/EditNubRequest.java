@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -117,7 +118,7 @@ public class EditNubRequest extends AbstractEditController {
 
     public void changedIk() {
         if (_nubRequest != null) {
-            _formerRequests = null;
+            _formerRequests.clear();
             Customer c = _customerFacade.getCustomerByIK(_nubRequest.getIk());
             _nubRequest.setFormerExternalId("");
             if (c.getName() == null || c.getName().equals("")) {
@@ -723,13 +724,13 @@ public class EditNubRequest extends AbstractEditController {
 
     public void setFormerNubIdFilterText(String formerNubIdFilterText) {
         _formerNubIdFilterText = formerNubIdFilterText;
-        _formerRequests = null;
+        _formerRequests.clear();
     }
 
-    List<NubFormerRequestMerged> _formerRequests;
+    List<NubFormerRequestMerged> _formerRequests = new Vector<>();
 
     public List<NubFormerRequestMerged> getAllNubIds() {
-        if (_formerRequests == null) {
+        if (_formerRequests.isEmpty() && _nubRequest.getIk() != null) {
             _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"));
         }
         return _formerRequests;

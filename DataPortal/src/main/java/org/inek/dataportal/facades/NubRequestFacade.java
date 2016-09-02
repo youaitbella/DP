@@ -390,17 +390,19 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
     private TypedQuery<NubRequest> getQueryForNewNubIds(int ik, String filter) {
         int targetYear = Calendar.getInstance().get(Calendar.YEAR);
-        String jpql = "SELECT p FROM NubRequest p WHERE p._ik = :ik AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear +" AND p._name LIKE :filter";
+        String jpql = "SELECT p FROM NubRequest p WHERE (p._ik = :ik or p._proxyIKs like :iks) AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear +" AND p._name LIKE :filter";
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("ik", ik);
+        query.setParameter("iks", "%"+ik+"%");
         query.setParameter("filter", "%"+filter+"%");
         return query;
     }
     
     public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter) {
+        if (ik < 100000000){return Collections.EMPTY_LIST;}
+        
         List<NubFormerRequestMerged> list = new ArrayList<>();
         
-        Long start = System.nanoTime();
         TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter);
         newIdsQuery.getResultList().stream()
                 .sorted((n1, n2)-> Integer.compare(n2.getId(), n1.getId()))
@@ -413,10 +415,7 @@ public class NubRequestFacade extends AbstractDataAccess {
         }).forEachOrdered((m) -> {
             list.add(m);
         });
-        Long stop = System.nanoTime();
-        System.out.println("Load new: " + (stop - start) / 1000);
         
-        start = System.nanoTime();
         TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
         oldIdsQuery.getResultList().stream()
                 .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
@@ -430,8 +429,6 @@ public class NubRequestFacade extends AbstractDataAccess {
         }).forEachOrdered((m) -> {
             list.add(m);
         });
-        stop = System.nanoTime();
-        System.out.println("Load old: " + (stop - start) / 1000);
         
         return list;
     }

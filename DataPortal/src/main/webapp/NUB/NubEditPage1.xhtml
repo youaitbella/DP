@@ -48,12 +48,12 @@
             <h:outputLabel styleClass="label marginRight" for="nubFormerRequestValue" value="#{msg.lblFormerExternalId}"/>
             <h:outputLabel rendered="#{editNubRequest.nubRequest.formerRequest == 1}" styleClass="label" style="margin-left: 3em;" value="Such-Filter: " />
             <h:inputText rendered="#{editNubRequest.nubRequest.formerRequest == 1}" value="#{editNubRequest.formerNubIdFilterText}" id="formerNubNameFilter">
-                <f:ajax event="blur" render="@form formerNubsEmpty nubFormerIdsSelectBox" />
+                <f:ajax event="blur" render="@form formerNubsEmpty nubFormerRequestValue" />
             </h:inputText>
             <br/>
             <h:selectOneMenu rendered="#{editNubRequest.allNubIds.size() > 0}"
                              style="width: 100%; max-width: 100%;" 
-                             id="nubFormerIdsSelectBox" 
+                             id="nubFormerRequestValue" 
                              value="#{editNubRequest.nubRequest.formerExternalId}" 
                              validator="#{editNubRequest.checkExistingNubProposalId}"
                              hideNoSelectionOption="true"> 
