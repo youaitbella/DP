@@ -102,7 +102,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return getNubMethodInfos()
                 .stream()
                 .sorted((n, m) -> n.getMethodName().compareTo(m.getMethodName()))
-                .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [" + i.getRequestId() + "]", i.getRequestName()))
+                .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
                 .collect(Collectors.toList());
     }
 
