@@ -400,6 +400,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter) {
         List<NubFormerRequestMerged> list = new ArrayList<>();
         
+        Long start = System.nanoTime();
         TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter);
         newIdsQuery.getResultList().stream()
                 .sorted((n1, n2)-> Integer.compare(n2.getId(), n1.getId()))
@@ -412,7 +413,10 @@ public class NubRequestFacade extends AbstractDataAccess {
         }).forEachOrdered((m) -> {
             list.add(m);
         });
-
+        Long stop = System.nanoTime();
+        System.out.println("Load new: " + (stop - start) / 1000);
+        
+        start = System.nanoTime();
         TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
         oldIdsQuery.getResultList().stream()
                 .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
@@ -426,6 +430,8 @@ public class NubRequestFacade extends AbstractDataAccess {
         }).forEachOrdered((m) -> {
             list.add(m);
         });
+        stop = System.nanoTime();
+        System.out.println("Load old: " + (stop - start) / 1000);
         
         return list;
     }

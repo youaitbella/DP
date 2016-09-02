@@ -117,6 +117,7 @@ public class EditNubRequest extends AbstractEditController {
 
     public void changedIk() {
         if (_nubRequest != null) {
+            _formerRequests = null;
             Customer c = _customerFacade.getCustomerByIK(_nubRequest.getIk());
             _nubRequest.setFormerExternalId("");
             if (c.getName() == null || c.getName().equals("")) {
@@ -300,7 +301,6 @@ public class EditNubRequest extends AbstractEditController {
             throw new ValidatorException(msg);
         }
     }
-
 
     public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
         String msg = _nubSessionTools.checkProxyIKs(value.toString());
@@ -515,7 +515,7 @@ public class EditNubRequest extends AbstractEditController {
         }
 
         _nubRequest = _nubSessionTools.prepareSeal(_nubRequest);
-        
+
         boolean isNewRequest = !isValidId(_nubRequest.getId());
         String msg = "";
         try {
@@ -594,7 +594,7 @@ public class EditNubRequest extends AbstractEditController {
         String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         _sessionController.setScript(script);
         return "";
-        
+
     }
 
     public String deleteDocument(String name) {
@@ -627,7 +627,6 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-
     private boolean requestIsComplete(NubRequest nubRequest) {
         MessageContainer message = _nubSessionTools.composeMissingFieldsMessage(nubRequest);
         if (message.containsMessage()) {
@@ -642,7 +641,6 @@ public class EditNubRequest extends AbstractEditController {
         return !message.containsMessage();
     }
 
-
     // </editor-fold>
     public String downloadTemplate() {
         String content = getNubController().createTemplate(_nubRequest);
@@ -654,11 +652,10 @@ public class EditNubRequest extends AbstractEditController {
     AccountFacade _accountFacade;
 
     public void copyNubRequest(AjaxBehaviorEvent event) {
-        if (_nubSessionTools.copyNubRequest(_nubRequest)){
+        if (_nubSessionTools.copyNubRequest(_nubRequest)) {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt");
         }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
     @Inject PortalMessageFacade _messageFacade;
@@ -701,34 +698,40 @@ public class EditNubRequest extends AbstractEditController {
         return Pages.NubSummary.RedirectURL();
     }
     // </editor-fold>
-    
+
     public String getFormerNubCurrentYearLabel() {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        return String.format(Utils.getMessage("lblFormerRequest"), currentYear+"");
+        return String.format(Utils.getMessage("lblFormerRequest"), currentYear + "");
     }
-    
+
     public void checkExistingNubProposalId(FacesContext context, UIComponent component, Object value) {
-        if(_nubRequest.getIk() == 0 ||_nubRequest.getIk() == -1) {
+        if (_nubRequest.getIk() == 0 || _nubRequest.getIk() == -1) {
             FacesMessage msg = new FacesMessage("Bitte vergeben Sie eine IK für diese NUB.");
             throw new ValidatorException(msg);
         }
-        if(!_nubRequestFacade.checkFormerNubId(value+"", _nubRequest.getIk())) {
+        if (!_nubRequestFacade.checkFormerNubId(value + "", _nubRequest.getIk())) {
             FacesMessage msg = new FacesMessage("Die angegebene NUB-Nummer ist unbekannt.");
             throw new ValidatorException(msg);
         }
     }
-    
+
     private String _formerNubIdFilterText = "";
+
     public String getFormerNubIdFilterText() {
         return _formerNubIdFilterText;
     }
 
-    public void setFormerNubIdFilterText(String _formerNubIdFilterText) {
-        this._formerNubIdFilterText = _formerNubIdFilterText;
+    public void setFormerNubIdFilterText(String formerNubIdFilterText) {
+        _formerNubIdFilterText = formerNubIdFilterText;
+        _formerRequests = null;
     }
-    
-    
+
+    List<NubFormerRequestMerged> _formerRequests;
+
     public List<NubFormerRequestMerged> getAllNubIds() {
-        return _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"));
+        if (_formerRequests == null) {
+            _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"));
+        }
+        return _formerRequests;
     }
 }
