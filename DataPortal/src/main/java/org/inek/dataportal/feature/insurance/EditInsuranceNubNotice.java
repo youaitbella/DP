@@ -91,7 +91,11 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         return notice;
     }
-
+    
+    public void ikChanged() {
+        _nubInfos = null;
+    }
+    
     private InsuranceNubNotice _notice;
 
     public InsuranceNubNotice getNotice() {
@@ -99,15 +103,20 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public List<SelectItem> getInekMethods() {
-        return getNubMethodInfos()
+        if(_nubInfos == null)
+            getNubMethodInfos();
+        return _nubInfos
                 .stream()
                 .sorted((n, m) -> n.getMethodName().compareTo(m.getMethodName()))
                 .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
                 .collect(Collectors.toList());
     }
-
+    
+    private List<NubMethodInfo> _nubInfos = null;
     public List<NubMethodInfo> getNubMethodInfos() {
-        return _insuranceFacade.getNubMethodInfos(_notice.getHospitalIk(), _notice.getYear());
+        if(_nubInfos == null)
+            _nubInfos = _insuranceFacade.getNubMethodInfos(_notice.getHospitalIk(), _notice.getYear());
+        return _nubInfos;
     }
 
     public List<DosageForm> getDosageForms() {

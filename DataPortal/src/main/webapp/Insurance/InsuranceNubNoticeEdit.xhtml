@@ -62,7 +62,9 @@
                              required="true" requiredMessage="#{msg.msgValueNeeded}"
                              validator="#{sessionTools.checkIk}">
                     <f:converter converterId="IntegerConverter" />
-                    <f:ajax event="blur" render="@this :logout:remaining msgHospitalIk hospitalName"/>
+                    <f:ajax event="blur" 
+                            listener="#{editInsuranceNubNotice.ikChanged()}"
+                            render="@this :logout:remaining msgHospitalIk :messageForm:addButton :messageForm:tblNotices :messageForm:noNubsMsg hospitalName"/>
                 </h:inputText>
                 <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editInsuranceNubNotice.notice.hospitalIk)}"/>
             </div>
@@ -81,9 +83,13 @@
         </h:form>
 
         <h:form id="messageForm">
+            <h:outputLabel id="noNubsMsg" rendered="#{editInsuranceNubNotice.nubMethodInfos.size() == 0 and editInsuranceNubNotice.notice.hospitalIk != -1}" value="Es gibt keine NUBs für dieses IK." styleClass="errorMessage">
+            </h:outputLabel>
             <h:dataTable  headerClass="list-header" id="tblNotices"
                           value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
-                          columnClasses="colIcon, col09, col11, col09, col05, col05, col04, col06, col11, col11, col01">
+                          columnClasses="colIcon, col09, col11, col09, col05, col05, col04, col06, col11, col11, col01"
+                          rendered="#{editInsuranceNubNotice.nubMethodInfos.size() > 0}"
+                          >
 
                 <h:column>
                     <f:facet name="header">
@@ -198,7 +204,7 @@
             </h:dataTable>
             
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                           rendered="#{!editInsuranceNubNotice.readOnly}">
+                           rendered="#{!editInsuranceNubNotice.readOnly and editInsuranceNubNotice.nubMethodInfos.size() > 0}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addItem}"/>
             </h:commandLink>
         </h:form>
