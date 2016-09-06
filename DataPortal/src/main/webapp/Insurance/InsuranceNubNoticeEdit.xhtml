@@ -49,7 +49,8 @@
                 <h:inputText styleClass="inputSmall" readonly="#{editInsuranceNubNotice.readOnly}" id="year" 
                              value="#{editInsuranceNubNotice.notice.year}">
                     <f:converter converterId="IntegerConverter" />
-                    <f:ajax event="blur" render="@this :logout:remaining msgYear"/>
+                    <f:ajax event="change" listener="#{editInsuranceNubNotice.ikChanged()}" />
+                    <f:ajax event="blur" render="@this :logout:remaining msgYear messageForm"/>
                 </h:inputText>
             </div>
 
@@ -62,9 +63,9 @@
                              required="true" requiredMessage="#{msg.msgValueNeeded}"
                              validator="#{sessionTools.checkIk}">
                     <f:converter converterId="IntegerConverter" />
+                    <f:ajax event="change" listener="#{editInsuranceNubNotice.ikChanged()}" />
                     <f:ajax event="blur" 
-                            listener="#{editInsuranceNubNotice.ikChanged()}"
-                            render="@this :logout:remaining msgHospitalIk :messageForm:addButton :messageForm:tblNotices :messageForm:noNubsMsg hospitalName"/>
+                            render="@this :logout:remaining msgHospitalIk hospitalName messageForm"/>
                 </h:inputText>
                 <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editInsuranceNubNotice.notice.hospitalIk)}"/>
             </div>
