@@ -11,6 +11,12 @@
         <div>
             Aktive Sessions: #{sessionController.sessionCount}
         </div>
+        <div>
+            #{adminTask.processorInfo}
+        </div>
+        <div>
+            #{adminTask.memoryInfo}
+        </div>
         <div style="margin-top: 10em;">
             <h:form>
                 <h:commandLink styleClass="bigButton" value="Clear Cache" actionListener="#{adminTask.clearCache}">

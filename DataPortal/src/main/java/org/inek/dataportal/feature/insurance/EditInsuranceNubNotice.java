@@ -6,6 +6,7 @@ package org.inek.dataportal.feature.insurance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -70,7 +71,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     @Inject private InsuranceFacade _insuranceFacade;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private SessionController _sessionController;
-    
 
     @PostConstruct
     private void init() {
@@ -91,11 +91,11 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         return notice;
     }
-    
+
     public void ikChanged() {
         _nubInfos = null;
     }
-    
+
     private InsuranceNubNotice _notice;
 
     public InsuranceNubNotice getNotice() {
@@ -103,19 +103,25 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public List<SelectItem> getInekMethods() {
-        if(_nubInfos == null)
+        if (_nubInfos == null) {
             getNubMethodInfos();
+        }
         return _nubInfos
                 .stream()
                 .sorted((n, m) -> n.getMethodName().compareTo(m.getMethodName()))
                 .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
                 .collect(Collectors.toList());
     }
-    
+
     private List<NubMethodInfo> _nubInfos = null;
+
     public List<NubMethodInfo> getNubMethodInfos() {
-        if(_nubInfos == null)
+        if (_notice.getHospitalIk() < 0 && _notice.getYear() < 0) {
+            return Collections.EMPTY_LIST;
+        }
+        if (_nubInfos == null) {
             _nubInfos = _insuranceFacade.getNubMethodInfos(_notice.getHospitalIk(), _notice.getYear());
+        }
         return _nubInfos;
     }
 
@@ -135,7 +141,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return false;
     }
 
-    public void validateProcedures(FacesContext context, UIComponent component, Object value){
+    public void validateProcedures(FacesContext context, UIComponent component, Object value) {
         int targetYear = _notice.getYear();
         String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear, targetYear, "\\s|,|\\+");
         if (invalidCodes.length() > 0) {
@@ -143,17 +149,17 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             throw new ValidatorException(msg);
         }
     }
-    
-    public void validateRemuneration(FacesContext context, UIComponent component, Object value){
+
+    public void validateRemuneration(FacesContext context, UIComponent component, Object value) {
         String labelRemunId = "msgRemun";
-        HtmlMessage remunLabel = (HtmlMessage)Utils.findComponent(labelRemunId);
-        if(value.equals("")) {
+        HtmlMessage remunLabel = (HtmlMessage) Utils.findComponent(labelRemunId);
+        if (value.equals("")) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Kein Entgeltschlüssel angegeben",
                     "Kein Entgeltschlüssel angegeben");
             throw new ValidatorException(msg);
         }
-        if(value.toString().length() != 8) {
+        if (value.toString().length() != 8) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Entgeltschlüssel müssen 8 Zeichen lang sein.",
                     "Entgeltschlüssel müssen 8 Zeichen lang sein.");
@@ -162,15 +168,15 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
         if (!remunTypeOpt.isPresent()) {
             FacesContext.getCurrentInstance().addMessage(component.getClientId(),
-                new FacesMessage(
-                    FacesMessage.SEVERITY_INFO,
-                    "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft.",
-                    "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft."
-                )
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_INFO,
+                            "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft.",
+                            "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft."
+                    )
             );
         }
     }
-    
+
     public void addItem() {
         InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
         item.setInsuranceNubNoticeId(_notice.getId());
@@ -198,21 +204,26 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     public String provide() {
         String validatorMessage = "";
         int lines = 1;
-        if(_notice.getItems().isEmpty())
+        if (_notice.getItems().isEmpty()) {
             validatorMessage += "Es gibt keine Meldungen, die ans InEK gesendet werden könnten.";
-        for(InsuranceNubNoticeItem item : _notice.getItems()) {
-            if(item.getExternalId() == null || item.getExternalId().equals("N0"))
-                validatorMessage += "Zeile "+lines+": Name ist ein Pflichtfeld.\n";
-            if(item.getAmount() == null)
-                validatorMessage += "Zeile "+lines+": Anzahl ist ein Pflichtfeld.\n";
-            if(item.getPrice() == null || item.getPrice().intValue() == 0)
-                validatorMessage += "Zeile "+lines+": Preis ist ein Pflichtfeld.\n";
-            if(item.getRemunerationTypeCharId().length() > 8 ||
-                    item.getRemunerationTypeCharId().length() < 1)
-                validatorMessage += "Zeile "+lines+": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
+        }
+        for (InsuranceNubNoticeItem item : _notice.getItems()) {
+            if (item.getExternalId() == null || item.getExternalId().equals("N0")) {
+                validatorMessage += "Zeile " + lines + ": Name ist ein Pflichtfeld.\n";
+            }
+            if (item.getAmount() == null) {
+                validatorMessage += "Zeile " + lines + ": Anzahl ist ein Pflichtfeld.\n";
+            }
+            if (item.getPrice() == null || item.getPrice().intValue() == 0) {
+                validatorMessage += "Zeile " + lines + ": Preis ist ein Pflichtfeld.\n";
+            }
+            if (item.getRemunerationTypeCharId().length() > 8
+                    || item.getRemunerationTypeCharId().length() < 1) {
+                validatorMessage += "Zeile " + lines + ": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
+            }
             lines++;
         }
-        if(!validatorMessage.equals("")) {
+        if (!validatorMessage.equals("")) {
             _sessionController.alertClient(validatorMessage);
             return "";
         }

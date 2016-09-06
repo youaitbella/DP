@@ -110,16 +110,15 @@ public class InsuranceFacade extends AbstractDataAccess {
     }
 
     public List<NubMethodInfo> getNubMethodInfos(int ik, int year) {
+        // with a prepared statement sql server sometimes needs quite a long time to fetch the result
+        // thus, the parameters are now built into the string - no problem with SQL injection because both parameters are int
         String sql = "select prDatenportalId, prNubName, prFkCaId, caName "
                 + "from nub.dbo.NubRequest "
                 + "join nub.dbo.category on prFkCaId = caId "
                 + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
-                + "where (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
+                + "where (prIk = " + ik + " or nppProxyIk = " + ik + ") and prYear = " + year + " and prStatus between 20 and 21 "
                 + "order by prDatenportalId";
         Query query = getEntityManager().createNativeQuery(sql, NubMethodInfo.class);
-        query.setParameter(1, ik);
-        query.setParameter(2, ik);
-        query.setParameter(3, year);
         return query.getResultList();
     }
 
@@ -128,7 +127,7 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "from nub.dbo.NubRequest "
                 + "join nub.dbo.category on prFkCaId = caId "
                 + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
-                + "where prDatenportalId = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
+                + "where prDatenportalId = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus between 20 and 21 "
                 + "order by prDatenportalId";
         Query query = getEntityManager().createNativeQuery(sql);
         query.setParameter(1, requestId);
@@ -144,7 +143,7 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "join nub.dbo.category on prFkCaId = caId "
                 + "join nub.dbo.categoryInfoByYear on prFkCaId = ciFkCaId and prYear = ciBaseYear "
                 + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
-                + "where ciSequence = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus = 20 "
+                + "where ciSequence = ? and (prIk = ? or nppProxyIk = ?) and prYear = ? and prStatus between 20 and 21 "
                 + "order by prDatenportalId";
 
         Query query = getEntityManager().createNativeQuery(sql);

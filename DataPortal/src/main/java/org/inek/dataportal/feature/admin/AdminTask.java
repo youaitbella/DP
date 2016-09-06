@@ -77,6 +77,17 @@ public class AdminTask extends AbstractEditController {
     public void clearCache(ActionEvent e) {
         _accountFacade.clearCache();
     }
+
+    public String getProcessorInfo() {
+        Runtime runtime = Runtime.getRuntime();
+        return "Processor cores " + runtime.availableProcessors();
+    }
+
+    public String getMemoryInfo() {
+        int MB = 1024 * 1024;
+        Runtime runtime = Runtime.getRuntime();
+        return "Speicher: max " + runtime.maxMemory() / MB + ", total " + runtime.totalMemory() / MB + "; free " + runtime.freeMemory() / MB;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
@@ -163,7 +174,6 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
 
@@ -241,7 +251,6 @@ public class AdminTask extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
     @Inject AccountFacade _accountFacade;
 
