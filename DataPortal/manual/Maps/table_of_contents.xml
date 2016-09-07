@@ -211,6 +211,9 @@
     </topicref>
     <topicref type="topic" id="426207377323422" build="ALL" modified="2016-09-07T15:29:02.542Z" icon="0" href="Insurance">
       <caption translate="true">Krankenkasse</caption>
+      <topicref type="topic" id="426204917611885" build="ALL" modified="2016-09-07T16:10:07.818Z" icon="0" href="NubReport">
+        <caption translate="true">NubMeldung</caption>
+      </topicref>
     </topicref>
     <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
       <caption translate="true">Grouper-Zertifizierung</caption>

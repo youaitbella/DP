@@ -10,7 +10,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Um diesen Bereich nutzen zu können müssen Sie die entsprechende Funktion in den Stammdaten markieren. Damit wird das InEK informiert und prüft Ihren Wunsch. Bei positiver Prüfung wird diese Funktion für Sie freigeschaltet. Über die Freischaltung (oder Ablehnung bei negativer Prüfung) erhalten Sie eine kurze Nachricht per Mail. Nach Freischaltung können Sie die Funktionen des Bereichs Krankenkasse nutzen.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Derzeit können Sie über den Bereich Krankenkasse die Meldungen zu NUB-Vereinbarungen erfassen und an das InEK senden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Derzeit können Sie über den Bereich </text><text styleclass="Normal" style="font-style:italic;" translate="true">Krankenkasse</text><text styleclass="Normal" translate="true"> die Meldungen zu NUB-Vereinbarungen erfassen und an das InEK senden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>

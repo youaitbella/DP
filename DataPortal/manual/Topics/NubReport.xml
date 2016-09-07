@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">NubMeldung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">NubMeldung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">§ 6 Abs. 2 KHEntgG Satz 6 lautet</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">&quot;Wird ein Entgelt vereinbart, melden die an der Vereinbarung beteiligten gesetzlichen Krankenkassen Art und Höhe des Entgelts an die Vertragsparteien nach § 9; dabei haben sie auch die der Vereinbarung zu Grunde liegenden Kalkulationsunterlagen und die vom Krankenhaus vorzulegende ausführliche Beschreibung der Methode zu übermitteln.&quot;</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine solche Meldung wird im im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> einfach als </text><text styleclass="Normal" style="font-style:italic;" translate="true">NUB-Meldung</text><text styleclass="Normal" translate="true"> bezeichnet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie auch bei anderen Funktionen wird in der </text><text styleclass="Normal" style="font-style:italic;" translate="true">Übersicht</text><text styleclass="Normal" translate="true"> oberhalb der Schaltfläche </text><text styleclass="Button" translate="true">[ Neue Meldung ]</text><text styleclass="Normal" translate="true"> lediglich eine Liste der noch nicht an das InEK gesendeten NUB-Meldungen gezeigt. Rufen Sie den Menüpunkt </text><text styleclass="Normal" style="font-style:italic;" translate="true">Krankenkasse</text><text styleclass="Normal" translate="true"> auf, so wird zusätzlich die Liste der bereits an das InEK gesendeten NUB-Meldungen gezeigt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
