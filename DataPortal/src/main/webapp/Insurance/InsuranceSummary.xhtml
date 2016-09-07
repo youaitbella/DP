@@ -19,6 +19,7 @@
 
             <h1>#{msg.lblInsurance}</h1>
 
+            <h4><h:outputLabel value="#{msg.infoOpenNubReport}"/></h4>
             <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
 
             <div class="toolBar marginLeft">
@@ -26,6 +27,7 @@
                                immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
             </div>
             
+            <h4><h:outputLabel value="#{msg.infoSealedNubReport}"/></h4>
             <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
             
         </h:form>
