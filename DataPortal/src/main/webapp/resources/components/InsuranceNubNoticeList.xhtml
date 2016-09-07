@@ -60,6 +60,13 @@
                     <h:commandLink action="#{insuranceNubNoticeList.editNotice(notice.id)}" value="#{notice.hospitalIk}" immediate="true"/>
                 </h:column>
                 
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblDate}"/>
+                    </f:facet>
+                    <h:commandLink action="#{insuranceNubNoticeList.editNotice(notice.id)}" value="#{notice.creationDateFormatted}" immediate="true"/>
+                </h:column>
+                
             </h:dataTable>
         </div>
     </cc:implementation>

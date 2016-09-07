@@ -4,6 +4,7 @@
   <title translate="true">Hinweise</title>
   <keywords>
     <keyword translate="true">Betriebssystem</keyword>
+    <keyword translate="true">das</keyword>
     <keyword translate="true">Hinweise</keyword>
     <keyword translate="true">Schaltflächen</keyword>
     <keyword translate="true">Screenschots</keyword>
@@ -12,6 +13,8 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Hinweise</text></para>
     </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In diesem Handbuch heißt es kurz </text><text styleclass="Normal" style="font-style:italic;" translate="true">das</text><text styleclass="Normal" translate="true"> InEK. Dies bezieht sich auf </text><text styleclass="Normal" style="font-style:italic;" translate="true">das</text><text styleclass="Normal" translate="true"> Institut und nicht auf die Rechtsform, </text><text styleclass="Normal" style="font-style:italic;" translate="true">die</text><text styleclass="Normal" translate="true"> InEK GmbH.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">An diversen Stellen wird im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> Bezug auf ein Institutskennzeichen (IK) genommen. Dabei erfolgt eine Prüfung auf Zulässigkeit. Auch wenn das InEK von den zuständigen Stellen mit entsprechenden Informationen versorgt wird, kann es in seltenen Fällen vorkommen, dass ein IK dem InEK noch unbekannt ist. Sollte Ihr IK im Datenportal nicht akzeptiert werden, so informieren Sie bitte das InEK. Kontaktinformationen finden Sie im folgenden Abschnitt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieses Handbuch enthält diverse Abbildungen des Programms (Screenshots). Das Aussehen der Dialoge ist abhängig vom Betriebssystem, Browser sowie den aktuellen Einstellungen. Insofern kann die Darstellung vom tatsächlichen Aussehen auf Ihrem System abweichen. Insbesondere bei älteren Browsern sehen einige Elemente deutlich kantiger aus. </text></para>

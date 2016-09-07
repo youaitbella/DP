@@ -1,6 +1,7 @@
 package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,6 +50,13 @@ public class InsuranceNubNotice implements Serializable {
     public void setCreationDate(Date value) {
         _creationDate = value;
     }
+    
+    public String getCreationDateFormatted() {
+        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        return df.format(_creationDate);
+    }
+
+    
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastChange">
