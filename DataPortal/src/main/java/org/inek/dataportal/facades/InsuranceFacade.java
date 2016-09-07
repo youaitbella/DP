@@ -35,19 +35,13 @@ public class InsuranceFacade extends AbstractDataAccess {
     }
 
     public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM InsuranceNubNotice n WHERE n._accountId = :accountId and n._workflowStatusId = :state ORDER BY n._year, n._id";
+        String sql = "SELECT n FROM InsuranceNubNotice n WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
         TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
+        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getValue() : WorkflowStatus.Provided.getValue();
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getValue()-1 : WorkflowStatus.Retired.getValue() - 1;
         query.setParameter("accountId", accountId);
-        WorkflowStatus wfs = WorkflowStatus.New;
-        switch(dataSet) {
-            case AllOpen:
-                wfs = WorkflowStatus.New;
-                break;
-            case AllSealed:
-                wfs = WorkflowStatus.Provided;
-                break;
-        }
-        query.setParameter("state", wfs.getValue());
+        query.setParameter("minStatus", minStatus);
+        query.setParameter("maxStatus", maxStatus);
         return query.getResultList();
 
     }
@@ -55,12 +49,22 @@ public class InsuranceFacade extends AbstractDataAccess {
     public InsuranceNubNotice saveNubNotice(InsuranceNubNotice notice) {
         if (notice.getId() == -1) {
             persist(notice);
-            refresh(notice);
+        } else {
             for (InsuranceNubNoticeItem item : notice.getItems()) {
                 item.setInsuranceNubNoticeId(notice.getId());
+                saveNubNoticeItem(item);
             }
+            notice = merge(notice);
         }
-        return merge(notice);
+        return notice;
+    }
+
+    private void saveNubNoticeItem(InsuranceNubNoticeItem item) {
+        if (item.getId() == -1) {
+            persist(item);
+        } else {
+            merge(item);
+        }
     }
 
     public List<DosageForm> getDosageForms() {
@@ -157,4 +161,5 @@ public class InsuranceFacade extends AbstractDataAccess {
         }
         return -1;
     }
+
 }

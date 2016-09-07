@@ -5,6 +5,7 @@
 package org.inek.dataportal.entities.icmt;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class Customer implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Contacts">
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "coCustomerId", referencedColumnName = "cuId")
-    private List<Contact> _contacts;
+    private List<Contact> _contacts = Collections.EMPTY_LIST;
 
     public List<Contact> getContacts() {
         return _contacts;

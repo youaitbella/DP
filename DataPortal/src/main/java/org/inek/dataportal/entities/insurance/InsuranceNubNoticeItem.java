@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -37,13 +38,13 @@ public class InsuranceNubNoticeItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property InsuranceNubNoticeId">
     @Column(name = "inniInsuranceNubNoticeId")
-    private Integer _insuranceNubNoticeId;
+    private int _insuranceNubNoticeId = -1;
 
-    public Integer getInsuranceNubNoticeId() {
+    public int getInsuranceNubNoticeId() {
         return _insuranceNubNoticeId;
     }
 
-    public void setInsuranceNubNoticeId(Integer value) {
+    public void setInsuranceNubNoticeId(int value) {
         _insuranceNubNoticeId = value;
     }
     // </editor-fold>
@@ -139,6 +140,7 @@ public class InsuranceNubNoticeItem implements Serializable {
     @Column(name = "inniPrice")
     private BigDecimal _price = new BigDecimal(0d);
 
+    @Min(1l)
     public BigDecimal getPrice() {
         return _price;
     }

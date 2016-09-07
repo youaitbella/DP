@@ -1,12 +1,14 @@
 package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -153,10 +155,14 @@ public class InsuranceNubNotice implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inniInsuranceNubNoticeId", referencedColumnName = "innId")
     @OrderBy("_id")
+    @Valid
     @Documentation(key = "tabMessageList")
-    private List<InsuranceNubNoticeItem> _items = new Vector<>();
+    private List<InsuranceNubNoticeItem> _items;
 
     public List<InsuranceNubNoticeItem> getItems() {
+        if (_items == null){
+            _items = new ArrayList<>();
+        }
         return _items;
     }
 

@@ -5,13 +5,11 @@
 package org.inek.dataportal.feature.insurance;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -19,14 +17,11 @@ import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlMessage;
-import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.print.attribute.standard.Severity;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -36,7 +31,6 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.NubMethodInfo;
-import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
@@ -50,7 +44,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  * @author muellermi
  */
 @Named
-@FeatureScoped(name = "Insurance")
+@FeatureScoped
 public class EditInsuranceNubNotice extends AbstractEditController {
 
     private static final Logger _logger = Logger.getLogger("EditInsuranceNubNotice");
@@ -179,10 +173,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public void addItem() {
         InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
-        item.setInsuranceNubNoticeId(_notice.getId());
-//        if (_notice.getId() > 0) {
-//            item.setInsuranceNubNoticeId(_notice.getId());
-//        }
         _notice.getItems().add(item);
     }
 
@@ -191,7 +181,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public String save() {
-        _insuranceFacade.saveNubNotice(_notice);
+        _notice = _insuranceFacade.saveNubNotice(_notice);
         _sessionController.alertClient(Utils.getMessage("msgSave"));
         return "";
     }
