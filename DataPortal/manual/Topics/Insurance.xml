@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Krankenkasse</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Krankenkasse</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Bereich Krankenkasse dient der Kommunikation von Krankenkassen mit dem InEK. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um diesen Bereich nutzen zu können müssen Sie die entsprechende Funktion in den Stammdaten markieren. Damit wird das InEK informiert und prüft Ihren Wunsch. Bei positiver Prüfung wird diese Funktion für Sie freigeschaltet. Über die Freischaltung (oder Ablehnung bei negativer Prüfung) erhalten Sie eine kurze Nachricht per Mail. Nach Freischaltung können Sie die Funktionen des Bereichs Krankenkasse nutzen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Derzeit können Sie über den Bereich Krankenkasse die Meldungen zu NUB-Vereinbarungen erfassen und an das InEK senden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
