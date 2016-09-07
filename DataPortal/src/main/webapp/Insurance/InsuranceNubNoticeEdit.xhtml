@@ -170,6 +170,7 @@
                     </f:facet>
                     <h:inputText required="true" value="#{item.price}" styleClass="fullWidth">
                         <f:ajax event="blur" render="@this :logout:remaining "/>
+                        <f:convertNumber currencyCode="EUR" locale="de"/>
                     </h:inputText>
                 </h:column>
 
@@ -210,7 +211,7 @@
             </h:commandLink>
         </h:form>
 
-            <h:form id="buttons">
+            <h:form id="buttons" rendered="#{!editInsuranceNubNotice.readOnly}">
                 <div class="toolBar floatContainer">
                     <h:commandLink styleClass="bigButton" 
                                    action="#{editInsuranceNubNotice.save}" 

@@ -132,6 +132,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public boolean getReadOnly() {
+        if(_notice.getWorkflowStatusId() >= WorkflowStatus.Provided.getValue())
+            return true;
         return false;
     }
 
@@ -145,6 +147,33 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void validateRemuneration(FacesContext context, UIComponent component, Object value) {
+        String labelRemunId = "msgRemun";
+        HtmlMessage remunLabel = (HtmlMessage) Utils.findComponent(labelRemunId);
+        if (value.equals("")) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Kein Entgeltschlüssel angegeben",
+                    "Kein Entgeltschlüssel angegeben");
+            throw new ValidatorException(msg);
+        }
+        if (value.toString().length() != 8) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Entgeltschlüssel müssen 8 Zeichen lang sein.",
+                    "Entgeltschlüssel müssen 8 Zeichen lang sein.");
+            throw new ValidatorException(msg);
+        }
+        Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
+        if (!remunTypeOpt.isPresent()) {
+            FacesContext.getCurrentInstance().addMessage(component.getClientId(),
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_INFO,
+                            "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft.",
+                            "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft."
+                    )
+            );
+        }
+    }
+    
+    public void validatePrice(FacesContext context, UIComponent component, Object value) {
         String labelRemunId = "msgRemun";
         HtmlMessage remunLabel = (HtmlMessage) Utils.findComponent(labelRemunId);
         if (value.equals("")) {
@@ -195,20 +224,19 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         String validatorMessage = "";
         int lines = 1;
         if (_notice.getItems().isEmpty()) {
-            validatorMessage += "Es gibt keine Meldungen, die ans InEK gesendet werden könnten.";
+            validatorMessage = "Es gibt keine Meldungen, die ans InEK gesendet werden könnten.";
         }
         for (InsuranceNubNoticeItem item : _notice.getItems()) {
             if (item.getExternalId() == null || item.getExternalId().equals("N0")) {
                 validatorMessage += "Zeile " + lines + ": Name ist ein Pflichtfeld.\n";
             }
-            if (item.getAmount() == null) {
+            if (item.getAmount() == null || item.getAmount().intValue() <= 0) {
                 validatorMessage += "Zeile " + lines + ": Anzahl ist ein Pflichtfeld.\n";
             }
-            if (item.getPrice() == null || item.getPrice().intValue() == 0) {
+            if (item.getPrice() == null || item.getPrice().intValue() <= 0) {
                 validatorMessage += "Zeile " + lines + ": Preis ist ein Pflichtfeld.\n";
             }
-            if (item.getRemunerationTypeCharId().length() > 8
-                    || item.getRemunerationTypeCharId().length() < 1) {
+            if (item.getRemunerationTypeCharId().length() != 8) {
                 validatorMessage += "Zeile " + lines + ": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
             }
             lines++;
