@@ -139,9 +139,11 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblAmount}"/>
                     </f:facet>
-                    <h:inputText value="#{item.amount}" styleClass="fullWidth">
-                        <f:ajax render="@this :logout:remaining "/>
+                    <h:inputText id="itemAmount" value="#{item.amount}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateAmount}">
+                        <f:ajax render="@this :logout:remaining msgItemAmount"/>
+                        <f:convertNumber integerOnly="true" />
                     </h:inputText>
+                    <h:message for="itemAmount" id="msgItemAmount" errorClass="errorMessage"/>
                 </h:column>
 
                 <h:column>
@@ -159,19 +161,22 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblCount}"/>
                     </f:facet>
-                    <h:inputText value="#{item.quantity}" required="true" styleClass="fullWidth">
-                        <f:ajax render="@this :logout:remaining "/>
+                    <h:inputText id="itemQuantity" value="#{item.quantity}" required="true" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateQuantity}">
+                        <f:ajax render="@this :logout:remaining msgItemQuantity"/>
+                        <f:convertNumber integerOnly="true" />
                     </h:inputText>
+                    <h:message for="itemQuantity" id="msgItemQuantity" errorClass="errorMessage"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblPrice}"/>
                     </f:facet>
-                    <h:inputText required="true" value="#{item.price}" styleClass="fullWidth">
-                        <f:ajax event="blur" render="@this :logout:remaining "/>
-                        <f:convertNumber currencyCode="EUR" locale="de"/>
+                    <h:inputText id="itemPrice" required="true" value="#{item.price}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validatePrice}">
+                        <f:ajax event="blur" render="@this :logout:remaining msgItemPrice"/>
+                        <f:convertNumber currencyCode="EUR" locale="de" maxFractionDigits="2" minFractionDigits="2"/>
                     </h:inputText>
+                    <h:message for="itemPrice" id="msgItemPrice" errorClass="errorMessage"/>
                 </h:column>
 
                 <h:column>
