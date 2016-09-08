@@ -192,6 +192,7 @@ public class SessionController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         Map<String, Conversation> conversations = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
+        if (conversations == null){return;}
         for (Conversation conversation : conversations.values()) {
             endConversation(conversation);
         }
