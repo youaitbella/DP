@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.insurance;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -176,29 +177,35 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void validatePrice(FacesContext context, UIComponent component, Object value) {
-        String labelRemunId = "msgRemun";
-        HtmlMessage remunLabel = (HtmlMessage) Utils.findComponent(labelRemunId);
-        if (value.equals("")) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Kein Entgeltschlüssel angegeben",
-                    "Kein Entgeltschlüssel angegeben");
+        double tmp = 0.0;
+        try {
+            tmp = Double.parseDouble(value+"");
+        } catch(Exception ex) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.", "Bitte einen gültigen Geldbetrag eingeben.");
             throw new ValidatorException(msg);
         }
-        if (value.toString().length() != 8) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Entgeltschlüssel müssen 8 Zeichen lang sein.",
-                    "Entgeltschlüssel müssen 8 Zeichen lang sein.");
+        if(tmp == 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht 0 sein.", "Der Betrag darf nicht 0 sein.");
+            throw new ValidatorException(msg);
+        } else if(tmp < 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht kleiner als 0 sein.", "Der Betrag darf nicht kleiner als 0 sein.");
             throw new ValidatorException(msg);
         }
-        Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(value.toString());
-        if (!remunTypeOpt.isPresent()) {
-            FacesContext.getCurrentInstance().addMessage(component.getClientId(),
-                    new FacesMessage(
-                            FacesMessage.SEVERITY_INFO,
-                            "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft.",
-                            "Entgeltschlüssel ist dem InEK unbekannt. Ggf. ist er fehlerhaft."
-                    )
-            );
+    }
+    
+    public void validateQuantity(FacesContext context, UIComponent component, Object value) {
+        int x = Integer.parseInt(value+"");
+        if(x <= 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 1", "Der Mindestwert beträgt 1");
+            throw new ValidatorException(msg);
+        }
+    }
+    
+    public void validateAmount(FacesContext context, UIComponent component, Object value) {
+        int x = Integer.parseInt(value+"");
+        if(x < 0) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 1", "Der Mindestwert beträgt 1");
+            throw new ValidatorException(msg);
         }
     }
 
