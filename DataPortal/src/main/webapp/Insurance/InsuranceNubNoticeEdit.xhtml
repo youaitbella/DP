@@ -141,7 +141,7 @@
                     </f:facet>
                     <h:inputText id="itemAmount" value="#{item.amount}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateAmount}">
                         <f:ajax render="@this :logout:remaining msgItemAmount"/>
-                        <f:convertNumber integerOnly="true" />
+                        <f:convertNumber maxFractionDigits="2" locale="de"/>
                     </h:inputText>
                     <h:message for="itemAmount" id="msgItemAmount" errorClass="errorMessage"/>
                 </h:column>

@@ -200,9 +200,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
     
     public void validateAmount(FacesContext context, UIComponent component, Object value) {
-        int x = Integer.parseInt(value+"");
+        double x = Double.parseDouble(value+"");
         if(x < 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 1", "Der Mindestwert beträgt 1");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 0", "Der Mindestwert beträgt 0");
             throw new ValidatorException(msg);
         }
     }
