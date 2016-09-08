@@ -1,23 +1,64 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title translate="true">NubMeldung</title>
+  <title translate="true">NUB-Meldung</title>
   <body>
     <header>
-      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">NubMeldung</text></para>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">NUB-Meldung</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">§ 6 Abs. 2 KHEntgG Satz 6 lautet</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">&quot;Wird ein Entgelt vereinbart, melden die an der Vereinbarung beteiligten gesetzlichen Krankenkassen Art und Höhe des Entgelts an die Vertragsparteien nach § 9; dabei haben sie auch die der Vereinbarung zu Grunde liegenden Kalkulationsunterlagen und die vom Krankenhaus vorzulegende ausführliche Beschreibung der Methode zu übermitteln.&quot;</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine solche Meldung wird im im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> einfach als </text><text styleclass="Normal" style="font-style:italic;" translate="true">NUB-Meldung</text><text styleclass="Normal" translate="true"> bezeichnet.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine solche Meldung wird im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> einfach als </text><text styleclass="Normal" style="font-style:italic;" translate="true">NUB-Meldung</text><text styleclass="Normal" translate="true"> bezeichnet.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie auch bei anderen Funktionen wird in der </text><text styleclass="Normal" style="font-style:italic;" translate="true">Übersicht</text><text styleclass="Normal" translate="true"> oberhalb der Schaltfläche </text><text styleclass="Button" translate="true">[ Neue Meldung ]</text><text styleclass="Normal" translate="true"> lediglich eine Liste der noch nicht an das InEK gesendeten NUB-Meldungen gezeigt. Rufen Sie den Menüpunkt </text><text styleclass="Normal" style="font-style:italic;" translate="true">Krankenkasse</text><text styleclass="Normal" translate="true"> auf, so wird zusätzlich die Liste der bereits an das InEK gesendeten NUB-Meldungen gezeigt.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceReportSummary.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> NUB-Meldungen im Bereich Krankenkasse</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Bedienung der Listen erfolgt analog den anderen Bereichen und ist allgemein im Kapitel </text><link displaytype="text" defaultstyle="true" type="topiclink" href="DataForms" styleclass="Normal" translate="true">Formularbasierte Datenerfassung</link><text styleclass="Normal" translate="true"> beschrieben.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine NUB-Meldung erfolgt jeweils für ein Krankenhaus. Es sind mehrere Meldungen für ein Krankenhaus möglich. Dafür steht ein einseitiger Dialog zur Verfügung:</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceReportDialog.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Erfassungsdialog NUB-Meldung</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Versicherungsname und -IK werden aus Ihren Stammdaten übernommen und brauchen nur bei Bedarf geändert zu werden. Geben Sie das Jahr, für das Sie die Meldung erfassen sowie das Institutskennzeichen (IK) des Krankenhauses ein. Hinter dem Krankenhaus-IK wird dann das entsprechende Haus mit einem Kurznamen angezeigt. Die vereinbarten Leistungen können Sie nun in einer Tabelle erfassen. Dafür fügen Sie vorab oder Schritt für Schritt mittels </text><text styleclass="Button" translate="true">[ Zeile zufügen ]</text><text styleclass="Normal" translate="true"> der Tabelle neue Zeilen zu, in denen Sie die Daten erfassen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wahlweise im Feld </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Verf.Nr.</text><text styleclass="Normal" translate="true"> oder </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Name</text><text styleclass="Normal" translate="true"> wählen Sie die Neue Untersuchungs und Behandlungsmethode. Die Eingabe in einem der Felder reicht aus; das zweite wird automatisch befüllt. Die möglichen Meldungen hängen von den Anfragen des Krankenhauses ab. Zur einfachen Eingabe werden diese in einer Auswahlliste angeboten. Sofern Ihnen die Verfahrensnummer des Krankenhauses bekannt ist, wählen Sie diese im entsprechenden Feld, andernfalls können Sie die Meldung über den Namen der NUB erfassen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Felder </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Form</text><text styleclass="Normal" translate="true">, </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Menge</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Einheit </text><text styleclass="Normal" style="font-weight:normal;" translate="true">definieren eine Mengeneinheit. Beispiele hierfür sind &quot;Tablette 5 mg&quot; oder &quot;Stent 7 cm&quot;. Da diese Angaben nicht immer im Detail bekannt sind, handelt es sich um optionale Felder. Je besser Sie diese Füllen, desto höher wird die Qualität der späteren Verarbeitung. Die Auswahllisten wurden dabei mit Ausprägungen befüllt, wie sie aus früheren Meldungen bekannt sind. Sollten hier weitere Ausprägungen erforderlich sein, informieren Sie bitte kurz das InEK.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Anzahl</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> und </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Preis</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> geben die vereinbarte Menge bezogen auf die Mengeneinheit an. Preis ist dabei der Einzelpreis für eine einfache Mengeneinheit. Wurden keine Details sondern nur ein Gesamtbudget vereinbart, so geben Sie bei Anzahl eine &quot;1&quot; und bei Preis dieses Budget an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Für jede Zeile ist die Angabe des </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Entgeltschlüssel</text><text styleclass="Normal" style="font-weight:normal;" translate="true">s erforderlich. Sofern Ihnen dieser nicht bekannt ist, geben Sie als Ersatz den Pseudo-Schlüssel &quot;KANGABKK&quot; an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Im Feld </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Prozeduren</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> tragen Sie die entsprechenden OPS-Codes ein. Mehrere Codes können sowohl durch Leerzeichen getrennt oder in verschiedene Zeilen innerhalb des Feldes erfasst werden. Wirken Codes nur gemeinsam, verbinden Sie diese mittels &quot;+&quot;. Dieses Feld ist optional. Das InEK bittet jedoch um gewissenhafte Befüllung, sofern die Meldung Prozeduren betrifft und diese bekannt sind.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">In </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Bemerkung</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> können Sie zusätzliche Bemerkungen, z.B. Erläuterungen oder Hinweise, erfassen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Upload</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Je nach Umfang der NUB-Meldung können zahlreiche Zeilen zusammen kommen. In einem solchen Fall kann es schneller sein, die Daten per Upload in das </text><var styleclass="Normal" style="font-weight:normal;">&lt;%TITLE%&gt;</var><text styleclass="Normal" style="font-weight:normal;" translate="true"> zu übernehmen. Hierzu steht Ihnen die passende Funktion </text><text styleclass="Button" translate="true">[ Meldungen hochladen ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> zur Verfügung. Für den Upload stellen Sie die Daten einfach als Textdatei zur Verfügung. Dabei werden die Daten zeilenweise erfasst und die Felder innerhalb einer Zeile jeweils mittels Semikolon getrennt. Im EDV-Umfeld ist ein solches Format als CSV (Comma Separated Values) bekannt. Häufig lassen sich solche Dateien direkt aus einem EDV-System erzeugen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Das </text><var styleclass="Normal" style="font-weight:normal;">&lt;%TITLE%&gt;</var><text styleclass="Normal" style="font-weight:normal;" translate="true"> akzeptiert Daten in einem dieser beiden Formate:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">Verfahrensnummer;Form;Menge;Einheit;Anzahl;Preis;Entgeltschlüssel;Prozeduren;Bemerkung</text></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">laufende InEK Nummer;Form;Menge;Einheit;Anzahl;Preis;Entgeltschlüssel;Prozeduren;Bemerkung</text></para>
+    <para styleclass="Code Example"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">N1604711;Tablette;5;mg;30;500;76010021;5-123.4;Studie</text></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">123;Kapsel;10;ml;30;500;76010021;;</text></para>
+    <para styleclass="Code Example"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Dieses Beispiel dient lediglich der Demonstration. Die Daten haben keinerlei Bezug zu validen Meldungen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Bei der laufenden InEK Nummer handelt es sich um die Nummer wie sie in </text><text styleclass="Normal" translate="true">der</text><text styleclass="Normal" style="font-style:italic;" translate="true"> Informationen nach § 6 Abs. 2 KHEntgG</text><text styleclass="Normal" translate="true"> angegeben wurde. Diese Information finden Sie in der Internet-Präsenz des InEKs (</text><link displaytype="text" defaultstyle="true" type="weblink" href="http://g-drg.de" target="_blank" styleclass="Normal" translate="true">g-drg.de</link><text styleclass="Normal" translate="true">).</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In einer Zeile müssen alle Felder angegeben sein, auch wenn sie keinen Inhalt haben. Im Beispiel ist dies in der zweiten Zeile der Fall: Hier sind weder Prozeduren noch Bemerkung angegeben, die entsprechenden Semikola sind jedoch vorhanden und dürfen nicht entfallen!</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Zeilen werden beim Einlesen geprüft. Fehlerhafte Zeilen werden mit einer detaillierten Meldung abgewiesen.</text></para>
   </body>
 </topic>
