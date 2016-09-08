@@ -219,12 +219,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public String save() {
-        try {
+//        try {
             _notice = _insuranceFacade.saveNubNotice(_notice);
             _sessionController.alertClient(Utils.getMessage("msgSave"));
-        } catch (EJBException e) {
-            _sessionController.alertClient(Utils.getMessage("msgSaveError"));
-        }
+//        } catch (EJBException e) {
+//            _sessionController.alertClient(Utils.getMessage("msgSaveError"));
+//        }
         return "";
     }
 
