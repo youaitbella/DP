@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -133,8 +134,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public boolean getReadOnly() {
-        if(_notice.getWorkflowStatusId() >= WorkflowStatus.Provided.getValue())
+        if (_notice.getWorkflowStatusId() >= WorkflowStatus.Provided.getValue()) {
             return true;
+        }
         return false;
     }
 
@@ -173,7 +175,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             );
         }
     }
-    
+
     public void validatePrice(FacesContext context, UIComponent component, Object value) {
         double tmp = 0.0;
         try {
@@ -217,8 +219,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public String save() {
-        _notice = _insuranceFacade.saveNubNotice(_notice);
-        _sessionController.alertClient(Utils.getMessage("msgSave"));
+//        try {
+            _notice = _insuranceFacade.saveNubNotice(_notice);
+            _sessionController.alertClient(Utils.getMessage("msgSave"));
+//        } catch (EJBException e) {
+//            _sessionController.alertClient(Utils.getMessage("msgSaveError"));
+//        }
         return "";
     }
 

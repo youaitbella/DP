@@ -140,7 +140,6 @@ public class InsuranceNubNoticeItem implements Serializable {
     @Column(name = "inniPrice")
     private BigDecimal _price = new BigDecimal(0d);
 
-    @Min(1l)
     public BigDecimal getPrice() {
         return _price;
     }
