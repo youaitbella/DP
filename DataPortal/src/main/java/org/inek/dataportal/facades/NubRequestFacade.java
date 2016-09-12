@@ -324,40 +324,39 @@ public class NubRequestFacade extends AbstractDataAccess {
         nubRequest.setLastModified(nubRequestHistory.getLastModified());
         nubRequest.setStatus(WorkflowStatus.Taken);
     }
-    
+
     public boolean checkFormerNubId(String formerNubId, int ik) {
-        if(formerNubId.startsWith("N"))
+        if (formerNubId.startsWith("N")) {
             return checkNewNubId(formerNubId, ik);
+        }
         return checkOldNubId(formerNubId, ik);
     }
-    
+
     private boolean checkOldNubId(String formerNubId, int ik) {
         TypedQuery<NubFormerRequest> query = getQueryForOldNubIds(formerNubId, ik);
         int results = query.getResultList().size();
-        if(results == 0)
+        if (results == 0) {
             return false;
+        }
         return true;
     }
-    
+
     private boolean checkNewNubId(String formerNubId, int ik) {
         try {
             TypedQuery<NubRequest> query = getQueryForNewNubIds(formerNubId, ik);
-            int results = query.getResultList().size();
-            if(results == 0)
-                return false;
-            return true;
-        } catch(Exception ex) {
+            return query.getResultList().size() > 0;
+        } catch (Exception ex) {
             return false;
         }
     }
-    
+
     public String getOldNubIdName(String id) {
         String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId";
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
         query.setParameter("exId", id);
         return query.getResultList().get(0).getName();
     }
-    
+
     private TypedQuery<NubFormerRequest> getQueryForOldNubIds(String id, int ik) {
         String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId AND p._ik = :ik";
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
@@ -365,10 +364,10 @@ public class NubRequestFacade extends AbstractDataAccess {
         query.setParameter("ik", ik);
         return query;
     }
-    
+
     private TypedQuery<NubRequest> getQueryForNewNubIds(String id, int ik) {
         int targetYear = Calendar.getInstance().get(Calendar.YEAR);
-        String jpql = "SELECT p FROM NubRequest p WHERE p._id = :exId AND p._ik = :ik AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
+        String jpql = "SELECT p FROM NubRequest p WHERE p._id = :exId AND (p._ik = :ik or p._proxyIKs like :iks) AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         int nubId = 0;
         try {
@@ -376,60 +375,68 @@ public class NubRequestFacade extends AbstractDataAccess {
         } catch (Exception ex) {
             throw ex;
         }
-        query.setParameter("exId",nubId);
+        query.setParameter("exId", nubId);
         query.setParameter("ik", ik);
+        query.setParameter("iks", "%" + ik + "%");
         return query;
     }
-    
+
     private TypedQuery<NubFormerRequest> getQueryForOldNubIds(int ik, String filter) {
         String jpql = "SELECT p FROM NubFormerRequest p WHERE p._ik = :ik AND p._name LIKE :filter";
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
         query.setParameter("ik", ik);
-        query.setParameter("filter", "%"+filter+"%");
+        query.setParameter("filter", "%" + filter + "%");
         return query;
     }
-    private TypedQuery<NubRequest> getQueryForNewNubIds(int ik, String filter) {
-        int targetYear = Calendar.getInstance().get(Calendar.YEAR);
-        String jpql = "SELECT p FROM NubRequest p WHERE (p._ik = :ik or p._proxyIKs like :iks) AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear +" AND p._name LIKE :filter";
+
+    private TypedQuery<NubRequest> getQueryForNewNubIds(int ik, String filter, boolean maxYearOnly) {
+        int maxYear = Calendar.getInstance().get(Calendar.YEAR);
+        String jpql = "SELECT p FROM NubRequest p "
+                + "WHERE (p._ik = :ik or p._proxyIKs like :iks) "
+                + "AND p._status >= 20 AND p._status < 200 "
+                + "AND p._targetYear" + (maxYearOnly ? " = " : " <= ") + maxYear + " AND p._name LIKE :filter";
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("ik", ik);
-        query.setParameter("iks", "%"+ik+"%");
-        query.setParameter("filter", "%"+filter+"%");
+        query.setParameter("iks", "%" + ik + "%");
+        query.setParameter("filter", "%" + filter + "%");
         return query;
     }
-    
-    public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter) {
-        if (ik < 100000000){return Collections.EMPTY_LIST;}
-        
+
+    public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter, boolean maxYearOnly) {
+        if (ik < 100000000) {
+            return Collections.EMPTY_LIST;
+        }
+
         List<NubFormerRequestMerged> list = new ArrayList<>();
-        
-        TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter);
+
+        TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter, maxYearOnly);
         newIdsQuery.getResultList().stream()
-                .sorted((n1, n2)-> Integer.compare(n2.getId(), n1.getId()))
+                .sorted((n1, n2) -> Integer.compare(n2.getId(), n1.getId()))
                 .map((nr) -> {
-            NubFormerRequestMerged m = new NubFormerRequestMerged();
-            m.setId(nr.getExternalId());
-            m.setIk(nr.getIk());
-            m.setName(nr.getName());
-            return m;
-        }).forEachOrdered((m) -> {
+                    NubFormerRequestMerged m = new NubFormerRequestMerged();
+                    m.setId(nr.getExternalId());
+                    m.setIk(nr.getIk());
+                    m.setName(nr.getName());
+                    return m;
+                }).forEachOrdered((m) -> {
             list.add(m);
         });
-        
-        TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
-        oldIdsQuery.getResultList().stream()
-                .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
-                        .compareTo((n1.getExternalId().startsWith("1") ? "" : "0") + n1.getExternalId()))
-                .map((nfr) -> {
-            NubFormerRequestMerged m = new NubFormerRequestMerged();
-            m.setId(nfr.getExternalId());
-            m.setIk(nfr.getIk());
-            m.setName(nfr.getName());
-            return m;
-        }).forEachOrdered((m) -> {
-            list.add(m);
-        });
-        
+
+        if (!maxYearOnly) {
+            TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
+            oldIdsQuery.getResultList().stream()
+                    .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
+                    .compareTo((n1.getExternalId().startsWith("1") ? "" : "0") + n1.getExternalId()))
+                    .map((nfr) -> {
+                        NubFormerRequestMerged m = new NubFormerRequestMerged();
+                        m.setId(nfr.getExternalId());
+                        m.setIk(nfr.getIk());
+                        m.setName(nfr.getName());
+                        return m;
+                    }).forEachOrdered((m) -> {
+                list.add(m);
+            });
+        }
         return list;
     }
 }

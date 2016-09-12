@@ -136,7 +136,21 @@ public class EditNubRequest extends AbstractEditController {
         }
     }
 
+
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="getter / setter maxYearOnly">
+    boolean _maxYearOnly = true;
+
+    public boolean isMaxYearOnly() {
+        return _maxYearOnly;
+    }
+    public void setMaxYearOnly(boolean maxYearOnly) {
+        _formerRequests.clear();
+        _maxYearOnly = maxYearOnly;
+    }
+    // </editor-fold>
+
     @PostConstruct
     private void init() {
 
@@ -730,7 +744,7 @@ public class EditNubRequest extends AbstractEditController {
 
     public List<NubFormerRequestMerged> getAllNubIds() {
         if (_formerRequests.isEmpty() && _nubRequest.getIk() != null) {
-            _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"));
+            _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"), _maxYearOnly);
         }
         return _formerRequests;
     }

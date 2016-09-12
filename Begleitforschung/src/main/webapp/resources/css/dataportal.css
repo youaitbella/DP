@@ -1041,7 +1041,7 @@ div.feature a {
 
 div.groupBox {
     border-style: dotted;
-    border-width: 1px 1px 1px 1px;
+    border-width: 1px ;
 }
 
 div.groupBoxElement {
