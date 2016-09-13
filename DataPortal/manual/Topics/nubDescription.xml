@@ -14,8 +14,17 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Beruht die neue Untersuchungs- und Behandlungsmethode vollständig oder in Teilen auf den Einsatz eines Medizinproduktes?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Angabe ist verpflichtend im Hinblick </text><text styleclass="Hinweis" translate="true">auf Umsetzung des § 137h SGBV. Sofern die NUB </text><text styleclass="Normal" translate="true">auf den Einsatz eines Medizinproduktes beruht, wird der Dialog um weitere Felder ergänzt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="NubRequestMedicalDevice.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zusätzliche Felder für Angaben zu Medizinprodukten</text></para>
+    <para styleclass="Normal" style="margin-right:0px; margin-left:0px; line-height:1.00; tabstops:none;"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Wenn ja, handelt es sich um ein Medizinprodukt hoher Risikoklasse gemäß §137h SGB V?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Falle eines Medizinproduktes ist anzugeben, ob dies einer hohen Risikoklasse zuzuordnen ist. Sofern dies nicht eindeutig zu beantworten ist, erläutern Sie den Sachverhalt unter </text><text styleclass="Normal" style="font-style:italic;" translate="true">Sonstiges</text><text styleclass="Normal" translate="true">. Soweit nicht direkt dem Handbuch des Medizinproduktes entnehmbar, kann Ihnen in der Regel der Hersteller des Medizinproduktes Auskunft zur Risikoklasse geben.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Wurde für diese angefragte Untersuchungs- und Behandlungsmethode von Ihrem Krankenhaus bereits ... an das InEK übermittelt?</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">An dieser Stelle geben Sie an, ob von Ihrem Krankenhaus für diese Untersuchungs- und Behandlungsmethode bereits früher eine Anfrage gestellt wurde. Falls ja, wird ein weiteres Feld sichtbar, in dem Sie die frühere Verfahrensnummer angeben. Im Falle mehrerer früherer Anfragen geben Sie bevorzugt die jüngste Verfahrensnummer an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">An dieser Stelle geben Sie an, ob von Ihrem Krankenhaus für diese Untersuchungs- und Behandlungsmethode bereits früher eine Anfrage gestellt wurde. Falls ja, wird ein weiteres Feld sichtbar, in dem Sie die frühere Verfahrensnummer angeben. Diese Angabe ist verpflichtend, sofern die NUB auf dem Einsatz eines Medizinproduktes besteht. Andernfalls ist diese Angabe optional. Im Falle mehrerer früherer Anfragen geben Sie bevorzugt die jüngste Verfahrensnummer an.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="NubRequestFormerNumber.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Auswahl frühere Verfahrensnummer</text></para>
