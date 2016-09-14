@@ -51,7 +51,7 @@
                     <br/>
                     <h:selectOneRadio styleClass="radioGroup" 
                                       required="true"
-                                      style="display: block; float: left; width: 13.5em;"
+                                      style="display: block; float: left; width: 14em;"
                                       id="nubRiscClass" value="#{editNubRequest.nubRequest.riscClass}" >
                         <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
                         <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
@@ -59,7 +59,7 @@
                         <f:ajax render="@this :logout:remaining msgNubRiscClass nubRiscClassComment"/>
                     </h:selectOneRadio>
 
-                    <div style="display: block; float: left; width: calc(100% - 13.5em);">
+                    <div style="display: block; float: left; width: calc(100% - 14em);">
                         <h:inputText  styleClass="inputwide" 
                                       style="display: block; float: left"
                                       id="nubRiscClassComment" 

@@ -17,6 +17,7 @@ public enum NubFieldKey {
     Name,
     AltName,
     Description,
+    HasNoProcs,
     ProcCodes,
     Procedures,
     MedicalDevice,

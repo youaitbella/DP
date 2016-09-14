@@ -58,6 +58,7 @@ public class NubController extends AbstractFeatureController {
         appendLine(sb, NubFieldKey.Name, nubRequest.getName());
         appendLine(sb, NubFieldKey.AltName, nubRequest.getAltName());
         appendLine(sb, NubFieldKey.Description, nubRequest.getDescription());
+        appendLine(sb, NubFieldKey.HasNoProcs, "" + nubRequest.isHasNoProcs());
         appendLine(sb, NubFieldKey.ProcCodes, nubRequest.getProcs());
         appendLine(sb, NubFieldKey.Procedures, nubRequest.getProcedures());
         appendLine(sb, NubFieldKey.MedicalDevice, "" + nubRequest.getMedicalDevice());
@@ -136,6 +137,9 @@ public class NubController extends AbstractFeatureController {
                     break;
                 case Description:
                     request.setDescription(restoreBreaks(content));
+                    break;
+                case HasNoProcs:
+                    request.setHasNoProcs(content.toLowerCase().equals("true"));
                     break;
                 case ProcCodes:
                     request.setProcs(restoreBreaks(content));
