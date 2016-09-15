@@ -170,7 +170,7 @@
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msg.lblPrice}"/>
+                        <h:outputText value="#{msg.lblPayment}"/>
                     </f:facet>
                     <h:inputText id="itemPrice" required="true" value="#{item.price}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validatePrice}">
                         <f:ajax event="blur" render="@this :logout:remaining msgItemPrice"/>

@@ -136,23 +136,15 @@ public class MailTemplate implements Serializable {
     @Override
     public int hashCode() {
         return _id;
-//        int hash = 0;
-//        hash += (_id != null ? _id.hashCode() : 0);
-//        return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the _id fields are not set
         if (!(object instanceof MailTemplate)) {
             return false;
         }
         MailTemplate other = (MailTemplate) object;
         return this._id == other._id;
-//        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-//            return false;
-//        }
-//        return true;
     }
 
     @Override

@@ -5,7 +5,6 @@
 package org.inek.dataportal.feature.insurance;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -179,31 +178,31 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     public void validatePrice(FacesContext context, UIComponent component, Object value) {
         double tmp = 0.0;
         try {
-            tmp = Double.parseDouble(value+"");
-        } catch(Exception ex) {
+            tmp = Double.parseDouble(value + "");
+        } catch (Exception ex) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.", "Bitte einen gültigen Geldbetrag eingeben.");
             throw new ValidatorException(msg);
         }
-        if(tmp == 0) {
+        if (tmp == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht 0 sein.", "Der Betrag darf nicht 0 sein.");
             throw new ValidatorException(msg);
-        } else if(tmp < 0) {
+        } else if (tmp < 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht kleiner als 0 sein.", "Der Betrag darf nicht kleiner als 0 sein.");
             throw new ValidatorException(msg);
         }
     }
-    
+
     public void validateQuantity(FacesContext context, UIComponent component, Object value) {
-        int x = Integer.parseInt(value+"");
-        if(x <= 0) {
+        int x = Integer.parseInt(value + "");
+        if (x <= 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 1", "Der Mindestwert beträgt 1");
             throw new ValidatorException(msg);
         }
     }
-    
+
     public void validateAmount(FacesContext context, UIComponent component, Object value) {
-        double x = Double.parseDouble(value+"");
-        if(x < 0) {
+        double x = Double.parseDouble(value + "");
+        if (x < 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 0", "Der Mindestwert beträgt 0");
             throw new ValidatorException(msg);
         }
@@ -219,12 +218,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public String save() {
-//        try {
+        try {
             _notice = _insuranceFacade.saveNubNotice(_notice);
             _sessionController.alertClient(Utils.getMessage("msgSave"));
-//        } catch (EJBException e) {
-//            _sessionController.alertClient(Utils.getMessage("msgSaveError"));
-//        }
+        } catch (EJBException e) {
+            _sessionController.alertClient(Utils.getMessage("msgSaveError"));
+        }
         return "";
     }
 
@@ -259,10 +258,15 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             return "";
         }
         _notice.setWorkflowStatus(WorkflowStatus.Provided);
-        _insuranceFacade.merge(_notice);
-        _insuranceFacade.clearCache();
-        _sessionController.alertClient("Krankenkassenmeldung wurde erfolgreich eingereicht.");
-        return Pages.InsuranceSummary.RedirectURL();
+        try {
+            _insuranceFacade.merge(_notice);
+            _insuranceFacade.clearCache();
+            _sessionController.alertClient("NUB-Meldung wurde erfolgreich eingereicht.");
+            return Pages.InsuranceSummary.RedirectURL();
+        } catch (EJBException ex) {
+            _sessionController.alertClient(Utils.getMessage("msgSaveError"));
+            return "";
+        }
     }
 
     private Part _file;

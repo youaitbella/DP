@@ -376,12 +376,12 @@ public class EditNubRequest extends AbstractEditController {
         try {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
             if (!isValidId(_nubRequest.getId())) {
-                return Pages.Error.URL();
+                return Pages.Error.RedirectURL();
             }
             msg = Utils.getMessage("msgSave");
         } catch (Exception ex) {
             if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {
-                throw ex;
+                return Pages.DataError.RedirectURL();
             }
             msg = mergeAndReportChanges();
         }
