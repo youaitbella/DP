@@ -730,6 +730,7 @@ select:active, select:focus{
 }
 
 .areaHuge {
+    box-sizing: border-box;
     min-width: 100%;
     width: 100%;
     max-width: 100%;
