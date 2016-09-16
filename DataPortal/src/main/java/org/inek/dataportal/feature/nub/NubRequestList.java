@@ -77,6 +77,10 @@ public class NubRequestList {
         return Pages.NubFromTemplate.URL();
     }
 
+    public String gotoNubInfo() {
+        return Pages.NubMethodInfo.RedirectURL();
+    }
+
     public String editNubRequest(int requestId) {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditNubRequest");
         Utils.getFlash().put("nubId", requestId);

@@ -1,7 +1,6 @@
 package org.inek.dataportal.entities.insurance;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +10,7 @@ import javax.persistence.Id;
  * @author muellermi
  */
 @Entity
-public class NubMethodInfo implements Serializable {
+public class InsuranceNubMethodInfo implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property RequestId">
     @Column(name = "prDatenportalId")

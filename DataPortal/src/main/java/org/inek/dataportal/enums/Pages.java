@@ -37,6 +37,7 @@ public enum Pages {
     NubEditPage4("/NUB/NubEditPage4"),
     NubEditPageDocuments("/NUB/NubEditPageDocuments"),
     NubRequestCorrection("/NUB/NubRequestCorrection"),
+    NubMethodInfo("/NUB/NubMethodInfo"),
     //
     PartDropBox("/DropBox/PartDropBox"),
     ListDropBox("/DropBox/ListDropBox"),

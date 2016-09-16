@@ -26,6 +26,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.nub.NubFormerRequest;
 import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
+import org.inek.dataportal.entities.nub.NubMethodInfo;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
@@ -438,5 +439,20 @@ public class NubRequestFacade extends AbstractDataAccess {
             });
         }
         return list;
+    }
+    
+    public List<NubMethodInfo> readNubMethodInfos(String type){
+        String jpql = "select i from NubMethodInfo i where i._type = :type order by i._rowNum";
+        TypedQuery<NubMethodInfo> query = getEntityManager().createQuery(jpql, NubMethodInfo.class);
+        query.setParameter("type", type);
+        return query.getResultList();
+    }
+
+    public List<NubMethodInfo> readNubMethodInfos(int methodId, String type){
+        String jpql = "select i from NubMethodInfo i where i._methodId = :methodId and i._type = :type";
+        TypedQuery<NubMethodInfo> query = getEntityManager().createQuery(jpql, NubMethodInfo.class);
+        query.setParameter("methodId", methodId);
+        query.setParameter("type", type);
+        return query.getResultList();
     }
 }

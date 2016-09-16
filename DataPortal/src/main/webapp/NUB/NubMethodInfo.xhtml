@@ -7,95 +7,80 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <f:metadata>
-        <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
-    </f:metadata>
 
     <ui:define name="content">
         <h:form id="form">
             <h1>
                 <h:commandLink value="#{msg.nameNUB}" action="#{sessionController.navigate(sessionTools.pages.NubSummary)}" immediate="true"/>
             </h1>
-            <div class="tab">
-                <ul class="tab">
-                    <ui:repeat value="#{editNubRequest.visibleTopics}" var="topic">
-                        <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editNubRequest.changeTabPage(topic.key)}"
-                                           immediate="true">
-                            </h:commandLink>
-                        </li>
-                    </ui:repeat>
-                </ul>
-            </div>
 
-            <h:graphicImage rendered="#{editNubRequest.rejectedNub}" style="float: left; display: block; margin-top: 0px; margin-left: 2px; padding-top: 5px; background-color: rgb(238, 238, 238);"  alt="" name="Icon/small/error.png" value=""/>
-            <h:outputLabel rendered="#{editNubRequest.rejectedNub}" style="display: block; background-color: rgb(238, 238, 238); margin-top: 0px; padding-top: 5px;" styleClass="label" value="&nbsp;#{msg.lblNubErrorTextLong}:" />
-            <h:outputLabel rendered="#{editNubRequest.rejectedNub}" style="background-color: rgb(238, 238, 238); position: relative; border: #ff0000 solid 3px; width: 99%; display: block;" value="#{editNubRequest.nubRequest.errorText}"/>
+            <h3>
+                Die folgende Liste zeigt ausgewählte vom InEK veröffentlichte Neue Untersuchungs- und Behandlungsmethoden in Verbindung mit alternativen Namen wie sie im Rahmen von NUB-Anfragen genutzt wurden
+            </h3>
+            <h:commandLink value="vorherige 50" action="#{nubMethodInfoControler.previousPart()}" styleClass="button"/>
+            <h:commandLink value="folgende 50" action="#{nubMethodInfoControler.nextPart()}" styleClass="button"/>
+            <br/>
 
-            <div class="edit">
-                <ui:insert name="editContent">Content</ui:insert>
+            <h:dataTable value="#{nubMethodInfoControler.nubMethodInfosHead}" 
+                         var="info" 
+                         cellpadding="10"
+                         rowClasses="paddingRow1, paddingRow2"
+                         columnClasses="col04, col04, col46, col46">
+                
+                <h:column>
+                    <f:facet name="header"> #{msg.lblYear} </f:facet>
+                    <h:outputText value="#{info.baseYear}"/>
+                </h:column>
 
-                <div class="toolBar  floatContainer">
-                    <h:commandLink styleClass="bigButton" 
-                                   action="#{editNubRequest.save}" 
-                                   value="#{msg.btnSave}" 
-                                   immediate="true"
-                                   rendered="#{!editNubRequest.readOnly}">
-                    </h:commandLink>
+                <h:column>
+                    <f:facet name="header"> #{msg.lblNr} </f:facet>
+                    <h:outputText value="#{info.sequence}"/>
+                </h:column>
 
-                    <h:commandLink styleClass="sendButton"
-                                   action="#{editNubRequest.requestApproval}"
-                                   value="#{msg.btnRequestApproval}"
-                                   rendered="#{editNubRequest.approvalRequestEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmRequestApproval/>
-                    </h:commandLink>
+                <h:column>
+                    <f:facet name="header"> #{msg.lblPublishedName} </f:facet>
+                    <h:commandLink value="#{info.name}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
+                </h:column>
 
-                    <h:commandLink styleClass="sendButton"
-                                   action="#{editNubRequest.sealNubRequest}"
-                                   value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editNubRequest.sealEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmSeal/>
-                    </h:commandLink>
+                <h:column>
+                    <f:facet name="header"> #{msg.lblRequestedName}</f:facet>
+                    <h:outputText value="#{info.text}"/>
+                </h:column>
+            </h:dataTable>
 
-                    <h:commandLink styleClass="sendButton"
-                                   action="#{editNubRequest.updateNubRequest}"
-                                   value="#{msg.btnUpdate}"
-                                   rendered="#{editNubRequest.updateEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmSeal/>
-                    </h:commandLink>
+            <hr/>
+            <h:outputLabel value="Beschreibung" styleClass="label paddingElement"/>
+            <h:inputTextarea value="#{nubMethodInfoControler.description}" 
+                             styleClass="areaHuge"
+                             readonly="true" 
+                             rendered="#{nubMethodInfoControler.split ge 0}"/>
+            <hr/>
 
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editNubRequest.requestCorrection}"
-                                   value="#{msg.btnRequestCorrection}"
-                                   immediate="true"
-                                   rendered="#{editNubRequest.requestCorrectionEnabled}">
-                    </h:commandLink>
+            <h:dataTable rendered="#{nubMethodInfoControler.split ge 0 and nubMethodInfoControler.split lt 49}"
+                         value="#{nubMethodInfoControler.nubMethodInfosTail}" 
+                         var="info" 
+                         rowClasses="paddingRow1, paddingRow2"
+                         columnClasses="col04, col04, col46, col46">
+                <h:column>
+                    <f:facet name="header"> #{msg.lblYear} </f:facet>
+                    <h:commandLink value="#{info.baseYear}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
+                </h:column>
 
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editNubRequest.take}"
-                                   value="#{msg.btnTake}"
-                                   immediate="true"
-                                   rendered="#{editNubRequest.takeEnabled}"
-                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
-                    </h:commandLink>
-                    
-                    <h:commandLink id="btnTemplate" styleClass="bigButton"
-                                   action="#{editNubRequest.downloadTemplate()}"
-                                   value="#{msg.btnDownloadTemplate}"
-                                   immediate="true"
-                                   rendered="#{editNubRequest.nubRequest.name.length() gt 0}"/>
+                <h:column>
+                    <f:facet name="header"> #{msg.lblNr} </f:facet>
+                    <h:commandLink value="#{info.sequence}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
+                </h:column>
 
-                    <h:commandLink styleClass="bigButton"
-                                   value="#{msg.btnNewFromNub}"
-                                   rendered="#{applicationTools.isEnabled('IsNubCreateEnabled') and (editNubRequest.nubRequest.dateSealed != null or !editNubRequest.ownNub)}"
-                                   >
-                        <f:ajax listener="#{editNubRequest.copyNubRequest}"/>
-                    </h:commandLink>
-                </div>
-            </div>
+                <h:column>
+                    <f:facet name="header"> #{msg.lblPublishedName} </f:facet>
+                    <h:commandLink value="#{info.name}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"> #{msg.lblRequestedName}</f:facet>
+                    <h:commandLink value="#{info.text}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
+                </h:column>
+            </h:dataTable>
 
         </h:form>
 

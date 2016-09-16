@@ -15,7 +15,7 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
-import org.inek.dataportal.entities.insurance.NubMethodInfo;
+import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 
@@ -113,7 +113,7 @@ public class InsuranceFacade extends AbstractDataAccess {
         return Optional.empty();
     }
 
-    public List<NubMethodInfo> getNubMethodInfos(int ik, int year) {
+    public List<InsuranceNubMethodInfo> getNubMethodInfos(int ik, int year) {
         // with a prepared statement sql server sometimes needs quite a long time to fetch the result
         // thus, the parameters are now built into the string - no problem with SQL injection because both parameters are int
         String sql = "select prDatenportalId, prNubName, prFkCaId, caName "
@@ -122,7 +122,7 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
                 + "where (prIk = " + ik + " or nppProxyIk = " + ik + ") and prYear = " + year + " and prStatus between 20 and 21 "
                 + "order by prDatenportalId";
-        Query query = getEntityManager().createNativeQuery(sql, NubMethodInfo.class);
+        Query query = getEntityManager().createNativeQuery(sql, InsuranceNubMethodInfo.class);
         return query.getResultList();
     }
 

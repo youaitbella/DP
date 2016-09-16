@@ -31,7 +31,7 @@ import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
-import org.inek.dataportal.entities.insurance.NubMethodInfo;
+import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
@@ -108,9 +108,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 .collect(Collectors.toList());
     }
 
-    private List<NubMethodInfo> _nubInfos = null;
+    private List<InsuranceNubMethodInfo> _nubInfos = null;
 
-    public List<NubMethodInfo> getNubMethodInfos() {
+    public List<InsuranceNubMethodInfo> getNubMethodInfos() {
         if (_notice.getHospitalIk() < 0 && _notice.getYear() < 0) {
             return Collections.EMPTY_LIST;
         }

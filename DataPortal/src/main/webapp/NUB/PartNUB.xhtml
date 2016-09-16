@@ -29,6 +29,11 @@
                                immediate="true"
                                value="#{msg.lblNewFromTemplate}"/>
 
+                <h:commandLink styleClass="bigButton" 
+                               action="#{nubRequestList.gotoNubInfo}" 
+                               immediate="true" 
+                               value="#{msg.lblNubMethodInfo}"/>
+                
             </p>
             <div jsf:rendered="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">
                 <h:outputText value="#{msg.msgNoNubCreatable}" />

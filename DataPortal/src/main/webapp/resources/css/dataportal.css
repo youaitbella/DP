@@ -825,6 +825,14 @@ select:active, select:focus{
     width: 30%;
 }
 
+.col45{
+    width: 45%;
+}
+
+.col46{
+    width: 46%;
+}
+
 .col50{
     width: 50%;
 }
@@ -867,6 +875,16 @@ tr.row2 > td.colIk > input {
 
 .row2 {
     background-color: #dddddd;
+}
+
+.paddingRow1 {
+    background-color: #eeeeee;
+    padding: 0.1em 0;
+}
+
+.paddingRow2 {
+    background-color: #dddddd;
+    padding: 0.1em 0;
 }
 
 .warningMessage {
@@ -1081,6 +1099,10 @@ div.modelIntYesNo {
 
 .paddingElement {
     padding: 5px;
+}
+
+.verticalPaddingElement {
+    padding: 0.1em 0;
 }
 
 .marginElement {
