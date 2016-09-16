@@ -137,15 +137,36 @@ public class NubRequest implements Serializable {
     @Column(name = "nubEmail")
     private String _email = "";
 
+    // <editor-fold defaultstate="collapsed" desc="Property FormFillHelper">
     @Documentation(key = "lblFillHelper")
     @Column(name = "nubFormFillHelper")
-    @Size(max=1000)
     private String _formFillHelper = "";
 
+    @Size(max=1000)
+    public String getFormFillHelper() {
+        return _formFillHelper;
+    }
+
+    public void setFormFillHelper(String formFillHelper) {
+        _formFillHelper = formFillHelper;
+    }
+    // </editor-fold>
+
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Documentation(key = "lblAppellation")
     @Column(name = "nubName")
-    @Size(max=200)
     private String _name = "";
+
+    @Size(max=200)
+    public String getName() {
+        return _name;
+    }
+
+    public void setName(String name) {
+        _name = name;
+    }
+    // </editor-fold>
 
     @Documentation(key = "lblAltAppellation")
     @Column(name = "nubAltName")
@@ -211,9 +232,9 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property RiscClassComment">
     @Documentation(key = "lblComment")
     @Column(name = "nubRiscClassComment")
-    @Size(max = 200)
     private String _riscClassComment = "";
 
+    @Size(max = 200)
     public String getRiscClassComment() {
         return _riscClassComment;
     }
@@ -226,9 +247,9 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property TradeName">
     @Documentation(key = "lblTradeNameShort")
     @Column(name = "nubTradeName")
-    @Size(max = 200)
     private String _tradeName = "";
 
+    @Size(max = 200)
     public String getTradeName() {
         return _tradeName;
     }
@@ -241,9 +262,9 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property CeMark">
     @Documentation(key = "lblCeMarkShort")
     @Column(name = "nubCeMark")
-    @Size(max = 200)
     private String _ceMark = "";
 
+    @Size(max = 200)
     public String getCeMark() {
         return _ceMark;
     }
@@ -315,20 +336,50 @@ public class NubRequest implements Serializable {
     @Column(name = "nubHospitalCount")
     private String _hospitalCount = "";
 
+    // <editor-fold defaultstate="collapsed" desc="Property PatientsLastYear">
     @Documentation(key = "lblPatientsLastYear")
     @Column(name = "nubPatientsLastYear")
-    @Size(max=1000)
     private String _patientsLastYear = "";
 
+    @Size(max=1000)
+    public String getPatientsLastYear() {
+        return _patientsLastYear;
+    }
+
+    public void setPatientsLastYear(String patientsLastYear) {
+        _patientsLastYear = patientsLastYear;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PatientsThisYear">
     @Documentation(key = "lblPatientsThisYear")
     @Column(name = "nubPatientsThisYear")
-    @Size(max=1000)
     private String _patientsThisYear = "";
 
+    @Size(max=1000)
+    public String getPatientsThisYear() {
+        return _patientsThisYear;
+    }
+
+    public void setPatientsThisYear(String patientsThisYear) {
+        _patientsThisYear = patientsThisYear;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PatientsFuture">
     @Documentation(key = "lblPatientsFuture")
     @Column(name = "nubPatientsFuture")
-    @Size(max=1000)
     private String _patientsFuture = "";
+
+    @Size(max=1000)
+    public String getPatientsFuture() {
+        return _patientsFuture;
+    }
+
+    public void setPatientsFuture(String patientsFuture) {
+        _patientsFuture = patientsFuture;
+    }
+    // </editor-fold>
 
     @Documentation(key = "lblAddCosts")
     @Column(name = "nubAddCosts")
@@ -602,22 +653,6 @@ public class NubRequest implements Serializable {
         _email = email;
     }
 
-    public String getFormFillHelper() {
-        return _formFillHelper;
-    }
-
-    public void setFormFillHelper(String formFillHelper) {
-        _formFillHelper = formFillHelper;
-    }
-
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        _name = name;
-    }
-
     public String getAltName() {
         return _altName;
     }
@@ -760,30 +795,6 @@ public class NubRequest implements Serializable {
 
     public void setHospitalCount(String hospitalCount) {
         _hospitalCount = hospitalCount;
-    }
-
-    public String getPatientsFuture() {
-        return _patientsFuture;
-    }
-
-    public void setPatientsFuture(String patientsFuture) {
-        _patientsFuture = patientsFuture;
-    }
-
-    public String getPatientsThisYear() {
-        return _patientsThisYear;
-    }
-
-    public void setPatientsThisYear(String patientsThisYear) {
-        _patientsThisYear = patientsThisYear;
-    }
-
-    public String getPatientsLastYear() {
-        return _patientsLastYear;
-    }
-
-    public void setPatientsLastYear(String patientsLastYear) {
-        _patientsLastYear = patientsLastYear;
     }
 
     public String getAddCosts() {
