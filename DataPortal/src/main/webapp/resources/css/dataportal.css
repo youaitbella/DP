@@ -412,7 +412,7 @@ div#wrapper {
     background-repeat: no-repeat;
 }
 #content .activemenu a:before {
-   /* content: "       ";*/  /* non break spaces */
+    /* content: "       ";*/  /* non break spaces */
 }
 
 
@@ -912,13 +912,22 @@ img {
 
 a.button, a.secondaryButton, a.midButton, a.smallButton, span.button, label.button, input.button, .addButton{
     display: inline-block;
-    margin: 0 1.5em 0 0;
     padding: 1px 0;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
     border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
+}
+
+a.leftArrow {
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+}
+
+a.rightArrow {
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
 }
 
 .certWebsiteButton {
@@ -1112,6 +1121,10 @@ div.modelIntYesNo {
 
 .marginTop {
     margin-top: 5px;
+}
+
+.marginBottom {
+    margin-bottom: 5px;
 }
 
 .paddingBottom {

@@ -22,39 +22,39 @@
             <div class="inputPart">
                 <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
                 <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubMethodInfoController.filter}">
-                    <f:ajax render="@form :logout:remaining"/>
+                    <f:ajax event="change" render="@form :logout:remaining"/>
                 </h:inputText>
                 <h:commandButton styleClass="button" value="#{msg.btnRefreshList}">
                     <f:ajax render="@form :logout:remaining"/>
                 </h:commandButton>
             </div>
 
-            <h:commandLink value="vorherige 50" action="#{nubMethodInfoController.previousPart()}" styleClass="button"/>
-            <h:commandLink value="folgende 50" action="#{nubMethodInfoController.nextPart()}" styleClass="button"/>
-            &nbsp; von #{nubMethodInfoController.listSize}
-            <br/>
-
+            <inek:NubMethodInfoNavigation/>
             <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosHead}" id="head"/>
 
-            <h:panelGroup id="description" rendered="#{nubMethodInfoController.split ge 0}">
-                <hr/>
+            <h:panelGroup id="description" rendered="#{nubMethodInfoController.split gt 0}">
                 <h:outputLabel value="Beschreibung" styleClass="label paddingElement"/>
                 <h:inputTextarea value="#{nubMethodInfoController.description}" 
-                                 styleClass="areaHuge paddingElement"
+                                 styleClass="areaHuge paddingElement marginBottom"
                                  readonly="true"/>
-                <hr/>
+                <hr class="simpleLine"/>
             </h:panelGroup>
 
-            <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosTail}"/>
+            <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosTail}" 
+                                rendered="#{nubMethodInfoController.split > 0 and nubMethodInfoController.split lt nubMethodInfoController.maxSplit}"/>
+            <inek:NubMethodInfoNavigation/>
 
 
         </h:form>
 
         <script>
-            function scroll() {
-                document.getElementById("form:head:methodInfoList:#{nubMethodInfoController.split}:year").scrollIntoView();
+            function makeVisible() {
+                var el = document.getElementById("form:head:methodInfoList:#{nubMethodInfoController.split-1}:year");
+                if (el.getBoundingClientRect().top > window.innerHeight) {
+                    el.scrollIntoView();
+                }
             }
-            addOnLoadFunction(scroll);
+            addOnLoadFunction(makeVisible);
         </script>
     </ui:define>
 

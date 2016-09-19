@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="marginTop marginBottom">
+            <h:commandLink value="#{nubMethodInfoController.previousInfo}" 
+                           rendered="#{!empty(nubMethodInfoController.previousInfo)}"
+                           action="#{nubMethodInfoController.previousPart()}" 
+                           styleClass="button leftArrow marginRight"/>
+            [#{nubMethodInfoController.currentInfo}] &nbsp;
+            <h:commandLink value="#{nubMethodInfoController.nextInfo}" 
+                           rendered="#{!empty(nubMethodInfoController.nextInfo)}"
+                           action="#{nubMethodInfoController.nextPart()}" 
+                           styleClass="button rightArrow marginLeft marginRight"/>
+            von insgesamt #{nubMethodInfoController.listSize} Zeilen
+        </div>
+
+    </cc:implementation>
+</html>

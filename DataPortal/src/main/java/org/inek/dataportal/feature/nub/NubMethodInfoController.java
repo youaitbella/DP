@@ -27,7 +27,7 @@ public class NubMethodInfoController implements Serializable {
 
     @Inject NubRequestFacade _nubRequestFacade;
 
-    List<NubMethodInfo> _nubMethodInfos;
+    List<NubMethodInfo> _nubMethodInfos = Collections.EMPTY_LIST;
 
     public List<NubMethodInfo> getNubMethodInfosHead() {
         return obtainNubMethodInfos(true);
@@ -39,13 +39,13 @@ public class NubMethodInfoController implements Serializable {
 
     private List<NubMethodInfo> obtainNubMethodInfos(boolean isHead) {
         ensureNubMethodInfos();
-        int amount = _split >= 0 ? _split + 1 : _elementsPerPart;
+        int amount = _split > 0 ? _split : _elementsPerPart;
         int[] counter = new int[1];
         Stream<NubMethodInfo> infoStream = _nubMethodInfos.stream()
                 .filter(info -> isFiltered(info))
                 .map(info -> {
-                    info.setRowNum(counter[0]);
                     counter[0]++;
+                    info.setRowNum(counter[0]);
                     return info;
                 })
                 .skip(_part * _elementsPerPart + (isHead ? 0 : amount)).limit(isHead ? amount : _elementsPerPart - amount);
@@ -53,6 +53,7 @@ public class NubMethodInfoController implements Serializable {
     }
 
     public long getListSize(){
+        ensureNubMethodInfos();
         return _nubMethodInfos.stream().filter(info -> isFiltered(info)).count();
     }
     
@@ -73,14 +74,14 @@ public class NubMethodInfoController implements Serializable {
     }
     
     private void ensureNubMethodInfos() {
-        if (_nubMethodInfos == null) {
+        if (_nubMethodInfos.isEmpty()) {
             _nubMethodInfos = _nubRequestFacade.readNubMethodInfos("N");
         }
     }
 
     int _elementsPerPart = 50;
     int _part = 0;
-    int _split = -1;
+    int _split = 0;
 
     public int getPart() {
         return _part;
@@ -89,25 +90,62 @@ public class NubMethodInfoController implements Serializable {
     public int getSplit() {
         return _split;
     }
+    
+    public long getMaxSplit() {
+        return Math.max(_elementsPerPart, 1 + (getListSize()-1) % _elementsPerPart);
+    }
+    
 
     List<String> _searchTokens = Collections.EMPTY_LIST;
 
     public String getFilter() {
-        return _searchTokens.stream().collect(Collectors.joining(" "));
+        return obtainFilter(_searchTokens);
+    }
+
+    private String obtainFilter(List<String> searchTokens) {
+        return searchTokens.stream().collect(Collectors.joining(" "));
     }
 
     public void setFilter(String filter) {
+        List<String> searchTokens;
         if (filter == null || filter.isEmpty()) {
-            _searchTokens = Collections.EMPTY_LIST;
+            searchTokens = Collections.EMPTY_LIST;
         } else {
-            _searchTokens = Arrays.asList(filter.split(" ")).stream().filter(t -> !t.isEmpty()).map(t -> t.toLowerCase()).collect(Collectors.toList());
+            searchTokens = Arrays.asList(filter.split(" ")).stream().filter(t -> !t.isEmpty()).map(t -> t.toLowerCase()).collect(Collectors.toList());
         }
+        if (obtainFilter(searchTokens).equals(obtainFilter(_searchTokens))){
+            return;
+        }
+        _searchTokens = searchTokens;
         _part = 0;
+        _description = "";
+        _split = 0;
+    }
+
+    public String getPreviousInfo (){
+        return obtainElementInfo(_part - 1);
+    }
+
+    public String getNextInfo (){
+        return obtainElementInfo(_part + 1);
+    }
+
+    public String getCurrentInfo (){
+        return obtainElementInfo(_part);
+    }
+
+    private String obtainElementInfo(long part) {
+        long start = (part) * _elementsPerPart + 1;
+        if (start < 0 || start > getListSize()){
+            return "";
+        }
+        long end = Math.min((part + 1) * _elementsPerPart, getListSize());
+        return "Zeilen " + start + " bis " + end;
     }
 
     public String nextPart() {
         ensureNubMethodInfos();
-        if ((_nubMethodInfos.size() - 1) / _elementsPerPart > _part) {
+        if ((getListSize() - 1) / _elementsPerPart > _part) {
             _part++;
         }
         _split = -1;
@@ -124,7 +162,7 @@ public class NubMethodInfoController implements Serializable {
     }
 
     public String setSplitAndReload(NubMethodInfo info) {
-        _split = info.getRowNum() % _elementsPerPart;
+        _split = 1 + (info.getRowNum()-1) % _elementsPerPart;
         List<NubMethodInfo> nubMethodInfos = _nubRequestFacade.readNubMethodInfos(info.getMethodId(), "D");
         _description = nubMethodInfos.stream().map(i -> i.getText()).collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
         return "";
