@@ -389,11 +389,11 @@ public class NubRequest implements Serializable {
     @Column(name = "nubWhyNotRepresented")
     private String _whyNotRepresented = "";
 
-    @Documentation(key = "lblRequestedEarlierSelf")
+    @Documentation(key = "lblRequestedEarlierSelf", omitAlways = true)
     @Column(name = "nubRequestedEarlierSelf")
     private boolean _isRequestedEarlierSelf;
 
-    @Documentation(key = "lblRequestedEarlierOther")
+    @Documentation(key = "lblRequestedEarlierOther", omitAlways = true)
     @Column(name = "nubRequestedEarlierOther")
     private boolean _isRequestedEarlierOther;
 
@@ -942,6 +942,7 @@ public class NubRequest implements Serializable {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
