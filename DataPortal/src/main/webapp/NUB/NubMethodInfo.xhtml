@@ -5,7 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
 
     <ui:define name="content">
@@ -17,73 +18,44 @@
             <h3>
                 Die folgende Liste zeigt ausgewählte vom InEK veröffentlichte Neue Untersuchungs- und Behandlungsmethoden in Verbindung mit alternativen Namen wie sie im Rahmen von NUB-Anfragen genutzt wurden
             </h3>
-            <h:commandLink value="vorherige 50" action="#{nubMethodInfoControler.previousPart()}" styleClass="button"/>
-            <h:commandLink value="folgende 50" action="#{nubMethodInfoControler.nextPart()}" styleClass="button"/>
+
+            <div class="inputPart">
+                <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubMethodInfoController.filter}">
+                    <f:ajax render="@form :logout:remaining"/>
+                </h:inputText>
+                <h:commandButton styleClass="button" value="#{msg.btnRefreshList}">
+                    <f:ajax render="@form :logout:remaining"/>
+                </h:commandButton>
+            </div>
+
+            <h:commandLink value="vorherige 50" action="#{nubMethodInfoController.previousPart()}" styleClass="button"/>
+            <h:commandLink value="folgende 50" action="#{nubMethodInfoController.nextPart()}" styleClass="button"/>
+            &nbsp; von #{nubMethodInfoController.listSize}
             <br/>
 
-            <h:dataTable value="#{nubMethodInfoControler.nubMethodInfosHead}" 
-                         var="info" 
-                         cellpadding="10px"
-                         rowClasses="paddingRow1, paddingRow2"
-                         columnClasses="col04, col04, col46, col46">
-                
-                <h:column>
-                    <f:facet name="header"> #{msg.lblYear} </f:facet>
-                    <h:outputText value="#{info.baseYear}"/>
-                </h:column>
+            <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosHead}" id="head"/>
 
-                <h:column>
-                    <f:facet name="header"> #{msg.lblNr} </f:facet>
-                    <h:outputText value="#{info.sequence}"/>
-                </h:column>
+            <h:panelGroup id="description" rendered="#{nubMethodInfoController.split ge 0}">
+                <hr/>
+                <h:outputLabel value="Beschreibung" styleClass="label paddingElement"/>
+                <h:inputTextarea value="#{nubMethodInfoController.description}" 
+                                 styleClass="areaHuge paddingElement"
+                                 readonly="true"/>
+                <hr/>
+            </h:panelGroup>
 
-                <h:column>
-                    <f:facet name="header"> #{msg.lblPublishedName} </f:facet>
-                    <h:commandLink value="#{info.name}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
-                </h:column>
+            <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosTail}"/>
 
-                <h:column>
-                    <f:facet name="header"> #{msg.lblRequestedName}</f:facet>
-                    <h:outputText value="#{info.text}"/>
-                </h:column>
-            </h:dataTable>
-
-            <hr/>
-            <h:outputLabel value="Beschreibung" styleClass="label paddingElement"/>
-            <h:inputTextarea value="#{nubMethodInfoControler.description}" 
-                             styleClass="areaHuge paddingElement"
-                             readonly="true" 
-                             rendered="#{nubMethodInfoControler.split ge 0}"/>
-            <hr/>
-
-            <h:dataTable rendered="#{nubMethodInfoControler.split ge 0 and nubMethodInfoControler.split lt 49}"
-                         value="#{nubMethodInfoControler.nubMethodInfosTail}" 
-                         var="info" 
-                         rowClasses="paddingRow1, paddingRow2"
-                         columnClasses="col04, col04, col46, col46">
-                <h:column>
-                    <f:facet name="header"> #{msg.lblYear} </f:facet>
-                    <h:commandLink value="#{info.baseYear}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header"> #{msg.lblNr} </f:facet>
-                    <h:commandLink value="#{info.sequence}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header"> #{msg.lblPublishedName} </f:facet>
-                    <h:commandLink value="#{info.name}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header"> #{msg.lblRequestedName}</f:facet>
-                    <h:commandLink value="#{info.text}" immediate="true" action="#{nubMethodInfoControler.setSplitAndReload(info)}"/>
-                </h:column>
-            </h:dataTable>
 
         </h:form>
 
+        <script>
+            function scroll() {
+                document.getElementById("form:head:methodInfoList:#{nubMethodInfoController.split}:year").scrollIntoView();
+            }
+            addOnLoadFunction(scroll);
+        </script>
     </ui:define>
 
 </ui:composition>

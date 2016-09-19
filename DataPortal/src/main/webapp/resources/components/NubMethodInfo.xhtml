@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="methodInfos"/> 
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:dataTable value="#{cc.attrs.methodInfos}" 
+                     id="methodInfoList"
+                     var="info" 
+                     cellpadding="10px"
+                     rowClasses="paddingRow1, paddingRow2"
+                     columnClasses="col04, col04, col46, col46">
+
+            <h:column>
+                <f:facet name="header"> #{msg.lblYear} </f:facet>
+                <h:outputText value="#{info.baseYear}" id="year"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"> #{msg.lblNr} </f:facet>
+                <h:commandLink value="#{info.sequence}" immediate="true" action="#{nubMethodInfoController.setSplitAndReload(info)}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"> #{msg.lblPublishedName} </f:facet>
+                <h:commandLink value="#{info.name}" immediate="true" action="#{nubMethodInfoController.setSplitAndReload(info)}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"> #{msg.lblRequestedName}</f:facet>
+                <h:outputText value="#{info.text}"/>
+            </h:column>
+        </h:dataTable>
+
+    </cc:implementation>
+</html>
