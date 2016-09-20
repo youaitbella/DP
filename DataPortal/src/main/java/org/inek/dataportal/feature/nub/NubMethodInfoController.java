@@ -103,7 +103,7 @@ public class NubMethodInfoController implements Serializable {
         boolean found = true;
         String textToSearch = text.toLowerCase();
         for (String searchToken : _searchTokens) {
-            found = found && wholeWord ? textToSearch.equals(searchToken) : textToSearch.contains(searchToken);
+            found = found && (wholeWord ? textToSearch.equals(searchToken) : textToSearch.contains(searchToken));
         }
         return found;
     }
@@ -174,7 +174,7 @@ public class NubMethodInfoController implements Serializable {
             return "";
         }
         long end = Math.min((part + 1) * _elementsPerPart, getListSize());
-        return "Zeilen " + start + " bis " + end;
+        return "Einträge " + start + " bis " + end;
     }
 
     public String nextPart() {
