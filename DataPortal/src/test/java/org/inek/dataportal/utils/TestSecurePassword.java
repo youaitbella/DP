@@ -7,6 +7,7 @@ package org.inek.dataportal.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.inek.dataportal.enums.Quality;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -21,28 +22,57 @@ public class TestSecurePassword {
     }
 
     @Test
-    public void checkSecurePassword() {
+    public void checkPoorPassword() {
         System.out.println("checkSecurePasswordTest");
-        Map<String, Boolean> passwordList = new HashMap<>();
+        Map<String, Quality> passwordList = new HashMap<>();
         
-        passwordList.put("hallowelt", Boolean.FALSE);
-        passwordList.put("__SECUREpAs3sword!", Boolean.TRUE);
-        passwordList.put("OoUnndze23113x", Boolean.FALSE);
-        passwordList.put("?!383_dWzzztmdm\\", Boolean.TRUE);
-        passwordList.put("123abc$&", Boolean.FALSE);
-        passwordList.put("'#", Boolean.FALSE);
-        passwordList.put("?", Boolean.FALSE);
-        passwordList.put("", Boolean.FALSE);
-        passwordList.put("L&§MNUu", Boolean.FALSE);
-        passwordList.put("L&§MNUu3", Boolean.TRUE);
-        passwordList.put("pppppppp", Boolean.FALSE);
-        passwordList.put("hallowelt☻P2", Boolean.FALSE);
-        passwordList.put("hallo!2Ewelthallowelthallowelthallowelt", Boolean.FALSE);
+        passwordList.put("'#", Quality.Poor);
+        passwordList.put("?", Quality.Poor);
+        passwordList.put("", Quality.Poor);
         
-        for(int i = 0; i < passwordList.size(); i++) {
-            String pw = (String) passwordList.keySet().toArray()[i];
-            boolean expected = passwordList.get(pw);
-            boolean result = SecurePassword.checkSecurePassword(pw);
+        processList(passwordList);
+    }
+
+    @Test
+    public void checkMediumPassword() {
+        System.out.println("checkSecurePasswordTest");
+        Map<String, Quality> passwordList = new HashMap<>();
+        
+        passwordList.put("hallowelt", Quality.Medium);
+        passwordList.put("pppppppp", Quality.Medium);
+        
+        processList(passwordList);
+    }
+
+    @Test
+    public void checkGoodPassword() {
+        System.out.println("checkSecurePasswordTest");
+        Map<String, Quality> passwordList = new HashMap<>();
+        
+        passwordList.put("123abc$&", Quality.Good);
+        passwordList.put("L&§MNUu3", Quality.Good);
+        
+        processList(passwordList);
+    }
+
+    @Test
+    public void checkStrongPassword() {
+        System.out.println("checkSecurePasswordTest");
+        Map<String, Quality> passwordList = new HashMap<>();
+        
+        passwordList.put("__SECUREpAs3sword!", Quality.Strong);
+        passwordList.put("OoUnndze23113x", Quality.Strong);
+        passwordList.put("?!383_dWzzztmdm\\", Quality.Strong);
+        passwordList.put("hallowelt☻P2", Quality.Strong);
+        passwordList.put("hallo!2Ewelthallowelthallowelthallowelt", Quality.Strong);
+        
+        processList(passwordList);
+    }
+
+    private void processList(Map<String, Quality> passwordList) {
+        for (String pw : passwordList.keySet()){
+            Quality expected = passwordList.get(pw);
+            Quality result = SecurePassword.determinePasswordQuality(pw);
             assertEquals("Password: "+pw, result, expected);
         }
     }
