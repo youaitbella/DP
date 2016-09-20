@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Informationen zu NUB-Anfragen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Informationen zu NUB-Anfragen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Gemäß SGB V § 137h </text><text styleclass="Normal" style="font-style:italic;" translate="true">Bewertung neuer Untersuchungs- und Behandlungsmethoden mit Medizinprodukten hoher Risikoklasse</text><text styleclass="Normal" translate="true">&#32;</text><text styleclass="Normal" translate="true">sind bei erstmaliger Anfrage einer Neuen Untersuchungs- und Behandlungsmethode</text><text styleclass="Normal" translate="true">, deren technische Anwendung maßgeblich auf dem Einsatz eines Medizinprodukts mit hoher Risikoklasse beruht, bestimmte Informationen an den Gemeinsamen Bundesausschuss zu übermitteln. Das InEK überprüft die Anfragen lediglich im Hinblick auf Vergütung durch Fallpauschalen und Zusatzentgelte. Erstmals mit dem Anfrageverfahren für 2017 werden zusätzliche informative Daten zu Medizinprodukt und Risikoklasse erhoben. Das InEK kann aufgrund von Datenlage und Aufgaben keine Aussagen in Bezug auf </text><text styleclass="Normal" translate="true">SGB V § 137h machen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zur Ihrer Unterstützung bietet das InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> eine Auflistung früherer Anfragen (für die Jahre 2015 und 2016), für die der Einsatz eines Medizinproduktes hoher Risikoklasse nicht sicher ausgeschlossen ist, mit den vom InEK für die Bewertung gemäß</text><text styleclass="Normal" translate="true">&#32;</text><text styleclass="Normal" translate="true">§ 6 Abs. 2 KHEntgG</text><text styleclass="Normal" translate="true"> veröffentlichten Namen. Diesen Namen gegenübergestellt sind die Namen aus Anfragen aus dem NUB-Verfahren der genannten Jahre, sowie ausführliche Beschreibungen. Für eine möglichst hohe Bandbreite wurden diese Namen und Beschreibungen lediglich marginal editiert bzw. formatiert. In weiten Teilen entsprechen Sie dem ursprünglichen Format. Daher kann es zu unterschiedlich langen Zeilen oder fast gleichlautenden Einträgen kommen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben Namen und Beschreibung ist eine Nummer unter der die neuen </text><text styleclass="Normal" translate="true">Untersuchungs- und Behandlungsmethoden vom InEK veröffentlicht wurde aufgeführt. Bei Namensgleichheit in beiden Jahren wird hier lediglich die Nummer aus 2016 gelistet. Bitte beachten Sie, dass die Namen lediglich einen Hinweis auf die </text><text styleclass="Normal" translate="true">neuen </text><text styleclass="Normal" translate="true">Untersuchungs- und Behandlungsmethoden geben. Auch bei Namensgleichheit können sich die Anfragen inhaltlich unterscheiden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
