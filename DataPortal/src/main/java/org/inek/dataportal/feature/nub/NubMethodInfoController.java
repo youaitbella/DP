@@ -41,9 +41,8 @@ public class NubMethodInfoController implements Serializable {
         ensureNubMethodInfos();
         int amount = _split > 0 ? _split : _elementsPerPart;
         int[] counter = new int[1];
-        Stream<NubMethodInfo> infoStream = _nubMethodInfos.stream()
-                .filter(info -> isFiltered(info))
-                .sorted((i1, i2) -> compare(i1, i2))
+        Stream<NubMethodInfo> infoStream = getFilteredInfoStream();
+        infoStream = infoStream.sorted((i1, i2) -> compare(i1, i2))
                 .map(info -> {
                     counter[0]++;
                     info.setRowNum(counter[0]);
@@ -53,11 +52,24 @@ public class NubMethodInfoController implements Serializable {
         return infoStream.collect(Collectors.toList());
     }
 
+    private Stream<NubMethodInfo> getFilteredInfoStream() {
+        Stream<NubMethodInfo> infoStream = _nubMethodInfos.stream()
+                .filter(info -> isFiltered(info));
+        if (isRestrictToOne()) {
+            int[] lastSeq = new int[1];
+            lastSeq[0] = -1;
+            infoStream = infoStream.sorted((i1, i2) -> i1.getSequence() - i2.getSequence())
+                    .filter(i -> lastSeq[0] != i.getSequence())
+                    .peek(i -> lastSeq[0] = i.getSequence());
+        }
+        return infoStream;
+    }
+
     private int compare(NubMethodInfo i1, NubMethodInfo i2) {
         switch (_sortCriteria) {
             case "year":
                 if (_isDescending) {
-                    return i2.getBaseYear()- i1.getBaseYear();
+                    return i2.getBaseYear() - i1.getBaseYear();
                 }
                 return i1.getBaseYear() - i2.getBaseYear();
             case "sequence":
@@ -69,12 +81,12 @@ public class NubMethodInfoController implements Serializable {
                 if (_isDescending) {
                     return i2.getName().compareTo(i1.getName());
                 }
-                    return i1.getName().compareTo(i2.getName());
+                return i1.getName().compareTo(i2.getName());
             case "text":
                 if (_isDescending) {
                     return i2.getText().compareTo(i1.getText());
                 }
-                    return i1.getText().compareTo(i2.getText());
+                return i1.getText().compareTo(i2.getText());
             default:
                 return 1;
         }
@@ -89,7 +101,7 @@ public class NubMethodInfoController implements Serializable {
 
     public long getListSize() {
         ensureNubMethodInfos();
-        return _nubMethodInfos.stream().filter(info -> isFiltered(info)).count();
+        return getFilteredInfoStream().count();
     }
 
     private boolean isFiltered(NubMethodInfo info) {
@@ -232,6 +244,18 @@ public class NubMethodInfoController implements Serializable {
 
     public String getSortCriteria() {
         return _sortCriteria;
+    }
+    // </editor-fold>    
+
+    // <editor-fold defaultstate="collapsed" desc="Property RestrictToOne">    
+    boolean _restrictToOne = false;
+
+    public boolean isRestrictToOne() {
+        return _restrictToOne;
+    }
+
+    public void setRestrictToOne(boolean restrictToOne) {
+        this._restrictToOne = restrictToOne;
     }
     // </editor-fold>    
 

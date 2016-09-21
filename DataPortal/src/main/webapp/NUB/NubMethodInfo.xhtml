@@ -32,9 +32,13 @@
                 <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{nubMethodInfoController.filter}">
                     <f:ajax event="change" render="@form :logout:remaining"/>
                 </h:inputText>
-                <h:commandButton styleClass="button" value="#{msg.btnRefreshList}">
+                <h:commandButton styleClass="button marginRight" value="#{msg.btnRefreshList}">
                     <f:ajax render="@form :logout:remaining"/>
                 </h:commandButton>
+                <h:selectBooleanCheckbox id="restrictToOne" value="#{nubMethodInfoController.restrictToOne}" styleClass="marginLeft marginRight">
+                    <f:ajax render="@form :logout:remaining"/>
+                </h:selectBooleanCheckbox>
+                <h:outputLabel for="restrictToOne" value="nur 1 Eintrag je Nr." />
             </div>
             <hr class="simpleLine"/>
 
