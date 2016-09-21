@@ -281,7 +281,6 @@ public class SessionController implements Serializable {
      * @return
      */
     private boolean login(String mailOrUser, String password) {
-        FacesContext context = FacesContext.getCurrentInstance();
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         if (!login(mailOrUser, password, loginInfo)) {
             return false;

@@ -86,28 +86,83 @@ public class NubRequest implements Serializable {
     @Column(name = "nubIk")
     private Integer _ik = -1;
 
+    // <editor-fold defaultstate="collapsed" desc="Property IkName">
     @Column(name = "nubIkName")
     private String _ikName = "";
+
+    @Size(max = 100, message = "{validation.max}")
+    public String getIkName() {
+        return _ikName;
+    }
+
+    public void setIkName(String hospitalName) {
+        _ikName = hospitalName;
+    }
+    // </editor-fold>
 
     //@Documentation(name="Anrede")
     @Column(name = "nubGender")
     private int _gender;
 
+    // <editor-fold defaultstate="collapsed" desc="Property Title">
     @Documentation(key = "lblTitle")
     @Column(name = "nubTitle")
     private String _title = "";
 
+    @Size(max = 50, message = "{validation.max}")
+    public String getTitle() {
+        return _title;
+    }
+
+    public void setTitle(String title) {
+        _title = title;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property FirstName">
     @Documentation(key = "lblFirstName")
     @Column(name = "nubFirstName")
     private String _firstName = "";
 
+    @Size(max = 50, message = "{validation.max}")
+    public String getFirstName() {
+        return _firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        _firstName = firstName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Documentation(key = "lblLastName")
     @Column(name = "nubLastName")
     private String _lastName = "";
 
+    @Size(max = 50)
+    public String getLastName() {
+        return _lastName;
+    }
+
+    public void setLastName(String lastName) {
+        _lastName = lastName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Division">
     @Documentation(key = "lblDivision")
     @Column(name = "nubDivision")
     private String _division = "";
+
+    @Size(max = 50)
+    public String getDivision() {
+        return _division;
+    }
+
+    public void setDivision(String division) {
+        _division = division;
+    }
+    // </editor-fold>
 
     //@Documentation(key = "lblContactRole")
     @Column(name = "nubRoleId")
@@ -191,6 +246,7 @@ public class NubRequest implements Serializable {
     @Column(name = "nubFormerExternalId")
     private String _formerExternalId = "";
 
+    @Size(max = 20, message = "{validation.max}")
     public String getFormerExternalId() {
         return _formerExternalId;
     }
@@ -199,7 +255,6 @@ public class NubRequest implements Serializable {
         _formerExternalId = formerExternalId;
     }
     // </editor-fold>
-
     
     // <editor-fold defaultstate="collapsed" desc="Property MedicalDevice">
     @Documentation(key = "lblMedicalDeviceShort", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes")
@@ -234,7 +289,7 @@ public class NubRequest implements Serializable {
     @Column(name = "nubRiscClassComment")
     private String _riscClassComment = "";
 
-    @Size(max = 200)
+    @Size(max = 500, message = "{validation.max}")
     public String getRiscClassComment() {
         return _riscClassComment;
     }
@@ -249,7 +304,7 @@ public class NubRequest implements Serializable {
     @Column(name = "nubTradeName")
     private String _tradeName = "";
 
-    @Size(max = 200)
+    @Size(max = 200, message = "{validation.max}")
     public String getTradeName() {
         return _tradeName;
     }
@@ -264,7 +319,7 @@ public class NubRequest implements Serializable {
     @Column(name = "nubCeMark")
     private String _ceMark = "";
 
-    @Size(max = 200)
+    @Size(max = 200, message = "{validation.max}")
     public String getCeMark() {
         return _ceMark;
     }
@@ -274,8 +329,7 @@ public class NubRequest implements Serializable {
     }
     // </editor-fold>
 
-
-    
+   
     @Documentation(key = "lblDescription")
     @Column(name = "nubDescription")
     private String _description = "";
@@ -549,52 +603,12 @@ public class NubRequest implements Serializable {
         _ik = ik == null ? -1 : ik;
     }
 
-    public String getIkName() {
-        return _ikName;
-    }
-
-    public void setIkName(String hospitalName) {
-        _ikName = hospitalName;
-    }
-
     public int getGender() {
         return _gender;
     }
 
     public void setGender(int gender) {
         _gender = gender;
-    }
-
-    public String getTitle() {
-        return _title;
-    }
-
-    public void setTitle(String title) {
-        _title = title;
-    }
-
-    public String getFirstName() {
-        return _firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        _firstName = firstName;
-    }
-
-    public String getLastName() {
-        return _lastName;
-    }
-
-    public void setLastName(String lastName) {
-        _lastName = lastName;
-    }
-
-    public String getDivision() {
-        return _division;
-    }
-
-    public void setDivision(String division) {
-        _division = division;
     }
 
     public int getRoleId() {
