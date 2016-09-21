@@ -27,6 +27,8 @@ public class NubMethodInfoController implements Serializable {
 
     @Inject NubRequestFacade _nubRequestFacade;
 
+
+    // <editor-fold defaultstate="collapsed" desc="NubMethodInfos head + tail">    
     List<NubMethodInfo> _nubMethodInfos = Collections.EMPTY_LIST;
 
     public List<NubMethodInfo> getNubMethodInfosHead() {
@@ -92,18 +94,6 @@ public class NubMethodInfoController implements Serializable {
         }
     }
 
-    private void invalidateInfo() {
-        _nubMethodInfos = Collections.EMPTY_LIST;
-        _split = 0;
-        _part = 0;
-        _description = "";
-    }
-
-    public long getListSize() {
-        ensureNubMethodInfos();
-        return getFilteredInfoStream().count();
-    }
-
     private boolean isFiltered(NubMethodInfo info) {
         if (_searchTokens.isEmpty()) {
             return true;
@@ -125,6 +115,19 @@ public class NubMethodInfoController implements Serializable {
             _nubMethodInfos = _nubRequestFacade.readNubMethodInfos("N");
         }
     }
+    // </editor-fold>    
+    
+    public long getListSize() {
+        ensureNubMethodInfos();
+        return getFilteredInfoStream().count();
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Navigation + split handling">    
+    private void clearNavigationInfo() {
+        _split = 0;
+        _part = 0;
+        _description = "";
+    }
 
     int _elementsPerPart = 50;
     int _part = 0;
@@ -141,7 +144,22 @@ public class NubMethodInfoController implements Serializable {
     public long getMaxSplit() {
         return Math.max(_elementsPerPart, 1 + (getListSize() - 1) % _elementsPerPart);
     }
+    
+    public String setSplitAndReload(NubMethodInfo info) {
+        _split = 1 + (info.getRowNum() - 1) % _elementsPerPart;
+        List<NubMethodInfo> nubMethodInfos = _nubRequestFacade.readNubMethodInfos(info.getMethodId(), "D");
+        _description = nubMethodInfos.stream().map(i -> i.getText()).collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
+        return "";
+    }
 
+    String _description = "";
+
+    public String getDescription() {
+        return _description;
+    }
+    // </editor-fold>    
+
+    // <editor-fold defaultstate="collapsed" desc="Search tokens">    
     List<String> _searchTokens = Collections.EMPTY_LIST;
 
     public String getFilter() {
@@ -163,24 +181,24 @@ public class NubMethodInfoController implements Serializable {
             return;
         }
         _searchTokens = searchTokens;
-        _part = 0;
-        _description = "";
-        _split = 0;
+        clearNavigationInfo();
     }
+    // </editor-fold>    
 
+    // <editor-fold defaultstate="collapsed" desc="List navigation">    
     public String getPreviousInfo() {
-        return obtainElementInfo(_part - 1);
+        return obtainRangeInfo(_part - 1);
     }
 
     public String getNextInfo() {
-        return obtainElementInfo(_part + 1);
+        return obtainRangeInfo(_part + 1);
     }
 
     public String getCurrentInfo() {
-        return obtainElementInfo(_part);
+        return obtainRangeInfo(_part);
     }
 
-    private String obtainElementInfo(long part) {
+    private String obtainRangeInfo(long part) {
         long start = (part) * _elementsPerPart + 1;
         if (start < 0 || start > getListSize()) {
             return "";
@@ -206,19 +224,7 @@ public class NubMethodInfoController implements Serializable {
         _split = -1;
         return "";
     }
-
-    public String setSplitAndReload(NubMethodInfo info) {
-        _split = 1 + (info.getRowNum() - 1) % _elementsPerPart;
-        List<NubMethodInfo> nubMethodInfos = _nubRequestFacade.readNubMethodInfos(info.getMethodId(), "D");
-        _description = nubMethodInfos.stream().map(i -> i.getText()).collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
-        return "";
-    }
-
-    String _description = "";
-
-    public String getDescription() {
-        return _description;
-    }
+    // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
     private String _sortCriteria = "";
@@ -255,8 +261,14 @@ public class NubMethodInfoController implements Serializable {
     }
 
     public void setRestrictToOne(boolean restrictToOne) {
-        this._restrictToOne = restrictToOne;
+        _restrictToOne = restrictToOne;
+        invalidateInfo();
     }
     // </editor-fold>    
+
+    private void invalidateInfo() {
+        _nubMethodInfos = Collections.EMPTY_LIST;
+        clearNavigationInfo();
+    }
 
 }

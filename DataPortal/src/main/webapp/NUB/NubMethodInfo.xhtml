@@ -52,9 +52,9 @@
                                  readonly="true"/>
                 <hr class="simpleLine"/>
             </h:panelGroup>
-
+            
             <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosTail}" 
-                                rendered="#{nubMethodInfoController.split > 0 and nubMethodInfoController.split lt nubMethodInfoController.maxSplit}"/>
+                                rendered="#{nubMethodInfoController.nubMethodInfosTail.size() > 0}"/>
             <inek:NubMethodInfoNavigation/>
 
 
