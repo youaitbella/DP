@@ -3,7 +3,6 @@ package org.inek.dataportal.entities.account;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
@@ -26,8 +25,7 @@ public class AccountPwd implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property Salt">
-    //@Column(name = "apSalt")
-    @Transient   // todo: store
+    @Column(name = "apSalt")
     private String _salt = ""; 
 
     public String getSalt() {
