@@ -30,7 +30,7 @@ public class AccountPwdFacade extends AbstractFacade<AccountPwd> {
     public boolean isCorrectPassword(int accountId, final String password) {
         AccountPwd accountPwd = findFresh(accountId);
         if (accountPwd.getSalt().isEmpty()) {
-            // old format
+            // old format. todo: remove once most users have their password stored in new format. Apx. mid 2017
             return checkAndUpdatedOldPasswordFormat(accountPwd, password, accountId);
         }
         return accountPwd.getPasswordHash().equals(Crypt.hashPassword(password, accountPwd.getSalt()));

@@ -412,7 +412,7 @@ div#wrapper {
     background-repeat: no-repeat;
 }
 #content .activemenu a:before {
-   /* content: "       ";*/  /* non break spaces */
+    /* content: "       ";*/  /* non break spaces */
 }
 
 
@@ -1190,3 +1190,4 @@ th {
 #addressForm select {
     max-width: 178px;
 }
+

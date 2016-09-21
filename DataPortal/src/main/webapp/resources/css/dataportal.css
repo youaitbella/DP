@@ -1227,3 +1227,11 @@ th {
 #addressForm select {
     max-width: 178px;
 }
+
+.circle {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-color: red;
+    border-radius: 50%;
+}
