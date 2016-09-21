@@ -17,7 +17,7 @@
             <p>
                 <h:outputLabel styleClass="label" for="email" value="#{msg.lblEmailOrUser}:"/>
                 <br/>
-                <h:inputText styleClass="input" id="email" value="#{login.emailOrUser}"
+                <h:inputText styleClass="inputmedium" id="email" value="#{login.emailOrUser}"
                              title="#{msg.titleEmailOrUser}"
                              required="true" requiredMessage="#{msg.msgValueNeeded}"/>
                 <h:message for="email" errorClass="errorMessage"/>
@@ -25,8 +25,8 @@
             <p>
                 <h:outputLabel styleClass="label" for="password" value="#{msg.lblPassword}:"/>
                 <br/>
-                <h:inputSecret styleClass="input" id="password" value="#{login.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"/>
-                <div class="circle"/>
+                <h:inputSecret styleClass="inputmedium" id="password" value="#{login.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"/>
+                <span class="circle"/>
                 <h:message for="password" errorClass="errorMessage"/>
             </p>
             Kennwort vergessen? Als registrierter Anwender können Sie ein
