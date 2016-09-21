@@ -28,6 +28,7 @@ public class NubController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(getMsg().getString("lblNUB"), Pages.NubSummary.URL());
+        topics.addTopic(getMsg().getString("lblNubMethodInfo"), Pages.NubMethodInfo.URL());
     }
 
     @Override
