@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.account;
 
+import java.util.UUID;
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.facades.AbstractFacade;
@@ -27,6 +28,7 @@ public class AccountPwdFacade extends AbstractFacade<AccountPwd> {
     }
 
     public boolean isCorrectPassword(int accountId, final String password) {
+        String salt = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
         AccountPwd accountPwd = find(accountId);
         return accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId));
     }

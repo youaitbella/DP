@@ -28,7 +28,7 @@ public class AccountPwd implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Salt">
     //@Column(name = "apSalt")
     @Transient   // todo: store
-    private String _salt = UUID.randomUUID().toString().replace("-", ""); 
+    private String _salt = ""; 
 
     public String getSalt() {
         return _salt;
