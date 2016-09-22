@@ -1228,14 +1228,29 @@ th {
     max-width: 178px;
 }
 
-.circle {
+.circleRed,
+.circleOrange,
+.circleYellow,
+.circleGreen{
     width: 20px;
     height: 20px;
     margin-bottom: -5px;
     display: inline-block;
     border-radius: 50%;
+}
+
+.circleRed {
+    background: radial-gradient(circle at top left, white 0%, red 100%);
+}
+
+.circleOrange {
+    background: radial-gradient(circle at top left, white 0%, orange 100%);
+}
+
+.circleYellow {
+    background: radial-gradient(circle at top left, white 0%, yellow 100%);
+}
+
+.circleGreen {
     background: radial-gradient(circle at top left, white 0%, green 100%);
-/*    background-image: -moz-radial-gradient(25% 25% 45deg, circle cover, white 0%, green 100%);
-    background-image: -webkit-radial-gradient(25% 25%, circle cover, yellow, orange);
-    background-image: radial-gradient(25% 25% 45deg, circle cover, yellow 0%, orange 100%);*/
 }

@@ -5,15 +5,21 @@
  */
 package org.inek.dataportal.utils;
 
+import javax.enterprise.context.RequestScoped;
+import javax.faces.component.UIInput;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Named;
 import org.inek.dataportal.enums.Quality;
 
 /**
  *
  * @author vohldo
  */
+@Named
+@RequestScoped
 public class SecurePassword {
 
-    public static Quality determinePasswordQuality(String password) {
+    public Quality determinePasswordQuality(String password) {
 
         int digit = 0;
         int special = 0;
@@ -60,4 +66,16 @@ public class SecurePassword {
         if (score > 4){return Quality.Medium;}
         return Quality.Poor;
     }
+    
+    Quality _quality = Quality.Poor;
+    public void checkPasswordQuality(AjaxBehaviorEvent event) {
+        UIInput pw = (UIInput) event.getComponent();
+        _quality = determinePasswordQuality(pw.getValue().toString());
+    }
+
+    public Quality getQuality() {
+        return _quality;
+    }
+
+    
 }

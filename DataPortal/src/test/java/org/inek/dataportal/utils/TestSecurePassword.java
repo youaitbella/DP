@@ -70,9 +70,10 @@ public class TestSecurePassword {
     }
 
     private void processList(Map<String, Quality> passwordList) {
+        SecurePassword sp = new SecurePassword();
         for (String pw : passwordList.keySet()){
             Quality expected = passwordList.get(pw);
-            Quality result = SecurePassword.determinePasswordQuality(pw);
+            Quality result = sp.determinePasswordQuality(pw);
             assertEquals("Password: "+pw, result, expected);
         }
     }
