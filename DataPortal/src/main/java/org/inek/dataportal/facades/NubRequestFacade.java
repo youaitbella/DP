@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -13,8 +14,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
+import java.util.stream.Collectors;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -39,7 +47,7 @@ import org.inek.dataportal.utils.DateUtils;
  *
  * @author muellermi
  */
-@Stateless
+@ApplicationScoped
 public class NubRequestFacade extends AbstractDataAccess {
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
@@ -440,19 +448,60 @@ public class NubRequestFacade extends AbstractDataAccess {
         }
         return list;
     }
-    
-    public List<NubMethodInfo> readNubMethodInfos(String type){
-        String jpql = "select i from NubMethodInfo i where i._type = :type order by i._rowNum";
-        TypedQuery<NubMethodInfo> query = getEntityManager().createQuery(jpql, NubMethodInfo.class);
-        query.setParameter("type", type);
-        return query.getResultList();
+
+    // <editor-fold defaultstate="collapsed" desc="NubMethodInfo + Description">    
+    private List<NubMethodInfo> _nubMethodInfos = Collections.EMPTY_LIST;
+    private final Map<Integer, String> _methodDescriptions = new ConcurrentHashMap<>();
+    private ReentrantLock _lock = new ReentrantLock();
+
+    public List<NubMethodInfo> obtainNubMethodInfos() {
+        if (_nubMethodInfos.isEmpty()) {
+            ensureNubMethodInfos();
+        }
+        return _nubMethodInfos;
     }
 
-    public List<NubMethodInfo> readNubMethodInfos(int methodId, String type){
-        String jpql = "select i from NubMethodInfo i where i._methodId = :methodId and i._type = :type";
+    private void ensureNubMethodInfos() {
+        _lock.lock();
+        try {
+            if (_nubMethodInfos.isEmpty()) {
+                loadNubMethodInfos();
+            }
+        } finally {
+            _lock.unlock();
+        }
+    }
+
+    private void loadNubMethodInfos() {
+        String jpql = "select i from NubMethodInfo i where i._type = 'N' order by i._rowNum";
+        TypedQuery<NubMethodInfo> query = getEntityManager().createQuery(jpql, NubMethodInfo.class);
+        _nubMethodInfos = query.getResultList();
+    }
+
+    public String obtainNubMethodDescription(int methodId) {
+        if (!_methodDescriptions.containsKey(methodId)) {
+            loadNubMethodDescription(methodId);
+        }
+        return _methodDescriptions.get(methodId);
+    }
+
+    private void loadNubMethodDescription(int methodId) {
+        String jpql = "select i from NubMethodInfo i where i._methodId = :methodId and i._type = 'D'";
         TypedQuery<NubMethodInfo> query = getEntityManager().createQuery(jpql, NubMethodInfo.class);
         query.setParameter("methodId", methodId);
-        query.setParameter("type", type);
-        return query.getResultList();
+        String description = query.getResultList().stream().map(i -> i.getText()).collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
+        _methodDescriptions.put(methodId, description);
     }
+
+    public void clearNubMethodInfoCache() {
+        _lock.lock();
+        try {
+            _nubMethodInfos.clear();
+        } finally {
+            _lock.unlock();
+        }
+        _methodDescriptions.clear();
+    }
+    // </editor-fold>    
+
 }

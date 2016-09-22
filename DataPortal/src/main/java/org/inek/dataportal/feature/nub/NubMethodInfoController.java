@@ -27,10 +27,7 @@ public class NubMethodInfoController implements Serializable {
 
     @Inject NubRequestFacade _nubRequestFacade;
 
-
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfos head + tail">    
-    List<NubMethodInfo> _nubMethodInfos = Collections.EMPTY_LIST;
-
     public List<NubMethodInfo> getNubMethodInfosHead() {
         return obtainNubMethodInfos(true);
     }
@@ -40,7 +37,6 @@ public class NubMethodInfoController implements Serializable {
     }
 
     private List<NubMethodInfo> obtainNubMethodInfos(boolean isHead) {
-        ensureNubMethodInfos();
         int amount = _split > 0 ? _split : _elementsPerPart;
         int[] counter = new int[1];
         Stream<NubMethodInfo> infoStream = getFilteredInfoStream();
@@ -50,12 +46,13 @@ public class NubMethodInfoController implements Serializable {
                     info.setRowNum(counter[0]);
                     return info;
                 })
-                .skip(_part * _elementsPerPart + (isHead ? 0 : amount)).limit(isHead ? amount : _elementsPerPart - amount);
+                .skip(_part * _elementsPerPart + (isHead ? 0 : amount))
+                .limit(isHead ? amount : _elementsPerPart - amount);
         return infoStream.collect(Collectors.toList());
     }
 
     private Stream<NubMethodInfo> getFilteredInfoStream() {
-        Stream<NubMethodInfo> infoStream = _nubMethodInfos.stream()
+        Stream<NubMethodInfo> infoStream = _nubRequestFacade.obtainNubMethodInfos().stream()
                 .filter(info -> isFiltered(info));
         if (isRestrictToOne()) {
             int[] lastSeq = new int[1];
@@ -110,15 +107,9 @@ public class NubMethodInfoController implements Serializable {
         return found;
     }
 
-    private void ensureNubMethodInfos() {
-        if (_nubMethodInfos.isEmpty()) {
-            _nubMethodInfos = _nubRequestFacade.readNubMethodInfos("N");
-        }
-    }
-    // </editor-fold>    
+    // </editor-fold>  
     
     public long getListSize() {
-        ensureNubMethodInfos();
         return getFilteredInfoStream().count();
     }
 
@@ -144,11 +135,10 @@ public class NubMethodInfoController implements Serializable {
     public long getMaxSplit() {
         return Math.max(_elementsPerPart, 1 + (getListSize() - 1) % _elementsPerPart);
     }
-    
+
     public String setSplitAndReload(NubMethodInfo info) {
         _split = 1 + (info.getRowNum() - 1) % _elementsPerPart;
-        List<NubMethodInfo> nubMethodInfos = _nubRequestFacade.readNubMethodInfos(info.getMethodId(), "D");
-        _description = nubMethodInfos.stream().map(i -> i.getText()).collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
+        _description = _nubRequestFacade.obtainNubMethodDescription(info.getMethodId());
         return "";
     }
 
@@ -208,7 +198,6 @@ public class NubMethodInfoController implements Serializable {
     }
 
     public String nextPart() {
-        ensureNubMethodInfos();
         if ((getListSize() - 1) / _elementsPerPart > _part) {
             _part++;
         }
@@ -217,7 +206,6 @@ public class NubMethodInfoController implements Serializable {
     }
 
     public String previousPart() {
-        ensureNubMethodInfos();
         if (_part > 0) {
             _part--;
         }
@@ -245,7 +233,7 @@ public class NubMethodInfoController implements Serializable {
             _isDescending = false;
         }
         _sortCriteria = sortCriteria == null ? "" : sortCriteria;
-        invalidateInfo();
+        clearNavigationInfo();
     }
 
     public String getSortCriteria() {
@@ -262,13 +250,8 @@ public class NubMethodInfoController implements Serializable {
 
     public void setRestrictToOne(boolean restrictToOne) {
         _restrictToOne = restrictToOne;
-        invalidateInfo();
-    }
-    // </editor-fold>    
-
-    private void invalidateInfo() {
-        _nubMethodInfos = Collections.EMPTY_LIST;
         clearNavigationInfo();
     }
+    // </editor-fold>    
 
 }
