@@ -10,8 +10,19 @@ package org.inek.dataportal.enums;
  * @author muellermi
  */
 public enum Quality {
-    Poor,
-    Medium,
-    Good,
-    Strong;
+    Poor("Red"),
+    Medium("Orange"),
+    Good("Yellow"),
+    Strong("Green");
+    
+    private final String _color;
+
+    private Quality(String color) {
+        _color = color;
+    }
+    
+    public String getColor() {
+        return _color;
+    }
+    
 }

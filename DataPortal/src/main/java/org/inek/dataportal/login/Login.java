@@ -7,10 +7,14 @@ package org.inek.dataportal.login;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.component.UIInput;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.Quality;
+import org.inek.dataportal.utils.SecurePassword;
 
 /**
  *
@@ -20,15 +24,6 @@ import org.inek.dataportal.enums.Pages;
 @RequestScoped
 public class Login implements Serializable {
 
-    @Inject
-    private SessionController _sessionController;
-    private String _emailOrUser;
-    private String _password;
-    private String _loginMessage = "";
-
-    /**
-     * Creates a new instance of Login
-     */
     public Login() {
         //System.out.println("ctor Login");
     }
@@ -38,10 +33,8 @@ public class Login implements Serializable {
         //_sessionController.logout();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public String getLoginMessage() {
-        return _loginMessage;
-    }
+    // <editor-fold defaultstate="collapsed" desc="Property EmailOrUser">
+    private String _emailOrUser;
 
     public String getEmailOrUser() {
         return _emailOrUser;
@@ -50,6 +43,10 @@ public class Login implements Serializable {
     public void setEmailOrUser(String email) {
         _emailOrUser = email;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Password">
+    private String _password;
 
     public String getPassword() {
         return _password;
@@ -58,27 +55,32 @@ public class Login implements Serializable {
     public void setPassword(String password) {
         _password = password;
     }
+    // </editor-fold>
 
-    /**
-     * @return the sessionController
-     */
+    // <editor-fold defaultstate="collapsed" desc="Property LoginMessage">
+    private String _loginMessage = "";
+
+    public String getLoginMessage() {
+        return _loginMessage;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="SessionController">
+    @Inject
+    private SessionController _sessionController;
+
     public SessionController getSessionController() {
         return _sessionController;
     }
 
-    /**
-     * @param sessionController the sessionController to set
-     */
     public void setSessionController(SessionController sessionController) {
-        this._sessionController = sessionController;
+        _sessionController = sessionController;
     }
-
     // </editor-fold>
+
     public String login() {
-        _sessionController.setTestPerformed(true);
-        // todo: replace boolean value by something configurable
-        if (false) {
-            _sessionController.setScript("alert('Aufgrund von Wartungsarbeiten ist derzeit kein Zugang möglich');");
+        if (_sessionController.isInMaintenanceMode()) {
+            _sessionController.alertClient("Aufgrund von Wartungsarbeiten ist derzeit kein Zugang möglich");
             return "";
         }
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {

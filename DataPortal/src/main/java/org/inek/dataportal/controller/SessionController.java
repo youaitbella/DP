@@ -618,4 +618,9 @@ public class SessionController implements Serializable {
     public ApplicationTools getApplicationTools(){
         return _appTools;
     }
+    
+    public boolean isInMaintenanceMode(){
+        // todo: read config or something else appropiate to determine, whether system is in maintenance mode
+        return false;
+    }
 }
