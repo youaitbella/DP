@@ -52,6 +52,6 @@ public class Agreement implements Serializable {
     
     public String start(){
         acceptedAgreement();
-        return "index?faces-redirect=true";
+        return "index.xhtml?faces-redirect=true";
     }
 }
