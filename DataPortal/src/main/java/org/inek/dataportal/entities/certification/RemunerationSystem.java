@@ -155,6 +155,19 @@ public class RemunerationSystem implements Serializable {
         _checkList = checkList;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Archived">
+    @Column(name = "syArchived")
+    private boolean _archived = false;
+
+    public boolean isArchived() {
+        return _archived;
+    }
+
+    public void setArchived(boolean _archived) {
+        this._archived = _archived;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="List Grouper">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

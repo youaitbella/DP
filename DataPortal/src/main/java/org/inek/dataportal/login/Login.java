@@ -7,14 +7,10 @@ package org.inek.dataportal.login;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.component.UIInput;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.Quality;
-import org.inek.dataportal.utils.SecurePassword;
 
 /**
  *

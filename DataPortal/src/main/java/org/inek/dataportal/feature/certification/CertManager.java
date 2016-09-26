@@ -58,7 +58,7 @@ public class CertManager {
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
-        List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
+        List<SelectItem> list = _systemFacade.getRemunerationSystemInfosNotArchived();
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
         emptyItem.setNoSelectionOption(true);
         list.add(emptyItem);

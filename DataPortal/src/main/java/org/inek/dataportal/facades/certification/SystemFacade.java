@@ -34,6 +34,16 @@ public class SystemFacade extends AbstractFacade<RemunerationSystem> {
         return result;
     }
     
+    public List<SelectItem> getRemunerationSystemInfosNotArchived() {
+        List<SelectItem> result = new ArrayList<>();
+        for (RemunerationSystem system : findAllFresh()) {
+            if(system.isArchived())
+                continue;
+            result.add(new SelectItem(system.getId(), system.getDisplayName()));
+        }
+        return result;
+    }
+    
     public RemunerationSystem findRemunerationSystemByName(String name) {
         List<RemunerationSystem> rs = findAll();
         for(RemunerationSystem element : rs) {
