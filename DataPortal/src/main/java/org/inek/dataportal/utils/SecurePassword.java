@@ -8,8 +8,10 @@ package org.inek.dataportal.utils;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.enums.Quality;
+import org.inek.dataportal.facades.account.AccountPwdFacade;
 
 /**
  *
@@ -67,15 +69,16 @@ public class SecurePassword {
         return Quality.Poor;
     }
     
+    @Inject AccountPwdFacade _pwdFacade;
     Quality _quality = Quality.Poor;
     public void checkPasswordQuality(AjaxBehaviorEvent event) {
         UIInput pw = (UIInput) event.getComponent();
-        _quality = determinePasswordQuality(pw.getValue().toString());
+        String test = pw.getValue().toString();
+        _quality = _pwdFacade.isWeakPassword(test) ? Quality.Poor : determinePasswordQuality(test);
     }
 
     public Quality getQuality() {
         return _quality;
     }
-
     
 }

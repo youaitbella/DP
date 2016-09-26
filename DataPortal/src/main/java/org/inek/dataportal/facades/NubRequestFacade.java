@@ -4,7 +4,6 @@
  */
 package org.inek.dataportal.facades;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -16,11 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 import java.util.stream.Collectors;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
 import javax.ejb.Schedule;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Query;
