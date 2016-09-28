@@ -33,26 +33,42 @@ public class SecurePassword {
         if (password.equals("")) {
             return Quality.Poor;
         }
+        char lastChar = 0;
+        int malus = 0;
+        CharacterType currentType = CharacterType.Undef;
+        CharacterType lastType = CharacterType.Undef;
+        
         for (int i = 0; i < password.length(); i++) {
             char c = password.charAt(i);
+            malus += Math.abs(c-lastChar) < 2 ? 1 : 0;
+            lastChar = c;
             if (Character.isUpperCase(c)) {
                 upCount++;
             }
             if (Character.isLowerCase(c)) {
                 loCount++;
             }
+            if (Character.isLetter(c)){
+               currentType = CharacterType.Letter;
+            }
             if (Character.isDigit(c)) {
                 digit++;
+               currentType = CharacterType.Digit;
             }
             if (Character.isWhitespace(c)) {
                 whitespace++;
+               currentType = CharacterType.Whitespace;
             }
-            if (c >= 33 && c <= 46 || c == 64) {
+            if (c >= 33 && c <= 47|| c == 64 || c >= 91 && c <= 96  || c >= 123 && c <= 127 ) {
                 special++;
+               currentType = CharacterType.Special;
             }
             if (c > 127){
                 nonAscii++;
+               currentType = CharacterType.NonAscii;
             }
+            malus += lastType == currentType ? 1 :0;
+            lastType = currentType;
         }
 
         double score = Math.sqrt(upCount)
@@ -61,8 +77,19 @@ public class SecurePassword {
                 + Math.sqrt(whitespace)
                 + Math.sqrt(special)
                 + Math.sqrt(nonAscii)
-                + password.length() - 6;
-        
+                + (password.length() - 6);
+
+/*        
+        todo: check this alternative
+                double score = Math.sqrt(upCount)
+                + 2 * Math.sqrt(loCount)
+                + 2 * Math.sqrt(digit)
+                + 2 * Math.sqrt(whitespace)
+                + 2 * Math.sqrt(special)
+                + 2 * Math.sqrt(nonAscii)
+                + (password.length() - 6)
+                - malus;
+*/
         if (score > 9){return Quality.Strong;}
         if (score > 6){return Quality.Good;}
         if (score > 4){return Quality.Medium;}
@@ -81,4 +108,7 @@ public class SecurePassword {
         return _quality;
     }
     
+    enum CharacterType {
+        Undef, Letter, Digit, Whitespace, Special, NonAscii;
+    }
 }
