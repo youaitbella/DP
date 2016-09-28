@@ -28,9 +28,9 @@
                 <h:inputSecret styleClass="inputmedium" id="password" value="#{login.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"/>
                 <h:message for="password" errorClass="errorMessage"/>
             </p>
-            Kennwort vergessen? Als registrierter Anwender können Sie ein
-            <a href="#{request.contextPath}/login/RequestPassword.xhtml" title="Neues Kennwort anfordern (nur für registrierte Anwender)" class="label">
-                neues Kennwort anfordern
+            #{mgs.lblRequestPassword1}
+            <a href="#{request.contextPath}/login/RequestPassword.xhtml" title="#{msg.hintRequestPassword}" class="label">
+                #{mgs.lblRequestPassword2}
             </a>.
             <br/>
             <h:outputText styleClass="errorMessage" value="#{login.loginMessage}"/>
@@ -47,10 +47,10 @@
             <br/>
             <br/>
             <p>
-                Sie möchten sich vorab informieren, welche Funktionalität Ihnen dieses Datenportal bietet?
+                #{msg.lblInfoAbout}
                 <br/>
-                Besuchen Sie unsere <a href ="http://inek-drg.de">Homepage</a>
-                und lesen Sie das <a href="#{request.contextPath}/resources/manual/InEK-Datenportal.pdf" class="label" target="blank" title="#{msg.titleManual}">Anwenderhandbuch</a>.
+                #{msg.lblVisitHomepage} <a href ="http://inek-drg.de">Homepage</a>
+                #{msg.lblReadUserManual} <a href="#{request.contextPath}/resources/manual/InEK-Datenportal.pdf" class="label" target="blank" title="#{msg.titleManual}">#{msg.lblUserManual}</a>.
             </p>
 
         </h:form>

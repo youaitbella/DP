@@ -12,7 +12,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
         <message-bundle>org.inek.dataportal.messages</message-bundle>
         <locale-config>
             <default-locale>de</default-locale>
-            <!--supported-locale>en</supported-locale-->
+            <supported-locale>en</supported-locale>
         </locale-config>
         <resource-bundle>
             <base-name>org.inek.dataportal.messages</base-name>

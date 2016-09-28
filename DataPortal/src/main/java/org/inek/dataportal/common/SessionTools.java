@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -59,6 +60,10 @@ public class SessionTools implements Serializable {
             }
         }
         return _pages;
+    }
+
+    public String getLanguage() {
+        return FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage();
     }
 
     public List<SelectItem> getContactRoleItems() {
@@ -159,22 +164,24 @@ public class SessionTools implements Serializable {
         return new SimpleDateFormat(format).format(calendar.toGregorianCalendar().getTime());
     }
 
-    public boolean isValidNonTrashEmail(String address){
+    public boolean isValidNonTrashEmail(String address) {
         if (!EmailValidator.isValidEmail(address)) {
             return false;
         }
         String domain = address.substring(address.indexOf("@") + 1);
         return !_trashMailfacade.exists(domain);
     }
-    
+
     @Inject CustomerFacade _customerFacade;
-    
+
     public void checkIk(FacesContext context, UIComponent component, Object value) {
-        if (value == null || value.toString().isEmpty()){return;} 
-        if (!_customerFacade.isValidIK("" + value)){
+        if (value == null || value.toString().isEmpty()) {
+            return;
+        }
+        if (!_customerFacade.isValidIK("" + value)) {
             String msg = Utils.getMessage("errIK");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    
+
 }
