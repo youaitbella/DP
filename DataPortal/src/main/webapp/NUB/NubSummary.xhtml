@@ -72,6 +72,7 @@
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
                 <h:commandLink styleClass="bigButton" action="#{nubRequestList.gotoNubInfo}" 
+                               rendered="#{sessionController.hospital}"
                                immediate="true" value="#{msg.lblNubMethodInfo}"/>
                 <div jsf:rendered="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">
                     <h:outputText value="#{msg.msgNoNubCreatable}" />

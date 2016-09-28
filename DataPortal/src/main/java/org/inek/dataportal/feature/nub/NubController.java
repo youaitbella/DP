@@ -28,7 +28,9 @@ public class NubController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(getMsg().getString("lblNUB"), Pages.NubSummary.URL());
-        topics.addTopic(getMsg().getString("lblNubMethodInfo"), Pages.NubMethodInfo.URL());
+        if (getSessionController().isHospital()) {
+            topics.addTopic(getMsg().getString("lblNubMethodInfo"), Pages.NubMethodInfo.URL());
+        }
     }
 
     @Override
@@ -226,7 +228,7 @@ public class NubController extends AbstractFeatureController {
 
     public void populateMasterData(NubRequest proposal, Account account) {
         Integer ik = account.getIK();
-        if (ik == null && !account.getAdditionalIKs().isEmpty()){
+        if (ik == null && !account.getAdditionalIKs().isEmpty()) {
             ik = account.getAdditionalIKs().get(0).getIK();
         }
         proposal.setIk(ik);
@@ -253,9 +255,9 @@ public class NubController extends AbstractFeatureController {
     }
 
     private byte getByteValue(String content) {
-        try{
+        try {
             return Byte.parseByte(content);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return 0;
         }
     }

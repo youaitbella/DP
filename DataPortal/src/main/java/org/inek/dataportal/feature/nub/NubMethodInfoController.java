@@ -57,7 +57,8 @@ public class NubMethodInfoController implements Serializable {
         if (isRestrictToOne()) {
             int[] lastSeq = new int[1];
             lastSeq[0] = -1;
-            infoStream = infoStream.sorted((i1, i2) -> i1.getSequence() - i2.getSequence())
+            // a sequence is only unique within one year!
+            infoStream = infoStream.sorted((i1, i2) -> (i1.getBaseYear() * 10000 + i1.getSequence()) - (i2.getBaseYear() * 10000 + i2.getSequence()))
                     .filter(i -> lastSeq[0] != i.getSequence())
                     .peek(i -> lastSeq[0] = i.getSequence());
         }
@@ -108,7 +109,6 @@ public class NubMethodInfoController implements Serializable {
     }
 
     // </editor-fold>  
-    
     public long getListSize() {
         return getFilteredInfoStream().count();
     }
@@ -201,7 +201,7 @@ public class NubMethodInfoController implements Serializable {
         if ((getListSize() - 1) / _elementsPerPart > _part) {
             _part++;
         }
-        _split = -1;
+        _split = 0;
         return "";
     }
 
@@ -209,7 +209,7 @@ public class NubMethodInfoController implements Serializable {
         if (_part > 0) {
             _part--;
         }
-        _split = -1;
+        _split = 0;
         return "";
     }
     // </editor-fold>    
@@ -249,8 +249,10 @@ public class NubMethodInfoController implements Serializable {
     }
 
     public void setRestrictToOne(boolean restrictToOne) {
-        _restrictToOne = restrictToOne;
-        clearNavigationInfo();
+        if (_restrictToOne != restrictToOne) {
+            _restrictToOne = restrictToOne;
+            clearNavigationInfo();
+        }
     }
     // </editor-fold>    
 

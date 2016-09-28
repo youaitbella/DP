@@ -65,6 +65,7 @@ public abstract class AbstractFeatureController implements IFeatureController, S
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     // place this methods here
     // </editor-fold>
+
     @Override
     public Topics getTopics() {
         Topics topics = new Topics();

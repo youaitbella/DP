@@ -2,8 +2,11 @@ package org.inek.dataportal.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -16,6 +19,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
+import org.inek.dataportal.entities.CustomerType;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
@@ -25,6 +29,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.CustomerFacade;
+import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
@@ -58,6 +63,7 @@ public class SessionController implements Serializable {
     @Inject private LogFacade _logFacade;
     @Inject private AccountDocumentFacade _accDocFacade;
     @Inject private Mailer _mailer;
+    @Inject private CustomerTypeFacade _typeFacade;
 
     public Mailer getMailer() {
         return _mailer;
@@ -108,6 +114,11 @@ public class SessionController implements Serializable {
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             throw new NotLoggedInException();
         }
+    }
+    
+    public boolean isHospital() {
+        CustomerType type = _typeFacade.find(_account.getCustomerTypeId());
+         return type.isHospital() || isInekUser(Feature.ADMIN);
     }
 
     public boolean isLoggedIn() {
@@ -192,7 +203,9 @@ public class SessionController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         Map<String, Conversation> conversations = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
-        if (conversations == null){return;}
+        if (conversations == null) {
+            return;
+        }
         for (Conversation conversation : conversations.values()) {
             endConversation(conversation);
         }
@@ -344,7 +357,7 @@ public class SessionController implements Serializable {
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, _account, this));
         }
-        if (!hasDocument && (userHasDocuments() || isInekUser(Feature.DOCUMENTS) )) {
+        if (!hasDocument && (userHasDocuments() || isInekUser(Feature.DOCUMENTS))) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, _account, this));
             persistDocumentFeature();
         }
@@ -425,7 +438,9 @@ public class SessionController implements Serializable {
      * is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
-        if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()){return false;}  // documents partially allowed from outside!
+        if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {
+            return false;
+        }  // documents partially allowed from outside!
         if (_account == null || _account.getInekRoles() == null) {
             return false;
         }
@@ -607,20 +622,37 @@ public class SessionController implements Serializable {
         return Pages.Login.RedirectURL();
     }
 
-    public String getManual(){
-        if (_account == null){ return "InEK-Datenportal.pdf";}
-        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")){return "InEK-DatenportalIntern.pdf";}
-        if (_account.getFeatures().stream().anyMatch(f -> f.getFeature() == Feature.CERT)){return "InEK-DatenportalZerti.pdf";}
+    public String getManual() {
+        if (_account == null) {
+            return "InEK-Datenportal.pdf";
+        }
+        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
+            return "InEK-DatenportalIntern.pdf";
+        }
+        if (_account.getFeatures().stream().anyMatch(f -> f.getFeature() == Feature.CERT)) {
+            return "InEK-DatenportalZerti.pdf";
+        }
         return "InEK-Datenportal.pdf";
     }
     @Inject ApplicationTools _appTools;
-    
-    public ApplicationTools getApplicationTools(){
+
+    public ApplicationTools getApplicationTools() {
         return _appTools;
     }
-    
-    public boolean isInMaintenanceMode(){
+
+    public boolean isInMaintenanceMode() {
         // todo: read config or something else appropiate to determine, whether system is in maintenance mode
         return false;
+    }
+
+    private final Set _acceptedTerms = new HashSet(4);
+
+    public void acceptTermsOfUse(String name) {
+        _acceptedTerms.add(name);
+        logMessage("Nutzungsbedingungen akzeptiert: " + name);
+    }
+
+    public boolean isTermsOfUseAccepted(String name) {
+        return _acceptedTerms.contains(name);
     }
 }
