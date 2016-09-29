@@ -80,7 +80,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             Account account = _sessionController.getAccount();
             notice = new InsuranceNubNotice();
             notice.setInsuranceName(account.getCompany());
-            notice.setInsuranceIk(account.getIK());
+            notice.setInsuranceIk(account.getIK() == null ? 0 : account.getIK());
             notice.setAccountId(account.getId());
             notice.setWorkflowStatusId(0);
         }

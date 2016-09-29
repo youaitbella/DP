@@ -47,8 +47,10 @@
                 <h:message for="year" id="msgYear" styleClass="errorMessage"/>
                 <br />
                 <h:inputText styleClass="inputSmall" readonly="#{editInsuranceNubNotice.readOnly}" id="year" 
+                             required="true" requiredMessage="#{msg.msgValueNeeded}"
                              value="#{editInsuranceNubNotice.notice.year}">
                     <f:converter converterId="IntegerConverter" />
+                    <f:validateLongRange minimum="2010" maximum="2016"/>
                     <f:ajax event="change" listener="#{editInsuranceNubNotice.ikChanged()}" />
                     <f:ajax event="blur" render="@this :logout:remaining msgYear messageForm"/>
                 </h:inputText>
