@@ -37,10 +37,10 @@ public class SecurePassword {
         int malus = 0;
         CharacterType currentType = CharacterType.Undef;
         CharacterType lastType = CharacterType.Undef;
-        
+
         for (int i = 0; i < password.length(); i++) {
             char c = password.charAt(i);
-            malus += Math.abs(c-lastChar) < 2 ? 1 : 0;
+            malus += Math.abs(c - lastChar) < 2 ? 1 : 0;
             lastChar = c;
             if (Character.isUpperCase(c)) {
                 upCount++;
@@ -48,56 +48,52 @@ public class SecurePassword {
             if (Character.isLowerCase(c)) {
                 loCount++;
             }
-            if (Character.isLetter(c)){
-               currentType = CharacterType.Letter;
+            if (Character.isLetter(c)) {
+                currentType = CharacterType.Letter;
             }
             if (Character.isDigit(c)) {
                 digit++;
-               currentType = CharacterType.Digit;
+                currentType = CharacterType.Digit;
             }
             if (Character.isWhitespace(c)) {
                 whitespace++;
-               currentType = CharacterType.Whitespace;
+                currentType = CharacterType.Whitespace;
             }
-            if (c >= 33 && c <= 47|| c == 64 || c >= 91 && c <= 96  || c >= 123 && c <= 127 ) {
+            if (c >= 33 && c <= 47 || c == 64 || c >= 91 && c <= 96 || c >= 123 && c <= 127) {
                 special++;
-               currentType = CharacterType.Special;
+                currentType = CharacterType.Special;
             }
-            if (c > 127){
+            if (c > 127) {
                 nonAscii++;
-               currentType = CharacterType.NonAscii;
+                currentType = CharacterType.NonAscii;
             }
-            malus += lastType == currentType ? 1 :0;
+            malus += lastType == currentType ? 1 : 0;
             lastType = currentType;
         }
 
         double score = Math.sqrt(upCount)
-                + Math.sqrt(loCount)
-                + Math.sqrt(digit)
-                + Math.sqrt(whitespace)
-                + Math.sqrt(special)
-                + Math.sqrt(nonAscii)
-                + (password.length() - 6);
-
-/*        
-        todo: check this alternative
-                double score = Math.sqrt(upCount)
-                + 2 * Math.sqrt(loCount)
-                + 2 * Math.sqrt(digit)
-                + 2 * Math.sqrt(whitespace)
-                + 2 * Math.sqrt(special)
-                + 2 * Math.sqrt(nonAscii)
-                + (password.length() - 6)
+                + 3 * Math.sqrt(loCount)
+                + 3 * Math.sqrt(digit)
+                + 3 * Math.sqrt(whitespace)
+                + 3 * Math.sqrt(special)
+                + 3 * Math.sqrt(nonAscii)
+                + 2 * (password.length() - 6)
                 - malus;
-*/
-        if (score > 9){return Quality.Strong;}
-        if (score > 6){return Quality.Good;}
-        if (score > 4){return Quality.Medium;}
+        if (score > 15) {
+            return Quality.Strong;
+        }
+        if (score > 8) {
+            return Quality.Good;
+        }
+        if (score > 4) {
+            return Quality.Medium;
+        }
         return Quality.Poor;
     }
-    
+
     @Inject AccountPwdFacade _pwdFacade;
     Quality _quality = Quality.Poor;
+
     public void checkPasswordQuality(AjaxBehaviorEvent event) {
         UIInput pw = (UIInput) event.getComponent();
         String test = pw.getValue().toString();
@@ -107,7 +103,7 @@ public class SecurePassword {
     public Quality getQuality() {
         return _quality;
     }
-    
+
     enum CharacterType {
         Undef, Letter, Digit, Whitespace, Special, NonAscii;
     }

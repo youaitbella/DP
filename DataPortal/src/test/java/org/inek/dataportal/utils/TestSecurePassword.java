@@ -29,6 +29,7 @@ public class TestSecurePassword {
         passwordList.put("'#", Quality.Poor);
         passwordList.put("?", Quality.Poor);
         passwordList.put("", Quality.Poor);
+        passwordList.put("pppppppp", Quality.Poor);
         
         processList(passwordList);
     }
@@ -39,7 +40,6 @@ public class TestSecurePassword {
         Map<String, Quality> passwordList = new HashMap<>();
         
         passwordList.put("hallowelt", Quality.Medium);
-        passwordList.put("pppppppp", Quality.Medium);
         
         processList(passwordList);
     }
@@ -60,6 +60,7 @@ public class TestSecurePassword {
         System.out.println("checkSecurePasswordTest");
         Map<String, Quality> passwordList = new HashMap<>();
         
+        passwordList.put("L&§n1Uu3", Quality.Strong);
         passwordList.put("__SECUREpAs3sword!", Quality.Strong);
         passwordList.put("OoUnndze23113x", Quality.Strong);
         passwordList.put("?!383_dWzzztmdm\\", Quality.Strong);
@@ -74,7 +75,7 @@ public class TestSecurePassword {
         for (String pw : passwordList.keySet()){
             Quality expected = passwordList.get(pw);
             Quality result = sp.determinePasswordQuality(pw);
-            assertEquals("Password: "+pw, result, expected);
+            assertEquals("Password: "+pw, expected, result);
         }
     }
 }
