@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -42,7 +44,7 @@ import org.inek.dataportal.utils.DateUtils;
  *
  * @author muellermi
  */
-@ApplicationScoped
+@Singleton
 public class NubRequestFacade extends AbstractDataAccess {
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
