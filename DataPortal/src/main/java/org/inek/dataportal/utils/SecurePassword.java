@@ -77,7 +77,7 @@ public class SecurePassword {
                 + 3 * Math.sqrt(whitespace)
                 + 3 * Math.sqrt(special)
                 + 3 * Math.sqrt(nonAscii)
-                + 2 * (password.length() - 6)
+                + 2 * (password.length() - 7)
                 - malus;
         if (score > 15) {
             return Quality.Strong;
