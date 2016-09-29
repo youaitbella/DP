@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <h:form id="mainform" prependId="false">
-            <h1>InEK-Datenportal: Übersicht</h1>
+            <h1>#{msg.lblApplicationName}: #{msg.lblSummary}</h1>
             <c:forEach items="#{sessionController.parts}" var="part">
                 <ui:include src="#{part}"/>
             </c:forEach>

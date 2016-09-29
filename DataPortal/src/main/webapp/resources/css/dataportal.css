@@ -1022,6 +1022,10 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
     border-color:  #fff #ddd #ddd #fff;
 }
 
+.inekGreen{
+    background-color: #4aa628;
+}
+
 .sendButton{
     background-color: #4aa628;
     background-image: url("/DataPortal/javax.faces.resource/Icon/small/arrow_go.png.xhtml");

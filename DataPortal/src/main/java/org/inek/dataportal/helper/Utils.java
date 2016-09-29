@@ -49,10 +49,16 @@ public class Utils {
     public static String getMessageForScript(String key) {
         return getMessage(key).replace("\r\n", "\n").replace("\n", "\\r\\n");
     }
+
     public static String getMessage(String key) {
-        //FacesContext ctxt = FacesContext.getCurrentInstance();
-        //ResourceBundle messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
-        ResourceBundle messageBundle = ResourceBundle.getBundle("org.inek.dataportal.messages");
+        ResourceBundle messageBundle;
+        FacesContext ctxt = FacesContext.getCurrentInstance();
+        if (ctxt == null) {
+            messageBundle = ResourceBundle.getBundle("org.inek.dataportal.messages");
+        } else {
+//            getCurrentInstance().getViewRoot().getLocale().getLanguage()
+            messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
+        }
         return messageBundle.getString(key);
     }
 
@@ -68,7 +74,7 @@ public class Utils {
      * Shows error message
      *
      * @param msg
-     * @return 
+     * @return
      */
     public static boolean showMessageInBrowser(String msg) {
         return returnMessage("alert('%s');", msg);
@@ -141,7 +147,7 @@ public class Utils {
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    
+
     public static UIComponent findComponent(String id) {
         UIComponent result = null;
         UIComponent root = FacesContext.getCurrentInstance().getViewRoot();
@@ -153,27 +159,32 @@ public class Utils {
 
     private static UIComponent findComponent(UIComponent root, String id) {
         UIComponent result = null;
-        if (root.getId().equals(id))
+        if (root.getId().equals(id)) {
             return root;
+        }
 
         for (UIComponent child : root.getChildren()) {
             String containerId = child.getNamingContainer() != null ? child.getNamingContainer().getClientId() : "";
-            if(!containerId.equals(""))
+            if (!containerId.equals("")) {
                 containerId += ":";
-            if (child.getId().equals(containerId+id)) {
+            }
+            if (child.getId().equals(containerId + id)) {
                 result = child;
                 break;
             }
             result = findComponent(child, id);
-            if (result != null)
+            if (result != null) {
                 break;
+            }
         }
         return result;
     }
 
     public static String getClientIP() {
         FacesContext ctxt = FacesContext.getCurrentInstance();
-        if (ctxt == null){return "non-faces request";}
+        if (ctxt == null) {
+            return "non-faces request";
+        }
         HttpServletRequest request = (HttpServletRequest) ctxt.getExternalContext().getRequest();
         return getClientIp(request);
     }
