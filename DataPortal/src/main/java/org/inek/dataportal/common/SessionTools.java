@@ -62,10 +62,17 @@ public class SessionTools implements Serializable {
         return _pages;
     }
 
+    String _language = "de";
     public String getLanguage() {
-        return FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage();
+        return _language;
     }
 
+    public void putLanguage (String language){
+        _language = language;
+        Locale newLocale = new Locale(language);
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(newLocale);
+    }
+    
     public List<SelectItem> getContactRoleItems() {
         if (_roleItems == null) {
             _roleItems = new ArrayList<>();

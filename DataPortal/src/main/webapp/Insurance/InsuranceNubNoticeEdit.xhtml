@@ -90,7 +90,7 @@
             </h:outputLabel>
             <h:dataTable  headerClass="list-header" id="tblNotices"
                           value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
-                          columnClasses="colIcon, col09, col11, col09, col05, col05, col04, col06, col11, col11, col01"
+                          columnClasses="colIcon, col05, col11, col06em, col06, col05, col05, col04, col06, col11, col11, col01"
                           rendered="#{editInsuranceNubNotice.nubMethodInfos.size() > 0}"
                           >
 
@@ -119,7 +119,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblNotation}"/>
                     </f:facet>
-                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col10em" required="true">
+                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col10em" required="true" title="Hinweis: Wenn Sie die Box zur Auswahl aufklappen, wird der komplette Name sichtbar.">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.inekMethods}" var="m" itemLabel="#{m.label}" itemValue="#{m.value}" itemDescription="#{m.description}"/>
                         <f:ajax render="@form :logout:remaining"/>
@@ -130,7 +130,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblNubId}"/>
                     </f:facet>
-                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col07em">
+                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col06em">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.nubMethodInfos}" var="info" itemLabel="#{info}" itemValue="#{info.requestId}"/>
                         <f:ajax render="@form :logout:remaining"/>
@@ -141,7 +141,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblForm}"/>
                     </f:facet>
-                    <h:selectOneMenu value="#{item.dosageFormId}" hideNoSelectionOption="true" styleClass="col07em">
+                    <h:selectOneMenu value="#{item.dosageFormId}" hideNoSelectionOption="true" styleClass="col06em">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.dosageForms}" var="dosageForm" itemLabel="#{dosageForm.text}" itemValue="#{dosageForm.id}"/>
                         <f:ajax render="@this :logout:remaining"/>
