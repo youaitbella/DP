@@ -218,7 +218,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             getLogger().log(Level.WARNING, "No account request found for {0}", mailOrUser);
             return false;
         }
-        if (!accountRequest.getPasswordHash().equals(Crypt.getHash("SHA", password)) || !accountRequest.getActivationKey().equals(activationKey)) {
+        if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt())) || !accountRequest.getActivationKey().equals(activationKey)) {
             getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
         }
@@ -226,7 +226,9 @@ public class AccountFacade extends AbstractFacade<Account> {
         persist(account);
         AccountPwd accountPwd = new AccountPwd();
         accountPwd.setAccountId(account.getId());
-        accountPwd.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
+        String salt = Crypt.getSalt();
+        accountPwd.setSalt(salt);
+        accountPwd.setPasswordHash(Crypt.hashPassword(password, salt));
         _accountPwdFacade.save(accountPwd);
         _accountRequestFacade.remove(accountRequest);
         return true;
@@ -274,14 +276,16 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (request == null) {
             return false;
         }
-        if (!request.getPasswordHash().equals(Crypt.getPasswordHash(password, account.getId())) || !request.getActivationKey().equals(activationKey)) {
+        if (!request.getPasswordHash().equals(Crypt.hashPassword(password, request.getSalt())) || !request.getActivationKey().equals(activationKey)) {
             return false;
         }
         AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
         if (accountPwd == null) {
             return false;
         }
-        accountPwd.setPasswordHash(request.getPasswordHash());
+        String salt = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
+        accountPwd.setSalt(salt);
+        accountPwd.setPasswordHash(Crypt.hashPassword(password, salt));
         _accountPwdFacade.merge(accountPwd);
         _pwdRequestFacade.remove(request);
         return true;
@@ -307,11 +311,15 @@ public class AccountFacade extends AbstractFacade<Account> {
             request = new PasswordRequest();
             request.setAccountId(account.getId());
             request.setActivationKey(UUID.randomUUID().toString());
-            request.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
+            String salt = Crypt.getSalt();
+            request.setSalt(salt);
+            request.setPasswordHash(Crypt.hashPassword(password, salt));
             _pwdRequestFacade.save(request);
         } else {
             request.setActivationKey(UUID.randomUUID().toString());
-            request.setPasswordHash(Crypt.getPasswordHash(password, account.getId()));
+            String salt = Crypt.getSalt();
+            request.setSalt(salt);
+            request.setPasswordHash(Crypt.hashPassword(password, salt));
             _pwdRequestFacade.merge(request);
         }
         if (_mailer.sendPasswordActivationMail(request, account)) {

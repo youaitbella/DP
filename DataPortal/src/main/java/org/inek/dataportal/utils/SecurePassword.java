@@ -23,12 +23,12 @@ public class SecurePassword {
 
     public Quality determinePasswordQuality(String password) {
 
-        int digit = 0;
-        int special = 0;
-        int upCount = 0;
-        int loCount = 0;
-        int whitespace = 0;
-        int nonAscii = 0;
+        boolean digit = false;
+        boolean special = false;
+        boolean upCount = false;
+        boolean loCount = false;
+        boolean whitespace = false;
+        boolean nonAscii = false;
         // -----------
         if (password.equals("")) {
             return Quality.Poor;
@@ -40,52 +40,49 @@ public class SecurePassword {
 
         for (int i = 0; i < password.length(); i++) {
             char c = password.charAt(i);
-            malus += Math.abs(c - lastChar) < 2 ? 1 : 0;
+            malus += c == lastChar ? 3 : Math.abs(c - lastChar) <= 1 ? 2 : 0;
             lastChar = c;
             if (Character.isUpperCase(c)) {
-                upCount++;
+                upCount = true;
             }
             if (Character.isLowerCase(c)) {
-                loCount++;
+                loCount = true;
             }
             if (Character.isLetter(c)) {
                 currentType = CharacterType.Letter;
             }
             if (Character.isDigit(c)) {
-                digit++;
+                digit = true;
                 currentType = CharacterType.Digit;
             }
             if (Character.isWhitespace(c)) {
-                whitespace++;
+                whitespace = true;
                 currentType = CharacterType.Whitespace;
             }
             if (c >= 33 && c <= 47 || c == 64 || c >= 91 && c <= 96 || c >= 123 && c <= 127) {
-                special++;
+                special = true;
                 currentType = CharacterType.Special;
             }
             if (c > 127) {
-                nonAscii++;
+                nonAscii = true;
                 currentType = CharacterType.NonAscii;
             }
             malus += lastType == currentType ? 1 : 0;
             lastType = currentType;
         }
 
-        double score = Math.sqrt(upCount)
-                + 3 * Math.sqrt(loCount)
-                + 3 * Math.sqrt(digit)
-                + 3 * Math.sqrt(whitespace)
-                + 3 * Math.sqrt(special)
-                + 3 * Math.sqrt(nonAscii)
-                + 2 * (password.length() - 7)
+        int differentTypes = (loCount ? 1 : 0) + (upCount ? 1 : 0) + (digit ? 1 : 0) + (whitespace ? 1 : 0) + (special ? 1 : 0) +  + (nonAscii ? 1 : 0);
+        
+        int score = (password.length() > 8 ? 8 * (password.length() - 7) : 4 * (password.length() - 5))
+                + 5 * (differentTypes - 1) 
                 - malus;
-        if (score > 15) {
+        if (score > 26) {
             return Quality.Strong;
         }
-        if (score > 8) {
+        if (score > 16) {
             return Quality.Good;
         }
-        if (score > 4) {
+        if (score > 6) {
             return Quality.Medium;
         }
         return Quality.Poor;

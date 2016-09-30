@@ -20,6 +20,20 @@ public class PasswordRequest implements Serializable {
     private String _passwordHash;
     @Column(name = "prActivationKey")
     private String _activationKey = "";
+
+    // <editor-fold defaultstate="collapsed" desc="Property Salt">
+    @Column(name = "prSalt")
+    private String _salt = "";
+
+    public String getSalt() {
+        return _salt;
+    }
+
+    public void setSalt(String salt) {
+        _salt = salt;
+    }
+    // </editor-fold>
+    
     @Column(name = "prCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _creationDate = null;

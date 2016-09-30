@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.account;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,11 +71,24 @@ public class AccountRequest implements Serializable, Person {
     @Column(name = "arCustomerFax")
     private String _customerFax = "";
 
+    // <editor-fold defaultstate="collapsed" desc="Property Salt">
+    @Column(name = "arSalt")
+    private String _salt = "";
+
+    public String getSalt() {
+        return _salt;
+    }
+
+    public void setSalt(String salt) {
+        _salt = salt;
+    }
+    // </editor-fold>
+
     @PrePersist
     public void tagModifiedDate() {
         _creationDate = Calendar.getInstance().getTime();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getAccountId() {
         return _accountRequestId;
@@ -197,7 +211,8 @@ public class AccountRequest implements Serializable, Person {
     }
 
     public void setPassword(String password) {
-        _passwordHash = Crypt.getHash("SHA", password);
+        _salt = Crypt.getSalt();
+        _passwordHash = Crypt.hashPassword(password, _salt);
     }
 
     @Override
@@ -253,7 +268,6 @@ public class AccountRequest implements Serializable, Person {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

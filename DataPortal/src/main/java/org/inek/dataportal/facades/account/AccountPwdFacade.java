@@ -14,15 +14,14 @@ import org.inek.dataportal.utils.Crypt;
 @Stateless
 public class AccountPwdFacade extends AbstractDataAccess {
 
-    public AccountPwd find(int accountId){
+    public AccountPwd find(int accountId) {
         return find(AccountPwd.class, accountId);
     }
-    
-    public Boolean changePassword(int accountId, String oldPwd, String newPwd) {
+
+    public boolean changePassword(int accountId, String oldPwd, String newPwd) {
         AccountPwd accountPwd = find(AccountPwd.class, accountId);
         if (accountPwd != null && isCorrectPassword(accountId, oldPwd)) {
-            accountPwd.setPasswordHash(Crypt.getPasswordHash(newPwd, accountId));
-            merge(accountPwd);
+            storeHash(accountPwd, newPwd);
         }
         // allways return true to hide "not found"
         return true;
@@ -38,21 +37,25 @@ public class AccountPwdFacade extends AbstractDataAccess {
     }
 
     private boolean checkAndUpdatedOldPasswordFormat(AccountPwd accountPwd, final String password, int accountId) {
-        if (!accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId))){
+        if (!accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId))) {
             return false;
         }
-        String salt = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
+        storeHash(accountPwd, password);
+        return true;
+    }
+
+    private void storeHash(AccountPwd accountPwd, final String password) {
+        String salt = Crypt.getSalt();
         accountPwd.setSalt(salt);
         accountPwd.setPasswordHash(Crypt.hashPassword(password, salt));
         merge(accountPwd);
-        return true;
     }
 
     public void save(AccountPwd accountPwd) {
         persist(accountPwd);
     }
 
-    public boolean isWeakPassword(String password){
+    public boolean isWeakPassword(String password) {
         return find(WeakPassword.class, password) != null;
     }
 }

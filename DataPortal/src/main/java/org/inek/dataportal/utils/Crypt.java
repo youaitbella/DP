@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.SecretKey;
@@ -62,5 +63,9 @@ public class Crypt {
             Logger.getLogger("HashUtils").log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex);
         }
+    }
+    
+    public static String getSalt(){
+        return UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
     }
 }

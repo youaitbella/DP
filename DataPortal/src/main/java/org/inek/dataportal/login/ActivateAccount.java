@@ -35,12 +35,12 @@ public class ActivateAccount implements Serializable {
     private String _guid;
     private String _pw;
     private String _pwRepeat;
-    private AccountActivation _accActiv;
+    private AccountActivation _accountActivation;
     private Account _account;
     private AccountPwd _accPwd;
-    @Inject private AccountActivationFacade _aaFacade;
+    @Inject private AccountActivationFacade _accountActivationFacade;
     @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accFacade;
+    @Inject private AccountFacade _accountFacade;
     @Inject private AccountPwdFacade _pwdFacade;
     
     public ActivateAccount() {
@@ -57,15 +57,15 @@ public class ActivateAccount implements Serializable {
     }
     
     public String activateAndLogin() {
-        _accActiv = _aaFacade.findAccountByGUID(_guid);
-        if(_accActiv == null) {
+        _accountActivation = _accountActivationFacade.findAccountByGUID(_guid);
+        if(_accountActivation == null) {
             _sessionController.setScript("alert ('"+Utils.getMessage("errGuidAccId")+"');");
             return ""; 
             /* Account-ID wird nirgends übergeben. 
             *  Die Fehlermeldung dient nur zum "Verwirren" von Try-and-Error versuchen.
             */
         }
-        _account = _accFacade.find(_accActiv.getAccountId());
+        _account = _accountFacade.find(_accountActivation.getAccountId());
         if(_account == null) {
             _sessionController.setScript("alert ('"+Utils.getMessage("errAccountNotExists")+"');");
             return "";
@@ -74,11 +74,11 @@ public class ActivateAccount implements Serializable {
         _email = _account.getEmail().replace("@nub#", "");
         _account.setEmail(_email);
         _account.setDeactivated(false);
-        _accFacade.merge(_account);
+        _accountFacade.merge(_account);
         _accPwd = _pwdFacade.find(_account.getId());
         _accPwd.setPasswordHash(Crypt.getPasswordHash(_pw, _account.getId().intValue()));
         _pwdFacade.merge(_accPwd);
-        _aaFacade.remove(_accActiv);
+        _accountActivationFacade.remove(_accountActivation);
         if(_sessionController.loginAndSetTopics(_email, _pw)) {
             return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
         }
