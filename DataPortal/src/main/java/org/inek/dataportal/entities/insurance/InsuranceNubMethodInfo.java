@@ -65,6 +65,20 @@ public class InsuranceNubMethodInfo implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "ciSequence")
+    private int _sequence;
+
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
+    }
+    // </editor-fold>
+
+
     @Override
     public String toString() {
         String regex = " |\\.|,|\\r|\\n|\\t|-|®|©";

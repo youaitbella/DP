@@ -69,6 +69,10 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
         String[] codes = value.split(splitRegex);
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
+            code = code.replace("*", "");
+            if (code.endsWith(".")){
+                code = code.substring(0, code.length()-1);
+            }
             if (code.isEmpty()){continue;}
             if (findProcedure(code, firstYear, lastYear).equals("")) {
                 invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(code);

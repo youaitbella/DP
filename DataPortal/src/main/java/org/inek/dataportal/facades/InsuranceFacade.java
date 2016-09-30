@@ -116,9 +116,10 @@ public class InsuranceFacade extends AbstractDataAccess {
     public List<InsuranceNubMethodInfo> getNubMethodInfos(int ik, int year) {
         // with a prepared statement sql server sometimes needs quite a long time to fetch the result
         // thus, the parameters are now built into the string - no problem with SQL injection because both parameters are int
-        String sql = "select prDatenportalId, prNubName, prFkCaId, caName "
+        String sql = "select prDatenportalId, prNubName, prFkCaId, caName, ciSequence "
                 + "from nub.dbo.NubRequest "
                 + "join nub.dbo.category on prFkCaId = caId "
+                + "join nub.dbo.categoryInfoByYear on caId = ciFKCaId and prYear = ciBaseYear "
                 + "left join nub.dbo.NubRequestProxyIk on prId=nppProposalId "
                 + "where (prIk = " + ik + " or nppProxyIk = " + ik + ") and prYear = " + year + " and prStatus between 20 and 21 "
                 + "order by prDatenportalId";

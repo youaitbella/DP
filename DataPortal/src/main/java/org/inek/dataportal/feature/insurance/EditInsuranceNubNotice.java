@@ -108,6 +108,17 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 .collect(Collectors.toList());
     }
 
+    public List<SelectItem> getInekMethodsBySeq() {
+        if (_nubInfos == null) {
+            getNubMethodInfos();
+        }
+        return _nubInfos
+                .stream()
+                .sorted((n, m) -> Integer.compare(n.getSequence(), m.getSequence()))
+                .map(i -> new SelectItem(i.getRequestId(), i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
+                .collect(Collectors.toList());
+    }
+
     private List<InsuranceNubMethodInfo> _nubInfos = null;
 
     public List<InsuranceNubMethodInfo> getNubMethodInfos() {
@@ -141,7 +152,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public void validateProcedures(FacesContext context, UIComponent component, Object value) {
         int targetYear = _notice.getYear();
-        String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear, targetYear, "\\s|,|\\+");
+        String invalidCodes = _procedureFacade.checkProcedures(value.toString(), targetYear, targetYear, "\\s|;|,|\\+");
         if (invalidCodes.length() > 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, invalidCodes, invalidCodes);
             throw new ValidatorException(msg);
@@ -149,13 +160,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void validateRemuneration(FacesContext context, UIComponent component, Object value) {
-        String labelRemunId = "msgRemun";
-        HtmlMessage remunLabel = (HtmlMessage) Utils.findComponent(labelRemunId);
         if (value.equals("")) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Kein Entgeltschlüssel angegeben",
-                    "Kein Entgeltschlüssel angegeben");
-            throw new ValidatorException(msg);
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Kein Entgeltschlüssel angegeben",
+//                    "Kein Entgeltschlüssel angegeben");
+//            throw new ValidatorException(msg);
+            return;
         }
         if (value.toString().length() != 8) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -248,7 +258,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             if (item.getPrice() == null || item.getPrice().intValue() <= 0) {
                 validatorMessage += "Zeile " + lines + ": Preis ist ein Pflichtfeld.\n";
             }
-            if (item.getRemunerationTypeCharId().length() != 8) {
+            if (item.getRemunerationTypeCharId().length() != 0 && item.getRemunerationTypeCharId().length() != 8) {
                 validatorMessage += "Zeile " + lines + ": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
             }
             lines++;

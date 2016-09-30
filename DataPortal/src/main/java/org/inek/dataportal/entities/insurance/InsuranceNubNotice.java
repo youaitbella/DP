@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -110,7 +109,7 @@ public class InsuranceNubNotice implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Year">
     @Column(name = "innYear")
     @Documentation(key = "lblYear")
-    private int _year = -1;
+    private int _year = Calendar.getInstance().get(Calendar.YEAR);
 
     public int getYear() {
         return _year;

@@ -778,6 +778,14 @@ select:active, select:focus{
     width: 3em;
 }
 
+.col04em{
+    width: 4em;
+}
+
+.col05em{
+    width: 5em;
+}
+
 .colIk, .col06em{
     width: 6em;
 }

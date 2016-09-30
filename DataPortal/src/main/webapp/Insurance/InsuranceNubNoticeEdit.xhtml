@@ -26,7 +26,7 @@
                 <h:message for="insuranceName" id="msgInsuranceName" styleClass="errorMessage"/>
                 <br />
                 <h:inputText styleClass="inputlong" readonly="#{editInsuranceNubNotice.readOnly}" maxlength="100" id="insuranceName" 
-                             value="#{editInsuranceNubNotice.notice.insuranceName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                             value="#{editInsuranceNubNotice.notice.insuranceName}" disabled="true" requiredMessage="#{msg.msgValueNeeded}">
                     <f:ajax event="blur" render="@this :logout:remaining msgInsuranceName"/>
                 </h:inputText>
             </div>
@@ -106,22 +106,33 @@
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msg.lblNubId}"/>
+                        <h:outputText value="#{msg.lblNr}"/>
                     </f:facet>
-                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col07em">
+                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col04em" required="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                        <f:selectItems value="#{editInsuranceNubNotice.nubMethodInfos}" var="info" itemLabel="#{info}" itemValue="#{info.requestId}"/>
+                        <f:selectItems value="#{editInsuranceNubNotice.inekMethodsBySeq}" var="m" itemLabel="#{m.label}" itemValue="#{m.value}" itemDescription="#{m.description}"/>
                         <f:ajax render="@form :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msg.lblName}"/>
+                        <h:outputText value="#{msg.lblNotation}"/>
                     </f:facet>
                     <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col10em" required="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{editInsuranceNubNotice.inekMethods}" var="m" itemLabel="#{m.label}" itemValue="#{m.value}" itemDescription="#{m.description}"/>
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:selectOneMenu>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblNubId}"/>
+                    </f:facet>
+                    <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col07em">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                        <f:selectItems value="#{editInsuranceNubNotice.nubMethodInfos}" var="info" itemLabel="#{info}" itemValue="#{info.requestId}"/>
                         <f:ajax render="@form :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
@@ -161,7 +172,7 @@
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msg.lblCount}"/>
+                        <h:outputText value="#{msg.lblCount}" title="Anzahl der VB-Entgelte"/>
                     </f:facet>
                     <h:inputText id="itemQuantity" value="#{item.quantity}" required="true" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateQuantity}">
                         <f:ajax render="@this :logout:remaining msgItemQuantity"/>
@@ -185,7 +196,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblRemunerationCode}"/>
                     </f:facet>
-                    <h:inputText id="remun" required="true" value="#{item.remunerationTypeCharId}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateRemuneration}">
+                    <h:inputText id="remun" required="false" value="#{item.remunerationTypeCharId}" styleClass="fullWidth" validator="#{editInsuranceNubNotice.validateRemuneration}">
                         <f:ajax render="@this :logout:remaining msgRemun"/>
                     </h:inputText>
                     <h:message for="remun" id="msgRemun" errorClass="errorMessage" infoClass="infoMessage"/>
