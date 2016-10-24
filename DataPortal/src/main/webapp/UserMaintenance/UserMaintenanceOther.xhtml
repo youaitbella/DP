@@ -7,79 +7,78 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
     <ui:define name="maintenanceContent">
-        <p>
-            <h:outputLabel styleClass="label fakeRequired" for="oldPassword" value="#{msg.lblOldPassword}:"/>
-            <h:message for="oldPassword" id="msgOldPassword" styleClass="errorMessage"/>
+        <div class="groupBox marginTop">
+            <h:outputLabel value="#{msg.msgChangePassword}"/>
             <br/>
-            <!-- required = false to prevent checks when switching the tab -->
-            <h:inputSecret styleClass="input fakeRequired" id="oldPassword" value="#{editUserMaintenance.oldPassword}" requiredMessage="#{msg.msgValueNeeded}" 
-                           redisplay="true" maxlength="50">
-            </h:inputSecret>
-        </p>
-        <p>
-            <h:outputLabel styleClass="label fakeRequired" for="password" value="#{msg.lblNewPassword}:"/>
-            <h:message for="password" id="msgPassword" styleClass="errorMessage"/>
-            <br/>
-            <h:inputSecret styleClass="input fakeRequired" id="password" value="#{editUserMaintenance.newPassword}" requiredMessage="#{msg.msgValueNeeded}" 
-                           redisplay="true" maxlength="50">
-                <f:ajax render="qualityIndicator" event="keyup" listener="#{securePassword.checkPasswordQuality}"/>
-            </h:inputSecret>
-            <h:outputLabel id="qualityIndicator" value="" class="circle#{securePassword.quality.color}" title="#{msg.msgPasswordStrength}"/>
-        </p>
-        <p>
-            <h:outputLabel styleClass="label fakeRequired" for="repeatPassword" value="#{msg.lblRepeatPassword}:"/>
-            <h:message id="msgRepeatPassword" for="repeatPassword" styleClass="errorMessage"/>
-            <br/>
-            <h:inputSecret styleClass="input fakeRequired" id="repeatPassword" value="#{editUserMaintenance.repeatPassword}" requiredMessage="#{msg.msgValueNeeded}" 
-                           redisplay="true" maxlength="50"
-                           validator="#{editUserMaintenance.checkPassword}">
-            </h:inputSecret>
-        </p>
+            <p>
+                <h:outputLabel styleClass="label fakeRequired" for="oldPassword" value="#{msg.lblOldPassword}:"/>
+                <h:message for="oldPassword" id="msgOldPassword" styleClass="errorMessage"/>
+                <br/>
+                <!-- required = false to prevent checks when switching the tab -->
+                <h:inputSecret styleClass="input fakeRequired" id="oldPassword" value="#{editUserMaintenance.oldPassword}" requiredMessage="#{msg.msgValueNeeded}" 
+                               redisplay="true" maxlength="50">
+                </h:inputSecret>
+            </p>
+            <p>
+                <h:outputLabel styleClass="label fakeRequired" for="password" value="#{msg.lblNewPassword}:"/>
+                <h:message for="password" id="msgPassword" styleClass="errorMessage"/>
+                <br/>
+                <h:inputSecret styleClass="input fakeRequired" id="password" value="#{editUserMaintenance.newPassword}" requiredMessage="#{msg.msgValueNeeded}" 
+                               redisplay="true" maxlength="50">
+                    <f:ajax render="qualityIndicator" event="keyup" listener="#{securePassword.checkPasswordQuality}"/>
+                </h:inputSecret>
+                <h:outputLabel id="qualityIndicator" value="" class="circle#{securePassword.quality.color}" title="#{msg.msgPasswordStrength}"/>
+            </p>
+            <p>
+                <h:outputLabel styleClass="label fakeRequired" for="repeatPassword" value="#{msg.lblRepeatPassword}:"/>
+                <h:message id="msgRepeatPassword" for="repeatPassword" styleClass="errorMessage"/>
+                <br/>
+                <h:inputSecret styleClass="input fakeRequired" id="repeatPassword" value="#{editUserMaintenance.repeatPassword}" requiredMessage="#{msg.msgValueNeeded}" 
+                               redisplay="true" maxlength="50"
+                               validator="#{editUserMaintenance.checkPassword}">
+                </h:inputSecret>
+            </p>
 
-        <p>
-            <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
-            <div class="toolBar">
+            <p>
+                <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
                 <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.savePassword}" value="#{msg.btnSave}" immediate="false" />
-            </div>
-        </p>
+            </p>
+        </div>
 
-        <hr />
-
-        #{msg.msgChangeMail}
-        <br/>
-        <p>
-            <h:outputLabel styleClass="label" for="currentEmail" value="#{msg.lblCurrentMail}:"/>
+        <div class="groupBox marginTop">
+            <h:outputLabel value="#{msg.msgChangeMail}"/>
             <br/>
-            <h:outputText styleClass="input" id="currentEmail" value="#{editUserMaintenance.account.email}"/>
-        </p>
 
-        <p>
-            <h:outputLabel styleClass="label" for="email" value="#{msg.lblNewMail}:"/>
-            <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
-            <br/>
-            <h:inputText styleClass="input" id="email" value="#{editUserMaintenance.email}"
-                         validator="#{editUserMaintenance.checkEmail}" maxlength="50"
-                         title="#{msg.tipEmail}">
-                <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
-            </h:inputText>
-        </p>
+            <p>
+                <h:outputLabel styleClass="label" for="currentEmail" value="#{msg.lblCurrentMail}:"/>
+                <br/>
+                <h:outputText styleClass="input" id="currentEmail" value="#{editUserMaintenance.account.email}"/>
+            </p>
 
-        <p>
-            <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
-            <div class="toolBar">
+            <p>
+                <h:outputLabel styleClass="label" for="email" value="#{msg.lblNewMail}:"/>
+                <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
+                <br/>
+                <h:inputText styleClass="input" id="email" value="#{editUserMaintenance.email}"
+                             validator="#{editUserMaintenance.checkEmail}" maxlength="50"
+                             title="#{msg.tipEmail}">
+                    <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
+                </h:inputText>
+            </p>
+
+            <p>
+                <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
                 <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.saveEmail}" value="#{msg.btnSendConfirm}" immediate="false" />
-            </div>
-        </p>
+            </p>
+        </div>
 
-        <hr />
+        <div class="groupBox marginTop">
 
-
-        <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.requestDelete}" value="#{msg.btnDeleteAccount}" immediate="true" />
-        <h:commandLink id="deleteAccount" style="display: none" action="#{editUserMaintenance.delete}" value="delete"/>
-        <br/>
-        <br/>
-        <h:outputLabel styleClass="label" value="#{msg.msgDeleteAccount}"/>
-
+            <h:outputLabel value="#{msg.msgDeleteAccount}"/>
+            <br/>
+            <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.requestDelete}" value="#{msg.btnDeleteAccount}" immediate="true" />
+            <h:commandLink id="deleteAccount" style="display: none" action="#{editUserMaintenance.delete}" value="delete"/>
+        </div>
     </ui:define>
 </ui:composition>
 
