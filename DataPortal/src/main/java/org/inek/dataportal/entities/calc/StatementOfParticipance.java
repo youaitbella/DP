@@ -17,6 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
@@ -77,7 +78,7 @@ public class StatementOfParticipance implements Serializable{
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property StatusId">
+    // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
     @Column(name = "sopStatusId")
     private int _statusId;
     public int getStatusId() {
@@ -86,6 +87,14 @@ public class StatementOfParticipance implements Serializable{
 
     public void setStatusId(int statusId) {
         _statusId = statusId;
+    }
+    
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_statusId);
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _statusId = status.getValue();
     }
     // </editor-fold>
 
@@ -416,6 +425,6 @@ public class StatementOfParticipance implements Serializable{
     public void tagModifiedDate() {
         _lastChanged = Calendar.getInstance().getTime();
     }
-    
+ 
     
 }
