@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.calculationbasics;
+package org.inek.dataportal.feature.calculationhospital;
 
 import javax.enterprise.context.SessionScoped;
 import org.inek.dataportal.controller.AbstractFeatureController;
@@ -12,27 +12,27 @@ import org.inek.dataportal.helper.Topics;
  * @author muellermi
  */
 @SessionScoped
-public class CalculationBasicsController extends AbstractFeatureController {
+public class CalculationHospitalController extends AbstractFeatureController {
 
 
-    public CalculationBasicsController(SessionController sessionController) {
+    public CalculationHospitalController(SessionController sessionController) {
         super(sessionController);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Override abstract methods">
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblCalculationBasics"), Pages.CalculationBasicsSummary.URL());
+        topics.addTopic(getMsg().getString("lblCalculationParticipance"), Pages.CalculationHospitalSummary.URL());
     }
 
     @Override
     public String getMainPart() {
-        return Pages.PartCalculationBasics.URL();
+        return Pages.PartCalculationHospital.URL();
     }
 
     @Override
     public Feature getFeature() {
-        return Feature.CALCULATION_BASICS;
+        return Feature.CALCULATION_HOSPITAL;
     }
     // </editor-fold>
 

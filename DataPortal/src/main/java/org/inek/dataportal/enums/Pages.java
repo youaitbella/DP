@@ -45,8 +45,8 @@ public enum Pages {
     DropBoxUpload("/DropBox/DropBoxUpload"),
     DropBoxCreate("/DropBox/CreateDropBox"),
     //
-    PartCalculationBasics("/CalculationBasics/PartCalculationBasics"),
-    CalculationBasicsSummary("/CalculationBasics/CalculationBasicsSummary"),
+    PartCalculationHospital("/CalculationHospital/PartCalculationHospital"),
+    CalculationHospitalSummary("/CalculationHospital/CalculationHospitalSummary"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),

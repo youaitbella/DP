@@ -18,7 +18,7 @@ public enum Feature {
     CERT(11, "Zertifizierung", true), 
     AGENCY(12, "Behörde", true),
     INSURANCE(13, "Krankenkasse", true),
-    CALCULATION_BASICS(14, "Kalkulationsgrundlagen", true);
+    CALCULATION_HOSPITAL(14, "Kalkulationsgrundlagen", true);
 
     private Feature(int id, String description, boolean needsApproval) {
         _id = id;
