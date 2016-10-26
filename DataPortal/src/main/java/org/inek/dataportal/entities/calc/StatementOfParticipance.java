@@ -174,8 +174,221 @@ public class StatementOfParticipance implements Serializable{
     }
     // </editor-fold>
 
-    // todo: implement other fields
-    // sopMultiyearDrg, sopMultiyearDrgText, sopMultiyearPsy, sopMultiyearPsyText, sopSection, sopSectionExtern, sopSectionCount, sopDrgCare, sopPsyDataIntensive, sopIsWithConsultant, sopConsultantCompany, sopConsultantSendMail, sopConsultantSalutation, sopConsultantTitle, sopConsultantFirstName, sopConsultantLastName, sopConsultantPhone, sopConsultantMail
+    // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrg">
+    @Column(name = "sopMultiyearDrg")
+    private String _multiyearDrg = "";
+    public String getMultiyearDrg() {
+        return _multiyearDrg;
+    }
+
+    public void setMultiyearDrg(String multiyearDrg) {
+        _multiyearDrg = multiyearDrg;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrgText">
+    @Column(name = "sopMultiyearDrgText")
+    private String _multiyearDrgText = "";
+    public String getMultiyearDrgText() {
+        return _multiyearDrgText;
+    }
+
+    public void setMultiyearDrgText(String multiyearDrgText) {
+        _multiyearDrgText = multiyearDrgText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsy">
+    @Column(name = "sopMultiyearPsy")
+    private String _multiyearPsy = "";
+    public String getMultiyearPsy() {
+        return _multiyearPsy;
+    }
+
+    public void setMultiyearPsy(String multiyearPsy) {
+        _multiyearPsy = multiyearPsy;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsyText">
+    @Column(name = "sopMultiyearPsyText")
+    private String _multiyearPsyText = "";
+    public String getMultiyearPsyText() {
+        return _multiyearPsyText;
+    }
+
+    public void setMultiyearPsyText(String multiyearPsyText) {
+        _multiyearPsyText = multiyearPsyText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Section">
+    @Column(name = "sopSection")
+    private boolean _section;
+    public boolean isSection() {
+        return _section;
+    }
+
+    public void setSection(boolean section) {
+        _section = section;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SectionExtern">
+    @Column(name = "sopSectionExtern")
+    private boolean _sectionExtern;
+    public boolean isSectionExtern() {
+        return _sectionExtern;
+    }
+
+    public void setSectionExtern(boolean sectionExtern) {
+        _sectionExtern = sectionExtern;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SectionCount">
+    @Column(name = "sopSectionCount")
+    private int _sectionCount;
+    public int isSectionCount() {
+        return _sectionCount;
+    }
+
+    public void setSectionCount(int sectionCount) {
+        _sectionCount = sectionCount;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DrgCare">
+    @Column(name = "sopDrgCare")
+    private String _drgCare = "";
+    public String getDrgCare() {
+        return _drgCare;
+    }
+
+    public void setDrgCare(String drgCare) {
+        _drgCare = drgCare;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PsyDataIntensive">
+    @Column(name = "sopPsyDataIntensive")
+    private boolean _psyDataIntensive;
+    public boolean isPsyDataIntensive() {
+        return _psyDataIntensive;
+    }
+
+    public void setPsyDataIntensive(boolean psyDataIntensive) {
+        _psyDataIntensive = psyDataIntensive;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property WithConsultant">
+    @Column(name = "sopIsWithConsultant")
+    private boolean _withConsultant;
+    public boolean isWithConsultant() {
+        return _withConsultant;
+    }
+
+    public void setWithConsultant(boolean withConsultant) {
+        _withConsultant = withConsultant;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantCompany">
+    @Column(name = "sopConsultantCompany")
+    private String _consultantCompany = "";
+    public String getConsultantCompany() {
+        return _consultantCompany;
+    }
+
+    public void setConsultantCompany(String consultantCompany) {
+        _consultantCompany = consultantCompany;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantSendMail">
+    @Column(name = "sopConsultantSendMail")
+    private boolean _consultantSendMail;
+    public boolean isConsultantSendMail() {
+        return _consultantSendMail;
+    }
+
+    public void setConsultantSendMail(boolean consultantSendMail) {
+        _consultantSendMail = consultantSendMail;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantSalutation">
+    @Column(name = "sopConsultantSalutation")
+    private String _consultantSalutation = "";
+    public String getConsultantSalutation() {
+        return _consultantSalutation;
+    }
+
+    public void setConsultantSalutation(String consultantSalutation) {
+        _consultantSalutation = consultantSalutation;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantTitle">
+    @Column(name = "sopConsultantTitle")
+    private String _consultantTitle = "";
+    public String getConsultantTitle() {
+        return _consultantTitle;
+    }
+
+    public void setConsultantTitle(String consultantTitle) {
+        _consultantTitle = consultantTitle;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantFirstName">
+    @Column(name = "sopConsultantFirstName")
+    private String _consultantFirstName = "";
+    public String getConsultantFirstName() {
+        return _consultantFirstName;
+    }
+
+    public void setConsultantFirstName(String consultantFirstName) {
+        _consultantFirstName = consultantFirstName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantLastName">
+    @Column(name = "sopConsultantLastName")
+    private String _consultantLastName = "";
+    public String getConsultantLastName() {
+        return _consultantLastName;
+    }
+
+    public void setConsultantLastName(String consultantLastName) {
+        _consultantLastName = consultantLastName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantPhone">
+    @Column(name = "sopConsultantPhone")
+    private String _consultantPhone = "";
+    public String getConsultantPhone() {
+        return _consultantPhone;
+    }
+
+    public void setConsultantPhone(String consultantPhone) {
+        _consultantPhone = consultantPhone;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ConsultantMail">
+    @Column(name = "sopConsultantMail")
+    private String _consultantMail = "";
+    public String getConsultantMail() {
+        return _consultantMail;
+    }
+
+    public void setConsultantMail(String consultantMail) {
+        _consultantMail = consultantMail;
+    }
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals">
     @Override
