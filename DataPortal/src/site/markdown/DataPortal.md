@@ -16,15 +16,11 @@ Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive
 
 Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
 
-|Begriff|Erläuterung|
+| Begriff | Erläuterung |
 |---|---|
-|DRG|Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird. ...
-   Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper|
-|---|---|
-| DropBox |Benannter und zeitlich beschränkter privater Upload-Bereich, den ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann|
-|---|---|
-|Selbstverwaltungspartner im Gesundheitswesen|Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung|
-|---|---|
+| DRG | Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird. Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper |
+| DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, den ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
+| Selbstverwaltungspartner im Gesundheitswesen | Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung |
 
 ## 2 Einführung und Zielsetzung
 
@@ -41,13 +37,13 @@ Kurze Beschreibung nicht funktionaler Anforderungen.
 
 Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
-|Rolle|Interessen|
+| Rolle | Interessen |
 |---|---|
-|Anwender||
-|Gesetzgeber||
-|Selbstverwaltung||
-|InEK||
-|...||
+| Anwender| |
+| Gesetzgeber| |
+| Selbstverwaltung| |
+| InEK| |
+| ... | |
 
 ## 3 Anforderungen
 
@@ -57,36 +53,24 @@ Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit A
 
 Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
 
-|Use Case|<Anwendungsfallname>|
+| Use Case | <Anwendungsfallname> |
 |---|---|
-|System|z.B. xGrouper|
-|---|---|
-|Ebene|Anwenderziel|
-|---|---|
-|Primärakteur||
-|---|---|
-|Stakeholder und Interessen||
-|---|---|
-|Vorbedingungen||
-|---|---|
-|Nachbedingungen||
-|---|---|
-|Standardablauf||
-|1.|...|
-|2.|...|
-|3.|...|
-|---|---|
-|Erweiterungen / alternative Abläufe||
-|*.a|...|
-|---|---|
-|Spezielle Anforderungen||
-|---|---|
-|Technik- und Datenvariationen||
-|---|---|
-|Häufigkeit des Auftretens||
-|---|---|
-|Offene Fragen||
-|---|---|
+| System | z.B. xGrouper |
+| Ebene | Anwenderziel |
+| Primärakteur | |
+| Stakeholder und Interessen | |
+| Vorbedingungen | |
+| Nachbedingungen | |
+| Standardablauf | |
+| 1.| ... |
+| 2.| ... |
+| 3.| ... |
+| Erweiterungen / alternative Abläufe | |
+| *.a | ... |
+| Spezielle Anforderungen | |
+| Technik- und Datenvariationen | |
+| Häufigkeit des Auftretens | |
+| Offene Fragen | |
 
 ### 3.2 Funktionale Anforderungen
 
