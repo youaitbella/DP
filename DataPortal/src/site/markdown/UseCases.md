@@ -10,7 +10,8 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 | **Stakeholder und Interessen** <br/> |
 | **Vorbedingungen** <br/> |
 | **Nachbedingungen** <br/> |
-| **Standardablauf** <br/> <ol><li> Anwender füllt das Registrierungsformular (mit Anwendernamen, Email-Adresse, Kennwort etc.) aus und gibt an, welche Dienste er (sie) nutzen möchte Item1 </li> <li> Anwender drückt Registrierungs-Knopf </li></ol>| 
+| **Standardablauf** <br/> <ol><li> Anwender füllt das Registrierungsformular (mit Anwendernamen, Email-Adresse, Kennwort etc.) aus und gibt an, welche Dienste er (sie) nutzen möchte </li> 
+  <li> Anwender drückt Registrierungs-Knopf </li></ol>| 
 | 2<br/> ... |
 | 3<br/> ... |
 | **Erweiterungen / alternative Abläufe** <br/> |
