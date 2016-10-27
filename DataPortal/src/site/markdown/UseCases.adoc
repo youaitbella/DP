@@ -2,7 +2,7 @@
 
 Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 
-[cols="a"]
+[options="header",cols="a"]
 |==================================
 | *Use Case: Registrierung* 
 | *System* +
