@@ -2,10 +2,10 @@
 
 Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 
-[cols="a"]
+[cols="av"]
 |==================================
 | *Use Case: Registrierung* 
-| *System*::
+| *System*
 InEK Datenportal
 
 | *Ebene* +
