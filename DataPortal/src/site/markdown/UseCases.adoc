@@ -5,9 +5,8 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 [cols="a"]
 |==================================
 | *Use Case: Registrierung* 
-| *System* +
-[indent=6]
- InEK Datenportal
+| *System*::
+InEK Datenportal
 
 | *Ebene* +
 Anwenderziel 
