@@ -71,7 +71,7 @@ Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
 ## 3 Anforderungen
 
-### 3.1 Use cases
+### 3.1-Use-cases
 
 Als Anwender möchte ich in der Lage sein,
 

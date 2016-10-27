@@ -22,4 +22,4 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 | Offene Fragen | |
 
 
-[Zurück zur Übersicht](DataPortal.md#Anforderungen)
+[Zurück zur Übersicht](DataPortal.md#3.1-Use-cases)
