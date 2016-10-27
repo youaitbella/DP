@@ -6,21 +6,24 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 |==================================
 |
 | *Use Case: Registrierung* 
-| **System** <br/> InEK Datenprtal
-| **Ebene** <br/> Anwenderziel 
-| **Primärakteur** <br/> 
-| **Stakeholder und Interessen** <br/> |
-| **Vorbedingungen** <br/> |
-| **Nachbedingungen** <br/> |
-| **Standardablauf** <br/> <ol><li> Anwender füllt das Registrierungsformular (mit Anwendernamen, Email-Adresse, Kennwort etc.) aus und gibt an, welche Dienste er (sie) nutzen möchte </li> <li> Anwender drückt Registrierungs-Knopf </li></ol>| 
-| 2<br/> ... |
-| 3<br/> ... |
-| **Erweiterungen / alternative Abläufe** <br/> |
-| *.a  ... |
-| **Spezielle Anforderungen** <br/> |
-| **Technik- und Datenvariationen** <br/> |
-| **Häufigkeit des Auftretens** <br/> |
-| **Offene Fragen** <br/> |
+| *System*
+  InEK Datenprtal
+| *Ebene*
+  Anwenderziel 
+| *Primärakteur* <br/> 
+| *Stakeholder und Interessen*
+| *Vorbedingungen*
+| *Nachbedingungen*
+| *Standardablauf*
+. Anwender füllt das Registrierungsformular (mit Anwendernamen, Email-Adresse, Kennwort etc.) aus und gibt an, welche Dienste er (sie) nutzen möchte
+. Anwender drückt Registrierungs-Knopf </li></ol>| 
+| *Erweiterungen / alternative Abläufe*
+  *.a  ... 
+  1.a xxx
+| *Spezielle Anforderungen*
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens*
+| *Offene Fragen*
 
 
 
