@@ -1,4 +1,4 @@
-# Use Cases
+- Use Cases
 
 Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 
@@ -6,7 +6,7 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 |==================================
 | *Use Case: Registrierung* 
 | *System* +
-InEK Datenportal
+ InEK Datenportal
 
 | *Ebene* +
 Anwenderziel 
