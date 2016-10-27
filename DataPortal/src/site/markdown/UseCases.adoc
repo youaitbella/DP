@@ -31,13 +31,18 @@ Anwenderziel
 
 | *Erweiterungen / alternative Abläufe*
 
-*.a  ... +
-1.a xxx
+{nbsp}{nbsp}1.a Anwender bricht die Eingabe ab: Die Daten werden verworfen. +
+{nbsp}{nbsp}3.a System stellt Eingabefehler fest: Anzeige derselben und weiter mit 1. +
+{nbsp}{nbsp}3.b System stellt bekannte Daten fest: Anzeige eines Hinweises (z.B. „Anwendername bereits vergeben“, „Email bereits genutzt, haben Sie Ihr Kennwort vergessen?“, …) und weiter mit 1. +
+{nbsp}{nbsp}5.a Anwender aktiviert nicht innerhalb einer festzulegenden Aktivierungsgrenze (z. B. 3 Tage): Verwerfen der Registrierungsdaten +
+{nbsp}{nbsp}5.b Anwender registriert nach Ablauf der Aktivierungsgrenze: Hinweis auf abgelaufene Daten und Auffor-derung den Registrierungsprozess erneut zu durchlaufen +
+{nbsp}{nbsp}8.a InEK-Mitarbeiter reagiert nicht innerhalb einer festgelegten Zeitspanne: Erinnerungsmail, eventuell an größeren Adressatenkreis 
 
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp}Einmal je Anwender. Ca. 2000 bis 5000 Anwender
 | *Offene Fragen*
 
 |==================================

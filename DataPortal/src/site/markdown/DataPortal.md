@@ -94,20 +94,33 @@ Damit dies dem Anwender ermöglicht wird, sind aber auch administrative Tätigke
 
 ### 3.2 Funktionale Anforderungen
 
-Ausführliche Beschreibung
+Das InEK Datenportal dient der strukturierten Übermittlung von Daten an das InEK. Aufgrund der recht umfassend dargestellten Use Cases, wird hier auf eine detaillierte Beschreibung der funktionalen Anforderungen weitgehend verzichtet.
 
 ### 3.3 Nicht funktionale Anforderungen
 
-Ausführliche Beschreibung
+* Kurze Antwortzeiten für die Anwender. Als Messlatte gilt hier < 1 Sek. bei Normallast und Nutzung einer DSL-Verbindung, < 2 Sek. bei höherem Datenaufkommen (100 Anwender parallel)
+* Minimierung von Angriffsmöglichkeiten wie DoS, SQL-Injection etc.
+* Keine bzw. kleinstmögliche Kompromittierung der Datensicherheit im InEK-Netz, insbesondere kein direkter Zugriff aus der DMZ auf die Datenbank
+* Qualität der Dateneingaben: Keine Abstürze aufgrund inkompatibler Typen bei Übernahme in die Datenbank
+
 
 ### 3.4 Technische Anforderungen
 
-Vorgegebene technische Rahmenbedingungen...
-z.B. Einsatz (nur) unter Windows, Einsatz auf Linux, Mac und Windows, Nutzung SQL Server
+* Nutzung des vorhandenen SQL Servers zur Datenspeicherung
+* Linux als Betriebssystem für Rechner in DMZ
 
 ### 3.5 Schnittstellen
 
-Schnittstellen zu anderen Systemen, z.B. Pflegetool zu Grouper
+#### 3.5.1 Datenlieferungen gem. §21 
+
+Die Daten werden verschlüsselt geliefert und bleiben verschlüsselt. 
+Eine Inhaltliche Analyse ist daher im Datenportal nicht möglich.
+Es wird eine einfache Dateischnittstelle genutzt, um die Daten weiter zu leiten.
+
+Die Daten werden nach Freigabe in ein Zip-Archiv gepackt und anschließend in das Übergabeverzeichnis verschoben. 
+In diesem Zusammenhang erhält das Archiv den Namen "BoxyyyyMMddHHmmssSSS.zip" mit yyyy = Jahr, MM = Monat, dd = Tag, HH = Stunde, mm = Minute, ss = Sekunde und SSS = Millisekunde. 
+Dabei stellt die Applikation die Eindeutigkeit des Dateinamens sicher.
+
 
 ## 4 Lösungsstrategie
 
