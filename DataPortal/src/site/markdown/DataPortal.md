@@ -9,7 +9,8 @@ Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krank
 
 
 1. Glossar
-..Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
+
+   Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
 
 |Begriff|Erläuterung|
 |---|---|
@@ -24,17 +25,20 @@ Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krank
    Kurze Beschreibung funktionaler Anforderungen.
 
   2. Qualitätsziele
-   Kurze Beschreibung nicht funktionaler Anforderungen.
-..3. Beteiligte
-....Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
-  |Rolle|Interessen|
-  |---|---|
-  |Anwender||
-  |Gesetzgeber||
-  |Selbstverwaltung||
-  |InEK||
-  |...||
+     Kurze Beschreibung nicht funktionaler Anforderungen.
+
+  3. Beteiligte
+
+     Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
+
+|Rolle|Interessen|
+|---|---|
+|Anwender||
+|Gesetzgeber||
+|Selbstverwaltung||
+|InEK||
+|...||
 
 3. Anforderungen
 
@@ -45,40 +49,49 @@ Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krank
      Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
 
 
-Use Case: <Anwendungsfallname>
-System
-z.B. xGrouper
-Ebene
-Anwenderziel
-Primärakteur
+|Use Case|<Anwendungsfallname>|
+|---|---|
+|System|z.B. xGrouper|
+|---|---|
+|Ebene|Anwenderziel|
+|---|---|
+|Primärakteur||
+|---|---|
+|Stakeholder und Interessen||
+|---|---|
+|Vorbedingungen||
+|---|---|
+|Nachbedingungen||
+|---|---|
+|Standardablauf||
+|1.|...|
+|2.|...|
+|3.|...|
+|---|---|
+|Erweiterungen / alternative Abläufe||
+|*.a|...|
+|---|---|
+|Spezielle Anforderungen||
+|---|---|
+|Technik- und Datenvariationen||
+|---|---|
+|Häufigkeit des Auftretens||
+|---|---|
+|Offene Fragen||
+|---|---|
 
-Stakeholder und Interessen
+  2. Funktionale Anforderungen
 
-Vorbedingungen
+     Ausführliche Beschreibung
+  3. Nicht funktionale Anforderungen
 
-Nachbedingungen
+     Ausführliche Beschreibung
 
-Standardablauf
-1.	…2.	…3.	
-Erweiterungen / alternative Abläufe
-*.a …
-Spezielle Anforderungen
+  4. Technische Anforderungen
 
-Technik- und Datenvariationen
-
-Häufigkeit des Auftretens
-
-Offene Fragen
-
-
-3.2	Funktionale Anforderungen
-Ausführliche Beschreibung
-3.3	Nicht funktionale Anforderungen
-Ausführliche Beschreibung
-3.4	Technische Anforderungen
-Vorgegebene technische Rahmenbedingungen
-z.B. Einsatz (nur) unter Windows, Einsatz auf Linux, Mac und Windows, Nutzung SQL Server
-3.5	Schnittstellen
+     Vorgegebene technische Rahmenbedingungen
+     z.B. Einsatz (nur) unter Windows, Einsatz auf Linux, Mac und Windows, Nutzung SQL Server
+  5. Schnittstellen
 Schnittstellen zu anderen Systemen, z.B. Pflegetool zu Grouper
 4	Lösungsstrategie
 Kurze Darstellung der Lösungsansätze, deren Motivation, verworfene Alternativen (Architekturentschei-dungen).
