@@ -18,26 +18,31 @@ Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krank
 |...|...|	
 
 2. Einführung und Zielsetzung
-..1. Projektvision / Aufgabenstellung
-....Wozu soll diese Software eingesetzt werden? 
-....Kurze Beschreibung funktionaler Anforderungen.
-..2. Qualitätsziele
-....Kurze Beschreibung nicht funktionaler Anforderungen.
+  1. Projektvision / Aufgabenstellung
+
+   Wozu soll diese Software eingesetzt werden? 
+   Kurze Beschreibung funktionaler Anforderungen.
+
+  2. Qualitätsziele
+   Kurze Beschreibung nicht funktionaler Anforderungen.
 ..3. Beteiligte
 ....Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
-|Rolle|Interessen|
-|---|---|
-|Anwender||
-|Gesetzgeber||
-|Selbstverwaltung||
-|InEK||
-|...||
+  |Rolle|Interessen|
+  |---|---|
+  |Anwender||
+  |Gesetzgeber||
+  |Selbstverwaltung||
+  |InEK||
+  |...||
 
 3. Anforderungen
-..Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit Anwendern) auch in einem getrennten Dokument gehalten werden.
-..1. Use cases
-....Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
+
+   Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit Anwendern) auch in einem getrennten Dokument gehalten werden.
+
+  1. Use cases
+
+     Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
 
 
 Use Case: <Anwendungsfallname>
