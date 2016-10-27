@@ -11,7 +11,7 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 | **Vorbedingungen** <br/> |
 | **Nachbedingungen** <br/> |
 | **Standardablauf** <br/> 
-1<br/> ... |
+1<br/> ... 
 | 2<br/> ... |
 | 3<br/> ... |
 | **Erweiterungen / alternative Abläufe** <br/> |
