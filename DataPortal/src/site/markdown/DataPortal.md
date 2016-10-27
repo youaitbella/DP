@@ -84,7 +84,7 @@ Als Anwender möchte ich in der Lage sein,
 * Dokumente unterschiedlicher Art an das InEK zu übermitteln
 * Protokolle und sonstige Dokumente abzurufen
 
-Diese kurze Übersicht zeigt bereits eine Menge von Anwendungsfällen auf. Auch wenn inhaltlich ver-schieden lassen sie sich technisch gesehen in wenige Gruppen einteilen, so dass sich die Zahl der technisch unterschiedlichen Anwendungsfälle reduziert:
+Diese kurze Übersicht zeigt bereits eine Menge von Anwendungsfällen auf. Auch wenn inhaltlich verschieden lassen sie sich technisch gesehen in wenige Gruppen einteilen, so dass sich die Zahl der technisch unterschiedlichen Anwendungsfälle reduziert:
 * Lieferung von CSV-Dateien (teilweise Massendaten)
 * Übermittlung förmlicher Daten
 
