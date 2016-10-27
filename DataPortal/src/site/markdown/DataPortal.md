@@ -8,7 +8,7 @@ Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krank
 
 
 
-## 1. Glossar
+## 1 Glossar
 
 Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
 
@@ -18,20 +18,20 @@ Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis 
 |Selbstverwaltungspartner im Gesundheitswesen|Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung|
 |...|...|	
 
-## 2. Einführung und Zielsetzung
+## 2 Einführung und Zielsetzung
 
-### 2.1. Projektvision / Aufgabenstellung
+### 2.1 Projektvision / Aufgabenstellung
 
 Wozu soll diese Software eingesetzt werden? 
 Kurze Beschreibung funktionaler Anforderungen.
 
-### 2.2. Qualitätsziele
+### 2.2 Qualitätsziele
 
-     Kurze Beschreibung nicht funktionaler Anforderungen.
+Kurze Beschreibung nicht funktionaler Anforderungen.
 
-  3. ### Beteiligte
+### 2.3 Beteiligte
 
-     Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
+Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
 |Rolle|Interessen|
 |---|---|
@@ -41,14 +41,13 @@ Kurze Beschreibung funktionaler Anforderungen.
 |InEK||
 |...||
 
-3. ## Anforderungen
+## 3 Anforderungen
 
-   Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit Anwendern) auch in einem getrennten Dokument gehalten werden.
+Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit Anwendern) auch in einem getrennten Dokument gehalten werden.
 
-  1. ### Use cases
+### 3.1 Use cases
 
-     Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
-
+Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
 
 |Use Case|<Anwendungsfallname>|
 |---|---|
@@ -81,74 +80,95 @@ Kurze Beschreibung funktionaler Anforderungen.
 |Offene Fragen||
 |---|---|
 
-  2. ### Funktionale Anforderungen
+### 3.2 Funktionale Anforderungen
 
-     Ausführliche Beschreibung
+Ausführliche Beschreibung
 
-  3. ### Nicht funktionale Anforderungen
+### 3.3 Nicht funktionale Anforderungen
 
-     Ausführliche Beschreibung
+Ausführliche Beschreibung
 
+### 3.4 Technische Anforderungen
 
-  4. ### Technische Anforderungen
+Vorgegebene technische Rahmenbedingungen...
+z.B. Einsatz (nur) unter Windows, Einsatz auf Linux, Mac und Windows, Nutzung SQL Server
 
-     Vorgegebene technische Rahmenbedingungen...
-     z.B. Einsatz (nur) unter Windows, Einsatz auf Linux, Mac und Windows, Nutzung SQL Server
-
-  5. ### Schnittstellen
+### 3.5 Schnittstellen
 
      Schnittstellen zu anderen Systemen, z.B. Pflegetool zu Grouper
 
-4. ## Lösungsstrategie
+## 4 Lösungsstrategie
 
-   Kurze Darstellung der Lösungsansätze, deren Motivation, verworfene Alternativen (Architekturentscheidungen).
-   Z.B. Nutzung der Programmiersprache X, des Frameworks Y und Ausschluss Bibliothek Z, verworfen weil…
+Kurze Darstellung der Lösungsansätze, deren Motivation, verworfene Alternativen (Architekturentscheidungen).
+Z.B. Nutzung der Programmiersprache X, des Frameworks Y und Ausschluss Bibliothek Z, verworfen weil…
 
-5. ## Architekturüberblick
-  1. ### Bausteinsicht
-    1. #### Ebene 1 (Vogelperspektive)
+## 5 Architekturüberblick
 
-       Zusammenspiel der Bausteine,  z.B. zentrale Pakete oder Klassen, vorzugsweise grafisch dargestellt (UML)
+### 5.1 Bausteinsicht
 
-      1. ##### Bausteinname 1
+#### 5.1.1 Ebene 1 (Vogelperspektive)
 
-         Beschreibung als Blackbox
+Zusammenspiel der Bausteine,  z.B. zentrale Pakete oder Klassen, vorzugsweise grafisch dargestellt (UML)
 
-      2. ##### Bausteinname 2
+##### 5.1.1.1 Bausteinname 1
 
-         Beschreibung als Blackbox
+Beschreibung als Blackbox
 
-    2. #### Ebene 2 (Vogelperspektive)
+##### 5.1.1.2 Bausteinname 2
 
-       „Zoom“ in wichtige Bereiche, Optional auch dritte Ebene
+Beschreibung als Blackbox
 
-  2 ### Laufzeitsicht
+#### 5.1.2 Ebene 2
+
+„Zoom“ in wichtige Bereiche, Optional auch dritte Ebene
+
+### 5.2 Laufzeitsicht
 
 Grafische Darstellung signifikanter Abläufe (UML Sequenzdiagramm)
-5.3	Verteilsicht
-6	Konzepte
+
+### 5.3 Verteilsicht
+
+## 6 Konzepte
+
 Beschreibung grundlegender Konzepte, z.B. Persistenz: Nutzung SQLServer via ORM (objektrelationales Mapping) oder direkter SQL Zugriffe, …
-6.1	Fachliche Strukturen und Modelle
-6.2	Typische Muster und Strukturen
-6.3	Benutzeroberfläche
-6.4	Geschäftsregeln
-6.5	Persistenz
-6.6	Weitere relevante Konzepte
-7	Qualitätsszenarien
+
+### 6.1 Fachliche Strukturen und Modelle
+
+### 6.2 Typische Muster und Strukturen
+
+### 6.3 Benutzeroberfläche
+
+### 6.4 Geschäftsregeln
+
+### 6.5 Persistenz
+
+### 6.6 Weitere relevante Konzepte
+
+## 7 Qualitätsszenarien
+
 Wie wird die Software geprüft? Z.B. Unittests, automatisierte Systemtests, Tests entsprechend Checkliste.
-8	Risiken
+
+## 8 Risiken
+
 Welche Risiken existieren und wie wird ihnen entgegengewirkt?
-9	Anwenderdokumentation
+
+## 9 Anwenderdokumentation
+
 Verweis auf Anwenderhandbuch.
-10	Deployment / Konfigurationsmanagement
-10.1	Entwicklungssystem
-Beschreibung der für die Entwicklung benötigten Umgebung.
+
+## 10 Deployment / Konfigurationsmanagement
+
+### 10.1 Entwicklungssystem
+
+Beschreibung der für die Entwicklung benötigten Umgebung,
 z.B. Betriebssystem, Entwicklungsumgebung, externe Komponenten, Lizenzen etc.
 
-Verweis auf das Source-Repository
-10.2	Zielsystem
-Beschreibung der Voraussetzungen auf dem Zielsystem
+### 10.2 Zielsystem
+
+Beschreibung der Voraussetzungen auf dem Zielsystem, 
 z.B. Betriebssystem, Bibliotheken, extern Programme
-11	Sonstiges
+
+## 11 Sonstiges
+
 Projektspezifische Besonderheiten
  
