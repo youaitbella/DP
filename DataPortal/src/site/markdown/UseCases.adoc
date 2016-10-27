@@ -10,7 +10,7 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 InEK Datenportal
 | *Ebene*
 
-  Anwenderziel 
+Anwenderziel 
 | *Primärakteur*
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
@@ -35,7 +35,7 @@ InEK Datenportal
 
 
 
-link:DataPortal.md[Zurück zum Hauptdokument]
+link:DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
 
 .Three panes
