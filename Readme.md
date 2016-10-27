@@ -1,6 +1,6 @@
 # InEK Datenportal
 
-**DataPortalParent** ist das Elternprojekt für das InEK Datenportal sowie den Begleitforaschungsbrowser. 
+**DataPortalParent** ist das Elternprojekt für das InEK Datenportal sowie den Begleitforschungsbrowser. 
 Beide Projekte können unabhängig voneinander ausgerollt und betrieben werden.
 Sie nutzen jedoch gemeinsame Ressourcen und Bibliotheken.
 
