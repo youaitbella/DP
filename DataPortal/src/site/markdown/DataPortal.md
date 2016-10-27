@@ -14,8 +14,6 @@ Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive
 
 ## 1 Glossar
 
-Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
-
 | Begriff | Erläuterung |
 |---|---|
 | DRG | Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird. Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper |
@@ -62,11 +60,14 @@ Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
 | Rolle | Interessen |
 |---|---|
-| Anwender| |
-| Gesetzgeber| |
-| Selbstverwaltung| |
-| InEK| |
-| ... | |
+| Anwender| Einfache und sichere Übermittlung ihrer Daten |
+| Gesetzgeber| Umsetzung der im Gesetz festgeschriebenen Aufträge an Selbstverwaltung und InEK. Einhaltung von Datenschutzbestimmungen, insbesondere im Hinblick auf sensible Patientendaten. |
+| Selbstverwaltung| Delegation der gesetzlichen Aufträge an das InEK und korrekte Durchführung derselben |
+| InEK (GF) | Korrekte Umsetzung der Aufgaben. Positive Außenwirkung. |
+| InEK (Medizin) | Qualitativ hochwertige Daten als Grundlage für die weitere Bearbeitung |
+| InEK (Ökonomie) | Dokumentierte Lieferungen als Grundlage für die Kommunikation mit den Häusern. Qualitativ hochwertige Daten als Grundlage für die weitere Bearbeitung. |
+| InEK (Datenstelle) | Sichere Datenannahme mit einfacher Übernahme in eine Datenbank. Automatisierbare Verarbeitung. |
+| InEK (anwender) | Sichtung der Formulardaten. Kommentierung der Daten. Bearbeitung der Daten. |
 
 ## 3 Anforderungen
 
@@ -74,26 +75,24 @@ Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit A
 
 ### 3.1 Use cases
 
-Beschreibung typischer Einsatzszenarien, z.B. als UML Use Case oder in tabellarischer Form
+Als Anwender möchte ich in der Lage sein,
 
-| Use Case | <Anwendungsfallname> |
-|---|---|
-| System | z.B. xGrouper |
-| Ebene | Anwenderziel |
-| Primärakteur | |
-| Stakeholder und Interessen | |
-| Vorbedingungen | |
-| Nachbedingungen | |
-| Standardablauf | |
-| 1.| ... |
-| 2.| ... |
-| 3.| ... |
-| Erweiterungen / alternative Abläufe | |
-| *.a | ... |
-| Spezielle Anforderungen | |
-| Technik- und Datenvariationen | |
-| Häufigkeit des Auftretens | |
-| Offene Fragen | |
+* Daten gemäß § 21 zu liefern
+* Ergänzende  Daten zu liefern
+* Daten Kalkulationsgrundlage zu liefern
+* Förmliche Anfragen zu stellen
+* NUB zu übermitteln
+* Vorschläge zur Weiterentwicklung von DRG- und PEPP-Systems zu unterbreiten
+* Dokumente unterschiedlicher Art an das InEK zu übermitteln
+* Protokolle und sonstige Dokumente abzurufen
+
+Diese kurze Übersicht zeigt bereits eine Menge von Anwendungsfällen auf. Auch wenn inhaltlich ver-schieden lassen sie sich technisch gesehen in wenige Gruppen einteilen, so dass sich die Zahl der technisch unterschiedlichen Anwendungsfälle reduziert:
+* 	Lieferung von CSV-Dateien (teilweise Massendaten)
+* 	Übermittlung förmlicher Daten
+
+Damit dies dem Anwender ermöglicht wird, sind aber auch administrative Tätigkeiten erforderlich, wie Registrierung, Anmeldung etc., die teilweise vom Anwender, teilweise vom InEK durchzuführen sind. Hierbei handelt es sich um zusätzliche Anwendungsfälle.
+
+[Detaillierte Beschreibung ausgewählter Anwendungsfälle](UseCases.md)
 
 ### 3.2 Funktionale Anforderungen
 
