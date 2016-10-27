@@ -90,9 +90,7 @@ Diese kurze Übersicht zeigt bereits eine Menge von Anwendungsfällen auf. Auch 
 
 Damit dies dem Anwender ermöglicht wird, sind aber auch administrative Tätigkeiten erforderlich, wie Registrierung, Anmeldung etc., die teilweise vom Anwender, teilweise vom InEK durchzuführen sind. Hierbei handelt es sich um zusätzliche Anwendungsfälle.
 
-[Detaillierte Beschreibung ausgewählter Anwendungsfälle](UseCases.md)
-
-[Detaillierte Beschreibung ausgewählter Anwendungsfälle ASCCI DOC](UseCases.adoc)
+[Detaillierte Beschreibung ausgewählter Anwendungsfälle](UseCases.adoc)
 
 ### 3.2 Funktionale Anforderungen
 
