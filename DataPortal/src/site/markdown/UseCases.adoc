@@ -5,11 +5,13 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 [cols="a"]
 |==================================
 | *Use Case: Registrierung* 
-| *System*
+| *System* +
+{nbsp}{nbsp}
 InEK Datenportal
 
 | *Ebene* +
-{nbsp} Anwenderziel 
+{nbsp}{nbsp}
+Anwenderziel 
 
 | *Primärakteur*
 | *Stakeholder und Interessen*
