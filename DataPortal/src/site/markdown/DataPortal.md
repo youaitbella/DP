@@ -8,23 +8,24 @@ Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krank
 
 
 
-1. ## Glossar
+## 1. Glossar
 
-   Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
+Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis auf übergreifendes Glossar. 
 
-   |Begriff|Erläuterung|
-   |---|---|
-   |DRG|...|
-   |Selbstverwaltungspartner im Gesundheitswesen|Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung|
-   |...|...|	
+|Begriff|Erläuterung|
+|---|---|
+|DRG|...|
+|Selbstverwaltungspartner im Gesundheitswesen|Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung|
+|...|...|	
 
-2. ## Einführung und Zielsetzung
-  1. ###Projektvision / Aufgabenstellung
+## 2. Einführung und Zielsetzung
 
-     Wozu soll diese Software eingesetzt werden? 
-     Kurze Beschreibung funktionaler Anforderungen.
+### 2.1. Projektvision / Aufgabenstellung
 
-  2. ### Qualitätsziele
+Wozu soll diese Software eingesetzt werden? 
+Kurze Beschreibung funktionaler Anforderungen.
+
+### 2.2. Qualitätsziele
 
      Kurze Beschreibung nicht funktionaler Anforderungen.
 
