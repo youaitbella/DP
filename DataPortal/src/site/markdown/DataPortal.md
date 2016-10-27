@@ -26,12 +26,35 @@ Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis 
 
 ### 2.1 Projektvision / Aufgabenstellung
 
-Wozu soll diese Software eingesetzt werden? 
-Kurze Beschreibung funktionaler Anforderungen.
+#### 2.1.1 Ausgangs-Situation (2011)
+
+Neben den §21- und Kalkulationsdaten (KG-Info, KG-Ausbildung, OPAN etc.) fragt das InEK zahlreiche weitere Daten ab bzw. räumt berechtigten Personen die Möglichkeit ein, sich in unterschiedlichen Formen am Verfahren (NUB, VV, Anfragen) zu beteiligen. Hierzu senden diese Personen bzw. Institutionen Daten ein. Dies erfolgt teilweise in Form unterschiedlicher Excel-Dateien, teilweise in Form von Dateien die mit-tels spezieller Tools erzeugt wurden sowie CSV-Dateien gemäß § 21 KHEntG. Diese Daten werden dann per Email an das InEK übermittelt. Davon abweichend werden §21-Dateien derzeit per Email oder DropBox via Datenstelle an das InEK übermittelt.
+
+Dabei kommt es immer wieder zu diversen Problemen:
+
+* Es werden unzulässige bzw. unplausible Daten eingetragen
+* Im Excel werden Felder verschoben, verändert, eingefügt
+* Die vom Tool erzeugten Texte werden mit einem Editor nachbearbeitet und dabei in ihrer Struktur verändert.
+* Emails gehen verloren
+* Seitens Datenstelle werden Daten fehlerhaft verarbeitet bzw. bereitgestellt.
+
+Die Folgen dieser Probleme sind geringere Datenqualität bis hin zum Datenverlust sowie ein erhöhter Aufwand durch manuelle Korrekturen während des Einleseprozesses sowie erforderlich werdende Neulieferungen.
+
+#### 1.1.2 Zielsetzung
+ Es wird ein Verfahren benötigt, das die genannten Probleme vermeidet bzw. soweit die Vermeidung nicht möglich ist, zumindest deutlich reduziert. Erreicht wird dies durch ein Bündel von Maßnahmen:
+
+* Die Daten werden, wo immer möglich, bereits bei ihrer Erfassung überprüft, z. B. Zulässigkeit von Codes, Einhaltung von Wertegrenzen, Typprüfung etc.
+* Zur vereinfachten Eingabe werden Assistenzfunktionalitäten wie das Suchen von Codes bereitge-stellt
+* Die Formulare können vom Anwender nicht verändert werden.
+* Die Datenübermittlung erfolgt auf sicherem Wege. Der Anwender erhält bei erfolgreicher Über-mittlung unmittelbar eine nachprüfbare Rückmeldung.
+* Der Anwender wird authentifiziert, so dass insbesondere sensible Daten nicht von „irgendwem“ geliefert werden.
+* Es ist eine Arbeitsweise zu unterstützen, die auch eine Unterbrechung und Wiederaufnahme der Datenerfassung ermöglicht.
 
 ### 2.2 Qualitätsziele
 
-Kurze Beschreibung nicht funktionaler Anforderungen.
+* Für externen Anwender kurze Antwortzeiten (typisch < 1 Sek., unter hoher Last < 2 Sek., jeweils bei DSL-Anbindung)
+* Keine formellen Fehleingaben möglich (Pflichtfelder gefüllt, korrekte Datentypen, Werte aus Werteliste)
+* Kein unberechtigter Zugang, z.B. Admin-Funktionalität nur (räumlich) innerhalb vom InEK möglich
 
 ### 2.3 Beteiligte
 
