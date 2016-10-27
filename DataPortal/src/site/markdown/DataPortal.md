@@ -3,6 +3,10 @@
 DataPortal ein das Modul von [DataPortalParent](../../../../Readme.md). 
 Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krankenhäusern und sonstigen externen Instituten oder Personen.
 
+Zum Zeitpunkt des Projektstart (2011) erhält das InEK zahlreiche Datenlieferungen in unterschiedlichen Formaten per Mail. 
+Das Verfahren ist fehleranfällig (Nicht-Einhaltung des Formats, verlorene Emails etc.) und soll daher durch ein Web-Portal ersetzt werden. 
+Dieses Dokument beschreibt das Projekt „Inek Datenportal“, welches beginnend in 2012 zur Übermittlung der Daten gem. §21 KHEntgG genutzt wird. 
+Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive in diesem Portal implementiert.
 
 [Kalkulationshaus](CalculationHospital.md)
 
@@ -14,9 +18,13 @@ Beschreibung fachlich relevanter Begriffe. Projektspezifisch und / oder Verweis 
 
 |Begriff|Erläuterung|
 |---|---|
-|DRG|...|
+|DRG|Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird.
+Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper|
+|---|---|
+|DropBox|Benannter und zeitlich beschränkter privater Upload-Bereich, den ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann|
+|---|---|
 |Selbstverwaltungspartner im Gesundheitswesen|Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung|
-|...|...|	
+|---|---|
 
 ## 2 Einführung und Zielsetzung
 
@@ -95,7 +103,7 @@ z.B. Einsatz (nur) unter Windows, Einsatz auf Linux, Mac und Windows, Nutzung SQ
 
 ### 3.5 Schnittstellen
 
-     Schnittstellen zu anderen Systemen, z.B. Pflegetool zu Grouper
+Schnittstellen zu anderen Systemen, z.B. Pflegetool zu Grouper
 
 ## 4 Lösungsstrategie
 
