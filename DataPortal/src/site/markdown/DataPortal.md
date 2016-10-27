@@ -17,7 +17,7 @@ Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive
 | Begriff | Erläuterung |
 |---|---|
 | DRG | Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird. Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper |
-| DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, den ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
+| DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, <br/> den <br> ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
 | Selbstverwaltungspartner im Gesundheitswesen | Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung |
 
 ## 2 Einführung und Zielsetzung
@@ -71,7 +71,7 @@ Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 
 ## 3 Anforderungen
 
-### 3.1 <a name="UseCases">Use cases</a> 
+### 3.1 <a name="UseCases"></a> Use cases
 
 Als Anwender möchte ich in der Lage sein,
 
