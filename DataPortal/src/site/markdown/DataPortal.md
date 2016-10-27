@@ -92,6 +92,8 @@ Damit dies dem Anwender ermöglicht wird, sind aber auch administrative Tätigke
 
 [Detaillierte Beschreibung ausgewählter Anwendungsfälle](UseCases.md)
 
+[Detaillierte Beschreibung ausgewählter Anwendungsfälle ASCCI DOC](UseCases.adoc)
+
 ### 3.2 Funktionale Anforderungen
 
 Ausführliche Beschreibung
