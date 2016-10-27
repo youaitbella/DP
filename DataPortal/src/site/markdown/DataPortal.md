@@ -67,11 +67,9 @@ Nennung der wichtigen Rollen (nicht Personen) und deren Interessen.
 | InEK (Medizin) | Qualitativ hochwertige Daten als Grundlage für die weitere Bearbeitung |
 | InEK (Ökonomie) | Dokumentierte Lieferungen als Grundlage für die Kommunikation mit den Häusern. Qualitativ hochwertige Daten als Grundlage für die weitere Bearbeitung. |
 | InEK (Datenstelle) | Sichere Datenannahme mit einfacher Übernahme in eine Datenbank. Automatisierbare Verarbeitung. |
-| InEK (anwender) | Sichtung der Formulardaten. Kommentierung der Daten. Bearbeitung der Daten. |
+| InEK (Anwender) | Sichtung der Formulardaten. Kommentierung der Daten. Bearbeitung der Daten. |
 
 ## 3 Anforderungen
-
-Die Anforderungen können je nach Umfang und Zielsetzung (z.B. Besprechung mit Anwendern) auch in einem getrennten Dokument gehalten werden.
 
 ### 3.1 Use cases
 
@@ -87,8 +85,8 @@ Als Anwender möchte ich in der Lage sein,
 * Protokolle und sonstige Dokumente abzurufen
 
 Diese kurze Übersicht zeigt bereits eine Menge von Anwendungsfällen auf. Auch wenn inhaltlich ver-schieden lassen sie sich technisch gesehen in wenige Gruppen einteilen, so dass sich die Zahl der technisch unterschiedlichen Anwendungsfälle reduziert:
-* 	Lieferung von CSV-Dateien (teilweise Massendaten)
-* 	Übermittlung förmlicher Daten
+* Lieferung von CSV-Dateien (teilweise Massendaten)
+* Übermittlung förmlicher Daten
 
 Damit dies dem Anwender ermöglicht wird, sind aber auch administrative Tätigkeiten erforderlich, wie Registrierung, Anmeldung etc., die teilweise vom Anwender, teilweise vom InEK durchzuführen sind. Hierbei handelt es sich um zusätzliche Anwendungsfälle.
 
