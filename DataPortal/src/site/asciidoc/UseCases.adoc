@@ -2,17 +2,18 @@
 
 Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 
+
+== Registrierung
+
 [options="header",cols="a"]
 |==================================
 | *Use Case: Registrierung* 
 | *System* +
 {nbsp}{nbsp}
 InEK Datenportal
-
 | *Ebene* +
 {nbsp}{nbsp}
 Anwenderziel 
-
 | *Primärakteur*
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
@@ -33,7 +34,7 @@ Anwenderziel
 
 {nbsp}{nbsp}1.a Anwender bricht die Eingabe ab: Die Daten werden verworfen. +
 {nbsp}{nbsp}3.a System stellt Eingabefehler fest: Anzeige derselben und weiter mit 1. +
-{nbsp}{nbsp}3.b System stellt bekannte Daten fest: Anzeige eines Hinweises (z.B. „Anwendername bereits vergeben“, „Email bereits genutzt, haben Sie Ihr Kennwort vergessen?“, …) und weiter mit 1. +
+{nbsp}{nbsp}3.b System stellt bekannte Daten fest: Anzeige eines Hinweises (z.B. „Anwendername bereits vergeben", „Email bereits genutzt, haben Sie Ihr Kennwort vergessen?", …) und weiter mit 1. +
 {nbsp}{nbsp}5.a Anwender aktiviert nicht innerhalb einer festzulegenden Aktivierungsgrenze (z. B. 3 Tage): Verwerfen der Registrierungsdaten +
 {nbsp}{nbsp}5.b Anwender registriert nach Ablauf der Aktivierungsgrenze: Hinweis auf abgelaufene Daten und Auffor-derung den Registrierungsprozess erneut zu durchlaufen +
 {nbsp}{nbsp}8.a InEK-Mitarbeiter reagiert nicht innerhalb einer festgelegten Zeitspanne: Erinnerungsmail, eventuell an größeren Adressatenkreis 
@@ -43,6 +44,142 @@ Anwenderziel
 | *Technik- und Datenvariationen*
 | *Häufigkeit des Auftretens* +
 {nbsp}{nbsp}Einmal je Anwender. Ca. 2000 bis 5000 Anwender
+| *Offene Fragen*
+
+|==================================
+
+== Aktivierung eines "Silent Accounts"
+
+Durch z.B. externe Tools können Accounts im Datenportal angelegt werden. 
+Diese hinterlegen in der Tabelle „AccountActivation" die Account-ID des „Silent Account" und eine dazugehörige GUID. 
+Das externe Tool bietet dem Nutzer nun z.B. per Email über einen direkten Link an, seinen Account freizuschalten. 
+Hierzu vergibt der Benutzer auf einer Seite sein Passwort und kann sich so einen Aktivierungslink per Email zusenden lassen.
+
+
+[options="header",cols="a"]
+|==================================
+| *Use Case: Anmelden* 
+| *System* +
+{nbsp}{nbsp}InEK Datenportal
+| *Ebene* +
+{nbsp}{nbsp}Servicefunktion
+| *Primärakteur*
+{nbsp}{nbsp}externer Anwender
+| *Stakeholder und Interessen*
+| *Vorbedingungen*
+
+* Es wurde ein „Silent Account“ erstellt.
+* Der Benutzer hat eine E-Mail bekommen, die den Link zur Accountaktivierung enthält.
+
+| *Nachbedingungen*+
+Der Benutzer bestätigt in der zweiten Email seine Aktivierung.
+
+| *Standardablauf*
+
+. Anwender 
+
+| *Erweiterungen / alternative Abläufe*
+
+{nbsp}{nbsp}*1.a Anwender
+
+| *Spezielle Anforderungen*
+
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp}
+| *Offene Fragen*
+
+|==================================
+
+
+[options="header",cols="a"]
+|==================================
+| *Use Case: * 
+| *System* +
+{nbsp}{nbsp}
+InEK Datenportal
+| *Ebene* +
+{nbsp}{nbsp}
+Anwenderziel 
+| *Primärakteur*
+| *Stakeholder und Interessen*
+| *Vorbedingungen*
+| *Nachbedingungen*
+| *Standardablauf*
+
+. Anwender 
+
+| *Erweiterungen / alternative Abläufe*
+
+{nbsp}{nbsp}*1.a Anwender
+
+| *Spezielle Anforderungen*
+
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp}
+| *Offene Fragen*
+
+|==================================
+
+
+[options="header",cols="a"]
+|==================================
+| *Use Case: * 
+| *System* +
+{nbsp}{nbsp}
+InEK Datenportal
+| *Ebene* +
+{nbsp}{nbsp}
+Anwenderziel 
+| *Primärakteur*
+| *Stakeholder und Interessen*
+| *Vorbedingungen*
+| *Nachbedingungen*
+| *Standardablauf*
+
+. Anwender 
+
+| *Erweiterungen / alternative Abläufe*
+
+{nbsp}{nbsp}*1.a Anwender
+
+| *Spezielle Anforderungen*
+
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp}
+| *Offene Fragen*
+
+|==================================
+
+
+[options="header",cols="a"]
+|==================================
+| *Use Case: * 
+| *System* +
+{nbsp}{nbsp}
+InEK Datenportal
+| *Ebene* +
+{nbsp}{nbsp}
+Anwenderziel 
+| *Primärakteur*
+| *Stakeholder und Interessen*
+| *Vorbedingungen*
+| *Nachbedingungen*
+| *Standardablauf*
+
+. Anwender 
+
+| *Erweiterungen / alternative Abläufe*
+
+{nbsp}{nbsp}*1.a Anwender
+
+| *Spezielle Anforderungen*
+
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp}
 | *Offene Fragen*
 
 |==================================
