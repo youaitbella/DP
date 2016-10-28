@@ -26,6 +26,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
 @Entity
 @Table(name = "StatementOfParticipance", schema = "calc")
 public class StatementOfParticipance implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -399,7 +400,7 @@ public class StatementOfParticipance implements Serializable{
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="hashCode + equals">
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
         int hash = 3;
@@ -418,13 +419,19 @@ public class StatementOfParticipance implements Serializable{
         final StatementOfParticipance other = (StatementOfParticipance) obj;
         return _id == other._id;
     }
+    
+    @Override
+    public String toString() {
+        return "org.inek.dataportal.entities.calc.StatementOfParticipance[ id=" + _id + " ]";
+    }
+    
     // </editor-fold>
 
+    
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
         _lastChanged = Calendar.getInstance().getTime();
     }
- 
     
 }

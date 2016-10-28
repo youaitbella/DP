@@ -210,10 +210,6 @@ Den vereinfachten Ablauf für die Erfassung bzw. Übermittlung von Daten zeigt d
 
 ![Formularbasierte Datenerfassung](../images/5.2 Formal Data.png)
 
-![External image](http://blog.mueller-bruehl.de/wp-content/uploads/2016/09/IMG_20160909_181134442_HDR.jpg)
-
-![Internal image](IMG_20160909_181134442_HDR.jpg)
-
 Solange der Anwender eingeloggt ist, existiert ein entsprechendes Account-Objekt. 
 Wird nun ein Formular angelegt, so erzeugt das System intern ein entsprechendes Datenobjekt, das initial mit Werten aus dem Account befüllt werden kann. 
 Der Anwender kann die Daten editieren und zu jedem Zeitpunkt (zwischen-) speichern. 
