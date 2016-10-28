@@ -25,13 +25,6 @@ public class DrgProposalList {
     @Inject CooperationTools _cooperationTools;
     @Inject ApplicationTools _appTools;
     
-    public String checkIfButtonEnabled() {
-        if (_appTools.isEnabled(ConfigKey.IsDrgProposalCreateEnabled)) {
-            return "";
-        }
-        return "buttonDisabled";
-    }
-    
     public String newDrgProposal() {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
         return Pages.DrgProposalEditAddress.RedirectURL();

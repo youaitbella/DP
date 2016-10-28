@@ -73,12 +73,6 @@ public class PeppProposalList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(peppProposal));
         return Pages.PrintView.URL();
     }
-    
-    public String checkIfButtonEnabled() {
-        if(_appTools.isEnabled(ConfigKey.IsPeppProposalCreateEnabled))
-            return "";
-        return "buttonDisabled";
-    }
 
     // <editor-fold defaultstate="collapsed" desc="Cooperation">
     public List<Account> getPartnersForEdit() {

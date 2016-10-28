@@ -47,6 +47,7 @@ public enum Pages {
     //
     PartCalculationHospital("/CalculationHospital/PartCalculationHospital"),
     CalculationHospitalSummary("/CalculationHospital/CalculationHospitalSummary"),
+    CalculationHospitalStatemenOfParticipance("/CalculationHospital/StatemenOfParticipance"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),

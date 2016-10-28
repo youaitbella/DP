@@ -16,7 +16,8 @@
                               rendered="#{drgProposalTreeHandler.accountNode.children.size() gt 0}"/>
 
         <p>
-            <h:commandLink styleClass="bigButton #{drgProposalList.checkIfButtonEnabled()}" action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
+            <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsDrgProposalCreateEnabled') ? '' : 'buttonDisabled'}" 
+                           action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
                            disabled="#{!applicationTools.isEnabled('IsDrgProposalCreateEnabled')}"/>
         </p>
     </div>

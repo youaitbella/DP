@@ -15,7 +15,8 @@
                               rendered="#{peppProposalTreeHandler.accountNode.children.size() gt 0}"/>
 
         <p>
-            <h:commandLink styleClass="bigButton #{peppProposalList.checkIfButtonEnabled()}" action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
+            <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsPeppProposalCreateEnabled') ? '' : 'buttonDisabled'}" 
+                           action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
                            disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}"/>
         </p>
     </div>

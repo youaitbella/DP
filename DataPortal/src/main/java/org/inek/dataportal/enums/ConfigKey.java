@@ -14,6 +14,7 @@ public enum ConfigKey {
     IsPeppProposalCreateEnabled(true),
     IsPeppProposalSendEnabled(true),
     IsModelIntentionSendEnabled(true),
+    IsCalationBasicsCreateEnabled(false),
     DataServiceClientVersion("20160101.3"),
     ApplicationURL("https://daten.inek.org"),
     FolderRoot("//vFileserver01/company$/EDV/Datenportal/"),
