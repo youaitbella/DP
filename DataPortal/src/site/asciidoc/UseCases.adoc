@@ -9,11 +9,9 @@ Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 |==================================
 | *Use Case: Registrierung* 
 | *System* +
-{nbsp}{nbsp}
-InEK Datenportal
+{nbsp}{nbsp} InEK Datenportal
 | *Ebene* +
-{nbsp}{nbsp}
-Anwenderziel 
+{nbsp}{nbsp} Anwenderziel 
 | *Primärakteur*
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
@@ -71,22 +69,28 @@ Hierzu vergibt der Benutzer auf einer Seite sein Passwort und kann sich so einen
 * Es wurde ein „Silent Account“ erstellt.
 * Der Benutzer hat eine E-Mail bekommen, die den Link zur Accountaktivierung enthält.
 
-| *Nachbedingungen*+
-Der Benutzer bestätigt in der zweiten Email seine Aktivierung.
+| *Nachbedingungen*
+
+* Der Benutzer bestätigt in der zweiten Email seine Aktivierung.
 
 | *Standardablauf*
 
-. Anwender 
+1. Anwender klickt Link an.
+2. Anwender vergibt Passwort.
+3. Anwender bestätigt sein Passwort und erhält eine Aktivierungsemail.
+4. Anwender klickt Link in Aktivierungsemail an und ist eingeloggt.
+
 
 | *Erweiterungen / alternative Abläufe*
 
-{nbsp}{nbsp}*1.a Anwender
+{nbsp}{nbsp} *.a Anwender bricht Aktivierung in irgendeiner Form ab. +
+{nbsp}{nbsp} 3.a Er hat eine Stunde Zeit, seinen Account zu bestätigen. Danach verfallen die Änderungen. 
 
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
 | *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
+{nbsp}{nbsp} mehrere Hundert bei Umstellung Lieferverfahren (NUB) von E-Mail auf Portal, sonst vereinzelt
 | *Offene Fragen*
 
 |==================================
