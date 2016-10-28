@@ -210,7 +210,7 @@ Den vereinfachten Ablauf für die Erfassung bzw. Übermittlung von Daten zeigt d
 
 ![Formularbasierte Datenerfassung](../images/5.2 Formal Data.png)
 
-![Technische Infrastruktur xxx](TechnicalInfrastructure.png)
+![Add](add.png)
 
 Solange der Anwender eingeloggt ist, existiert ein entsprechendes Account-Objekt. 
 Wird nun ein Formular angelegt, so erzeugt das System intern ein entsprechendes Datenobjekt, das initial mit Werten aus dem Account befüllt werden kann. 
