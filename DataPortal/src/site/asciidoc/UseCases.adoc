@@ -211,7 +211,7 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
 [options="header",cols="a"]
 |==================================
-| *Use Case: bnmelden* 
+| *Use Case: Abmelden* 
 | *System* +
 {nbsp}{nbsp} InEK Datenportal
 | *Ebene* +
@@ -333,8 +333,7 @@ Ein Anwender möchte das InEK Datenportal nicht mehr nutzen und seinen Zugang l�
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
+| *Häufigkeit des Auftretens*
 | *Offene Fragen*
 
 |==================================
@@ -381,8 +380,7 @@ Egal ob Anfragen, VV, BUB, ED, KG, es handelt sich um Daten, die über ein Formu
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
+| *Häufigkeit des Auftretens*
 | *Offene Fragen*
 
 |==================================
@@ -423,8 +421,7 @@ Der Anwender möchte Daten, die er zu einem früheren Zeitpunkt übermittelt hat
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
+| *Häufigkeit des Auftretens*
 | *Offene Fragen*
 
 |==================================
@@ -516,8 +513,7 @@ Für solche Funktionen prüft das InEK und schaltet die Funktion frei oder sperr
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
+| *Häufigkeit des Auftretens*
 | *Offene Fragen*
 
 |==================================
