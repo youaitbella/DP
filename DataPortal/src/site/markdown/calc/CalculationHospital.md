@@ -9,3 +9,5 @@ Zu klären: Initialer Umgang mit Vorjahreswerten. Z.B. Befüllung auch ohne Zugr
 
 Kalkulationsgrundlagen (KGL, KGP) stehen zur Verfügung, sofern in der Teilnahmeerklärung das entsprechende Feld markiert ist.
 KGL und KGP werden - soweit vorhanden - mit Vorjahreswerten befüllt.
+
+[Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)
