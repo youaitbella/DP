@@ -594,8 +594,8 @@ Die Umsetzung dieser Anforderung ist nicht prioritär, eventuell ist es auch sin
 ## 9 Anwenderdokumentation
 
 Das Anwenderhandbuch wird innerhalb des Projekts verwaltet. 
-Die Quellversion befindet sich im Verzeichnis „manual“. 
-Im PDF-Format steht es dem Anwender in „resources/manual“ zur Verfügung ist über einen Link innerhalb des InEK-Datenportals erreichbar.
+Die Quellversion befindet sich im Verzeichnis "manual". 
+Im PDF-Format steht es dem Anwender in "resources/manual" zur Verfügung ist über einen Link innerhalb des InEK-Datenportals erreichbar.
 
 ## 10 Deployment / Konfigurationsmanagement
 

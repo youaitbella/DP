@@ -2,7 +2,9 @@
 
 Im Folgenden sind eingie ausgewählte Use Cases detaillierter beschrieben.
 
+:blank: pass:[ +]
  
+{blank}
 
 == Registrierung
 
@@ -10,7 +12,7 @@ Das Datenportal steht ausschließlich registrierten Anwendern zur Verfügung.
 Insofern ist die Registrierung die erste Funktionalität, die ein jeder Anwender nutzen muss. 
 Dabei trägt der Anwender Informationen über sich bzw. Krankenhaus, Arbeitgeber etc., sowie die zu nutzenden Dienste ein. 
 Die Menge der erforderlichen Informationen ist abhängig von den angeforderten Diensten. 
-So ist beispielsweise die Datenlieferung gemäß § 21 KHEntgG nur für Krankenhäuser (Dienst „DropBox“) möglich. 
+So ist beispielsweise die Datenlieferung gemäß § 21 KHEntgG nur für Krankenhäuser (Dienst "DropBox") möglich. 
 Insofern werden hier Informationen zu Haus und IK benötigt. 
 Die Daten werden initial im Rahmen der Registrierung abgefragt, können aber zu einem späteren Zeitpunkt geändert werden.
 
@@ -41,7 +43,7 @@ Die Daten werden initial im Rahmen der Registrierung abgefragt, können aber zu 
 
 {nbsp}{nbsp}1.a Anwender bricht die Eingabe ab: Die Daten werden verworfen. +
 {nbsp}{nbsp}3.a System stellt Eingabefehler fest: Anzeige derselben und weiter mit 1. +
-{nbsp}{nbsp}3.b System stellt bekannte Daten fest: Anzeige eines Hinweises (z.B. „Anwendername bereits vergeben", „Email bereits genutzt, haben Sie Ihr Kennwort vergessen?", …) und weiter mit 1. +
+{nbsp}{nbsp}3.b System stellt bekannte Daten fest: Anzeige eines Hinweises (z.B. "Anwendername bereits vergeben", "Email bereits genutzt, haben Sie Ihr Kennwort vergessen?", …) und weiter mit 1. +
 {nbsp}{nbsp}5.a Anwender aktiviert nicht innerhalb einer festzulegenden Aktivierungsgrenze (z. B. 3 Tage): Verwerfen der Registrierungsdaten +
 {nbsp}{nbsp}5.b Anwender registriert nach Ablauf der Aktivierungsgrenze: Hinweis auf abgelaufene Daten und Auffor-derung den Registrierungsprozess erneut zu durchlaufen +
 {nbsp}{nbsp}8.a InEK-Mitarbeiter reagiert nicht innerhalb einer festgelegten Zeitspanne: Erinnerungsmail, eventuell an größeren Adressatenkreis 
@@ -57,10 +59,12 @@ Die Daten werden initial im Rahmen der Registrierung abgefragt, können aber zu 
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
+{blank}
+
 == Aktivierung eines "Silent Accounts"
 
 Durch z.B. externe Tools können Accounts im Datenportal angelegt werden. 
-Diese hinterlegen in der Tabelle „AccountActivation" die Account-ID des „Silent Account" und eine dazugehörige GUID. 
+Diese hinterlegen in der Tabelle "AccountActivation" die Account-ID des "Silent Account" und eine dazugehörige GUID. 
 Das externe Tool bietet dem Nutzer nun z.B. per Email über einen direkten Link an, seinen Account freizuschalten. 
 Hierzu vergibt der Benutzer auf einer Seite sein Passwort und kann sich so einen Aktivierungslink per Email zusenden lassen.
 
@@ -77,7 +81,7 @@ Hierzu vergibt der Benutzer auf einer Seite sein Passwort und kann sich so einen
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
 
-* Es wurde ein „Silent Account“ erstellt.
+* Es wurde ein "Silent Account" erstellt.
 * Der Benutzer hat eine E-Mail bekommen, die den Link zur Accountaktivierung enthält.
 
 | *Nachbedingungen*
@@ -109,6 +113,8 @@ Hierzu vergibt der Benutzer auf einer Seite sein Passwort und kann sich so einen
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
+{blank}
+
 == Kennwort zurücksetzen
 
 Das passiert häufiger: 
@@ -132,7 +138,7 @@ Also wird eine Funktionalität zum Zurücksetzen des Kennworts benötigt.
 | *Standardablauf*
 
 1. Anwender ruft Portal auf
-2. Anwender wählt die Funktion „Kennwort vergessen“
+2. Anwender wählt die Funktion "Kennwort vergessen"
 3. Anwender gibt Anwenderkürzel oder Email ein
 4. System generiert ein neues Kennwort
 5. System sendet Kennwort an die hinterlegte Email
@@ -153,6 +159,8 @@ Also wird eine Funktionalität zum Zurücksetzen des Kennworts benötigt.
 
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
+
+{blank}
 
 == Anmelden
 
@@ -177,7 +185,7 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 3. Anwender gibt Kennwort ein
 4. Anwender betätigt die Schaltfläche [login]
 5. System prüft die Daten
-6. Anwender erhält den Status „angemeldet“
+6. Anwender erhält den Status "angemeldet"
 
 
 | *Erweiterungen / alternative Abläufe*
@@ -196,6 +204,8 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
+
+{blank}
 
 == Abmelden
 
@@ -237,6 +247,8 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
+{blank}
+
 == Stammdaten ändern
 
 Namen, IK-Nummern, Kennwort, angeforderte Funktionalitäten, all dies kann sich ändern. 
@@ -258,7 +270,7 @@ Der Anwender muss dies komfortabel aktualisieren können
 | *Nachbedingungen*
 | *Standardablauf*
 
-1. Anwender wählt Funktion „Stammdaten ändern“
+1. Anwender wählt Funktion "Stammdaten ändern"
 2. System stellt Daten in einem Dialog dar
 3. Anwender ändert die Daten
 4. Anwender betätigt [speichern]
@@ -267,11 +279,56 @@ Der Anwender muss dies komfortabel aktualisieren können
 
 | *Erweiterungen / alternative Abläufe*
 
-{nbsp}{nbsp} *.a Anwender verlässt die Eingabe: Keine Aktion, Änderungen werden verworfen
-5.a Eingabefehler: System gibt Meldung aus. Weiter mit 3.
-5.b Angeforderte Funktionalität geändert: System erzeugt ggf. Meldung, dass diese freigeschaltet werden muss. Falls eine solche Funktion gewählt wurde, erfolgt die Freischaltung analog der in „Registrierung“ beschriebenen.
-5.c Bei Änderung der Email muss diese bestätigt werden. Es wird eine Aktivierungsmail verschickt, analog Registrierung. Eine weitere Änderungsnachricht mit Abbruchmöglichkeit wird an die ursprüngliche Mailadresse verschickt.
-*1.a Anwender
+{nbsp}{nbsp} *.a Anwender verlässt die Eingabe: Keine Aktion, Änderungen werden verworfen +
+{nbsp}{nbsp} 5.a Eingabefehler: System gibt Meldung aus. Weiter mit 3. +
+{nbsp}{nbsp} 5.b Angeforderte Funktionalität geändert: System erzeugt ggf. Meldung, dass diese freigeschaltet werden muss. Falls eine solche Funktion gewählt wurde, erfolgt die Freischaltung analog der in "Registrierung" beschriebenen. +
+{nbsp}{nbsp} 5.c Bei Änderung der Email muss diese bestätigt werden. Es wird eine Aktivierungsmail verschickt, analog Registrierung. Eine weitere Änderungsnachricht mit Abbruchmöglichkeit wird an die ursprüngliche Mailadresse verschickt.
+
+| *Spezielle Anforderungen*
+
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp} gelegentlich
+| *Offene Fragen*
+
+|==================================
+
+link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
+
+{blank}
+
+== Registrierung löschen
+
+Ein Anwender möchte das InEK Datenportal nicht mehr nutzen und seinen Zugang löschen
+
+[options="header",cols="a"]
+|==================================
+| *Use Case: Stammdaten ändern* 
+| *System* +
+{nbsp}{nbsp} InEK Datenportal
+| *Ebene* +
+{nbsp}{nbsp} Anwenderziel 
+| *Primärakteur* +
+{nbsp}{nbsp} externer Anwender
+| *Primärakteur*
+| *Stakeholder und Interessen* + 
+{nbsp}{nbsp} InEK: Für bereits übermittelte Datenlieferungen werden weiterhin Bezugsdaten benötigt
+| *Vorbedingungen*
+{nbsp}{nbsp} Anwender ist angemeldet
+| *Nachbedingungen*
+{nbsp}{nbsp} Anwender kann sich nicht mehr anmelden
+| *Standardablauf*
+
+1. Anwender wählt "Registrierung löschen"
+2. System erfragt Bestätigung
+3. Anwender bestätigt
+4. System archiviert notwendige Daten und entfernt Anmeldeinformationen
+
+| *Erweiterungen / alternative Abläufe*
+
+{nbsp}{nbsp} 1.a Anwender verlässt Dialog: keine weitere Aktion +
+{nbsp}{nbsp} 3.a Anwender bestätigt nicht (verlässt Dialog)t: keine weitere Aktion +
+{nbsp}{nbsp} 3.b Anwender bestätigt nicht (Schaltfläche [Nicht löschen]: System zeigt Hinweis, dass Daten nicht verän-dert
 
 | *Spezielle Anforderungen*
 
@@ -282,9 +339,61 @@ Der Anwender muss dies komfortabel aktualisieren können
 
 |==================================
 
+link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
+{blank}
+
+== Förmliche Daten übermitteln
+
+Egal ob Anfragen, VV, BUB, ED, KG, es handelt sich um Daten, die über ein Formular erfasst und an das InEK übermittelt werden.
+
+[options="header",cols="a"]
+|==================================
+| *Use Case: Förmliche Daten übermitteln* 
+| *System* +
+{nbsp}{nbsp} InEK Datenportal
+| *Ebene* +
+{nbsp}{nbsp} Anwenderziel 
+| *Primärakteur* +
+{nbsp}{nbsp} externer Anwender
+| *Primärakteur*
+| *Stakeholder und Interessen*
+| *Vorbedingungen*
+{nbsp}{nbsp} Anwender ist angemeldet
+| *Nachbedingungen*
+| *Standardablauf*
+
+1. Anwender legt neuen Datensatz an oder ruft vorhandenen auf
+2. Anwender editiert Daten
+3. Anwender "sendet" Daten
+4. System prüft Daten
+5. System speichert Daten
+6. System leitet Daten zur Verarbeitung weiter
+7. System schließt Dialog
+
+| *Erweiterungen / alternative Abläufe*
+
+{nbsp}{nbsp} 1.a Anwender ruft "gesendete" Daten auf: System zeigt diese read-only an +
+{nbsp}{nbsp} 2.a Anwender klickt auf [speichern]: System speichert die aktuellen Daten wie sie sind +
+{nbsp}{nbsp} 4.a Prüfung ergibt Fehler: System zeigt diese im Dialog. Weiter mit 2.
+
+
+| *Spezielle Anforderungen*
+
+| *Technik- und Datenvariationen*
+| *Häufigkeit des Auftretens* +
+{nbsp}{nbsp}
+| *Offene Fragen*
+
+|==================================
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
+
+{blank}
+
+== Historie einsehen
+
+Der Anwender möchte Daten, die er zu einem früheren Zeitpunkt übermittelt hat, einsehen
 
 [options="header",cols="a"]
 |==================================
@@ -298,10 +407,14 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 | *Primärakteur*
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
+{nbsp}{nbsp} Anwender ist angemeldet, Daten sind bereits übermittels
 | *Nachbedingungen*
 | *Standardablauf*
 
-. Anwender 
+1. Anwender wählt Funktionsbereich
+2. System zeigt Liste bisheriger Einlieferungen
+3. Anwender wählt eine Lieferung
+4. System zeigt Daten an
 
 | *Erweiterungen / alternative Abläufe*
 
@@ -316,13 +429,18 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
 |==================================
 
-
-
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
+
+{blank}
+
+== DropBox
+
+Massendaten werden in Form von CSV-Dateien übermittelt. 
+Dies kann (noch) als Anhang einer E-Mail oder aber im "DropBox" genannten Upload-Verfahren geschehen.
 
 [options="header",cols="a"]
 |==================================
-| *Use Case: Stammdaten ändern* 
+| *Use Case: DropBox* 
 | *System* +
 {nbsp}{nbsp} InEK Datenportal
 | *Ebene* +
@@ -332,48 +450,68 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 | *Primärakteur*
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
+{nbsp}{nbsp} Anwender ist angemeldet
 | *Nachbedingungen*
 | *Standardablauf*
 
-. Anwender 
+1. Anwender fordert DropBox an oder öffnet vorhandene
+2. Anwender wählt Daten zum Upload
+3. Anwender wählt [Upload]
+4. System lädt Daten in individuellen Bereich auf dem Server hoch
+5. Anwender wiederholt bei Bedarf die Schritte ab 2.
+6. Anwender wählt [DropBox abschließen]
+7. System schließt DropBox
 
 | *Erweiterungen / alternative Abläufe*
 
-{nbsp}{nbsp}*1.a Anwender
+{nbsp}{nbsp} *.a Anwender verlässt den Dialog: Bereits hochgeladene Dateien verbleiben auf dem Server +
+{nbsp}{nbsp} 6.a Anwender schließt DropBox nicht innerhalb einer einstellbaren Zeit: System verwirft die DropBox
 
 | *Spezielle Anforderungen*
 
 | *Technik- und Datenvariationen*
 | *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
+{nbsp}{nbsp} in Spitzenzeiten bis zu 1000 / Tag
 | *Offene Fragen*
 
 |==================================
-
-
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 
+{blank}
+
+== Freischaltung Feature
+
+Bestimmte vom Anwender angeforderte Funktionen dürfen nur bei berechtigtem Interesse genutzt werden. 
+Beispielhaft sei hier die Datenlieferung nach §21 KHEntgG genannt, die nur von Krankenhäusern bzw. deren Mitarbeiter oder Beratern durchgeführt werden darf. 
+Für solche Funktionen prüft das InEK und schaltet die Funktion frei oder sperrt diese.
+
 [options="header",cols="a"]
 |==================================
-| *Use Case: Stammdaten ändern* 
+| *Use Case: Freischaltung Feature* 
 | *System* +
 {nbsp}{nbsp} InEK Datenportal
 | *Ebene* +
-{nbsp}{nbsp} Anwenderziel 
+{nbsp}{nbsp} Servicefunktion 
 | *Primärakteur* +
-{nbsp}{nbsp}externer Anwender
+{nbsp}{nbsp}externer Anwender, InEK
 | *Primärakteur*
 | *Stakeholder und Interessen*
 | *Vorbedingungen*
+{nbsp}{nbsp} Anwender ist angemeldet
 | *Nachbedingungen*
 | *Standardablauf*
 
-. Anwender 
+1. Anwender wählt in Stammdaten ein Feature an, das einer Freischaltung bedarf
+2. System sendet eine Email mit der Funktionsanforderung, Daten des Anwenders sowie Freischalt bzw. Sperrlink an InEK
+3. InEK prüft das berechtigte Interesse des Anwenders
+4. InEK schaltet das Feature frei
+5. System informiert Anwender per Email
 
 | *Erweiterungen / alternative Abläufe*
 
-{nbsp}{nbsp}*1.a Anwender
+{nbsp}{nbsp} 3.a InEK bleibt binnen bestimmter Zeit untätig: System wiederholt 2. +
+{nbsp}{nbsp} 4.a InEK lehnt Nutzung des Features ab
 
 | *Spezielle Anforderungen*
 
@@ -383,75 +521,5 @@ link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
 | *Offene Fragen*
 
 |==================================
-
-
-
-link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
-
-[options="header",cols="a"]
-|==================================
-| *Use Case: Stammdaten ändern* 
-| *System* +
-{nbsp}{nbsp} InEK Datenportal
-| *Ebene* +
-{nbsp}{nbsp} Anwenderziel 
-| *Primärakteur* +
-{nbsp}{nbsp}externer Anwender
-| *Primärakteur*
-| *Stakeholder und Interessen*
-| *Vorbedingungen*
-| *Nachbedingungen*
-| *Standardablauf*
-
-. Anwender 
-
-| *Erweiterungen / alternative Abläufe*
-
-{nbsp}{nbsp}*1.a Anwender
-
-| *Spezielle Anforderungen*
-
-| *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
-| *Offene Fragen*
-
-|==================================
-
-
-
-link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
-
-[options="header",cols="a"]
-|==================================
-| *Use Case: Stammdaten ändern* 
-| *System* +
-{nbsp}{nbsp} InEK Datenportal
-| *Ebene* +
-{nbsp}{nbsp} Anwenderziel 
-| *Primärakteur* +
-{nbsp}{nbsp}externer Anwender
-| *Primärakteur*
-| *Stakeholder und Interessen*
-| *Vorbedingungen*
-| *Nachbedingungen*
-| *Standardablauf*
-
-. Anwender 
-
-| *Erweiterungen / alternative Abläufe*
-
-{nbsp}{nbsp}*1.a Anwender
-
-| *Spezielle Anforderungen*
-
-| *Technik- und Datenvariationen*
-| *Häufigkeit des Auftretens* +
-{nbsp}{nbsp}
-| *Offene Fragen*
-
-|==================================
-
-
 
 link:../markdown/DataPortal.md#UseCases[Zurück zum Hauptdokument]
