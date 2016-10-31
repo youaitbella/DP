@@ -5,9 +5,14 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
@@ -209,6 +214,26 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
+
+    public List<SelectItem> getIks() {
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
+        List<SelectItem> items = new ArrayList<>();
+        if (account.getIK() != null) {
+            iks.add(account.getIK());
+        }
+        if (_statement.getIk() > 0) {
+            iks.add(_statement.getIk());
+        }
+        for (int ik : iks) {
+            items.add(new SelectItem(ik));
+        }
+        if (_statement.getIk() <= 0) {
+            items.add(0, new SelectItem(""));
+        }
+        return items;
+    }
+
     String _hospitalName = "";
 
     public void setHospitalName(String hospitalName) {
