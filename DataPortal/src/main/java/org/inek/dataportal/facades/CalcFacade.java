@@ -6,6 +6,7 @@
 package org.inek.dataportal.facades;
 
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -14,6 +15,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
  *
  * @author muellermi
  */
+@Stateless
 public class CalcFacade extends AbstractDataAccess{
     
     public StatementOfParticipance findStatementOfParticipance(int id) {

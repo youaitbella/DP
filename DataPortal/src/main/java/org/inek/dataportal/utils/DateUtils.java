@@ -38,4 +38,15 @@ public class DateUtils {
         return new SimpleDateFormat(format).format(new Date());
     }
 
+    // returns the previous year until max month
+    // after max, we assume to be in the previous year
+    public static int getDataYear(int max) {
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        if (month < max){
+            return year - 1;
+        }
+        return year;
+    }
+
 }

@@ -23,6 +23,7 @@ import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.utils.DateUtils;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -84,6 +85,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
+
+    public StatementOfParticipance getStatement() {
+        return _statement;
+    }
+
+    public void setStatement(StatementOfParticipance statement) {
+        _statement = statement;
+    }
 
     // </editor-fold>
     

@@ -18,6 +18,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -45,7 +46,7 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "sopDataYear")
-    private int _dataYear;
+    private int _dataYear = DateUtils.getDataYear(9);
     public int getDataYear() {
         return _dataYear;
     }
@@ -56,7 +57,7 @@ public class StatementOfParticipance implements Serializable{
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
-    @Column(name = "TE_IK")
+    @Column(name = "sopIK")
     private int _ik;
     public int getIk() {
         return _ik;
@@ -114,7 +115,7 @@ public class StatementOfParticipance implements Serializable{
     
     // <editor-fold defaultstate="collapsed" desc="Property IsDrgCalc">
     @Column(name = "sopIsDrg")
-    private boolean _drgCalc;
+    private boolean _drgCalc = true;
     public boolean isDrgCalc() {
         return _drgCalc;
     }
@@ -126,7 +127,7 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property IsPsyCalc">
     @Column(name = "sopIsPsy")
-    private boolean _psyCalc;
+    private boolean _psyCalc = true;
     public boolean isPsyCalc() {
         return _psyCalc;
     }
