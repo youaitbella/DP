@@ -13,7 +13,19 @@
                        action="#{calculationHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewStatementOfParticipance}"
-                       disabled="#{not applicationTools.isEnabled('IsCalationBasicsCreateEnabled')}"/>
+                       rendered="#{calculationHospitalList.newStatementOfParticipanceAllowed}"/>
+
+        <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
+                       action="#{calculationHospitalList.newCalculationBasicsDrg}"
+                       immediate="true"
+                       value="#{msg.btnNewCalculationBasicsDrg}"
+                       rendered="#{calculationHospitalList.newCalculationBasicsDrgAllowed}"/>
+
+        <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
+                       action="#{calculationHospitalList.newStatementOfParticipance}"
+                       immediate="true"
+                       value="#{msg.btnNewCalculationBasicsPepp}"
+                       rendered="#{calculationHospitalList.newCalculationBasicsPeppAllowed}"/>
 
     </div>
     <div jsf:rendered="#{not applicationTools.isEnabled('IsCalationBasicsCreateEnabled')}">

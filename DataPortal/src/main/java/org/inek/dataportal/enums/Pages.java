@@ -29,7 +29,6 @@ public enum Pages {
     PartNub("/NUB/PartNUB"),
     NubSummary("/NUB/NubSummary"),
     NubFromTemplate("/NUB/NubFromTemplate"),
-    NubEdit("/NUB/NubEdit"),
     NubEditAddress("/NUB/NubEditAddress"),
     NubEditPage1("/NUB/NubEditPage1"),
     NubEditPage2("/NUB/NubEditPage2"),
@@ -47,7 +46,8 @@ public enum Pages {
     //
     PartCalculationHospital("/CalculationHospital/PartCalculationHospital"),
     CalculationHospitalSummary("/CalculationHospital/CalculationHospitalSummary"),
-    CalculationHospitalStatemenOfParticipance("/CalculationHospital/StatemenOfParticipance"),
+    StatementOfParticipanceEditAddress("/CalculationHospital/StatementOfParticipanceEditAddress"),
+    StatementOfParticipanceEditStatements("/CalculationHospital/StatementOfParticipanceEditStatements"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),

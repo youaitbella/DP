@@ -19,9 +19,9 @@
             
             <div class="tab">
                 <ul class="tab">
-                    <c:forEach items="#{editDrgProposal.visibleTopics}" var="topic">
+                    <c:forEach items="#{editStatementOfParticipance.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editDrgProposal.changeTabPage(topic.key)}"
+                        <h:commandLink value="#{topic.title}" action="#{editStatementOfParticipance.changeTabPage(topic.key)}"
                                            immediate="true">
                             </h:commandLink>
                         </li>
@@ -35,40 +35,33 @@
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editDrgProposal.save}"
+                                   action="#{editStatementOfParticipance.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editDrgProposal.readOnly}">
+                                   rendered="#{!editStatementOfParticipance.readOnly}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editDrgProposal.requestApprovalDrgProposal}"
+                                   action="#{editStatementOfParticipance.requestApprovall}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editDrgProposal.approvalRequestEnabled}"
+                                   rendered="#{editStatementOfParticipance.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editDrgProposal.sealDrgProposal}"
+                                   action="#{editStatementOfParticipance.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editDrgProposal.sealEnabled}"
+                                   rendered="#{editStatementOfParticipance.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editDrgProposal.requestCorrection}"
-                                   value="#{msg.btnRequestCorrection}"
-                                   immediate="true"
-                                   rendered="#{editDrgProposal.requestCorrectionEnabled}">
-                    </h:commandLink>
-
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editDrgProposal.take}"
+                                   action="#{editStatementOfParticipance.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"
-                                   rendered="#{editDrgProposal.takeEnabled}"
+                                   rendered="#{editStatementOfParticipance.takeEnabled}"
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                 </div>

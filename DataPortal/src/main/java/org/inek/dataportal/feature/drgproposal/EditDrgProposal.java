@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -32,7 +31,6 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
@@ -55,15 +53,16 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @FeatureScoped
 public class EditDrgProposal extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditDrgProposal");
-    @Inject private CooperationTools _cooperationTools;
-
     // <editor-fold defaultstate="collapsed" desc="fields">
+    private static final Logger _logger = Logger.getLogger("EditDrgProposal");
+
+    @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private DrgProposalFacade _drgProposalFacade;
     @Inject ApplicationTools _appTools;
+    // </editor-fold>
     
     private String _script;
     private DrgProposal _drgProposal;
@@ -85,12 +84,11 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     enum DrgProposalTabs {
-
         tabPPAddress,
         tabPPProblem,
         tabPPSolution,
         tabPPCodes,
-        tabPPDocuments,
+        tabPPDocuments
     }
 
     // </editor-fold>
