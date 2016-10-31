@@ -66,9 +66,6 @@ public class Customer implements Serializable {
 
     public void setName(String name) {
         this._name = name;
-        for (int i = 0; i < 10; i++) {
-            
-        }
     }
     // </editor-fold>
     

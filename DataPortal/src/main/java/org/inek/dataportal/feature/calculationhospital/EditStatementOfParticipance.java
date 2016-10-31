@@ -15,11 +15,13 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -41,7 +43,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
-    
+    @Inject private CustomerFacade _customerFacade;
+
     private String _script;
     private StatementOfParticipance _statement;
 
@@ -51,7 +54,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
-
     @PostConstruct
     private void init() {
 
@@ -85,7 +87,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-
     public StatementOfParticipance getStatement() {
         return _statement;
     }
@@ -95,19 +96,20 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     @Override
     protected void addTopics() {
         addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceAddress.name(), Pages.StatementOfParticipanceEditAddress.URL());
         addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name(), Pages.StatementOfParticipanceEditStatements.URL());
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="actions">
+    public boolean isOwnStatement() {
+        return _sessionController.isMyAccount(_statement.getAccountId(), false);
+    }
+
     public boolean isReadOnly() {
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
     }
-
 
     public String save() {
         setModifiedInfo();
@@ -156,9 +158,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if
-     * all mandatory fields are fulfilled. After sealing, the statement od participance can not
-     * be edited anymore and is available for the InEK.
+     * This function seals a statement od participance if possible. Sealing is
+     * possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for
+     * the InEK.
      *
      * @return
      */
@@ -183,8 +186,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private boolean statementIsComplete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
     public String requestApprovalDrgProposal() {
         if (!statementIsComplete()) {
             return null;
@@ -204,10 +206,28 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
         return "";
     }
-    
+
     // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Tab XXX">
-    // </editor-fold>
-    
+    // <editor-fold defaultstate="collapsed" desc="Tab Address">
+    String _hospitalName = "";
+
+    public void setHospitalName(String hospitalName) {
+        _hospitalName = hospitalName;
+    }
+
+    public String getHospitalName() {
+        return _hospitalName;
+    }
+
+    public void changedIk() {
+        if (_statement != null) {
+            Customer c = _customerFacade.getCustomerByIK(_statement.getIk());
+            _hospitalName = c.getName();
+        }
+    }
+
+
+// </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="Tab XXX">
+// </editor-fold>
 }

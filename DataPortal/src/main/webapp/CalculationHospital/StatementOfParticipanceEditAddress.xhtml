@@ -10,6 +10,38 @@
 
         <h2>#{msg.lblHospital}</h2>
 
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+            <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+            <br/>
+            <h:selectOneMenu
+                styleClass="inputmedium"
+                rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.ownStatement}"
+                id="ikMulti"
+                title="#{msg.titleIK}"
+                required="true"
+                requiredMessage="#{msg.msgValueNeeded}"
+                value="#{editStatementOfParticipance.statement.ik}"
+                readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.ownStatement}">
+                <f:selectItems value="#{editStatementOfParticipance.iks}"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+                <f:ajax event="change" listener="#{editStatementOfParticipance.changedIk}" render="@form :logout:remaining msgMultiIk"/>
+            </h:selectOneMenu>
+            <h:inputText styleClass="inputlong" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.ownStatement}"/>
+            <br/>
+            <h:outputText value="#{msg.lblNubHintMoreIks}" />
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel id="hospitalName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
+            <h:message for="khName" id="msgNubKhName" styleClass="errorMessage"/>
+            <br />
+            <h:inputText styleClass="inputlong" readonly="#{editStatementOfParticipance.readOnly}" maxlength="100" id="khName" value="#{editStatementOfParticipance.hospitalName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+                <f:ajax event="blur" render="@this :logout:remaining msgNubKhName"/>
+            </h:inputText>
+        </div>
+
+        
 
         <h2>#{msg.lblContactPerson}</h2>
 
