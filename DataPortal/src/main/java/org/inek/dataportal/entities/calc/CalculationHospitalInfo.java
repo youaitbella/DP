@@ -17,17 +17,28 @@ import javax.persistence.Id;
 @Entity 
 public class CalculationHospitalInfo implements Serializable {
     
-    // <editor-fold defaultstate="collapsed" desc="Property RowNum">
-    @Column(name = "rowNum")
+    // <editor-fold defaultstate="collapsed" desc="Property Type">
     @Id
-    private int _rowNum;
+    private int _type;
 
-    public int getRowNum() {
-        return _rowNum;
+    public int getType() {
+        return _type;
     }
 
-    public void setRowNum(int rowNum) {
-        _rowNum = rowNum;
+    public void setType(int type) {
+        _type = type;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
+    private int _accountId;
+
+    public int getAccountId() {
+        return _accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        _accountId = accountId;
     }
     // </editor-fold>
 
@@ -55,6 +66,18 @@ public class CalculationHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property StatusId">
+    private int _statusId;
+
+    public int getStatusId() {
+        return _statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        _statusId = statusId;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     private String _name;
 
@@ -64,18 +87,6 @@ public class CalculationHospitalInfo implements Serializable {
 
     public void setName(String name) {
         _name = name;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Type">
-    private String _type;
-
-    public String getType() {
-        return _type;
-    }
-
-    public void setType(String type) {
-        _type = type;
     }
     // </editor-fold>
 
