@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.entities.calc.CalcBasicsDrg;
+import org.inek.dataportal.entities.calc.CalcBasicsPepp;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.DataSet;
@@ -53,13 +55,13 @@ public class CalcFacade extends AbstractDataAccess {
         int statusHigh = dataSet == DataSet.AllOpen ? 9 : dataSet == DataSet.AllSealed ? 200 : -1;
         String statusCond = " between " + statusLow + " and " + statusHigh;
         String accountCond = " = " + accountId;
-        String sql = "select sopId * 10 as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
+        String sql = "select sopId * 10 as IdWithType, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblStatementOfParticipance") + "' as Name from calc.StatementOfParticipance where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
                 + " union "
-                + "select bdId * 10 + 1 as Id, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
+                + "select bdId * 10 + 1 as IdWithType, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.BasicsDrg where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
                 + " union "
-                + "select bpId * 10 + 2 as Id, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
+                + "select bpId * 10 + 2 as IdWithType, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name from calc.BasicsPepp where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year
                 + "order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
@@ -87,6 +89,18 @@ public class CalcFacade extends AbstractDataAccess {
                 + "select bpAccountId as AccountId from calc.BasicsPepp where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year;
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return new HashSet<>(query.getResultList());
+    }
+
+    public CalcBasicsDrg findCalcBasicsDrg(int id) {
+        return findFresh(CalcBasicsDrg.class, id);
+    }
+
+    public CalcBasicsPepp findCalcBasicsPepp(int id) {
+        return findFresh(CalcBasicsPepp.class, id);
+    }
+
+    public CalcBasicsDrg saveCalcBasicsDrg(CalcBasicsDrg _calcBasics) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

@@ -218,9 +218,9 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getId(), n1.getCalcHospitalInfo().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIdWithType(), n1.getCalcHospitalInfo().getIdWithType()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getId(), n2.getCalcHospitalInfo().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIdWithType(), n2.getCalcHospitalInfo().getIdWithType()));
                 }
                 break;
             case "name":

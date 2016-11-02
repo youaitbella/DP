@@ -24,7 +24,7 @@ public class CalcHospitalTreeNode extends TreeNode{
     private CalcHospitalTreeNode(TreeNode parent, CalcHospitalInfo info) {
         super(parent);
         _info = info;
-        setId(info.getId());
+        setId(info.getIdWithType());
         setExpanded(true);
     }
     

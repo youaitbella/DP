@@ -21,7 +21,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.StatementOfParticipance;
+import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -40,10 +40,10 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @FeatureScoped
-public class EditStatementOfParticipance extends AbstractEditController {
+public class EditCalcBasicsDrg extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditStatementOfParticipance");
+    private static final Logger _logger = Logger.getLogger("EditCalcBasicsDrg");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -52,11 +52,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private CustomerFacade _customerFacade;
 
     private String _script;
-    private StatementOfParticipance _statement;
+    private CalcBasicsDrg _calcBasics;
 
-    enum StatementOfParticipanceTabs {
-        tabStatementOfParticipanceAddress,
-        tabStatementOfParticipanceStatements
+    enum CalcBasicsDrgTabs {
+        // todo
+        tabCalcBasicsDrgXXX,
+        tabCalcBasicsDrgYYY
     }
 
     // </editor-fold>
@@ -66,63 +67,64 @@ public class EditStatementOfParticipance extends AbstractEditController {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Object idWithType = params.get("idWithType");
         if (idWithType == null) {
-            _statement = newStatementOfParticipance();
+            _calcBasics = newCalcBasicsDrg();
         } else {
-            _statement = loadStatementOfParticipance(idWithType);
+            _calcBasics = loadCalcBasicsDrg(idWithType);
         }
 
     }
 
-    private StatementOfParticipance loadStatementOfParticipance(Object idWithType) {
+    private CalcBasicsDrg loadCalcBasicsDrg(Object idWithType) {
         try {
             int id = Integer.parseInt("" + idWithType) / 10;
-            StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
+            CalcBasicsDrg statement = _calcFacade.findCalcBasicsDrg(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
             }
         } catch (NumberFormatException ex) {
             _logger.info(ex.getMessage());
         }
-        return newStatementOfParticipance();
+        return newCalcBasicsDrg();
     }
 
-    private StatementOfParticipance newStatementOfParticipance() {
+    private CalcBasicsDrg newCalcBasicsDrg() {
         Account account = _sessionController.getAccount();
-        StatementOfParticipance statement = new StatementOfParticipance();
+        CalcBasicsDrg statement = new CalcBasicsDrg();
         statement.setAccountId(account.getId());
         return statement;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public StatementOfParticipance getStatement() {
-        return _statement;
+    public CalcBasicsDrg getCalcBasics() {
+        return _calcBasics;
     }
 
-    public void setStatement(StatementOfParticipance statement) {
-        _statement = statement;
+    public void setCalcBasics(CalcBasicsDrg calcBasics) {
+        _calcBasics = calcBasics;
     }
 
     // </editor-fold>
     @Override
     protected void addTopics() {
-        addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceAddress.name(), Pages.StatementOfParticipanceEditAddress.URL());
-        addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name(), Pages.StatementOfParticipanceEditStatements.URL());
+        // todo
+        addTopic(CalcBasicsDrgTabs.tabCalcBasicsDrgXXX.name(), Pages.StatementOfParticipanceEditAddress.URL());
+        addTopic(CalcBasicsDrgTabs.tabCalcBasicsDrgYYY.name(), Pages.StatementOfParticipanceEditStatements.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_statement.getAccountId(), false);
+        return _sessionController.isMyAccount(_calcBasics.getAccountId(), false);
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
     }
 
     public String save() {
         setModifiedInfo();
-        _statement = _calcFacade.saveStatementOfParticipance(_statement);
+        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
-        if (isValidId(_statement.getId())) {
+        if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -132,7 +134,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     private void setModifiedInfo() {
-        _statement.setLastChanged(Calendar.getInstance().getTime());
+        _calcBasics.setLastChanged(Calendar.getInstance().getTime());
     }
 
     private boolean isValidId(Integer id) {
@@ -143,25 +145,25 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     /**
@@ -177,14 +179,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
             return getActiveTopic().getOutcome();
         }
 
-        _statement.setStatus(WorkflowStatus.Provided);
+        _calcBasics.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        _statement = _calcFacade.saveStatementOfParticipance(_statement);
+        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
-        if (isValidId(_statement.getId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _statement.getId());
+        if (isValidId(_calcBasics.getId())) {
+            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
-            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_statement));
+            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_calcBasics));
             return Pages.PrintView.URL();
         }
         return "";
@@ -199,9 +201,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!statementIsComplete()) {
             return null;
         }
-        _statement.setStatus(WorkflowStatus.ApprovalRequested);
+        _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
-        _statement = _calcFacade.saveStatementOfParticipance(_statement);
+        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
         return "";
     }
 
@@ -209,9 +211,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        _statement.setAccountId(_sessionController.getAccountId());
+        _calcBasics.setAccountId(_sessionController.getAccountId());
         setModifiedInfo();
-        _statement = _calcFacade.saveStatementOfParticipance(_statement);
+        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
         return "";
     }
 
@@ -225,13 +227,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (account.getIK() != null) {
             iks.add(account.getIK());
         }
-        if (_statement.getIk() > 0) {
-            iks.add(_statement.getIk());
+        if (_calcBasics.getIk() > 0) {
+            iks.add(_calcBasics.getIk());
         }
         for (int ik : iks) {
             items.add(new SelectItem(ik));
         }
-        if (_statement.getIk() <= 0) {
+        if (_calcBasics.getIk() <= 0) {
             items.add(0, new SelectItem(""));
         }
         return items;
@@ -244,8 +246,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public void changedIk() {
-        if (_statement != null) {
-            Customer c = _customerFacade.getCustomerByIK(_statement.getIk());
+        if (_calcBasics != null) {
+            Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
             _hospitalInfo = c.getName() + ", " + c.getTown();
         }
     }

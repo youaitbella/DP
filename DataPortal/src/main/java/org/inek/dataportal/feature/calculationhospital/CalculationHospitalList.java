@@ -40,10 +40,15 @@ public class CalculationHospitalList {
     }
     
     public String newStatementOfParticipance() {
-        // if the user hit the browser's back-button, a request might be still active. 
-        // To prevent invoking the wrong, we destroy all Feature scoped beans first
-        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditStatementOfParticipance");
+        destroyFeatureBeans();
         return Pages.StatementOfParticipanceEditAddress.URL();
+    }
+
+    private void destroyFeatureBeans() {
+        // if the user hit the browser's back-button, a request might be still active.
+        // To prevent invoking the wrong, we destroy all Feature scoped beans first
+        FeatureScopedContextHolder.Instance.destroyBeansOfScope(EditStatementOfParticipance.class.getSimpleName());
+        // todo: add other classes
     }
     
     public boolean isNewCalculationBasicsDrgAllowed(){
@@ -54,6 +59,7 @@ public class CalculationHospitalList {
     }
     
     public String newCalculationBasicsDrg() {
+        destroyFeatureBeans();
         return Pages.StatementOfParticipanceEditAddress.URL();  // todo
     }
     
@@ -65,6 +71,7 @@ public class CalculationHospitalList {
     }
     
     public String newCalculationBasicsPepp() {
+        destroyFeatureBeans();
         return Pages.StatementOfParticipanceEditAddress.URL();  // todo
     }
     
@@ -77,6 +84,7 @@ public class CalculationHospitalList {
     }
     
     public String editHospitalInfo(int id){
+        destroyFeatureBeans();
         int type = id % 10;
         switch (type){
             case 0:

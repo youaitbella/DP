@@ -80,7 +80,7 @@
                 </f:facet>
                 <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.id)}"
                                value="#{node.calcHospitalInfo.name}" immediate="true">
-                    <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
+                    <f:param name="idWithType" value="#{node.calcHospitalInfo.idWithType}"/>
                 </h:commandLink>
             </h:column>
         </h:dataTable>
