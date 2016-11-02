@@ -12,9 +12,11 @@
         <h:commandLink action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" value="#{msg.lblCalculationParticipance}" immediate="true"/>
     </h2>
     <div class="paddingElement">
-        Hier demnächst offene Kalkulationsgrundlagen
-        - G-DRG
-        - PEPP
+        <inek:CalcHospitalNode parentNode="#{calcHospitalTreeHandler.accountNode}" isSealed="false" 
+                              showDelete="true" showSelectBox="false"
+                              rendered="#{calcHospitalTreeHandler.accountNode.children.size() gt 0}"/>
+
+        <p>
 
         <ui:include src="ButtonsCalculationHospital.xhtml"/>
 

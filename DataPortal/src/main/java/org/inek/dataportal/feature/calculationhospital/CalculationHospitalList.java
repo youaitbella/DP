@@ -68,4 +68,15 @@ public class CalculationHospitalList {
         return Pages.StatementOfParticipanceEditAddress.URL();  // todo
     }
     
+    public String printHospitalInfo(int id){
+        return "";
+    }
+    
+    public String deleteHospitalInfo(int id){
+        return "";
+    }
+    
+    public String editHospitalInfo(int id){
+        return "";
+    }
 }

@@ -14,8 +14,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
-import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -55,15 +53,15 @@ public class CalcFacade extends AbstractDataAccess {
         int statusHigh = dataSet == DataSet.AllOpen ? 9 : dataSet == DataSet.AllSealed ? 200 : -1;
         String statusCond = " between " + statusLow + " and " + statusHigh;
         String accountCond = " = " + accountId;
-        String sql = "select 0 as [type], sopAccountId as AccountId, opDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
+        String sql = "select sopId * 10 as id, 0 as [type], sopAccountId as AccountId, opDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblStatementOfParticipance") + "' as Name from calc.StatementOfParticipance where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
                 + "union "
-                + "select 1 as [type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
+                + "select bdId * 10 + 1 as id, 1 as [type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.BasicsDrg where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
                 + "union "
-                + "select 2 as [type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
+                + "select bpId * 10 + 2 as id, 2 as [type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name from calc.BasicsPepp where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year
-                + "order by 1, 3, 4";
+                + "order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return query.getResultList();
     }
