@@ -79,7 +79,9 @@
                     </h:commandLink>
                 </f:facet>
                 <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.id)}"
-                               value="#{node.calcHospitalInfo.name.equals('') ? msg.txtEmpty : node.calcHospitalInfo.name}" immediate="true"/>
+                               value="#{node.calcHospitalInfo.name}" immediate="true">
+                    <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
+                </h:commandLink>
             </h:column>
         </h:dataTable>
 

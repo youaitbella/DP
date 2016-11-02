@@ -8,10 +8,12 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,7 +32,6 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.utils.DateUtils;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -62,18 +63,20 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @PostConstruct
     private void init() {
 
-        Object statementOfParticipanceControllerId = Utils.getFlash().get("statementOfParticipanceControllerId");
-        if (statementOfParticipanceControllerId == null) {
+        //Object statementOfParticipanceId = Utils.getFlash().get("statementOfParticipanceControllerId");
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        Object statementOfParticipanceId = params.get("id");
+        if (statementOfParticipanceId == null) {
             _statement = newStatementOfParticipance();
         } else {
-            _statement = loadStatementOfParticipance(statementOfParticipanceControllerId);
+            _statement = loadStatementOfParticipance(statementOfParticipanceId);
         }
 
     }
 
-    private StatementOfParticipance loadStatementOfParticipance(Object statementOfParticipanceControllerId) {
+    private StatementOfParticipance loadStatementOfParticipance(Object statementOfParticipanceId) {
         try {
-            int id = Integer.parseInt("" + statementOfParticipanceControllerId);
+            int id = Integer.parseInt("" + statementOfParticipanceId) / 10;
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;

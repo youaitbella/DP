@@ -77,6 +77,15 @@ public class CalculationHospitalList {
     }
     
     public String editHospitalInfo(int id){
+        int type = id % 10;
+        switch (type){
+            case 0:
+                return Pages.StatementOfParticipanceEditAddress.URL();
+            case 1:
+                return Pages.StatementOfParticipanceEditAddress.URL();
+            case 2:
+                return Pages.StatementOfParticipanceEditAddress.URL();
+        }
         return "";
     }
 }
