@@ -10,6 +10,29 @@
 
         <h2>#{msg.lblHospital}</h2>
 
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+            <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+            <br/>
+            <h:selectOneMenu
+                styleClass="inputmedium"
+                rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.ownStatement}"
+                id="ikMulti"
+                title="#{msg.titleIK}"
+                required="true"
+                requiredMessage="#{msg.msgValueNeeded}"
+                value="#{editStatementOfParticipance.statement.ik}"
+                readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.ownStatement}">
+                <f:selectItems value="#{editStatementOfParticipance.iks}"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+                <f:ajax event="change" listener="#{editStatementOfParticipance.changedIk}" render="@form :logout:remaining msgMultiIk"/>
+            </h:selectOneMenu>
+            <h:inputText styleClass="inputlong" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.ownStatement}"/>
+            <h:outputLabel id="hospitalName" for="khName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}" />
+            <br/>
+            <h:outputText value="#{msg.lblNubHintMoreIks}" />
+        </div>
+
 
         <h2>#{msg.lblContactPerson}</h2>
 

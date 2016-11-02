@@ -8,8 +8,35 @@
 
     <ui:define name="editContent">
 
-        <h2>XXX</h2>
+        <h2>#{msg.headStatementProvisionOfData} (#{msg.lblYearData} #{editStatementOfParticipance.statement.dataYear})</h2>
 
+        <h:outputLabel styleClass="label" value="#{msg.lblStatementProvisionOfData}"/>
+
+        <div class="inputPart">
+            <h:panelGrid class="inlineBlock element70">
+                <h:outputLabel value="#{msg.lblStatementDrg}"/>
+            </h:panelGrid>
+            <h:selectOneRadio styleClass="inlineBlock"
+                              required="true"
+                              value="#{editStatementOfParticipance.statement.drgCalc}" >
+                <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="True"/>
+                <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="False" />
+                <f:ajax render="@this :logout:remaining"/>
+            </h:selectOneRadio>
+        </div>
+
+        <div class="inputPart">
+            <h:panelGrid class="inlineBlock element70">
+                <h:outputLabel value="#{msg.lblStatementPepp}"/>
+            </h:panelGrid>
+            <h:selectOneRadio styleClass="inlineBlock"
+                              required="true"
+                              value="#{editStatementOfParticipance.statement.psyCalc}" >
+                <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
+                <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+                <f:ajax render="@this :logout:remaining"/>
+            </h:selectOneRadio>
+        </div>
 
     </ui:define>
 </ui:composition>

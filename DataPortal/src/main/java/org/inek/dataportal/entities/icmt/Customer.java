@@ -20,14 +20,6 @@ public class Customer implements Serializable {
     private static final Logger _logger = Logger.getLogger("Customer");
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cuId")
-    private Integer _customerId;
-    @Column(name = "cuIK")
-    private Integer _ik = -1;
-    @Column(name = "cuName")
-    private String _name;
 
     // <editor-fold defaultstate="collapsed" desc="Property Contacts">
     @OneToMany(fetch = FetchType.LAZY)
@@ -43,7 +35,12 @@ public class Customer implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
+    // <editor-fold defaultstate="collapsed" desc="Property CustomerId">
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cuId")
+    private Integer _customerId;
+
     public Integer getCustomerId() {
         return _customerId;
     }
@@ -51,6 +48,11 @@ public class Customer implements Serializable {
     public void setCustomerId(Integer customerId) {
         this._customerId = customerId;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property IK">
+    @Column(name = "cuIK")
+    private Integer _ik = -1;
 
     public Integer getIK() {
         return _ik;
@@ -59,6 +61,11 @@ public class Customer implements Serializable {
     public void setIK(Integer IK) {
         this._ik = IK;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Name">
+    @Column(name = "cuName")
+    private String _name;
 
     public String getName() {
         return _name;
@@ -66,11 +73,22 @@ public class Customer implements Serializable {
 
     public void setName(String name) {
         this._name = name;
-        for (int i = 0; i < 10; i++) {
-            
-        }
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Town">
+    @Column(name = "cuCity")
+    private String _town;
+
+    public String getTown() {
+        return _town;
+    }
+
+    public void setTown(String town) {
+        this._town = town;
+    }
+    // </editor-fold>
+    
     
     @PrePersist
     @PreUpdate
