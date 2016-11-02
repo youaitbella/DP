@@ -35,7 +35,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{calculationHospitalList.printHospitalInfo(node.calcHospitalInfo.id)}" immediate="true" >
+                <h:commandLink action="#{calculationHospitalList.printHospitalInfo(node.calcHospitalInfo.idWithType)}" immediate="true" >
                     <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
                 </h:commandLink>
             </h:column>
@@ -44,7 +44,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{calculationHospitalList.deleteHospitalInfo(node.calcHospitalInfo.id)}" immediate="true" rendered="#{cc.attrs.showDelete and node.calcHospitalInfo.status.value lt 90}">
+                <h:commandLink action="#{calculationHospitalList.deleteHospitalInfo(node.calcHospitalInfo.idWithType)}" immediate="true" rendered="#{cc.attrs.showDelete and node.calcHospitalInfo.status.value lt 90}">
                     <h:graphicImage alt="löschen" name="Icon/small/#{node.calcHospitalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                     title="#{node.calcHospitalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     <cb:confirmDelete/>
@@ -55,7 +55,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.id)}" immediate="true" >
+                <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.idWithType)}" immediate="true" >
                     <h:graphicImage alt="Status" name="Icon/small/#{node.calcHospitalInfo.status.icon}" 
                                     title="#{node.calcHospitalInfo.status.description}" value=""
                                     rendered="#{node.calcHospitalInfo.status.icon.length() gt 0}"/>
@@ -68,7 +68,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}" render="calcHospitalInfos :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.id)}" value="V#{node.calcHospitalInfo.id}" immediate="true"/>
+                <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.idWithType)}" value="V#{node.calcHospitalInfo.idWithType}" immediate="true"/>
             </h:column>
 
             
@@ -78,7 +78,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="calcHospitalInfos :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.id)}"
+                <h:commandLink action="#{calculationHospitalList.editHospitalInfo(node.calcHospitalInfo.idWithType)}"
                                value="#{node.calcHospitalInfo.name}" immediate="true">
                     <f:param name="idWithType" value="#{node.calcHospitalInfo.idWithType}"/>
                 </h:commandLink>
