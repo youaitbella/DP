@@ -84,6 +84,10 @@
             <!-- next comes a hidden element to force a JSF conform refresh -->
             <h:commandLink id="refresh" style="display: none" action="#{editNubRequest.refresh}" value="refresh"/>
         </div>
+        
+        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value lt 0}">
+            <b>#{msg.msgNubSaveDoc}</b>
+        </div>
 
     </ui:define>
 </ui:composition>

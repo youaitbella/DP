@@ -31,11 +31,15 @@
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces</artifactId>
             <version>4.1.1</version>
+            <scope>system</scope>
+            <systemPath>D:\Projects\iceFaces\icefaces.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces-ace</artifactId>
             <version>4.1.1</version>
+            <scope>system</scope>
+            <systemPath>D:\Projects\iceFaces\icefaces-ace.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
