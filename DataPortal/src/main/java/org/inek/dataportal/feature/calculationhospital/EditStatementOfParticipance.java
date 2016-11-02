@@ -234,20 +234,16 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return items;
     }
 
-    String _hospitalName = "";
+    String _hospitalInfo = "";
 
-    public void setHospitalName(String hospitalName) {
-        _hospitalName = hospitalName;
-    }
-
-    public String getHospitalName() {
-        return _hospitalName;
+    public String getHospitalInfo() {
+        return _hospitalInfo;
     }
 
     public void changedIk() {
         if (_statement != null) {
             Customer c = _customerFacade.getCustomerByIK(_statement.getIk());
-            _hospitalName = c.getName();
+            _hospitalInfo = c.getName() + ", " + c.getTown();
         }
     }
 
