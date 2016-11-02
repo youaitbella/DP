@@ -17,7 +17,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DateUtils;
 
 /**
@@ -46,7 +48,7 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "sopDataYear")
-    private int _dataYear = DateUtils.getDataYear(9);
+    private int _dataYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
     public int getDataYear() {
         return _dataYear;
     }

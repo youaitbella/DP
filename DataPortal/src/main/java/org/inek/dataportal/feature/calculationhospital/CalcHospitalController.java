@@ -12,10 +12,10 @@ import org.inek.dataportal.helper.Topics;
  * @author muellermi
  */
 @SessionScoped
-public class CalculationHospitalController extends AbstractFeatureController {
+public class CalcHospitalController extends AbstractFeatureController {
 
 
-    public CalculationHospitalController(SessionController sessionController) {
+    public CalcHospitalController(SessionController sessionController) {
         super(sessionController);
     }
 

@@ -12,7 +12,7 @@ import static org.inek.dataportal.enums.Feature.PEPP_PROPOSAL;
 import static org.inek.dataportal.enums.Feature.USER_MAINTENANCE;
 import org.inek.dataportal.feature.admin.AdminController;
 import org.inek.dataportal.feature.agency.AgencyController;
-import org.inek.dataportal.feature.calculationhospital.CalculationHospitalController;
+import org.inek.dataportal.feature.calculationhospital.CalcHospitalController;
 import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.feature.documents.DocumentsController;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
@@ -58,7 +58,7 @@ public class FeatureFactory {
             case INSURANCE:
                 return new InsuranceController(sessionController);
             case CALCULATION_HOSPITAL:
-                return new CalculationHospitalController(sessionController);
+                return new CalcHospitalController(sessionController);
         }
         throw new IllegalArgumentException("no such controller");
     }

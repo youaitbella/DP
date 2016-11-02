@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,10 +14,22 @@ import javax.persistence.Id;
  * @author muellermi
  */
 @Entity 
-public class CalculationHospitalInfo implements Serializable {
+public class CalcHospitalInfo implements Serializable {
     
-    // <editor-fold defaultstate="collapsed" desc="Property Type">
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
+    private int _id;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Type">
     private int _type;
 
     public int getType() {
