@@ -53,13 +53,13 @@ public class CalcFacade extends AbstractDataAccess {
         int statusHigh = dataSet == DataSet.AllOpen ? 9 : dataSet == DataSet.AllSealed ? 200 : -1;
         String statusCond = " between " + statusLow + " and " + statusHigh;
         String accountCond = " = " + accountId;
-        String sql = "select sopId * 10 as id, 0 as [type], sopAccountId as AccountId, opDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
+        String sql = "select sopId * 10 as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblStatementOfParticipance") + "' as Name from calc.StatementOfParticipance where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
-                + "union "
-                + "select bdId * 10 + 1 as id, 1 as [type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
+                + " union "
+                + "select bdId * 10 + 1 as Id, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.BasicsDrg where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
-                + "union "
-                + "select bpId * 10 + 2 as id, 2 as [type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
+                + " union "
+                + "select bpId * 10 + 2 as Id, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
                 + "'" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name from calc.BasicsPepp where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year
                 + "order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);

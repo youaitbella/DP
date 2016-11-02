@@ -6,8 +6,10 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
@@ -18,6 +20,7 @@ public class CalcHospitalInfo implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
+    @Column(name = "Id")
     private int _id;
 
     public int getId() {
@@ -30,6 +33,7 @@ public class CalcHospitalInfo implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Type">
+    @Column(name = "Type")
     private int _type;
 
     public int getType() {
@@ -42,6 +46,7 @@ public class CalcHospitalInfo implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
+    @Column(name = "AccountId")
     private int _accountId;
 
     public int getAccountId() {
@@ -53,7 +58,8 @@ public class CalcHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property BaseYear">
+    // <editor-fold defaultstate="collapsed" desc="Property DataYear">
+    @Column(name = "DataYear")
     private int _dataYear;
 
     public int getDataYear() {
@@ -66,6 +72,7 @@ public class CalcHospitalInfo implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
+    @Column(name = "IK")
     private int _ik;
 
     public int getIk() {
@@ -77,9 +84,9 @@ public class CalcHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property StatusId">
+    // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
+    @Column(name = "StatusId")
     private int _statusId;
-
     public int getStatusId() {
         return _statusId;
     }
@@ -87,9 +94,18 @@ public class CalcHospitalInfo implements Serializable {
     public void setStatusId(int statusId) {
         _statusId = statusId;
     }
+    
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_statusId);
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _statusId = status.getValue();
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Name">
+    @Column(name = "Name")
     private String _name;
 
     public String getName() {
