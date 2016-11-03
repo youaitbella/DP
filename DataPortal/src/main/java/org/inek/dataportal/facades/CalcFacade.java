@@ -50,20 +50,24 @@ public class CalcFacade extends AbstractDataAccess {
         return merge(statementOfParticipance);
     }
 
-    public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, DataSet dataSet) {
-        int statusLow = dataSet == DataSet.AllOpen ? 0 : dataSet == DataSet.AllSealed ? 10 : -1;
-        int statusHigh = dataSet == DataSet.AllOpen ? 9 : dataSet == DataSet.AllSealed ? 200 : -1;
-        String statusCond = " between " + statusLow + " and " + statusHigh;
-        String accountCond = " = " + accountId;
+    public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        Set<Integer> accountIds = new HashSet<>();
+        accountIds.add(accountId);
+        return getListCalcInfo(accountIds, year, statusLow, statusHigh);
+    }
+
+    public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
+        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
         String sql = "select sopId * 10 as IdWithType, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
-                + "'" + Utils.getMessage("lblStatementOfParticipance") + "' as Name from calc.StatementOfParticipance where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
+                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name from calc.StatementOfParticipance where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
                 + " union "
-                + "select bdId * 10 + 1 as IdWithType, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
-                + "'" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.BasicsDrg where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
+                + " select bdId * 10 + 1 as IdWithType, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
+                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.BasicsDrg where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
                 + " union "
-                + "select bpId * 10 + 2 as IdWithType, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
-                + "'" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name from calc.BasicsPepp where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year
-                + "order by 2, 4, 5";
+                + " select bpId * 10 + 2 as IdWithType, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
+                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name from calc.BasicsPepp where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year
+                + " order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return query.getResultList();
     }

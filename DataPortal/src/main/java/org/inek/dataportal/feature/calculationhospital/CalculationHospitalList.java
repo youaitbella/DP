@@ -5,15 +5,25 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
+import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.CalcFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**
@@ -29,6 +39,7 @@ public class CalculationHospitalList {
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
+    @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
     // </editor-fold>
     
@@ -55,6 +66,9 @@ public class CalculationHospitalList {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        List<CalcHospitalInfo> calcInfos = _calcFacade.getListCalcInfo(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.TakenUpdated);
+        List<CalcHospitalInfo> statements = calcInfos.stream().filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue()).collect(Collectors.toList());
         return true; // todo check other conditions
     }
     

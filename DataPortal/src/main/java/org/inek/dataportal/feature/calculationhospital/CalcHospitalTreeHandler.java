@@ -182,26 +182,31 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private List<CalcHospitalInfo> obtainCalculationHospitalInfosForRead(int partnerId, int year) {
-        DataSet dataSet;
-        if (partnerId == _sessionController.getAccountId()) {
-            dataSet = DataSet.AllSealed;
-        } else {
+        WorkflowStatus statusLow = WorkflowStatus.Provided;
+        WorkflowStatus statusHigh = WorkflowStatus.Retired;
+        if (partnerId != _sessionController.getAccountId()) {
             CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
-            dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
+            if (!achievedRight.canReadSealed()){
+                statusLow = WorkflowStatus.Unknown;
+                statusHigh = WorkflowStatus.Unknown;
+            }
         }
-        return _calcFacade.getListCalcInfo(partnerId, year, dataSet);
+        return _calcFacade.getListCalcInfo(partnerId, year, statusLow, statusHigh);
     }
 
     private List<CalcHospitalInfo> obtainCalculationHospitalInfosForEdit(int partnerId) {
-        DataSet dataSet;
+        WorkflowStatus statusLow;
+        WorkflowStatus statusHigh;
         if (partnerId == _sessionController.getAccountId()) {
-            dataSet = DataSet.AllOpen;
+            statusLow = WorkflowStatus.New;
+            statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
             CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
-            dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
-                    : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested : DataSet.None;
+            statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
+                    : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
+            statusHigh = achievedRight.canReadAlways() || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
-        return _calcFacade.getListCalcInfo(partnerId, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), dataSet);
+        return _calcFacade.getListCalcInfo(partnerId, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh);
     }
 
     @Override

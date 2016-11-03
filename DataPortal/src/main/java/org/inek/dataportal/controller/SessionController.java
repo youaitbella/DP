@@ -147,10 +147,6 @@ public class SessionController implements Serializable {
         return Pages.MainApp.URL();
     }
 
-    public String navigate(Pages page) {
-        return page.URL();
-    }
-
     public String getRemainingTime() {
         int maxInterval = FacesContext.getCurrentInstance().getExternalContext().getSessionMaxInactiveInterval();
         int minutes = maxInterval / 60;
