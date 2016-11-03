@@ -64,18 +64,18 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private void init() {
 
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Object idWithType = params.get("idWithType");
-        if (idWithType == null) {
+        Object id = params.get("id");
+        if (id.toString().equals("new")) {
             _statement = newStatementOfParticipance();
         } else {
-            _statement = loadStatementOfParticipance(idWithType);
+            _statement = loadStatementOfParticipance(id);
         }
 
     }
 
-    private StatementOfParticipance loadStatementOfParticipance(Object idWithType) {
+    private StatementOfParticipance loadStatementOfParticipance(Object idObject) {
         try {
-            int id = Integer.parseInt("" + idWithType) / 10;
+            int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;

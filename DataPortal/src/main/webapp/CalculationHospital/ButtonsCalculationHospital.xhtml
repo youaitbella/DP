@@ -13,19 +13,25 @@
                        action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewStatementOfParticipance}"
-                       rendered="#{calcHospitalList.newStatementOfParticipanceAllowed}"/>
+                       rendered="#{calcHospitalList.newStatementOfParticipanceAllowed}">
+            <f:param name="id" value="new"/>
+        </h:commandLink>
 
         <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
                        action="#{calcHospitalList.newCalculationBasicsDrg}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsDrg}"
-                       rendered="#{calcHospitalList.newCalculationBasicsDrgAllowed}"/>
+                       rendered="#{calcHospitalList.newCalculationBasicsDrgAllowed}">
+            <f:param name="id" value="new"/>
+        </h:commandLink>
 
         <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
                        action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsPepp}"
-                       rendered="#{calcHospitalList.newCalculationBasicsPeppAllowed}"/>
+                       rendered="#{calcHospitalList.newCalculationBasicsPeppAllowed}">
+            <f:param name="id" value="new"/>
+        </h:commandLink>
 
     </div>
     <div jsf:rendered="#{not applicationTools.isEnabled('IsCalationBasicsCreateEnabled')}">

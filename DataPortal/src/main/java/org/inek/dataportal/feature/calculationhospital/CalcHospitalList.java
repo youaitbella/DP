@@ -68,7 +68,12 @@ public class CalcHospitalList {
         }
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         List<CalcHospitalInfo> calcInfos = _calcFacade.getListCalcInfo(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.TakenUpdated);
-        List<CalcHospitalInfo> statements = calcInfos.stream().filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue()).collect(Collectors.toList());
+        List<CalcHospitalInfo> statementInfos = calcInfos
+                .stream()
+                .filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue())
+                .collect(Collectors.toList());
+        
+        
         return true; // todo check other conditions
     }
     
@@ -97,9 +102,8 @@ public class CalcHospitalList {
         return "";
     }
     
-    public String editHospitalInfo(int id){
+    public String editHospitalInfo(int type){
         destroyFeatureBeans();
-        int type = id % 10;
         switch (type){
             case 0:
                 return Pages.StatementOfParticipanceEditAddress.URL();

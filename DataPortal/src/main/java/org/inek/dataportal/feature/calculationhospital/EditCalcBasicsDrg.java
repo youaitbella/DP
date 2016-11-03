@@ -65,18 +65,18 @@ public class EditCalcBasicsDrg extends AbstractEditController {
     private void init() {
 
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Object idWithType = params.get("idWithType");
-        if (idWithType == null) {
+        Object id = params.get("id");
+        if (id.toString().equals("new")) {
             _calcBasics = newCalcBasicsDrg();
         } else {
-            _calcBasics = loadCalcBasicsDrg(idWithType);
+            _calcBasics = loadCalcBasicsDrg(id);
         }
 
     }
 
-    private CalcBasicsDrg loadCalcBasicsDrg(Object idWithType) {
+    private CalcBasicsDrg loadCalcBasicsDrg(Object idObject) {
         try {
-            int id = Integer.parseInt("" + idWithType) / 10;
+            int id = Integer.parseInt("" + idObject);
             CalcBasicsDrg statement = _calcFacade.findCalcBasicsDrg(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;

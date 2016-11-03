@@ -20,15 +20,15 @@ public class CalcHospitalInfo implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
-    @Column(name = "IdWithType")
-    private int _idWithType;
+    @Column(name = "Id")
+    private int _id;
 
-    public int getIdWithType() {
-        return _idWithType;
+    public int getId() {
+        return _id;
     }
 
-    public void setIdWithType(int idWithType) {
-        _idWithType = idWithType;
+    public void setId(int id) {
+        _id = id;
     }
     // </editor-fold>
 
