@@ -17,13 +17,13 @@
                                  rendered="#{nubSessionTools.accountNode.children.size() gt 0}"/>
 
             <p>
-                <h:commandLink styleClass="bigButton"
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.newNubRequest}"
                                immediate="true"
                                value="#{msg.btnNewRequest}"
                                disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"/>
 
-                <h:commandLink styleClass="bigButton"
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.newNubRequestFromTemplate}"
                                disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true"

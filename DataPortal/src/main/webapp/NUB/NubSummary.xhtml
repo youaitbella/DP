@@ -67,11 +67,16 @@
             </div>
 
             <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequest}" disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
+                               action="#{nubRequestList.newNubRequest}" 
+                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}"/>
-                <h:commandLink styleClass="bigButton" action="#{nubRequestList.newNubRequestFromTemplate}" disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
+                               action="#{nubRequestList.newNubRequestFromTemplate}" 
+                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
-                <h:commandLink styleClass="bigButton inekGreen" action="#{nubRequestList.gotoNubInfo}" 
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
+                               action="#{nubRequestList.gotoNubInfo}" 
                                rendered="#{sessionController.hospital}"
                                immediate="true" value="#{msg.lblNubMethodInfo}"/>
                 <div jsf:rendered="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">

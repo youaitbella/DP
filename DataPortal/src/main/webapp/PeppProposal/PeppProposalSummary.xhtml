@@ -41,7 +41,7 @@
             </ui:repeat>
 
             <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton  #{applicationTools.isEnabled('IsPeppProposalCreateEnabled') ? '' : 'buttonDisabled'}" 
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsPeppProposalCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
                                disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}"/>
             </div>
