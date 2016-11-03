@@ -10,22 +10,22 @@
 
     <div>
         <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
-                       action="#{calculationHospitalList.newStatementOfParticipance}"
+                       action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewStatementOfParticipance}"
-                       rendered="#{calculationHospitalList.newStatementOfParticipanceAllowed}"/>
+                       rendered="#{calcHospitalList.newStatementOfParticipanceAllowed}"/>
 
         <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
-                       action="#{calculationHospitalList.newCalculationBasicsDrg}"
+                       action="#{calcHospitalList.newCalculationBasicsDrg}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsDrg}"
-                       rendered="#{calculationHospitalList.newCalculationBasicsDrgAllowed}"/>
+                       rendered="#{calcHospitalList.newCalculationBasicsDrgAllowed}"/>
 
         <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
-                       action="#{calculationHospitalList.newStatementOfParticipance}"
+                       action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsPepp}"
-                       rendered="#{calculationHospitalList.newCalculationBasicsPeppAllowed}"/>
+                       rendered="#{calcHospitalList.newCalculationBasicsPeppAllowed}"/>
 
     </div>
     <div jsf:rendered="#{not applicationTools.isEnabled('IsCalationBasicsCreateEnabled')}">

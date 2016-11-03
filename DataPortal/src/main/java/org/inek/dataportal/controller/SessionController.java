@@ -151,7 +151,7 @@ public class SessionController implements Serializable {
         int maxInterval = FacesContext.getCurrentInstance().getExternalContext().getSessionMaxInactiveInterval();
         int minutes = maxInterval / 60;
         int seconds = maxInterval % 60;
-        //substract some time to ensure the client will lot-out before the session expires
+        //substract some time to ensure the client will log-out before the session expires
         if (minutes > 20) {
             minutes -= 1;
         } else {

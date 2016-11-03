@@ -32,10 +32,10 @@ import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
  */
 @Named
 @RequestScoped
-public class CalculationHospitalList {
+public class CalcHospitalList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger _logger = Logger.getLogger("CalculationHospitalList");
+    private static final Logger _logger = Logger.getLogger(CalcHospitalList.class.getName());
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
