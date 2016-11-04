@@ -44,10 +44,10 @@ public enum Pages {
     DropBoxUpload("/DropBox/DropBoxUpload"),
     DropBoxCreate("/DropBox/CreateDropBox"),
     //
-    PartCalculationHospital("/CalculationHospital/PartCalculationHospital"),
-    CalculationHospitalSummary("/CalculationHospital/CalculationHospitalSummary"),
-    StatementOfParticipanceEditAddress("/CalculationHospital/StatementOfParticipanceEditAddress"),
-    StatementOfParticipanceEditStatements("/CalculationHospital/StatementOfParticipanceEditStatements"),
+    PartCalculationHospital("/CalcHospital/PartCalculationHospital"),
+    CalculationHospitalSummary("/CalcHospital/CalculationHospitalSummary"),
+    StatementOfParticipanceEditAddress("/CalcHospital/StatementOfParticipanceEditAddress"),
+    StatementOfParticipanceEditStatements("/CalcHospital/StatementOfParticipanceEditStatements"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),
