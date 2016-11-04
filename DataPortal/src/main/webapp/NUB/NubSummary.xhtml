@@ -70,7 +70,9 @@
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.newNubRequest}" 
                                disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
-                               immediate="true" value="#{msg.btnNewProposal}"/>
+                               immediate="true" value="#{msg.btnNewProposal}">
+                    <f:param name="id" value="new"/>
+                </h:commandLink>
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.newNubRequestFromTemplate}" 
                                disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"

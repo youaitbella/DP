@@ -32,7 +32,6 @@ public class DrgProposalList {
     
     public String editDrgProposal(int proposalId) {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
-        Utils.getFlash().put("drgId", proposalId);
         return Pages.DrgProposalEditAddress.RedirectURL();
     }
     

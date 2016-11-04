@@ -59,6 +59,7 @@
                     <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}" 
                                     title="#{node.proposalInfo.status.description}" value=""
                                     rendered="#{node.proposalInfo.status.icon.length() gt 0}"/>
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
                 </h:commandLink>
             </h:column>
             
@@ -68,7 +69,9 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}" render="peppProposals :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{peppProposalList.editPeppProposal(node.proposalInfo.id)}" value="P#{node.proposalInfo.id}" immediate="true"/>
+                <h:commandLink action="#{peppProposalList.editPeppProposal(node.proposalInfo.id)}" value="P#{node.proposalInfo.id}" immediate="true">
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+                </h:commandLink>
             </h:column>
 
             
@@ -79,7 +82,9 @@
                     </h:commandLink>
                 </f:facet>
                 <h:commandLink action="#{peppProposalList.editPeppProposal(node.proposalInfo.id)}"
-                               value="#{node.proposalInfo.name.equals('') ? msg.txtEmpty : node.proposalInfo.name}" immediate="true"/>
+                               value="#{node.proposalInfo.name.equals('') ? msg.txtEmpty : node.proposalInfo.name}" immediate="true">
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+                </h:commandLink>
             </h:column>
         </h:dataTable>
 

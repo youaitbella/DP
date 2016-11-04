@@ -102,13 +102,20 @@ public class EditPeppProposal extends AbstractEditController {
     @PostConstruct
     private void init() {
 
-        //_logger.log(Level.WARNING, "Init EditPeppProposal");
-        Object ppId = Utils.getFlash().get("ppId");
-        if (ppId == null) {
+        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+        } else if (id.toString().equals("new")) {
+            if (!_appTools.isEnabled(ConfigKey.IsPeppProposalCreateEnabled)) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
             _peppProposal = newPeppProposal();
         } else {
-            _peppProposal = loadPeppProposal(ppId);
+            _peppProposal = loadPeppProposal(id);
         }
+
         //ensureEmptyEntry(_peppProposal.getProcedures());
         setVisible(_peppProposal.getCategory());
     }

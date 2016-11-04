@@ -45,7 +45,6 @@ public class PeppProposalList {
 
     public String editPeppProposal(int proposalId) {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditPeppProposal");
-        Utils.getFlash().put("ppId", proposalId);
         return Pages.PeppProposalEdit.URL();
     }
 

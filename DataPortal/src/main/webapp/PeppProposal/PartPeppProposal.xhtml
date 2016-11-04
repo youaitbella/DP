@@ -11,13 +11,15 @@
     </h2>
     <div class="paddingElement">
         <inek:PeppProposalNode parentNode="#{peppProposalTreeHandler.accountNode}" isSealed="false" 
-                              showDelete="true" showSelectBox="false"
-                              rendered="#{peppProposalTreeHandler.accountNode.children.size() gt 0}"/>
+                               showDelete="true" showSelectBox="false"
+                               rendered="#{peppProposalTreeHandler.accountNode.children.size() gt 0}"/>
 
         <p>
             <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsPeppProposalCreateEnabled') ? '' : 'buttonDisabled'}" 
                            action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
-                           disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}"/>
+                           disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}">
+                <f:param name="id" value="new"/>
+            </h:commandLink>
         </p>
     </div>
 </ui:composition>

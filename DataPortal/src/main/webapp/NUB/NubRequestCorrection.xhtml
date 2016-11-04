@@ -9,10 +9,6 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
-    <f:metadata>
-        <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
-    </f:metadata>
-
     <ui:define name="content">
         <h:form id="form" styleClass="paddingElement">
             <h1><h:commandLink value="#{msg.nameNUB}" action="#{sessionController.navigate(sessionTools.pages.NubSummary)}" immediate="true"/></h1>

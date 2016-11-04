@@ -10,10 +10,6 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="ppId" id="ppId" value="#{flash.ppId}" />
-        </f:metadata>
-
 
         #{peppProposalTreeHandler.refreshNodes()}
         <h:form id="form">
@@ -43,7 +39,9 @@
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsPeppProposalCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{peppProposalList.newPeppProposal}" value="#{msg.btnNewPeppProposal}" immediate="true" 
-                               disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}"/>
+                               disabled="#{!applicationTools.isEnabled('IsPeppProposalCreateEnabled')}">
+                    <f:param name="id" value="new"/>
+                </h:commandLink>
             </div>
 
 

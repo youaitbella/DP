@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -63,9 +64,15 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @PostConstruct
     private void init() {
 
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Object id = params.get("id");
-        if (id.toString().equals("new")) {
+        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+        } else if (id.toString().equals("new")) {
+            if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
             _statement = newStatementOfParticipance();
         } else {
             _statement = loadStatementOfParticipance(id);
@@ -192,7 +199,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private boolean statementIsComplete() {
         // todo
-        return true;  
+        return true;
     }
 
     public String requestApproval() {
@@ -217,7 +224,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
@@ -250,9 +256,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
     }
 
-
 // </editor-fold>
-    
 // <editor-fold defaultstate="collapsed" desc="Tab Statements">
 // </editor-fold>
 }

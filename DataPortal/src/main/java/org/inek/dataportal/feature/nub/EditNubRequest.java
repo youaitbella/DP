@@ -136,15 +136,14 @@ public class EditNubRequest extends AbstractEditController {
         }
     }
 
-
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter maxYearOnly">
     boolean _maxYearOnly = true;
 
     public boolean isMaxYearOnly() {
         return _maxYearOnly;
     }
+
     public void setMaxYearOnly(boolean maxYearOnly) {
         _formerRequests.clear();
         _maxYearOnly = maxYearOnly;
@@ -153,9 +152,15 @@ public class EditNubRequest extends AbstractEditController {
 
     @PostConstruct
     private void init() {
+        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-        Object ppId = Utils.getFlash().get("nubId");
-        if (ppId == null) {
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+        } else if (id.toString().equals("new")) {
+            if (!_appTools.isEnabled(ConfigKey.IsNubCreateEnabled)) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
             _nubRequest = newNubRequest();
             _nubRequest.setCreatedBy(_sessionController.getAccountId());
             _nubRequestBaseline = newNubRequest();
@@ -163,8 +168,9 @@ public class EditNubRequest extends AbstractEditController {
             ensureCooperativeRight(_nubRequest);
             ensureSupervisorRight(_nubRequest);
         } else {
-            _nubRequest = loadNubRequest(ppId);
+            _nubRequest = loadNubRequest(id);
         }
+
     }
 
     private NubRequest loadNubRequest(Object ppId) {

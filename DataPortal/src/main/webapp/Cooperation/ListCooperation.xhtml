@@ -7,10 +7,6 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <f:metadata>
-        <f:viewParam name="nubId" id="nubId" value="#{flash.nubId}" />
-    </f:metadata>
-
     <br/>
     <h:dataTable headerClass="list-header"
                  value="#{cooperationManager.partners}" var="r" styleClass="fullWidth" rowClasses="row1, row2" columnClasses="">

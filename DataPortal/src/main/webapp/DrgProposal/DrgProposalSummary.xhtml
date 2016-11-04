@@ -10,10 +10,6 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="drgId" id="drgId" value="#{flash.drgId}" />
-        </f:metadata>
-
 
         #{drgProposalTreeHandler.refreshNodes()}
         <h:form id="form">
@@ -43,7 +39,9 @@
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsDrgProposalCreateEnabled') ? '' : 'buttonDisabled'}" 
                                action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
-                               disabled="#{!applicationTools.isEnabled('IsDrgProposalCreateEnabled')}"/>
+                               disabled="#{!applicationTools.isEnabled('IsDrgProposalCreateEnabled')}">
+                    <f:param name="id" value="new"/>
+                </h:commandLink>
             </div>
 
             <h4><h:outputLabel value="#{msg.infoSealedProposal}"/></h4>

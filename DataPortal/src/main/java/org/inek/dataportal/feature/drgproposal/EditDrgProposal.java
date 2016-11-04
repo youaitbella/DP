@@ -98,13 +98,18 @@ public class EditDrgProposal extends AbstractEditController {
 
     @PostConstruct
     private void init() {
+        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-        //_logger.log(Level.WARNING, "Init EditDrgProposal");
-        Object drgId = Utils.getFlash().get("drgId");
-        if (drgId == null) {
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+        } else if (id.toString().equals("new")) {
+            if (!_appTools.isEnabled(ConfigKey.IsDrgProposalCreateEnabled)) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
             _drgProposal = newDrgProposal();
         } else {
-            _drgProposal = loadDrgProposal(drgId);
+            _drgProposal = loadDrgProposal(id);
         }
 
         setVisibleCategory(_drgProposal.getCategory());

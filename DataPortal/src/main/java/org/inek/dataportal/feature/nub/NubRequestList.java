@@ -83,23 +83,7 @@ public class NubRequestList {
 
     public String editNubRequest(int requestId) {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditNubRequest");
-        Utils.getFlash().put("nubId", requestId);
         return Pages.NubEditAddress.URL();
-    }
-
-    public String requestDeleteNubRequest(int requestId) {
-        Utils.getFlash().put("nubId", requestId);
-        NubRequest proposal = _nubRequestFacade.find(requestId);
-        if (proposal == null) {
-            _logger.log(Level.INFO, "Could not find nubRequest with id {0}.", requestId);
-            return "";
-        }
-        if (_sessionController.isMyAccount(proposal.getAccountId())) {
-            String msg = proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire");
-            String script = "if (confirm ('" + proposal.getName().replaceAll("(\\r|\\n)", "") + "\\r\\n" + msg + "')) {document.getElementById('deleteNubRequest').click();}";
-            _sessionController.setScript(script);
-        }
-        return "";
     }
 
     public String getConfirmMessage(int requestId) {

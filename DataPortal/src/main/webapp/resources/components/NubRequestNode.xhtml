@@ -57,6 +57,7 @@
                 <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" immediate="true" rendered="#{node.proposalInfo.status.icon.length() gt 0}">
                     <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}"  
                                     title="#{node.proposalInfo.status.value == 1 ? nubRequestList.getRejectReason(node.proposalInfo.id) : node.proposalInfo.status.description}" />
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
                 </h:commandLink>
             </h:column>
 
@@ -66,7 +67,9 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="N#{node.proposalInfo.id}" immediate="true"/>
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="N#{node.proposalInfo.id}" immediate="true">
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+                </h:commandLink>
             </h:column>
 
             <h:column id="state" rendered="#{cc.attrs.isSealed}">
@@ -75,7 +78,9 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Status')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{nubRequestList.getExternalState(node.proposalInfo.id)}" immediate="true"/>
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{nubRequestList.getExternalState(node.proposalInfo.id)}" immediate="true">
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+                </h:commandLink>
             </h:column>
 
             <h:column>
@@ -84,7 +89,9 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Ik')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.ik}" immediate="true"/>
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.ik}" immediate="true">
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+                </h:commandLink>
             </h:column>
 
             <h:column>
@@ -93,7 +100,9 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.name}" immediate="true"/>
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.name}" immediate="true">
+                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+                </h:commandLink>
             </h:column>
 
         </h:dataTable>
