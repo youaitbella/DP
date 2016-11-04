@@ -29,6 +29,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.Region;
@@ -104,9 +105,11 @@ public class EditModelIntention extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        //_logger.log(Level.WARNING, "Init EditModelIntation");
-        Object miId = Utils.getFlash().get("modelId");
-        if (miId == null) {
+        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+        } else if (id.toString().equals("new")) {
             if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
                 _modelIntention = newModelIntention();
             } else {
@@ -114,8 +117,9 @@ public class EditModelIntention extends AbstractEditController {
                 return;
             }
         } else {
-            _modelIntention = loadModelIntention(miId);
+            _modelIntention = loadModelIntention(id);
         }
+        
         if (_modelIntention.getRegion() != null && _modelIntention.getRegion().equals(Region.Misc.region())) {
             _regionMiscEnabled = true;
         }

@@ -55,7 +55,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{drgProposalList.editDrgProposal(node.proposalInfo.id)}" immediate="true" >
+                <h:commandLink action="#{drgProposalList.editDrgProposal}" immediate="true" >
                     <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}" 
                                     title="#{node.proposalInfo.status.description}" value=""
                                     rendered="#{node.proposalInfo.status.icon.length() gt 0}"/>
@@ -69,7 +69,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}" render="drgProposals :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{drgProposalList.editDrgProposal(node.proposalInfo.id)}" value="V#{node.proposalInfo.id}" immediate="true">
+                <h:commandLink action="#{drgProposalList.editDrgProposal}" value="V#{node.proposalInfo.id}" immediate="true">
                     <f:param name="id" value="#{node.proposalInfo.id}"/>
                 </h:commandLink>
             </h:column>
@@ -81,7 +81,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="drgProposals :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{drgProposalList.editDrgProposal(node.proposalInfo.id)}"
+                <h:commandLink action="#{drgProposalList.editDrgProposal}"
                                value="#{node.proposalInfo.name.equals('') ? msg.txtEmpty : node.proposalInfo.name}" immediate="true">
                     <f:param name="id" value="#{node.proposalInfo.id}"/>
                 </h:commandLink>

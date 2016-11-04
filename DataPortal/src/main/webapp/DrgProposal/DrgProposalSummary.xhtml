@@ -38,7 +38,7 @@
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsDrgProposalCreateEnabled') ? '' : 'buttonDisabled'}" 
-                               action="#{drgProposalList.newDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
+                               action="#{drgProposalList.editDrgProposal}" value="#{msg.btnNewDrgProposal}" immediate="true" 
                                disabled="#{!applicationTools.isEnabled('IsDrgProposalCreateEnabled')}">
                     <f:param name="id" value="new"/>
                 </h:commandLink>

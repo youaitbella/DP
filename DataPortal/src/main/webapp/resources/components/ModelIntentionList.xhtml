@@ -31,19 +31,24 @@
                     </f:facet>
                     <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" immediate="true" >
                         <h:graphicImage alt="Status" name="Icon/small/#{model.status.icon}" value="" title="#{model.status.description}" rendered="#{model.status.icon.length() gt 0}"/>
+                        <f:param name="id" value="#{model.id}"/>
                     </h:commandLink>
                 </h:column>
                 <h:column id="colIK">
                     <f:facet name="header">
                         <h:outputText value="Kennung"/>
                     </f:facet>
-                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code.isEmpty() ? 'nicht&nbsp;erteilt' : model.code}" immediate="true"/>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code.isEmpty() ? 'nicht&nbsp;erteilt' : model.code}" immediate="true">
+                        <f:param name="id" value="#{model.id}"/>
+                    </h:commandLink>
                 </h:column>
                 <h:column id="colName">
                     <f:facet name="header">
                         <h:outputText value="Bezeichnung"/>
                     </f:facet>
-                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.description}" immediate="true"/>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.description}" immediate="true">
+                        <f:param name="id" value="#{model.id}"/>
+                    </h:commandLink>
                 </h:column>
             </h:dataTable>
         </div>

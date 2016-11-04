@@ -9,17 +9,14 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <f:metadata>
-        <f:viewParam name="modelId" id="modelId" value="#{flash.modelId}" />
-    </f:metadata>
-
-
     <inek:ModelIntentionList list="#{modelIntentionList.modelIntentions}"/>
 
     <div class="inputPart">
         <h:commandLink styleClass="bigButton" action="#{modelIntentionList.newModelIntention}" 
                        immediate="true" value="#{msg.btnNewModelIntention}"
-                       rendered="#{sessionController.isInekUser('MODEL_INTENTION')}"/>
+                       rendered="#{sessionController.isInekUser('MODEL_INTENTION')}">
+            <f:param name="id" value="new"/>
+        </h:commandLink>
     </div>
 
 </ui:composition>

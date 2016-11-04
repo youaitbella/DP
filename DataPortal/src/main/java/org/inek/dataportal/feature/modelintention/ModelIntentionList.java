@@ -101,7 +101,6 @@ public class ModelIntentionList {
     }
 
     public String editModelIntention(int modelId) {
-        Utils.getFlash().put("modelId", modelId);
         return Pages.ModelIntentionTypeAndNumPat.URL();
     }
 

@@ -25,14 +25,9 @@ public class DrgProposalList {
     @Inject CooperationTools _cooperationTools;
     @Inject ApplicationTools _appTools;
     
-    public String newDrgProposal() {
+    public String editDrgProposal() {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
-        return Pages.DrgProposalEditAddress.RedirectURL();
-    }
-    
-    public String editDrgProposal(int proposalId) {
-        FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
-        return Pages.DrgProposalEditAddress.RedirectURL();
+        return Pages.DrgProposalEditAddress.URL();
     }
     
     public String deleteDrgProposal(int proposalId) {
