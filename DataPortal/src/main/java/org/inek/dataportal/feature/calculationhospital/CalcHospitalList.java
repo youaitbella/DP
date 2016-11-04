@@ -66,11 +66,11 @@ public class CalcHospitalList {
             return false;
         }
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-        List<CalcHospitalInfo> calcInfos = _calcFacade.getListCalcInfo(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.TakenUpdated);
-        List<CalcHospitalInfo> statementInfos = calcInfos
-                .stream()
-                .filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue())
-                .collect(Collectors.toList());
+//        List<CalcHospitalInfo> calcInfos = _calcFacade.getListCalcInfo(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.TakenUpdated);
+//        List<CalcHospitalInfo> statementInfos = calcInfos
+//                .stream()
+//                .filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue())
+//                .collect(Collectors.toList());
         
         
         return true; // todo check other conditions

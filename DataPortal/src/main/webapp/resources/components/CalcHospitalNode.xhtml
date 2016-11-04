@@ -20,7 +20,7 @@
     <cc:implementation>
         <h:dataTable headerClass="list-header" id="calcHospitalInfos"
                      value="#{cc.attrs.parentNode.sortedChildren}" var="node" width="100%" rowClasses="row1, row2" 
-                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId' : ''} colValue">
+                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId' : ''} colIk, colValue">
             
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
@@ -72,7 +72,19 @@
             </h:column>
 
             
-            <h:column id="colValue">
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="#{msg.lblIkShort} #{cc.attrs.parentNode.sortCriteria.equals('IK') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('IK')}" render="calcHospitalInfos :logout:remaining"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:commandLink action="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
+                               value="#{node.calcHospitalInfo.ik}" immediate="true">
+                    <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
+                </h:commandLink>
+            </h:column>
+            
+            <h:column>
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblAppellation} #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="calcHospitalInfos :logout:remaining"/>
@@ -83,6 +95,7 @@
                     <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                 </h:commandLink>
             </h:column>
+            
         </h:dataTable>
 
     </cc:implementation>
