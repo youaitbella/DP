@@ -32,18 +32,13 @@ public class InsuranceNubNoticeList {
         return _insuranceFacade.getAccountNotices(_sessionController.getAccountId(), DataSet.AllSealed);
     }
 
-    public String newInsuranceNubNotice() {
+    public String editNotice() {
         // if the user hit the browser's back-button, a request might be still active. 
         // To prevent invoking the wrong, we destroy all Feature scoped beans first
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("Insurance");
         return Pages.InsuranceNubNoticeEditAddress.URL();
     }
 
-    public String editNotice(int noticeId) {
-        Utils.getFlash().put("noticeId", noticeId);
-        return Pages.InsuranceNubNoticeEditAddress.URL();
-    }
-    
     public String getConfirmMessage(int noticeId) {
         InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(noticeId);
         String msg = "Meldung für " + notice.getHospitalIk() + "\n"

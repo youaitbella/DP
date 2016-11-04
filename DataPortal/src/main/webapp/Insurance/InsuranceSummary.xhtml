@@ -23,8 +23,10 @@
             <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
 
             <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.newInsuranceNubNotice}" 
-                               immediate="true" value="#{msg.btnInsuranceNubMessage}"/>
+                <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.editNotice}" 
+                               immediate="true" value="#{msg.btnInsuranceNubMessage}">
+                    <f:param name="id" value="new"/>
+                </h:commandLink>
             </div>
             
             <h4><h:outputLabel value="#{msg.infoSealedNubReport}"/></h4>

@@ -32,6 +32,7 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
@@ -69,21 +70,25 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     @PostConstruct
     private void init() {
-        Object noticeId = Utils.getFlash().get("noticeId");
-        int id = noticeId == null ? 0 : (int) noticeId;
-        _notice = findFresh(id);
+        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+        } else if (id.toString().equals("new")) {
+            _notice = newNotice();
+        } else {
+            int idInt = Integer.parseInt(id.toString());
+            _notice = _insuranceFacade.findFreshNubNotice(idInt);
+        }
     }
 
-    private InsuranceNubNotice findFresh(int id) {
-        InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(id);
-        if (notice == null) {
-            Account account = _sessionController.getAccount();
-            notice = new InsuranceNubNotice();
-            notice.setInsuranceName(account.getCompany());
-            notice.setInsuranceIk(account.getIK() == null ? 0 : account.getIK());
-            notice.setAccountId(account.getId());
-            notice.setWorkflowStatusId(0);
-        }
+    private InsuranceNubNotice newNotice() {
+        Account account = _sessionController.getAccount();
+        InsuranceNubNotice notice = new InsuranceNubNotice();
+        notice.setInsuranceName(account.getCompany());
+        notice.setInsuranceIk(account.getIK() == null ? 0 : account.getIK());
+        notice.setAccountId(account.getId());
+        notice.setWorkflowStatusId(0);
         return notice;
     }
 
@@ -189,7 +194,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         double tmp = 0.0;
         try {
             tmp = Double.parseDouble(value + "");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.", "Bitte einen gültigen Geldbetrag eingeben.");
             throw new ValidatorException(msg);
         }
@@ -302,7 +307,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 itemImporter.setNotice(_notice);
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    itemImporter.tryImportLine(line);
+                    if (!line.contains(";Form;Menge;Einheit;Anzahl;Preis;Entgelt")) {
+                        itemImporter.tryImportLine(line);
+                    }
                 }
                 _sessionController.alertClient(itemImporter.getMessage());
             }

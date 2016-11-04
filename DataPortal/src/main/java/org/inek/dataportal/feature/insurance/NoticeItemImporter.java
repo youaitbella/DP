@@ -6,6 +6,10 @@
 package org.inek.dataportal.feature.insurance;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import java.util.Optional;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.common.RemunerationType;
@@ -56,6 +60,9 @@ public class NoticeItemImporter {
     public void tryImportLine(String line) {
         _totalCount++;
         try {
+            if (line.endsWith(";")) {
+                line = line + " ";
+            }
             String[] data = line.split(";");
             if (data.length != 9) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
@@ -113,11 +120,17 @@ public class NoticeItemImporter {
 
     private void tryImportAmount(InsuranceNubNoticeItem item, String dataString) {
         try {
-            BigDecimal amount = new BigDecimal(dataString);
+            BigDecimal amount = parseDecimal(dataString);
             item.setAmount(amount);
-        } catch (NumberFormatException ex) {
+        } catch (ParseException ex) {
             throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
+    }
+
+    private BigDecimal parseDecimal(String value) throws ParseException {
+        DecimalFormat df = (DecimalFormat) NumberFormat.getInstance(Locale.GERMAN);
+        df.setParseBigDecimal(true);
+        return (BigDecimal) df.parseObject(value);
     }
 
     private void tryImportUnit(InsuranceNubNoticeItem item, String dataString) {
@@ -140,9 +153,9 @@ public class NoticeItemImporter {
 
     private void tryImportPrice(InsuranceNubNoticeItem item, String dataString) {
         try {
-            BigDecimal price = new BigDecimal(dataString);
+            BigDecimal price = parseDecimal(dataString);
             item.setPrice(price);
-        } catch (NumberFormatException ex) {
+        } catch (ParseException ex) {
             throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
@@ -153,7 +166,7 @@ public class NoticeItemImporter {
         }
         Optional<RemunerationType> remunTypeOpt = _insuranceFacade.getRemunerationType(dataString);
         if (!remunTypeOpt.isPresent()) {
-            _errorMsg += "\r\nWarnung in Zeile " + _totalCount + ": Handelt es sich bei " + dataString + " um einen gültigen Entgeltschlüssel?";
+            _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": Handelt es sich bei " + dataString + " um einen gültigen Entgeltschlüssel?";
         }
         item.setRemunerationTypeCharId(dataString);
     }

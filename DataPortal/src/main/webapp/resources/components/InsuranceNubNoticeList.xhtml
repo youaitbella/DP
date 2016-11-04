@@ -41,8 +41,9 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{insuranceNubNoticeList.editNotice(notice.id)}" immediate="true" >
+                    <h:commandLink action="#{insuranceNubNoticeList.editNotice}" immediate="true" >
                         <h:graphicImage alt="Status" name="Icon/small/#{notice.workflowStatus.icon}" value="" title="#{notice.workflowStatus.description}" rendered="#{notice.workflowStatus.icon.length() gt 0}"/>
+                        <f:param name="id" value="#{notice.id}"/>
                     </h:commandLink>
                 </h:column>
 
@@ -50,21 +51,27 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblYear}"/>
                     </f:facet>
-                    <h:commandLink action="#{insuranceNubNoticeList.editNotice(notice.id)}" value="#{notice.year}" immediate="true"/>
+                    <h:commandLink action="#{insuranceNubNoticeList.editNotice}" value="#{notice.year}" immediate="true">
+                        <f:param name="id" value="#{notice.id}"/>
+                    </h:commandLink>
                 </h:column>
                 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblHospitalIk}"/>
                     </f:facet>
-                    <h:commandLink action="#{insuranceNubNoticeList.editNotice(notice.id)}" value="#{notice.hospitalIk}" immediate="true"/>
+                    <h:commandLink action="#{insuranceNubNoticeList.editNotice}" value="#{notice.hospitalIk}" immediate="true">
+                        <f:param name="id" value="#{notice.id}"/>
+                    </h:commandLink>
                 </h:column>
                 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblDate}"/>
                     </f:facet>
-                    <h:commandLink action="#{insuranceNubNoticeList.editNotice(notice.id)}" value="#{notice.creationDateFormatted}" immediate="true"/>
+                    <h:commandLink action="#{insuranceNubNoticeList.editNotice}" value="#{notice.creationDateFormatted}" immediate="true">
+                        <f:param name="id" value="#{notice.id}"/>
+                    </h:commandLink>
                 </h:column>
                 
             </h:dataTable>
