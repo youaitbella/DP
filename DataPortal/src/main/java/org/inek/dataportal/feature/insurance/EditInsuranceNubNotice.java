@@ -257,11 +257,11 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             if (item.getExternalId() == null || item.getExternalId().equals("N0")) {
                 validatorMessage += "Zeile " + lines + ": Name ist ein Pflichtfeld.\n";
             }
-            if (item.getAmount() == null || item.getAmount().intValue() <= 0) {
+            if (item.getQuantity() <= 0) {
                 validatorMessage += "Zeile " + lines + ": Anzahl ist ein Pflichtfeld.\n";
             }
-            if (item.getPrice() == null || item.getPrice().intValue() <= 0) {
-                validatorMessage += "Zeile " + lines + ": Preis ist ein Pflichtfeld.\n";
+            if (item.getPrice() == null || item.getPrice().floatValue() <= 0) {
+                validatorMessage += "Zeile " + lines + ": Entgelthöhe ist ein Pflichtfeld.\n";
             }
             if (item.getRemunerationTypeCharId().length() != 0 && item.getRemunerationTypeCharId().length() != 8) {
                 validatorMessage += "Zeile " + lines + ": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
