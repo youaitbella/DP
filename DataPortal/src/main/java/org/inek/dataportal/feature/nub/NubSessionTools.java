@@ -264,6 +264,10 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
         accountTreeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
+            if (info == null){
+                // paranoid check: this should not happen
+                _logger.log(Level.WARNING, "info is null");
+            }
             ProposalInfoTreeNode node = ProposalInfoTreeNode.create(accountTreeNode, info, this);
             if (checked.contains(node.getId())) {
                 node.setChecked(true);
