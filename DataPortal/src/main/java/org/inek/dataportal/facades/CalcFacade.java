@@ -61,36 +61,38 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
-        String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId, "
-                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name "
-                + "\r\n from calc.StatementOfParticipance"
-                + "\r\n where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
-                + "\r\n union "
-                + "\r\n select bdId as Id, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId, "
-                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name"
-                + "\r\n from calc.BasicsDrg"
-                + "\r\n where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
-                + "\r\n union "
-                + "\r\n select bpId as Id, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId, "
-                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name"
-                + "\r\n from calc.BasicsPepp"
-                + "\r\n where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year
-                + "\r\n order by 2, 4, 5";
+        String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name\n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + "union\n"
+                + "select bdId as Id, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name\n"
+                + "from calc.BasicsDrg\n"
+                + "where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year + "\n"
+                + "union\n"
+                + "select bpId as Id, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name\n"
+                + "from calc.BasicsPepp\n"
+                + "where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year + "\n"
+                + "order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return query.getResultList();
     }
 
     public Set<Integer> getCalcYears(Set<Integer> accountIds) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String sql = "select sopDataYear as DataYear"
-                + "\r\n from calc.StatementOfParticipance"
-                + "\r\n where sopAccountId" + accountCond
-                + "\r\n union "
-                + "\r\n select bdDataYear as DataYear"
-                + "\r\n from calc.BasicsDrg"
-                + "\r\n where bdAccountId" + accountCond
-                + "\r\n union "
-                + "\r\n select bpDataYear as DataYear from calc.BasicsPepp where and bpAccountId" + accountCond;
+        String sql = "select sopDataYear as DataYear\n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopAccountId" + accountCond + "\n"
+                + "union\n"
+                + "select bdDataYear as DataYear\n"
+                + "from calc.BasicsDrg\n"
+                + "where bdAccountId" + accountCond + "\n"
+                + "union\n"
+                + "select bpDataYear as DataYear\n"
+                + "from calc.BasicsPepp\n"
+                + "where bpAccountId" + accountCond;
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
@@ -98,17 +100,17 @@ public class CalcFacade extends AbstractDataAccess {
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String sql = "select sopAccountId as AccountId"
-                + "\r\n from calc.StatementOfParticipance"
-                + "\r\n where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year
-                + "\r\n union "
-                + "\r\n select bdAccountId as AccountId"
-                + "\r\n from calc.BasicsDrg"
-                + "\r\n where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year
-                + "\r\n union "
-                + "\r\n select bpAccountId as AccountId"
-                + "\r\n from calc.BasicsPepp"
-                + "\r\n where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year;
+        String sql = "select sopAccountId as AccountId\n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + "union\n"
+                + "select bdAccountId as AccountId\n"
+                + "from calc.BasicsDrg\n"
+                + "where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year + "\n"
+                + "union\n"
+                + "select bpAccountId as AccountId\n"
+                + "from calc.BasicsPepp\n"
+                + "where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year;
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
