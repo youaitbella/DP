@@ -6,9 +6,11 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,12 +18,16 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**
@@ -72,14 +78,7 @@ public class CalcHospitalList {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-//        List<CalcHospitalInfo> calcInfos = _calcFacade.getListCalcInfo(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.TakenUpdated);
-//        List<CalcHospitalInfo> statementInfos = calcInfos
-//                .stream()
-//                .filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue())
-//                .collect(Collectors.toList());
-
-        return true; // todo check other conditions
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
 
     public String newCalculationBasicsDrg() {
@@ -92,7 +91,19 @@ public class CalcHospitalList {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        return true; // todo check other conditions
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
+    }
+
+    private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
+        if (!_allowedButtons.containsKey(calcFunct)) {
+            Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasiscs(calcFunct, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            Account account = _sessionController.getAccount();
+            boolean isAllowed = possibleIks.contains(account.getIK())
+                    || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
+            _allowedButtons.put(calcFunct, isAllowed);
+        }
+        return _allowedButtons.get(calcFunct);
     }
 
     public String newCalculationBasicsPepp() {

@@ -18,6 +18,7 @@ import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.calc.CalcBasicsPepp;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
+import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
 
@@ -126,17 +127,63 @@ public class CalcFacade extends AbstractDataAccess {
 
     public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {
         String ikList = iks.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
-        String sql = "select cuIK, caHasAgreement"
-                + "\r\n from CallCenterDb.dbo.ccCustomer"
-                + "\r\n join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId"
-                + "\r\n where cuIk in (" + ikList + ")";
+        String sql = "select cuIK, caHasAgreement\n"
+                + "from CallCenterDb.dbo.ccCustomer\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "where cuIk in (" + ikList + ")";
         Query query = getEntityManager().createNativeQuery(sql);
         Map<Integer, Boolean> agreements = new HashMap<>();
         List<Object[]> objects = query.getResultList();
         objects.forEach((obj) -> {
-            agreements.put((int)obj[0], (boolean) obj[1]);
+            agreements.put((int) obj[0], (boolean) obj[1]);
         });
         return agreements;
     }
 
+    public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
+        if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
+            return obtainIks4NewBasiscsDrg(accountIds, year);
+        }
+        return obtainIks4NewBasiscsPepp(accountIds, year);
+    }
+
+    private Set<Integer> obtainIks4NewBasiscsDrg(Set<Integer> accountIds, int year) {
+        String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
+        String sql = "select sopIk \n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopAccountId in (" + accountList + ")\n"
+                + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopIsDrg=1\n"
+                + "	and sopDataYear = " + year + "\n"
+                + "	and not exists (\n"
+                + "		select 1\n"
+                + "		from calc.BasicsDrg\n"
+                + "		where bdAccountId in (" + accountList + ")\n"
+                + "			and bdStatusId < 200\n"
+                + "			and bdDataYear = " + year + "\n"
+                + "			and sopIk = bdIk\n"
+                + "	)";
+        Query query = getEntityManager().createNativeQuery(sql);
+        return new HashSet<>(query.getResultList());
+    }
+
+    private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year) {
+        String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
+        String sql = "select sopIk \n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopAccountId in (" + accountList + ")\n"
+                + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopIsPsy=1\n"
+                + "	and sopDataYear = " + year + "\n"
+                + "	and not exists (\n"
+                + "		select 1\n"
+                + "		from calc.BasicsPepp\n"
+                + "		where bpAccountId in (" + accountList + ")\n"
+                + "			and bpStatusId < 200\n"
+                + "			and bpDataYear = " + year + "\n"
+                + "			and sopIk = bpIk\n"
+                + "	)";
+        Query query = getEntityManager().createNativeQuery(sql);
+        return new HashSet<>(query.getResultList());
+    }
 }
