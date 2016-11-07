@@ -57,7 +57,7 @@ public class CalcBasicsDrg implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
-    @Column(name = "TE_IK")
+    @Column(name = "bdIK")
     private int _ik;
     public int getIk() {
         return _ik;
