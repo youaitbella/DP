@@ -100,6 +100,7 @@ public class EditCooperation extends AbstractEditController {
             tryAddFeature(Feature.MODEL_INTENTION, this::getCooperativeReadRights);
             tryAddFeature(Feature.DRG_PROPOSAL, this::getCooperativeRights);
             tryAddFeature(Feature.PEPP_PROPOSAL, this::getCooperativeRights);
+            tryAddFeature(Feature.CALCULATION_HOSPITAL, this::getCooperativeRights);
         }
         return _cooperationInfos;
     }

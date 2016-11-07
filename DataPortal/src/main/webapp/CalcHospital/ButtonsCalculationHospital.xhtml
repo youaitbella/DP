@@ -9,27 +9,27 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <div>
-        <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
+        <h:commandLink styleClass="bigButton #{calcHospitalList.newStatementOfParticipanceAllowed ? '' : 'buttonDisabled'}"
                        action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewStatementOfParticipance}"
-                       rendered="#{calcHospitalList.newStatementOfParticipanceAllowed}">
+                       disabled="#{!calcHospitalList.newStatementOfParticipanceAllowed}">
             <f:param name="id" value="new"/>
         </h:commandLink>
 
-        <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
+        <h:commandLink styleClass="bigButton #{calcHospitalList.newCalculationBasicsDrgAllowed ? '' : 'buttonDisabled'}"
                        action="#{calcHospitalList.newCalculationBasicsDrg}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsDrg}"
-                       rendered="#{calcHospitalList.newCalculationBasicsDrgAllowed}">
+                       disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}">
             <f:param name="id" value="new"/>
         </h:commandLink>
 
-        <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsCalationBasicsCreateEnabled') ? '' : 'buttonDisabled'}"
+        <h:commandLink styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
                        action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsPepp}"
-                       rendered="#{calcHospitalList.newCalculationBasicsPeppAllowed}">
+                       disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}">
             <f:param name="id" value="new"/>
         </h:commandLink>
 

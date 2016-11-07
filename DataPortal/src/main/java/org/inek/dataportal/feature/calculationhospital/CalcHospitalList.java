@@ -5,7 +5,9 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -16,12 +18,15 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
@@ -39,16 +44,24 @@ public class CalcHospitalList {
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
+    @Inject private AccountFacade _accountFacade;
     @Inject ApplicationTools _appTools;
+    private final Map<CalcHospitalFunction, Boolean> _allowedButtons = new HashMap<>();
     // </editor-fold>
-    
-    public boolean isNewStatementOfParticipanceAllowed(){
+
+    public boolean isNewStatementOfParticipanceAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        return true; // todo check other conditions
+        if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
+            Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+            Set<Integer> iks = _accountFacade.obtainIks4Accounts(accountIds);
+            Map<Integer, Boolean> agreement = _calcFacade.getAgreement(iks);
+            _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, agreement.values().stream().anyMatch(a -> a));
+        }
+        return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
     }
-    
+
     public String newStatementOfParticipance() {
         destroyFeatureBeans();
         return Pages.StatementOfParticipanceEditAddress.URL();
@@ -60,51 +73,55 @@ public class CalcHospitalList {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope(EditStatementOfParticipance.class.getSimpleName());
         // todo: add other classes
     }
-    
-    public boolean isNewCalculationBasicsDrgAllowed(){
+
+    public boolean isNewCalculationBasicsDrgAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-//        List<CalcHospitalInfo> calcInfos = _calcFacade.getListCalcInfo(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.TakenUpdated);
-//        List<CalcHospitalInfo> statementInfos = calcInfos
-//                .stream()
-//                .filter(i -> i.getType() == 0 && i.getStatusId() >= WorkflowStatus.Provided.getValue())
-//                .collect(Collectors.toList());
-        
-        
-        return true; // todo check other conditions
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
-    
+
     public String newCalculationBasicsDrg() {
         destroyFeatureBeans();
         // TODO: check if allowed to create new calculation basic
         return Pages.CalcDrgAdditionalInformationDiagnosticArea.URL();  // TODO: start new DRG calc at tab 1
     }
-    
-    public boolean isNewCalculationBasicsPeppAllowed(){
+
+    public boolean isNewCalculationBasicsPeppAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
             return false;
         }
-        return true; // todo check other conditions
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
     }
-    
+
+    private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
+        if (!_allowedButtons.containsKey(calcFunct)) {
+            Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasiscs(calcFunct, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            Account account = _sessionController.getAccount();
+            boolean isAllowed = possibleIks.contains(account.getIK())
+                    || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
+            _allowedButtons.put(calcFunct, isAllowed);
+        }
+        return _allowedButtons.get(calcFunct);
+    }
+
     public String newCalculationBasicsPepp() {
         destroyFeatureBeans();
         return Pages.StatementOfParticipanceEditAddress.URL();  // todo
     }
-    
-    public String printHospitalInfo(int id){
+
+    public String printHospitalInfo(int id) {
         return "";
     }
-    
-    public String deleteHospitalInfo(int id){
+
+    public String deleteHospitalInfo(int id) {
         return "";
     }
-    
-    public String editHospitalInfo(int type){
+
+    public String editHospitalInfo(int type) {
         destroyFeatureBeans();
-        switch (type){
+        switch (type) {
             case 0:
                 return Pages.StatementOfParticipanceEditAddress.URL();
             case 1:

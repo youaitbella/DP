@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -346,6 +347,20 @@ public class AccountFacade extends AbstractFacade<Account> {
         dumpSql(query);
         query.setParameter("ik", ik);
         return query.getResultList();
+    }
+
+    public Set<Integer> obtainIks4Accounts(Set<Integer> accountIds) {
+        String accountIdList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
+        String sql = "select acIk"
+                + "\r\n from dbo.Account"
+                + "\r\n where acId in (" + accountIdList + ")"
+                + "\r\n union"
+                + "\r\n select aaiIK"
+                + "\r\n from dbo.Account"
+                + "\r\n join dbo.AccountAdditionalIK on acId = aaiAccountId"
+                + "\r\n where acId in (" + accountIdList + ")";
+        Query query = getEntityManager().createNativeQuery(sql);
+        return new HashSet<>(query.getResultList());
     }
 
 }
