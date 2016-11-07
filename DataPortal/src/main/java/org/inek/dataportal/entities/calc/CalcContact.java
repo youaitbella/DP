@@ -6,18 +6,12 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
@@ -44,8 +38,6 @@ public class CalcContact implements Serializable {
     }
     // </editor-fold>
 
-// coFirstName, coLastName, coPhone, coMail, coIsDrg, coIsPsy, coIsInv, coIsTpg, coIsConsultant, coIsMailDistribution    
-    
     // <editor-fold defaultstate="collapsed" desc="Property StatementOfParticipanceId">
     @Column(name = "coStatementOfParticipanceId")
     private int _statementOfParticipanceId;
@@ -201,8 +193,8 @@ public class CalcContact implements Serializable {
         _mailDistribution = mailDistribution;
     }
     // </editor-fold>
-
-//  , , coIsConsultant, coIsMailDistribution    
+    
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override

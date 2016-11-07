@@ -8,11 +8,17 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -20,7 +26,6 @@ import javax.persistence.Temporal;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -402,7 +407,7 @@ public class StatementOfParticipance implements Serializable{
         _consultantMail = consultantMail;
     }
     // </editor-fold>
-    
+   
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
@@ -430,6 +435,19 @@ public class StatementOfParticipance implements Serializable{
     
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Contacts">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
+    @OrderBy("_lastName")
+    private List<CalcContact> _contacts;
+
+    public List<CalcContact> getContacts() {
+        return _contacts;
+    }
+
+    public void setContacts(List<CalcContact> contacts) {
+        _contacts = contacts;
+    }
     
     @PrePersist
     @PreUpdate
