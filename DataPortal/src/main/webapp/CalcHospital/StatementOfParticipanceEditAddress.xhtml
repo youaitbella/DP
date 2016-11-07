@@ -2,6 +2,7 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="StatemenOfParticipanceEdit.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
@@ -36,6 +37,23 @@
 
         <h2>#{msg.lblContactPerson}</h2>
 
+        <h:dataTable value="#{editStatementOfParticipance.statement.contacts}" 
+                     var="contact" 
+                     width="100%" rowClasses="row1, row2" 
+                     columnClasses="colIcon, col05, col11, col06em, col06, col05, col05, col04, col06, col11, col11, col01">
+            
+                <h:column>
+                    <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+            
+                <h:column>
+                    <h:commandLink action="#{editStatementOfParticipance.editContact(contact)}" immediate="true" styleClass="colValue" value="#{contact.mail}"/>
+                </h:column>
+            
+        </h:dataTable>
 
-    </ui:define>
+</ui:define>
 </ui:composition>

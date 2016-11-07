@@ -8,12 +8,10 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -22,6 +20,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
@@ -223,6 +222,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
@@ -256,7 +256,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
     }
 
+    public void editContact(CalcContact contact){
+        
+    }
+    public void deleteContact(CalcContact contact){
+        
+    }
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="Tab Statements">
+    
+    // <editor-fold defaultstate="collapsed" desc="Tab Statements">
 // </editor-fold>
 }
