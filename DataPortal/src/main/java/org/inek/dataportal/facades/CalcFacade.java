@@ -5,8 +5,10 @@
  */
 package org.inek.dataportal.facades;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ejb.Stateless;
@@ -76,16 +78,16 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return query.getResultList();
     }
-    
+
     public Set<Integer> getCalcYears(Set<Integer> accountIds) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String sql = "select sopDataYear as DataYear"
                 + "\r\n from calc.StatementOfParticipance"
-                + "\r\n where sopAccountId" + accountCond 
+                + "\r\n where sopAccountId" + accountCond
                 + "\r\n union "
                 + "\r\n select bdDataYear as DataYear"
                 + "\r\n from calc.BasicsDrg"
-                + "\r\n where bdAccountId" + accountCond 
+                + "\r\n where bdAccountId" + accountCond
                 + "\r\n union "
                 + "\r\n select bpDataYear as DataYear from calc.BasicsPepp where and bpAccountId" + accountCond;
         Query query = getEntityManager().createNativeQuery(sql);
@@ -122,5 +124,19 @@ public class CalcFacade extends AbstractDataAccess {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
+    public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {
+        String ikList = iks.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
+        String sql = "select cuIK, caHasAgreement"
+                + "\r\n from CallCenterDb.dbo.ccCustomer"
+                + "\r\n join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId"
+                + "\r\n where cuIk in (" + ikList + ")";
+        Query query = getEntityManager().createNativeQuery(sql);
+        Map<Integer, Boolean> agreements = new HashMap<>();
+        List<Object[]> objects = query.getResultList();
+        objects.forEach((obj) -> {
+            agreements.put((int)obj[0], (boolean) obj[1]);
+        });
+        return agreements;
+    }
+
 }
