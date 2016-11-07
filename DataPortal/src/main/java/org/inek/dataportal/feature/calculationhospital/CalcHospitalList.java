@@ -78,7 +78,8 @@ public class CalcHospitalList {
     
     public String newCalculationBasicsDrg() {
         destroyFeatureBeans();
-        return Pages.StatementOfParticipanceEditAddress.URL();  // todo
+        // TODO: check if allowed to create new calculation basic
+        return Pages.CalcDrgAdditionalInformationDiagnosticArea.URL();  // TODO: start new DRG calc at tab 1
     }
     
     public boolean isNewCalculationBasicsPeppAllowed(){

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1><h:commandLink value="#{msg.lblCalcBasicDrg}" action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+            
+            <div class="tab">
+                <span style="margin: 10px;">Blatt: </span>
+                <h:selectOneMenu style="padding: 4px; cursor: pointer; margin: 0 0 10px; border: solid 1px black;" id="calc-page-menu" class="inputlong">
+                    <f:selectItems value="#{calcHospitalPages.calcDrgPages}" />
+                </h:selectOneMenu>
+            </div>
+            
+            <div class="edit">
+                Hallo, Welt!
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
