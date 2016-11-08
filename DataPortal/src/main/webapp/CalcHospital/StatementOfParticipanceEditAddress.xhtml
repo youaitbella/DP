@@ -40,20 +40,40 @@
         <h:dataTable value="#{editStatementOfParticipance.statement.contacts}" 
                      var="contact" 
                      width="100%" rowClasses="row1, row2" 
-                     columnClasses="colIcon, col05, col11, col06em, col06, col05, col05, col04, col06, col11, col11, col01">
-            
-                <h:column>
-                    <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" immediate="true" styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <cb:confirmDelete/>
-                    </h:commandLink>
-                </h:column>
-            
-                <h:column>
-                    <h:commandLink action="#{editStatementOfParticipance.editContact(contact)}" immediate="true" styleClass="colValue" value="#{contact.mail}"/>
-                </h:column>
-            
+                     columnClasses="colIcon, volValue, colValue">
+
+            <h:column>
+                <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" immediate="true" styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblMail}"/>
+                </f:facet>
+                <h:inputText id="contactMail" value="#{contact.mail}" styleClass="fullWidth"                          
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}">
+                    <f:ajax render="@this :logout:remaining msgContactMail"/>
+                    <f:validator validatorId="EmailValidator"/>
+                </h:inputText>
+                <h:message for="contactMail" id="msgContactMail" errorClass="errorMessage"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblSalutation}"/>
+                </f:facet>
+                <h:inputText id="contactSalutation" value="#{contact.salutation}" styleClass="fullWidth">
+                    <f:ajax render="@this :logout:remaining msgContactSalutation"/>
+                </h:inputText>
+                <h:message for="contactSalutation" id="msgContactSalutation" errorClass="errorMessage"/>
+            </h:column>
+
+
         </h:dataTable>
 
-</ui:define>
+    </ui:define>
 </ui:composition>

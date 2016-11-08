@@ -225,7 +225,7 @@
                          required="true"
                          readonly="#{editNubRequest.readOnly}"
                          requiredMessage="#{msg.msgValueNeeded}"
-                         maxlength="50">
+                         maxlength="100">
                 <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
                 <f:validator validatorId="EmailValidator"/>
             </h:inputText>

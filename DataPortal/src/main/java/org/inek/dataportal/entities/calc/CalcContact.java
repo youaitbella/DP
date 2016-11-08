@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -53,6 +54,8 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Salutation">
     @Column(name = "coSalutation")
     private String _salutation = "";
+
+    @Size(max = 50)
     public String getSalutation() {
         return _salutation;
     }
@@ -65,6 +68,8 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Title">
     @Column(name = "coTitle")
     private String _title = "";
+
+    @Size(max = 50)
     public String getTitle() {
         return _title;
     }
@@ -77,6 +82,8 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property FirstName">
     @Column(name = "coFirstName")
     private String _firstName = "";
+
+    @Size(max = 50)
     public String getFirstName() {
         return _firstName;
     }
@@ -89,6 +96,8 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Column(name = "coLastName")
     private String _lastName = "";
+
+    @Size(max = 50)
     public String getLastName() {
         return _lastName;
     }
@@ -101,6 +110,8 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Phone">
     @Column(name = "coPhone")
     private String _phone = "";
+
+    @Size(max = 50)
     public String getPhone() {
         return _phone;
     }
@@ -113,6 +124,8 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Mail">
     @Column(name = "coMail")
     private String _mail = "";
+
+    @Size(max = 100)
     public String getMail() {
         return _mail;
     }
