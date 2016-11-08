@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property StatementOfParticipanceId">
     @Column(name = "coStatementOfParticipanceId")
-    private int _statementOfParticipanceId;
+    private int _statementOfParticipanceId = -1;
     public int getStatementOfParticipanceId() {
         return _statementOfParticipanceId;
     }
@@ -205,19 +206,33 @@ public class CalcContact implements Serializable {
         _mailDistribution = mailDistribution;
     }
     // </editor-fold>
-    
-    // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         hash = 71 * hash + this._id;
+        hash = 71 * hash + this._statementOfParticipanceId;
+        hash = 71 * hash + Objects.hashCode(this._gender);
+        hash = 71 * hash + Objects.hashCode(this._title);
+        hash = 71 * hash + Objects.hashCode(this._firstName);
+        hash = 71 * hash + Objects.hashCode(this._lastName);
+        hash = 71 * hash + Objects.hashCode(this._phone);
+        hash = 71 * hash + Objects.hashCode(this._mail);
+        hash = 71 * hash + (this._drg ? 1 : 0);
+        hash = 71 * hash + (this._psy ? 1 : 0);
+        hash = 71 * hash + (this._inv ? 1 : 0);
+        hash = 71 * hash + (this._tpg ? 1 : 0);
+        hash = 71 * hash + (this._consultant ? 1 : 0);
+        hash = 71 * hash + (this._mailDistribution ? 1 : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -225,14 +240,62 @@ public class CalcContact implements Serializable {
             return false;
         }
         final CalcContact other = (CalcContact) obj;
-        return _id == other.getId();
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._statementOfParticipanceId != other._statementOfParticipanceId) {
+            return false;
+        }
+        if (this._drg != other._drg) {
+            return false;
+        }
+        if (this._psy != other._psy) {
+            return false;
+        }
+        if (this._inv != other._inv) {
+            return false;
+        }
+        if (this._tpg != other._tpg) {
+            return false;
+        }
+        if (this._consultant != other._consultant) {
+            return false;
+        }
+        if (this._mailDistribution != other._mailDistribution) {
+            return false;
+        }
+        if (!Objects.equals(this._title, other._title)) {
+            return false;
+        }
+        if (!Objects.equals(this._firstName, other._firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this._lastName, other._lastName)) {
+            return false;
+        }
+        if (!Objects.equals(this._phone, other._phone)) {
+            return false;
+        }
+        if (!Objects.equals(this._mail, other._mail)) {
+            return false;
+        }
+        if (!Objects.equals(this._gender, other._gender)) {
+            return false;
+        }
+        return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.CalcContact[ id=" + _id + " ]";
     }
-    
     // </editor-fold>
+
+    public boolean isEmpty() {
+        return _id < 0 && getGender() == null 
+                && (_title + _firstName + _lastName + _phone + _mail).length() == 0 
+                && !_drg && !_psy && !_inv && ! _tpg 
+                && !_consultant && !_mailDistribution;
+    }
     
 }

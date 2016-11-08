@@ -80,6 +80,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_statement.getContacts().isEmpty()) {
             _statement.getContacts().add(new CalcContact());
         }
+        changedIk();
     }
 
     private StatementOfParticipance loadStatementOfParticipance(Object idObject) {

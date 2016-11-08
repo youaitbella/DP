@@ -51,18 +51,14 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblMail}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblMail}</f:facet>
                 <inek:InputTextWithMessage id="contactMail" value="#{contact.mail}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth" required="true">
                     <f:validator validatorId="EmailValidator" for="contactMail"/>
                 </inek:InputTextWithMessage>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblSalutation}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblSalutation}</f:facet>
                 <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
                                  required="true" requiredMessage="#{msg.msgChooseEntryShort}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
@@ -74,58 +70,42 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    #{msg.lblTitle}"
-                </f:facet>
+                <f:facet name="header">#{msg.lblTitle}</f:facet>
                 <inek:InputTextWithMessage id="contactTitle" value="#{contact.title}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblFirstName}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblFirstName}</f:facet>
                 <inek:InputTextWithMessage value="#{contact.firstName}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblLastName}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblLastName}</f:facet>
                 <inek:InputTextWithMessage value="#{contact.lastName}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblPhone}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblPhone}</f:facet>
                 <inek:InputTextWithMessage value="#{contact.phone}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblDrg}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblDrg}</f:facet>
                 <inek:Checkbox value="#{contact.drg}" readOnly="#{editStatementOfParticipance.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblPsy}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblPsy}</f:facet>
                 <inek:Checkbox value="#{contact.psy}" readOnly="#{editStatementOfParticipance.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblInv}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblInv}</f:facet>
                 <inek:Checkbox value="#{contact.inv}" readOnly="#{editStatementOfParticipance.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{msg.lblTpg}"/>
-                </f:facet>
+                <f:facet name="header">#{msg.lblTpg}</f:facet>
                 <inek:Checkbox value="#{contact.tpg}" readOnly="#{editStatementOfParticipance.readOnly}"/>
             </h:column>
 
