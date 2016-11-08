@@ -53,14 +53,14 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "coGender")
-    private Integer _gender;
+    private Integer _gender = -1;
 
     public Integer getGender() {
-        return _gender;
+        return (_gender == null || _gender < 0 || _gender > 2) ? null : _gender; 
     }
 
     public void setGender(Integer gender) {
-        _gender = gender;
+        _gender = (gender == null || gender < 0 || gender > 2) ? -1 : gender;
     }
     // </editor-fold>
 

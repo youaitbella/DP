@@ -105,11 +105,28 @@
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblDrg}"/>
                 </f:facet>
-                <h:selectBooleanCheckbox id="contactDrg" value="#{contact.drg}" styleClass="fullWidth"
-                                         readonly="#{editStatementOfParticipance.readOnly}">
-                    <f:ajax render="@this :logout:remaining msgContactDrg"/>
-                </h:selectBooleanCheckbox>
-                <h:message for="contactDrg" id="msgContactDrg" errorClass="errorMessage"/>
+                <inek:Checkbox value="#{contact.drg}" readOnly="#{editStatementOfParticipance.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblPsy}"/>
+                </f:facet>
+                <inek:Checkbox value="#{contact.psy}" readOnly="#{editStatementOfParticipance.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblInv}"/>
+                </f:facet>
+                <inek:Checkbox value="#{contact.inv}" readOnly="#{editStatementOfParticipance.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblTpg}"/>
+                </f:facet>
+                <inek:Checkbox value="#{contact.tpg}" readOnly="#{editStatementOfParticipance.readOnly}"/>
             </h:column>
 
         </h:dataTable>
