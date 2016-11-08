@@ -51,17 +51,16 @@ public class CalcContact implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Salutation">
-    @Column(name = "coSalutation")
-    private String _salutation = "";
+    // <editor-fold defaultstate="collapsed" desc="Property Gender">
+    @Column(name = "coGender")
+    private Integer _gender;
 
-    @Size(max = 50)
-    public String getSalutation() {
-        return _salutation;
+    public Integer getGender() {
+        return _gender;
     }
 
-    public void setSalutation(String salutation) {
-        this._salutation = salutation;
+    public void setGender(Integer gender) {
+        _gender = gender;
     }
     // </editor-fold>
 

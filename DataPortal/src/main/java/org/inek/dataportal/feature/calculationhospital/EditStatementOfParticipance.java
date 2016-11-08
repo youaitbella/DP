@@ -23,6 +23,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
+import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -76,7 +77,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         } else {
             _statement = loadStatementOfParticipance(id);
         }
-
+        if (_statement.getContacts().isEmpty()) {
+            _statement.getContacts().add(new CalcContact());
+        }
     }
 
     private StatementOfParticipance loadStatementOfParticipance(Object idObject) {
@@ -116,10 +119,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_statement.getAccountId(), false);
-    }
-
     public boolean isReadOnly() {
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
     }
@@ -222,7 +221,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
@@ -256,14 +254,19 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
     }
 
-    public void editContact(CalcContact contact){
-        
+    public void addContact() {
+        _statement.getContacts().add(new CalcContact());
     }
-    public void deleteContact(CalcContact contact){
-        
+
+    public void editContact(CalcContact contact) {
+
+    }
+
+    public void deleteContact(CalcContact contact) {
+
     }
 // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Tab Statements">
 // </editor-fold>
 }

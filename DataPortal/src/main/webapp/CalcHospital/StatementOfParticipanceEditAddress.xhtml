@@ -3,6 +3,7 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="StatemenOfParticipanceEdit.xhtml"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
@@ -15,23 +16,21 @@
             <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
             <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
             <br/>
-            <h:selectOneMenu
-                styleClass="inputmedium"
-                rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.ownStatement}"
-                id="ikMulti"
-                title="#{msg.titleIK}"
-                required="true"
-                requiredMessage="#{msg.msgValueNeeded}"
-                value="#{editStatementOfParticipance.statement.ik}"
-                readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.ownStatement}">
+            <h:selectOneMenu styleClass="inputmedium"
+                             rendered="#{!editStatementOfParticipance.readOnly}"
+                             id="ikMulti"
+                             title="#{msg.titleIK}"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{editStatementOfParticipance.statement.ik}">
                 <f:selectItems value="#{editStatementOfParticipance.iks}"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
                 <f:ajax event="change" listener="#{editStatementOfParticipance.changedIk}" render="@form :logout:remaining msgMultiIk"/>
             </h:selectOneMenu>
-            <h:inputText styleClass="inputlong" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.ownStatement}"/>
-            <h:outputLabel id="hospitalName" for="khName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}" />
+            <h:inputText styleClass="inputlong" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly}"/>
+            <h:outputLabel id="hospitalName" for="khName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
             <br/>
-            <h:outputText value="#{msg.lblNubHintMoreIks}" />
+            <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly}"/>
         </div>
 
 
@@ -40,10 +39,12 @@
         <h:dataTable value="#{editStatementOfParticipance.statement.contacts}" 
                      var="contact" 
                      width="100%" rowClasses="row1, row2" 
-                     columnClasses="colIcon, volValue, colValue">
+                     columnClasses="colIcon, volValue, col04em, col04em, volValue, colValue">
 
             <h:column>
-                <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" immediate="true" styleClass="colIcon">
+                <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" 
+                               rendered="#{!editStatementOfParticipance.readOnly}"
+                               immediate="true" styleClass="colIcon">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <cb:confirmDelete/>
                 </h:commandLink>
@@ -53,27 +54,70 @@
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblMail}"/>
                 </f:facet>
-                <h:inputText id="contactMail" value="#{contact.mail}" styleClass="fullWidth"                          
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}">
-                    <f:ajax render="@this :logout:remaining msgContactMail"/>
-                    <f:validator validatorId="EmailValidator"/>
-                </h:inputText>
-                <h:message for="contactMail" id="msgContactMail" errorClass="errorMessage"/>
+                <inek:InputTextWithMessage id="contactMail" value="#{contact.mail}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth" required="true">
+                    <f:validator validatorId="EmailValidator" for="contactMail"/>
+                </inek:InputTextWithMessage>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblSalutation}"/>
                 </f:facet>
-                <h:inputText id="contactSalutation" value="#{contact.salutation}" styleClass="fullWidth">
-                    <f:ajax render="@this :logout:remaining msgContactSalutation"/>
-                </h:inputText>
-                <h:message for="contactSalutation" id="msgContactSalutation" errorClass="errorMessage"/>
+                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
+                                 required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="#{msg.salutationFemale}" itemValue="1"/>
+                    <f:selectItem itemLabel="#{msg.salutationMale}" itemValue="2"/>
+                    <f:ajax event="blur" render="@this msgContactGender :logout:remaining"/>
+                </h:selectOneMenu>
+                <h:message for="cbxGender" id="msgContactGender" errorClass="errorMessage"/>
             </h:column>
 
+            <h:column>
+                <f:facet name="header">
+                    #{msg.lblTitle}"
+                </f:facet>
+                <inek:InputTextWithMessage id="contactTitle" value="#{contact.title}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblFirstName}"/>
+                </f:facet>
+                <inek:InputTextWithMessage value="#{contact.firstName}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblLastName}"/>
+                </f:facet>
+                <inek:InputTextWithMessage value="#{contact.lastName}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblPhone}"/>
+                </f:facet>
+                <inek:InputTextWithMessage value="#{contact.phone}" readOnly="#{editStatementOfParticipance.readOnly}" styleClass="fullWidth"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblDrg}"/>
+                </f:facet>
+                <h:selectBooleanCheckbox id="contactDrg" value="#{contact.drg}" styleClass="fullWidth"
+                                         readonly="#{editStatementOfParticipance.readOnly}">
+                    <f:ajax render="@this :logout:remaining msgContactDrg"/>
+                </h:selectBooleanCheckbox>
+                <h:message for="contactDrg" id="msgContactDrg" errorClass="errorMessage"/>
+            </h:column>
 
         </h:dataTable>
+
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                       rendered="#{!editStatementOfParticipance.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addContact}"/>
+        </h:commandLink>
 
     </ui:define>
 </ui:composition>

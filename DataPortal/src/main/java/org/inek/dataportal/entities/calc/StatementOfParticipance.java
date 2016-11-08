@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -439,7 +440,7 @@ public class StatementOfParticipance implements Serializable{
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
     @OrderBy("_lastName")
-    private List<CalcContact> _contacts;
+    private List<CalcContact> _contacts = new Vector<>();
 
     public List<CalcContact> getContacts() {
         return _contacts;
