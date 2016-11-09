@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.entities.calc;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +16,7 @@ import org.inek.dataportal.enums.CalcAdditionalInformation;
  */
 @Entity
 @Table(name = "AddtionalInformationDrg", schema = "calc")
-public class AdditionalInformationDrg {
+public class AdditionalInformationDrg implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
