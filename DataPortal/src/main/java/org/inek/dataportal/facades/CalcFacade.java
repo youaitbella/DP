@@ -52,14 +52,15 @@ public class CalcFacade extends AbstractDataAccess {
             persist(statementOfParticipance);
             return statementOfParticipance;
         }
+        // whilst persist stores all contacts of the list,
+        // merge only stores the first new contact (and replaces the other new by a copy of the first)
+        // this seems to be a bug?
+        // workarround: separately persist all new contacts before
         for (CalcContact contact : statementOfParticipance.getContacts()) {
             contact.setStatementOfParticipanceId(statementOfParticipance.getId());
+            if (contact.getId() < 0){persist(contact);}
         }
         StatementOfParticipance statement = merge(statementOfParticipance);
-        for (CalcContact contact : statement.getContacts()) {
-            contact.setStatementOfParticipanceId(statement.getId());
-            persist(contact);
-        }
         return statement;
     }
 
