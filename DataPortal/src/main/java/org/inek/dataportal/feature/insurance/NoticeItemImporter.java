@@ -13,7 +13,6 @@ import java.util.Locale;
 import java.util.Optional;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.common.RemunerationType;
-import org.inek.dataportal.entities.insurance.DosageForm;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;

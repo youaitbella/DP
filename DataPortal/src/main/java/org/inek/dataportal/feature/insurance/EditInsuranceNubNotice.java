@@ -299,7 +299,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     public void uploadNotices() {
         try {
             if (_file != null) {
-                Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
                 }
