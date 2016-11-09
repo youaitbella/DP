@@ -110,20 +110,24 @@ public class NoticeItemImporter {
     }
 
     private void tryImportDosageForm(InsuranceNubNoticeItem item, String dataString) {
-        Optional<DosageForm> dosageFormOpt = _insuranceFacade.getDosageForm(dataString);
+        Optional<Integer> dosageFormOpt = _insuranceFacade.getDosageFormId(dataString);
         if (dosageFormOpt.isPresent()) {
-            item.setDosageFormId(dosageFormOpt.get().getId());
+            item.setDosageFormId(dosageFormOpt.get());
         } else {
             throw new IllegalArgumentException(Utils.getMessage("msgUnknowDosageForm") + ": " + dataString);
         }
     }
 
     private void tryImportAmount(InsuranceNubNoticeItem item, String dataString) {
+        if (dataString.trim().isEmpty()){
+            // this field is optional. if empty default to 1
+            dataString = "1";
+        }
         try {
             BigDecimal amount = parseDecimal(dataString);
             item.setAmount(amount);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException("[" +Utils.getMessage("lblAmount") + "] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 
@@ -143,11 +147,15 @@ public class NoticeItemImporter {
     }
 
     private void tryImportQuantity(InsuranceNubNoticeItem item, String dataString) {
+        if (dataString.trim().isEmpty()){
+            // if empty default to 1
+            dataString = "1";
+        }
         try {
             int quantity = Integer.parseInt(dataString);
             item.setQuantity(quantity);
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException("[" + Utils.getMessage("lblCount") + "] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 
@@ -156,7 +164,7 @@ public class NoticeItemImporter {
             BigDecimal price = parseDecimal(dataString);
             item.setPrice(price);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException(Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException("[" +Utils.getMessage("lblPayment") + "] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 
