@@ -16,7 +16,74 @@
             <ui:include src="../CalcMenu.xhtml" />
             
             <div class="edit">
-                Hallo, Welt!
+                <h:form id="messageForm">
+                    <h:dataTable  headerClass="list-header" id="tblContent"
+                                  value="#{editInsuranceNubNotice.notice.items}" var="item" width="100%" rowClasses="row1, row2" 
+                                  columnClasses="colIcon, col05, col11, col06em, col06"
+                                  rendered=""
+                                  >
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:commandLink action="" immediate="true" styleClass="colIcon">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <cb:confirmDelete/>
+                            </h:commandLink>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col04em" required="true">
+                                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                                <f:selectItems value="#{editInsuranceNubNotice.inekMethodsBySeq}" var="m" itemLabel="#{m.label}" itemValue="#{m.value}" itemDescription="#{m.description}"/>
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:selectOneMenu>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblNotation}"/>
+                            </f:facet>
+                            <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col10em" required="true" title="Hinweis: Wenn Sie die Box zur Auswahl aufklappen, wird der komplette Name sichtbar.">
+                                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                                <f:selectItems value="#{editInsuranceNubNotice.inekMethods}" var="m" itemLabel="#{m.label}" itemValue="#{m.value}" itemDescription="#{m.description}"/>
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:selectOneMenu>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblNubId}"/>
+                            </f:facet>
+                            <h:selectOneMenu value="#{item.nubRequestId}" hideNoSelectionOption="true" styleClass="col06em">
+                                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                                <f:selectItems value="#{editInsuranceNubNotice.nubMethodInfos}" var="info" itemLabel="#{info}" itemValue="#{info.requestId}"/>
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:selectOneMenu>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.lblForm}"/>
+                            </f:facet>
+                            <h:selectOneMenu value="#{item.dosageFormId}" hideNoSelectionOption="true" styleClass="col06em">
+                                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                                <f:selectItems value="#{editInsuranceNubNotice.dosageForms}" var="dosageForm" itemLabel="#{dosageForm.text}" itemValue="#{dosageForm.id}"/>
+                                <f:ajax render="@this :logout:remaining"/>
+                            </h:selectOneMenu>
+                        </h:column>
+                        
+                    </h:dataTable>
+
+                    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                                   rendered="#{!editInsuranceNubNotice.readOnly and editInsuranceNubNotice.nubMethodInfos.size() > 0}">
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editInsuranceNubNotice.addItem}"/>
+                    </h:commandLink>
+                </h:form>
             </div>
         </h:form>
     </ui:define>
