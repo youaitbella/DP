@@ -71,9 +71,13 @@ public class InsuranceFacade extends AbstractDataAccess {
         return findAll(DosageForm.class);
     }
 
-    public Optional<DosageForm> getDosageForm(String text) {
-        String jql = "select d from DosageForm d where d._text = :text";
-        TypedQuery<DosageForm> query = getEntityManager().createQuery(jql, DosageForm.class);
+    public Optional<Integer> getDosageFormId(String text) {
+        text = text.trim();
+        if (text.endsWith(".")){
+            text = text.substring(0, text.length() - 1);
+        }
+        String jql = "select distinct d._id from DosageForm d left join DosageFormAbbreviation a where d._id = a._dosageFormId and (d._text = :text or a._shortText = :text)";
+        TypedQuery<Integer> query = getEntityManager().createQuery(jql, Integer.class);
         query.setParameter("text", text);
         try {
             return Optional.of(query.getSingleResult());
