@@ -70,9 +70,9 @@
 
         </h:form>
         
-        <h:form id="costUploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" style="margin-top: 40px;">
-            <div class="uploadFile">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}" onclick="alert('test');" >
+        <h:form id="uploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" style="margin-top: 40px;">
+            <div class="uploadFile" id="testDiv">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}" onclick="document.getElementById('wrapper').style.cursor = 'progress';" >
                     <f:ajax listener="#{editInsuranceNubNotice.uploadNotices()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
