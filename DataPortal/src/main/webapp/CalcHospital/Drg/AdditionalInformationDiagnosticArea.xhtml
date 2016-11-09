@@ -19,15 +19,15 @@
                 <h:form id="messageForm">
                     <h:dataTable  headerClass="list-header" id="tblContent"
                                   value="" var="item" width="100%" rowClasses="row1, row2" 
-                                  columnClasses="colIcon, col05, col11, col06em, col06"
-                                  rendered=""
+                                  columnClasses="colIcon, col03em, col04em, col03em, col03em"
+                                  rendered="true"
                                   >
 
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <h:commandLink action="" immediate="true" styleClass="colIcon">
+                            <h:commandLink immediate="true" styleClass="colIcon">
                                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                                 <cb:confirmDelete/>
                             </h:commandLink>
@@ -35,38 +35,38 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value=""/>
+                                <h:outputText value="Nr. Kostenstelle"/>
                             </f:facet>
-                            <h:inputText value="" styleClass="col04em" required="true">
+                            <h:inputText value="" styleClass="inputwide" required="true">
                                 <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>>
+                            </h:inputText>
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msg.lblNotation}"/>
+                                <h:outputText value="Name Kostenstelle"/>
                             </f:facet>
-                            <h:inputText value="" styleClass="col04em" required="true">
+                            <h:inputText value="" styleClass="inputwide" required="true">
                                 <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>>
+                            </h:inputText>
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msg.lblNubId}"/>
+                                <h:outputText value="Kostenvolumen"/>
                             </f:facet>
-                            <h:inputText value="" styleClass="col04em" required="true">
+                            <h:inputText value="" styleClass="inputwide" required="true">
                                 <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>>
+                            </h:inputText>
                         </h:column>
 
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msg.lblForm}"/>
+                                <h:outputText value="Anzahl Vollkräfte d. Ärztlichen Dienstes"/>
                             </f:facet>
-                            <h:inputText value="" styleClass="col04em" required="true">
+                            <h:inputText value="" styleClass="inputwide" required="true">
                                 <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>>
+                            </h:inputText>
                         </h:column>
                         
                     </h:dataTable>
