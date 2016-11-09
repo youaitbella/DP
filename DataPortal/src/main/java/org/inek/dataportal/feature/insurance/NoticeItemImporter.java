@@ -152,9 +152,11 @@ public class NoticeItemImporter {
             dataString = "1";
         }
         try {
-            int quantity = Integer.parseInt(dataString);
+            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
+            nf.setParseIntegerOnly(true);
+            int quantity = (int)(long)nf.parse(dataString);
             item.setQuantity(quantity);
-        } catch (NumberFormatException ex) {
+        } catch (ParseException ex) {
             throw new IllegalArgumentException("[" + Utils.getMessage("lblCount") + "] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
