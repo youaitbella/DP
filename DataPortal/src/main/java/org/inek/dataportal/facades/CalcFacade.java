@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.calc.CalcBasicsPepp;
+import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -45,11 +46,32 @@ public class CalcFacade extends AbstractDataAccess {
             statementOfParticipance.setStatus(WorkflowStatus.New);
         }
 
+        removeEmptyContacts(statementOfParticipance);
+
         if (statementOfParticipance.getId() == -1) {
             persist(statementOfParticipance);
             return statementOfParticipance;
         }
-        return merge(statementOfParticipance);
+        // whilst persist stores all contacts of the list,
+        // merge only stores the first new contact (and replaces the other new by a copy of the first)
+        // this seems to be a bug?
+        // workarround: separately persist all new contacts before
+        for (CalcContact contact : statementOfParticipance.getContacts()) {
+            contact.setStatementOfParticipanceId(statementOfParticipance.getId());
+            if (contact.getId() < 0){persist(contact);}
+        }
+        StatementOfParticipance statement = merge(statementOfParticipance);
+        return statement;
+    }
+
+    public void removeEmptyContacts(StatementOfParticipance statement) {
+        List<CalcContact> contacts = statement.getContacts();
+        for (int i = contacts.size() - 1; i >= 0; i--) {
+            CalcContact contact = contacts.get(i);
+            if (contact.isEmpty()) {
+                contacts.remove(i);
+            }
+        }
     }
 
     public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -407,7 +408,21 @@ public class StatementOfParticipance implements Serializable{
         _consultantMail = consultantMail;
     }
     // </editor-fold>
-   
+
+    // <editor-fold defaultstate="collapsed" desc="Property Contacts">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL , orphanRemoval = true)
+    @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
+    private List<CalcContact> _contacts = new Vector<>();
+
+    public List<CalcContact> getContacts() {
+        return _contacts;
+    }
+
+    public void setContacts(List<CalcContact> contacts) {
+        _contacts = contacts;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
@@ -435,20 +450,6 @@ public class StatementOfParticipance implements Serializable{
     
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Contacts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
-    @OrderBy("_lastName")
-    private List<CalcContact> _contacts;
-
-    public List<CalcContact> getContacts() {
-        return _contacts;
-    }
-
-    public void setContacts(List<CalcContact> contacts) {
-        _contacts = contacts;
-    }
-    
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
