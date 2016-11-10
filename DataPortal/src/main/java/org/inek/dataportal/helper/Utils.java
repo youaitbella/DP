@@ -310,4 +310,14 @@ public class Utils {
         }
     }
 
+    public static String convertFromUtf8(String line) {
+        return line
+                .replace("\u00c3\u201e", "Ä")
+                .replace("\u00c3\u2013", "Ö")
+                .replace("\u00c3\u0153", "Ü")
+                .replace("\u00c3\u00a4", "ä")
+                .replace("\u00c3\u00b6", "ö")
+                .replace("\u00c3\u00bc", "ü")
+                .replace("\u00c3\u0178", "ß");
+    }
 }

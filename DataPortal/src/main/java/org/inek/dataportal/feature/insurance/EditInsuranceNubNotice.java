@@ -17,7 +17,6 @@ import javax.ejb.EJBException;
 import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
@@ -32,7 +31,6 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
-import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
@@ -300,6 +298,13 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         try {
             if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will corrupted
+                // we simply replace them
+                // drawbacks: only converts the German Umlauts, no other chars, fails for other charcter sets then mentionend
+                // alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
                 Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
@@ -307,7 +312,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 NoticeItemImporter itemImporter = _importProvider.get();
                 itemImporter.setNotice(_notice);
                 while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
                     if (!line.contains(";Form;Menge;Einheit;Anzahl;Preis;Entgelt")) {
                         itemImporter.tryImportLine(line);
                     }
@@ -317,5 +322,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         } catch (IOException | NoSuchElementException e) {
         }
     }
+
 
 }
