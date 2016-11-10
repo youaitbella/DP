@@ -46,8 +46,8 @@ public enum Pages {
     //
     PartCalculationHospital("/CalcHospital/PartCalculationHospital"),
     CalculationHospitalSummary("/CalcHospital/CalculationHospitalSummary"),
-    StatementOfParticipanceEditAddress("/CalcHospital/StatementOfParticipanceEditAddress"),
-    StatementOfParticipanceEditStatements("/CalcHospital/StatementOfParticipanceEditStatements"),
+    StatementOfParticipanceEditAddress("/CalcHospital/StatementOfParticipance/EditAddress"),
+    StatementOfParticipanceEditStatements("/CalcHospital/StatementOfParticipance/EditStatements"),
     // DRG calculation
     CalcDrgAdditionalInformationDiagnosticArea("/CalcHospital/Drg/AdditionalInformationDiagnosticArea"),
     CalcDrgAdditionalInformationherapeuticArea("/CalcHospital/Drg/AdditionalInformationTherapeuticArea"),
