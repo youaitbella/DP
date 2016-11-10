@@ -19,8 +19,9 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
-            <h:message for="idText" id="msgText" styleClass="errorMessage elementRight70"/>
-            <h:outputLabel styleClass="label30" value="#{cc.attrs.Label}:" />
+            <h:message for="idText" id="msgText" styleClass="errorMessage"/>
+            <h:outputLabel styleClass="label" value="#{cc.attrs.Label}:" />
+            <br/>
             <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
                          styleClass="#{cc.attrs.styleClass} #{cc.attrs.Required ? 'required' : ''}" 
                          value="#{cc.attrs.Text}" 

@@ -802,6 +802,22 @@ select:active, select:focus{
     width: 16em;
 }
 
+.col25em{
+    width: 25em;
+}
+
+.col40em{
+    width: 40em;
+}
+
+.col45em{
+    width: 45em;
+}
+
+.col50em{
+    width: 50em;
+}
+
 .colValue{
 }
 

@@ -23,7 +23,6 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -80,6 +79,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_statement.getContacts().isEmpty()) {
             _statement.getContacts().add(new CalcContact());
         }
+        if (_statement.getContacts().stream().filter(c -> c.isConsultant()).count() == 0) {
+            CalcContact contact = new CalcContact();
+            contact.setConsultant(true);
+            _statement.getContacts().add(contact);
+        }
+        
         changedIk();
     }
 
@@ -110,6 +115,22 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public void setStatement(StatementOfParticipance statement) {
         _statement = statement;
+    }
+
+    public List<CalcContact> getContacts() {
+        return _statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList());
+    }
+
+    public void setContacts(List<CalcContact> contacts) {
+        System.out.println("contacts " + contacts.size());
+    }
+
+    public List<CalcContact> getConsultants() {
+        return _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
+    }
+
+    public void setConsultants(List<CalcContact> contacts) {
+        System.out.println("contacts " + contacts.size());
     }
 
     // </editor-fold>

@@ -7,6 +7,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
@@ -27,7 +28,7 @@
 
                     <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Dieser Kooperationspartner hat noch keine Kalkulationsdaten zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <inek:CalcHospitalNode parentNode="#{accountNode}" isSealed="false" 
+                        <calc:CalcHospitalNode parentNode="#{accountNode}" isSealed="false" 
                                                showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
                                                rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
                     </div>
@@ -59,7 +60,7 @@
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
                             <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <inek:CalcHospitalNode parentNode="#{accountNode}" 
+                                <calc:CalcHospitalNode parentNode="#{accountNode}" 
                                                       isSealed="true" 
                                                       showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
                                                       rendered="#{accountNode.expanded}"/>
