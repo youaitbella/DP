@@ -222,6 +222,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();

@@ -212,7 +212,6 @@ public class CalcContact implements Serializable {
         hash = 71 * hash + (this._inv ? 1 : 0);
         hash = 71 * hash + (this._tpg ? 1 : 0);
         hash = 71 * hash + (this._consultant ? 1 : 0);
-        hash = 71 * hash + (this._mailDistribution ? 1 : 0);
         return hash;
     }
     
@@ -249,9 +248,6 @@ public class CalcContact implements Serializable {
         if (this._consultant != other._consultant) {
             return false;
         }
-        if (this._mailDistribution != other._mailDistribution) {
-            return false;
-        }
         if (!Objects.equals(this._title, other._title)) {
             return false;
         }
@@ -283,7 +279,7 @@ public class CalcContact implements Serializable {
         return _id < 0 && getGender() == null 
                 && (_title + _firstName + _lastName + _phone + _mail).length() == 0 
                 && !_drg && !_psy && !_inv && ! _tpg 
-                && !_consultant;
+                && !_consultant ;
     }
     
 }

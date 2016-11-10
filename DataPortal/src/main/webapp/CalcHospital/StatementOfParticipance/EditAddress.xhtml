@@ -111,6 +111,24 @@
 
         </h:dataTable>
 
+        <h2>#{msg.lblExternalSupport}</h2>
+        
+        
+            <div class="inputPart">
+                <h:panelGrid styleClass="inlineBlock">
+                <h:outputLabel styleClass="label" for="withCconsultant" value="#{msg.lblCalcUseConsultant}"/>
+                </h:panelGrid>
+                
+                <h:selectOneRadio styleClass="inlineBlock" id="withCconsultant" 
+                                  value="#{editStatementOfParticipance.statement}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
+                    <f:ajax render="@form :logout:remaining"/>
+                </h:selectOneRadio>
+            </div>
+        
+
+
         <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                        rendered="#{!editStatementOfParticipance.readOnly}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addContact}"/>
