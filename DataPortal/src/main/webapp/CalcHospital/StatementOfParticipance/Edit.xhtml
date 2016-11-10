@@ -10,25 +10,28 @@
                 >
 
     <ui:define name="content">
-        <h:form id="form">
+
+        <h:form>
             <h1><h:commandLink value="#{msg.nameCALCULATION_HOSPITAL}" action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
-            
+
             <div class="tab">
                 <ul class="tab">
                     <c:forEach items="#{editStatementOfParticipance.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" action="#{editStatementOfParticipance.changeTabPage(topic.key)}"
-                                           immediate="true">
-                            </h:commandLink>
+                                       immediate="true">
+                        </h:commandLink>
                         </li>
                     </c:forEach>
                 </ul>
             </div>
-            
-            <div class="edit">
-                <!--<ui:include src="# {editDrgProposal.part}"/>-->
-                <ui:insert name="editContent">Content</ui:insert>
+        </h:form>
 
+        <div class="edit">
+            <!--<ui:include src="# {editDrgProposal.part}"/>-->
+            <ui:insert name="editContent">Content</ui:insert>
+
+            <h:form>
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editStatementOfParticipance.save}"
@@ -61,8 +64,8 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                 </div>
-            </div>
-        </h:form>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>
