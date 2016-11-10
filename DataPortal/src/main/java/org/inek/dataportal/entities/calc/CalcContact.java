@@ -195,18 +195,6 @@ public class CalcContact implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property IsMailDistribution">
-    @Column(name = "coIsMailDistribution")
-    private boolean _mailDistribution;
-    public boolean isMailDistribution() {
-        return _mailDistribution;
-    }
-
-    public void setMailDistribution(boolean mailDistribution) {
-        _mailDistribution = mailDistribution;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
@@ -295,7 +283,7 @@ public class CalcContact implements Serializable {
         return _id < 0 && getGender() == null 
                 && (_title + _firstName + _lastName + _phone + _mail).length() == 0 
                 && !_drg && !_psy && !_inv && ! _tpg 
-                && !_consultant && !_mailDistribution;
+                && !_consultant;
     }
     
 }
