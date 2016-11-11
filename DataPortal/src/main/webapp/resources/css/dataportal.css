@@ -643,6 +643,17 @@ select:active, select:focus{
     text-decoration: none;
 }
 
+.blockHeader {
+    display: inline-block;
+    width: 97%;
+    padding: 0.1em 1.5%;
+    background-color: #043358;
+    color: white;
+    text-decoration: none;
+    margin-top: 0.5em;
+    font-weight: bold;
+}
+
 .areaNarrowLow {
     min-width: 100px;
     width: 100px;
@@ -1153,6 +1164,10 @@ div.modelIntYesNo {
 
 .marginBottom {
     margin-bottom: 5px;
+}
+
+.paddingTop {
+    padding-bottom: 1em;
 }
 
 .paddingBottom {

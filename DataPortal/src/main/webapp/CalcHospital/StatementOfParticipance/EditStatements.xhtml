@@ -11,7 +11,7 @@
         <h2>#{msg.headStatementProvisionOfData}</h2>
 
         <h:form>
-            <h:outputLabel styleClass="label" value="#{msg.lblStatementProvisionOfData}"/>
+            <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
 
             <div class="inputPart">
                 <h:panelGrid class="inlineBlock element70">
@@ -65,10 +65,32 @@
 
         <h:form id="drgCalc" rendered="#{editStatementOfParticipance.statement.drgCalc}">
             <h2>#{msg.lblDrgCalculation}</h2>
+
+            <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
+
+            <div class="inputPart">
+                <h:panelGrid class="inlineBlock element70">
+                    <h:outputLabel value="#{msg.lblStatementSingleCostAttribution}"/>
+                </h:panelGrid>
+                <h:selectOneRadio styleClass="inlineBlock"
+                                  value="#{editStatementOfParticipance.statement.clinicalDistributionModelDrg}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:selectOneRadio>
+            </div>
+            
+
+            <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementOverlayer}"/>
+            
         </h:form>
 
         <h:form id="psyCalc" rendered="#{editStatementOfParticipance.statement.psyCalc}">
             <h2>#{msg.lblPsyCalculation}</h2>
+
+            <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
+            <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementOverlayer}"/>
+            
         </h:form>
 
     </ui:define>
