@@ -171,24 +171,24 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelDrg">
     @Column(name = "sopCdmDrg")
-    private boolean _clinicalDistributionModelDrg;
-    public boolean isClinicalDistributionModelDrg() {
+    private int _clinicalDistributionModelDrg = -1;
+    public int getClinicalDistributionModelDrg() {
         return _clinicalDistributionModelDrg;
     }
 
-    public void setClinicalDistributionModelDrg(boolean clinicalDistributionModelDrg) {
+    public void setClinicalDistributionModelDrg(int clinicalDistributionModelDrg) {
         _clinicalDistributionModelDrg = clinicalDistributionModelDrg;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelPsy">
     @Column(name = "sopCdmPsy")
-    private boolean _clinicalDistributionModelPsy;
-    public boolean isClinicalDistributionModelPsy() {
+    private int _clinicalDistributionModelPsy = -1;
+    public int getClinicalDistributionModelPsy() {
         return _clinicalDistributionModelPsy;
     }
 
-    public void setClinicalDistributionModelPsy(boolean clinicalDistributionModelPsy) {
+    public void setClinicalDistributionModelPsy(int clinicalDistributionModelPsy) {
         _clinicalDistributionModelPsy = clinicalDistributionModelPsy;
     }
     // </editor-fold>

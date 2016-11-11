@@ -34,6 +34,25 @@
                 <br/>
                 <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly}"/>
             </div>
+
+            <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" value="#{editStatementOfParticipance.statement.drgCalc}"/>
+            </div>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" value="#{editStatementOfParticipance.statement.psyCalc}"/>
+            </div>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" value="#{editStatementOfParticipance.statement.invCalc}"/>
+            </div>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" value="#{editStatementOfParticipance.statement.tpgCalc}"/>
+            </div>
+
         </h:form>
 
 
@@ -52,30 +71,21 @@
         <h2>#{msg.lblExternalSupport}</h2>
 
         <h:form styleClass="inputPart" id="consultantData">
-            <h:panelGrid styleClass="inlineBlock col45em">
-                <h:outputLabel styleClass="label" for="withCconsultant" value="#{msg.lblCalcUseConsultant}"/>
-            </h:panelGrid>
+            <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}" 
+                                     value="#{editStatementOfParticipance.statement.withConsultant}" 
+                                     labelStyle="col45em label" 
+                                     renderElement="@form"/>
 
-            <h:selectOneRadio styleClass="inlineBlock" id="withCconsultant" 
-                              value="#{editStatementOfParticipance.statement.withConsultant}" >
-                <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
-                <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
-                <f:ajax render="@form :logout:remaining"/>
-            </h:selectOneRadio>
 
             <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
-                <inek:LabeledText Label="#{msg.lblNameConsultant}" Required="true" Text="#{editStatementOfParticipance.statement.consultantCompany}" styleClass="col50em"/> 
+                <inek:LabeledText Label="#{msg.lblNameConsultant}" 
+                                  Required="true" 
+                                  Text="#{editStatementOfParticipance.statement.consultantCompany}" 
+                                  styleClass="col50em"/> 
 
-                <h:panelGrid styleClass="inlineBlock col45em">
-                    <h:outputLabel styleClass="label" for="mailDistribution" value="#{msg.lblCalcConsultantMailDistribution}"/>
-                </h:panelGrid>
-
-                <h:selectOneRadio styleClass="inlineBlock" id="mailDistribution" 
-                                  value="#{editStatementOfParticipance.statement.consultantSendMail}" >
-                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
-                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
-                    <f:ajax render="@this :logout:remaining"/>
-                </h:selectOneRadio>
+                <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
+                                         value="#{editStatementOfParticipance.statement.consultantSendMail}" 
+                                         labelStyle="col45em label"/>
 
                 <calc:CalcContactTable value="#{editStatementOfParticipance.consultants}" 
                                        readOnly="#{editStatementOfParticipance.readOnly}"

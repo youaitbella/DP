@@ -58,7 +58,9 @@ public class CalcFacade extends AbstractDataAccess {
         // workarround: separately persist all new contacts before
         for (CalcContact contact : statementOfParticipance.getContacts()) {
             contact.setStatementOfParticipanceId(statementOfParticipance.getId());
-            if (contact.getId() < 0){persist(contact);}
+            if (contact.getId() < 0) {
+                persist(contact);
+            }
         }
         StatementOfParticipance statement = merge(statementOfParticipance);
         return statement;
@@ -162,6 +164,22 @@ public class CalcFacade extends AbstractDataAccess {
             agreements.put((int) obj[0], (boolean) obj[1]);
         });
         return agreements;
+    }
+
+    public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
+        String sql = "select distinct cuIK\n"
+                + "from CallCenterDb.dbo.ccCustomer\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + " and sopStatusId != " + WorkflowStatus.Retired.getValue() + "\n"
+                + "where caHasAgreement = 1\n"
+                + "     and cuIk in (\n"
+                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "		union \n"
+                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "	) \n"
+                + "	and sopId is null";
+        Query query = getEntityManager().createNativeQuery(sql);
+        return new HashSet<>(query.getResultList());
     }
 
     public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {

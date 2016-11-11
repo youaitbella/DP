@@ -14,6 +14,8 @@
 
         <h1>#{msg.lblCalculationParticipance}</h1>
 
+        #{calcHospitalTreeHandler.refreshNodes()}
+
         <h:form id="form">
 
             <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="accountNode" >

@@ -13,6 +13,7 @@
         <h:commandLink action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" value="#{msg.lblCalculationParticipance}" immediate="true"/>
     </h2>
     <div class="paddingElement">
+        #{calcHospitalTreeHandler.refreshNodes()}
 
         <calc:CalcHospitalNode parentNode="#{calcHospitalTreeHandler.accountNode}" isSealed="false" 
                               showDelete="true" showSelectBox="false"

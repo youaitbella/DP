@@ -60,6 +60,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
+    
     @PostConstruct
     private void init() {
 
@@ -239,14 +240,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
-        Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
-        List<SelectItem> items = new ArrayList<>();
-        if (account.getIK() != null) {
-            iks.add(account.getIK());
-        }
+        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (_statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }
+
+        List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {
             items.add(new SelectItem(ik));
         }

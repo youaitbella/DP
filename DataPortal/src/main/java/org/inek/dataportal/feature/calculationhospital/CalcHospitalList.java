@@ -17,10 +17,13 @@ import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
@@ -50,10 +53,8 @@ public class CalcHospitalList {
             return false;
         }
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
-            Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-            Set<Integer> iks = _accountFacade.obtainIks4Accounts(accountIds);
-            Map<Integer, Boolean> agreement = _calcFacade.getAgreement(iks);
-            _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, agreement.values().stream().anyMatch(a -> a));
+            Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
     }
@@ -111,8 +112,28 @@ public class CalcHospitalList {
         return "";
     }
 
-    public String deleteHospitalInfo(int id) {
+    public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
+        switch (hospitalInfo.getType()) {
+            case 0:
+                deleteStatementOfParticipance(hospitalInfo);
+                break;
+            case 1:
+                
+            case 2:
+                
+        }
         return "";
+    }
+
+    private void deleteStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
+        StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
+        if (statement.getStatus().getValue() >= WorkflowStatus.Provided.getValue()){
+            statement.setStatus(WorkflowStatus.Retired);
+            _calcFacade.saveStatementOfParticipance(statement);
+        }else{
+            _calcFacade.remove(statement);
+        }
+
     }
 
     public String editHospitalInfo(int type) {
@@ -121,10 +142,11 @@ public class CalcHospitalList {
             case 0:
                 return Pages.StatementOfParticipanceEditAddress.URL();
             case 1:
-                return Pages.StatementOfParticipanceEditAddress.URL();
+                return Pages.CalcDrgAdditionalInformationDiagnosticArea.URL();
             case 2:
                 return Pages.StatementOfParticipanceEditAddress.URL();
         }
         return "";
     }
+
 }
