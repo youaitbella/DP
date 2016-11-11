@@ -72,7 +72,7 @@
                     </h:dataTable>
 
                     <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" render="@form :logout:remaining"/>
+                        <f:ajax event="click" listener="#{editCalcBasicsDrg.addNewAdditionInformationDrg()}" render="@form :logout:remaining"/>
                     </h:commandLink>
                 </h:form>
             </div>

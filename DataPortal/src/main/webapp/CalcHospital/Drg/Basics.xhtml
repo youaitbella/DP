@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1><h:commandLink value="#{msg.lblCalcBasicDrg}" action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+            
+            <ui:include src="../CalcMenu.xhtml" />
+            
+            <div class="edit">
+                <h:form id="messageForm">
+                    <div class="inputPart">
+                        <h:outputLabel styleClass="label" for="ik">
+                            IK:
+                        </h:outputLabel><br/>
+                        <h:selectOneMenu styleClass="input" id="ik" value="#{editCalcDrg.basicIk}" required="true">
+                            <f:selectItems value="#{editCalcDrg.calcIks}" />
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                            <f:ajax event="change" render="@this :logout:remaining" />
+                        </h:selectOneMenu>
+                    </div>
+                </h:form>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

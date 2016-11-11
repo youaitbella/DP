@@ -8,11 +8,16 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -111,6 +116,22 @@ public class CalcBasicsDrg implements Serializable {
     public void setLastChanged(Date lastChanged) {
         _lastChanged = lastChanged;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="AdditionalInformationDrg">
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "aiId", referencedColumnName = "bdId")
+    private List<AdditionalInformationDrg> _additionalInformationDrg;
+
+    public List<AdditionalInformationDrg> getAdditionalInformationDrg() {
+        return _additionalInformationDrg;
+    }
+
+    public void setAdditionalInformationDrg(List<AdditionalInformationDrg> _additionalInformationDrg) {
+        this._additionalInformationDrg = _additionalInformationDrg;
+    }
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">

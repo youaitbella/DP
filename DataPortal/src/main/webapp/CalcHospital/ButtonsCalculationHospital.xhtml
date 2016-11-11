@@ -13,7 +13,7 @@
                        action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewStatementOfParticipance}"
-                       disabled="#{!calcHospitalList.newStatementOfParticipanceAllowed}">
+                       >
             <f:param name="id" value="new"/>
         </h:commandLink>
 
@@ -21,6 +21,7 @@
                        action="#{calcHospitalList.newCalculationBasicsDrg}"
                        immediate="true"
                        value="#{msg.btnNewCalculationBasicsDrg}"
+                       disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}"
                        >
             <f:param name="id" value="new"/>
         </h:commandLink>

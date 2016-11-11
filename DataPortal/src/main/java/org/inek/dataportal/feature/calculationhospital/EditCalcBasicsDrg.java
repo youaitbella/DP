@@ -21,6 +21,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.AdditionalInformationDrg;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
@@ -253,8 +254,5 @@ public class EditCalcBasicsDrg extends AbstractEditController {
     }
 
 
-// </editor-fold>
-    
-// <editor-fold defaultstate="collapsed" desc="Tab Statements">
 // </editor-fold>
 }
