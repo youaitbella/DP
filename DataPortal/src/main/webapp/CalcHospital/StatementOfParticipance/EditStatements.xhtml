@@ -8,35 +8,68 @@
 
     <ui:define name="editContent">
 
-        <h2>#{msg.headStatementProvisionOfData} (#{msg.lblYearData} #{editStatementOfParticipance.statement.dataYear})</h2>
+        <h2>#{msg.headStatementProvisionOfData}</h2>
 
-        <h:outputLabel styleClass="label" value="#{msg.lblStatementProvisionOfData}"/>
+        <h:form>
+            <h:outputLabel styleClass="label" value="#{msg.lblStatementProvisionOfData}"/>
 
-        <div class="inputPart">
-            <h:panelGrid class="inlineBlock element70">
-                <h:outputLabel value="#{msg.lblStatementDrg}"/>
-            </h:panelGrid>
-            <h:selectOneRadio styleClass="inlineBlock"
-                              required="true"
-                              value="#{editStatementOfParticipance.statement.drgCalc}" >
-                <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="True"/>
-                <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="False" />
-                <f:ajax render="@this :logout:remaining"/>
-            </h:selectOneRadio>
-        </div>
+            <div class="inputPart">
+                <h:panelGrid class="inlineBlock element70">
+                    <h:outputLabel value="#{msg.lblStatementDrg}"/>
+                </h:panelGrid>
+                <h:selectOneRadio styleClass="inlineBlock"
+                                  value="#{editStatementOfParticipance.statement.drgCalc}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+                    <f:ajax render="@all :logout:remaining"/>
+                </h:selectOneRadio>
+            </div>
 
-        <div class="inputPart">
-            <h:panelGrid class="inlineBlock element70">
-                <h:outputLabel value="#{msg.lblStatementPepp}"/>
-            </h:panelGrid>
-            <h:selectOneRadio styleClass="inlineBlock"
-                              required="true"
-                              value="#{editStatementOfParticipance.statement.psyCalc}" >
-                <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
-                <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
-                <f:ajax render="@this :logout:remaining"/>
-            </h:selectOneRadio>
-        </div>
+            <div class="inputPart">
+                <h:panelGrid class="inlineBlock element70">
+                    <h:outputLabel value="#{msg.lblStatementPepp}"/>
+                </h:panelGrid>
+                <h:selectOneRadio styleClass="inlineBlock"
+                                  value="#{editStatementOfParticipance.statement.psyCalc}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+                    <f:ajax render="@all :logout:remaining"/>
+                </h:selectOneRadio>
+            </div>
+
+            <div class="inputPart">
+                <h:panelGrid class="inlineBlock element70">
+                    <h:outputLabel value="#{msg.lblStatementInv}"/>
+                </h:panelGrid>
+                <h:selectOneRadio styleClass="inlineBlock"
+                                  value="#{editStatementOfParticipance.statement.invCalc}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:selectOneRadio>
+            </div>
+
+            <div class="inputPart">
+                <h:panelGrid class="inlineBlock element70">
+                    <h:outputLabel value="#{msg.lblStatementTpg}"/>
+                </h:panelGrid>
+                <h:selectOneRadio styleClass="inlineBlock"
+                                  value="#{editStatementOfParticipance.statement.tpgCalc}" >
+                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
+                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:selectOneRadio>
+            </div>
+
+        </h:form>
+
+        <h:form id="drgCalc" rendered="#{editStatementOfParticipance.statement.drgCalc}">
+            <h2>#{msg.lblDrgCalculation}</h2>
+        </h:form>
+
+        <h:form id="psyCalc" rendered="#{editStatementOfParticipance.statement.psyCalc}">
+            <h2>#{msg.lblPsyCalculation}</h2>
+        </h:form>
 
     </ui:define>
 </ui:composition>

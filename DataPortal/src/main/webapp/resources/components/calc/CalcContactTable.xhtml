@@ -12,6 +12,7 @@
     <cc:interface>
         <cc:attribute name="value"/>
         <cc:attribute name="readOnly" default="false"/>
+        <cc:attribute name="enableDelete" default="true"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -20,11 +21,11 @@
         <h:dataTable value="#{cc.attrs.value}" 
                      var="contact" 
                      width="100%" rowClasses="row1, row2" 
-                     columnClasses="colIcon, volValue, col04em, col04em, volValue, colValue">
+                     columnClasses="colIcon, volValue, col04em, col04em, volValue, colValue, colValue">
 
             <h:column>
                 <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" 
-                               rendered="#{!cc.attrs.readOnly}"
+                               rendered="#{!cc.attrs.readOnly and cc.attrs.enableDelete}"
                                immediate="true" styleClass="colIcon">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <cb:confirmDelete/>

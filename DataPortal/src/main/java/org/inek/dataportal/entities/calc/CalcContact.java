@@ -278,8 +278,7 @@ public class CalcContact implements Serializable {
     public boolean isEmpty() {
         return _id < 0 && getGender() == null 
                 && (_title + _firstName + _lastName + _phone + _mail).length() == 0 
-                && !_drg && !_psy && !_inv && ! _tpg 
-                && !_consultant ;
+                && !_drg && !_psy && !_inv && ! _tpg; 
     }
     
 }

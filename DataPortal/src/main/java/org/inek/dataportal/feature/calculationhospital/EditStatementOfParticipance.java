@@ -121,16 +121,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return _statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList());
     }
 
-    public void setContacts(List<CalcContact> contacts) {
-        System.out.println("contacts " + contacts.size());
-    }
-
     public List<CalcContact> getConsultants() {
         return _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
-    }
-
-    public void setConsultants(List<CalcContact> contacts) {
-        System.out.println("contacts " + contacts.size());
     }
 
     // </editor-fold>
