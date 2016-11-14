@@ -11,8 +11,9 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="value"/>
-        <cc:attribute name="readOnly" default="false"/>
+        <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="enableDelete" default="true"/>
+        <cc:attribute name="allowDomain" default="true"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -25,7 +26,7 @@
 
             <h:column>
                 <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" 
-                               rendered="#{!cc.attrs.readOnly and cc.attrs.enableDelete}"
+                               rendered="#{!cc.attrs.readonly and cc.attrs.enableDelete}"
                                immediate="true" styleClass="colIcon">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <cb:confirmDelete/>
@@ -34,7 +35,7 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblMail}</f:facet>
-                <inek:InputTextWithMessage id="contactMail" value="#{contact.mail}" readOnly="#{cc.attrs.readOnly}" styleClass="fullWidth" required="true">
+                <inek:InputTextWithMessage id="contactMail" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth" required="true">
                     <f:validator validatorId="EmailValidator" for="contactMail"/>
                 </inek:InputTextWithMessage>
             </h:column>
@@ -53,42 +54,42 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblTitle}</f:facet>
-                <inek:InputTextWithMessage id="contactTitle" value="#{contact.title}" readOnly="#{cc.attrs.readOnly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage id="contactTitle" value="#{contact.title}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblFirstName}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.firstName}" readOnly="#{cc.attrs.readOnly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.firstName}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblLastName}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.lastName}" readOnly="#{cc.attrs.readOnly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.lastName}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblPhone}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.phone}" readOnly="#{cc.attrs.readOnly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.phone}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblDrg}</f:facet>
-                <inek:Checkbox value="#{contact.drg}" readOnly="#{cc.attrs.readOnly}"/>
+                <inek:Checkbox value="#{contact.drg}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblPsy}</f:facet>
-                <inek:Checkbox value="#{contact.psy}" readOnly="#{cc.attrs.readOnly}"/>
+                <inek:Checkbox value="#{contact.psy}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblInv}</f:facet>
-                <inek:Checkbox value="#{contact.inv}" readOnly="#{cc.attrs.readOnly}"/>
+                <inek:Checkbox value="#{contact.inv}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblTpg}</f:facet>
-                <inek:Checkbox value="#{contact.tpg}" readOnly="#{cc.attrs.readOnly}"/>
+                <inek:Checkbox value="#{contact.tpg}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
             </h:column>
 
         </h:dataTable>

@@ -10,7 +10,7 @@
         <cc:attribute name="value"/>
         <cc:attribute name="required" default="false"/>
         <cc:attribute name="styleClass" default=""/>
-        <cc:attribute name="readOnly" default="false"/>
+        <cc:attribute name="readonly" default="false"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -19,7 +19,7 @@
         <h:inputText id="text" 
                      value="#{cc.attrs.value}" 
                      styleClass="#{cc.attrs.styleClass}"                          
-                     readonly="#{cc.attrs.readOnly}"
+                     readonly="#{cc.attrs.readonly}"
                      required="#{cc.attrs.required}"
                      requiredMessage="#{msg.msgValueNeeded}">
             <f:ajax render="@this :logout:remaining message"/>

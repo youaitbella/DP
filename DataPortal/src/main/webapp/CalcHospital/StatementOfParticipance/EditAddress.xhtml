@@ -38,19 +38,19 @@
             <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" value="#{editStatementOfParticipance.statement.drgCalc}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" value="#{editStatementOfParticipance.statement.drgCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" value="#{editStatementOfParticipance.statement.psyCalc}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" value="#{editStatementOfParticipance.statement.psyCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" value="#{editStatementOfParticipance.statement.invCalc}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" value="#{editStatementOfParticipance.statement.invCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" value="#{editStatementOfParticipance.statement.tpgCalc}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" value="#{editStatementOfParticipance.statement.tpgCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
         </h:form>
@@ -59,7 +59,7 @@
         <h2>#{msg.lblContactPerson}</h2>
 
         <h:form>
-            <calc:CalcContactTable value="#{editStatementOfParticipance.contacts}" readOnly="#{editStatementOfParticipance.readOnly}"/>
+            <calc:CalcContactTable value="#{editStatementOfParticipance.contacts}" readonly="#{editStatementOfParticipance.readOnly}"/>
 
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editStatementOfParticipance.readOnly}">
@@ -74,21 +74,25 @@
             <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}" 
                                      value="#{editStatementOfParticipance.statement.withConsultant}" 
                                      labelStyle="col45em label" 
+                                     readonly="#{editStatementOfParticipance.readOnly}"
                                      renderElement="@form"/>
 
 
             <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
                 <inek:LabeledText Label="#{msg.lblNameConsultant}" 
                                   Required="true" 
+                                  readonly="#{editStatementOfParticipance.readOnly}"
                                   Text="#{editStatementOfParticipance.statement.consultantCompany}" 
                                   styleClass="col50em"/> 
 
                 <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
                                          value="#{editStatementOfParticipance.statement.consultantSendMail}" 
+                                         readonly="#{editStatementOfParticipance.readOnly}"
                                          labelStyle="col45em label"/>
 
                 <calc:CalcContactTable value="#{editStatementOfParticipance.consultants}" 
-                                       readOnly="#{editStatementOfParticipance.readOnly}"
+                                       readonly="#{editStatementOfParticipance.readOnly}"
+                                       allowDomain="false"
                                        enableDelete="false"/>
 
             </div>
