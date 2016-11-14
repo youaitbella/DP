@@ -13,7 +13,11 @@
         <cc:attribute name="value"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="enableDelete" default="true"/>
-        <cc:attribute name="allowDomain" default="true"/>
+        <cc:attribute name="queryDomain" default="true"/>
+        <cc:attribute name="allowDrg" default="true"/>
+        <cc:attribute name="allowPsy" default="true"/>
+        <cc:attribute name="allowInv" default="true"/>
+        <cc:attribute name="allowTpg" default="true"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -72,24 +76,24 @@
                 <inek:InputTextWithMessage value="#{contact.phone}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblDrg}</f:facet>
-                <inek:Checkbox value="#{contact.drg}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
+                <inek:Checkbox value="#{contact.drg}" readonly="#{cc.attrs.readonly or !cc.attrs.allowDrg}"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblPsy}</f:facet>
-                <inek:Checkbox value="#{contact.psy}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
+                <inek:Checkbox value="#{contact.psy}" readonly="#{cc.attrs.readonly or !cc.attrs.allowPsy}"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblInv}</f:facet>
-                <inek:Checkbox value="#{contact.inv}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
+                <inek:Checkbox value="#{contact.inv}" readonly="#{cc.attrs.readonly or !cc.attrs.allowInv}"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblTpg}</f:facet>
-                <inek:Checkbox value="#{contact.tpg}" readonly="#{cc.attrs.readonly}" rendered="#{cc.attrs.allowDomain}"/>
+                <inek:Checkbox value="#{contact.tpg}" readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg}"/>
             </h:column>
 
         </h:dataTable>

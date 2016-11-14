@@ -23,10 +23,9 @@
         <h:selectOneRadio styleClass="inlineBlock" id="radio" 
                           value="#{cc.attrs.value}"
                           disabled="#{cc.attrs.readonly}">
-            <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="true"/>
-            <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="false" />
+            <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
+            <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
             <f:ajax render="#{cc.attrs.renderElement} :logout:remaining"/>
         </h:selectOneRadio>
-
     </cc:implementation>
 </html>

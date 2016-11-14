@@ -7,7 +7,8 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="editContent">
 
@@ -17,19 +18,12 @@
             <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
 
             <div class="inputPart">
-                <h:panelGrid class="inlineBlock element70">
-                    <h:outputLabel value="#{msg.lblStatementSingleCostAttribution}"/>
-                </h:panelGrid>
-                <h:selectOneRadio styleClass="inlineBlock"
-                                  value="#{editStatementOfParticipance.statement.clinicalDistributionModelDrg}" >
-                    <f:selectItem itemLabel="#{msg.lblYes} &nbsp;" itemValue="1"/>
-                    <f:selectItem itemLabel="#{msg.lblNo} &nbsp;" itemValue="0" />
-                    <f:ajax render="@this :logout:remaining"/>
-                </h:selectOneRadio>
+                <inek:TriStateRadioButton label="#{msg.lblStatementSingleCostAttributionDrg}" value="#{editStatementOfParticipance.statement.clinicalDistributionModelDrg}"/>
             </div>
-            
 
-            <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementOverlayer}"/>
+            <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearDrg}"
+                                valueText="#{editStatementOfParticipance.statement.multiyearDrgText}"
+                                readonly="#{editStatementOfParticipance.readOnly}"/>
             
         </h:form>
 
@@ -37,8 +31,15 @@
             <h2>#{msg.lblPsyCalculation}</h2>
 
             <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
-            <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementOverlayer}"/>
-            
+
+            <div class="inputPart">
+                <inek:TriStateRadioButton label="#{msg.lblStatementSingleCostAttributionPsy}" value="#{editStatementOfParticipance.statement.clinicalDistributionModelPsy}"/>
+            </div>
+
+            <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearPsy}"
+                                valueText="#{editStatementOfParticipance.statement.multiyearPsyText}"
+                                readonly="#{editStatementOfParticipance.readOnly}"/>
+
         </h:form>
 
     </ui:define>

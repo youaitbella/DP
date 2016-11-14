@@ -18,8 +18,8 @@
         <cc:editableValueHolder name="#{cc.id}" targets="box"/>
         <h:selectBooleanCheckbox id="box" 
                                  value="#{cc.attrs.value}" 
-                                 styleClass="#{cc.attrs.styleClass}"                          
-                                 readonly="#{cc.attrs.readonly}">
+                                 styleClass="#{cc.attrs.styleClass}"  
+                                 disabled="#{cc.attrs.readonly}">
             <f:ajax render="@this :logout:remaining msgContactDrg"/>
         </h:selectBooleanCheckbox>
     </cc:implementation>

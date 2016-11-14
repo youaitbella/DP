@@ -38,19 +38,31 @@
             <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" value="#{editStatementOfParticipance.statement.drgCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
+                                         value="#{editStatementOfParticipance.statement.drgCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" value="#{editStatementOfParticipance.statement.psyCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
+                                         value="#{editStatementOfParticipance.statement.psyCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" value="#{editStatementOfParticipance.statement.invCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
+                                         value="#{editStatementOfParticipance.statement.invCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
             <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" value="#{editStatementOfParticipance.statement.tpgCalc}" readonly="#{editStatementOfParticipance.readOnly}"/>
+                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
+                                         value="#{editStatementOfParticipance.statement.tpgCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
             </div>
 
         </h:form>
@@ -59,7 +71,12 @@
         <h2>#{msg.lblContactPerson}</h2>
 
         <h:form>
-            <calc:CalcContactTable value="#{editStatementOfParticipance.contacts}" readonly="#{editStatementOfParticipance.readOnly}"/>
+            <calc:CalcContactTable value="#{editStatementOfParticipance.contacts}" 
+                                   allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
+                                   allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
+                                   allowInv="#{editStatementOfParticipance.statement.invCalc}"
+                                   allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
+                                   readonly="#{editStatementOfParticipance.readOnly}"/>
 
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editStatementOfParticipance.readOnly}">
@@ -92,7 +109,7 @@
 
                 <calc:CalcContactTable value="#{editStatementOfParticipance.consultants}" 
                                        readonly="#{editStatementOfParticipance.readOnly}"
-                                       allowDomain="false"
+                                       queryDomain="false"
                                        enableDelete="false"/>
 
             </div>
