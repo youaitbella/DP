@@ -23,6 +23,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -30,8 +31,10 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.nub.EditNubRequest;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -211,8 +214,49 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     private boolean statementIsComplete() {
-        // todo
-        return true;
+        MessageContainer message = composeMissingFieldsMessage(_statement);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            setActiveTopic(message.getTopic());
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
+    }
+    public MessageContainer composeMissingFieldsMessage(StatementOfParticipance statement) {
+        MessageContainer message = new MessageContainer();
+        String ik = "";
+        if (statement.getIk() != -1) {
+            ik = "" + statement.getIk();
+        }
+        checkField(message, ik, "lblIK", "form:ikMulti", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
+        checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1, "lblStatementSingleCostAttributionDrg", "form:xxx", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
+        return message;
+    }
+
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId, StatementOfParticipanceTabs tab) {
+        if (Utils.isNullOrEmpty(value)) {
+            applyMessageValues(message, msgKey, tab, elementId);
+        }
+    }
+
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, StatementOfParticipanceTabs tab) {
+        if (value == null
+                || minValue != null && value < minValue
+                || maxValue != null && value > maxValue) {
+            applyMessageValues(message, msgKey, tab, elementId);
+        }
+    }
+
+    private void applyMessageValues(MessageContainer message, String msgKey, StatementOfParticipanceTabs tab, String elementId) {
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        if (message.getTopic().isEmpty()) {
+            message.setTopic(tab.name());
+            message.setElementId(elementId);
+        }
     }
 
     public String requestApproval() {
