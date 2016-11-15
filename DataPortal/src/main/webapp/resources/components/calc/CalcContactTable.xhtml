@@ -39,7 +39,7 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblMail}</f:facet>
-                <inek:InputTextWithMessage id="contactMail" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth" required="true">
+                <inek:InputTextWithMessage id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth">
                     <f:validator validatorId="EmailValidator" for="contactMail"/>
                 </inek:InputTextWithMessage>
             </h:column>
@@ -63,17 +63,17 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblFirstName}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.firstName}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.firstName}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblLastName}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.lastName}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.lastName}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblPhone}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.phone}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.phone}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">

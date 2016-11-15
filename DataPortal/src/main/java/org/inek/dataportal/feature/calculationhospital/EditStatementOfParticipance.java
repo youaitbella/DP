@@ -63,7 +63,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     @PostConstruct
     private void init() {
 
@@ -88,7 +87,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             contact.setConsultant(true);
             _statement.getContacts().add(contact);
         }
-        
+
         changedIk();
     }
 
@@ -109,6 +108,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         Account account = _sessionController.getAccount();
         StatementOfParticipance statement = new StatementOfParticipance();
         statement.setAccountId(account.getId());
+        if (getIks().size() == 1){
+            statement.setIk((int) getIks().get(0).getValue());
+        }
         return statement;
     }
 
@@ -226,14 +228,55 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         return !message.containsMessage();
     }
+
     public MessageContainer composeMissingFieldsMessage(StatementOfParticipance statement) {
         MessageContainer message = new MessageContainer();
-        String ik = "";
-        if (statement.getIk() != -1) {
-            ik = "" + statement.getIk();
-        }
+
+        String ik = statement.getIk() < 0 ? "" : "" + statement.getIk();
         checkField(message, ik, "lblIK", "form:ikMulti", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
-        checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1, "lblStatementSingleCostAttributionDrg", "form:xxx", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
+
+        if (statement.isDrgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isDrg())) {
+            applyMessageValues(message, "lblNeedContactDrg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+        }
+        if (statement.isPsyCalc() && !statement.getContacts().stream().anyMatch(c -> c.isPsy())) {
+            applyMessageValues(message, "lblNeedContactPsy", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+        }
+        if (statement.isInvCalc() && !statement.getContacts().stream().anyMatch(c -> c.isInv())) {
+            applyMessageValues(message, "lblNeedContactInv", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+        }
+        if (statement.isTpgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isTpg())) {
+            applyMessageValues(message, "lblNeedContactTpg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+        }
+        if (statement.getContacts().stream()
+                .filter(c -> !c.isEmpty())
+                .anyMatch(c -> c.getFirstName().isEmpty() || c.getLastName().isEmpty() || c.getMail().isEmpty() || c.getPhone().isEmpty())) {
+            applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+        }
+        if (statement.isWithConsultant()) {
+            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "form:consultantCompany", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
+            List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
+            if (consultantContacts.isEmpty() || consultantContacts.get(0).isEmpty()) {
+                applyMessageValues(message, "lblNeedContactConsultant", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contactConsultant");
+            }
+        }
+
+        if (statement.isDrgCalc()) {
+            checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
+                    "lblStatementSingleCostAttributionDrg", "form:clinicalDistributionModelDrg",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
+            if (statement.getMultiyearDrg().equals("A") && statement.getMultiyearDrgText().isEmpty()) {
+                applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
+            }
+        }
+
+        if (statement.isPsyCalc()) {
+            checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
+                    "lblStatementSingleCostAttributionPsy", "form:clinicalDistributionModelPsy",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
+            if (statement.getMultiyearPsy().equals("A") && statement.getMultiyearPsyText().isEmpty()) {
+                applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
+            }
+        }
         return message;
     }
 
@@ -280,23 +323,27 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    public List<SelectItem> getIks() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        if (_statement.getIk() > 0) {
-            iks.add(_statement.getIk());
-        }
+    List<SelectItem> _iks;
 
-        List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
+    public List<SelectItem> getIks() {
+        if (_iks == null) {
+            Account account = _sessionController.getAccount();
+            Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            if (_statement != null && _statement.getIk() > 0) {
+                iks.add(_statement.getIk());
+            }
+
+            List<SelectItem> items = new ArrayList<>();
+            for (int ik : iks) {
+                items.add(new SelectItem(ik));
+            }
+            if (_statement != null && _statement.getIk() <= 0) {
+                items.add(0, new SelectItem(""));
+            }
+            _iks = items;
         }
-        if (_statement.getIk() <= 0) {
-            items.add(0, new SelectItem(""));
-        }
-        return items;
+        return _iks;
     }
 
     String _hospitalInfo = "";
@@ -316,12 +363,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement.getContacts().add(new CalcContact());
     }
 
-    public void editContact(CalcContact contact) {
-
-    }
-
     public void deleteContact(CalcContact contact) {
-
+        _statement.getContacts().remove(contact);
     }
 // </editor-fold>
 

@@ -19,7 +19,7 @@
                 <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
                 <br/>
                 <h:selectOneMenu styleClass="inputmedium"
-                                 rendered="#{!editStatementOfParticipance.readOnly}"
+                                 rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"
                                  id="ikMulti"
                                  title="#{msg.titleIK}"
                                  required="true"
@@ -29,10 +29,13 @@
                     <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
                     <f:ajax event="change" listener="#{editStatementOfParticipance.changedIk}" render="@form :logout:remaining msgMultiIk"/>
                 </h:selectOneMenu>
-                <h:inputText styleClass="inputlong" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly}"/>
+                
+                <h:inputText styleClass="inputmedium" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1}"/>
+                
                 <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
+                
                 <br/>
-                <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly}"/>
+                <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"/>
             </div>
 
             <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
@@ -71,7 +74,8 @@
         <h2>#{msg.lblContactPerson}</h2>
 
         <h:form>
-            <calc:CalcContactTable value="#{editStatementOfParticipance.contacts}" 
+            <calc:CalcContactTable id="contact"
+                                   value="#{editStatementOfParticipance.contacts}" 
                                    allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
                                    allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
                                    allowInv="#{editStatementOfParticipance.statement.invCalc}"
@@ -96,7 +100,8 @@
 
 
             <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
-                <inek:LabeledText Label="#{msg.lblNameConsultant}" 
+                <inek:LabeledText id="consultantCompany" 
+                                  Label="#{msg.lblNameConsultant}" 
                                   Required="true" 
                                   readonly="#{editStatementOfParticipance.readOnly}"
                                   Text="#{editStatementOfParticipance.statement.consultantCompany}" 
@@ -107,7 +112,8 @@
                                          readonly="#{editStatementOfParticipance.readOnly}"
                                          labelStyle="col45em label"/>
 
-                <calc:CalcContactTable value="#{editStatementOfParticipance.consultants}" 
+                <calc:CalcContactTable id="contactConsultant"
+                                       value="#{editStatementOfParticipance.consultants}" 
                                        readonly="#{editStatementOfParticipance.readOnly}"
                                        queryDomain="false"
                                        enableDelete="false"/>

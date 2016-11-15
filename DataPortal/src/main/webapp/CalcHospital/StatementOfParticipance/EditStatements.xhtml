@@ -18,7 +18,9 @@
             <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
 
             <div class="inputPart">
-                <inek:TriStateRadioButton label="#{msg.lblStatementSingleCostAttributionDrg}" value="#{editStatementOfParticipance.statement.clinicalDistributionModelDrg}"/>
+                <inek:TriStateRadioButton id="clinicalDistributionModelDrg" 
+                                          label="#{msg.lblStatementSingleCostAttributionDrg}" 
+                                          value="#{editStatementOfParticipance.statement.clinicalDistributionModelDrg}"/>
             </div>
 
             <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearDrg}"
@@ -33,7 +35,9 @@
             <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
 
             <div class="inputPart">
-                <inek:TriStateRadioButton label="#{msg.lblStatementSingleCostAttributionPsy}" value="#{editStatementOfParticipance.statement.clinicalDistributionModelPsy}"/>
+                <inek:TriStateRadioButton id="clinicalDistributionModelPsy" 
+                                          label="#{msg.lblStatementSingleCostAttributionPsy}" 
+                                          value="#{editStatementOfParticipance.statement.clinicalDistributionModelPsy}"/>
             </div>
 
             <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearPsy}"
