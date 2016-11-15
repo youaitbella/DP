@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Set;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -27,20 +28,32 @@ public class EditCalcDrg implements Serializable {
     @Inject private CalcFacade _calcFacade;
     @Inject private SessionController _sessionController;
     
-    private CalcBasicsDrg _calcBasicsDrg;
-    private String _basicIk = "";
-
-    public String getBasicIk() {
+    private CalcBasicsDrg _basicsDrg;
+    private int _basicIk = 0;
+    
+    public int getBasicIk() {
+        initCalcBasics();
         return _basicIk;
     }
 
-    public void setBasicIk(String _basicIk) {
+    public void setBasicIk(int _basicIk) {
         this._basicIk = _basicIk;
     }
     
     public Set<Integer> getCalcIks() {
         Set<Integer> iks = new ArraySet<>();
         iks.add(_sessionController.getAccountId());
-        return _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, iks, 2016);
+        return _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, iks, Calendar.getInstance().get(Calendar.YEAR));
+    }
+    
+    public String save() {
+        
+        return "";
+    }
+    
+    private void initCalcBasics() {
+        if(this._basicIk != 0) {
+            _basicsDrg = _calcFacade.getCalcBasicDrgByIkAndAccountId(_basicIk, _sessionController.getAccountId());
+        }
     }
 }

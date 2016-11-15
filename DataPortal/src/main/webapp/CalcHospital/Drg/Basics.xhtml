@@ -24,11 +24,14 @@
                         <h:selectOneMenu styleClass="input" id="ik" value="#{editCalcDrg.basicIk}" required="true">
                             <f:selectItems value="#{editCalcDrg.calcIks}" />
                             <f:ajax event="blur" render="@this :logout:remaining" />
-                            <f:ajax event="change" render="@this :logout:remaining" />
                         </h:selectOneMenu>
                     </div>
+                  
+                    <ui:include src="Buttons.xhtml" />
+                    
                 </h:form>
             </div>
+            
         </h:form>
     </ui:define>
 
