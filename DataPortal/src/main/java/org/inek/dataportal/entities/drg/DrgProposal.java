@@ -191,6 +191,10 @@ public class DrgProposal implements Serializable {
     @Documentation(name = "Prozeduren Beschreibung")
     @Column(name = "prProcsText")
     private String _procsText = "";
+    
+    @Documentation(name = "lblProposalPublication")
+    @Column(name = "prPublication")
+    private boolean _publication = true;
 
     
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -551,6 +555,14 @@ public class DrgProposal implements Serializable {
 
     public void setSealedBy(int sealedBy) {
         _sealedBy = sealedBy;
+    }
+
+    public boolean isPublication() {
+        return _publication;
+    }
+
+    public void setPublication(boolean _publication) {
+        this._publication = _publication;
     }
 
     // </editor-fold>
