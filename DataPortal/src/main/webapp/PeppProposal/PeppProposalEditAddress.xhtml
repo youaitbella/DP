@@ -199,5 +199,13 @@
             <f:validator validatorId="EmailValidator"/>
         </h:inputText>
     </div>
+    
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" value="Publikation:" /><br/>
+        <h:selectBooleanCheckbox id="agreePublication" value="#{editPeppProposal.peppProposal.publication}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:selectBooleanCheckbox>&nbsp;
+        <h:outputLabel for="agreePublication" value="#{msg.lblProposalPublication}." />
+    </div>
 
 </ui:composition>

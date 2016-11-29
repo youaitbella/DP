@@ -173,6 +173,10 @@ public class PeppProposal implements Serializable {
     @Documentation(name = "Prozedur(en), Kode(s)")
     @Column(name = "ppProcCodes")
     private String _procCodes = "";
+    
+    @Documentation(key = "lblProposalPublication")
+    @Column(name = "ppPublication")
+    private boolean _publication = true;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -529,6 +533,14 @@ public class PeppProposal implements Serializable {
         _sealedBy = sealedBy;
     }
 
+    public boolean isPublication() {
+        return _publication;
+    }
+
+    public void setPublication(boolean _publication) {
+        this._publication = _publication;
+    }
+    
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

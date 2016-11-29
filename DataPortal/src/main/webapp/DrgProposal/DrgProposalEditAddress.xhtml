@@ -206,11 +206,11 @@
         </div>
         
         <div class="inputPart">
-            <h:outputLabel styleClass="label" for="" value="#{msg.lblProposalPublication}:" />
-            <br/>
+            <h:outputLabel styleClass="label" value="Publikation:" /><br/>
             <h:selectBooleanCheckbox id="agreePublication" value="#{editDrgProposal.drgProposal.publication}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:selectBooleanCheckbox>
+            </h:selectBooleanCheckbox>&nbsp;
+            <h:outputLabel for="agreePublication" value="#{msg.lblProposalPublication}." />
         </div>
 
     </ui:define>

@@ -192,7 +192,7 @@ public class DrgProposal implements Serializable {
     @Column(name = "prProcsText")
     private String _procsText = "";
     
-    @Documentation(name = "lblProposalPublication")
+    @Documentation(key = "lblProposalPublication")
     @Column(name = "prPublication")
     private boolean _publication = true;
 
