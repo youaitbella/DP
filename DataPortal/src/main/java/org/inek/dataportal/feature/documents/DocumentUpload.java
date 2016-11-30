@@ -286,6 +286,8 @@ public class DocumentUpload {
         }
         Set<Account> accounts = new HashSet<>();
         for (AccountDocument accountDocument : _documents) {
+            accountDocument.setValidity(_availability);
+            
             switch (_documentTarget) {
                 case Account:
                     storeDocument(accountDocument, _account.getId());
