@@ -4,12 +4,14 @@
  */
 package org.inek.dataportal.feature.insurance;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -17,11 +19,13 @@ import javax.ejb.EJBException;
 import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -36,6 +40,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -292,7 +297,13 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _file = file;
     }
 
-    @Inject Instance<NoticeItemImporter> _importProvider;
+    private String _importMessage = "";
+
+    public String getImportMessage() {
+        return _importMessage;
+    }
+
+    @Inject private Instance<NoticeItemImporter> _importProvider;
 
     public void uploadNotices() {
         try {
@@ -300,10 +311,11 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
                 // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will corrupted
-                // we simply replace them
-                // drawbacks: only converts the German Umlauts, no other chars, fails for other charcter sets then mentionend
-                // alternative: implement a library which guesses th correct character set and read properly
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
                 // Since we support German only, we started using the simple approach
                 Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
@@ -317,11 +329,30 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                         itemImporter.tryImportLine(line);
                     }
                 }
-                _sessionController.alertClient(itemImporter.getMessage());
+                _importMessage = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessage);
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
 
+    public String downloadJournal() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
+        try {
+            byte[] buffer = _importMessage.getBytes();
+            response.reset();
+            response.setContentType("text/plain");
+            response.setHeader("Content-Length", "" + buffer.length);
+            response.setHeader("Content-Disposition", "attachment;filename=\"Importprotokoll.txt\"");
+            response.getOutputStream().write(buffer);
+            response.flushBuffer();
+            facesContext.responseComplete();
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+            return Pages.Error.URL();
+        }
+        return "";
+    }
 }

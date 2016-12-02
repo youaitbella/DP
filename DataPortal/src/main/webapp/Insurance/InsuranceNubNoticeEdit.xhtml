@@ -78,10 +78,16 @@
                 <div class="fakeFile">
                     <h:outputLabel styleClass="button" value="#{msg.btnUploadMessage}"/>
                 </div>
+                <h:commandLink rendered="#{editInsuranceNubNotice.importMessage.length() gt 0}" 
+                               styleClass="button"
+                               value="#{msg.btnJournal}" immediate="true"
+                               action="#{editInsuranceNubNotice.downloadJournal}">
+                        <f:ajax event="blur" render="@all"/>
+                </h:commandLink>
             </div>
         </h:form>
 
-        <h:form id="messageForm">
+            <h:form id="messageForm" styleClass="marginTop">
             <h:outputLabel id="noNubsMsg" rendered="#{editInsuranceNubNotice.nubMethodInfos.size() == 0 and editInsuranceNubNotice.notice.hospitalIk != -1}" value="Es gibt keine NUBs für dieses IK." styleClass="errorMessage">
             </h:outputLabel>
             <h:dataTable  headerClass="list-header" id="tblNotices"
