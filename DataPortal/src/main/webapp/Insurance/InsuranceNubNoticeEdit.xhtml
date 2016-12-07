@@ -80,11 +80,15 @@
                 </div>
                 <h:commandLink rendered="#{editInsuranceNubNotice.importMessage.length() gt 0}" 
                                styleClass="button"
-                               value="#{msg.btnJournal}" immediate="true"
-                               action="#{editInsuranceNubNotice.downloadJournal}">
-                        <f:ajax event="blur" render="@all"/>
+                               value="#{msg.btnJournal} &nbsp; #{editInsuranceNubNotice.showJournal ? '↑' : '↓'}" immediate="true"
+                               action="#{editInsuranceNubNotice.toggleJournal}">
+                        <f:ajax event="blur" render="@form :logout:remaining"/>
                 </h:commandLink>
             </div>
+            <h:inputTextarea rendered="#{editInsuranceNubNotice.importMessage.length() gt 0 and editInsuranceNubNotice.showJournal}" 
+                             value="#{editInsuranceNubNotice.importMessage}"
+                             readonly="true"
+                             styleClass="#{editInsuranceNubNotice.importMessage.length > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
         </h:form>
 
             <h:form id="messageForm" styleClass="marginTop">

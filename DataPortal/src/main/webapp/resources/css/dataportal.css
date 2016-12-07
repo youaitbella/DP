@@ -736,8 +736,8 @@ select:active, select:focus{
     width: 100%;
     max-width: 100%;
     min-height: 3em;
-    height: 6em;
-    max-height: 20em;
+    height: 8em;
+    max-height: 25em;
 }
 
 .areaHuge {

@@ -331,6 +331,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 }
                 _importMessage = itemImporter.getMessage();
                 _sessionController.alertClient(_importMessage);
+                _showJournal = false;
             }
         } catch (IOException | NoSuchElementException e) {
         }
@@ -354,5 +355,20 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             return Pages.Error.URL();
         }
         return "";
+    }
+    
+    public String toggleJournal() {
+        _showJournal = !_showJournal;
+        return "";
+    }
+    
+    private boolean _showJournal = false;
+
+    public boolean isShowJournal() {
+        return _showJournal;
+    }
+
+    public void setShowJournal(boolean showJournal) {
+        this._showJournal = showJournal;
     }
 }
