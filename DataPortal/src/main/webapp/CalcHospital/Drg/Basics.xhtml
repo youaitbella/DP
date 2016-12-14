@@ -17,6 +17,7 @@
             
             <div class="edit">
                 <h:form id="messageForm">
+                    
                     <div class="inputPart">
                         <h:outputLabel styleClass="label" for="ik">
                             IK:
@@ -25,6 +26,35 @@
                             <f:selectItems value="#{editCalcBasicsDrg.calcIks}" />
                             <f:ajax event="blur" render="@this :logout:remaining" />
                         </h:selectOneMenu>
+                    </div>
+                    
+                    <div class="inputPart">
+                        <h:outputLabel styleClass="label" for="hName">
+                            Name des Krankenhauses:
+                        </h:outputLabel><br/>
+                        <h:inputText id="hName" styleClass="inputmedium" value="#{editCalcBasicsDrg.calcBasics.hospitalName}" required="true">
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                    </div>
+                    
+                    <div class="inputPart">
+                        <h:outputLabel styleClass="label" for="newDelivery">
+                            Informationen zur Kalkulationsgrundlage:
+                        </h:outputLabel><br/>
+                        <h:selectOneRadio id="deliveryType" value="#{editCalcBasicsDrg.calcBasics.deliveryType}" required="true">
+                            <f:selectItem itemLabel="Initiallieferung" itemValue="1"/>
+                            <f:selectItem itemLabel="Korrekturlieferung" itemValue="2" />
+                            <f:ajax event="change" render="@this :logout:remaining" />
+                        </h:selectOneRadio>
+                    </div>
+                    
+                    <div class="inputPart">
+                        <h:outputLabel styleClass="label" for="correctionNote">
+                            Begründung für Korrekturlieferung (stichwortartig):
+                        </h:outputLabel><br/>
+                        <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.correctionNote}">
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputTextarea>
                     </div>
                   
                     <ui:include src="Buttons.xhtml" />

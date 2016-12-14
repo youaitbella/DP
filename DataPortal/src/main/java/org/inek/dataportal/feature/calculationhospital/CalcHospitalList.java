@@ -79,7 +79,7 @@ public class CalcHospitalList {
     }
 
     public String newCalculationBasicsDrg() {
-        //destroyFeatureBeans();
+        destroyFeatureBeans();
         
         return Pages.CalcDrgBasics.URL();
     }

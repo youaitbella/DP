@@ -73,6 +73,45 @@ public class CalcBasicsDrg implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Hospital Name">
+    @Column(name = "bdHospitalName")
+    private String _hospitalName;
+
+    public String getHospitalName() {
+        return _hospitalName;
+    }
+
+    public void setHospitalName(String _hospitalName) {
+        this._hospitalName = _hospitalName;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Delivery Type">
+    @Column(name = "bdDeliveryType")
+    private byte _deliveryType;
+
+    public byte getDeliveryType() {
+        return _deliveryType;
+    }
+
+    public void setDeliveryType(byte _deliveryType) {
+        this._deliveryType = _deliveryType;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Correction Note">
+    @Column(name = "bdCorrectionNote")
+    private String _correctionNote;
+
+    public String getCorrectionNote() {
+        return _correctionNote;
+    }
+
+    public void setCorrectionNote(String _correctionNote) {
+        this._correctionNote = _correctionNote;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "bdAccountId")
     private int _accountId;

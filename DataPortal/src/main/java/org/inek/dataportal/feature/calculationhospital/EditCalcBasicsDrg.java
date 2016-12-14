@@ -35,7 +35,6 @@ import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -43,7 +42,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author muellermi
  */
 @Named
-@FeatureScoped
+@SessionScoped
 public class EditCalcBasicsDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
@@ -57,12 +56,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String _script;
     private CalcBasicsDrg _calcBasics;
-
-    enum CalcBasicsDrgTabs {
-        // todo
-        tabCalcBasicsDrgXXX,
-        tabCalcBasicsDrgYYY
-    }
 
     // </editor-fold>
     @PostConstruct
@@ -117,9 +110,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
     @Override
     protected void addTopics() {
-        // todo
-        addTopic(CalcBasicsDrgTabs.tabCalcBasicsDrgXXX.name(), Pages.StatementOfParticipanceEditAddress.URL());
-        addTopic(CalcBasicsDrgTabs.tabCalcBasicsDrgYYY.name(), Pages.StatementOfParticipanceEditStatements.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
