@@ -79,8 +79,8 @@ public class CalcHospitalList {
     }
 
     public String newCalculationBasicsDrg() {
-        destroyFeatureBeans();
-        // TODO: check if allowed to create new calculation basic
+        //destroyFeatureBeans();
+        
         return Pages.CalcDrgBasics.URL();
     }
 

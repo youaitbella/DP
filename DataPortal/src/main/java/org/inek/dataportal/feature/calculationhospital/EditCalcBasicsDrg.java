@@ -5,14 +5,17 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -21,9 +24,9 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.AdditionalInformationDrg;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.icmt.Customer;
+import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -41,7 +44,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @FeatureScoped
-public class EditCalcBasicsDrg extends AbstractEditController {
+public class EditCalcBasicsDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger _logger = Logger.getLogger("EditCalcBasicsDrg");
@@ -64,7 +67,6 @@ public class EditCalcBasicsDrg extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Object id = params.get("id");
         if (id.toString().equals("new")) {
@@ -73,6 +75,14 @@ public class EditCalcBasicsDrg extends AbstractEditController {
             _calcBasics = loadCalcBasicsDrg(id);
         }
 
+    }
+    
+    public Set<Integer> getCalcIks() {
+        Set<Integer> ids = new HashSet<>();
+        ids.add(_sessionController.getAccountId());
+        return _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg,
+                ids,
+                Calendar.getInstance().get(Calendar.YEAR));
     }
 
     private CalcBasicsDrg loadCalcBasicsDrg(Object idObject) {
@@ -90,9 +100,9 @@ public class EditCalcBasicsDrg extends AbstractEditController {
 
     private CalcBasicsDrg newCalcBasicsDrg() {
         Account account = _sessionController.getAccount();
-        CalcBasicsDrg statement = new CalcBasicsDrg();
-        statement.setAccountId(account.getId());
-        return statement;
+        CalcBasicsDrg calcBasic = new CalcBasicsDrg();
+        calcBasic.setAccountId(account.getId());
+        return calcBasic;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">

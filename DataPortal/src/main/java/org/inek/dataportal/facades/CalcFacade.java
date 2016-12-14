@@ -229,13 +229,5 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
     
-    public CalcBasicsDrg getCalcBasicDrgByIkAndAccountId(int ik, int accountId) {
-        String sql = "select * from calc.BasicsDrg where bdIk = " + ik + " and bdAccountId = " + accountId;
-        Query query = getEntityManager().createNativeQuery(sql, CalcBasicsDrg.class);
-        List<CalcBasicsDrg> ls = query.getResultList();        
-        if(ls.isEmpty()) {
-            return null;
-        }
-        return ls.get(0);
-    }
+    
 }

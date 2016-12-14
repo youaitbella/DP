@@ -6,7 +6,6 @@
 package com.inek.begleitforschung.controller.structural;
 
 import com.inek.begleitforschung.entities.structural.BedClass;
-import com.inek.begleitforschung.entities.C_121_221_State_Size;
 import com.inek.begleitforschung.entities.Entities;
 import java.io.Serializable;
 import java.util.List;

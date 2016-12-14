@@ -13,9 +13,12 @@
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="msapplication-config" content="none"/>
-        <h:outputScript name="js/jquery-1.12.0.min.js"/>
-        <h:outputStylesheet name="css/bootstrap.min.css"/>
-        <h:outputScript name="js/bootstrap.min.js"/>
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <ui:remove>
             <!-- 
             Do not load the JSF AJAX library, although it might be needed for direct access.
@@ -33,7 +36,7 @@
             <h:outputStylesheet name="css/dataportal.css"/>
             <h:outputScript name="script/clientutils.js"/>
         </ui:remove>
-
+        
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/dataportal.css.xhtml?version=#{applicationTools.version}" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/begleit.css.xhtml?version=#{applicationTools.version}" />
         <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
@@ -79,7 +82,7 @@
                     <h:form id="nav">
                         <ul>
                             <li>
-                                <a style="border: solid #7F9BAF 1px; cursor: pointer;" href="/Begleitforschung/resources/manual/G-DRG-Begleitforschungsbrowser2014.pdf" target="blank"  title="#{msg.titleManual}">Anwenderhandbuch</a>
+                                <a style="border: solid #7F9BAF 1px; cursor: pointer;" href="/Begleitforschung/resources/manual/InEK-Begleitforschungsbrowser.pdf" target="blank"  title="#{msg.titleManual}">Anwenderhandbuch</a>
                             </li>
                         </ul>
                     </h:form>

@@ -21,8 +21,8 @@
                         <h:outputLabel styleClass="label" for="ik">
                             IK:
                         </h:outputLabel><br/>
-                        <h:selectOneMenu styleClass="input" id="ik" value="#{editCalcDrg.basicIk}" required="true">
-                            <f:selectItems value="#{editCalcDrg.calcIks}" />
+                        <h:selectOneMenu styleClass="input" id="ik" value="#{editCalcBasicsDrg.calcBasics.ik}" required="true">
+                            <f:selectItems value="#{editCalcBasicsDrg.calcIks}" />
                             <f:ajax event="blur" render="@this :logout:remaining" />
                         </h:selectOneMenu>
                     </div>
