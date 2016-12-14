@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+        <h:form id="form">
+            <h1><h:commandLink value="#{msg.lblCalcBasicDrg}" action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+            
+            <ui:include src="../CalcMenu.xhtml" />
+            
+            <div class="edit">
+                <h:form id="messageForm">
+                    
+                    <span class="label"></span>
+                    <table cellspacing="6">
+                        <thead>
+                            <th>Bezeichnung</th>
+                            <th>Datenjahr</th>
+                            <th>Vorjahr</th>
+                            <th>Abweichung in %</th>
+                        </thead>
+                            <tr>
+                                <td>
+                                    <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
+                                </td>
+                                <td>
+                            <h:inputText styleClass="inputwide" id="sumCalcCosts" required="true">
+                                    <f:ajax event="blur" render="@this :logout:remaining" />
+                            </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Anzahl kalkulationsrelevante Fälle</span>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Fälle vollstationär</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="fullCases" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Fälle teilstationär</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="halfCases" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Berechnungstage teilstationär</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="halfCalcDays" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Begleitpersonen</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="companions" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">rein vorstationär</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="onlyStationary" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Betten (DRG-Bereich)</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="drgBeds" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label">Anzahl teilstationäre Plätze (DRG-Bereich)</span>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" id="numHalfSpace" required="true">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    Vorjahrswert
+                                </td>
+                                <td>
+                                    % Abweichung berechnet
+                                </td>
+                            </tr>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                    
+                    <h2>Entlassender Standort</h2>
+                    
+                    <div class="inputPart">
+                        <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
+                        <h:inputText styleClass="inputshort" required="true">
+                            <f:ajax event="blur" render="@this :logout:remaining"/>
+                        </h:inputText>
+                    </div>
+                    
+                    <div class="inputPart">
+                        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
+                                                 renderElement="@this :logout:remaining" labelStyle="label"/>
+                    </div>
+                    
+                    <h:dataTable  headerClass="list-header" id="exitLocation"
+                                  value="" var="item" width="70%" rowClasses="row1, row2" 
+                                  columnClasses="colIcon, col90, colShort"
+                                  rendered="true"
+                                  >
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:commandLink immediate="true" styleClass="colIcon">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <cb:confirmDelete/>
+                            </h:commandLink>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Entlassender Standort"/>
+                                <h:outputText value="(aussagekräftiger Name)"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nummer"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                    </h:dataTable>
+
+                    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                        <f:ajax event="click" listener="#{editCalcBasicsDrg.addNewAdditionInformationDrg()}" render="@form :logout:remaining"/>
+                    </h:commandLink>
+                    
+                    <ui:include src="Buttons.xhtml" />
+                    
+                </h:form>
+            </div>
+            
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
