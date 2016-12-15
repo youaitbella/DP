@@ -255,7 +255,6 @@
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Art der BE"/><br/>
-                                <h:outputText value="(aussagekräftiger Name)"/>
                             </f:facet>
                             <h:inputText value="" styleClass="inputwide" required="true">
                                 <f:ajax render="@form :logout:remaining"/>
@@ -285,6 +284,124 @@
                     <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
                         <f:ajax event="click" render="@form :logout:remaining"/>
                     </h:commandLink>
+                    
+                    <h2>Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG</h2>
+                    
+                    <div class="inputPart">
+                        <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"  
+                                                 renderElement="@this :logout:remaining" labelStyle="label"/>
+                    </div>
+                    
+                    <h:dataTable  headerClass="list-header" id="centre"
+                                  value="" var="item" width="100%" rowClasses="row1, row2" 
+                                  columnClasses="colIcon, col03, col03, col03, col03, col03, col03, col03"
+                                  rendered="true"
+                                  >
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:commandLink immediate="true" styleClass="colIcon">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <cb:confirmDelete/>
+                            </h:commandLink>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Zentrums- bzw. Schwerpunktbezeichnung"/><br/>
+                                <h:outputText value="(aussagekräftiger Name)"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fallzahl"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Personalkosten"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sachkosten"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Infrastrukturkosten"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Vereinbartes Entgelt je Fall"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Entgeltschlüssel"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                    </h:dataTable>
+                    
+                    <h:commandLink id="addButtonCentre" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                        <f:ajax event="click" render="@form :logout:remaining"/>
+                    </h:commandLink>
+                    
+                    <br/>
+                    <div class="inputPart">
+                        <span class="label">Leistungen der Psychiatrie gem. § 17d Abs. 1 KHG: </span>
+                        <h:selectBooleanCheckbox>
+                            <f:ajax render="@this :logout:remaining" />
+                        </h:selectBooleanCheckbox><br/>
+                        <div style="float: left;">
+                        <inek:LabeledText Label="Personalkosten" styleClass="col03"/>
+                        <inek:LabeledText Label="Sachkosten" styleClass="col03"/>
+                        <inek:LabeledText Label="Infrastrukturkosten" styleClass="col03"/>
+                        </div>
+                        <div style="float: left; margin-left: 10px;">
+                        <inek:LabeledText Label="Personalkosten (Vorjahr)" styleClass="col03"/>
+                        <inek:LabeledText Label="Sachkosten (Vorjahr)" styleClass="col03"/>
+                        <inek:LabeledText Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
+                        </div>
+                        <div style="float: left; margin-left: 10px;">
+                        <inek:LabeledText readonly="true" Label="Personalkosten (Differenz)" styleClass="col03"/>
+                        <inek:LabeledText readonly="true" Label="Sachkosten (Differenz)" styleClass="col03"/>
+                        <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
+                        </div>
+                    </div>
+                    
+                    <div style="clear: both;"></div>
                     
                     <ui:include src="Buttons.xhtml" />
                     
