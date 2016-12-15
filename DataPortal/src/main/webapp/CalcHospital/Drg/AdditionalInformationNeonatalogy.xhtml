@@ -7,16 +7,34 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                >
+                    
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
         <h:form id="form">
             <h1><h:commandLink value="#{msg.lblCalcBasicDrg}" action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
-            
+
             <ui:include src="../CalcMenu.xhtml" />
-            
+
             <div class="edit">
+                <h2>#{msg.headAdditionalInformationNeonatalogy}</h2>
                 <h:form id="messageForm">
+                    <h:panelGrid styleClass="inlineBlock label">
+                        <h:outputLabel for="radio" value="#{msg.lblLevelPeritatalCenter}"/>
+                    </h:panelGrid>
+
+                    <h:selectOneRadio styleClass="inlineBlock" id="radio" 
+                                      value=""
+                                      disabled="false">  <!-- todo -->
+                        <f:selectItem itemLabel="#{msg.lblNotAvailable} &nbsp;" itemValue="0"/>
+                        <f:selectItem itemLabel="#{msg.lblLevel} &nbsp;1" itemValue="1" />
+                        <f:selectItem itemLabel="#{msg.lblLevel} &nbsp;2" itemValue="2" />
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:selectOneRadio>
+
+                    <div jsf:rendered="true">
+                        <h:outputLabel value="#{msg.lblQualificationMedicalLeadObstetrics}"
+                    </div>
                 </h:form>
             </div>
         </h:form>
