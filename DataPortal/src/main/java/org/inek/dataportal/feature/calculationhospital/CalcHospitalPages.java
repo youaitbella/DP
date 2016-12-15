@@ -26,6 +26,7 @@ public class CalcHospitalPages {
         menu.put(Utils.getMessage("lblBasicExplanation"), Pages.CalcDrgBasicExplanation.URL());
         menu.put(Utils.getMessage("lblAdditionalInformationDiagnosticArea"), Pages.CalcDrgAdditionalInformationDiagnosticArea.URL());
         menu.put(Utils.getMessage("lblAdditionalInformationTherapeuticArea"), Pages.CalcDrgAdditionalInformationherapeuticArea.URL());
+        menu.put(Utils.getMessage("lblAdditionalInformationNeonatalogy"), Pages.CalcDrgAdditionalInformationNeonatalogy.URL());
         return menu;
     }
 }
