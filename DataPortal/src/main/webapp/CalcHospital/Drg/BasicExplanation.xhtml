@@ -206,7 +206,7 @@
 
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Entlassender Standort"/>
+                                <h:outputText value="Entlassender Standort"/><br/>
                                 <h:outputText value="(aussagekräftiger Name)"/>
                             </f:facet>
                             <h:inputText value="" styleClass="inputwide" required="true">
@@ -226,7 +226,64 @@
                     </h:dataTable>
 
                     <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" listener="#{editCalcBasicsDrg.addNewAdditionInformationDrg()}" render="@form :logout:remaining"/>
+                        <f:ajax event="click" render="@form :logout:remaining"/>
+                    </h:commandLink>
+                    
+                    <h2>Besondere Einrichtungen (BE)</h2>
+                    
+                    <div class="inputPart">
+                        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2016:"  
+                                                 renderElement="@this :logout:remaining" labelStyle="label"/>
+                    </div>
+                    
+                    <h:dataTable  headerClass="list-header" id="special"
+                                  value="" var="item" width="70%" rowClasses="row1, row2" 
+                                  columnClasses="colIcon, col03, col03, col03"
+                                  rendered="true"
+                                  >
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:commandLink immediate="true" styleClass="colIcon">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <cb:confirmDelete/>
+                            </h:commandLink>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Art der BE"/><br/>
+                                <h:outputText value="(aussagekräftiger Name)"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fallzahl"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Kostenvolumen"/>
+                            </f:facet>
+                            <h:inputText value="" styleClass="inputwide" required="true">
+                                <f:ajax render="@form :logout:remaining"/>
+                            </h:inputText>
+                        </h:column>
+                        
+                    </h:dataTable>
+
+                    <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                        <f:ajax event="click" render="@form :logout:remaining"/>
                     </h:commandLink>
                     
                     <ui:include src="Buttons.xhtml" />
