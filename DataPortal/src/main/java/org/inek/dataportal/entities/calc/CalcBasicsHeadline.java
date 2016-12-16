@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author muellermi
  */
 @Entity
-@Table(name = "HeaderText", schema = "calc")
+@Table(name = "KGLListHeaderText", schema = "calc")
 public class CalcBasicsHeadline implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,19 +38,7 @@ public class CalcBasicsHeadline implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property DataYear">
-    @Column(name = "bdDataYear")
-    private int _dataYear;
-    public int getDataYear() {
-        return _dataYear;
-    }
-
-    public void setDataYear(int dataYear) {
-        this._dataYear = dataYear;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property PageId">
+    // <editor-fold defaultstate="collapsed" desc="Property SheetId">
     @Column(name = "htSheetId")
     private int _sheetId;
     public int getSheetId() {
@@ -97,11 +85,9 @@ public class CalcBasicsHeadline implements Serializable {
     
     @Override
     public String toString() {
-        return "Headline[ id=" + _id + "; Text=" + _text +" ]";
+        return "Headline[ id=" + _id + "; Sheet=" + _sheetId + "; Text=" + _text +" ]";
     }
     
     // </editor-fold>
-    
- 
     
 }
