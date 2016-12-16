@@ -259,7 +259,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _hospitalInfo = c.getName() + ", " + c.getTown();
         }
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Tab Neonatalogy">
+    private int _dummy;
 
+    public int getDummy() {
+        return _dummy;
+    }
 
-// </editor-fold>
+    public void setDummy(int dummy) {
+        this._dummy = dummy;
+    }
+    
+    // </editor-fold>    
+    
 }
