@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -33,6 +34,10 @@ import org.inek.dataportal.enums.WorkflowStatus;
 public class CalcBasicsDrg implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    public CalcBasicsDrg() {
+        _kglBaseInformation = new KGLBaseInformation();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -169,6 +174,22 @@ public class CalcBasicsDrg implements Serializable {
 
     public void setAdditionalInformationDrg(List<AdditionalInformationDrg> _additionalInformationDrg) {
         this._additionalInformationDrg = _additionalInformationDrg;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="KGLBaseInformation">
+    
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "biBasicsDrgId", referencedColumnName = "bdId")
+    private KGLBaseInformation _kglBaseInformation;
+
+    public KGLBaseInformation getKglBaseInformation() {
+        return _kglBaseInformation;
+    }
+
+    public void setKglBaseInformation(KGLBaseInformation _kglBaseInformation) {
+        this._kglBaseInformation = _kglBaseInformation;
     }
     
     // </editor-fold>

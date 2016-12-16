@@ -32,7 +32,7 @@
                                     <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
                                 </td>
                                 <td>
-                            <h:inputText styleClass="inputwide" id="sumCalcCosts" required="true">
+                            <h:inputText styleClass="inputwide" id="sumCalcCosts" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.sumCalcCost}" required="true">
                                     <f:ajax event="blur" render="@this :logout:remaining" />
                             </h:inputText>
                                 </td>
@@ -62,7 +62,7 @@
                                     <span class="label">Fälle vollstationär</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="fullCases" required="true">
+                            <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.cntCaseInStation}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -78,7 +78,7 @@
                                     <span class="label">Fälle teilstationär</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="halfCases" required="true">
+                            <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.cntCasePartialStation}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -94,7 +94,7 @@
                                     <span class="label">Berechnungstage teilstationär</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="halfCalcDays" required="true">
+                            <h:inputText styleClass="inputwide" id="halfCalcDays" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.daysPartialStation}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -110,7 +110,7 @@
                                     <span class="label">Begleitpersonen</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="companions" required="true">
+                            <h:inputText styleClass="inputwide" id="companions" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.patientEscort}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -126,7 +126,7 @@
                                     <span class="label">rein vorstationär</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="onlyStationary" required="true">
+                            <h:inputText styleClass="inputwide" id="onlyStationary" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.preStation}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -142,7 +142,7 @@
                                     <span class="label">Betten (DRG-Bereich)</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="drgBeds" required="true">
+                            <h:inputText styleClass="inputwide" id="drgBeds" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.beds}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -158,7 +158,7 @@
                                     <span class="label">Anzahl teilstationäre Plätze (DRG-Bereich)</span>
                                 </td>
                                 <td>
-                                    <h:inputText styleClass="inputwide" id="numHalfSpace" required="true">
+                            <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.cntPartial}" required="true">
                                         <f:ajax event="blur" render="@this :logout:remaining" />
                                     </h:inputText>
                                 </td>
@@ -178,14 +178,14 @@
                     
                     <div class="inputPart">
                         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-                        <h:inputText styleClass="inputshort" required="true">
+                        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.cntLocation}" required="true">
                             <f:ajax event="blur" render="@this :logout:remaining"/>
                         </h:inputText>
                     </div>
                     
                     <div class="inputPart">
                         <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
-                                                 renderElement="@this :logout:remaining" labelStyle="label"/>
+                                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.difLocationSupply}" labelStyle="label"/>
                     </div>
                     
                     <h:dataTable  headerClass="list-header" id="exitLocation"
@@ -233,7 +233,7 @@
                     
                     <div class="inputPart">
                         <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2016:"  
-                                                 renderElement="@this :logout:remaining" labelStyle="label"/>
+                                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.specialUnit}" labelStyle="label"/>
                     </div>
                     
                     <h:dataTable  headerClass="list-header" id="special"
@@ -289,7 +289,7 @@
                     
                     <div class="inputPart">
                         <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"  
-                                                 renderElement="@this :logout:remaining" labelStyle="label"/>
+                                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.centralFocus}" labelStyle="label"/>
                     </div>
                     
                     <h:dataTable  headerClass="list-header" id="centre"
