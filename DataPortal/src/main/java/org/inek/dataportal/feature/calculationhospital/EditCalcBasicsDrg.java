@@ -261,7 +261,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Tab Neonatalogy">
+    // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     private int _dummy;
 
     public int getDummy() {

@@ -50,6 +50,30 @@ public class CalcBasicsHeadline implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property FirstYear">
+    @Column(name = "htFirstYear")
+    private int _firstYear;
+    public int getFirstYear() {
+        return _firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this._firstYear = firstYear;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LastYear">
+    @Column(name = "htLastYear")
+    private int _lastYear;
+    public int getLastYear() {
+        return _lastYear;
+    }
+
+    public void setLastYear(int lastYear) {
+        this._lastYear = lastYear;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Hospital Name">
     @Column(name = "htText")
     private String _text;
@@ -85,7 +109,7 @@ public class CalcBasicsHeadline implements Serializable {
     
     @Override
     public String toString() {
-        return "Headline[ id=" + _id + "; Sheet=" + _sheetId + "; Text=" + _text +" ]";
+        return "Headline[ id=" + _id + "; Sheet=" + _lastYear + "; Text=" + _text +" ]";
     }
     
     // </editor-fold>

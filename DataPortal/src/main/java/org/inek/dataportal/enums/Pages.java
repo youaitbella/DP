@@ -53,7 +53,7 @@ public enum Pages {
     CalcDrgBasicExplanation("/CalcHospital/Drg/BasicExplanation"),
     CalcDrgAdditionalInformationDiagnosticArea("/CalcHospital/Drg/AdditionalInformationDiagnosticArea"),
     CalcDrgAdditionalInformationherapeuticArea("/CalcHospital/Drg/AdditionalInformationTherapeuticArea"),
-    CalcDrgAdditionalInformationNeonatalogy("/CalcHospital/Drg/AdditionalInformationNeonatalogy"),
+    CalcDrgNeonatalogy("/CalcHospital/Drg/Neonatalogy"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),
