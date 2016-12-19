@@ -39,14 +39,14 @@ public class CalcContentText implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SheetId">
-    @Column(name = "ctSheetId")
-    private int _sheetId;
-    public int getSheetId() {
-        return _sheetId;
+    @Column(name = "ctHeaderTextId")
+    private int _headerTextId;
+    public int getHeaderTextId() {
+        return _headerTextId;
     }
 
-    public void setSheetId(int sheetId) {
-        this._sheetId = sheetId;
+    public void setHeaderTextId(int contentHeaderId) {
+        this._headerTextId = contentHeaderId;
     }
     // </editor-fold>
 

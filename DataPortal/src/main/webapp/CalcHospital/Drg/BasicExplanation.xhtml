@@ -384,13 +384,13 @@
                     <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
                         <span class="label">#{x.label}: </span>
                         <h:selectBooleanCheckbox value="#{x.used}" >
-                            <f:ajax event="change" render="@this :logout:remaining delimit-content" />
+                            <f:ajax event="change" render="@form :logout:remaining delimit-content" />
                         </h:selectBooleanCheckbox><br/>
                         <h:panelGroup id="delimit-content" rendered="#{x.used}">
                             <div style="float: left;">
-                            <inek:LabeledText Label="Personalkosten" styleClass="col03"/>
-                            <inek:LabeledText Label="Sachkosten" styleClass="col03"/>
-                            <inek:LabeledText Label="Infrastrukturkosten" styleClass="col03"/>
+                                <inek:LabeledText Text="#{x.personalCost}" Label="Personalkosten" styleClass="col03"/>
+                                <inek:LabeledText Text="#{x.materialCost}" Label="Sachkosten" styleClass="col03"/>
+                                <inek:LabeledText Text="#{x.infraCost}" Label="Infrastrukturkosten" styleClass="col03"/>
                             </div>
                             <div style="float: left; margin-left: 10px;">
                             <inek:LabeledText readonly="true" Label="Personalkosten (Vorjahr)" styleClass="col03"/>
