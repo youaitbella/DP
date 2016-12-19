@@ -101,4 +101,14 @@ public class CalcDelimitationFact implements Serializable {
     public void setInfraCost(double _infraCost) {
         this._infraCost = _infraCost;
     }
+    
+    private String _label;
+
+    public String getLabel() {
+        return _label;
+    }
+
+    public void setLabel(String _label) {
+        this._label = _label;
+    }
 }

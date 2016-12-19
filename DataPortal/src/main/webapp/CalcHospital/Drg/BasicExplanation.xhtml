@@ -7,8 +7,7 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                >
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
     <ui:define name="content">
         <h:form id="form">
@@ -380,28 +379,30 @@
                     
                     <br/><br/>
                     
-                    <c:forEach items="#{editCalcBasicsDrg.delimitationFactHeaders}" var="x">
+                    <c:forEach items="#{editCalcBasicsDrg.delimitationFacts}" var="x">
                     
                     <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
-                        <span class="label">#{x.text}: </span>
-                        <h:selectBooleanCheckbox>
-                            <f:ajax render="@this :logout:remaining" />
+                        <span class="label">#{x.label}: </span>
+                        <h:selectBooleanCheckbox value="#{x.used}" >
+                            <f:ajax event="blur" render="@this :logout:remaining delimit-content" />
                         </h:selectBooleanCheckbox><br/>
-                        <div style="float: left;">
-                        <inek:LabeledText Label="Personalkosten" styleClass="col03"/>
-                        <inek:LabeledText Label="Sachkosten" styleClass="col03"/>
-                        <inek:LabeledText Label="Infrastrukturkosten" styleClass="col03"/>
-                        </div>
-                        <div style="float: left; margin-left: 10px;">
-                        <inek:LabeledText readonly="true" Label="Personalkosten (Vorjahr)" styleClass="col03"/>
-                        <inek:LabeledText readonly="true" Label="Sachkosten (Vorjahr)" styleClass="col03"/>
-                        <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
-                        </div>
-                        <div style="float: left; margin-left: 10px;">
-                        <inek:LabeledText readonly="true" Label="Personalkosten (Differenz)" styleClass="col03"/>
-                        <inek:LabeledText readonly="true" Label="Sachkosten (Differenz)" styleClass="col03"/>
-                        <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
-                        </div>
+                        <h:panelGroup id="delimit-content" rendered="#{x.used}">
+                            <div style="float: left;">
+                            <inek:LabeledText Label="Personalkosten" styleClass="col03"/>
+                            <inek:LabeledText Label="Sachkosten" styleClass="col03"/>
+                            <inek:LabeledText Label="Infrastrukturkosten" styleClass="col03"/>
+                            </div>
+                            <div style="float: left; margin-left: 10px;">
+                            <inek:LabeledText readonly="true" Label="Personalkosten (Vorjahr)" styleClass="col03"/>
+                            <inek:LabeledText readonly="true" Label="Sachkosten (Vorjahr)" styleClass="col03"/>
+                            <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
+                            </div>
+                            <div style="float: left; margin-left: 10px;">
+                            <inek:LabeledText readonly="true" Label="Personalkosten (Differenz)" styleClass="col03"/>
+                            <inek:LabeledText readonly="true" Label="Sachkosten (Differenz)" styleClass="col03"/>
+                            <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
+                            </div>
+                        </h:panelGroup>
                     </div>
                     <div style="clear: both;"></div><br/>
                     </c:forEach>

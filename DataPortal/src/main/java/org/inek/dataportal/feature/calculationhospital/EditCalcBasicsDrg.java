@@ -25,6 +25,8 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
+import org.inek.dataportal.entities.calc.CalcContentText;
+import org.inek.dataportal.entities.calc.CalcDelimitationFact;
 import org.inek.dataportal.entities.calc.CalcHeaderText;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -99,11 +101,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return calcBasic;
     }
     
-    private List<CalcHeaderText> _delimationHeaders;
-    public List<CalcHeaderText> getDelimitationFactHeaders() {
-        if(_delimationHeaders == null || _delimationHeaders.size() == 0)
-            _delimationHeaders = _calcFacade.lookupHeaderTexts(1, Calendar.getInstance().get(Calendar.YEAR));
-        return _delimationHeaders;
+    public List<CalcDelimitationFact> getDelimitationFacts() {
+        if(_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
+            for(CalcContentText ct : _calcFacade.lookupContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+                CalcDelimitationFact df = new CalcDelimitationFact();
+                df.setContentTextId(ct.getId());
+                df.setLabel(ct.getText());
+                _calcBasics.getDelimitationFacts().add(df);
+            }
+        }
+        return _calcBasics.getDelimitationFacts();
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">

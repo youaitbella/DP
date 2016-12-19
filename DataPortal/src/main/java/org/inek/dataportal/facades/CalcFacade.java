@@ -234,7 +234,7 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
     
-    public List<CalcHeaderText> lookupHeaderTexts(int headerId, int validityYear) {
+    public List<CalcContentText> lookupContentTexts(int headerId, int validityYear) {
         String sql = "select ctID, ctText, ctHeaderTextID, ctFirstYear, ctLastYear, ctDecimalCnt, ctSeq from calc.KGLListContentText where "
                 + "ctHeaderTextID = "+headerId+" and "+validityYear+" between ctFirstYear and ctLastYear order by ctSeq";
         Query query = getEntityManager().createNativeQuery(sql, CalcContentText.class);
