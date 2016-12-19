@@ -46,22 +46,10 @@ public class CalcHeaderText implements Serializable {
     }
 
     public void setSheetId(int sheetId) {
-        this._sheetId = sheetId;
+        _sheetId = sheetId;
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
-    @Column(name = "htSeq")
-    private int _sequence;
-    public int getSequence() {
-        return _sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this._sequence = sequence;
-    }
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Property Type">
     @Column(name = "htType")
     private int _type;
@@ -70,7 +58,19 @@ public class CalcHeaderText implements Serializable {
     }
 
     public void setType(int type) {
-        this._type = type;
+        _type = type;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "htSeq")
+    private int _sequence;
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        _sequence = sequence;
     }
     // </editor-fold>
     
@@ -95,7 +95,7 @@ public class CalcHeaderText implements Serializable {
     }
 
     public void setFirstYear(int firstYear) {
-        this._firstYear = firstYear;
+        _firstYear = firstYear;
     }
     // </editor-fold>
 
@@ -107,7 +107,7 @@ public class CalcHeaderText implements Serializable {
     }
 
     public void setLastYear(int lastYear) {
-        this._lastYear = lastYear;
+        _lastYear = lastYear;
     }
     // </editor-fold>
     

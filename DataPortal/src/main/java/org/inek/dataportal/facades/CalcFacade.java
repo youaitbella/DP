@@ -143,7 +143,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     // todo: seems to be unused. keep or remove?
-    public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {  
+    public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {
         String ikList = iks.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select cuIK, caHasAgreement\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
@@ -174,7 +174,7 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
     // </editor-fold>
-    
+
     public CalcBasicsDrg findCalcBasicsDrg(int id) {
         return findFresh(CalcBasicsDrg.class, id);
     }
@@ -233,7 +233,7 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
-    
+
     public List<CalcContentText> lookupContentTexts(int headerId, int validityYear) {
         String jpql = "select x from CalcContentText x where x._headerTextId = :headerId and x._firstYear <= :validityYear and x._lastYear >= :validityYear order by x._sequence";
         TypedQuery<CalcContentText> query = getEntityManager().createQuery(jpql, CalcContentText.class);
@@ -251,16 +251,22 @@ public class CalcFacade extends AbstractDataAccess {
         return findAll(CalcHeaderText.class);
     }
 
-    public List<CalcHeaderText> lookupHeaderTexts(int sheetId, int year) {
-        String jpql = "select h from CalcHeaderText h where h._firstYear <= :year and h._lastYear >= :year and h._sheetId = :sheetId";
+    public List<CalcHeaderText> retrieveHeaderTexts(int year, int sheetId, int type) {
+        String jpql = "select h from CalcHeaderText h "
+                + "where h._firstYear <= :year and h._lastYear >= :year and h._sheetId = :sheetId "
+                + (type >= 0 ? "and h._type = :type" : "")
+                + "order by h._type, h._sequence";
         TypedQuery<CalcHeaderText> query = getEntityManager().createQuery(jpql, CalcHeaderText.class);
         query.setParameter("year", year);
         query.setParameter("sheetId", sheetId);
+        if (type >= 0) {
+            query.setParameter("type", type);
+        }
         return query.getResultList();
     }
 
     public CalcHeaderText saveCalcHeaderText(CalcHeaderText headerText) {
-        if (headerText.getId() > 0){
+        if (headerText.getId() > 0) {
             return merge(headerText);
         }
         persist(headerText);
@@ -276,7 +282,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public CalcContentText saveCalcContentText(CalcContentText contentText) {
-        if (contentText.getId() > 0){
+        if (contentText.getId() > 0) {
             return merge(contentText);
         }
         persist(contentText);
