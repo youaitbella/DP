@@ -273,7 +273,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<CalcHeaderText> getHeaders(){
-        return _calcFacade.retrieveHeaderTexts(2016, 20, 0);  // todo: year is missing! _calcBasics.getKglBaseInformation().XXX);
+        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);  // todo: year is missing! _calcBasics.getKglBaseInformation().XXX);
     }
     // </editor-fold>    
     

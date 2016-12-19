@@ -255,7 +255,7 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHeaderText> retrieveHeaderTexts(int year, int sheetId, int type) {
         String jpql = "select h from CalcHeaderText h "
                 + "where h._firstYear <= :year and h._lastYear >= :year and h._sheetId = :sheetId "
-                + (type >= 0 ? "and h._type = :type" : "")
+                + (type >= 0 ? "and h._type = :type " : "")
                 + "order by h._type, h._sequence";
         TypedQuery<CalcHeaderText> query = getEntityManager().createQuery(jpql, CalcHeaderText.class);
         query.setParameter("year", year);

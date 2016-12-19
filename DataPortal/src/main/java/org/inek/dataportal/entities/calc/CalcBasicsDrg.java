@@ -55,7 +55,19 @@ public class CalcBasicsDrg implements Serializable {
         _id = id;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property DataYear">
+    @Column(name = "bdDataYear")
+    private int _dataYear;
+    public int getDataYear() {
+        return _dataYear;
+    }
 
+    public void setDataYear(int dataYear) {
+        this._dataYear = dataYear;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property IK">
     @Column(name = "bdIK")
     private int _ik;
