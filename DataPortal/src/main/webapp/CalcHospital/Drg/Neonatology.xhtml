@@ -17,7 +17,7 @@
             <ui:include src="../CalcMenu.xhtml" />
 
             <div class="edit">
-                <h2>#{msg.headAdditionalInformationNeonatalogy}</h2>
+                <h2>#{msg.headAdditionalInformationNeonatology}</h2>
                 <h:outputLabel for="level" value="#{msg.lblLevelPeritatalCenter}" styleClass="label30"/>
 
                 <h:selectOneMenu styleClass="inputmedium"
@@ -40,8 +40,10 @@
 
 
                 <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl ge 1}">
-                    <ui:repeat value="#{editCalcBasicsDrg.headers}" var="header" varStatus="status">
-                        #{header.text}
+                    ###
+                    <ui:repeat value="#{editCalcBasicsDrg.headers}" var="head" varStatus="status">
+                        #{head.text}
+                        #####
                     </ui:repeat>
                 </div>
             </div>
