@@ -32,6 +32,7 @@ import org.inek.dataportal.helper.Utils;
 @Stateless
 public class CalcFacade extends AbstractDataAccess {
 
+    // <editor-fold defaultstate="collapsed" desc="Statement of participance">
     public StatementOfParticipance findStatementOfParticipance(int id) {
         return findFresh(StatementOfParticipance.class, id);
     }
@@ -141,19 +142,8 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
-    public CalcBasicsDrg findCalcBasicsDrg(int id) {
-        return findFresh(CalcBasicsDrg.class, id);
-    }
-
-    public CalcBasicsPepp findCalcBasicsPepp(int id) {
-        return findFresh(CalcBasicsPepp.class, id);
-    }
-
-    public CalcBasicsDrg saveCalcBasicsDrg(CalcBasicsDrg _calcBasics) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {
+    // todo: seems to be unused. keep or remove?
+    public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {  
         String ikList = iks.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select cuIK, caHasAgreement\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
@@ -182,6 +172,19 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	and sopId is null";
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
+    }
+    // </editor-fold>
+    
+    public CalcBasicsDrg findCalcBasicsDrg(int id) {
+        return findFresh(CalcBasicsDrg.class, id);
+    }
+
+    public CalcBasicsPepp findCalcBasicsPepp(int id) {
+        return findFresh(CalcBasicsPepp.class, id);
+    }
+
+    public CalcBasicsDrg saveCalcBasicsDrg(CalcBasicsDrg _calcBasics) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
@@ -242,7 +245,7 @@ public class CalcFacade extends AbstractDataAccess {
         return findFresh(CalcHeaderText.class, id);
     }
 
-    public List<CalcHeaderText> findAllCalcHeaderText() {
+    public List<CalcHeaderText> findAllCalcHeaderTexts() {
         return findAll(CalcHeaderText.class);
     }
 
@@ -258,7 +261,7 @@ public class CalcFacade extends AbstractDataAccess {
         return findFresh(CalcContentText.class, id);
     }
 
-    public List<CalcContentText> findAllCalcContentText() {
+    public List<CalcContentText> findAllCalcContentTexts() {
         return findAll(CalcContentText.class);
     }
 

@@ -26,7 +26,7 @@
                                  title="Bitte Level wählen"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editCalcBasicsDrg.dummy}"
+                                 value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl}"
                                  hideNoSelectionOption="true" >
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                     <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
@@ -39,8 +39,10 @@
                 <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
 
 
-                <div jsf:rendered="#{editCalcBasicsDrg.dummy ge 1}">
-                    <h:outputLabel value="#{msg.lblQualificationMedicalLeadObstetrics}"/>
+                <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl ge 1}">
+                    <ui:repeat value="#{editCalcBasicsDrg.headers}" var="header" varStatus="status">
+                        #{header.text}
+                    </ui:repeat>
                 </div>
             </div>
         </h:form>

@@ -25,7 +25,6 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
-import org.inek.dataportal.entities.calc.CalcBaseInformation;
 import org.inek.dataportal.entities.calc.CalcHeaderText;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -225,6 +224,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
 
     public List<SelectItem> getIks() {
@@ -260,17 +260,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    private int _dummy;
-
-    public int getDummy() {
-        return _dummy;
+    // <editor-fold defaultstate="collapsed" desc="Tab Neonatalogy">
+    public List<CalcHeaderText> getHeaders(){
+        return _calcFacade.findAllCalcHeaderTexts();
     }
-
-    public void setDummy(int dummy) {
-        this._dummy = dummy;
-    }
-    
     // </editor-fold>    
     
 }
