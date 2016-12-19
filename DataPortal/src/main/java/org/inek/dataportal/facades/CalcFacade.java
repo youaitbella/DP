@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.calc.CalcBasicsPepp;
 import org.inek.dataportal.entities.calc.CalcContact;
+import org.inek.dataportal.entities.calc.CalcContentText;
 import org.inek.dataportal.entities.calc.CalcHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
@@ -236,4 +237,38 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql, CalcHeaderText.class);
         return query.getResultList();
     }
+
+    public CalcHeaderText findCalcHeaderText(int id) {
+        return findFresh(CalcHeaderText.class, id);
+    }
+
+    public List<CalcHeaderText> findAllCalcHeaderText() {
+        return findAll(CalcHeaderText.class);
+    }
+
+    public CalcHeaderText saveCalcHeaderText(CalcHeaderText headerText) {
+        if (headerText.getId() > 0){
+            return merge(headerText);
+        }
+        persist(headerText);
+        return headerText;
+    }
+
+    public CalcContentText findCalcContentText(int id) {
+        return findFresh(CalcContentText.class, id);
+    }
+
+    public List<CalcContentText> findAllCalcContentText() {
+        return findAll(CalcContentText.class);
+    }
+
+    public CalcContentText saveCalcContentText(CalcContentText contentText) {
+        if (contentText.getId() > 0){
+            return merge(contentText);
+        }
+        persist(contentText);
+        return contentText;
+    }
+
+    // </editor-fold>
 }
