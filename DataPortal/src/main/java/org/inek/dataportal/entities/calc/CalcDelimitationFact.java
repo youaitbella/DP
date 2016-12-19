@@ -101,5 +101,4 @@ public class CalcDelimitationFact implements Serializable {
     public void setInfraCost(double _infraCost) {
         this._infraCost = _infraCost;
     }
-    
 }

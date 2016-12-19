@@ -52,19 +52,6 @@ public class CalcBaseInformation implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property Year">
-    @Column(name = "biYear")
-    private int _year = Calendar.getInstance().get(Calendar.YEAR);
-
-    public int getYear() {
-        return _year;
-    }
-
-    public void setYear(int _year) {
-        this._year = _year;
-    }
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Property SumCalcCost">
     @Column(name = "biSumCalcCost")
     private float _sumCalcCost;

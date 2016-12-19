@@ -25,7 +25,6 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
-import org.inek.dataportal.entities.calc.CalcBaseInformation;
 import org.inek.dataportal.entities.calc.CalcHeaderText;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -100,8 +99,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return calcBasic;
     }
     
+    private List<CalcHeaderText> _delimationHeaders;
     public List<CalcHeaderText> getDelimitationFactHeaders() {
-        return _calcFacade.lookupHeaderTexts(1, Calendar.getInstance().get(Calendar.YEAR));
+        if(_delimationHeaders == null || _delimationHeaders.size() == 0)
+            _delimationHeaders = _calcFacade.lookupHeaderTexts(1, Calendar.getInstance().get(Calendar.YEAR));
+        return _delimationHeaders;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">

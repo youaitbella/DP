@@ -378,11 +378,12 @@
                         <f:ajax event="click" render="@form :logout:remaining"/>
                     </h:commandLink>
                     
+                    <br/><br/>
                     
+                    <c:forEach items="#{editCalcBasicsDrg.delimitationFactHeaders}" var="x">
                     
-                    <br/>
-                    <div class="inputPart">
-                        <span class="label">Leistungen der Psychiatrie gem. § 17d Abs. 1 KHG: </span>
+                    <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
+                        <span class="label">#{x.text}: </span>
                         <h:selectBooleanCheckbox>
                             <f:ajax render="@this :logout:remaining" />
                         </h:selectBooleanCheckbox><br/>
@@ -392,9 +393,9 @@
                         <inek:LabeledText Label="Infrastrukturkosten" styleClass="col03"/>
                         </div>
                         <div style="float: left; margin-left: 10px;">
-                        <inek:LabeledText Label="Personalkosten (Vorjahr)" styleClass="col03"/>
-                        <inek:LabeledText Label="Sachkosten (Vorjahr)" styleClass="col03"/>
-                        <inek:LabeledText Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
+                        <inek:LabeledText readonly="true" Label="Personalkosten (Vorjahr)" styleClass="col03"/>
+                        <inek:LabeledText readonly="true" Label="Sachkosten (Vorjahr)" styleClass="col03"/>
+                        <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
                         </div>
                         <div style="float: left; margin-left: 10px;">
                         <inek:LabeledText readonly="true" Label="Personalkosten (Differenz)" styleClass="col03"/>
@@ -402,8 +403,8 @@
                         <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
                         </div>
                     </div>
-                    
-                    <div style="clear: both;"></div>
+                    <div style="clear: both;"></div><br/>
+                    </c:forEach>
                     
                     <ui:include src="Buttons.xhtml" />
                     

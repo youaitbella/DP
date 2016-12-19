@@ -231,10 +231,10 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
     
-    public List<CalcHeaderText> lookupHeaderTexts(int headerGroup, int validityYear) {
-        String sql = "select htID, htSheetID, htText, htFirstYear, htLastYear, htSeq, htType from calc.KGLListHeaderText where "
-                + "htSheetID = "+headerGroup+" and htFirstYear >= "+validityYear+" and htLastYear <= "+validityYear+" order by htSeq";
-        Query query = getEntityManager().createNativeQuery(sql, CalcHeaderText.class);
+    public List<CalcHeaderText> lookupHeaderTexts(int headerId, int validityYear) {
+        String sql = "select ctID, ctText, ctHeaderTextID, ctFirstYear, ctLastYear, ctDecimalCnt, ctSeq from calc.KGLListContentText where "
+                + "ctHeaderTextID = "+headerId+" and "+validityYear+" between ctFirstYear and ctLastYear order by ctSeq";
+        Query query = getEntityManager().createNativeQuery(sql, CalcContentText.class);
         return query.getResultList();
     }
 
