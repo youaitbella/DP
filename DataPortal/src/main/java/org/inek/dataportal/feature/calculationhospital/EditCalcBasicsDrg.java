@@ -107,6 +107,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 CalcDelimitationFact df = new CalcDelimitationFact();
                 df.setContentTextId(ct.getId());
                 df.setLabel(ct.getText());
+                df.setBaseInformationId(_calcBasics.getId());
                 _calcBasics.getDelimitationFacts().add(df);
             }
         }

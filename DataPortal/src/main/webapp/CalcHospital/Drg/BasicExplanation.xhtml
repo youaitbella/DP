@@ -384,7 +384,7 @@
                     <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
                         <span class="label">#{x.label}: </span>
                         <h:selectBooleanCheckbox value="#{x.used}" >
-                            <f:ajax event="blur" render="@this :logout:remaining delimit-content" />
+                            <f:ajax event="change" render="@this :logout:remaining delimit-content" />
                         </h:selectBooleanCheckbox><br/>
                         <h:panelGroup id="delimit-content" rendered="#{x.used}">
                             <div style="float: left;">
