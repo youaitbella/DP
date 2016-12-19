@@ -87,6 +87,28 @@ public class CalcHeaderText implements Serializable {
     }
     // </editor-fold>
     
+    @Column(name = "htSeq")
+    private int _sequence;
+
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int _sequence) {
+        this._sequence = _sequence;
+    }
+    
+    @Column(name = "htType")
+    private int _type;
+
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int _type) {
+        this._type = _type;
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {

@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,8 @@ public class CalcBasicsDrg implements Serializable {
     private static final long serialVersionUID = 1L;
     
     public CalcBasicsDrg() {
-        _kglBaseInformation = new KGLBaseInformation();
+        _kglBaseInformation = new CalcBaseInformation();
+        _delimitationFacts = new ArrayList<>();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -182,17 +184,29 @@ public class CalcBasicsDrg implements Serializable {
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "biBasicsDrgId", referencedColumnName = "bdId")
-    private KGLBaseInformation _kglBaseInformation;
+    private CalcBaseInformation _kglBaseInformation;
 
-    public KGLBaseInformation getKglBaseInformation() {
+    public CalcBaseInformation getKglBaseInformation() {
         return _kglBaseInformation;
     }
 
-    public void setKglBaseInformation(KGLBaseInformation _kglBaseInformation) {
+    public void setKglBaseInformation(CalcBaseInformation _kglBaseInformation) {
         this._kglBaseInformation = _kglBaseInformation;
     }
     
     // </editor-fold>
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "bdId")
+    private List<CalcDelimitationFact> _delimitationFacts;
+
+    public List<CalcDelimitationFact> getDelimitationFacts() {
+        return _delimitationFacts;
+    }
+
+    public void setDelimitationFacts(List<CalcDelimitationFact> _delimitationFacts) {
+        this._delimitationFacts = _delimitationFacts;
+    }
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override

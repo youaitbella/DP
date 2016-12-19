@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
 import org.inek.dataportal.entities.calc.CalcBasicsPepp;
 import org.inek.dataportal.entities.calc.CalcContact;
+import org.inek.dataportal.entities.calc.CalcHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -229,5 +230,10 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
     
-    
+    public List<CalcHeaderText> lookupHeaderTexts(int headerGroup, int validityYear) {
+        String sql = "select htID, htSheetID, htText, htFirstYear, htLastYear, htSeq, htType from calc.KGLListHeaderText where "
+                + "htSheetID = "+headerGroup+" and htFirstYear >= "+validityYear+" and htLastYear <= "+validityYear+" order by htSeq";
+        Query query = getEntityManager().createNativeQuery(sql, CalcHeaderText.class);
+        return query.getResultList();
+    }
 }

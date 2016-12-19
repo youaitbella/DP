@@ -25,7 +25,8 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcBasicsDrg;
-import org.inek.dataportal.entities.calc.KGLBaseInformation;
+import org.inek.dataportal.entities.calc.CalcBaseInformation;
+import org.inek.dataportal.entities.calc.CalcHeaderText;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -57,7 +58,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String _script;
     private CalcBasicsDrg _calcBasics;
-    private KGLBaseInformation _kglBaseInformation;
 
     // </editor-fold>
     @PostConstruct
@@ -97,12 +97,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Account account = _sessionController.getAccount();
         CalcBasicsDrg calcBasic = new CalcBasicsDrg();
         calcBasic.setAccountId(account.getId());
-        newKglBasicInformation();
         return calcBasic;
     }
     
-    private void newKglBasicInformation() {
-        _kglBaseInformation = new KGLBaseInformation();
+    public List<CalcHeaderText> getDelimitationFactHeaders() {
+        return _calcFacade.lookupHeaderTexts(1, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
