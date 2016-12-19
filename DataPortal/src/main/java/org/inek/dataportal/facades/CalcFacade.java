@@ -234,19 +234,21 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
     
-    public List<CalcHeaderText> lookupHeaderTexts(int headerId, int validityYear) {
-        String sql = "select ctID, ctText, ctHeaderTextID, ctFirstYear, ctLastYear, ctDecimalCnt, ctSeq from calc.KGLListContentText where "
-                + "ctHeaderTextID = "+headerId+" and "+validityYear+" between ctFirstYear and ctLastYear order by ctSeq";
-        Query query = getEntityManager().createNativeQuery(sql, CalcContentText.class);
-        return query.getResultList();
-    }
-
+    // <editor-fold defaultstate="collapsed" desc="Neonatology">
     public CalcHeaderText findCalcHeaderText(int id) {
         return findFresh(CalcHeaderText.class, id);
     }
 
     public List<CalcHeaderText> findAllCalcHeaderTexts() {
         return findAll(CalcHeaderText.class);
+    }
+
+    public List<CalcHeaderText> lookupHeaderTexts(int sheetId, int year) {
+        String jpql = "select h from CalcHeaderText h where h._firstYear <= :year and h._lastYear >= :year and h._sheetId = :sheetId";
+        TypedQuery<CalcHeaderText> query = getEntityManager().createQuery(jpql, CalcHeaderText.class);
+        query.setParameter("year", year);
+        query.setParameter("sheetId", sheetId);
+        return query.getResultList();
     }
 
     public CalcHeaderText saveCalcHeaderText(CalcHeaderText headerText) {

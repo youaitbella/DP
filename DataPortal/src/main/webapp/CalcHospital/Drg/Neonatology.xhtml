@@ -40,8 +40,10 @@
 
 
                 <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl ge 1}">
-                    <ui:repeat value="#{editCalcBasicsDrg.headers}" var="header" varStatus="status">
-                        #{header.text}
+                    ###
+                    <ui:repeat value="#{editCalcBasicsDrg.headers}" var="head" varStatus="status">
+                        #{head.text}
+                        #####
                     </ui:repeat>
                 </div>
             </div>
