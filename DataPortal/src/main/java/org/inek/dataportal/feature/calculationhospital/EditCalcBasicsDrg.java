@@ -227,6 +227,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
 
     public List<SelectItem> getIks() {
@@ -262,17 +263,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    private int _dummy;
-
-    public int getDummy() {
-        return _dummy;
+    // <editor-fold defaultstate="collapsed" desc="Tab Neonatalogy">
+    public List<CalcHeaderText> getHeaders(){
+        return _calcFacade.findAllCalcHeaderTexts();
     }
-
-    public void setDummy(int dummy) {
-        this._dummy = dummy;
-    }
-    
     // </editor-fold>    
     
 }

@@ -50,6 +50,30 @@ public class CalcHeaderText implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "htSeq")
+    private int _sequence;
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Type">
+    @Column(name = "htType")
+    private int _type;
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int type) {
+        this._type = type;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Text">
     @Column(name = "htText")
     private String _text;
@@ -86,28 +110,6 @@ public class CalcHeaderText implements Serializable {
         this._lastYear = lastYear;
     }
     // </editor-fold>
-    
-    @Column(name = "htSeq")
-    private int _sequence;
-
-    public int getSequence() {
-        return _sequence;
-    }
-
-    public void setSequence(int _sequence) {
-        this._sequence = _sequence;
-    }
-    
-    @Column(name = "htType")
-    private int _type;
-
-    public int getType() {
-        return _type;
-    }
-
-    public void setType(int _type) {
-        this._type = _type;
-    }
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
