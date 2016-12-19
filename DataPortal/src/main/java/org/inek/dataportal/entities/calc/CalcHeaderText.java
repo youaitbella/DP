@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KGLListHeaderText", schema = "calc")
-public class CalcBasicsHeadline implements Serializable {
+public class CalcHeaderText implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
