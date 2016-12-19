@@ -263,7 +263,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Tab Neonatalogy">
+    // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<CalcHeaderText> getHeaders(){
         return _calcFacade.findAllCalcHeaderTexts();
     }
