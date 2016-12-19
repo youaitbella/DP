@@ -103,7 +103,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public List<CalcDelimitationFact> getDelimitationFacts() {
         if(_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
-            for(CalcContentText ct : _calcFacade.lookupContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+            for(CalcContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
                 CalcDelimitationFact df = new CalcDelimitationFact();
                 df.setContentTextId(ct.getId());
                 df.setLabel(ct.getText());
