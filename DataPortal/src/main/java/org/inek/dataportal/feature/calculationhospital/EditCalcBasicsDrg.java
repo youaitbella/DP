@@ -303,4 +303,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     // </editor-fold>    
 
+    private int _dummy = -1;
+
+    public int getDummy() {
+        return _dummy;
+    }
+
+    public void setDummy(int dummy) {
+        _dummy = dummy;
+    }
 }
