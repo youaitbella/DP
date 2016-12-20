@@ -286,6 +286,10 @@ Zum Einsatz kommt hier JPA.
 Sollte in begründeten Ausnahmefällen der Einsatz einer nativen SQL-Anweisung erforderlich sein,
 wird diese mit den dynamischen Anteilen parametrisiert ("prepared statement"), um auch an dieser Stelle SQL-Injection zu unterbinden.
 
+#### 6.5.1 <a name="KGLTables"></a>[Datenbanktabellen KGL] (KGLTables.md)
+
+
+
 ### 6.6	DropBox
 
 Der Anwender kann sich selber für das DropBox-Verfahren registrieren. 
