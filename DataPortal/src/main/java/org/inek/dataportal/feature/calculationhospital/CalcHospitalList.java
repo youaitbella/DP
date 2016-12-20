@@ -142,7 +142,7 @@ public class CalcHospitalList {
             case 0:
                 return Pages.StatementOfParticipanceEditAddress.URL();
             case 1:
-                return Pages.CalcDrgAdditionalInformationDiagnosticArea.URL();
+                return Pages.CalcDrgBasics.URL();
             case 2:
                 return Pages.StatementOfParticipanceEditAddress.URL();
         }
