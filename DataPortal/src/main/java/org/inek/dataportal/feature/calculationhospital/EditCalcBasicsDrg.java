@@ -72,9 +72,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _calcBasics = loadCalcBasicsDrg(id);
         }
     }
-    public void changePage(ActionEvent event) {
-        Utils.navigate(getActiveTopic().getOutcome());
-    }
 
     public Set<Integer> getCalcIks() {
         Set<Integer> ids = new HashSet<>();
@@ -133,6 +130,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     protected void addTopics() {
         addTopic("tabUMMaster", Pages.CalcDrgBasics.URL());
         addTopic("lblBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
+        addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
+        addTopic("lblCalcOperation", Pages.CalcDrgOperation.URL());
+        addTopic("lblCalcAnaestesia", Pages.CalcDrgAnaestesia.URL());
+        addTopic("lblCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
+        addTopic("lblCalcCardiology", Pages.CalcDrgCardiology.URL());
+        addTopic("lblCalcEndoscopy", Pages.CalcDrgEndoscopy.URL());
+        addTopic("lblCalcRadiology", Pages.CalcDrgRadiology.URL());
+        addTopic("lblCalcLaboratory", Pages.CalcDrgLaboratory.URL());
+        addTopic("lblCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
+        addTopic("lblCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
+        addTopic("lblCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
+        addTopic("lblCalcNormalWard", Pages.CalcrgNormalWard.URL());
+        addTopic("lblCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
+        addTopic("lblCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
+        addTopic("lblCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
+        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
+        addTopic("lblCalcStaffCost", Pages.CalcDrgStaffCost.URL());
+        addTopic("lblCalcValvuarIntervention", Pages.CalcDrgValvuarIntervention.URL());
         addTopic("lblCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 

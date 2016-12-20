@@ -51,8 +51,24 @@ public enum Pages {
     // DRG calculation
     CalcDrgBasics("/CalcHospital/Drg/Basics"),
     CalcDrgBasicExplanation("/CalcHospital/Drg/BasicExplanation"),
-    CalcDrgAdditionalInformationDiagnosticArea("/CalcHospital/Drg/AdditionalInformationDiagnosticArea"),
-    CalcDrgAdditionalInformationherapeuticArea("/CalcHospital/Drg/AdditionalInformationTherapeuticArea"),
+    CalcDrgExternalServiceProvision("/CalcHospital/Drg/ExternalServiceProvision"),
+    CalcDrgOperation("/CalcHospital/Drg/Operation"),
+    CalcDrgAnaestesia("/CalcHospital/Drg/Anaestesia"),
+    CalcDrgMaternityRoom("/CalcHospital/Drg/MaternityRoom"),
+    CalcDrgCardiology("/CalcHospital/Drg/Cardiology"),
+    CalcDrgEndoscopy("/CalcHospital/Drg/Endoscopy"),
+    CalcDrgRadiology("/CalcHospital/Drg/Radiology"),
+    CalcDrgLaboratory("/CalcHospital/Drg/Laboratory"),
+    CalcDrgDiagnosticScope("/CalcHospital/Drg/DiagnosticScope"),
+    CalcDrgTherapeuticScope("/CalcHospital/Drg/TherapeuticScope"),
+    CalcDrgPatientAdmission("/CalcHospital/Drg/PatientAdmission"),
+    CalcrgNormalWard("/CalcHospital/Drg/NormalWard"),
+    CalcDrgIntensiveCare("/CalcHospital/Drg/IntensiveCare"),
+    CalcDrgStrokeUnit("/CalcHospital/Drg/StrokeUnit"),
+    CalcDrgMedicalInfrastructure("/CalcHospital/Drg/MedicalInfrastructure"),
+    CalcDrgNonMedicalInfrastructure("/CalcHospital/Drg/NonMedicalInfrastructure"),
+    CalcDrgStaffCost("/CalcHospital/Drg/StaffCost"),
+    CalcDrgValvuarIntervention("/CalcHospital/Drg/ValvuarIntervention"),
     CalcDrgNeonatology("/CalcHospital/Drg/Neonatology"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
@@ -152,6 +168,7 @@ public enum Pages {
     DocumentsViewer("/Documents/Viewer");
 
     private final String _url;
+
     private Pages(String url) {
         _url = url;
     }
