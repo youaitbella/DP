@@ -70,10 +70,10 @@
 |Leistungsdokumentation (Kreißsaal Gynäkologie)|Kreißsaal/Gynäkologie||KGLBaseInformation||
 |||Das Krankenhaus erbringt Leistungen im Bereich der Gynäkologie.||biGynecology|
 |||Das Krankenhaus erbringt Leistungen im Bereich Geburtshilfe.||biObstetrical|
-|||"Summe der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (ausschließlich für vollstationäre Patientinnen)""umme der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (ausschließlich für vollstationäre Pat""mme der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (ausschließlich für vollstati""me der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (ausschließlich für v""e der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (ausschließlic"" der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (ausschl""der "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden (au""er "Aufenthaltszeit der Patientin im Kreißsaal" in Stunden""r "Aufenthaltszeit der Patientin im Kreißsaal" in Stun"" "Aufenthaltszeit der Patientin im Kreißsaal" in St"""Aufenthaltszeit der Patientin im Kreißsaal" in S""Aufenthaltszeit der Patientin im Kreißsaal" in S""ufent"||biDeliveryRoomHours|
+|||Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden||biDeliveryRoomHours|
 |||davon für vorgeburtliche Kreißsaalaufenthalte||biDeliveryRoomPreBirthHabitationCnt|
 |||Anzahl vollstationär geborener Kinder ||biDeliveryRoomInstationBirthCnt|
-|||"Bei vorgeburtlichen Fällen fielen im Datenjahr 2016 keine "Aufenthaltszeiten der Patientin im Kreißsaal" an.""ei vorgeburtlichen Fällen fielen im Datenjahr 201"||biNoDeliveryRoomHabitation|
+|||Aufenthaltszeiten der Patientin im Kreißsaal||biNoDeliveryRoomHabitation|
 |||Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich||biDeliveryRoomOrganizationalStructure|
 |Leistungsdokumentation (Kardiologie)|||KGLBaseInformation||
 |||Das Krankenhaus erbringt Leistungen im Bereich der Kardiologie.||biCardiology|
