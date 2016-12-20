@@ -67,7 +67,7 @@ public class DrgNeonatQuality implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Fullfilled">
     @Column(name = "nqFullfilled")
     private int _fullfilled = -1;  
-
+    // -1 = not fullfilled, 0 = whole year fullfilled, 1 = fullfilled since Jan., 2 = fullfilled since Feb, ...
     public int getFullfilled() {
         return _fullfilled;
     }

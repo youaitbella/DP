@@ -50,21 +50,28 @@ public class Utils {
         return getMessage(key).replace("\r\n", "\n").replace("\n", "\\r\\n");
     }
 
-    public static String getMessage(String key) {
+    private static String obtainMessage(String key) {
         ResourceBundle messageBundle;
         FacesContext ctxt = FacesContext.getCurrentInstance();
         if (ctxt == null) {
             messageBundle = ResourceBundle.getBundle("org.inek.dataportal.messages");
         } else {
-//            getCurrentInstance().getViewRoot().getLocale().getLanguage()
             messageBundle = ctxt.getApplication().getResourceBundle(ctxt, "msg");
         }
         return messageBundle.getString(key);
     }
 
+    public static String getMessage(String key) {
+        try {
+            return obtainMessage(key);
+        } catch (MissingResourceException e) {
+            return "Unbekannter Text: " + key;
+        }
+    }
+
     public static String getMessageOrEmpty(String key) {
         try {
-            return getMessage(key);
+            return obtainMessage(key);
         } catch (MissingResourceException e) {
             return "";
         }

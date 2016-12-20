@@ -341,6 +341,7 @@ div#wrapper {
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
 }
 
+#content li.activetab select,
 #content li.activetab {
     background-color: #7F9BAF;
     border-color:  #C6D2DB #56748a #7F9BAF #C6D2DB;
@@ -351,6 +352,7 @@ div#wrapper {
     border-color:  transparent;
 }
 
+#content li.activetab select,
 #content li.tab a,
 #content li.activetab a {
     font-size: 1.2em;
@@ -361,9 +363,11 @@ div#wrapper {
 #content li.tab a {
     color: black;
 }
+#content li.activetab select,
 #content li.activetab a {
     color: white;
 }
+
 
 #content li.tab a:hover,
 #content li.tab a:focus {

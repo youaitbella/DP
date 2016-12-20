@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -70,6 +71,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } else {
             _calcBasics = loadCalcBasicsDrg(id);
         }
+    }
+    public void changePage(ActionEvent event) {
+        Utils.navigate(getActiveTopic().getOutcome());
     }
 
     public Set<Integer> getCalcIks() {
@@ -127,6 +131,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     @Override
     protected void addTopics() {
+        addTopic("tabUMMaster", Pages.CalcDrgBasics.URL());
+        addTopic("lblBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
+        addTopic("lblCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

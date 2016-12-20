@@ -2,18 +2,17 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="Edit.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
-    <ui:define name="content">
+    <ui:define name="editContent">
         <h:form id="form">
             <h1><h:commandLink value="#{msg.lblCalcBasicDrg}" action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
             
-            <ui:include src="../CalcMenu.xhtml" />
             
             <div class="edit">
                 <h:form id="messageForm">
@@ -406,8 +405,6 @@
                     </div>
                     <div style="clear: both;"></div><br/>
                     </c:forEach>
-                    
-                    <ui:include src="Buttons.xhtml" />
                     
                 </h:form>
             </div>

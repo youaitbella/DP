@@ -13,6 +13,7 @@
                        action="#{calcHospitalList.newStatementOfParticipance}"
                        immediate="true"
                        value="#{msg.btnNewStatementOfParticipance}"
+                       disabled="#{!calcHospitalList.newStatementOfParticipanceAllowed}"
                        >
             <f:param name="id" value="new"/>
         </h:commandLink>

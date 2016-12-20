@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+        <h:form>
+            <h1><h:commandLink value="#{msg.nameCALCULATION_HOSPITAL} #{msg.lblYearData} #{editCalcBasicsDrg.calcBasics.dataYear}" 
+                               action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+
+            <div class="tab">
+                <ul class="tab">
+                    <li class="activetab">
+                    <h:selectOneMenu value="#{editCalcBasicsDrg.activeTopicKey}"
+                                     immediate="true">
+                        <f:selectItems value="#{editCalcBasicsDrg.visibleTopics}" var="t" 
+                                       itemLabel="#{t.title}" itemValue="#{t.key}"
+                                       />
+                        <f:ajax event="change"/>
+                    </h:selectOneMenu>
+                    </li>
+                </ul>
+            </div>
+        </h:form>
+
+        <div class="edit">
+            <ui:insert name="editContent">Content</ui:insert>
+
+            <h:form>
+                <div class="toolBar">
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editCalcBasicsDrg.save}"
+                                   value="#{msg.btnSave}"
+                                   immediate="true"
+                                   rendered="#{!editCalcBasicsDrg.readOnly}">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editCalcBasicsDrg.requestApproval}"
+                                   value="#{msg.btnRequestApproval}"
+                                   rendered="#{editCalcBasicsDrg.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editCalcBasicsDrg.seal}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editCalcBasicsDrg.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editCalcBasicsDrg.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editCalcBasicsDrg.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
+
