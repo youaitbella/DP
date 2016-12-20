@@ -183,8 +183,12 @@ public class CalcFacade extends AbstractDataAccess {
         return findFresh(PeppCalcBasics.class, id);
     }
 
-    public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics _calcBasics) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
+        if (calcBasics.getId() > 0){
+            return merge(calcBasics);
+        }
+        persist(calcBasics);
+        return calcBasics;
     }
 
     public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
