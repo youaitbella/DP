@@ -33,8 +33,7 @@
 |||Personalkosten||dfPersonalCost|
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
-|Neonatologie||"Levels der Versorgungsstufe des Perinatalzentrums
-"|KGLBaseInformation|biNeonatLvl|
+|Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGLBaseInformation|biNeonatLvl|
 |Neonatologie|Qualifikationen gem. Richtlinie||KGLNeonatQuality||
 |||Qualifikation||nqContentTextID|
 |||Erfüllt (Datum)||nqFulfilled|
@@ -91,17 +90,10 @@
 |||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMhiGuidelineAspired|
 |Leistungsdokumentation (Kreißsaal Gynäkologie)|||KGLListObstetricsGynecology||
 |||Kostenstelle||ogCostCenterText|
-|||"Ärztlicher 
-Dienst"||ogMedicalServiceCnt|
-|||"davon: 
-Belegärzte "||ogAttendingDoctorCnt|
-|||Pflegedienst||ogNursingServiceCnt|
-|||"Funktions-
-dienst (ohne Hebammen)"||ogFunctionalServiceCnt|
-|||Hebammen||ogMidwifeCnt|
-|||"davon: 
-Beleg-Hebammen"||ogAttendingMidwifeCnt|
-|Leistungsdokumentation(Endoskopie)|"endoskopischen Bereiche die nicht den Leistungsschlüssel "Eingriffszeit" verwenden""ndoskopischen Bereiche d"||KGLListEndoscopyDifferential||
+|||Ärztlicher Dienst||ogMedicalServiceCnt||||davon: Belegärzte||ogAttendingDoctorCnt|
+|||Pflegedienst||ogNursingServiceCnt||||Funktionsdienst (ohne Hebammen)||ogFunctionalServiceCnt|
+|||Hebammen||ogMidwifeCnt||||davon: Beleg-Hebammen||ogAttendingMidwifeCnt|
+|Leistungsdokumentation(Endoskopie)|endoskopischen Bereiche die nicht den Leistungsschlüssel "Eingriffszeit" verwenden||KGLListEndoscopyDifferential||
 |||Bereich||edDivision|
 |||Leistungsschlüssel||edActivityKey|
 |Leistungsdokumentation(Radiologie)|Ausgewählte Leistungen||KGLRadiologyService||
