@@ -38,9 +38,10 @@ public class DrgContentText implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property SheetId">
+    // <editor-fold defaultstate="collapsed" desc="Property HeaderTextId">
     @Column(name = "ctHeaderTextId")
     private int _headerTextId;
+
     public int getHeaderTextId() {
         return _headerTextId;
     }
@@ -62,10 +63,11 @@ public class DrgContentText implements Serializable {
         _text = text;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property FirstYear">
     @Column(name = "ctFirstYear")
     private int _firstYear;
+
     public int getFirstYear() {
         return _firstYear;
     }
@@ -78,6 +80,7 @@ public class DrgContentText implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property LastYear">
     @Column(name = "ctLastYear")
     private int _lastYear;
+
     public int getLastYear() {
         return _lastYear;
     }
@@ -90,6 +93,7 @@ public class DrgContentText implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property DecimalCount">
     @Column(name = "ctDecimalCnt")
     private int _decimalCount;
+
     public int getDecimalCount() {
         return _decimalCount;
     }
@@ -102,6 +106,7 @@ public class DrgContentText implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Sequence">
     @Column(name = "ctseq")
     private int _sequence;
+
     public int getSequence() {
         return _sequence;
     }
@@ -127,15 +132,14 @@ public class DrgContentText implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final StatementOfParticipance other = (StatementOfParticipance) obj;
+        final DrgContentText other = (DrgContentText) obj;
         return _id == other.getId();
     }
-    
+
     @Override
     public String toString() {
-        return "Headline[ id=" + _id + "; Sheet=" + _sequence + "; Text=" + _text +" ]";
+        return "DrgContentText[ id=" + _id + " ]";
     }
-    
+
     // </editor-fold>
-    
 }

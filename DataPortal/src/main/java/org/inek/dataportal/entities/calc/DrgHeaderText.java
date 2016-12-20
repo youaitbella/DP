@@ -127,13 +127,13 @@ public class DrgHeaderText implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final StatementOfParticipance other = (StatementOfParticipance) obj;
+        final DrgHeaderText other = (DrgHeaderText) obj;
         return _id == other.getId();
     }
     
     @Override
     public String toString() {
-        return "Headline[ id=" + _id + "; Sheet=" + _lastYear + "; Text=" + _text +" ]";
+        return "DrgHeaderText[ id=" + _id + "; Sheet=" + _lastYear + "; Text=" + _text +" ]";
     }
     
     // </editor-fold>
