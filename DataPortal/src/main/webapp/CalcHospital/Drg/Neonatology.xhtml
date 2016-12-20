@@ -17,7 +17,7 @@
             <ui:include src="../CalcMenu.xhtml" />
 
             <div class="edit">
-                <h2>#{msg.headAdditionalInformationNeonatology}</h2>
+                <h2>#{msg.headCalcNeonatology}</h2>
                 <h:outputLabel for="level" value="#{msg.lblLevelPeritatalCenter}" styleClass="label30"/>
 
                 <h:selectOneMenu styleClass="inputmedium"
@@ -26,7 +26,7 @@
                                  title="Bitte Level wählen"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl}"
+                                 value="#{editCalcBasicsDrg.calcBasics.neonatLvl}"
                                  hideNoSelectionOption="true" >
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                     <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
@@ -39,7 +39,7 @@
                 <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
 
 
-                <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl ge 1}">
+                <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.neonatLvl ge 1}">
                     <ui:repeat value="#{editCalcBasicsDrg.headers}" var="head" varStatus="status">
                         <h:outputLabel value="#{head.text}" styleClass="blockHeader"/>
                         <h:dataTable value="#{editCalcBasicsDrg.retrieveContentTexts(head.id)}" var="ct" rendered="#{head.type eq 0}">

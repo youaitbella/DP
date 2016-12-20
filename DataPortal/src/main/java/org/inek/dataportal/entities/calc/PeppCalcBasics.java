@@ -24,7 +24,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
  * @author muellermi
  */
 @Entity
-@Table(name = "BasicsPepp", schema = "calc")
+@Table(name = "KGPBaseInformation", schema = "calc")
 public class PeppCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class PeppCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bpId")
+    @Column(name = "biId")
     private int _id = -1;
 
     public int getId() {
@@ -45,7 +45,7 @@ public class PeppCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
-    @Column(name = "bpDataYear")
+    @Column(name = "biDataYear")
     private int _dataYear;
     public int getDataYear() {
         return _dataYear;
@@ -57,7 +57,7 @@ public class PeppCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
-    @Column(name = "bpIk")
+    @Column(name = "biIk")
     private int _ik;
     public int getIk() {
         return _ik;
@@ -69,7 +69,7 @@ public class PeppCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Column(name = "bpAccountId")
+    @Column(name = "biAccountId")
     private int _accountId;
     public int getAccountId() {
         return _accountId;
@@ -81,7 +81,7 @@ public class PeppCalcBasics implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
-    @Column(name = "bpStatusId")
+    @Column(name = "biStatusId")
     private int _statusId;
     public int getStatusId() {
         return _statusId;
@@ -101,7 +101,7 @@ public class PeppCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
-    @Column(name = "bpLastChanged")
+    @Column(name = "biLastChanged")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastChanged =  Calendar.getInstance().getTime();
     public Date getLastChanged() {

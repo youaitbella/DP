@@ -93,15 +93,15 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance\n"
                 + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
                 + "union\n"
-                + "select bdId as Id, 1 as [Type], bdAccountId as AccountId, bdDataYear as DataYear, bdIk as IK, bdStatusId as StatusId,\n"
+                + "select biId as Id, 1 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name\n"
-                + "from calc.BasicsDrg\n"
-                + "where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year + "\n"
+                + "from calc.KGLBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "union\n"
-                + "select bpId as Id, 2 as [Type], bpAccountId as AccountId, bpDataYear as DataYear, bpIk as IK, bpStatusId as StatusId,\n"
+                + "select biId as Id, 2 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name\n"
-                + "from calc.BasicsPepp\n"
-                + "where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year + "\n"
+                + "from calc.KGPBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return query.getResultList();
@@ -113,13 +113,13 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance\n"
                 + "where sopAccountId" + accountCond + "\n"
                 + "union\n"
-                + "select bdDataYear as DataYear\n"
-                + "from calc.BasicsDrg\n"
-                + "where bdAccountId" + accountCond + "\n"
+                + "select biDataYear as DataYear\n"
+                + "from calc.KGLBaseInformation\n"
+                + "where biAccountId" + accountCond + "\n"
                 + "union\n"
-                + "select bpDataYear as DataYear\n"
-                + "from calc.BasicsPepp\n"
-                + "where bpAccountId" + accountCond;
+                + "select biDataYear as DataYear\n"
+                + "from calc.KGPBaseInformation\n"
+                + "where biAccountId" + accountCond;
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
@@ -131,13 +131,13 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance\n"
                 + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
                 + "union\n"
-                + "select bdAccountId as AccountId\n"
-                + "from calc.BasicsDrg\n"
-                + "where bdStatusId" + statusCond + " and bdAccountId" + accountCond + " and bdDataYear = " + year + "\n"
+                + "select biAccountId as AccountId\n"
+                + "from calc.KGLBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "union\n"
-                + "select bpAccountId as AccountId\n"
-                + "from calc.BasicsPepp\n"
-                + "where bpStatusId" + statusCond + " and bpAccountId" + accountCond + " and bpDataYear = " + year;
+                + "select biAccountId as AccountId\n"
+                + "from calc.KGPBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year;
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
@@ -204,11 +204,11 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	and sopDataYear = " + year + "\n"
                 + "	and not exists (\n"
                 + "		select 1\n"
-                + "		from calc.BasicsDrg\n"
-                + "		where bdAccountId in (" + accountList + ")\n"
-                + "			and bdStatusId < 200\n"
-                + "			and bdDataYear = " + year + "\n"
-                + "			and sopIk = bdIk\n"
+                + "		from calc.KGLBaseInformation\n"
+                + "		where biAccountId in (" + accountList + ")\n"
+                + "			and biStatusId < 200\n"
+                + "			and biDataYear = " + year + "\n"
+                + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
@@ -224,11 +224,11 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	and sopDataYear = " + year + "\n"
                 + "	and not exists (\n"
                 + "		select 1\n"
-                + "		from calc.BasicsPepp\n"
-                + "		where bpAccountId in (" + accountList + ")\n"
-                + "			and bpStatusId < 200\n"
-                + "			and bpDataYear = " + year + "\n"
-                + "			and sopIk = bpIk\n"
+                + "		from calc.KGPBaseInformation\n"
+                + "		where biAccountId in (" + accountList + ")\n"
+                + "			and biStatusId < 200\n"
+                + "			and biDataYear = " + year + "\n"
+                + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());

@@ -24,9 +24,7 @@ public class CalcHospitalPages {
         LinkedHashMap<String, String> menu = new LinkedHashMap<>();
         menu.put(Utils.getMessage("tabUMMaster"), Pages.CalcDrgBasics.URL());
         menu.put(Utils.getMessage("lblBasicExplanation"), Pages.CalcDrgBasicExplanation.URL());
-        menu.put(Utils.getMessage("lblAdditionalInformationDiagnosticArea"), Pages.CalcDrgAdditionalInformationDiagnosticArea.URL());
-        menu.put(Utils.getMessage("lblAdditionalInformationTherapeuticArea"), Pages.CalcDrgAdditionalInformationherapeuticArea.URL());
-        menu.put(Utils.getMessage("lblAdditionalInformationNeonatology"), Pages.CalcDrgNeonatology.URL());
+        menu.put(Utils.getMessage("lblCalcNeonatology"), Pages.CalcDrgNeonatology.URL());
         return menu;
     }
 }

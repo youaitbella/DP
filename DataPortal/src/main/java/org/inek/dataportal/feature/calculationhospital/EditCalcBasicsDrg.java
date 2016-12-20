@@ -70,7 +70,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } else {
             _calcBasics = loadCalcBasicsDrg(id);
         }
-
     }
 
     public Set<Integer> getCalcIks() {
@@ -125,6 +124,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
+    
     @Override
     protected void addTopics() {
     }
