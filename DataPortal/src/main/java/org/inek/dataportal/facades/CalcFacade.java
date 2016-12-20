@@ -234,10 +234,10 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
-    public List<CalcContentText> retrieveContentTexts(int headerId, int validityYear) {
-        String jpql = "select x from CalcContentText x where x._headerTextId = :headerId and x._firstYear <= :validityYear and x._lastYear >= :validityYear order by x._sequence";
+    public List<CalcContentText> retrieveContentTexts(int headerId, int year) {
+        String jpql = "select ct from CalcContentText ct where ct._headerTextId = :headerId and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
         TypedQuery<CalcContentText> query = getEntityManager().createQuery(jpql, CalcContentText.class);
-        query.setParameter("validityYear", validityYear);
+        query.setParameter("year", year);
         query.setParameter("headerId", headerId);
         return query.getResultList();
     }
@@ -252,10 +252,10 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public List<CalcHeaderText> retrieveHeaderTexts(int year, int sheetId, int type) {
-        String jpql = "select h from CalcHeaderText h "
-                + "where h._firstYear <= :year and h._lastYear >= :year and h._sheetId = :sheetId "
-                + (type >= 0 ? "and h._type = :type " : "")
-                + "order by h._type, h._sequence";
+        String jpql = "select ht from CalcHeaderText ht "
+                + "where ht._firstYear <= :year and ht._lastYear >= :year and ht._sheetId = :sheetId "
+                + (type >= 0 ? "and ht._type = :type " : "")
+                + "order by ht._type, ht._sequence";
         TypedQuery<CalcHeaderText> query = getEntityManager().createQuery(jpql, CalcHeaderText.class);
         query.setParameter("year", year);
         query.setParameter("sheetId", sheetId);

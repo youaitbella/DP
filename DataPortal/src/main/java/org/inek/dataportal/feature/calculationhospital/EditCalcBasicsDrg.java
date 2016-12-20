@@ -72,13 +72,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
     }
-    
+
     public Set<Integer> getCalcIks() {
         Set<Integer> ids = new HashSet<>();
         ids.add(_sessionController.getAccountId());
         return _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg,
                 ids,
-                Calendar.getInstance().get(Calendar.YEAR));
+                _calcBasics.getDataYear());
     }
 
     private CalcBasicsDrg loadCalcBasicsDrg(Object idObject) {
@@ -98,12 +98,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Account account = _sessionController.getAccount();
         CalcBasicsDrg calcBasic = new CalcBasicsDrg();
         calcBasic.setAccountId(account.getId());
+        calcBasic.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         return calcBasic;
     }
-    
+
     public List<CalcDelimitationFact> getDelimitationFacts() {
-        if(_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
-            for(CalcContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+        if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
+            for (CalcContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
                 CalcDelimitationFact df = new CalcDelimitationFact();
                 df.setContentTextId(ct.getId());
                 df.setLabel(ct.getText());
@@ -211,7 +212,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private boolean statementIsComplete() {
         // todo
-        return true;  
+        return true;
     }
 
     public String requestApproval() {
@@ -235,9 +236,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
@@ -270,11 +269,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    public List<CalcHeaderText> getHeaders(){
-        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);  // todo: year is missing! _calcBasics.getKglBaseInformation().XXX);
+    public List<CalcHeaderText> getHeaders() {
+        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1); 
     }
-    // </editor-fold>    
     
+    public List<CalcContentText> retrieveContentTexts(int headerId) {
+        return _calcFacade.retrieveContentTexts(headerId, _calcBasics.getDataYear()); 
+    }
+    
+    // </editor-fold>    
+
 }

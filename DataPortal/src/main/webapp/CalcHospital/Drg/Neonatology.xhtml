@@ -42,6 +42,16 @@
                 <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.kglBaseInformation.neonatLvl ge 1}">
                     <ui:repeat value="#{editCalcBasicsDrg.headers}" var="head" varStatus="status">
                         <h:outputLabel value="#{head.text}" styleClass="blockHeader"/>
+                        <h:dataTable value="#{editCalcBasicsDrg.retrieveContentTexts(head.id)}" var="ct" rendered="#{head.type eq 0}">
+                            <h:column>
+                                <h:outputLabel value="#{ct.text}" styleClass="label"/>
+                            </h:column>
+                        </h:dataTable>
+                        <h:dataTable value="#{editCalcBasicsDrg.retrieveContentTexts(head.id)}" var="ct" rendered="#{head.type eq 1}">
+                            <h:column>
+                                <h:outputLabel value="#{ct.text}"/>
+                            </h:column>
+                        </h:dataTable>
                     </ui:repeat>
                 </div>
             </div>
