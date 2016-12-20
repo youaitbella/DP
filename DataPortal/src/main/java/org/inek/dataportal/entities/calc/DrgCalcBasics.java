@@ -23,6 +23,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlTransient;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -250,7 +251,7 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property CntPartial">
-    @Column(name = "biCntPartial")
+    @Column(name = "biPartialCnt")
     private int _cntPartial = -1;
     
     public int getCntPartial() {
@@ -263,7 +264,7 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property CntLocation">
-    @Column(name = "biCntLocation")
+    @Column(name = "biLocationCnt")
     private int _cntLocation = -1;
     
     public int getCntLocation() {
@@ -274,7 +275,7 @@ public class DrgCalcBasics implements Serializable {
         this._cntLocation = _cntLocation;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property DifLocationSupply">
     @Column(name = "biDifLocationSupply")
     private boolean _difLocationSupply;
@@ -327,6 +328,256 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property gynecology">
+    @Column(name = "biGynecology")
+    private boolean _gynecology;
+
+    public boolean isGynecology() {
+        return _gynecology;
+    }
+
+    public void setGynecology(boolean _gynecology) {
+        this._gynecology = _gynecology;
+    }
+    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property obstetrical">
+    @Column(name = "biObstetrical")
+    private boolean _obstetrical;
+
+    public boolean isObstetrical() {
+        return _obstetrical;
+    }
+
+    public void setObstetrical(boolean _obstetrical) {
+        this._obstetrical = _obstetrical;
+    }
+    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property NoDeliveryRoomHabitation">
+    @Column(name = "biNoDeliveryRoomHabitation")
+    private boolean _noDeliveryRoomHabitation;
+
+    public boolean isNoDeliveryRoomHabitation() {
+        return _noDeliveryRoomHabitation;
+    }
+
+    public void setNoDeliveryRoomHabitation(boolean _noDeliveryRoomHabitation) {
+        this._noDeliveryRoomHabitation = _noDeliveryRoomHabitation;
+    }
+    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Cardiology">
+    @Column(name = "biCardiology")
+    private boolean _cardiology;
+
+    public boolean isCardiology() {
+        return _cardiology;
+    }
+
+    public void setCardiology(boolean _cardiology) {
+        this._cardiology = _cardiology;
+    }
+    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Mhi">
+    @Column(name = "biMhi")
+    private boolean _mhi;
+
+    public boolean isMhi() {
+        return _mhi;
+    }
+
+    public void setMhi(boolean _mhi) {
+        this._mhi = _mhi;
+    }
+    
+    // </editor-fold>    
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MhiAbsolute">
+    @Column(name = "biMhiAbsolute")
+    private boolean _mhiAbsolute;
+
+    public boolean isMhiAbsolute() {
+        return _mhiAbsolute;
+    }
+
+    public void setMhiAbsolute(boolean _mhiAbsolute) {
+        this._mhiAbsolute = _mhiAbsolute;
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MhiTransitionalArrangement">
+    @Column(name = "biMhiTransitionalArrangement")
+    private boolean _mhiTransitionalArrangement;
+
+    public boolean isMhiTransitionalArrangement() {
+        return _mhiTransitionalArrangement;
+    }
+
+    public void setMhiTransitionalArrangement(boolean _mhiTransitionalArrangement) {
+        this._mhiTransitionalArrangement = _mhiTransitionalArrangement;
+    }    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MhiTransitionalArrangement">
+    @Column(name = "biMhiGuideline")
+    private boolean _mhiGuideline;
+
+    public boolean isMhiGuideline() {
+        return _mhiGuideline;
+    }
+
+    public void setMhiGuideline(boolean _mhiGuideline) {
+        this._mhiGuideline = _mhiGuideline;
+    }    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MhiGuidelineAspired">
+    @Column(name = "biMhiGuidelineAspired")
+    boolean _mhiGuidelineAspired;
+
+    public boolean isMhiGuidelineAspired() {
+        return _mhiGuidelineAspired;
+    }
+
+    public void setMhiGuidelineAspired(boolean _mhiGuidelineAspired) {
+        this._mhiGuidelineAspired = _mhiGuidelineAspired;
+    }
+    // </editor-fold>
+            
+    // <editor-fold defaultstate="collapsed" desc="Property Endoscopy">
+    @Column(name = "biEndoscopy")
+    boolean _endoscopy; 
+
+    public boolean isEndoscopy() {
+        return _endoscopy;
+    }
+
+    public void setEndoscopy(boolean _endoscopy) {
+        this._endoscopy = _endoscopy;
+    }
+    // </editor-fold>
+            
+            
+    
+    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomPreBirthHabitationCnt">
+    @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
+    int _deliveryRoomPreBirthHabitationCnt;
+
+    public int getDeliveryRoomPreBirthHabitationCnt() {
+        return _deliveryRoomPreBirthHabitationCnt;
+    }
+
+    public void setDeliveryRoomPreBirthHabitationCnt(int _deliveryRoomPreBirthHabitationCnt) {
+        this._deliveryRoomPreBirthHabitationCnt = _deliveryRoomPreBirthHabitationCnt;
+    }
+    
+    // </editor-fold>
+            
+    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomInstationBirthCnt">
+    @Column(name = "biDeliveryRoomInstationBirthCnt")
+    int _deliveryRoomInstationBirthCnt;
+
+    public int getDeliveryRoomInstationBirthCnt() {
+        return _deliveryRoomInstationBirthCnt;
+    }
+
+    public void setDeliveryRoomInstationBirthCnt(int _deliveryRoomInstationBirthCnt) {
+        this._deliveryRoomInstationBirthCnt = _deliveryRoomInstationBirthCnt;
+    }
+            
+    // </editor-fold>
+            
+    // <editor-fold defaultstate="collapsed" desc="Property CardiologyRoomCnt">
+    @Column(name = "biCardiologyRoomCnt")
+    int _cardiologyRoomCnt;
+
+    public int getCardiologyRoomCnt() {
+        return _cardiologyRoomCnt;
+    }
+
+    public void setCardiologyRoomCnt(int _cardiologyRoomCnt) {
+        this._cardiologyRoomCnt = _cardiologyRoomCnt;
+    }
+    
+    // </editor-fold>
+            
+    // <editor-fold defaultstate="collapsed" desc="Property CardiologyCaseCnt">
+    @Column(name = "biCardiologyCaseCnt")
+    int _cardiologyCaseCnt;
+
+    public int getCardiologyCaseCnt() {
+        return _cardiologyCaseCnt;
+    }
+
+    public void setCardiologyCaseCnt(int _cardiologyCaseCnt) {
+        this._cardiologyCaseCnt = _cardiologyCaseCnt;
+    }
+    
+    // </editor-fold>
+            
+    // <editor-fold defaultstate="collapsed" desc="Property EndoscopyRoomCnt">
+    @Column(name = "biEndoscopyRoomCnt")
+    int _endoscopyRoomCnt;
+
+    public int getEndoscopyRoomCnt() {
+        return _endoscopyRoomCnt;
+    }
+
+    public void setEndoscopyRoomCnt(int _endoscopyRoomCnt) {
+        this._endoscopyRoomCnt = _endoscopyRoomCnt;
+    }
+    
+    // </editor-fold>
+            
+    // <editor-fold defaultstate="collapsed" desc="Property EndoscopyCaseCnt">
+    @Column(name = "biEndoscopyCaseCnt")
+    int _endoscopyCaseCnt;
+
+    public int getEndoscopyCaseCnt() {
+        return _endoscopyCaseCnt;
+    }
+
+    public void setEndoscopyCaseCnt(int _endoscopyCaseCnt) {
+        this._endoscopyCaseCnt = _endoscopyCaseCnt;
+    }
+    // </editor-fold>            
+
+    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomHours">
+    @Column(name = "biDeliveryRoomHours")
+    double _deliveryRoomHours;
+
+    public double getDeliveryRoomHours() {
+        return _deliveryRoomHours;
+    }
+
+    public void setDeliveryRoomHours(double _deliveryRoomHours) {
+        this._deliveryRoomHours = _deliveryRoomHours;
+    }
+    
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomOrganizationalStructure">
+    @Column(name = "biDeliveryRoomOrganizationalStructure")
+    String _deliveryRoomOrganizationalStructure;
+
+    public String getDeliveryRoomOrganizationalStructure() {
+        return _deliveryRoomOrganizationalStructure;
+    }
+
+    public void setDeliveryRoomOrganizationalStructure(String _deliveryRoomOrganizationalStructure) {
+        this._deliveryRoomOrganizationalStructure = _deliveryRoomOrganizationalStructure;
+    }
+    // </editor-fold>
+
+
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "bdId")
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
@@ -339,16 +590,136 @@ public class DrgCalcBasics implements Serializable {
         this._delimitationFacts = _delimitationFacts;
     }
     
-    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
-        return hash;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nccBaseInformationID")
+    private List<KGLNeonatCntCost> kGLNeonatCntCostList;
+
+    @XmlTransient
+    public List<KGLNeonatCntCost> getKGLNeonatCntCostList() {
+        return kGLNeonatCntCostList;
+    }
+
+    public void setKGLNeonatCntCostList(List<KGLNeonatCntCost> kGLNeonatCntCostList) {
+        this.kGLNeonatCntCostList = kGLNeonatCntCostList;
+    }
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationID")
+    private List<KGLListCostCenter> kGLListCostCenterList;
+    @XmlTransient
+    public List<KGLListCostCenter> getKGLListCostCenterList() {
+        return kGLListCostCenterList;
+    }
+
+    public void setKGLListCostCenterList(List<KGLListCostCenter> kGLListCostCenterList) {
+        this.kGLListCostCenterList = kGLListCostCenterList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationID")
+    private List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList;
+
+    @XmlTransient
+    public List<KGLListRadiologyLaboratory> getKGLListRadiologyLaboratoryList() {
+        return kGLListRadiologyLaboratoryList;
+    }
+
+    public void setKGLListRadiologyLaboratoryList(List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList) {
+        this.kGLListRadiologyLaboratoryList = kGLListRadiologyLaboratoryList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ogBaseInformationID")
+    private List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList;
+
+    @XmlTransient
+    public List<KGLListObstetricsGynecology> getKGLListObstetricsGynecologyList() {
+        return kGLListObstetricsGynecologyList;
+    }
+
+    public void setKGLListObstetricsGynecologyList(List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList) {
+        this.kGLListObstetricsGynecologyList = kGLListObstetricsGynecologyList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rsBaseInformationID")
+    private List<KGLRadiologyService> kGLRadiologyServiceList;
+
+    @XmlTransient
+    public List<KGLRadiologyService> getKGLRadiologyServiceList() {
+        return kGLRadiologyServiceList;
+    }
+
+    public void setKGLRadiologyServiceList(List<KGLRadiologyService> kGLRadiologyServiceList) {
+        this.kGLRadiologyServiceList = kGLRadiologyServiceList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "oaBaseInformationID")
+    private List<KGLOpAn> kGLOpAnList;
+
+    @XmlTransient
+    public List<KGLOpAn> getKGLOpAnList() {
+        return kGLOpAnList;
+    }
+
+    public void setKGLOpAnList(List<KGLOpAn> kGLOpAnList) {
+        this.kGLOpAnList = kGLOpAnList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationID")
+    private List<KGLListServiceProvision> kGLListServiceProvisionList;
+
+    @XmlTransient
+    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
+        return kGLListServiceProvisionList;
+    }
+
+    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
+        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ktBaseInformationID")
+    private List<KGLListKstTop> kGLListKstTopList;
+
+    @XmlTransient
+    public List<KGLListKstTop> getKGLListKstTopList() {
+        return kGLListKstTopList;
+    }
+
+    public void setKGLListKstTopList(List<KGLListKstTop> kGLListKstTopList) {
+        this.kGLListKstTopList = kGLListKstTopList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edBaseInformationID")
+    private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
+    @XmlTransient
+    public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
+        return kGLListEndoscopyDifferentialList;
+    }
+
+    public void setKGLListEndoscopyDifferentialList(List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList) {
+        this.kGLListEndoscopyDifferentialList = kGLListEndoscopyDifferentialList;
     }
 
     @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + this._id;
+        hash = 89 * hash + this._dataYear;
+        hash = 89 * hash + this._ik;
+        return hash;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
+    @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -356,13 +727,24 @@ public class DrgCalcBasics implements Serializable {
             return false;
         }
         final DrgCalcBasics other = (DrgCalcBasics) obj;
-        return _id == other.getId();
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._dataYear != other._dataYear) {
+            return false;
+        }
+        if (this._ik != other._ik) {
+            return false;
+        }
+        return true;
     }
-    
+
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.BasicsDrg[ id=" + _id + " ]";
+        return "DrgCalcBasics{" + "_id=" + _id + '}';
     }
+    
+   
     
     // </editor-fold>
     
