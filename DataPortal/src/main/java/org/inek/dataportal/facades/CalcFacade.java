@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.calc.CalcBasicsDrg;
-import org.inek.dataportal.entities.calc.CalcBasicsPepp;
+import org.inek.dataportal.entities.calc.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.CalcContact;
-import org.inek.dataportal.entities.calc.CalcContentText;
-import org.inek.dataportal.entities.calc.CalcHeaderText;
+import org.inek.dataportal.entities.calc.DrgContentText;
+import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -175,15 +175,15 @@ public class CalcFacade extends AbstractDataAccess {
     }
     // </editor-fold>
 
-    public CalcBasicsDrg findCalcBasicsDrg(int id) {
-        return findFresh(CalcBasicsDrg.class, id);
+    public DrgCalcBasics findCalcBasicsDrg(int id) {
+        return findFresh(DrgCalcBasics.class, id);
     }
 
-    public CalcBasicsPepp findCalcBasicsPepp(int id) {
-        return findFresh(CalcBasicsPepp.class, id);
+    public PeppCalcBasics findCalcBasicsPepp(int id) {
+        return findFresh(PeppCalcBasics.class, id);
     }
 
-    public CalcBasicsDrg saveCalcBasicsDrg(CalcBasicsDrg _calcBasics) {
+    public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics _calcBasics) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -234,29 +234,29 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
-    public List<CalcContentText> retrieveContentTexts(int headerId, int year) {
-        String jpql = "select ct from CalcContentText ct where ct._headerTextId = :headerId and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
-        TypedQuery<CalcContentText> query = getEntityManager().createQuery(jpql, CalcContentText.class);
+    public List<DrgContentText> retrieveContentTexts(int headerId, int year) {
+        String jpql = "select ct from DrgContentText ct where ct._headerTextId = :headerId and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
+        TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
         query.setParameter("year", year);
         query.setParameter("headerId", headerId);
         return query.getResultList();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Neonatology">
-    public CalcHeaderText findCalcHeaderText(int id) {
-        return findFresh(CalcHeaderText.class, id);
+    public DrgHeaderText findCalcHeaderText(int id) {
+        return findFresh(DrgHeaderText.class, id);
     }
 
-    public List<CalcHeaderText> findAllCalcHeaderTexts() {
-        return findAll(CalcHeaderText.class);
+    public List<DrgHeaderText> findAllCalcHeaderTexts() {
+        return findAll(DrgHeaderText.class);
     }
 
-    public List<CalcHeaderText> retrieveHeaderTexts(int year, int sheetId, int type) {
-        String jpql = "select ht from CalcHeaderText ht "
+    public List<DrgHeaderText> retrieveHeaderTexts(int year, int sheetId, int type) {
+        String jpql = "select ht from DrgHeaderText ht "
                 + "where ht._firstYear <= :year and ht._lastYear >= :year and ht._sheetId = :sheetId "
                 + (type >= 0 ? "and ht._type = :type " : "")
                 + "order by ht._type, ht._sequence";
-        TypedQuery<CalcHeaderText> query = getEntityManager().createQuery(jpql, CalcHeaderText.class);
+        TypedQuery<DrgHeaderText> query = getEntityManager().createQuery(jpql, DrgHeaderText.class);
         query.setParameter("year", year);
         query.setParameter("sheetId", sheetId);
         if (type >= 0) {
@@ -265,7 +265,7 @@ public class CalcFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public CalcHeaderText saveCalcHeaderText(CalcHeaderText headerText) {
+    public DrgHeaderText saveCalcHeaderText(DrgHeaderText headerText) {
         if (headerText.getId() > 0) {
             return merge(headerText);
         }
@@ -273,15 +273,15 @@ public class CalcFacade extends AbstractDataAccess {
         return headerText;
     }
 
-    public CalcContentText findCalcContentText(int id) {
-        return findFresh(CalcContentText.class, id);
+    public DrgContentText findCalcContentText(int id) {
+        return findFresh(DrgContentText.class, id);
     }
 
-    public List<CalcContentText> findAllCalcContentTexts() {
-        return findAll(CalcContentText.class);
+    public List<DrgContentText> findAllCalcContentTexts() {
+        return findAll(DrgContentText.class);
     }
 
-    public CalcContentText saveCalcContentText(CalcContentText contentText) {
+    public DrgContentText saveCalcContentText(DrgContentText contentText) {
         if (contentText.getId() > 0) {
             return merge(contentText);
         }

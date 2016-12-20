@@ -24,10 +24,10 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.CalcBasicsDrg;
-import org.inek.dataportal.entities.calc.CalcContentText;
-import org.inek.dataportal.entities.calc.CalcDelimitationFact;
-import org.inek.dataportal.entities.calc.CalcHeaderText;
+import org.inek.dataportal.entities.calc.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.DrgContentText;
+import org.inek.dataportal.entities.calc.DrgDelimitationFact;
+import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -58,7 +58,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject private CustomerFacade _customerFacade;
 
     private String _script;
-    private CalcBasicsDrg _calcBasics;
+    private DrgCalcBasics _calcBasics;
 
     // </editor-fold>
     @PostConstruct
@@ -81,10 +81,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 _calcBasics.getDataYear());
     }
 
-    private CalcBasicsDrg loadCalcBasicsDrg(Object idObject) {
+    private DrgCalcBasics loadCalcBasicsDrg(Object idObject) {
         try {
             int id = Integer.parseInt("" + idObject);
-            CalcBasicsDrg statement = _calcFacade.findCalcBasicsDrg(id);
+            DrgCalcBasics statement = _calcFacade.findCalcBasicsDrg(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
             }
@@ -94,18 +94,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return newCalcBasicsDrg();
     }
 
-    private CalcBasicsDrg newCalcBasicsDrg() {
+    private DrgCalcBasics newCalcBasicsDrg() {
         Account account = _sessionController.getAccount();
-        CalcBasicsDrg calcBasic = new CalcBasicsDrg();
+        DrgCalcBasics calcBasic = new DrgCalcBasics();
         calcBasic.setAccountId(account.getId());
         calcBasic.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         return calcBasic;
     }
 
-    public List<CalcDelimitationFact> getDelimitationFacts() {
+    public List<DrgDelimitationFact> getDelimitationFacts() {
         if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
-            for (CalcContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
-                CalcDelimitationFact df = new CalcDelimitationFact();
+            for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
+                DrgDelimitationFact df = new DrgDelimitationFact();
                 df.setContentTextId(ct.getId());
                 df.setLabel(ct.getText());
                 df.setBaseInformationId(_calcBasics.getId());
@@ -116,11 +116,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public CalcBasicsDrg getCalcBasics() {
+    public DrgCalcBasics getCalcBasics() {
         return _calcBasics;
     }
 
-    public void setCalcBasics(CalcBasicsDrg calcBasics) {
+    public void setCalcBasics(DrgCalcBasics calcBasics) {
         _calcBasics = calcBasics;
     }
 
@@ -271,11 +271,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    public List<CalcHeaderText> getHeaders() {
+    public List<DrgHeaderText> getHeaders() {
         return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1); 
     }
     
-    public List<CalcContentText> retrieveContentTexts(int headerId) {
+    public List<DrgContentText> retrieveContentTexts(int headerId) {
         return _calcFacade.retrieveContentTexts(headerId, _calcBasics.getDataYear()); 
     }
     

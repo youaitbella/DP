@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
-public class CalcBaseInformation implements Serializable {
+public class DrgBaseInformation implements Serializable {
     
     private static final long serialVersionUID = 1L;
     

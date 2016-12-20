@@ -32,12 +32,12 @@ import org.inek.dataportal.enums.WorkflowStatus;
  */
 @Entity
 @Table(name = "BasicsDrg", schema = "calc")
-public class CalcBasicsDrg implements Serializable {
+public class DrgCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    public CalcBasicsDrg() {
-        _kglBaseInformation = new CalcBaseInformation();
+    public DrgCalcBasics() {
+        _kglBaseInformation = new DrgBaseInformation();
         _delimitationFacts = new ArrayList<>();
     }
 
@@ -164,33 +164,17 @@ public class CalcBasicsDrg implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="AdditionalInformationDrg">
-    
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "aiId", referencedColumnName = "bdId")
-    private List<AdditionalInformationDrg> _additionalInformationDrg;
-
-    public List<AdditionalInformationDrg> getAdditionalInformationDrg() {
-        return _additionalInformationDrg;
-    }
-
-    public void setAdditionalInformationDrg(List<AdditionalInformationDrg> _additionalInformationDrg) {
-        this._additionalInformationDrg = _additionalInformationDrg;
-    }
-    
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="KGLBaseInformation">
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "biBasicsDrgId", referencedColumnName = "bdId")
-    private CalcBaseInformation _kglBaseInformation;
+    private DrgBaseInformation _kglBaseInformation;
 
-    public CalcBaseInformation getKglBaseInformation() {
+    public DrgBaseInformation getKglBaseInformation() {
         return _kglBaseInformation;
     }
 
-    public void setKglBaseInformation(CalcBaseInformation _kglBaseInformation) {
+    public void setKglBaseInformation(DrgBaseInformation _kglBaseInformation) {
         this._kglBaseInformation = _kglBaseInformation;
     }
     
@@ -198,13 +182,13 @@ public class CalcBasicsDrg implements Serializable {
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "bdId")
-    private List<CalcDelimitationFact> _delimitationFacts;
+    private List<DrgDelimitationFact> _delimitationFacts;
 
-    public List<CalcDelimitationFact> getDelimitationFacts() {
+    public List<DrgDelimitationFact> getDelimitationFacts() {
         return _delimitationFacts;
     }
 
-    public void setDelimitationFacts(List<CalcDelimitationFact> _delimitationFacts) {
+    public void setDelimitationFacts(List<DrgDelimitationFact> _delimitationFacts) {
         this._delimitationFacts = _delimitationFacts;
     }
     

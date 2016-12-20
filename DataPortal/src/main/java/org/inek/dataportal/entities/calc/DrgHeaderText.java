@@ -18,15 +18,15 @@ import javax.persistence.Table;
  * @author muellermi
  */
 @Entity
-@Table(name = "KGLListContentText", schema = "calc")
-public class CalcContentText implements Serializable {
+@Table(name = "KGLListHeaderText", schema = "calc")
+public class DrgHeaderText implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ctId")
+    @Column(name = "htId")
     private int _id = -1;
 
     public int getId() {
@@ -39,19 +39,43 @@ public class CalcContentText implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SheetId">
-    @Column(name = "ctHeaderTextId")
-    private int _headerTextId;
-    public int getHeaderTextId() {
-        return _headerTextId;
+    @Column(name = "htSheetId")
+    private int _sheetId;
+    public int getSheetId() {
+        return _sheetId;
     }
 
-    public void setHeaderTextId(int contentHeaderId) {
-        this._headerTextId = contentHeaderId;
+    public void setSheetId(int sheetId) {
+        _sheetId = sheetId;
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Type">
+    @Column(name = "htType")
+    private int _type;
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int type) {
+        _type = type;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "htSeq")
+    private int _sequence;
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        _sequence = sequence;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Text">
-    @Column(name = "ctText")
+    @Column(name = "htText")
     private String _text;
 
     public String getText() {
@@ -62,55 +86,31 @@ public class CalcContentText implements Serializable {
         _text = text;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property FirstYear">
-    @Column(name = "ctFirstYear")
+    @Column(name = "htFirstYear")
     private int _firstYear;
     public int getFirstYear() {
         return _firstYear;
     }
 
     public void setFirstYear(int firstYear) {
-        this._firstYear = firstYear;
+        _firstYear = firstYear;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastYear">
-    @Column(name = "ctLastYear")
+    @Column(name = "htLastYear")
     private int _lastYear;
     public int getLastYear() {
         return _lastYear;
     }
 
     public void setLastYear(int lastYear) {
-        this._lastYear = lastYear;
+        _lastYear = lastYear;
     }
     // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property DecimalCount">
-    @Column(name = "ctDecimalCnt")
-    private int _decimalCount;
-    public int getDecimalCount() {
-        return _decimalCount;
-    }
-
-    public void setDecimalCount(int decimalCount) {
-        this._decimalCount = decimalCount;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
-    @Column(name = "ctseq")
-    private int _sequence;
-    public int getSequence() {
-        return _sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this._sequence = sequence;
-    }
-    // </editor-fold>
-
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
@@ -133,7 +133,7 @@ public class CalcContentText implements Serializable {
     
     @Override
     public String toString() {
-        return "Headline[ id=" + _id + "; Sheet=" + _sequence + "; Text=" + _text +" ]";
+        return "Headline[ id=" + _id + "; Sheet=" + _lastYear + "; Text=" + _text +" ]";
     }
     
     // </editor-fold>

@@ -25,7 +25,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
  */
 @Entity
 @Table(name = "BasicsPepp", schema = "calc")
-public class CalcBasicsPepp implements Serializable {
+public class PeppCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

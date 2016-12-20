@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KGLListDelimitationFact", schema = "calc")
-public class CalcDelimitationFact implements Serializable {
+public class DrgDelimitationFact implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
