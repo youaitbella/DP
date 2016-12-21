@@ -191,7 +191,10 @@
 |||Name der Kostenstelle||miCostCenterText|
 |||Verwendeter Schlüssel||miKeyUsed|
 |||Kostenvolumen||miAmount|
-
+|Intensiv_Stroke (Intensiv)|||KGLBaseInformation||
+|||Intensivbetten||biIntensiveBed|
+|Intensiv_Stroke (Stroke Unit)|||KGLBaseInformation||
+|||Intensivbetten Schlaganfall||biIntensiveStrokeBed|
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
