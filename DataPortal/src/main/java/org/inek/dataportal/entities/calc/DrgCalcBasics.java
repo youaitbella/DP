@@ -88,32 +88,6 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Delivery Type">
-    @Column(name = "biDeliveryType")
-    private byte _deliveryType;
-
-    public byte getDeliveryType() {
-        return _deliveryType;
-    }
-
-    public void setDeliveryType(byte _deliveryType) {
-        this._deliveryType = _deliveryType;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Correction Note">
-    @Column(name = "biCorrectionNote")
-    private String _correctionNote;
-
-    public String getCorrectionNote() {
-        return _correctionNote;
-    }
-
-    public void setCorrectionNote(String _correctionNote) {
-        this._correctionNote = _correctionNote;
-    }
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "biAccountId")
     private int _accountId;
@@ -159,6 +133,32 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Delivery Type">
+    @Column(name = "biDeliveryType")
+    private byte _deliveryType;
+
+    public byte getDeliveryType() {
+        return _deliveryType;
+    }
+
+    public void setDeliveryType(byte _deliveryType) {
+        this._deliveryType = _deliveryType;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Correction Note">
+    @Column(name = "biCorrectionNote")
+    private String _correctionNote;
+
+    public String getCorrectionNote() {
+        return _correctionNote;
+    }
+
+    public void setCorrectionNote(String _correctionNote) {
+        this._correctionNote = _correctionNote;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property SumCalcCost">
     @Column(name = "biSumCalcCost")
     private float _sumCalcCost;
@@ -172,29 +172,29 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property CntCaseInStation">
-    @Column(name = "biCntCaseInStation")
-    private int _cntCaseInStation;
+    // <editor-fold defaultstate="collapsed" desc="Property CaseInStationCount">
+    @Column(name = "biCaseInStationCnt")
+    private int _caseInStationCount;
 
-    public int getCntCaseInStation() {
-        return _cntCaseInStation;
+    public int getCaseInStationCount() {
+        return _caseInStationCount;
     }
 
-    public void setCntCaseInStation(int _cntCaseInStation) {
-        this._cntCaseInStation = _cntCaseInStation;
+    public void setCaseInStationCount(int _cntCaseInStation) {
+        this._caseInStationCount = _cntCaseInStation;
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property CntCasePartialStation">
-    @Column(name = "biCntCasePartialStation")
-    private int _cntCasePartialStation;
+    // <editor-fold defaultstate="collapsed" desc="Property CasePartialStationCount">
+    @Column(name = "biCasePartialStationCnt")
+    private int _casePartialStationCount;
 
-    public int getCntCasePartialStation() {
-        return _cntCasePartialStation;
+    public int getCasePartialStationCount() {
+        return _casePartialStationCount;
     }
 
-    public void setCntCasePartialStation(int _cntCasePartialStation) {
-        this._cntCasePartialStation = _cntCasePartialStation;
+    public void setCasePartialStationCount(int _cntCasePartialStation) {
+        this._casePartialStationCount = _cntCasePartialStation;
     }
     // </editor-fold>
     
