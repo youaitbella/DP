@@ -34,12 +34,9 @@
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
 |Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGLBaseInformation|biNeonatLvl|
-|Neonatologie|Qualifikationen gem. Richtlinie||KGLNeonatQuality||
-|||Qualifikation||nqContentTextID|
-|||Erfüllt (Datum)||nqFulfilled|
-|Neonatologie|Kennzahlen/Kosten||KGLNeonatCntCost||
-|||Kennzahl||nccContentTextID|
-|||Anzahl/Kosten||nccValue|
+|Neonatologie|Qualifikationen gem. Richtlinie||KGLNeonatData||
+|||Qualifikation||ndContentTextID|
+|||Erfüllt (Datum)/Anzahl/Kosten||ndData|
 |Leistungsdokumentation (ext. Lei)|||||
 |||Bereich|KGLListServiceProvisionType|sptText|
 |||wird nicht erbracht|KGLListServiceProvision|spNotProvided|
@@ -195,6 +192,25 @@
 |||Intensivbetten||biIntensiveBed|
 |Intensiv_Stroke (Stroke Unit)|||KGLBaseInformation||
 |||Intensivbetten Schlaganfall||biIntensiveStrokeBed|
+|Intensiv_Stroke|||KGLListIntensivStroke||
+|||IntensivTyp zur Unterscheidung Intensiv/Stroke||isIntensiveType|
+|||Nummer Kostenstelle||isCostCenterID|
+|||Name Kostenstelle||isCostCenterText|
+|||FAB Schlüssel||isDepartmentKey|
+|||Belegung: FAB||isDepartmentAssignment|
+|||Anzahl Betten||isBedCnt|
+|||Anzahl Fälle||isCaseCnt|
+|||OPS 8-980||isOPS8980|
+|||OPS 8-98f||isOPS898f|
+|||OPS 8-981 (Stroke)||isOPS8981|
+|||OPS 8-98b (Stroke)||isOPS898b|
+|||Mindestmerkmale Zeitabschnitt||isMinimumPeriod|
+|||Summe gew. Intensiv Std.||isIntensivHoursWeighted|
+|||Summe ungew. Intensiv Std.||isIntensivHoursNotweighted|
+|||Gewichtungsfaktor Min.||isWeightMinimum|
+|||Gewichtungsfaktor Max.||isWeightMaximum|
+|||Gewichtungsfaktor Erläuterung||isWeightDescription|
+
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
