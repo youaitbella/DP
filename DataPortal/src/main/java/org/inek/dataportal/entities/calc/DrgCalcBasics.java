@@ -77,7 +77,7 @@ public class DrgCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Hospital Name">
     @Column(name = "biHospitalName")
-    private String _hospitalName;
+    private String _hospitalName = "";
 
     public String getHospitalName() {
         return _hospitalName;
@@ -121,7 +121,7 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
-    @Column(name = "bdLastChanged")
+    @Column(name = "biLastChanged")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastChanged =  Calendar.getInstance().getTime();
     public Date getLastChanged() {
@@ -148,7 +148,7 @@ public class DrgCalcBasics implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Correction Note">
     @Column(name = "biCorrectionNote")
-    private String _correctionNote;
+    private String _correctionNote = "";
 
     public String getCorrectionNote() {
         return _correctionNote;
@@ -565,14 +565,14 @@ public class DrgCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomOrganizationalStructure">
     @Column(name = "biDeliveryRoomOrganizationalStructure")
-    String _deliveryRoomOrganizationalStructure;
+    private String _deliveryRoomOrganizationalStructure = "";
 
     public String getDeliveryRoomOrganizationalStructure() {
         return _deliveryRoomOrganizationalStructure;
     }
 
-    public void setDeliveryRoomOrganizationalStructure(String _deliveryRoomOrganizationalStructure) {
-        this._deliveryRoomOrganizationalStructure = _deliveryRoomOrganizationalStructure;
+    public void setDeliveryRoomOrganizationalStructure(String deliveryRoomOrganizationalStructure) {
+        this._deliveryRoomOrganizationalStructure = deliveryRoomOrganizationalStructure;
     }
     // </editor-fold>
 
