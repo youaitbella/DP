@@ -2,14 +2,12 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="Edit.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
-    <ui:define name="editContent">
         <h:form id="form">
             
             <div class="edit">
@@ -35,7 +33,7 @@
                     </div>
                     
                     <div class="inputPart">
-                        <h:outputLabel styleClass="label" for="newDelivery">
+                        <h:outputLabel styleClass="label" for="deliveryType">
                             Informationen zur Kalkulationsgrundlage:
                         </h:outputLabel><br/>
                         <h:selectOneRadio id="deliveryType" value="#{editCalcBasicsDrg.calcBasics.deliveryType}" required="true">
@@ -58,7 +56,6 @@
             </div>
             
         </h:form>
-    </ui:define>
 
 </ui:composition>
 

@@ -81,7 +81,7 @@ public class CalcHospitalList {
     public String newCalculationBasicsDrg() {
         destroyFeatureBeans();
         
-        return Pages.CalcDrgBasics.URL();
+        return Pages.CalcDrgEdit.RedirectURL();
     }
 
     public boolean isNewCalculationBasicsPeppAllowed() {
@@ -142,7 +142,7 @@ public class CalcHospitalList {
             case 0:
                 return Pages.StatementOfParticipanceEditAddress.URL();
             case 1:
-                return Pages.CalcDrgBasics.URL();
+                return Pages.CalcDrgEdit.RedirectURL();
             case 2:
                 return Pages.StatementOfParticipanceEditAddress.URL();
         }

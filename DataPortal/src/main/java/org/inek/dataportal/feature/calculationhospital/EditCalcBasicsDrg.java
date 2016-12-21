@@ -15,9 +15,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,6 +38,7 @@ import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -47,7 +46,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author muellermi
  */
 @Named
-@SessionScoped
+@FeatureScoped
 public class EditCalcBasicsDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
@@ -256,8 +255,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
         return "";
     }
-
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();

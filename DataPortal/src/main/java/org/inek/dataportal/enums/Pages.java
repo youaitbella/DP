@@ -49,6 +49,7 @@ public enum Pages {
     StatementOfParticipanceEditAddress("/CalcHospital/StatementOfParticipance/EditAddress"),
     StatementOfParticipanceEditStatements("/CalcHospital/StatementOfParticipance/EditStatements"),
     // DRG calculation
+    CalcDrgEdit("/CalcHospital/Drg/Edit"),
     CalcDrgBasics("/CalcHospital/Drg/Basics"),
     CalcDrgBasicExplanation("/CalcHospital/Drg/BasicExplanation"),
     CalcDrgExternalServiceProvision("/CalcHospital/Drg/ExternalServiceProvision"),

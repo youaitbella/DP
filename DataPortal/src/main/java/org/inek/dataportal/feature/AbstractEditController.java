@@ -63,14 +63,14 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
 
     public void setActiveTopicKey(String key) {
         _topics.setActive(key);
-        Utils.navigate(getActiveTopic().getOutcome());
+        //Utils.navigate(getActiveTopic().getOutcome());
     }
 
     public Topic findTopic(String key) {
         return _topics.findTopic(key);
     }
-
     // </editor-fold>
+
     private void initTopics() {
         addTopics();
     }

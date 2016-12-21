@@ -17,12 +17,11 @@
             <div class="tab">
                 <ul class="tab">
                     <li class="activetab">
-                    <h:selectOneMenu value="#{editCalcBasicsDrg.activeTopicKey}"
-                                     immediate="true">
+                    <h:selectOneMenu value="#{editCalcBasicsDrg.activeTopicKey}">
                         <f:selectItems value="#{editCalcBasicsDrg.visibleTopics}" var="t" 
                                        itemLabel="#{t.title}" itemValue="#{t.key}"
                                        />
-                        <f:ajax event="change"/>
+                        <f:ajax event="change" render="@all :logout:remaining"/>
                     </h:selectOneMenu>
                     </li>
                 </ul>
@@ -30,8 +29,8 @@
         </h:form>
 
         <div class="edit">
-            <ui:insert name="editContent">Content</ui:insert>
-
+            <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
+            
             <h:form>
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
