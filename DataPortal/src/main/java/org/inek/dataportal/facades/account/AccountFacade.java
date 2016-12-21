@@ -334,6 +334,9 @@ public class AccountFacade extends AbstractFacade<Account> {
     public boolean isReRegister(String email) {
         try {
             Account account = findByMail(email);
+            if (account == null){
+                return false;
+            }
             _mailer.sendReRegisterMail(account);
             return true;
         } catch (Exception ex) {
