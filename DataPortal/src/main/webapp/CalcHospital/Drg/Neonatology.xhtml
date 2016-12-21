@@ -10,68 +10,67 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-        <h:form id="form">
 
-            <div class="edit">
-                <h2>#{msg.headCalcNeonatology}</h2>
+    <h2>#{msg.headCalcNeonatology}</h2>
 
-                <h:outputLabel for="level" value="#{msg.lblLevelPeritatalCenter}" styleClass="label30"/>
-                <h:selectOneMenu id="level"
-                                 immediate="true"
-                                 title="Bitte Level wählen"
-                                 required="true"
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editCalcBasicsDrg.calcBasics.neonatLvl}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 1" itemValue="#{1}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 2" itemValue="#{2}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 3" itemValue="#{3}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 4" itemValue="#{4}"/>
-                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-                </h:selectOneMenu>
-                <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
+    <h:form>
+        <h:outputLabel for="level" value="#{msg.lblLevelPeritatalCenter}" styleClass="label30"/>
+        <h:selectOneMenu id="level"
+                         title="Bitte Level wählen"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.neonatLvl}"
+                         hideNoSelectionOption="true" >
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+            <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 1" itemValue="#{1}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 2" itemValue="#{2}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 3" itemValue="#{3}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 4" itemValue="#{4}"/>
+            <f:ajax event="change" render="@all :logout:remaining msgLevel"/>
+        </h:selectOneMenu>
+        <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
+    </h:form>
 
 
-                <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.neonatLvl ge 1}">
-                    <ui:repeat value="#{editCalcBasicsDrg.headers}" var="head" varStatus="status">
-                        <h:outputLabel value="#{head.text}" styleClass="blockHeader"/>
+    <h:form>
+        <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.neonatLvl ge 1}">
+            <ui:repeat value="#{editCalcBasicsDrg.headers}" var="head" varStatus="status">
+                <h:outputLabel value="#{head.text}" styleClass="blockHeader"/>
 
-                        <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" var="data" rendered="#{head.type eq 0}">
-                            <h:column>
-                                <f:facet name="header">#{msg.lblQualificationByPolicy}</f:facet>
-                                <h:outputLabel value="#{data.contentText.text}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">#{msg.lblFulfilled}</f:facet>
-                <h:selectOneMenu id="fulFillment"
-                                 required="true"
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editCalcBasicsDrg.dummy}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 1" itemValue="#{1}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 2" itemValue="#{2}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 3" itemValue="#{3}"/>
-                    <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 4" itemValue="#{4}"/>
-                    <f:ajax event="change" render="@form :logout:remaining msgFulFillment"/>
-                </h:selectOneMenu>
-                <h:message for="fulFillment" id="msgFulFillment" styleClass="errorMessage"/>
-                                
-                            </h:column>
-                        </h:dataTable>
+                <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" var="data" rendered="#{head.type eq 0}">
+                    <h:column>
+                        <f:facet name="header">#{msg.lblQualificationByPolicy}</f:facet>
+                        <h:outputLabel value="#{data.contentText.text}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.lblFulfilled}</f:facet>
+                        <h:selectOneMenu id="fulFillment"
+                                         required="true"
+                                         requiredMessage="#{msg.msgValueNeeded}"
+                                         value="#{editCalcBasicsDrg.dummy}"
+                                         hideNoSelectionOption="true" >
+                            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
+                            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 1" itemValue="#{1}"/>
+                            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 2" itemValue="#{2}"/>
+                            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 3" itemValue="#{3}"/>
+                            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 4" itemValue="#{4}"/>
+                            <f:ajax event="change" render="@form :logout:remaining msgFulFillment"/>
+                        </h:selectOneMenu>
+                        <h:message for="fulFillment" id="msgFulFillment" styleClass="errorMessage"/>
 
-                        <h:dataTable value="#{editCalcBasicsDrg.retrieveContentTexts(head.id)}" var="ct" rendered="#{head.type eq 1}">
-                            <h:column>
-                                <h:outputLabel value="#{ct.text}"/>
-                            </h:column>
-                        </h:dataTable>
-                    </ui:repeat>
-                </div>
-            </div>
-        </h:form>
+                    </h:column>
+                </h:dataTable>
+
+                <h:dataTable value="#{editCalcBasicsDrg.retrieveContentTexts(head.id)}" var="ct" rendered="#{head.type eq 1}">
+                    <h:column>
+                        <h:outputLabel value="#{ct.text}"/>
+                    </h:column>
+                </h:dataTable>
+            </ui:repeat>
+        </div>
+    </h:form>
 
 </ui:composition>
 

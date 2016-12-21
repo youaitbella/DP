@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -66,6 +67,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Object id = params.get("id");
+        if (id == null){return;}
         if (id.toString().equals("new")) {
             _calcBasics = newCalcBasicsDrg();
         } else {
@@ -295,6 +297,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void ensureNeonateData() {
         if (_calcBasics.getNeonateData() != null && !_calcBasics.getNeonateData().isEmpty()) {
             return;
+        }
+        if (_calcBasics.getNeonateData() == null) {
+            _calcBasics.setNeonateData(new Vector<>());
         }
         List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1)
                 .stream()

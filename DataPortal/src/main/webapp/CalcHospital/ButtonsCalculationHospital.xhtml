@@ -18,14 +18,13 @@
             <f:param name="id" value="new"/>
         </h:commandLink>
 
-        <h:commandLink styleClass="bigButton #{calcHospitalList.newCalculationBasicsDrgAllowed ? '' : 'buttonDisabled'}"
-                       action="#{calcHospitalList.newCalculationBasicsDrg}"
-                       immediate="true"
+        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsDrgAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcDrgEdit}"
                        value="#{msg.btnNewCalculationBasicsDrg}"
                        disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}"
                        >
             <f:param name="id" value="new"/>
-        </h:commandLink>
+        </h:link>
 
         <h:commandLink styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
                        action="#{calcHospitalList.newStatementOfParticipance}"
