@@ -593,7 +593,7 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatQuality">
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nccBaseInformationID")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nccBaseInformationID", referencedColumnName = "biId")
     private List<DrgNeonatQuality> neonatQuality;
 
@@ -607,8 +607,8 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatCountCost">
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nccBaseInformationID")
-    @JoinColumn(name = "nccBaseInformationID", referencedColumnName = "biId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "nqBaseInformationID", referencedColumnName = "biId")
     private List<DrgNeonatCountCost> neonatCountCost;
 
     public List<DrgNeonatCountCost> getNeonatCountCost() {

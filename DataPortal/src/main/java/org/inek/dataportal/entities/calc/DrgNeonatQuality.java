@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -61,6 +63,20 @@ public class DrgNeonatQuality implements Serializable {
 
     public void setContentTextId(int contentTextId) {
         _contentTextId = contentTextId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ContentText">
+    @OneToOne()
+    @JoinColumn(name = "nqContentTextId")
+    private DrgContentText _contentText;
+
+    public DrgContentText getContentText() {
+        return _contentText;
+    }
+
+    public void setContentText(DrgContentText contentText) {
+        _contentText = contentText;
     }
     // </editor-fold>
 

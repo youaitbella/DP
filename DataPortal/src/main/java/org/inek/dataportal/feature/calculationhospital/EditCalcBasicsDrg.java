@@ -293,6 +293,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
+    private void populateNeonateData(){
+        if (_calcBasics.getNeonatQuality() == null || _calcBasics.getNeonatQuality().isEmpty()) {
+//            for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
+//                DrgDelimitationFact df = new DrgDelimitationFact();
+//                df.setContentTextId(ct.getId());
+//                df.setLabel(ct.getText());
+//                df.setBaseInformationId(_calcBasics.getId());
+//                _calcBasics.getDelimitationFacts().add(df);
+//            }
+        }
+        
+    }
+    
     public List<DrgHeaderText> getHeaders() {
         return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1); 
     }

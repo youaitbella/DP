@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.facades;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -239,10 +240,16 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public List<DrgContentText> retrieveContentTexts(int headerId, int year) {
-        String jpql = "select ct from DrgContentText ct where ct._headerTextId = :headerId and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
+        List<Integer> headerIds = new ArrayList<>();
+        headerIds.add(headerId);
+        return retrieveContentTexts(headerIds, year);
+    }
+    
+    public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
+        String jpql = "select ct from DrgContentText ct where ct._headerTextId in (:headerIds) and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
         TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
         query.setParameter("year", year);
-        query.setParameter("headerId", headerId);
+        query.setParameter("headerIds", headerIds);
         return query.getResultList();
     }
 
