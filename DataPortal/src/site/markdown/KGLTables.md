@@ -185,6 +185,13 @@
 |||Stufenleiterverfahren||biStepladderMethodNonMedInfra|
 |||Anbauverfahren||biExtensionMethodNonMedInfra|
 |||Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
+|Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGLListMedInfra||
+|||Kostenartengruppe||miCostTypeID|
+|||Nummer der Kostenstelle||miCostCenter|
+|||Name der Kostenstelle||miCostCenterText|
+|||Verwendeter Schlüssel||miKeyUsed|
+|||Kostenvolumen||miAmount|
+
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
