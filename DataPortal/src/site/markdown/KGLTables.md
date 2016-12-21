@@ -129,5 +129,8 @@
 |||Expertenschätzung||paExpertRating|
 |||Sonstige||paOther|
 |||Kostenvolumen||paAmount|
+|Normalstation|||KGLBaseInformation||
+|||Ärzte freie Mitarbeit||biNormalFreelancing|
+|||Honorarverträge||biFeeContract|
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
