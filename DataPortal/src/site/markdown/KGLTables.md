@@ -136,6 +136,15 @@
 |||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
 |||KIS-Integration/Manuell||biKISIntegration|
 |||Sonstiges||biNormalStationOther|
+|Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGLPKMSAlternative||
+|||Fachabteilung||paDepartment|
+|||FAB Schlüssel 301||paDepartmentKey|
+|||Alternativverfahren||paAlternative|
+|Normalstation|Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a||KGLNormalStationServiceDocumentation||
+|||Ja/Nein||nssUsed|
+|||Fachabteilung||nssDepartment|
+|||FAB Schlüssel 301||nssDepartmentKey|
+|||Alternativverfahren||nssAlternative|
 
 
 
