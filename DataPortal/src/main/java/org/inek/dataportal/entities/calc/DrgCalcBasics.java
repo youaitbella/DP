@@ -315,19 +315,6 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property NeonatLvl">
-    @Column(name = "biNeonatLvl")
-    private int _neonatLvl;
-    
-    public int getNeonatLvl() {
-        return _neonatLvl;
-    }
-
-    public void setNeonatLvl(int _neonatLvl) {
-        this._neonatLvl = _neonatLvl;
-    }
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Property gynecology">
     @Column(name = "biGynecology")
     private boolean _gynecology;
@@ -578,6 +565,7 @@ public class DrgCalcBasics implements Serializable {
 
 
     
+    // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
@@ -589,19 +577,48 @@ public class DrgCalcBasics implements Serializable {
     public void setDelimitationFacts(List<DrgDelimitationFact> _delimitationFacts) {
         this._delimitationFacts = _delimitationFacts;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property NeonatLvl">
+    @Column(name = "biNeonatLvl")
+    private int _neonatLvl;
     
+    public int getNeonatLvl() {
+        return _neonatLvl;
+    }
+
+    public void setNeonatLvl(int _neonatLvl) {
+        this._neonatLvl = _neonatLvl;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatQuality">
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nccBaseInformationID")
-    private List<KGLNeonatCntCost> kGLNeonatCntCostList;
+    @JoinColumn(name = "nccBaseInformationID", referencedColumnName = "biId")
+    private List<DrgNeonatQuality> neonatQuality;
 
-    @XmlTransient
-    public List<KGLNeonatCntCost> getKGLNeonatCntCostList() {
-        return kGLNeonatCntCostList;
+    public List<DrgNeonatQuality> getNeonatQuality() {
+        return neonatQuality;
     }
 
-    public void setKGLNeonatCntCostList(List<KGLNeonatCntCost> kGLNeonatCntCostList) {
-        this.kGLNeonatCntCostList = kGLNeonatCntCostList;
+    public void setNeonatQuality(List<DrgNeonatQuality> neonatQuality) {
+        this.neonatQuality = neonatQuality;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatCountCost">
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nccBaseInformationID")
+    @JoinColumn(name = "nccBaseInformationID", referencedColumnName = "biId")
+    private List<DrgNeonatCountCost> neonatCountCost;
+
+    public List<DrgNeonatCountCost> getNeonatCountCost() {
+        return neonatCountCost;
+    }
+
+    public void setNeonatCountCost(List<DrgNeonatCountCost> neonatCountCost) {
+        this.neonatCountCost = neonatCountCost;
+    }
+    // </editor-fold>
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationID")

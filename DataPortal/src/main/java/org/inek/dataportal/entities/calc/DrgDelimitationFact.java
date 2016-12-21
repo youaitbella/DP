@@ -44,8 +44,8 @@ public class DrgDelimitationFact implements Serializable {
         return _baseInformationId;
     }
 
-    public void setBaseInformationId(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     
     @Column(name = "dfContentTextId")
@@ -55,8 +55,8 @@ public class DrgDelimitationFact implements Serializable {
         return _contentTextId;
     }
 
-    public void setContentTextId(int _contentTextId) {
-        this._contentTextId = _contentTextId;
+    public void setContentTextId(int contentTextId) {
+        this._contentTextId = contentTextId;
     }
     
     @Column(name = "dfUsed")
@@ -66,8 +66,8 @@ public class DrgDelimitationFact implements Serializable {
         return _used;
     }
 
-    public void setUsed(boolean _used) {
-        this._used = _used;
+    public void setUsed(boolean used) {
+        this._used = used;
     }
     
     @Column(name = "dfPersonalCost")
@@ -77,8 +77,8 @@ public class DrgDelimitationFact implements Serializable {
         return _personalCost;
     }
 
-    public void setPersonalCost(double _personalCost) {
-        this._personalCost = _personalCost;
+    public void setPersonalCost(double personalCost) {
+        this._personalCost = personalCost;
     }
     
     @Column(name = "dfMaterialCost")
@@ -88,8 +88,8 @@ public class DrgDelimitationFact implements Serializable {
         return _materialCost;
     }
 
-    public void setMaterialCost(double _materialCost) {
-        this._materialCost = _materialCost;
+    public void setMaterialCost(double materialCost) {
+        this._materialCost = materialCost;
     }
     
     @Column(name = "dfInfraCost")
@@ -99,8 +99,8 @@ public class DrgDelimitationFact implements Serializable {
         return _infraCost;
     }
 
-    public void setInfraCost(double _infraCost) {
-        this._infraCost = _infraCost;
+    public void setInfraCost(double infraCost) {
+        this._infraCost = infraCost;
     }
     
     @Transient
@@ -110,7 +110,7 @@ public class DrgDelimitationFact implements Serializable {
         return _label;
     }
 
-    public void setLabel(String _label) {
-        this._label = _label;
+    public void setLabel(String label) {
+        this._label = label;
     }
 }

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KGLNeonatCntCost.findAll", query = "SELECT k FROM KGLNeonatCntCost k")
     , @NamedQuery(name = "KGLNeonatCntCost.findByNccID", query = "SELECT k FROM KGLNeonatCntCost k WHERE k.nccID = :nccID")
     , @NamedQuery(name = "KGLNeonatCntCost.findByNccValue", query = "SELECT k FROM KGLNeonatCntCost k WHERE k.nccValue = :nccValue")})
-public class KGLNeonatCntCost implements Serializable {
+public class DrgNeonatCountCost implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,14 +50,14 @@ public class KGLNeonatCntCost implements Serializable {
     @ManyToOne(optional = false)
     private DrgContentText nccContentTextID;
 
-    public KGLNeonatCntCost() {
+    public DrgNeonatCountCost() {
     }
 
-    public KGLNeonatCntCost(Integer nccID) {
+    public DrgNeonatCountCost(Integer nccID) {
         this.nccID = nccID;
     }
 
-    public KGLNeonatCntCost(Integer nccID, BigDecimal nccValue) {
+    public DrgNeonatCountCost(Integer nccID, BigDecimal nccValue) {
         this.nccID = nccID;
         this.nccValue = nccValue;
     }
@@ -104,10 +104,10 @@ public class KGLNeonatCntCost implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLNeonatCntCost)) {
+        if (!(object instanceof DrgNeonatCountCost)) {
             return false;
         }
-        KGLNeonatCntCost other = (KGLNeonatCntCost) object;
+        DrgNeonatCountCost other = (DrgNeonatCountCost) object;
         if ((this.nccID == null && other.nccID != null) || (this.nccID != null && !this.nccID.equals(other.nccID))) {
             return false;
         }
