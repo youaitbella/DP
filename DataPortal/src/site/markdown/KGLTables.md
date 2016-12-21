@@ -132,5 +132,11 @@
 |Normalstation|||KGLBaseInformation||
 |||Ärzte freie Mitarbeit||biNormalFreelancing|
 |||Honorarverträge||biFeeContract|
+|||Erfassung PKMS Normalstation||biPKMSRecording|
+|||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
+|||KIS-Integration/Manuell||biKISIntegration|
+|||Sonstiges||biNormalStationOther|
+
+
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
