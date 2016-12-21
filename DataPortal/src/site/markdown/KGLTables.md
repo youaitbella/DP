@@ -178,13 +178,13 @@
 |Med Infra|Gewähltes Verfahren||KGLBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodMedInfra|
 |||Stufenleiterverfahren||biStepladderMethodMedInfra|
-|||Anbauverfahren|biExtensionMethodMedInfra|
-|||Sonstige Vorgehensweise|biOtherMethodMedInfra|
+|||Anbauverfahren||biExtensionMethodMedInfra|
+|||Sonstige Vorgehensweise||biOtherMethodMedInfra|
 |Nicht Med Infra|Gewähltes Verfahren||KGLBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodNonMedInfra|
 |||Stufenleiterverfahren||biStepladderMethodNonMedInfra|
-|||Anbauverfahren|biExtensionMethodNonMedInfra|
-|||Sonstige Vorgehensweise|biOtherMethodNonMedInfra|
+|||Anbauverfahren||biExtensionMethodNonMedInfra|
+|||Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
