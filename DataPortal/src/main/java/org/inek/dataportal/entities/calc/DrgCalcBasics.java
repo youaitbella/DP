@@ -180,8 +180,8 @@ public class DrgCalcBasics implements Serializable {
         return _caseInStationCount;
     }
 
-    public void setCaseInStationCount(int _cntCaseInStation) {
-        this._caseInStationCount = _cntCaseInStation;
+    public void setCaseInStationCount(int caseInStationCount) {
+        this._caseInStationCount = caseInStationCount;
     }
     // </editor-fold>
     
@@ -193,8 +193,8 @@ public class DrgCalcBasics implements Serializable {
         return _casePartialStationCount;
     }
 
-    public void setCasePartialStationCount(int _cntCasePartialStation) {
-        this._casePartialStationCount = _cntCasePartialStation;
+    public void setCasePartialStationCount(int casePartialStationCount) {
+        this._casePartialStationCount = casePartialStationCount;
     }
     // </editor-fold>
     
@@ -579,7 +579,7 @@ public class DrgCalcBasics implements Serializable {
 
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "bdId")
+    @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<DrgDelimitationFact> getDelimitationFacts() {

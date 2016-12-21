@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -102,6 +103,7 @@ public class DrgDelimitationFact implements Serializable {
         this._infraCost = _infraCost;
     }
     
+    @Transient
     private String _label;
 
     public String getLabel() {
