@@ -13,7 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.eclipse.persistence.annotations.ReadOnly;
 
 /**
  *
@@ -68,7 +70,7 @@ public class DrgNeonatQuality implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne()
-    @JoinColumn(name = "nqContentTextId")
+    @PrimaryKeyJoinColumn(name = "nqContentTextId")
     private DrgContentText _contentText;
 
     public DrgContentText getContentText() {
@@ -81,15 +83,15 @@ public class DrgNeonatQuality implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Fullfilled">
-    @Column(name = "nqFullfilled")
-    private int _fullfilled = -1;  
+    @Column(name = "nqFulfilled")
+    private int _fulfilled = -1;  
     // -1 = not fullfilled, 0 = whole year fullfilled, 1 = fullfilled since Jan., 2 = fullfilled since Feb, ...
-    public int getFullfilled() {
-        return _fullfilled;
+    public int getFulfilled() {
+        return _fulfilled;
     }
 
-    public void setFullfilled(int fullfilled) {
-        _fullfilled = fullfilled;
+    public void setFulfilled(int fulfilled) {
+        _fulfilled = fulfilled;
     }
     // </editor-fold>
 
