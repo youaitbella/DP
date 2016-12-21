@@ -155,8 +155,17 @@
 |||Bereich||nfcDivision|
 |||FAB Schlüssel 301||nfcDepartmentKey|
 |||Anzahl Fälle||nfcCaseCnt|
-|||abgegr. Kostenvolumen||nfAmount|
-
+|||abgegr. Kostenvolumen||nfcAmount|
+|Normalstation|Kosten KstGr 1||KGLListCostCenterCost||
+|||Nummer der Kostenstelle||cccCostCenter|
+|||Name der Kostenstelle||cccCostCenterText|
+|||FAB Schlüssel 301||cccDepartmentKey|
+|||Belegung: FAB||cccDepartmentAssignment|
+|||Bettenzahl||cccBedCnt|
+|||Pflegetage||cccCareDays|
+|||PPR-Minuten||cccPPRMinutes|
+|||zusätzliche Gewichtung PPR||cccPPRWeight|
+|||Anz. VK ÄD||cccMedicalServiceCnt|
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
