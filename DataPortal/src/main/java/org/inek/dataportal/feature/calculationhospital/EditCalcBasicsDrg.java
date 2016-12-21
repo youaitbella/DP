@@ -294,7 +294,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     private void ensureNeonateData() {
-        if (_calcBasics.getNeonatQuality() != null && !_calcBasics.getNeonatQuality().isEmpty()) {
+        if (_calcBasics.getNeonateData() != null && !_calcBasics.getNeonateData().isEmpty()) {
             return;
         }
         List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1)
@@ -307,7 +307,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             data.setContentTextId(contentText.getId());
             data.setContentText(contentText);
             data.setCalcBasicsId(_calcBasics.getId());
-            _calcBasics.getNeonatQuality().add(data);
+            _calcBasics.getNeonateData().add(data);
         }
     }
 
@@ -321,7 +321,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public List<DrgNeonatData> retrieveNeonatData(int headerId) {
         ensureNeonateData();
-        return _calcBasics.getNeonatQuality()
+        return _calcBasics.getNeonateData()
                 .stream()
                 .filter(d -> d.getContentText().getHeaderTextId() == headerId)
                 .sorted((x, y) -> x.getContentText().getSequence() - y.getContentText().getSequence())

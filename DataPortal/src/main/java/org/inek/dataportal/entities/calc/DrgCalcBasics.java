@@ -595,14 +595,14 @@ public class DrgCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatData">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biId")
-    private List<DrgNeonatData> neonatQuality;
+    private List<DrgNeonatData> neonateData;
 
-    public List<DrgNeonatData> getNeonatQuality() {
-        return neonatQuality;
+    public List<DrgNeonatData> getNeonateData() {
+        return neonateData;
     }
 
-    public void setNeonatQuality(List<DrgNeonatData> neonatQuality) {
-        this.neonatQuality = neonatQuality;
+    public void setNeonateData(List<DrgNeonatData> neonateData) {
+        this.neonateData = neonateData;
     }
     // </editor-fold>
 

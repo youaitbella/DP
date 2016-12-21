@@ -114,7 +114,7 @@ public class DrgNeonatData implements Serializable {
 
     @Override
     public String toString() {
-        return "DrgNeonatQuality[ id=" + _id + " ]";
+        return "DrgNeonateData[ id=" + _id + " ]";
     }
 
     // </editor-fold>
