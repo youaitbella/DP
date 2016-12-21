@@ -166,6 +166,15 @@
 |||PPR-Minuten||cccPPRMinutes|
 |||zusätzliche Gewichtung PPR||cccPPRWeight|
 |||Anz. VK ÄD||cccMedicalServiceCnt|
+|||Anz. VK PD||cccNursingServiceCnt|
+|||Anz. VK FD||cccFunctionalServiceCnt|
+|||Kosten ÄD||cccMedicalServiceAmount|
+|||Kosten PD||cccNursingServiceAmount|
+|||Kosten FD||cccFunctionalServiceAmount|
+|||Gemeinkosten Arzneimittel||cccOverheadsMedicine|
+|||Gemeinkosten Sachbedarf||cccOverheadsMedicalGoods|
+|||Kosten MedInfra||cccMedicalInfrastructureCost|
+|||Kosten nicht MedInfra||cccNonMedicalInfrastructureCost|
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
