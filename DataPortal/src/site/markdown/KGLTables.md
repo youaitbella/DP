@@ -145,6 +145,17 @@
 |||Fachabteilung||nssDepartment|
 |||FAB Schlüssel 301||nssDepartmentKey|
 |||Alternativverfahren||nssAlternative|
+|Normalstation|Ärzte in freier Mitarbeit||KGLNormalFreelancer||
+|||Bereich||nfDivision|
+|||AnzahlVK||nfFullVigorCnt|
+|||Kostenvolumen||nfAmount|
+|||KoArtGr 1||nfCostType1|
+|||KoArtGr 6c||nfCostType6c|
+|Normalstation|Honorarverträge||KGLNormalFeeContract||
+|||Bereich||nfcDivision|
+|||FAB Schlüssel 301||nfcDepartmentKey|
+|||Anzahl Fälle||nfcCaseCnt|
+|||abgegr. Kostenvolumen||nfAmount|
 
 
 
