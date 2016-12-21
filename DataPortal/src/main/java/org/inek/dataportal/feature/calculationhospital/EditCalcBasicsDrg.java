@@ -29,6 +29,7 @@ import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
+import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -125,7 +126,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
-    
     @Override
     protected void addTopics() {
         addTopic("tabUMMaster", Pages.CalcDrgBasics.URL());
@@ -293,29 +293,42 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    private void populateNeonateData(){
-        if (_calcBasics.getNeonatQuality() == null || _calcBasics.getNeonatQuality().isEmpty()) {
-//            for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
-//                DrgDelimitationFact df = new DrgDelimitationFact();
-//                df.setContentTextId(ct.getId());
-//                df.setLabel(ct.getText());
-//                df.setBaseInformationId(_calcBasics.getId());
-//                _calcBasics.getDelimitationFacts().add(df);
-//            }
+    private void ensureNeonateData() {
+        if (_calcBasics.getNeonatQuality() != null && !_calcBasics.getNeonatQuality().isEmpty()) {
+            return;
         }
-        
+        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1)
+                .stream()
+                .map(ht -> ht.getId())
+                .collect(Collectors.toList());
+        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, _calcBasics.getDataYear());
+        for (DrgContentText contentText : contentTexts) {
+            DrgNeonatData data = new DrgNeonatData();
+            data.setContentTextId(contentText.getId());
+            data.setContentText(contentText);
+            data.setCalcBasicsId(_calcBasics.getId());
+            _calcBasics.getNeonatQuality().add(data);
+        }
     }
-    
-    public List<DrgHeaderText> getHeaders() {
-        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1); 
-    }
-    
-    public List<DrgContentText> retrieveContentTexts(int headerId) {
-        return _calcFacade.retrieveContentTexts(headerId, _calcBasics.getDataYear()); 
-    }
-    
-    // </editor-fold>    
 
+    public List<DrgHeaderText> getHeaders() {
+        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
+    }
+
+    public List<DrgContentText> retrieveContentTexts(int headerId) {
+        return _calcFacade.retrieveContentTexts(headerId, _calcBasics.getDataYear());
+    }
+
+    public List<DrgNeonatData> retrieveNeonatData(int headerId) {
+        ensureNeonateData();
+        return _calcBasics.getNeonatQuality()
+                .stream()
+                .filter(d -> d.getContentText().getHeaderTextId() == headerId)
+                .sorted((x, y) -> x.getContentText().getSequence() - y.getContentText().getSequence())
+                .collect(Collectors.toList());
+    }
+
+    // </editor-fold>    
     private int _dummy = -1;
 
     public int getDummy() {

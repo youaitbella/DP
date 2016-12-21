@@ -592,31 +592,17 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatQuality">
+    // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatData">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nqBaseInformationID", referencedColumnName = "biId")
-    private List<DrgNeonatQuality> neonatQuality;
+    @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biId")
+    private List<DrgNeonatData> neonatQuality;
 
-    public List<DrgNeonatQuality> getNeonatQuality() {
+    public List<DrgNeonatData> getNeonatQuality() {
         return neonatQuality;
     }
 
-    public void setNeonatQuality(List<DrgNeonatQuality> neonatQuality) {
+    public void setNeonatQuality(List<DrgNeonatData> neonatQuality) {
         this.neonatQuality = neonatQuality;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatCountCost">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nccBaseInformationID", referencedColumnName = "biId")
-    private List<DrgNeonatCountCost> neonatCountCost;
-
-    public List<DrgNeonatCountCost> getNeonatCountCost() {
-        return neonatCountCost;
-    }
-
-    public void setNeonatCountCost(List<DrgNeonatCountCost> neonatCountCost) {
-        this.neonatCountCost = neonatCountCost;
     }
     // </editor-fold>
 

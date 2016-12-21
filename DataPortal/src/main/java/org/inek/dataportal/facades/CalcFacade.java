@@ -246,7 +246,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
     
     public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
-        String jpql = "select ct from DrgContentText ct where ct._headerTextId in (:headerIds) and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
+        String jpql = "select ct from DrgContentText ct where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
         TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
         query.setParameter("year", year);
         query.setParameter("headerIds", headerIds);

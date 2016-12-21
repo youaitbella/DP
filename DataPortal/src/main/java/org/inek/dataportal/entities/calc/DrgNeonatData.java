@@ -11,26 +11,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import org.eclipse.persistence.annotations.ReadOnly;
 
 /**
  *
  * @author muellermi
  */
 @Entity
-@Table(name = "KGLNeonatQuality", schema = "calc")
-public class DrgNeonatQuality implements Serializable {
+@Table(name = "KGLNeonatData", schema = "calc")
+public class DrgNeonatData implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "nqId")
+    @Column(name = "ndId")
     private int _id = -1;
 
     public int getId() {
@@ -43,7 +41,7 @@ public class DrgNeonatQuality implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CalcBasicsId">
-    @Column(name = "nqBaseInformationID")
+    @Column(name = "ndBaseInformationID")
     private int _calcBasicsId;
 
     public int getCalcBasicsId() {
@@ -56,7 +54,7 @@ public class DrgNeonatQuality implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ContentTextId">
-    @Column(name = "nqContentTextId")
+    @Column(name = "ndContentTextId")
     private int _contentTextId;
 
     public int getContentTextId() {
@@ -70,7 +68,7 @@ public class DrgNeonatQuality implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne()
-    @PrimaryKeyJoinColumn(name = "nqContentTextId")
+    @PrimaryKeyJoinColumn(name = "ndContentTextId")
     private DrgContentText _contentText;
 
     public DrgContentText getContentText() {
@@ -82,16 +80,15 @@ public class DrgNeonatQuality implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Fullfilled">
-    @Column(name = "nqFulfilled")
-    private int _fulfilled = -1;  
-    // -1 = not fullfilled, 0 = whole year fullfilled, 1 = fullfilled since Jan., 2 = fullfilled since Feb, ...
-    public int getFulfilled() {
-        return _fulfilled;
+    // <editor-fold defaultstate="collapsed" desc="Property Data">
+    @Column(name = "ndData")
+    private int _data = -1;  
+    public int getData() {
+        return _data;
     }
 
-    public void setFulfilled(int fulfilled) {
-        _fulfilled = fulfilled;
+    public void setData(int data) {
+        _data = data;
     }
     // </editor-fold>
 
@@ -111,7 +108,7 @@ public class DrgNeonatQuality implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DrgNeonatQuality other = (DrgNeonatQuality) obj;
+        final DrgNeonatData other = (DrgNeonatData) obj;
         return _id == other.getId();
     }
 
