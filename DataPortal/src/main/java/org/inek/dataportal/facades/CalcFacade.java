@@ -21,6 +21,7 @@ import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -185,12 +186,24 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
-        if (calcBasics.getId() > 0){
-            return merge(calcBasics);
+        if (calcBasics.getId() == -1) {
+            persist(calcBasics);
+            return calcBasics;
         }
-        persist(calcBasics);
-        return calcBasics;
+        saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
+        return merge(calcBasics);
     }
+
+    private void saveNeonatData(DrgCalcBasics calcBasics) {
+        for (DrgNeonatData item : calcBasics.getNeonateData()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
 
     public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
@@ -239,21 +252,7 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
-    public List<DrgContentText> retrieveContentTexts(int headerId, int year) {
-        List<Integer> headerIds = new ArrayList<>();
-        headerIds.add(headerId);
-        return retrieveContentTexts(headerIds, year);
-    }
-    
-    public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
-        String jpql = "select ct from DrgContentText ct where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
-        TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
-        query.setParameter("year", year);
-        query.setParameter("headerIds", headerIds);
-        return query.getResultList();
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="Neonatology">
+    // <editor-fold defaultstate="collapsed" desc="Header and content texts">
     public DrgHeaderText findCalcHeaderText(int id) {
         return findFresh(DrgHeaderText.class, id);
     }
@@ -300,5 +299,19 @@ public class CalcFacade extends AbstractDataAccess {
         return contentText;
     }
 
+    public List<DrgContentText> retrieveContentTexts(int headerId, int year) {
+        List<Integer> headerIds = new ArrayList<>();
+        headerIds.add(headerId);
+        return retrieveContentTexts(headerIds, year);
+    }
+
+    public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
+        String jpql = "select ct from DrgContentText ct where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
+        TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
+        query.setParameter("year", year);
+        query.setParameter("headerIds", headerIds);
+        return query.getResultList();
+    }
     // </editor-fold>
+
 }

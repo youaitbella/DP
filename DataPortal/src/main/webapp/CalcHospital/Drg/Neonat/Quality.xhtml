@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+
+    <ui:repeat value="#{editCalcBasicsDrg.getHeaders(0)}" var="head" varStatus="status">
+
+        <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" var="data" rendered="#{head.type eq 0}" width="100%">
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="#{msg.lblQualificationByPolicy}" styleClass="blockHeader"/> </f:facet>
+                <h:outputLabel value="#{data.contentText.text}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="#{msg.lblFulfilled}" styleClass="blockHeader"/> </f:facet>
+                <h:selectOneMenu id="fulFillment"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{data.data}"
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                    <f:selectItems value="#{calcBasicsStaticData.fulfillmentItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgFulFillment"/>
+                </h:selectOneMenu>
+                <h:message for="fulFillment" id="msgFulFillment" styleClass="errorMessage"/>
+
+            </h:column>
+        </h:dataTable>
+    </ui:repeat>
+
+</ui:composition>
+
