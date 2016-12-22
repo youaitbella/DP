@@ -36,61 +36,73 @@ import javax.xml.bind.annotation.XmlTransient;
 public class KGLListSheet implements Serializable {
 
     private static final long serialVersionUID = 1L;
+//<editor-fold defaultstate="collapsed" desc="Property ID">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "sID")
-    private Integer sID;
+    private Integer _id;
+    
+    public Integer getID() {
+        return _id;
+    }
+    
+    public void setID(Integer id) {
+        this._id = id;
+    }
+//</editor-fold>
+    
+    
+//<editor-fold defaultstate="collapsed" desc="Property Sheet">
     @Basic(optional = false)
     @NotNull
     @Size(min = 0, max = 100)
     @Column(name = "sSheet")
-    private String sSheet = "";
+    private String _sheet = "";
+    
+    public String getSheet() {
+        return _sheet;
+    }
+    
+    public void setSheet(String sheet) {
+        this._sheet = sheet;
+    }
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Property DrgHeaderText">
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "sId", referencedColumnName = "htSheetId")
-    private List<DrgHeaderText> drgHeaderTextList;
-
+    private List<DrgHeaderText> _drgHeaderTextList;
+    
+    @XmlTransient
+    public List<DrgHeaderText> getDrgHeaderTextList() {
+        return _drgHeaderTextList;
+    }
+    
+    public void setDrgHeaderTextList(List<DrgHeaderText> drgHeaderTextList) {
+        this._drgHeaderTextList = drgHeaderTextList;
+    }
+//</editor-fold>
+    
     public KGLListSheet() {
     }
 
     public KGLListSheet(Integer sID) {
-        this.sID = sID;
+        this._id = sID;
     }
 
     public KGLListSheet(Integer sID, String sSheet) {
-        this.sID = sID;
-        this.sSheet = sSheet;
+        this._id = sID;
+        this._sheet = sSheet;
     }
 
-    public Integer getSID() {
-        return sID;
-    }
 
-    public void setSID(Integer sID) {
-        this.sID = sID;
-    }
 
-    public String getSSheet() {
-        return sSheet;
-    }
-
-    public void setSSheet(String sSheet) {
-        this.sSheet = sSheet;
-    }
-
-    @XmlTransient
-    public List<DrgHeaderText> getDrgHeaderTextList() {
-        return drgHeaderTextList;
-    }
-
-    public void setDrgHeaderTextList(List<DrgHeaderText> drgHeaderTextList) {
-        this.drgHeaderTextList = drgHeaderTextList;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sID != null ? sID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -101,7 +113,7 @@ public class KGLListSheet implements Serializable {
             return false;
         }
         KGLListSheet other = (KGLListSheet) object;
-        if ((this.sID == null && other.sID != null) || (this.sID != null && !this.sID.equals(other.sID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -109,7 +121,7 @@ public class KGLListSheet implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListSheet[ sID=" + sID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListSheet[ sID=" + _id + " ]";
     }
     
 }
