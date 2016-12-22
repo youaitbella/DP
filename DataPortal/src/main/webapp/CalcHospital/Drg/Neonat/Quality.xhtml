@@ -13,11 +13,17 @@
 
     <ui:repeat value="#{editCalcBasicsDrg.getHeaders(0)}" var="head" varStatus="status">
 
-        <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" var="data" rendered="#{head.type eq 0}" width="100%">
+        <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" 
+                     var="data" 
+                     width="100%"
+                     rowClasses="row1, row2"
+                     styleClass="marginTop">
+            
             <h:column>
-                <f:facet name="header"><h:outputLabel value="#{msg.lblQualificationByPolicy}" styleClass="blockHeader"/> </f:facet>
+                <f:facet name="header"><h:outputLabel value="#{head.text}" styleClass="blockHeader"/> </f:facet>
                 <h:outputLabel value="#{data.contentText.text}"/>
             </h:column>
+            
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{msg.lblFulfilled}" styleClass="blockHeader"/> </f:facet>
                 <h:selectOneMenu id="fulFillment"
@@ -33,6 +39,7 @@
 
             </h:column>
         </h:dataTable>
+
     </ui:repeat>
 
 </ui:composition>

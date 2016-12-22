@@ -13,22 +13,24 @@
 
     <h2>#{msg.headCalcNeonatology}</h2>
 
-    <h:outputLabel for="level" value="#{msg.lblLevelPeritatalCenter}" styleClass="label30"/>
-    <h:selectOneMenu id="level"
-                     title="Bitte Level wählen"
-                     required="true"
-                     requiredMessage="#{msg.msgValueNeeded}"
-                     value="#{editCalcBasicsDrg.calcBasics.neonatLvl}"
-                     hideNoSelectionOption="true" >
-        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-        <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
-        <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 1" itemValue="#{1}"/>
-        <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 2" itemValue="#{2}"/>
-        <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 3" itemValue="#{3}"/>
-        <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 4" itemValue="#{4}"/>
-        <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-    </h:selectOneMenu>
-    <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
+    <div class="marginTop">
+        <h:outputLabel for="level" value="#{msg.lblLevelPeritatalCenter}" styleClass="label30"/>
+        <h:selectOneMenu id="level"
+                         title="Bitte Level wählen"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.neonatLvl}"
+                         hideNoSelectionOption="true" >
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+            <f:selectItem itemLabel="#{msg.lblNotAvailable}" itemValue="#{0}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 1" itemValue="#{1}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 2" itemValue="#{2}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 3" itemValue="#{3}"/>
+            <f:selectItem itemLabel="#{msg.lblLevel} &nbsp; 4" itemValue="#{4}"/>
+            <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+        </h:selectOneMenu>
+        <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
+    </div>
 
     <h:panelGroup id="levelData" rendered="#{editCalcBasicsDrg.calcBasics.neonatLvl ge 1}">
 

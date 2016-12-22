@@ -11,13 +11,42 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:repeat value="#{editCalcBasicsDrg.getHeaders(1)}" var="head" varStatus="status">
-        <h:outputLabel value="#{head.text}" styleClass="blockHeader"/>
-        <h:dataTable value="#{editCalcBasicsDrg.retrieveContentTexts(head.id)}" var="ct" rendered="#{head.type eq 1}">
+
+        <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" 
+                     var="data" 
+                     width="100%"
+                     rowClasses="row1, row2"
+                     columnClasses="colValue, col05em number, col05em number, col05em number"
+                     styleClass="marginTop">
+
             <h:column>
-                <h:outputLabel value="#{ct.text}"/>
+                <f:facet name="header"><h:outputLabel value="#{head.text}" styleClass="blockHeader"/> </f:facet>
+                <h:outputLabel value="#{data.contentText.text}"/>
             </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
+                <h:outputLabel value="???" styleClass="col06em"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
+                <h:inputText id="data" value="#{data.data}" styleClass="col06em">
+                    <f:ajax event="change" render="@this msgData :logout:remain"/>
+                </h:inputText>
+                <h:message for="data" id="msgData" styleClass="errorMessage"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
+                <h:outputLabel value="???" styleClass="col06em"/>
+            </h:column>
+
+
         </h:dataTable>
+
     </ui:repeat>
+
 
 
 </ui:composition>
