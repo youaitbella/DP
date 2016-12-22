@@ -8,404 +8,396 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
-        <h:form id="form">
-            
-            <div class="edit">
-                <h:form id="messageForm">
-                    
-                    <span class="label"></span>
-                    <table cellspacing="6">
-                        <thead>
-                            <th>Bezeichnung</th>
-                            <th>Datenjahr</th>
-                            <th>Vorjahr</th>
-                            <th>Abweichung in %</th>
-                        </thead>
-                            <tr>
-                                <td>
-                                    <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="sumCalcCosts" value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}" required="true">
-                                    <f:ajax event="blur" render="@this :logout:remaining" />
-                            </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Anzahl kalkulationsrelevante Fälle</span>
-                                </td>
-                                <td>
-                                    
-                                </td>
-                                <td>
-                                    
-                                </td>
-                                <td>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Fälle vollstationär</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.caseInStationCount}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Fälle teilstationär</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.casePartialStationCount}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Berechnungstage teilstationär</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="halfCalcDays" value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Begleitpersonen</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="companions" value="#{editCalcBasicsDrg.calcBasics.patientEscort}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">rein vorstationär</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="onlyStationary" value="#{editCalcBasicsDrg.calcBasics.preStation}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Betten (DRG-Bereich)</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="drgBeds" value="#{editCalcBasicsDrg.calcBasics.beds}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label">Anzahl teilstationäre Plätze (DRG-Bereich)</span>
-                                </td>
-                                <td>
-                            <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.cntPartial}" required="true">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    Vorjahrswert
-                                </td>
-                                <td>
-                                    % Abweichung berechnet
-                                </td>
-                            </tr>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                    
-                    <h2>Entlassender Standort</h2>
-                    
-                    <div class="inputPart">
-                        <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-                        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.cntLocation}" required="true">
-                            <f:ajax event="blur" render="@this :logout:remaining"/>
-                        </h:inputText>
-                    </div>
-                    
-                    <div class="inputPart">
-                        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
-                                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" labelStyle="label"/>
-                    </div>
-                    
-                    <h:dataTable  headerClass="list-header" id="exitLocation"
-                                  value="" var="item" width="70%" rowClasses="row1, row2" 
-                                  columnClasses="colIcon, col90, colShort"
-                                  rendered="true"
-                                  >
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value=""/>
-                            </f:facet>
-                            <h:commandLink immediate="true" styleClass="colIcon">
-                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                                <cb:confirmDelete/>
-                            </h:commandLink>
-                        </h:column>
+    <span class="label"></span>
+    <table cellspacing="6">
+        <thead>
+        <th>Bezeichnung</th>
+        <th>Datenjahr</th>
+        <th>Vorjahr</th>
+        <th>Abweichung in %</th>
+        </thead>
+        <tr>
+            <td>
+                <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="sumCalcCosts" value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Anzahl kalkulationsrelevante Fälle</span>
+            </td>
+            <td>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Entlassender Standort"/><br/>
-                                <h:outputText value="(aussagekräftiger Name)"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
+            </td>
+            <td>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Nummer"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                    </h:dataTable>
+            </td>
+            <td>
 
-                    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" render="@form :logout:remaining"/>
-                    </h:commandLink>
-                    
-                    <h2>Besondere Einrichtungen (BE)</h2>
-                    
-                    <div class="inputPart">
-                        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2016:"  
-                                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.specialUnit}" labelStyle="label"/>
-                    </div>
-                    
-                    <h:dataTable  headerClass="list-header" id="special"
-                                  value="" var="item" width="70%" rowClasses="row1, row2" 
-                                  columnClasses="colIcon, col03, col03, col03"
-                                  rendered="true"
-                                  >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Fälle vollstationär</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.caseInStationCount}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Fälle teilstationär</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.casePartialStationCount}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Berechnungstage teilstationär</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="halfCalcDays" value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Begleitpersonen</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="companions" value="#{editCalcBasicsDrg.calcBasics.patientEscort}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">rein vorstationär</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="onlyStationary" value="#{editCalcBasicsDrg.calcBasics.preStation}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Betten (DRG-Bereich)</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="drgBeds" value="#{editCalcBasicsDrg.calcBasics.beds}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Anzahl teilstationäre Plätze (DRG-Bereich)</span>
+            </td>
+            <td>
+        <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.cntPartial}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        </td>
+        <td>
+            Vorjahrswert
+        </td>
+        <td>
+            % Abweichung berechnet
+        </td>
+        </tr>
+        <tbody>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value=""/>
-                            </f:facet>
-                            <h:commandLink immediate="true" styleClass="colIcon">
-                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                                <cb:confirmDelete/>
-                            </h:commandLink>
-                        </h:column>
+        </tbody>
+    </table>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Art der BE"/><br/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
+    <h2>Entlassender Standort</h2>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Fallzahl"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Kostenvolumen"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                    </h:dataTable>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
+        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.cntLocation}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining"/>
+        </h:inputText>
+    </div>
 
-                    <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" render="@form :logout:remaining"/>
-                    </h:commandLink>
-                    
-                    <h2>Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG</h2>
-                    
-                    <div class="inputPart">
-                        <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"  
-                                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.centralFocus}" labelStyle="label"/>
-                    </div>
-                    
-                    <h:dataTable  headerClass="list-header" id="centre"
-                                  value="" var="item" width="100%" rowClasses="row1, row2" 
-                                  columnClasses="colIcon, col03, col03, col03, col03, col03, col03, col03"
-                                  rendered="true"
-                                  >
+    <div class="inputPart">
+        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" labelStyle="label"/>
+    </div>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value=""/>
-                            </f:facet>
-                            <h:commandLink immediate="true" styleClass="colIcon">
-                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                                <cb:confirmDelete/>
-                            </h:commandLink>
-                        </h:column>
+    <h:dataTable  headerClass="list-header" id="exitLocation"
+                  value="" var="item" width="70%" rowClasses="row1, row2" 
+                  columnClasses="colIcon, col90, colShort"
+                  rendered="true"
+                  >
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Zentrums- bzw. Schwerpunktbezeichnung"/><br/>
-                                <h:outputText value="(aussagekräftiger Name)"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink immediate="true" styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
 
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Fallzahl"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Personalkosten"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Sachkosten"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Infrastrukturkosten"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Vereinbartes Entgelt je Fall"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Entgeltschlüssel"/>
-                            </f:facet>
-                            <h:inputText value="" styleClass="inputwide" required="true">
-                                <f:ajax render="@form :logout:remaining"/>
-                            </h:inputText>
-                        </h:column>
-                        
-                    </h:dataTable>
-                    
-                    <h:commandLink id="addButtonCentre" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" render="@form :logout:remaining"/>
-                    </h:commandLink>
-                    
-                    <br/><br/>
-                    
-                    <c:forEach items="#{editCalcBasicsDrg.delimitationFacts}" var="x">
-                    
-                    <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
-                        <span class="label">#{x.label}: </span>
-                        <h:selectBooleanCheckbox value="#{x.used}" >
-                            <f:ajax event="change" render="@form :logout:remaining delimit-content" />
-                        </h:selectBooleanCheckbox><br/>
-                        <h:panelGroup id="delimit-content" rendered="#{x.used}">
-                            <div style="float: left;">
-                                <inek:LabeledText Text="#{x.personalCost}" Label="Personalkosten" styleClass="col03"/>
-                                <inek:LabeledText Text="#{x.materialCost}" Label="Sachkosten" styleClass="col03"/>
-                                <inek:LabeledText Text="#{x.infraCost}" Label="Infrastrukturkosten" styleClass="col03"/>
-                            </div>
-                            <div style="float: left; margin-left: 10px;">
-                            <inek:LabeledText readonly="true" Label="Personalkosten (Vorjahr)" styleClass="col03"/>
-                            <inek:LabeledText readonly="true" Label="Sachkosten (Vorjahr)" styleClass="col03"/>
-                            <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
-                            </div>
-                            <div style="float: left; margin-left: 10px;">
-                            <inek:LabeledText readonly="true" Label="Personalkosten (Differenz)" styleClass="col03"/>
-                            <inek:LabeledText readonly="true" Label="Sachkosten (Differenz)" styleClass="col03"/>
-                            <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
-                            </div>
-                        </h:panelGroup>
-                    </div>
-                    <div style="clear: both;"></div><br/>
-                    </c:forEach>
-                    
-                </h:form>
-            </div>
-            
-        </h:form>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Entlassender Standort"/><br/>
+                <h:outputText value="(aussagekräftiger Name)"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Nummer"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+    </h:dataTable>
+
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining"/>
+    </h:commandLink>
+
+    <h2>Besondere Einrichtungen (BE)</h2>
+
+    <div class="inputPart">
+        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2016:"  
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.specialUnit}" labelStyle="label"/>
+    </div>
+
+    <h:dataTable  headerClass="list-header" id="special"
+                  value="" var="item" width="70%" rowClasses="row1, row2" 
+                  columnClasses="colIcon, col03, col03, col03"
+                  rendered="true"
+                  >
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink immediate="true" styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Art der BE"/><br/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Fallzahl"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kostenvolumen"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+    </h:dataTable>
+
+    <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining"/>
+    </h:commandLink>
+
+    <h2>Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG</h2>
+
+    <div class="inputPart">
+        <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"  
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.centralFocus}" labelStyle="label"/>
+    </div>
+
+    <h:dataTable  headerClass="list-header" id="centre"
+                  value="" var="item" width="100%" rowClasses="row1, row2" 
+                  columnClasses="colIcon, col03, col03, col03, col03, col03, col03, col03"
+                  rendered="true"
+                  >
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink immediate="true" styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Zentrums- bzw. Schwerpunktbezeichnung"/><br/>
+                <h:outputText value="(aussagekräftiger Name)"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Fallzahl"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Personalkosten"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Sachkosten"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Infrastrukturkosten"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Vereinbartes Entgelt je Fall"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Entgeltschlüssel"/>
+            </f:facet>
+            <h:inputText value="" styleClass="inputwide" required="true">
+                <f:ajax render="@form :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+    </h:dataTable>
+
+    <h:commandLink id="addButtonCentre" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining"/>
+    </h:commandLink>
+
+    <br/><br/>
+
+    <c:forEach items="#{editCalcBasicsDrg.delimitationFacts}" var="x">
+
+        <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
+            <span class="label">#{x.label}: </span>
+            <h:selectBooleanCheckbox value="#{x.used}" >
+                <f:ajax event="change" render="@form :logout:remaining delimit-content" />
+            </h:selectBooleanCheckbox><br/>
+            <h:panelGroup id="delimit-content" rendered="#{x.used}">
+                <div style="float: left;">
+                    <inek:LabeledText Text="#{x.personalCost}" Label="Personalkosten" styleClass="col03"/>
+                    <inek:LabeledText Text="#{x.materialCost}" Label="Sachkosten" styleClass="col03"/>
+                    <inek:LabeledText Text="#{x.infraCost}" Label="Infrastrukturkosten" styleClass="col03"/>
+                </div>
+                <div style="float: left; margin-left: 10px;">
+                    <inek:LabeledText readonly="true" Label="Personalkosten (Vorjahr)" styleClass="col03"/>
+                    <inek:LabeledText readonly="true" Label="Sachkosten (Vorjahr)" styleClass="col03"/>
+                    <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
+                </div>
+                <div style="float: left; margin-left: 10px;">
+                    <inek:LabeledText readonly="true" Label="Personalkosten (Differenz)" styleClass="col03"/>
+                    <inek:LabeledText readonly="true" Label="Sachkosten (Differenz)" styleClass="col03"/>
+                    <inek:LabeledText readonly="true" Label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
+                </div>
+            </h:panelGroup>
+        </div>
+        <div style="clear: both;"></div><br/>
+    </c:forEach>
+
 
 </ui:composition>
 

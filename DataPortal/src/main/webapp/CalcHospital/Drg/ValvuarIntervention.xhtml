@@ -10,20 +10,15 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h:form id="form">
-        <div class="edit">
-            <h2 title="#{msg.titleCalcValvuarIntervention}">#{msg.headCalcValvuarIntervention}</h2>
+    <h2 title="#{msg.titleCalcValvuarIntervention}">#{msg.headCalcValvuarIntervention}</h2>
 
-            <inek:TriStateRadioButton label="#{msg.lblCalcPerformsValvuarIntervention}" 
-                                      value="#{editCalcBasicsDrg.dummy}"
-                                      renderElement="@form">
-            </inek:TriStateRadioButton>
-            <br/>
-            <div id="ValvuarIntervention" jsf:rendered="#{editCalcBasicsDrg.dummy ge 1}">
-                Hier Abfrage der Daten
-            </div>
-        </div>
-    </h:form>
-
+    <inek:TriStateRadioButton label="#{msg.lblCalcPerformsValvuarIntervention}" 
+                              value="#{editCalcBasicsDrg.dummy}"
+                              renderElement="@form">
+    </inek:TriStateRadioButton>
+    <br/>
+    <div id="ValvuarIntervention" jsf:rendered="#{editCalcBasicsDrg.dummy ge 1}">
+        Hier Abfrage der Daten
+    </div>
 </ui:composition>
 

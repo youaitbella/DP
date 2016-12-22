@@ -299,6 +299,9 @@ div#wrapper {
 }
 
 .edit {
+    box-sizing: border-box;
+    width: 100%;
+    display: inline-block;
     min-height: 280px;
     background-color:#eeeeee;
     padding: 0.5em;

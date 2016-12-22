@@ -10,6 +10,7 @@
                 >
 
     <ui:define name="content">
+
         <h:form>
             <h1><h:commandLink value="#{msg.lblCalcBasicDrg} #{msg.lblYearData} #{editCalcBasicsDrg.calcBasics.dataYear}" 
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
@@ -21,17 +22,16 @@
                         <f:selectItems value="#{editCalcBasicsDrg.visibleTopics}" var="t" 
                                        itemLabel="#{t.title}" itemValue="#{t.key}"
                                        />
-                        <f:ajax event="change" render="@all :logout:remaining"/>
+                        <f:ajax event="change" render="edit :logout:remaining"/>
                     </h:selectOneMenu>
                     </li>
                 </ul>
             </div>
-        </h:form>
 
-        <div class="edit">
-            <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
+            <h:panelGroup id="edit" class="edit">
 
-            <h:form>
+                <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
+
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editCalcBasicsDrg.save}"
@@ -64,8 +64,9 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                 </div>
-            </h:form>
-        </div>
+            </h:panelGroup>
+        </h:form>
+
     </ui:define>
 
 </ui:composition>
