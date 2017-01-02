@@ -13,12 +13,13 @@
     <h2 title="#{msg.titleCalcValvularIntervention}">#{msg.headCalcValvularIntervention}</h2>
 
     <inek:TriStateRadioButton label="#{msg.lblCalcPerformsValvularIntervention}" 
-                              value="#{editCalcBasicsDrg.dummy}"
+                              value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
                               renderElement="@form">
     </inek:TriStateRadioButton>
     <br/>
-    <div id="ValvularIntervention" jsf:rendered="#{editCalcBasicsDrg.dummy ge 1}">
+    
+    <h:panelGroup id="ValvularIntervention" rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
         Hier Abfrage der Daten
-    </div>
+    </h:panelGroup>
 </ui:composition>
 
