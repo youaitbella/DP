@@ -1,4 +1,6 @@
-﻿|Blatt|Tabelle|Spalte|Tabelle DB|Spalte DB|
+Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpassung KGL DJ2016\Übergabe an EDV
+
+|Blatt|Tabelle|Spalte|Tabelle DB|Spalte DB|
 |---|---|---|---|---|
 |Grundlagen|Grundlagen||KGLBaseInformation||
 |||Summe kalkulationsrelevanter Kosten (EUR)||biSumCalcCost|

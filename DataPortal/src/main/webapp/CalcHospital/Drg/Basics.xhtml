@@ -8,46 +8,40 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
-
     <div class="inputPart">
-        <h:outputLabel styleClass="label" for="ik">
-            IK:
-        </h:outputLabel><br/>
-        <h:selectOneMenu styleClass="input" id="ik" value="#{editCalcBasicsDrg.calcBasics.ik}" required="true">
-            <f:selectItems value="#{editCalcBasicsDrg.calcIks}" />
-            <f:ajax event="blur" render="@this :logout:remaining" />
+        <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+        <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+        <br/>
+        <h:selectOneMenu styleClass="inputmedium"
+                         rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.iks.size() gt 1}"
+                         id="ikMulti"
+                         title="#{msg.titleIK}"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.ik}">
+            <f:selectItems value="#{editCalcBasicsDrg.calcIks}"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+            <f:ajax event="change" listener="#{editCalcBasicsDrg.changedIk}" render="@form :logout:remaining msgMultiIk"/>
         </h:selectOneMenu>
+
+        <h:inputText styleClass="inputmedium" readonly="true" value="#{editCalcBasicsDrg.calcBasics.ik}" rendered="#{editCalcBasicsDrg.readOnly or editCalcBasicsDrg.iks.size() le 1}"/>
+
+        <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editCalcBasicsDrg.hospitalInfo}"/>
+
+        <br/>
+        <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.iks.size() gt 1}"/>
     </div>
 
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="hName">
-            Name des Krankenhauses:
-        </h:outputLabel><br/>
-        <h:inputText id="hName" styleClass="inputmedium" value="#{editCalcBasicsDrg.calcBasics.hospitalName}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
-        </h:inputText>
-    </div>
-
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="deliveryType">
-            Informationen zur Kalkulationsgrundlage:
-        </h:outputLabel><br/>
-        <h:selectOneRadio id="deliveryType" value="#{editCalcBasicsDrg.calcBasics.deliveryType}" required="true">
-            <f:selectItem itemLabel="Initiallieferung" itemValue="1"/>
-            <f:selectItem itemLabel="Korrekturlieferung" itemValue="2" />
-            <f:ajax event="change" render="@this :logout:remaining" />
-        </h:selectOneRadio>
-    </div>
-
+    <hr/>
+    
     <div class="inputPart">
         <h:outputLabel styleClass="label" for="correctionNote">
-            Begründung für Korrekturlieferung (stichwortartig):
+            Bei Bedarf: Zusätzliche Information an das InEK, z.B. Begründung für eine Korrekturlieferung (stichwortartig)
         </h:outputLabel><br/>
         <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.correctionNote}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>
-
 
 </ui:composition>
 
