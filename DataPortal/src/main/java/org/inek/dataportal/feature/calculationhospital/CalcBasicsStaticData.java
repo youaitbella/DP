@@ -22,9 +22,9 @@ import javax.inject.Named;
 @Named
 @ApplicationScoped
 public class CalcBasicsStaticData {
+       // todo (low priority): get texts from property file or database
 
     public List<SelectItem> getNeonatFulfillmentItems(){
-       // todo (low priority): get text from property file
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(-1, "nicht erfüllt"));
        items.add(new SelectItem(0, "ganzjährig"));
@@ -44,7 +44,6 @@ public class CalcBasicsStaticData {
    } 
 
     public List<SelectItem> getMviFulfillmentItems(){
-       // todo (low priority): get text from property file
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "Das Krankenhaus erfüllt in diesem Datenjahr uneingeschränkt die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen"));
        items.add(new SelectItem(2, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen gemäß der Übergangsregelung nach §9 der Richtlinie sowie nach dem Stichtag (30.Juni 2016) uneingeschränkt"));
@@ -52,5 +51,24 @@ public class CalcBasicsStaticData {
        items.add(new SelectItem(0, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen nicht"));
        return items;
    } 
+
+    public List<SelectItem> getInternalCostAllocationItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "Gleichungsverfahren"));
+       items.add(new SelectItem(2, "Stufenleiterverfahren"));
+       items.add(new SelectItem(3, "Anbauverfahren"));
+       items.add(new SelectItem(4, "sonstige Vorgehensweise"));
+       return items;
+   } 
+
+    public List<SelectItem> getExternalServiceProvisionItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "wird nicht erbracht"));
+       items.add(new SelectItem(2, "Keine Fremdvergabe"));
+       items.add(new SelectItem(3, "Vollständige Fremdvergabe"));
+       items.add(new SelectItem(4, "Teilweise Fremdvergabe"));
+       return items;
+   } 
+			
 
 }

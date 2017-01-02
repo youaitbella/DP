@@ -49,7 +49,6 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
 |Leistungsdokumentation (OP + AN)|Leistungsdokumentation||KGLOpAn||
-|||Das Krankenhaus hat einen/mehrere Zentral-OPs:||oaHasCentralOP|
 |||Wie viele Zentral-OPs hat das Krankenhaus?||oaCentralOPCnt|
 |||ÄD||oaMedicalService|
 |||FD/MTD||oaFunctionalService|
