@@ -33,6 +33,13 @@
             <f:ajax event="change" render="@this :logout:remaining msgFulFillment"/>
         </h:selectOneMenu>
         <h:message for="fulFillment" id="msgFulFillment" styleClass="errorMessage"/>
+
+        <inek:BooleanRadioButton label="#{msg.lblFulfillmentNextYear}" 
+                                 value="#{editCalcBasicsDrg.calcBasics.mviGuidelineAspired}"
+                                 labelStyle="label col45em marginTop"
+                                 renderElement=":logout:remaining">
+        </inek:BooleanRadioButton>
+
     </h:panelGroup>
 </ui:composition>
 
