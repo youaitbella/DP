@@ -30,15 +30,13 @@
 
             <h:panelGroup id="edit" class="edit">
 
-                <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
-
-                <div class="toolBar">
+                <div class="narrowToolBar">
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnPriorPage}"
                                    disabled="#{!editCalcBasicsDrg.priorTopic}">
                         <f:ajax render="@form" listener="#{editCalcBasicsDrg.activatePriorTopic()}"/>
                     </h:commandLink>
-                    
+
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnNextPage}"
                                    disabled="#{!editCalcBasicsDrg.nextTopic}">
@@ -46,38 +44,57 @@
                     </h:commandLink>
                 </div>
 
-                <div class="narrowToolBar">
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editCalcBasicsDrg.save}"
-                                   value="#{msg.btnSave}"
-                                   immediate="true"
-                                   rendered="#{!editCalcBasicsDrg.readOnly}">
-                    </h:commandLink>
+                <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
 
-                    <h:commandLink styleClass="sendButton"
-                                   action="#{editCalcBasicsDrg.requestApproval}"
-                                   value="#{msg.btnRequestApproval}"
-                                   rendered="#{editCalcBasicsDrg.approvalRequestEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmRequestApproval/>
-                    </h:commandLink>
+                <div class="toolBar">
+                    <div>
+                        <h:commandLink styleClass="button"
+                                       value="#{msg.btnPriorPage}"
+                                       disabled="#{!editCalcBasicsDrg.priorTopic}">
+                            <f:ajax render="@form" listener="#{editCalcBasicsDrg.activatePriorTopic()}"/>
+                        </h:commandLink>
 
-                    <h:commandLink styleClass="sendButton"
-                                   action="#{editCalcBasicsDrg.seal}"
-                                   value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editCalcBasicsDrg.sealEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmSeal/>
-                    </h:commandLink>
+                        <h:commandLink styleClass="button"
+                                       value="#{msg.btnNextPage}"
+                                       disabled="#{!editCalcBasicsDrg.nextTopic}">
+                            <f:ajax render="@form" listener="#{editCalcBasicsDrg.activateNextTopic()}"/>
+                        </h:commandLink>
+                    </div>
+                    <div>
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editCalcBasicsDrg.save}"
+                                       value="#{msg.btnSave}"
+                                       immediate="true"
+                                       rendered="#{!editCalcBasicsDrg.readOnly}">
+                        </h:commandLink>
 
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editCalcBasicsDrg.take}"
-                                   value="#{msg.btnTake}"
-                                   immediate="true"
-                                   rendered="#{editCalcBasicsDrg.takeEnabled}"
-                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
-                    </h:commandLink>
+                        <h:commandLink styleClass="sendButton"
+                                       action="#{editCalcBasicsDrg.requestApproval}"
+                                       value="#{msg.btnRequestApproval}"
+                                       rendered="#{editCalcBasicsDrg.approvalRequestEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmRequestApproval/>
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="sendButton"
+                                       action="#{editCalcBasicsDrg.seal}"
+                                       value="#{msg.btnSaveAndClose}"
+                                       rendered="#{editCalcBasicsDrg.sealEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmSeal/>
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editCalcBasicsDrg.take}"
+                                       value="#{msg.btnTake}"
+                                       immediate="true"
+                                       rendered="#{editCalcBasicsDrg.takeEnabled}"
+                                       onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                        </h:commandLink>
+
+                    </div>
                 </div>
+
             </h:panelGroup>
         </h:form>
 

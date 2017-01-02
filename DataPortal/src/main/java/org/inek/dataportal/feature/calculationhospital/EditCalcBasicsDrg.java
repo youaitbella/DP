@@ -67,20 +67,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Object id = params.get("id");
-        if (id == null){return;}
+        if (id == null) {
+            return;
+        }
         if (id.toString().equals("new")) {
             _calcBasics = newCalcBasicsDrg();
         } else {
             _calcBasics = loadCalcBasicsDrg(id);
         }
-    }
-
-    public Set<Integer> getCalcIks() {
-        Set<Integer> ids = new HashSet<>();
-        ids.add(_sessionController.getAccountId());
-        return _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg,
-                ids,
-                _calcBasics.getDataYear());
+        changedIk();
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(Object idObject) {
@@ -258,25 +253,29 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return "";
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
+    List<SelectItem> _iks;
+
     public List<SelectItem> getIks() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
-        List<SelectItem> items = new ArrayList<>();
-        if (account.getIK() != null) {
-            iks.add(account.getIK());
+        if (_iks == null) {
+            Set<Integer> ids = new HashSet<>();
+            ids.add(_sessionController.getAccountId());
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, ids, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            if (_calcBasics != null && _calcBasics.getIk() > 0) {
+                iks.add(_calcBasics.getIk());
+            }
+
+            List<SelectItem> items = new ArrayList<>();
+            for (int ik : iks) {
+                items.add(new SelectItem(ik));
+            }
+            if (_calcBasics != null && _calcBasics.getIk() <= 0) {
+                items.add(0, new SelectItem(""));
+            }
+            _iks = items;
         }
-        if (_calcBasics.getIk() > 0) {
-            iks.add(_calcBasics.getIk());
-        }
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
-        }
-        if (_calcBasics.getIk() <= 0) {
-            items.add(0, new SelectItem(""));
-        }
-        return items;
+        return _iks;
     }
 
     String _hospitalInfo = "";
@@ -337,13 +336,4 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>    
-    private int _dummy = -1;
-
-    public int getDummy() {
-        return _dummy;
-    }
-
-    public void setDummy(int dummy) {
-        _dummy = dummy;
-    }
 }
