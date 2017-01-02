@@ -66,6 +66,22 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
         //Utils.navigate(getActiveTopic().getOutcome());
     }
 
+    public boolean isPriorTopic() {
+        return _topics.hasPriorTopic();
+    }
+    
+    public boolean isNextTopic() {
+        return _topics.hasNextTopic();
+    }
+    
+    public void activatePriorTopic(){
+        _topics.activatePriorTopic();
+    }
+    
+    public void activateNextTopic(){
+        _topics.activateNextTopic();
+    }
+    
     public Topic findTopic(String key) {
         return _topics.findTopic(key);
     }

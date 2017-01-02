@@ -313,6 +313,12 @@ div#wrapper {
     padding-bottom: 0.5em;
 }
 
+.narrowToolBar {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0.5em;
+}
+
 #content div.tab,
 #content span.tab {
     display: block;
@@ -1021,14 +1027,17 @@ a.rightArrow {
 }
 
 span.button {
-    padding: 0 1em;
+    padding: 1px 0;
     background-color: darkgrey;
     color: lightgrey;
+    margin: 0.5em 1.5em 0.5em 0;
 }
 
 a.button, .midButton, .smallButton, input.button, label.button{
     background-color: #043358;
     color: white;
+    margin: 0.5em 1.5em 0.5em 0;
+    
 }
 
 a.secondaryButton{
