@@ -373,68 +373,68 @@ public class DrgCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Mhi">
     @Column(name = "biMhi")
-    private boolean _mhi;
+    private boolean _minimalValvularIntervention;
 
-    public boolean isMhi() {
-        return _mhi;
+    public boolean isMinimalValvularIntervention() {
+        return _minimalValvularIntervention;
     }
 
-    public void setMhi(boolean _mhi) {
-        this._mhi = _mhi;
+    public void setMinimalValvularIntervention(boolean minimalValvularIntervention) {
+        this._minimalValvularIntervention = minimalValvularIntervention;
     }
     
     // </editor-fold>    
     
     // <editor-fold defaultstate="collapsed" desc="Property MhiAbsolute">
     @Column(name = "biMhiAbsolute")
-    private boolean _mhiAbsolute;
+    private boolean _mviAbsolute;
 
-    public boolean isMhiAbsolute() {
-        return _mhiAbsolute;
+    public boolean isMviAbsolute() {
+        return _mviAbsolute;
     }
 
-    public void setMhiAbsolute(boolean _mhiAbsolute) {
-        this._mhiAbsolute = _mhiAbsolute;
+    public void setMviAbsolute(boolean mviAbsolute) {
+        this._mviAbsolute = mviAbsolute;
     }
     
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property MhiTransitionalArrangement">
     @Column(name = "biMhiTransitionalArrangement")
-    private boolean _mhiTransitionalArrangement;
+    private boolean _mviTransitionalArrangement;
 
-    public boolean isMhiTransitionalArrangement() {
-        return _mhiTransitionalArrangement;
+    public boolean isMviTransitionalArrangement() {
+        return _mviTransitionalArrangement;
     }
 
-    public void setMhiTransitionalArrangement(boolean _mhiTransitionalArrangement) {
-        this._mhiTransitionalArrangement = _mhiTransitionalArrangement;
+    public void setMviTransitionalArrangement(boolean mviTransitionalArrangement) {
+        this._mviTransitionalArrangement = mviTransitionalArrangement;
     }    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property MhiTransitionalArrangement">
     @Column(name = "biMhiGuideline")
-    private boolean _mhiGuideline;
+    private boolean _mviGuideline;
 
-    public boolean isMhiGuideline() {
-        return _mhiGuideline;
+    public boolean isMviGuideline() {
+        return _mviGuideline;
     }
 
-    public void setMhiGuideline(boolean _mhiGuideline) {
-        this._mhiGuideline = _mhiGuideline;
+    public void setMviGuideline(boolean mviGuideline) {
+        this._mviGuideline = mviGuideline;
     }    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property MhiGuidelineAspired">
     @Column(name = "biMhiGuidelineAspired")
-    boolean _mhiGuidelineAspired;
+    boolean _mviGuidelineAspired;
 
-    public boolean isMhiGuidelineAspired() {
-        return _mhiGuidelineAspired;
+    public boolean isMviGuidelineAspired() {
+        return _mviGuidelineAspired;
     }
 
-    public void setMhiGuidelineAspired(boolean _mhiGuidelineAspired) {
-        this._mhiGuidelineAspired = _mhiGuidelineAspired;
+    public void setMviGuidelineAspired(boolean mviGuidelineAspired) {
+        this._mviGuidelineAspired = mviGuidelineAspired;
     }
     // </editor-fold>
             
@@ -450,8 +450,6 @@ public class DrgCalcBasics implements Serializable {
         this._endoscopy = _endoscopy;
     }
     // </editor-fold>
-            
-            
     
     // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomPreBirthHabitationCnt">
     @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
