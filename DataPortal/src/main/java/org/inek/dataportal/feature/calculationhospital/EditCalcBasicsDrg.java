@@ -134,7 +134,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
     @Override
     protected void addTopics() {
-        addTopic("tabUMMaster", Pages.CalcDrgBasics.URL());
+        addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
         addTopic("lblBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
         addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
         addTopic("lblCalcOperation", Pages.CalcDrgOperation.URL());
