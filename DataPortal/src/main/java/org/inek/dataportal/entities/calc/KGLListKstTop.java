@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListKstTop", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLListKstTop", schema = "calc")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListKstTop.findAll", query = "SELECT k FROM KGLListKstTop k")
@@ -39,40 +39,119 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListKstTop implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ktID")
     private Integer ktID;
+    
+    public Integer getKtID() {
+        return ktID;
+    }
+
+    public void setKtID(Integer ktID) {
+        this.ktID = ktID;
+    }
+
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "ktCostCenterID")
     private int ktCostCenterID;
+    
+    public int getKtCostCenterID() {
+        return ktCostCenterID;
+    }
+
+    public void setKtCostCenterID(int ktCostCenterID) {
+        this.ktCostCenterID = ktCostCenterID;
+    }
+
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "ktText")
     private String ktText;
+    
+    public String getKtText() {
+        return ktText;
+    }
+
+    public void setKtText(String ktText) {
+        this.ktText = ktText;
+    }
+
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "ktCaseCnt")
     private int ktCaseCnt;
+    
+    public int getKtCaseCnt() {
+        return ktCaseCnt;
+    }
+
+    public void setKtCaseCnt(int ktCaseCnt) {
+        this.ktCaseCnt = ktCaseCnt;
+    }
+
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "ktAmount")
     private BigDecimal ktAmount;
+    
+    public BigDecimal getKtAmount() {
+        return ktAmount;
+    }
+
+    public void setKtAmount(BigDecimal ktAmount) {
+        this.ktAmount = ktAmount;
+    }
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "ktDelimitationAmount")
     private BigDecimal ktDelimitationAmount;
+    
+    public BigDecimal getKtDelimitationAmount() {
+        return ktDelimitationAmount;
+    }
+
+    public void setKtDelimitationAmount(BigDecimal ktDelimitationAmount) {
+        this.ktDelimitationAmount = ktDelimitationAmount;
+    }
+
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "ktRank")
     private int ktRank;
+    
+    public int getKtRank() {
+        return ktRank;
+    }
+
+    public void setKtRank(int ktRank) {
+        this.ktRank = ktRank;
+    }
+
+    
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biID")
     @ManyToOne(optional = false)
     private DrgCalcBasics ktBaseInformationID;
+    
+    public DrgCalcBasics getKtBaseInformationID() {
+        return ktBaseInformationID;
+    }
+
+    public void setKtBaseInformationID(DrgCalcBasics ktBaseInformationID) {
+        this.ktBaseInformationID = ktBaseInformationID;
+    }
+    
 
     public KGLListKstTop() {
     }
@@ -91,69 +170,7 @@ public class KGLListKstTop implements Serializable {
         this.ktRank = ktRank;
     }
 
-    public Integer getKtID() {
-        return ktID;
-    }
 
-    public void setKtID(Integer ktID) {
-        this.ktID = ktID;
-    }
-
-    public int getKtCostCenterID() {
-        return ktCostCenterID;
-    }
-
-    public void setKtCostCenterID(int ktCostCenterID) {
-        this.ktCostCenterID = ktCostCenterID;
-    }
-
-    public String getKtText() {
-        return ktText;
-    }
-
-    public void setKtText(String ktText) {
-        this.ktText = ktText;
-    }
-
-    public int getKtCaseCnt() {
-        return ktCaseCnt;
-    }
-
-    public void setKtCaseCnt(int ktCaseCnt) {
-        this.ktCaseCnt = ktCaseCnt;
-    }
-
-    public BigDecimal getKtAmount() {
-        return ktAmount;
-    }
-
-    public void setKtAmount(BigDecimal ktAmount) {
-        this.ktAmount = ktAmount;
-    }
-
-    public BigDecimal getKtDelimitationAmount() {
-        return ktDelimitationAmount;
-    }
-
-    public void setKtDelimitationAmount(BigDecimal ktDelimitationAmount) {
-        this.ktDelimitationAmount = ktDelimitationAmount;
-    }
-
-    public int getKtRank() {
-        return ktRank;
-    }
-
-    public void setKtRank(int ktRank) {
-        this.ktRank = ktRank;
-    }
-
-    public DrgCalcBasics getKtBaseInformationID() {
-        return ktBaseInformationID;
-    }
-
-    public void setKtBaseInformationID(DrgCalcBasics ktBaseInformationID) {
-        this.ktBaseInformationID = ktBaseInformationID;
-    }
 
     @Override
     public int hashCode() {

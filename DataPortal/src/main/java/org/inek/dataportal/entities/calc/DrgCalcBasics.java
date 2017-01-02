@@ -6,10 +6,12 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +25,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 import org.inek.dataportal.enums.WorkflowStatus;
 
@@ -33,6 +37,85 @@ import org.inek.dataportal.enums.WorkflowStatus;
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 public class DrgCalcBasics implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biDeliveryType")
+    private short _deliveryType;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biSumCalcCost")
+    private double _sumCalcCost;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biDeliveryRoomHours")
+    private double _deliveryRoomHours;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biNormalFreelancing")
+    private boolean _normalFreelancing;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biFeeContract")
+    private boolean _feeContract;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biPKMSRecording")
+    private boolean _pkmsRecording;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biPKMSCaseCnt")
+    private int _pkmsCaseCnt;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biKISIntegration")
+    private boolean _kisIntegration;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "biNormalStationOther")
+    private String _normalStationOther;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biApproximationMethodMedInfra")
+    private boolean _approximationMethodMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biStepladderMethodMedInfra")
+    private boolean _stepladderMethodMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biExtensionMethodMedInfra")
+    private boolean _extensionMethodMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biOtherMethodMedInfra")
+    private boolean _otherMethodMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biApproximationMethodNonMedInfra")
+    private boolean _approximationMethodNonMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biStepladderMethodNonMedInfra")
+    private boolean _stepladderMethodNonMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biExtensionMethodNonMedInfra")
+    private boolean _extensionMethodNonMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biOtherMethodNonMedInfra")
+    private boolean _otherMethodNonMedInfra;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biIntensiveBed")
+    private boolean _intensiveBed;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biIntensiveStrokeBed")
+    private boolean _intensiveStrokeBed;
     
     private static final long serialVersionUID = 1L;
     
@@ -132,16 +215,12 @@ public class DrgCalcBasics implements Serializable {
         _lastChanged = lastChanged;
     }
     // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Delivery Type">
-    @Column(name = "biDeliveryType")
-    private byte _deliveryType;
 
-    public byte getDeliveryType() {
+    public short getDeliveryType() {
         return _deliveryType;
     }
 
-    public void setDeliveryType(byte _deliveryType) {
+    public void setDeliveryType(short _deliveryType) {
         this._deliveryType = _deliveryType;
     }
     // </editor-fold>
@@ -158,16 +237,12 @@ public class DrgCalcBasics implements Serializable {
         this._correctionNote = _correctionNote;
     }
     // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property SumCalcCost">
-    @Column(name = "biSumCalcCost")
-    private float _sumCalcCost;
 
-    public float getSumCalcCost() {
+    public double getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(float _sumCalcCost) {
+    public void setSumCalcCost(double _sumCalcCost) {
         this._sumCalcCost = _sumCalcCost;
     }
     // </editor-fold>
@@ -507,10 +582,6 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>            
 
-    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomHours">
-    @Column(name = "biDeliveryRoomHours")
-    double _deliveryRoomHours;
-
     public double getDeliveryRoomHours() {
         return _deliveryRoomHours;
     }
@@ -642,7 +713,7 @@ public class DrgCalcBasics implements Serializable {
     }
     
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation")
     private List<KGLListServiceProvision> kGLListServiceProvisionList;
 
     @XmlTransient
@@ -668,7 +739,7 @@ public class DrgCalcBasics implements Serializable {
     }
     
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "edBaseInformationID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation")
     private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
     @XmlTransient
     public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
@@ -726,6 +797,161 @@ public class DrgCalcBasics implements Serializable {
     @PreUpdate
     public void tagModifiedDate() {
         _lastChanged = Calendar.getInstance().getTime();
+    }
+
+    public DrgCalcBasics() {
+    }
+
+    public short getBiDeliveryType() {
+        return _deliveryType;
+    }
+
+    public void setBiDeliveryType(short biDeliveryType) {
+        this._deliveryType = biDeliveryType;
+    }
+
+    public double getBiSumCalcCost() {
+        return _sumCalcCost;
+    }
+
+    public void setBiSumCalcCost(double biSumCalcCost) {
+        this._sumCalcCost = biSumCalcCost;
+    }
+
+    public double getBiDeliveryRoomHours() {
+        return _deliveryRoomHours;
+    }
+
+    public void setBiDeliveryRoomHours(double biDeliveryRoomHours) {
+        this._deliveryRoomHours = biDeliveryRoomHours;
+    }
+
+    public boolean getBiNormalFreelancing() {
+        return _normalFreelancing;
+    }
+
+    public void setBiNormalFreelancing(boolean biNormalFreelancing) {
+        this._normalFreelancing = biNormalFreelancing;
+    }
+
+    public boolean getBiFeeContract() {
+        return _feeContract;
+    }
+
+    public void setBiFeeContract(boolean biFeeContract) {
+        this._feeContract = biFeeContract;
+    }
+
+    public boolean getBiPKMSRecording() {
+        return _pkmsRecording;
+    }
+
+    public void setBiPKMSRecording(boolean biPKMSRecording) {
+        this._pkmsRecording = biPKMSRecording;
+    }
+
+    public int getBiPKMSCaseCnt() {
+        return _pkmsCaseCnt;
+    }
+
+    public void setBiPKMSCaseCnt(int biPKMSCaseCnt) {
+        this._pkmsCaseCnt = biPKMSCaseCnt;
+    }
+
+    public boolean getBiKISIntegration() {
+        return _kisIntegration;
+    }
+
+    public void setBiKISIntegration(boolean biKISIntegration) {
+        this._kisIntegration = biKISIntegration;
+    }
+
+    public String getBiNormalStationOther() {
+        return _normalStationOther;
+    }
+
+    public void setBiNormalStationOther(String biNormalStationOther) {
+        this._normalStationOther = biNormalStationOther;
+    }
+
+    public boolean getBiApproximationMethodMedInfra() {
+        return _approximationMethodMedInfra;
+    }
+
+    public void setBiApproximationMethodMedInfra(boolean biApproximationMethodMedInfra) {
+        this._approximationMethodMedInfra = biApproximationMethodMedInfra;
+    }
+
+    public boolean getBiStepladderMethodMedInfra() {
+        return _stepladderMethodMedInfra;
+    }
+
+    public void setBiStepladderMethodMedInfra(boolean biStepladderMethodMedInfra) {
+        this._stepladderMethodMedInfra = biStepladderMethodMedInfra;
+    }
+
+    public boolean getBiExtensionMethodMedInfra() {
+        return _extensionMethodMedInfra;
+    }
+
+    public void setBiExtensionMethodMedInfra(boolean biExtensionMethodMedInfra) {
+        this._extensionMethodMedInfra = biExtensionMethodMedInfra;
+    }
+
+    public boolean getBiOtherMethodMedInfra() {
+        return _otherMethodMedInfra;
+    }
+
+    public void setBiOtherMethodMedInfra(boolean biOtherMethodMedInfra) {
+        this._otherMethodMedInfra = biOtherMethodMedInfra;
+    }
+
+    public boolean getBiApproximationMethodNonMedInfra() {
+        return _approximationMethodNonMedInfra;
+    }
+
+    public void setBiApproximationMethodNonMedInfra(boolean biApproximationMethodNonMedInfra) {
+        this._approximationMethodNonMedInfra = biApproximationMethodNonMedInfra;
+    }
+
+    public boolean getBiStepladderMethodNonMedInfra() {
+        return _stepladderMethodNonMedInfra;
+    }
+
+    public void setBiStepladderMethodNonMedInfra(boolean biStepladderMethodNonMedInfra) {
+        this._stepladderMethodNonMedInfra = biStepladderMethodNonMedInfra;
+    }
+
+    public boolean getBiExtensionMethodNonMedInfra() {
+        return _extensionMethodNonMedInfra;
+    }
+
+    public void setBiExtensionMethodNonMedInfra(boolean biExtensionMethodNonMedInfra) {
+        this._extensionMethodNonMedInfra = biExtensionMethodNonMedInfra;
+    }
+
+    public boolean getBiOtherMethodNonMedInfra() {
+        return _otherMethodNonMedInfra;
+    }
+
+    public void setBiOtherMethodNonMedInfra(boolean biOtherMethodNonMedInfra) {
+        this._otherMethodNonMedInfra = biOtherMethodNonMedInfra;
+    }
+
+    public boolean getBiIntensiveBed() {
+        return _intensiveBed;
+    }
+
+    public void setBiIntensiveBed(boolean biIntensiveBed) {
+        this._intensiveBed = biIntensiveBed;
+    }
+
+    public boolean getBiIntensiveStrokeBed() {
+        return _intensiveStrokeBed;
+    }
+
+    public void setBiIntensiveStrokeBed(boolean biIntensiveStrokeBed) {
+        this._intensiveStrokeBed = biIntensiveStrokeBed;
     }
 
 }

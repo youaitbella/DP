@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "KGLListServiceProvisionType.findBySptLastYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k.sptLastYear = :sptLastYear")})
 public class KGLListServiceProvisionType implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeID")
+    private List<KGLListServiceProvision> kGLListServiceProvisionList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -55,8 +58,6 @@ public class KGLListServiceProvisionType implements Serializable {
     @NotNull
     @Column(name = "sptLastYear")
     private int sptLastYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeID")
-    private List<KGLListServiceProvision> kGLListServiceProvisionList;
 
     public KGLListServiceProvisionType() {
     }
@@ -104,15 +105,6 @@ public class KGLListServiceProvisionType implements Serializable {
         this.sptLastYear = sptLastYear;
     }
 
-    @XmlTransient
-    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
-        return kGLListServiceProvisionList;
-    }
-
-    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
-        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -136,6 +128,15 @@ public class KGLListServiceProvisionType implements Serializable {
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListServiceProvisionType[ sptID=" + sptID + " ]";
+    }
+
+    @XmlTransient
+    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
+        return kGLListServiceProvisionList;
+    }
+
+    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
+        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
     }
     
 }
