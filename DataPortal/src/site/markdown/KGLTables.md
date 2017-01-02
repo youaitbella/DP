@@ -1,6 +1,4 @@
-﻿[Link zu den Dateien](W:\Oekonomie\KGL\Anpassung KGL DJ2016\Übergabe an EDV)
-﻿
-﻿|Blatt|Tabelle|Spalte|Tabelle DB|Spalte DB|
+|Blatt|Tabelle|Spalte|Tabelle DB|Spalte DB|
 |---|---|---|---|---|
 |Grundlagen|Grundlagen||KGLBaseInformation||
 |||Summe kalkulationsrelevanter Kosten (EUR)||biSumCalcCost|
@@ -226,6 +224,8 @@
 |||Gemeinkosten med. Sachbedarf||iscOverheadMedicalGoods|
 |||Kosten med. Infra||iscMedicalInfrastructureCost|
 |||Kosten nicht med. Infra||iscNonMedicalInfrastructureCost|
+
+[Link zu den Dateien](W:\Oekonomie\KGL\Anpassung KGL DJ2016\Übergabe an EDV)
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
