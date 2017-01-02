@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -61,6 +62,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String _script;
     private DrgCalcBasics _calcBasics;
+    private DrgCalcBasics _priorCalcBasics;
 
     // </editor-fold>
     @PostConstruct
@@ -75,9 +77,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } else {
             _calcBasics = loadCalcBasicsDrg(id);
         }
-        changedIk();
+        updateIk();
     }
 
+    public void updateIk() {
+        if (_calcBasics != null) {
+            Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
+            _hospitalInfo = c.getName() + ", " + c.getTown();
+            _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(_calcBasics);
+        }
+    }
+    
     private DrgCalcBasics loadCalcBasicsDrg(Object idObject) {
         try {
             int id = Integer.parseInt("" + idObject);
@@ -284,33 +294,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _hospitalInfo;
     }
 
-    public void changedIk() {
-        if (_calcBasics != null) {
-            Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
-            _hospitalInfo = c.getName() + ", " + c.getTown();
-        }
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    private void ensureNeonateData() {
-        if (_calcBasics.getNeonateData() != null && !_calcBasics.getNeonateData().isEmpty()) {
+    private void ensureNeonateData(DrgCalcBasics calcBasics) {
+        if (calcBasics.getNeonateData() != null && !calcBasics.getNeonateData().isEmpty()) {
             return;
         }
-        if (_calcBasics.getNeonateData() == null) {
-            _calcBasics.setNeonateData(new Vector<>());
+        if (calcBasics.getNeonateData() == null) {
+            calcBasics.setNeonateData(new Vector<>());
         }
-        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1)
+        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
                 .stream()
                 .map(ht -> ht.getId())
                 .collect(Collectors.toList());
-        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, _calcBasics.getDataYear());
+        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
         for (DrgContentText contentText : contentTexts) {
             DrgNeonatData data = new DrgNeonatData();
             data.setContentTextId(contentText.getId());
             data.setContentText(contentText);
-            data.setCalcBasicsId(_calcBasics.getId());
-            _calcBasics.getNeonateData().add(data);
+            data.setCalcBasicsId(calcBasics.getId());
+            calcBasics.getNeonateData().add(data);
         }
     }
 
@@ -327,13 +331,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<DrgNeonatData> retrieveNeonatData(int headerId) {
-        ensureNeonateData();
+        ensureNeonateData(_calcBasics);
         return _calcBasics.getNeonateData()
                 .stream()
                 .filter(d -> d.getContentText().getHeaderTextId() == headerId)
-                .sorted((x, y) -> x.getContentText().getSequence() - y.getContentText().getSequence())
+                .sorted((x, y) -> x.getContentText().getSequence()- y.getContentText().getSequence())
                 .collect(Collectors.toList());
     }
 
+    public int priorData(int textId){
+        int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
+        return priorValue;
+    }
+
+    public String diffData(int textId){
+        DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
+        int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
+        if (data.getContentText().isDiffAsPercent()){
+            return Math.round(1000d * (data.getData() - priorValue) / priorValue) / 10d + "%";
+        }
+        return "" + (data.getData() - priorValue);
+    }
     // </editor-fold>    
 }

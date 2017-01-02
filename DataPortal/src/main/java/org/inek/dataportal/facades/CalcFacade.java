@@ -224,7 +224,6 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select 1\n"
                 + "		from calc.KGLBaseInformation\n"
                 + "		where biAccountId in (" + accountList + ")\n"
-                + "			and biStatusId < 200\n"
                 + "			and biDataYear = " + year + "\n"
                 + "			and sopIk = biIk\n"
                 + "	)";
@@ -244,7 +243,6 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select 1\n"
                 + "		from calc.KGPBaseInformation\n"
                 + "		where biAccountId in (" + accountList + ")\n"
-                + "			and biStatusId < 200\n"
                 + "			and biDataYear = " + year + "\n"
                 + "			and sopIk = biIk\n"
                 + "	)";
@@ -313,5 +311,17 @@ public class CalcFacade extends AbstractDataAccess {
         return query.getResultList();
     }
     // </editor-fold>
+
+    public DrgCalcBasics retrievePriorCalcBasics(DrgCalcBasics calcBasics) {
+        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year";
+        TypedQuery<DrgCalcBasics> query = getEntityManager().createQuery(jpql, DrgCalcBasics.class);
+        query.setParameter("ik", calcBasics.getIk());
+        query.setParameter("year", calcBasics.getDataYear() -1);
+        List<DrgCalcBasics> resultList = query.getResultList();
+        if (resultList.size() > 0){
+            return resultList.get(0);
+        }
+        return new DrgCalcBasics();
+    }
 
 }
