@@ -69,7 +69,7 @@ public enum Pages {
     CalcDrgMedicalInfrastructure("/CalcHospital/Drg/MedicalInfrastructure"),
     CalcDrgNonMedicalInfrastructure("/CalcHospital/Drg/NonMedicalInfrastructure"),
     CalcDrgStaffCost("/CalcHospital/Drg/StaffCost"),
-    CalcDrgValvuarIntervention("/CalcHospital/Drg/ValvuarIntervention"),
+    CalcDrgValvularIntervention("/CalcHospital/Drg/ValvularIntervention"),
     CalcDrgNeonatology("/CalcHospital/Drg/Neonat/Neonatology"),
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
