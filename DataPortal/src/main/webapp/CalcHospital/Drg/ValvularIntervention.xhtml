@@ -12,14 +12,34 @@
 
     <h2 title="#{msg.titleCalcValvularIntervention}">#{msg.headCalcValvularIntervention}</h2>
 
-    <inek:TriStateRadioButton label="#{msg.lblCalcPerformsValvularIntervention}" 
-                              value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
-                              renderElement="valvularIntervention :logout:remaining">
-    </inek:TriStateRadioButton>
+    <inek:BooleanRadioButton label="#{msg.lblCalcPerformsValvularIntervention}" 
+                             value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
+                             renderElement="@form :logout:remaining">
+    </inek:BooleanRadioButton>
     <br/>
-    
+
     <h:panelGroup id="valvularIntervention" rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
-        Hier Abfrage der Daten
+        <br/>
+        <h:outputLabel value="#{msg.lblFulfillmentDemand}" styleClass="label"/>
+        <br/>
+        <h:selectOneMenu id="fulFillment"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}"
+                         hideNoSelectionOption="true" 
+                         style="width: 100%;">
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+            <f:selectItems value="#{calcBasicsStaticData.mviFulfillmentItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+            <f:ajax event="change" render="@this :logout:remaining msgFulFillment"/>
+        </h:selectOneMenu>
+        <h:message for="fulFillment" id="msgFulFillment" styleClass="errorMessage"/>
+
+        <inek:BooleanRadioButton label="#{msg.lblFulfillmentNextYear}" 
+                                 value="#{editCalcBasicsDrg.calcBasics.mviGuidelineAspired}"
+                                 labelStyle="label col45em marginTop"
+                                 renderElement=":logout:remaining">
+        </inek:BooleanRadioButton>
+
     </h:panelGroup>
 </ui:composition>
 

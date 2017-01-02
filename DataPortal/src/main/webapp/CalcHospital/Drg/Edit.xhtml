@@ -33,6 +33,20 @@
                 <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
 
                 <div class="toolBar">
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnPriorPage}"
+                                   disabled="#{!editCalcBasicsDrg.priorTopic}">
+                        <f:ajax render="@form" listener="#{editCalcBasicsDrg.activatePriorTopic()}"/>
+                    </h:commandLink>
+                    
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnNextPage}"
+                                   disabled="#{!editCalcBasicsDrg.nextTopic}">
+                        <f:ajax render="@form" listener="#{editCalcBasicsDrg.activateNextTopic()}"/>
+                    </h:commandLink>
+                </div>
+
+                <div class="narrowToolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editCalcBasicsDrg.save}"
                                    value="#{msg.btnSave}"

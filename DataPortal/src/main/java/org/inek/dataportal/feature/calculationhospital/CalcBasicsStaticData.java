@@ -22,7 +22,8 @@ import javax.inject.Named;
 @Named
 @ApplicationScoped
 public class CalcBasicsStaticData {
-   public List<SelectItem> getFulfillmentItems(){
+
+    public List<SelectItem> getNeonatFulfillmentItems(){
        // todo (low priority): get text from property file
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(-1, "nicht erfüllt"));
@@ -41,4 +42,15 @@ public class CalcBasicsStaticData {
        items.add(new SelectItem(12, "ab Dezember"));
        return items;
    } 
+
+    public List<SelectItem> getMviFulfillmentItems(){
+       // todo (low priority): get text from property file
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "Das Krankenhaus erfüllt in diesem Datenjahr uneingeschränkt die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen"));
+       items.add(new SelectItem(2, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen gemäß der Übergangsregelung nach §9 der Richtlinie sowie nach dem Stichtag (30.Juni 2016) uneingeschränkt"));
+       items.add(new SelectItem(3, "Das Krankenhaus erfüllt in diesem Datenjahr lediglich die Anforderungen gemäß der Übergangsregelung nach §9 der Richtlinie"));
+       items.add(new SelectItem(0, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen nicht"));
+       return items;
+   } 
+
 }

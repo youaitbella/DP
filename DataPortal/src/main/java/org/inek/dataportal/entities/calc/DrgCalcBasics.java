@@ -387,7 +387,7 @@ public class DrgCalcBasics implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property MviFulfilled">
     @Column(name = "biMviFulfilled")
-    private int _mviFulfilled;
+    private int _mviFulfilled = -1;
 
     public int getMviFulfilled() {
         return _mviFulfilled;
@@ -398,8 +398,8 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property MhiGuidelineAspired">
-    @Column(name = "biMhiGuidelineAspired")
+    // <editor-fold defaultstate="collapsed" desc="Property MviGuidelineAspired">
+    @Column(name = "biMviGuidelineAspired")
     boolean _mviGuidelineAspired;
 
     public boolean isMviGuidelineAspired() {
