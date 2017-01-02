@@ -82,7 +82,7 @@ public class DrgNeonatData implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Data">
     @Column(name = "ndData")
-    private int _data = -1;  
+    private int _data = 0;  
     public int getData() {
         return _data;
     }

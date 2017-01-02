@@ -26,20 +26,20 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel value="???" styleClass="col06em"/>
+                <h:outputLabel value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" styleClass="col06em"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
                 <h:inputText id="data" value="#{data.data}" styleClass="col06em">
-                    <f:ajax event="change" render="@this msgData :logout:remain"/>
+                    <f:ajax event="change" render="@this diff msgData :logout:remain"/>
                 </h:inputText>
                 <h:message for="data" id="msgData" styleClass="errorMessage"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel value="???" styleClass="col06em"/>
+                <h:outputLabel id="diff" value="#{editCalcBasicsDrg.diffData(data.contentTextId)}" styleClass="col06em"/>
             </h:column>
 
 

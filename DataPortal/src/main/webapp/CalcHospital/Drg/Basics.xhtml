@@ -19,9 +19,9 @@
                          required="true"
                          requiredMessage="#{msg.msgValueNeeded}"
                          value="#{editCalcBasicsDrg.calcBasics.ik}">
-            <f:selectItems value="#{editCalcBasicsDrg.calcIks}"/>
+            <f:selectItems value="#{editCalcBasicsDrg.iks}"/>
             <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-            <f:ajax event="change" listener="#{editCalcBasicsDrg.changedIk}" render="@form :logout:remaining msgMultiIk"/>
+            <f:ajax event="change" listener="#{editCalcBasicsDrg.updateIk}" render="@form :logout:remaining msgMultiIk"/>
         </h:selectOneMenu>
 
         <h:inputText styleClass="inputmedium" readonly="true" value="#{editCalcBasicsDrg.calcBasics.ik}" rendered="#{editCalcBasicsDrg.readOnly or editCalcBasicsDrg.iks.size() le 1}"/>

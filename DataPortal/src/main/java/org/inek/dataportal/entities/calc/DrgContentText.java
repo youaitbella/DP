@@ -116,6 +116,19 @@ public class DrgContentText implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property DiffAsPercent">
+    @Column(name = "ctDiffAsPercent")
+    private boolean _diffAsPercent;
+
+    public boolean isDiffAsPercent() {
+        return _diffAsPercent;
+    }
+
+    public void setDiffAsPercent(boolean diffAsPercent) {
+        this._diffAsPercent = diffAsPercent;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
