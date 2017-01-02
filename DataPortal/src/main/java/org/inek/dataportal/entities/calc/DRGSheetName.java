@@ -31,9 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "KGLListSheet", schema = "calc")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "KGLListSheet.findAll", query = "SELECT k FROM KGLListSheet k")
-    , @NamedQuery(name = "KGLListSheet.findBySID", query = "SELECT k FROM KGLListSheet k WHERE k.sID = :sID")
-    , @NamedQuery(name = "KGLListSheet.findBySSheet", query = "SELECT k FROM KGLListSheet k WHERE k.sSheet = :sSheet")})
+    @NamedQuery(name = "DRGSheetName.findAll", query = "SELECT k FROM DRGSheetName k")
+    , @NamedQuery(name = "DRGSheetName.findBySID", query = "SELECT k FROM DRGSheetName k WHERE k._id = :sID")
+    , @NamedQuery(name = "DRGSheetName.findBySSheet", query = "SELECT k FROM DRGSheetName k WHERE k._sheet = :sSheet")})
 public class DRGSheetName implements Serializable {
 
     private static final long serialVersionUID = 1L;
