@@ -14,11 +14,11 @@
 
     <inek:TriStateRadioButton label="#{msg.lblCalcPerformsValvularIntervention}" 
                               value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
-                              renderElement="@form">
+                              renderElement="valvularIntervention :logout:remaining">
     </inek:TriStateRadioButton>
     <br/>
     
-    <h:panelGroup id="ValvularIntervention" rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
+    <h:panelGroup id="valvularIntervention" rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
         Hier Abfrage der Daten
     </h:panelGroup>
 </ui:composition>

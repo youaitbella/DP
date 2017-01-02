@@ -80,11 +80,9 @@
 |||Anzahl endoskopischer Eingriffsräume||biEndoscopyRoomCnt|
 |||Wieviele kalkulationsrelevante Fälle werden dort behandelt?||biEndoscopyCaseCnt|
 |MHI-Richtlinie|||KGLBaseInformation||
-|||Das Krankenhaus führt minimalinvasive Herzklappeninterventionen durch||biMhi|
-|||Erfüllt uneingeschränkt die Anforderungen||biMhiAbsolute|
-|||Erfüllt gemäß der Übergangsregelung||biMhiTransitionalArrangement|
-|||Erfüllt zum Stichtag die notwendigen Anforderungen der Richtlinie||biMhiGuideline|
-|||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMhiGuidelineAspired|
+|||Das Krankenhaus führt minimalinvasive Herzklappeninterventionen durch||biMinimalValvularIntervention|
+|||Erfüllungsgrad||biMviFulfilled|
+|||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMviGuidelineAspired|
 |Leistungsdokumentation (Kreißsaal Gynäkologie)|||KGLListObstetricsGynecology||
 |||Kostenstelle||ogCostCenterText|
 |||Ärztlicher Dienst||ogMedicalServiceCnt||||davon: Belegärzte||ogAttendingDoctorCnt|

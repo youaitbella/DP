@@ -372,7 +372,7 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Mhi">
-    @Column(name = "biMhi")
+    @Column(name = "biMinimalValvularIntervention")
     private boolean _minimalValvularIntervention;
 
     public boolean isMinimalValvularIntervention() {
@@ -385,44 +385,17 @@ public class DrgCalcBasics implements Serializable {
     
     // </editor-fold>    
     
-    // <editor-fold defaultstate="collapsed" desc="Property MhiAbsolute">
-    @Column(name = "biMhiAbsolute")
-    private boolean _mviAbsolute;
+    // <editor-fold defaultstate="collapsed" desc="Property MviFulfilled">
+    @Column(name = "biMviFulfilled")
+    private int _mviFulfilled;
 
-    public boolean isMviAbsolute() {
-        return _mviAbsolute;
+    public int getMviFulfilled() {
+        return _mviFulfilled;
     }
 
-    public void setMviAbsolute(boolean mviAbsolute) {
-        this._mviAbsolute = mviAbsolute;
+    public void setMviFulfilled(int mviFulfilled) {
+        this._mviFulfilled = mviFulfilled;
     }
-    
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property MhiTransitionalArrangement">
-    @Column(name = "biMhiTransitionalArrangement")
-    private boolean _mviTransitionalArrangement;
-
-    public boolean isMviTransitionalArrangement() {
-        return _mviTransitionalArrangement;
-    }
-
-    public void setMviTransitionalArrangement(boolean mviTransitionalArrangement) {
-        this._mviTransitionalArrangement = mviTransitionalArrangement;
-    }    
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property MhiTransitionalArrangement">
-    @Column(name = "biMhiGuideline")
-    private boolean _mviGuideline;
-
-    public boolean isMviGuideline() {
-        return _mviGuideline;
-    }
-
-    public void setMviGuideline(boolean mviGuideline) {
-        this._mviGuideline = mviGuideline;
-    }    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property MhiGuidelineAspired">
