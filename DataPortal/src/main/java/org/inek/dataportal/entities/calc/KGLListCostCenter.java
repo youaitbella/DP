@@ -25,156 +25,183 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListCostCenter", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLListCostCenter", schema = "calc")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListCostCenter.findAll", query = "SELECT k FROM KGLListCostCenter k")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcID", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccID = :ccID")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcCostCenterID", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccCostCenterID = :ccCostCenterID")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcCostCenterText", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccCostCenterText = :ccCostCenterText")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcAmount", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccAmount = :ccAmount")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcFullVigorCnt", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccFullVigorCnt = :ccFullVigorCnt")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceKey", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccServiceKey = :ccServiceKey")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceKeyDescription", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccServiceKeyDescription = :ccServiceKeyDescription")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceSum", query = "SELECT k FROM KGLListCostCenter k WHERE k.ccServiceSum = :ccServiceSum")})
+    , @NamedQuery(name = "KGLListCostCenter.findByCcID", query = "SELECT k FROM KGLListCostCenter k WHERE k._id = :ccID")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcCostCenterID", query = "SELECT k FROM KGLListCostCenter k WHERE k._costCenterID = :ccCostCenterID")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcCostCenterText", query = "SELECT k FROM KGLListCostCenter k WHERE k._costCenterText = :ccCostCenterText")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcAmount", query = "SELECT k FROM KGLListCostCenter k WHERE k._amount = :ccAmount")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcFullVigorCnt", query = "SELECT k FROM KGLListCostCenter k WHERE k._fullVigorCnt = :ccFullVigorCnt")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceKey", query = "SELECT k FROM KGLListCostCenter k WHERE k._serviceKey = :ccServiceKey")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceKeyDescription", query = "SELECT k FROM KGLListCostCenter k WHERE k._serviceKeyDescription = :ccServiceKeyDescription")
+    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceSum", query = "SELECT k FROM KGLListCostCenter k WHERE k._serviceSum = :ccServiceSum")})
 public class KGLListCostCenter implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccID")
-    private Integer ccID;
+    private Integer _id;
+    
+    public Integer getID() {
+        return _id;
+    }
+
+    public void setID(Integer ccID) {
+        this._id = ccID;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccCostCenterID")
-    private int ccCostCenterID;
+    private int _costCenterID;
+    
+    public int getCostCenterID() {
+        return _costCenterID;
+    }
+
+    public void setCostCenterID(int costCenterID) {
+        this._costCenterID = costCenterID;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "ccCostCenterText")
-    private String ccCostCenterText;
+    private String _costCenterText;
+    
+    public String getCostCenterText() {
+        return _costCenterText;
+    }
+
+    public void setCostCenterText(String costCenterText) {
+        this._costCenterText = costCenterText;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Amount">
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccAmount")
-    private BigDecimal ccAmount;
+    private double _amount;
+    
+    public double getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(double amount) {
+        this._amount = amount;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="FullVigorCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccFullVigorCnt")
-    private BigDecimal ccFullVigorCnt;
+    private double _fullVigorCnt;
+    
+    public double getFullVigorCnt() {
+        return _fullVigorCnt;
+    }
+
+    public void setFullVigorCnt(double fullVigorCnt) {
+        this._fullVigorCnt = fullVigorCnt;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ServiceKey">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "ccServiceKey")
-    private String ccServiceKey;
+    private String _serviceKey;
+
+    public String getServiceKey() {
+        return _serviceKey;
+    }
+
+    public void setServiceKey(String serviceKey) {
+        this._serviceKey = serviceKey;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ServiceKeyDescription">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size(max = 2147483647)
     @Column(name = "ccServiceKeyDescription")
-    private String ccServiceKeyDescription;
+    private String _serviceKeyDescription;
+    
+    public String getServiceKeyDescription() {
+        return _serviceKeyDescription;
+    }
+
+    public void setServiceKeyDescription(String serviceKeyDescription) {
+        this._serviceKeyDescription = serviceKeyDescription;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ServiceSum">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccServiceSum")
-    private BigDecimal ccServiceSum;
+    private double _serviceSum;
+
+    public double getServiceSum() {
+        return _serviceSum;
+    }
+
+    public void setServiceSum(double serviceSum) {
+        this._serviceSum = serviceSum;
+    }
+    // </editor-fold>    
+
+    // <editor-fold defaultstate="collapsed" desc="BaseInformation">
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")
     @ManyToOne(optional = false)
-    private DrgCalcBasics ccBaseInformationID;
+    private DrgCalcBasics _baseInformation;
+
+    public DrgCalcBasics getBaseInformation() {
+        return _baseInformation;
+    }
+
+    public void setBaseInformation(DrgCalcBasics baseInformation) {
+        this._baseInformation = baseInformation;
+    }
+    // </editor-fold>
 
     public KGLListCostCenter() {
     }
 
     public KGLListCostCenter(Integer ccID) {
-        this.ccID = ccID;
+        this._id = ccID;
     }
 
-    public KGLListCostCenter(Integer ccID, int ccCostCenterID, String ccCostCenterText, BigDecimal ccAmount, BigDecimal ccFullVigorCnt, String ccServiceKey, String ccServiceKeyDescription, BigDecimal ccServiceSum) {
-        this.ccID = ccID;
-        this.ccCostCenterID = ccCostCenterID;
-        this.ccCostCenterText = ccCostCenterText;
-        this.ccAmount = ccAmount;
-        this.ccFullVigorCnt = ccFullVigorCnt;
-        this.ccServiceKey = ccServiceKey;
-        this.ccServiceKeyDescription = ccServiceKeyDescription;
-        this.ccServiceSum = ccServiceSum;
-    }
-
-    public Integer getCcID() {
-        return ccID;
-    }
-
-    public void setCcID(Integer ccID) {
-        this.ccID = ccID;
-    }
-
-    public int getCcCostCenterID() {
-        return ccCostCenterID;
-    }
-
-    public void setCcCostCenterID(int ccCostCenterID) {
-        this.ccCostCenterID = ccCostCenterID;
-    }
-
-    public String getCcCostCenterText() {
-        return ccCostCenterText;
-    }
-
-    public void setCcCostCenterText(String ccCostCenterText) {
-        this.ccCostCenterText = ccCostCenterText;
-    }
-
-    public BigDecimal getCcAmount() {
-        return ccAmount;
-    }
-
-    public void setCcAmount(BigDecimal ccAmount) {
-        this.ccAmount = ccAmount;
-    }
-
-    public BigDecimal getCcFullVigorCnt() {
-        return ccFullVigorCnt;
-    }
-
-    public void setCcFullVigorCnt(BigDecimal ccFullVigorCnt) {
-        this.ccFullVigorCnt = ccFullVigorCnt;
-    }
-
-    public String getCcServiceKey() {
-        return ccServiceKey;
-    }
-
-    public void setCcServiceKey(String ccServiceKey) {
-        this.ccServiceKey = ccServiceKey;
-    }
-
-    public String getCcServiceKeyDescription() {
-        return ccServiceKeyDescription;
-    }
-
-    public void setCcServiceKeyDescription(String ccServiceKeyDescription) {
-        this.ccServiceKeyDescription = ccServiceKeyDescription;
-    }
-
-    public BigDecimal getCcServiceSum() {
-        return ccServiceSum;
-    }
-
-    public void setCcServiceSum(BigDecimal ccServiceSum) {
-        this.ccServiceSum = ccServiceSum;
-    }
-
-    public DrgCalcBasics getCcBaseInformationID() {
-        return ccBaseInformationID;
-    }
-
-    public void setCcBaseInformationID(DrgCalcBasics ccBaseInformationID) {
-        this.ccBaseInformationID = ccBaseInformationID;
+    public KGLListCostCenter(Integer id, int costCenterID, String costCenterText, double amount, double fullVigorCnt, String ccServiceKey, String ccServiceKeyDescription, double serviceSum) {
+        this._id = id;
+        this._costCenterID = costCenterID;
+        this._costCenterText = costCenterText;
+        this._amount = amount;
+        this._fullVigorCnt = fullVigorCnt;
+        this._serviceKey = ccServiceKey;
+        this._serviceKeyDescription = ccServiceKeyDescription;
+        this._serviceSum = serviceSum;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ccID != null ? ccID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -185,7 +212,7 @@ public class KGLListCostCenter implements Serializable {
             return false;
         }
         KGLListCostCenter other = (KGLListCostCenter) object;
-        if ((this.ccID == null && other.ccID != null) || (this.ccID != null && !this.ccID.equals(other.ccID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -193,7 +220,7 @@ public class KGLListCostCenter implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListCostCenter[ ccID=" + ccID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListCostCenter[ ccID=" + _id + " ]";
     }
     
 }

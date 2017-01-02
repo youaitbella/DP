@@ -578,7 +578,7 @@ public class DrgCalcBasics implements Serializable {
     // </editor-fold>
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation")
     private List<KGLListCostCenter> kGLListCostCenterList;
     @XmlTransient
     public List<KGLListCostCenter> getKGLListCostCenterList() {
