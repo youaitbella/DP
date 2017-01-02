@@ -1,3 +1,5 @@
+﻿[Link zu den Dateien](W:\Oekonomie\KGL\Anpassung KGL DJ2016\Übergabe an EDV)
+﻿
 ﻿|Blatt|Tabelle|Spalte|Tabelle DB|Spalte DB|
 |---|---|---|---|---|
 |Grundlagen|Grundlagen||KGLBaseInformation||
