@@ -28,80 +28,92 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListEndoscopyDifferential.findAll", query = "SELECT k FROM KGLListEndoscopyDifferential k")
-    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdID", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k.edID = :edID")
-    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdDivision", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k.edDivision = :edDivision")
-    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdActivityKey", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k.edActivityKey = :edActivityKey")})
+    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdID", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k._id = :edID")
+    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdDivision", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k._division = :edDivision")
+    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdActivityKey", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k._activityKey = :edActivityKey")})
 public class KGLListEndoscopyDifferential implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "edID")
-    private Integer edID;
+    private Integer _id;
+    
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer id) {
+        this._id = id;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Division">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "edDivision")
-    private String edDivision;
+    private String _division = "";
+    
+    public String getDivision() {
+        return _division;
+    }
+
+    public void setDivision(String division) {
+        this._division = division;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ActivityKey">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "edActivityKey")
-    private String edActivityKey;
+    private String _activityKey = "";
+    
+    public String getActivityKey() {
+        return _activityKey;
+    }
+
+    public void setActivityKey(String activityKey) {
+        this._activityKey = activityKey;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="BaseInformation">
     @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biID")
     @ManyToOne(optional = false)
-    private DrgCalcBasics edBaseInformationID;
+    private DrgCalcBasics _baseInformation;
+    
+    public DrgCalcBasics getBaseInformationID() {
+        return _baseInformation;
+    }
+
+    public void setBaseInformationID(DrgCalcBasics baseInformation) {
+        this._baseInformation = baseInformation;
+    }
+    // </editor-fold>
 
     public KGLListEndoscopyDifferential() {
     }
 
     public KGLListEndoscopyDifferential(Integer edID) {
-        this.edID = edID;
+        this._id = edID;
     }
 
     public KGLListEndoscopyDifferential(Integer edID, String edDivision, String edActivityKey) {
-        this.edID = edID;
-        this.edDivision = edDivision;
-        this.edActivityKey = edActivityKey;
+        this._id = edID;
+        this._division = edDivision;
+        this._activityKey = edActivityKey;
     }
 
-    public Integer getEdID() {
-        return edID;
-    }
-
-    public void setEdID(Integer edID) {
-        this.edID = edID;
-    }
-
-    public String getEdDivision() {
-        return edDivision;
-    }
-
-    public void setEdDivision(String edDivision) {
-        this.edDivision = edDivision;
-    }
-
-    public String getEdActivityKey() {
-        return edActivityKey;
-    }
-
-    public void setEdActivityKey(String edActivityKey) {
-        this.edActivityKey = edActivityKey;
-    }
-
-    public DrgCalcBasics getEdBaseInformationID() {
-        return edBaseInformationID;
-    }
-
-    public void setEdBaseInformationID(DrgCalcBasics edBaseInformationID) {
-        this.edBaseInformationID = edBaseInformationID;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (edID != null ? edID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -112,7 +124,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
             return false;
         }
         KGLListEndoscopyDifferential other = (KGLListEndoscopyDifferential) object;
-        if ((this.edID == null && other.edID != null) || (this.edID != null && !this.edID.equals(other.edID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -120,7 +132,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential[ edID=" + edID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential[ edID=" + _id + " ]";
     }
     
 }
