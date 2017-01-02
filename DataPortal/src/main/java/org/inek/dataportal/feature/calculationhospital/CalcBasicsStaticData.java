@@ -61,4 +61,14 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
+    public List<SelectItem> getExternalServiceProvisionItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "wird nicht erbracht"));
+       items.add(new SelectItem(2, "Keine Fremdvergabe"));
+       items.add(new SelectItem(3, "Vollständige Fremdvergabe"));
+       items.add(new SelectItem(4, "Teilweise Fremdvergabe"));
+       return items;
+   } 
+			
+
 }
