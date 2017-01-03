@@ -23,7 +23,7 @@
                          value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" 
                          hideNoSelectionOption="true"> 
             <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{calcBasicsStaticData.getInternalCostAllocationItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+            <f:selectItems value="#{calcBasicsStaticData.internalCostAllocationItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
             <f:ajax event="change" render="@this :logout:remaining msgCostAllocation"/>
         </h:selectOneMenu>
         <h:message for="costAllocation" id="msgCostAllocation" styleClass="errorMessage"/>

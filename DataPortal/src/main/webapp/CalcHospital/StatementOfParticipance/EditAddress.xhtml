@@ -101,10 +101,10 @@
 
             <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
                 <inek:LabeledText id="consultantCompany" 
-                                  Label="#{msg.lblNameConsultant}" 
-                                  Required="true" 
+                                  label="#{msg.lblNameConsultant}" 
+                                  required="true" 
                                   readonly="#{editStatementOfParticipance.readOnly}"
-                                  Text="#{editStatementOfParticipance.statement.consultantCompany}" 
+                                  value="#{editStatementOfParticipance.statement.consultantCompany}" 
                                   styleClass="col50em"/> 
 
                 <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
