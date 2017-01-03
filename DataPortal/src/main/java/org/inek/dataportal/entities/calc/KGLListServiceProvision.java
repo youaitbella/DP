@@ -33,23 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "KGLListServiceProvision.findBySpNote", query = "SELECT k FROM KGLListServiceProvision k WHERE k._note = :spNote")
     , @NamedQuery(name = "KGLListServiceProvision.findBySpAmount", query = "SELECT k FROM KGLListServiceProvision k WHERE k._amount = :spAmount")})
 public class KGLListServiceProvision implements Serializable {
-
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "spAmount")
-    private double _amount;
-    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics _baseInformation;
-    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
-    @ManyToOne(optional = false)
-    private KGLListProvidedType spProvidedTypeID;
-    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
-    @ManyToOne(optional = false)
-    private KGLListServiceProvisionType spServiceProvisionTypeID;
-
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
@@ -90,14 +73,82 @@ public class KGLListServiceProvision implements Serializable {
     @Column(name = "spNote")
     private String _note = "";
     
-    public String getSpNote() {
+    public String getNote() {
         return _note;
     }
 
-    public void setSpNote(String spNote) {
+    public void setNote(String spNote) {
         this._note = spNote;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Amount">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "spAmount")
+    private double _amount;
+
+    public double getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(double amount) {
+        this._amount = amount;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
+//    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "spBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ProvidedTypeID">
+//    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "spProvidedTypeID")
+    private int _providedTypeID;
+
+    public int getProvidedTypeID() {
+        return _providedTypeID;
+    }
+
+    public void setProvidedTypeID(int providedTypeID) {
+        this._providedTypeID = providedTypeID;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ServiceProvisionTypeID">
+//    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "spServiceProvisionTypeID")
+    private int _serviceProvisionTypeID;
+
+    public int getServiceProvisionTypeID() {
+        return _serviceProvisionTypeID;
+    }
+
+    public void setServiceProvisionTypeID(int serviceProvisionTypeID) {
+        this._serviceProvisionTypeID = serviceProvisionTypeID;
+    }
+    // </editor-fold>
+    
+
     
     public KGLListServiceProvision() {
     }
@@ -138,37 +189,4 @@ public class KGLListServiceProvision implements Serializable {
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListServiceProvision[ spID=" + _id + " ]";
     }
-
-    public double getSpAmount() {
-        return _amount;
-    }
-
-    public void setSpAmount(double spAmount) {
-        this._amount = spAmount;
-    }
-
-    public DrgCalcBasics getSpBaseInformationID() {
-        return _baseInformation;
-    }
-
-    public void setSpBaseInformationID(DrgCalcBasics spBaseInformationID) {
-        this._baseInformation = spBaseInformationID;
-    }
-
-    public KGLListProvidedType getSpProvidedTypeID() {
-        return spProvidedTypeID;
-    }
-
-    public void setSpProvidedTypeID(KGLListProvidedType spProvidedTypeID) {
-        this.spProvidedTypeID = spProvidedTypeID;
-    }
-
-    public KGLListServiceProvisionType getSpServiceProvisionTypeID() {
-        return spServiceProvisionTypeID;
-    }
-
-    public void setSpServiceProvisionTypeID(KGLListServiceProvisionType spServiceProvisionTypeID) {
-        this.spServiceProvisionTypeID = spServiceProvisionTypeID;
-    }
-    
 }

@@ -30,93 +30,95 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListProvidedType.findAll", query = "SELECT k FROM KGLListProvidedType k")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtID", query = "SELECT k FROM KGLListProvidedType k WHERE k.ptID = :ptID")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtText", query = "SELECT k FROM KGLListProvidedType k WHERE k.ptText = :ptText")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtFirstYear", query = "SELECT k FROM KGLListProvidedType k WHERE k.ptFirstYear = :ptFirstYear")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtLastYear", query = "SELECT k FROM KGLListProvidedType k WHERE k.ptLastYear = :ptLastYear")})
+    , @NamedQuery(name = "KGLListProvidedType.findByPtID", query = "SELECT k FROM KGLListProvidedType k WHERE k._id = :ptID")
+    , @NamedQuery(name = "KGLListProvidedType.findByPtText", query = "SELECT k FROM KGLListProvidedType k WHERE k._text = :ptText")
+    , @NamedQuery(name = "KGLListProvidedType.findByPtFirstYear", query = "SELECT k FROM KGLListProvidedType k WHERE k._firstYear = :ptFirstYear")
+    , @NamedQuery(name = "KGLListProvidedType.findByPtLastYear", query = "SELECT k FROM KGLListProvidedType k WHERE k._lastYear = :ptLastYear")})
 public class KGLListProvidedType implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ptID")
-    private Integer ptID;
+    private Integer _id;
+    
+    public Integer getId() {
+        return _id;
+    }
+    
+    public void setId(Integer id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="text">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "ptText")
-    private String ptText;
+    private String _text = "";
+
+    public String getText() {
+        return _text;
+    }
+
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="firstYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ptFirstYear")
-    private int ptFirstYear;
+    private int _firstYear;
+
+    public int getFirstYear() {
+        return _firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this._firstYear = firstYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="lastYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ptLastYear")
-    private int ptLastYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spProvidedTypeID")
-    private List<KGLListServiceProvision> kGLListServiceProvisionList;
+    private int _lastYear;
 
+    public int getLastYear() {
+        return _lastYear;
+    }
+
+    public void setLastYear(int lastYear) {
+        this._lastYear = lastYear;
+    }
+    //</editor-fold>
+        
     public KGLListProvidedType() {
     }
 
     public KGLListProvidedType(Integer ptID) {
-        this.ptID = ptID;
+        this._id = ptID;
     }
 
     public KGLListProvidedType(Integer ptID, String ptText, int ptFirstYear, int ptLastYear) {
-        this.ptID = ptID;
-        this.ptText = ptText;
-        this.ptFirstYear = ptFirstYear;
-        this.ptLastYear = ptLastYear;
+        this._id = ptID;
+        this._text = ptText;
+        this._firstYear = ptFirstYear;
+        this._lastYear = ptLastYear;
     }
 
-    public Integer getPtID() {
-        return ptID;
-    }
-
-    public void setPtID(Integer ptID) {
-        this.ptID = ptID;
-    }
-
-    public String getPtText() {
-        return ptText;
-    }
-
-    public void setPtText(String ptText) {
-        this.ptText = ptText;
-    }
-
-    public int getPtFirstYear() {
-        return ptFirstYear;
-    }
-
-    public void setPtFirstYear(int ptFirstYear) {
-        this.ptFirstYear = ptFirstYear;
-    }
-
-    public int getPtLastYear() {
-        return ptLastYear;
-    }
-
-    public void setPtLastYear(int ptLastYear) {
-        this.ptLastYear = ptLastYear;
-    }
-
-    @XmlTransient
-    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
-        return kGLListServiceProvisionList;
-    }
-
-    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
-        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ptID != null ? ptID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -127,7 +129,7 @@ public class KGLListProvidedType implements Serializable {
             return false;
         }
         KGLListProvidedType other = (KGLListProvidedType) object;
-        if ((this.ptID == null && other.ptID != null) || (this.ptID != null && !this.ptID.equals(other.ptID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -135,7 +137,7 @@ public class KGLListProvidedType implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListProvidedType[ ptID=" + ptID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListProvidedType[ ptID=" + _id + " ]";
     }
     
 }

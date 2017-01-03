@@ -30,85 +30,97 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListServiceProvisionType.findAll", query = "SELECT k FROM KGLListServiceProvisionType k")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptID", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k.sptID = :sptID")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptText", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k.sptText = :sptText")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptFirstYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k.sptFirstYear = :sptFirstYear")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptLastYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k.sptLastYear = :sptLastYear")})
+    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptID", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._id = :sptID")
+    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptText", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._text = :sptText")
+    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptFirstYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._firstYear = :sptFirstYear")
+    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptLastYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._lastYear = :sptLastYear")})
 public class KGLListServiceProvisionType implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeID")
-    private List<KGLListServiceProvision> kGLListServiceProvisionList;
-
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="ID">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptID")
-    private Integer sptID;
+    private Integer _id;
+    
+    public Integer getId() {
+        return _id;
+    }
+    
+    public void setId(Integer id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="Text">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "sptText")
-    private String sptText;
+    private String _text = "";
+
+    public String getText() {
+        return _text;
+    }
+
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="FirstYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptFirstYear")
-    private int sptFirstYear;
+    private int _firstYear;
+
+    public int getFirstYear() {
+        return _firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this._firstYear = firstYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="LastYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptLastYear")
-    private int sptLastYear;
+    private int _lastYear;
+
+    public int getLastYear() {
+        return _lastYear;
+    }
+
+    public void setLastYear(int lastYear) {
+        this._lastYear = lastYear;
+    }
+    //</editor-fold>
+    
+    
 
     public KGLListServiceProvisionType() {
     }
 
     public KGLListServiceProvisionType(Integer sptID) {
-        this.sptID = sptID;
+        this._id = sptID;
     }
 
     public KGLListServiceProvisionType(Integer sptID, String sptText, int sptFirstYear, int sptLastYear) {
-        this.sptID = sptID;
-        this.sptText = sptText;
-        this.sptFirstYear = sptFirstYear;
-        this.sptLastYear = sptLastYear;
-    }
-
-    public Integer getSptID() {
-        return sptID;
-    }
-
-    public void setSptID(Integer sptID) {
-        this.sptID = sptID;
-    }
-
-    public String getSptText() {
-        return sptText;
-    }
-
-    public void setSptText(String sptText) {
-        this.sptText = sptText;
-    }
-
-    public int getSptFirstYear() {
-        return sptFirstYear;
-    }
-
-    public void setSptFirstYear(int sptFirstYear) {
-        this.sptFirstYear = sptFirstYear;
-    }
-
-    public int getSptLastYear() {
-        return sptLastYear;
-    }
-
-    public void setSptLastYear(int sptLastYear) {
-        this.sptLastYear = sptLastYear;
+        this._id = sptID;
+        this._text = sptText;
+        this._firstYear = sptFirstYear;
+        this._lastYear = sptLastYear;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sptID != null ? sptID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -119,7 +131,7 @@ public class KGLListServiceProvisionType implements Serializable {
             return false;
         }
         KGLListServiceProvisionType other = (KGLListServiceProvisionType) object;
-        if ((this.sptID == null && other.sptID != null) || (this.sptID != null && !this.sptID.equals(other.sptID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -127,16 +139,7 @@ public class KGLListServiceProvisionType implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListServiceProvisionType[ sptID=" + sptID + " ]";
-    }
-
-    @XmlTransient
-    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
-        return kGLListServiceProvisionList;
-    }
-
-    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
-        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
+        return "org.inek.dataportal.entities.calc.KGLListServiceProvisionType[ sptID=" + _id + " ]";
     }
     
 }
