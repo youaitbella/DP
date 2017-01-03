@@ -11,6 +11,8 @@
         <cc:attribute name="label"/>
         <cc:attribute name="value"/>
         <cc:attribute name="required" default="false"/>
+        <cc:attribute name="singleLine" default="false"/>
+        <cc:attribute name="styleClassLabel" default="label"/>
         <cc:attribute name="styleClass" default="element70"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="displayAsLabel" default="false"/>
@@ -18,21 +20,24 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+        <cc:editableValueHolder name="#{cc.id}" targets="idText"/>
         <div class="inputPart">
-            <h:message for="idText" id="msgText" styleClass="errorMessage"/>
-            
-            <h:outputLabel styleClass="label" value="#{cc.attrs.label}:" for="idText"/>
-            <br/>
+            <h:panelGroup style="display: inline-block; width: 100%;" rendered="#{!cc.attrs.singleLine}">
+                <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText"/>
+                <h:message for="idText" id="msgText" styleClass="errorMessage"/>
+            </h:panelGroup>
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText" rendered="#{cc.attrs.singleLine}"/>
             <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
                          styleClass="#{cc.attrs.styleClass} #{cc.attrs.required ? 'required' : ''}" 
                          value="#{cc.attrs.value}" 
                          readonly="#{cc.attrs.readonly}"
                          required="#{cc.attrs.required}">
-                <f:ajax event="blur" render="@this msgText :logout:remaining msgText" />
+                <f:ajax event="blur" render="@this msgText msgText2 :logout:remaining msgText" />
             </h:inputText>
             <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.readonly}"
                            styleClass="#{cc.attrs.styleClass}"
                            value="#{cc.attrs.value}"/>
-    </div>
-</cc:implementation>
+            <h:message for="idText" id="msgText2" styleClass="errorMessage" rendered="#{cc.attrs.singleLine}"/>
+        </div>
+    </cc:implementation>
 </html>

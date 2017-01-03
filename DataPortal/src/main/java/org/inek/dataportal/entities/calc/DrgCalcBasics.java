@@ -569,8 +569,8 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
     private List<KGLListCostCenter> kGLListCostCenterList;
 
     public List<KGLListCostCenter> getKGLListCostCenterList() {

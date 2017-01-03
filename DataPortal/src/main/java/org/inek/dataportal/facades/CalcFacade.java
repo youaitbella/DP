@@ -93,7 +93,7 @@ public class CalcFacade extends AbstractDataAccess {
         String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name\n"
                 + "from calc.StatementOfParticipance\n"
-                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n" 
                 + "union\n"
                 + "select biId as Id, 1 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name\n"
