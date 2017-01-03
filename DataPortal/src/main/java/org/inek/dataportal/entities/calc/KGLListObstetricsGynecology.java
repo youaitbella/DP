@@ -7,6 +7,10 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,150 +33,178 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListObstetricsGynecology.findAll", query = "SELECT k FROM KGLListObstetricsGynecology k")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgID", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogID = :ogID")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgCostCenterText", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogCostCenterText = :ogCostCenterText")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgMedicalServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogMedicalServiceCnt = :ogMedicalServiceCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgAttendingDoctorCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogAttendingDoctorCnt = :ogAttendingDoctorCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgNursingServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogNursingServiceCnt = :ogNursingServiceCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgFunctionalServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogFunctionalServiceCnt = :ogFunctionalServiceCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgMidwifeCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogMidwifeCnt = :ogMidwifeCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByOgAttendingMidwifeCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k.ogAttendingMidwifeCnt = :ogAttendingMidwifeCnt")})
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByID", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._id = :ogID")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByCostCenterText", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._costCenterText = :ogCostCenterText")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByMedicalServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._medicalServiceCnt = :ogMedicalServiceCnt")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByAttendingDoctorCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._attendingDoctorCnt = :ogAttendingDoctorCnt")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByNursingServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._nursingServiceCnt = :ogNursingServiceCnt")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByFunctionalServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._functionalServiceCnt = :ogFunctionalServiceCnt")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByMidwifeCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._midwifeCnt = :ogMidwifeCnt")
+    , @NamedQuery(name = "KGLListObstetricsGynecology.findByAttendingMidwifeCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._attendingMidwifeCnt = :ogAttendingMidwifeCnt")})
 public class KGLListObstetricsGynecology implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogID")
-    private Integer ogID;
+    private Integer _id;
+    
+    public Integer getID() {
+        return _id;
+    }
+
+    public void setID(Integer id) {
+        this._id = id;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogCostCenterText">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "ogCostCenterText")
-    private String ogCostCenterText;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private String _costCenterText = "";
+    
+    public String getCostCenterText() {
+        return _costCenterText;
+    }
+
+    public void setCostCenterText(String costCenterText) {
+        this._costCenterText = costCenterText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogMedicalServiceCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogMedicalServiceCnt")
-    private BigDecimal ogMedicalServiceCnt;
+    private BigDecimal _medicalServiceCnt;
+    
+    public BigDecimal getMedicalServiceCnt() {
+        return _medicalServiceCnt;
+    }
+
+    public void setMedicalServiceCnt(BigDecimal medicalServiceCnt) {
+        this._medicalServiceCnt = medicalServiceCnt;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ogAttendingDoctorCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogAttendingDoctorCnt")
-    private BigDecimal ogAttendingDoctorCnt;
+    private BigDecimal _attendingDoctorCnt;
+    
+    public BigDecimal getAttendingDoctorCnt() {
+        return _attendingDoctorCnt;
+    }
+
+    public void setAttendingDoctorCnt(BigDecimal attendingDoctorCnt) {
+        this._attendingDoctorCnt = attendingDoctorCnt;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogNursingServiceCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogNursingServiceCnt")
-    private BigDecimal ogNursingServiceCnt;
+    private BigDecimal _nursingServiceCnt;
+    
+    public BigDecimal getNursingServiceCnt() {
+        return _nursingServiceCnt;
+    }
+
+    public void setNursingServiceCnt(BigDecimal nursingServiceCnt) {
+        this._nursingServiceCnt = nursingServiceCnt;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogFunctionalServiceCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogFunctionalServiceCnt")
-    private BigDecimal ogFunctionalServiceCnt;
+    private BigDecimal _functionalServiceCnt;
+    
+    public BigDecimal getFunctionalServiceCnt() {
+        return _functionalServiceCnt;
+    }
+
+    public void setFunctionalServiceCnt(BigDecimal functionalServiceCnt) {
+        this._functionalServiceCnt = functionalServiceCnt;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogMidwifeCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogMidwifeCnt")
-    private BigDecimal ogMidwifeCnt;
+    private BigDecimal _midwifeCnt;
+    
+    public BigDecimal getMidwifeCnt() {
+        return _midwifeCnt;
+    }
+
+    public void setMidwifeCnt(BigDecimal midwifeCnt) {
+        this._midwifeCnt = midwifeCnt;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ogAttendingMidwifeCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogAttendingMidwifeCnt")
-    private BigDecimal ogAttendingMidwifeCnt;
-    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics ogBaseInformationID;
+    private BigDecimal _attendingMidwifeCnt;
+    
+    public BigDecimal getAttendingMidwifeCnt() {
+        return this._attendingMidwifeCnt;        
+    }
+    
+    public void setAttendingMidwifeCnt(BigDecimal attendingMidwifeCnt) {
+        this._attendingMidwifeCnt = attendingMidwifeCnt;        
+    }
+    // </editor-fold>
 
+   // <editor-fold defaultstate="collapsed" desc="ogBaseInformationID">
+//    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ogBaseInformationID")
+    private int _baseInformationID;
+    
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    // </editor-fold>
+    
     public KGLListObstetricsGynecology() {
     }
 
     public KGLListObstetricsGynecology(Integer ogID) {
-        this.ogID = ogID;
+        this._id = ogID;
     }
 
     public KGLListObstetricsGynecology(Integer ogID, String ogCostCenterText, BigDecimal ogMedicalServiceCnt, BigDecimal ogAttendingDoctorCnt, BigDecimal ogNursingServiceCnt, BigDecimal ogFunctionalServiceCnt, BigDecimal ogMidwifeCnt, BigDecimal ogAttendingMidwifeCnt) {
-        this.ogID = ogID;
-        this.ogCostCenterText = ogCostCenterText;
-        this.ogMedicalServiceCnt = ogMedicalServiceCnt;
-        this.ogAttendingDoctorCnt = ogAttendingDoctorCnt;
-        this.ogNursingServiceCnt = ogNursingServiceCnt;
-        this.ogFunctionalServiceCnt = ogFunctionalServiceCnt;
-        this.ogMidwifeCnt = ogMidwifeCnt;
-        this.ogAttendingMidwifeCnt = ogAttendingMidwifeCnt;
-    }
-
-    public Integer getOgID() {
-        return ogID;
-    }
-
-    public void setOgID(Integer ogID) {
-        this.ogID = ogID;
-    }
-
-    public String getOgCostCenterText() {
-        return ogCostCenterText;
-    }
-
-    public void setOgCostCenterText(String ogCostCenterText) {
-        this.ogCostCenterText = ogCostCenterText;
-    }
-
-    public BigDecimal getOgMedicalServiceCnt() {
-        return ogMedicalServiceCnt;
-    }
-
-    public void setOgMedicalServiceCnt(BigDecimal ogMedicalServiceCnt) {
-        this.ogMedicalServiceCnt = ogMedicalServiceCnt;
-    }
-
-    public BigDecimal getOgAttendingDoctorCnt() {
-        return ogAttendingDoctorCnt;
-    }
-
-    public void setOgAttendingDoctorCnt(BigDecimal ogAttendingDoctorCnt) {
-        this.ogAttendingDoctorCnt = ogAttendingDoctorCnt;
-    }
-
-    public BigDecimal getOgNursingServiceCnt() {
-        return ogNursingServiceCnt;
-    }
-
-    public void setOgNursingServiceCnt(BigDecimal ogNursingServiceCnt) {
-        this.ogNursingServiceCnt = ogNursingServiceCnt;
-    }
-
-    public BigDecimal getOgFunctionalServiceCnt() {
-        return ogFunctionalServiceCnt;
-    }
-
-    public void setOgFunctionalServiceCnt(BigDecimal ogFunctionalServiceCnt) {
-        this.ogFunctionalServiceCnt = ogFunctionalServiceCnt;
-    }
-
-    public BigDecimal getOgMidwifeCnt() {
-        return ogMidwifeCnt;
-    }
-
-    public void setOgMidwifeCnt(BigDecimal ogMidwifeCnt) {
-        this.ogMidwifeCnt = ogMidwifeCnt;
-    }
-
-    public BigDecimal getOgAttendingMidwifeCnt() {
-        return ogAttendingMidwifeCnt;
-    }
-
-    public void setOgAttendingMidwifeCnt(BigDecimal ogAttendingMidwifeCnt) {
-        this.ogAttendingMidwifeCnt = ogAttendingMidwifeCnt;
-    }
-
-    public DrgCalcBasics getOgBaseInformationID() {
-        return ogBaseInformationID;
-    }
-
-    public void setOgBaseInformationID(DrgCalcBasics ogBaseInformationID) {
-        this.ogBaseInformationID = ogBaseInformationID;
+        this._id = ogID;
+        this._costCenterText = ogCostCenterText;
+        this._medicalServiceCnt = ogMedicalServiceCnt;
+        this._attendingDoctorCnt = ogAttendingDoctorCnt;
+        this._nursingServiceCnt = ogNursingServiceCnt;
+        this._functionalServiceCnt = ogFunctionalServiceCnt;
+        this._midwifeCnt = ogMidwifeCnt;
+        this._attendingMidwifeCnt = ogAttendingMidwifeCnt;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ogID != null ? ogID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -183,15 +215,15 @@ public class KGLListObstetricsGynecology implements Serializable {
             return false;
         }
         KGLListObstetricsGynecology other = (KGLListObstetricsGynecology) object;
-        if ((this.ogID == null && other.ogID != null) || (this.ogID != null && !this.ogID.equals(other.ogID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
     }
-
+ 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListObstetricsGynecology[ ogID=" + ogID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListObstetricsGynecology[ ogID=" + _id + " ]";
     }
     
 }
