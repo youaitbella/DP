@@ -6,16 +6,18 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
  * @author muellermi
  */
-@Entity 
+@Entity @IdClass(CalcHospitalInfoId.class)
 public class CalcHospitalInfo implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -33,6 +35,7 @@ public class CalcHospitalInfo implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Type">
+    @Id
     @Column(name = "Type")
     private int _type;
 
@@ -117,4 +120,57 @@ public class CalcHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Hash & Equals">
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + this._id;
+        hash = 83 * hash + this._type;
+        hash = 83 * hash + this._accountId;
+        hash = 83 * hash + this._dataYear;
+        hash = 83 * hash + this._ik;
+        hash = 83 * hash + this._statusId;
+        hash = 83 * hash + Objects.hashCode(this._name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CalcHospitalInfo other = (CalcHospitalInfo) obj;
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._type != other._type) {
+            return false;
+        }
+        if (this._accountId != other._accountId) {
+            return false;
+        }
+        if (this._dataYear != other._dataYear) {
+            return false;
+        }
+        if (this._ik != other._ik) {
+            return false;
+        }
+        if (this._statusId != other._statusId) {
+            return false;
+        }
+        if (!Objects.equals(this._name, other._name)) {
+            return false;
+        }
+        return true;
+    }
+    // </editor-fold>
+
+    
 }
+

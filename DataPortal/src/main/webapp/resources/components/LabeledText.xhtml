@@ -18,10 +18,10 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+        <cc:editableValueHolder name="#{cc.id}" targets="idText"/>
         <div class="inputPart">
-            <h:message for="idText" id="msgText" styleClass="errorMessage"/>
-            
             <h:outputLabel styleClass="label" value="#{cc.attrs.label}:" for="idText"/>
+            <h:message for="idText" id="msgText" styleClass="errorMessage"/>
             <br/>
             <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
                          styleClass="#{cc.attrs.styleClass} #{cc.attrs.required ? 'required' : ''}" 
