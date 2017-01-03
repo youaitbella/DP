@@ -104,8 +104,7 @@
         </div>
 
     </div>
-    
-    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList}" var="item">
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
         <h:column>
             <f:facet name="header">#{msg.lblTopAmbulantService}</f:facet>
             <inek:InputTextWithMessage value="#{item.ktText}"/>

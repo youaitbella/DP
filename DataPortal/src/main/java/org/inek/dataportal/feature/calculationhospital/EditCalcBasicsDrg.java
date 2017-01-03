@@ -89,7 +89,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(_calcBasics);
         }
     }
-    
+
     private DrgCalcBasics loadCalcBasicsDrg(Object idObject) {
         try {
             int id = Integer.parseInt("" + idObject);
@@ -267,17 +267,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
-        private void ensureTopList() {
-        if (_calcBasics.getKGLListKstTopList() == null){
+    private void ensureTopList() {
+        if (_calcBasics.getKGLListKstTopList() == null) {
             _calcBasics.setKGLListKstTopList(new Vector<>());
-            for (int i = 0; i < 3; i++) {
+        }
+        ensureTopListCostCenter(4, 3);
+        ensureTopListCostCenter(6, 5);
+    }
+
+    private void ensureTopListCostCenter(int costCenterId, int count) {
+        if (_calcBasics.getKGLListKstTopList().stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
+            for (int i = 0; i < count; i++) {
                 KGLListKstTop item = new KGLListKstTop();
                 item.setKtBaseInformationID(_calcBasics.getId());
+                item.setKtCostCenterID(costCenterId);
                 _calcBasics.getKGLListKstTopList().add(item);
             }
         }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;
@@ -310,7 +317,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
         if (calcBasics.getNeonateData() != null && !calcBasics.getNeonateData().isEmpty()) {
@@ -350,19 +356,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _calcBasics.getNeonateData()
                 .stream()
                 .filter(d -> d.getContentText().getHeaderTextId() == headerId)
-                .sorted((x, y) -> x.getContentText().getSequence()- y.getContentText().getSequence())
+                .sorted((x, y) -> x.getContentText().getSequence() - y.getContentText().getSequence())
                 .collect(Collectors.toList());
     }
 
-    public int priorData(int textId){
+    public int priorData(int textId) {
         int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
         return priorValue;
     }
 
-    public String diffData(int textId){
+    public String diffData(int textId) {
         DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
         int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
-        if (data.getContentText().isDiffAsPercent()){
+        if (data.getContentText().isDiffAsPercent()) {
             return Math.round(1000d * (data.getData() - priorValue) / priorValue) / 10d + "%";
         }
         return "" + (data.getData() - priorValue);
