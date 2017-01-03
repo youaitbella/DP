@@ -6,52 +6,55 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.xml.bind.annotation.XmlTransient;
-import org.inek.dataportal.enums.WorkflowStatus;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author vohldo
+ * @author kunkelan
  */
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "KGLBaseInformation.findAll", query = "SELECT k FROM KGLBaseInformation k")})
 public class DrgCalcBasics implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-
-    // <editor-fold defaultstate="collapsed" desc="Property Id">
+    
+    //<editor-fold defaultstate="collapsed" desc="id">
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biID")
-    private int _id = -1;
-
-    public int getId() {
+    private Integer _id;
+    
+    public Integer getId() {
         return _id;
     }
-
-    public void setId(int id) {
-        _id = id;
+    
+    public void setId(Integer id) {
+        this._id = id;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property DataYear">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="dataYear">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biDataYear")
     private int _dataYear;
 
@@ -62,9 +65,11 @@ public class DrgCalcBasics implements Serializable {
     public void setDataYear(int dataYear) {
         this._dataYear = dataYear;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property IK">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="ik">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biIK")
     private int _ik;
 
@@ -75,70 +80,73 @@ public class DrgCalcBasics implements Serializable {
     public void setIk(int ik) {
         this._ik = ik;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Hospital Name">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="hospitalName">
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 70)
     @Column(name = "biHospitalName")
-    private String _hospitalName = "";
+    private String _hospitalName;
 
     public String getHospitalName() {
         return _hospitalName;
     }
 
-    public void setHospitalName(String _hospitalName) {
-        this._hospitalName = _hospitalName;
+    public void setHospitalName(String hospitalName) {
+        this._hospitalName = hospitalName;
     }
-    // </editor-fold>
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="accountID">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biAccountID")
+    private int _accountID;
 
-    // <editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Column(name = "biAccountId")
-    private int _accountId;
-
-    public int getAccountId() {
-        return _accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        _accountId = accountId;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
-    @Column(name = "biStatusId")
-    private int _statusId;
-
-    public int getStatusId() {
-        return _statusId;
+    public int getAccountID() {
+        return _accountID;
     }
 
-    public void setStatusId(int statusId) {
-        _statusId = statusId;
+    public void setAccountID(int accountID) {
+        this._accountID = accountID;
     }
-
-    public WorkflowStatus getStatus() {
-        return WorkflowStatus.fromValue(_statusId);
-    }
-
-    public void setStatus(WorkflowStatus status) {
-        _statusId = status.getValue();
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="lastChanged">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biLastChanged")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _lastChanged = Calendar.getInstance().getTime();
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _lastChanged;
 
     public Date getLastChanged() {
         return _lastChanged;
     }
 
     public void setLastChanged(Date lastChanged) {
-        _lastChanged = lastChanged;
+        this._lastChanged = lastChanged;
     }
-    // </editor-fold>
+    //</editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Delivery Type">
+    //<editor-fold defaultstate="collapsed" desc="statusID">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biStatusID")
+    private int _statusID;
+
+    public int getStatusID() {
+        return _statusID;
+    }
+
+    public void setStatusID(int statusID) {
+        this._statusID = statusID;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="deliveryType">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biDeliveryType")
     private short _deliveryType;
 
@@ -146,64 +154,75 @@ public class DrgCalcBasics implements Serializable {
         return _deliveryType;
     }
 
-    public void setDeliveryType(short _deliveryType) {
-        this._deliveryType = _deliveryType;
+    public void setDeliveryType(short deliveryType) {
+        this._deliveryType = deliveryType;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Correction Note">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="correctionNote">
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 500)
     @Column(name = "biCorrectionNote")
-    private String _correctionNote = "";
+    private String _correctionNote;
 
     public String getCorrectionNote() {
         return _correctionNote;
     }
 
-    public void setCorrectionNote(String _correctionNote) {
-        this._correctionNote = _correctionNote;
+    public void setCorrectionNote(String correctionNote) {
+        this._correctionNote = correctionNote;
     }
-    // </editor-fold>
+    //</editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property SumCalcCost">
+    //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biSumCalcCost")
-    private double _sumCalcCost;
+    private BigDecimal _sumCalcCost;
 
-    public double getSumCalcCost() {
+    public BigDecimal getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(double _sumCalcCost) {
-        this._sumCalcCost = _sumCalcCost;
+    public void setSumCalcCost(BigDecimal sumCalcCost) {
+        this._sumCalcCost = sumCalcCost;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CaseInStationCount">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="caseInStationCnt">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biCaseInStationCnt")
-    private int _caseInStationCount;
+    private int _caseInStationCnt;
 
-    public int getCaseInStationCount() {
-        return _caseInStationCount;
+    public int getCaseInStationCnt() {
+        return _caseInStationCnt;
     }
 
-    public void setCaseInStationCount(int caseInStationCount) {
-        this._caseInStationCount = caseInStationCount;
+    public void setCaseInStationCnt(int caseInStationCnt) {
+        this._caseInStationCnt = caseInStationCnt;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CasePartialStationCount">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biCasePartialStationCnt")
-    private int _casePartialStationCount;
+    private int _casePartialStationCnt;
 
-    public int getCasePartialStationCount() {
-        return _casePartialStationCount;
+    public int getCasePartialStationCnt() {
+        return _casePartialStationCnt;
     }
 
-    public void setCasePartialStationCount(int casePartialStationCount) {
-        this._casePartialStationCount = casePartialStationCount;
+    public void setCasePartialStationCnt(int casePartialStationCnt) {
+        this._casePartialStationCnt = casePartialStationCnt;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property DaysPartialStation">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="daysPartialStation">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biDaysPartialStation")
     private int _daysPartialStation;
 
@@ -211,12 +230,14 @@ public class DrgCalcBasics implements Serializable {
         return _daysPartialStation;
     }
 
-    public void setDaysPartialStation(int _daysPartialStation) {
-        this._daysPartialStation = _daysPartialStation;
+    public void setDaysPartialStation(int daysPartialStation) {
+        this._daysPartialStation = daysPartialStation;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property PatientEscort">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="patientEscort">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biPatientEscort")
     private int _patientEscort;
 
@@ -224,103 +245,134 @@ public class DrgCalcBasics implements Serializable {
         return _patientEscort;
     }
 
-    public void setPatientEscort(int _patientEscort) {
-        this._patientEscort = _patientEscort;
+    public void setPatientEscort(int patientEscort) {
+        this._patientEscort = patientEscort;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property PreStation">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="preStation">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biPreStation")
-    private int _preStation = -1;
+    private int _preStation;
 
     public int getPreStation() {
         return _preStation;
     }
 
-    public void setPreStation(int _preStation) {
-        this._preStation = _preStation;
+    public void setPreStation(int preStation) {
+        this._preStation = preStation;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Beds">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="beds">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biBeds")
-    private int _beds = -1;
+    private int _beds;
 
     public int getBeds() {
         return _beds;
     }
 
-    public void setBeds(int _beds) {
-        this._beds = _beds;
+    public void setBeds(int beds) {
+        this._beds = beds;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CntPartial">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="partialCnt">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biPartialCnt")
-    private int _cntPartial = -1;
+    private int _partialCnt;
 
-    public int getCntPartial() {
-        return _cntPartial;
+    public int getPartialCnt() {
+        return _partialCnt;
     }
 
-    public void setCntPartial(int _cntPartial) {
-        this._cntPartial = _cntPartial;
+    public void setPartialCnt(int partialCnt) {
+        this._partialCnt = partialCnt;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CntLocation">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="locationCnt">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biLocationCnt")
-    private int _cntLocation = -1;
+    private int _locationCnt;
 
-    public int getCntLocation() {
-        return _cntLocation;
+    public int getLocationCnt() {
+        return _locationCnt;
     }
 
-    public void setCntLocation(int _cntLocation) {
-        this._cntLocation = _cntLocation;
+    public void setLocationCnt(int locationCnt) {
+        this._locationCnt = locationCnt;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property DifLocationSupply">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="difLocationSupply">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biDifLocationSupply")
     private boolean _difLocationSupply;
 
-    public boolean getDifLocationSupply() {
+    public boolean isDifLocationSupply() {
         return _difLocationSupply;
     }
 
-    public void setDifLocationSupply(boolean _difLocationSupply) {
-        this._difLocationSupply = _difLocationSupply;
+    public void setDifLocationSupply(boolean difLocationSupply) {
+        this._difLocationSupply = difLocationSupply;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property SpecialUnit">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="specialUnit">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biSpecialUnit")
     private boolean _specialUnit;
 
-    public boolean getSpecialUnit() {
+    public boolean isSpecialUnit() {
         return _specialUnit;
     }
 
-    public void setSpecialUnit(boolean _specialUnit) {
-        this._specialUnit = _specialUnit;
+    public void setSpecialUnit(boolean specialUnit) {
+        this._specialUnit = specialUnit;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CentralFocus">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="centralFocus">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biCentralFocus")
     private boolean _centralFocus;
 
-    public boolean getCentralFocus() {
+    public boolean isCentralFocus() {
         return _centralFocus;
     }
 
-    public void setCentralFocus(boolean _centralFocus) {
-        this._centralFocus = _centralFocus;
+    public void setCentralFocus(boolean centralFocus) {
+        this._centralFocus = centralFocus;
     }
-    // </editor-fold>
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="neonatLvl">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biNeonatLvl")
+    private int _neonatLvl;
 
-    // <editor-fold defaultstate="collapsed" desc="Property gynecology">
+    public int getNeonatLvl() {
+        return _neonatLvl;
+    }
+
+    public void setNeonatLvl(int neonatLvl) {
+        this._neonatLvl = neonatLvl;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="gynecology">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biGynecology")
     private boolean _gynecology;
 
@@ -328,12 +380,14 @@ public class DrgCalcBasics implements Serializable {
         return _gynecology;
     }
 
-    public void setGynecology(boolean _gynecology) {
-        this._gynecology = _gynecology;
+    public void setGynecology(boolean gynecology) {
+        this._gynecology = gynecology;
     }
-
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property obstetrical">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="obstetrical">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biObstetrical")
     private boolean _obstetrical;
 
@@ -341,12 +395,59 @@ public class DrgCalcBasics implements Serializable {
         return _obstetrical;
     }
 
-    public void setObstetrical(boolean _obstetrical) {
-        this._obstetrical = _obstetrical;
+    public void setObstetrical(boolean obstetrical) {
+        this._obstetrical = obstetrical;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="deliveryRoomHours">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biDeliveryRoomHours")
+    private BigDecimal _deliveryRoomHours;
+
+    public BigDecimal getDeliveryRoomHours() {
+        return _deliveryRoomHours;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property NoDeliveryRoomHabitation">
+    public void setDeliveryRoomHours(BigDecimal deliveryRoomHours) {
+        this._deliveryRoomHours = deliveryRoomHours;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="deliveryRoomPreBirthHabitationCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
+    private int _deliveryRoomPreBirthHabitationCnt;
+
+    public int getDeliveryRoomPreBirthHabitationCnt() {
+        return _deliveryRoomPreBirthHabitationCnt;
+    }
+
+    public void setDeliveryRoomPreBirthHabitationCnt(int deliveryRoomPreBirthHabitationCnt) {
+        this._deliveryRoomPreBirthHabitationCnt = deliveryRoomPreBirthHabitationCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="deliveryRoomInstationBirthCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biDeliveryRoomInstationBirthCnt")
+    private int _deliveryRoomInstationBirthCnt;
+
+    public int getDeliveryRoomInstationBirthCnt() {
+        return _deliveryRoomInstationBirthCnt;
+    }
+
+    public void setDeliveryRoomInstationBirthCnt(int deliveryRoomInstationBirthCnt) {
+        this._deliveryRoomInstationBirthCnt = deliveryRoomInstationBirthCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biNoDeliveryRoomHabitation")
     private boolean _noDeliveryRoomHabitation;
 
@@ -354,12 +455,30 @@ public class DrgCalcBasics implements Serializable {
         return _noDeliveryRoomHabitation;
     }
 
-    public void setNoDeliveryRoomHabitation(boolean _noDeliveryRoomHabitation) {
-        this._noDeliveryRoomHabitation = _noDeliveryRoomHabitation;
+    public void setNoDeliveryRoomHabitation(boolean noDeliveryRoomHabitation) {
+        this._noDeliveryRoomHabitation = noDeliveryRoomHabitation;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="deliveryRoomOrganizationalStructure">
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "biDeliveryRoomOrganizationalStructure")
+    private String _deliveryRoomOrganizationalStructure;
+
+    public String getDeliveryRoomOrganizationalStructure() {
+        return _deliveryRoomOrganizationalStructure;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property Cardiology">
+    public void setDeliveryRoomOrganizationalStructure(String deliveryRoomOrganizationalStructure) {
+        this._deliveryRoomOrganizationalStructure = deliveryRoomOrganizationalStructure;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="cardiology">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biCardiology")
     private boolean _cardiology;
 
@@ -367,12 +486,89 @@ public class DrgCalcBasics implements Serializable {
         return _cardiology;
     }
 
-    public void setCardiology(boolean _cardiology) {
-        this._cardiology = _cardiology;
+    public void setCardiology(boolean cardiology) {
+        this._cardiology = cardiology;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="cardiologyRoomCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biCardiologyRoomCnt")
+    private int _cardiologyRoomCnt;
+
+    public int getCardiologyRoomCnt() {
+        return _cardiologyRoomCnt;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property Mhi">
+    public void setCardiologyRoomCnt(int cardiologyRoomCnt) {
+        this._cardiologyRoomCnt = cardiologyRoomCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="cardiologyCaseCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biCardiologyCaseCnt")
+    private int _cardiologyCaseCnt;
+
+    public int getCardiologyCaseCnt() {
+        return _cardiologyCaseCnt;
+    }
+
+    public void setCardiologyCaseCnt(int cardiologyCaseCnt) {
+        this._cardiologyCaseCnt = cardiologyCaseCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="endoscopy">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biEndoscopy")
+    private boolean _endoscopy;
+
+    public boolean isEndoscopy() {
+        return _endoscopy;
+    }
+
+    public void setEndoscopy(boolean endoscopy) {
+        this._endoscopy = endoscopy;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="endoscopyRoomCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biEndoscopyRoomCnt")
+    private int _endoscopyRoomCnt;
+
+    public int getEndoscopyRoomCnt() {
+        return _endoscopyRoomCnt;
+    }
+
+    public void setEndoscopyRoomCnt(int endoscopyRoomCnt) {
+        this._endoscopyRoomCnt = endoscopyRoomCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="endoscopyCaseCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biEndoscopyCaseCnt")
+    private int _endoscopyCaseCnt;
+
+    public int getEndoscopyCaseCnt() {
+        return _endoscopyCaseCnt;
+    }
+
+    public void setEndoscopyCaseCnt(int endoscopyCaseCnt) {
+        this._endoscopyCaseCnt = endoscopyCaseCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biMinimalValvularIntervention")
     private boolean _minimalValvularIntervention;
 
@@ -383,11 +579,13 @@ public class DrgCalcBasics implements Serializable {
     public void setMinimalValvularIntervention(boolean minimalValvularIntervention) {
         this._minimalValvularIntervention = minimalValvularIntervention;
     }
-
-    // </editor-fold>    
-    // <editor-fold defaultstate="collapsed" desc="Property MviFulfilled">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="mviFulfilled">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biMviFulfilled")
-    private int _mviFulfilled = -1;
+    private int _mviFulfilled;
 
     public int getMviFulfilled() {
         return _mviFulfilled;
@@ -396,11 +594,13 @@ public class DrgCalcBasics implements Serializable {
     public void setMviFulfilled(int mviFulfilled) {
         this._mviFulfilled = mviFulfilled;
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property MviGuidelineAspired">
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="mviGuidelineAspired">
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "biMviGuidelineAspired")
-    boolean _mviGuidelineAspired;
+    private boolean _mviGuidelineAspired;
 
     public boolean isMviGuidelineAspired() {
         return _mviGuidelineAspired;
@@ -408,289 +608,343 @@ public class DrgCalcBasics implements Serializable {
 
     public void setMviGuidelineAspired(boolean mviGuidelineAspired) {
         this._mviGuidelineAspired = mviGuidelineAspired;
-    }    
-    // </editor-fold>
+    }
+    //</editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property Endoscopy">
-    @Column(name = "biEndoscopy")
-    boolean _endoscopy;
+    //<editor-fold defaultstate="collapsed" desc="normalFreelancing">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biNormalFreelancing")
+    private boolean _normalFreelancing;
 
-    public boolean isEndoscopy() {
-        return _endoscopy;
+    public boolean isNormalFreelancing() {
+        return _normalFreelancing;
     }
 
-    public void setEndoscopy(boolean _endoscopy) {
-        this._endoscopy = _endoscopy;
+    public void setNormalFreelancing(boolean normalFreelancing) {
+        this._normalFreelancing = normalFreelancing;
     }
-    // </editor-fold>
-            
-    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomPreBirthHabitationCnt">
-    @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
-    int _deliveryRoomPreBirthHabitationCnt;
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="feeContract">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biFeeContract")
+    private boolean _feeContract;
 
-    public int getDeliveryRoomPreBirthHabitationCnt() {
-        return _deliveryRoomPreBirthHabitationCnt;
-    }
-
-    public void setDeliveryRoomPreBirthHabitationCnt(int _deliveryRoomPreBirthHabitationCnt) {
-        this._deliveryRoomPreBirthHabitationCnt = _deliveryRoomPreBirthHabitationCnt;
+    public boolean isFeeContract() {
+        return _feeContract;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomInstationBirthCnt">
-    @Column(name = "biDeliveryRoomInstationBirthCnt")
-    int _deliveryRoomInstationBirthCnt;
+    public void setFeeContract(boolean feeContract) {
+        this._feeContract = feeContract;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biPKMSRecording")
+    private boolean _pkmsRecording;
 
-    public int getDeliveryRoomInstationBirthCnt() {
-        return _deliveryRoomInstationBirthCnt;
+    public boolean isPkmsRecording() {
+        return _pkmsRecording;
     }
 
-    public void setDeliveryRoomInstationBirthCnt(int _deliveryRoomInstationBirthCnt) {
-        this._deliveryRoomInstationBirthCnt = _deliveryRoomInstationBirthCnt;
+    public void setPkmsRecording(boolean pkmsRecording) {
+        this._pkmsRecording = pkmsRecording;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="pkmsCaseCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biPKMSCaseCnt")
+    private int _pkmsCaseCnt;
+
+    public int getPkmsCaseCnt() {
+        return _pkmsCaseCnt;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property CardiologyRoomCnt">
-    @Column(name = "biCardiologyRoomCnt")
-    int _cardiologyRoomCnt;
+    public void setPkmsCaseCnt(int pkmsCaseCnt) {
+        this._pkmsCaseCnt = pkmsCaseCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="kisIntegration">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biKISIntegration")
+    private boolean _kisIntegration;
 
-    public int getCardiologyRoomCnt() {
-        return _cardiologyRoomCnt;
+    public boolean isKisIntegration() {
+        return _kisIntegration;
     }
 
-    public void setCardiologyRoomCnt(int _cardiologyRoomCnt) {
-        this._cardiologyRoomCnt = _cardiologyRoomCnt;
+    public void setKisIntegration(boolean kisIntegration) {
+        this._kisIntegration = kisIntegration;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="normalStationOther">
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "biNormalStationOther")
+    private String _normalStationOther;
+    
+    public String getNormalStationOther() {
+        return _normalStationOther;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property CardiologyCaseCnt">
-    @Column(name = "biCardiologyCaseCnt")
-    int _cardiologyCaseCnt;
+    public void setNormalStationOther(String normalStationOther) {
+        this._normalStationOther = normalStationOther;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="approximationMethodMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biApproximationMethodMedInfra")
+    private boolean _approximationMethodMedInfra;
 
-    public int getCardiologyCaseCnt() {
-        return _cardiologyCaseCnt;
+    public boolean isApproximationMethodMedInfra() {
+        return _approximationMethodMedInfra;
     }
 
-    public void setCardiologyCaseCnt(int _cardiologyCaseCnt) {
-        this._cardiologyCaseCnt = _cardiologyCaseCnt;
+    public void setApproximationMethodMedInfra(boolean approximationMethodMedInfra) {
+        this._approximationMethodMedInfra = approximationMethodMedInfra;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="stepladderMethodMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biStepladderMethodMedInfra")
+    private boolean _stepladderMethodMedInfra;
+
+    public boolean isStepladderMethodMedInfra() {
+        return _stepladderMethodMedInfra;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property EndoscopyRoomCnt">
-    @Column(name = "biEndoscopyRoomCnt")
-    int _endoscopyRoomCnt;
+    public void setStepladderMethodMedInfra(boolean stepladderMethodMedInfra) {
+        this._stepladderMethodMedInfra = stepladderMethodMedInfra;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="extensionMethodMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biExtensionMethodMedInfra")
+    private boolean _extensionMethodMedInfra;
 
-    public int getEndoscopyRoomCnt() {
-        return _endoscopyRoomCnt;
+    public boolean isExtensionMethodMedInfra() {
+        return _extensionMethodMedInfra;
     }
 
-    public void setEndoscopyRoomCnt(int _endoscopyRoomCnt) {
-        this._endoscopyRoomCnt = _endoscopyRoomCnt;
+    public void setExtensionMethodMedInfra(boolean extensionMethodMedInfra) {
+        this._extensionMethodMedInfra = extensionMethodMedInfra;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biOtherMethodMedInfra")
+    private boolean _otherMethodMedInfra;
+
+    public boolean isOtherMethodMedInfra() {
+        return _otherMethodMedInfra;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property EndoscopyCaseCnt">
-    @Column(name = "biEndoscopyCaseCnt")
-    int _endoscopyCaseCnt;
+    public void setOtherMethodMedInfra(boolean otherMethodMedInfra) {
+        this._otherMethodMedInfra = otherMethodMedInfra;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="approximationMethodNonMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biApproximationMethodNonMedInfra")
+    private boolean _approximationMethodNonMedInfra;
 
-    public int getEndoscopyCaseCnt() {
-        return _endoscopyCaseCnt;
+    public boolean isApproximationMethodNonMedInfra() {
+        return _approximationMethodNonMedInfra;
     }
 
-    public void setEndoscopyCaseCnt(int _endoscopyCaseCnt) {
-        this._endoscopyCaseCnt = _endoscopyCaseCnt;
+    public void setApproximationMethodNonMedInfra(boolean approximationMethodNonMedInfra) {
+        this._approximationMethodNonMedInfra = approximationMethodNonMedInfra;
     }
-    // </editor-fold>            
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="stepladderMethodNonMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biStepladderMethodNonMedInfra")
+    private boolean _stepladderMethodNonMedInfra;
 
-    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomHours">
-    @Column(name = "biDeliveryRoomHours")
-    double _deliveryRoomHours;
-
-    public double getDeliveryRoomHours() {
-        return _deliveryRoomHours;
-    }
-
-    public void setDeliveryRoomHours(double _deliveryRoomHours) {
-        this._deliveryRoomHours = _deliveryRoomHours;
+    public boolean isStepladderMethodNonMedInfra() {
+        return _stepladderMethodNonMedInfra;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Property DeliveryRoomOrganizationalStructure">
-    @Column(name = "biDeliveryRoomOrganizationalStructure")
-    private String _deliveryRoomOrganizationalStructure = "";
+    public void setStepladderMethodNonMedInfra(boolean stepladderMethodNonMedInfra) {
+        this._stepladderMethodNonMedInfra = stepladderMethodNonMedInfra;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="extensionMethodNonMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biExtensionMethodNonMedInfra")
+    private boolean _extensionMethodNonMedInfra;
 
-    public String getDeliveryRoomOrganizationalStructure() {
-        return _deliveryRoomOrganizationalStructure;
+    public boolean isExtensionMethodNonMedInfra() {
+        return _extensionMethodNonMedInfra;
     }
 
-    public void setDeliveryRoomOrganizationalStructure(String deliveryRoomOrganizationalStructure) {
-        this._deliveryRoomOrganizationalStructure = deliveryRoomOrganizationalStructure;
+    public void setExtensionMethodNonMedInfra(boolean extensionMethodNonMedInfra) {
+        this._extensionMethodNonMedInfra = extensionMethodNonMedInfra;
     }
-    // </editor-fold>
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biOtherMethodNonMedInfra")
+    private boolean _otherMethodNonMedInfra;
 
-    // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
-    private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
-
-    public List<DrgDelimitationFact> getDelimitationFacts() {
-        return _delimitationFacts;
-    }
-
-    public void setDelimitationFacts(List<DrgDelimitationFact> _delimitationFacts) {
-        this._delimitationFacts = _delimitationFacts;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property NeonatLvl">
-    @Column(name = "biNeonatLvl")
-    private int _neonatLvl;
-
-    public int getNeonatLvl() {
-        return _neonatLvl;
+    public boolean isOtherMethodNonMedInfra() {
+        return _otherMethodNonMedInfra;
     }
 
-    public void setNeonatLvl(int _neonatLvl) {
-        this._neonatLvl = _neonatLvl;
+    public void setOtherMethodNonMedInfra(boolean otherMethodNonMedInfra) {
+        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
     }
-    // </editor-fold>
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="intensiveBed">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biIntensiveBed")
+    private boolean _intensiveBed;
 
-    // <editor-fold defaultstate="collapsed" desc="Property List DrgNeonatData">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biId")
-    private List<DrgNeonatData> neonateData;
-
-    public List<DrgNeonatData> getNeonateData() {
-        return neonateData;
-    }
-
-    public void setNeonateData(List<DrgNeonatData> neonateData) {
-        this.neonateData = neonateData;
-    }
-    // </editor-fold>
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListCostCenter> kGLListCostCenterList;
-
-    public List<KGLListCostCenter> getKGLListCostCenterList() {
-        return kGLListCostCenterList;
+    public boolean isIntensiveBed() {
+        return _intensiveBed;
     }
 
-    public void setKGLListCostCenterList(List<KGLListCostCenter> kGLListCostCenterList) {
-        this.kGLListCostCenterList = kGLListCostCenterList;
+    public void setIntensiveBed(boolean intensiveBed) {
+        this._intensiveBed = intensiveBed;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="intensiveStrokeBed">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biIntensiveStrokeBed")
+    private boolean _intensiveStrokeBed;
+
+    public boolean isIntensiveStrokeBed() {
+        return _intensiveStrokeBed;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
-    private List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList;
+    public void setIntensiveStrokeBed(boolean intensiveStrokeBed) {
+        this._intensiveStrokeBed = intensiveStrokeBed;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="kglOpAn">
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "kGLBaseInformation")
+    private KGLOpAn _kglOpAn;
 
-    public List<KGLListRadiologyLaboratory> getKGLListRadiologyLaboratoryList() {
-        return kGLListRadiologyLaboratoryList;
+    public KGLOpAn getKglOpAn() {
+        return _kglOpAn;
     }
 
-    public void setKGLListRadiologyLaboratoryList(List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList) {
-        this.kGLListRadiologyLaboratoryList = kGLListRadiologyLaboratoryList;
+    public void setKglOpAn(KGLOpAn kglOpAn) {
+        this._kglOpAn = kglOpAn;
+    }
+    //</editor-fold>
+    
+    public DrgCalcBasics() {
     }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
-    private List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList;
-
-    public List<KGLListObstetricsGynecology> getKGLListObstetricsGynecologyList() {
-        return kGLListObstetricsGynecologyList;
+    public DrgCalcBasics(Integer biID) {
+        this._id = biID;
     }
 
-    public void setKGLListObstetricsGynecologyList(List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList) {
-        this.kGLListObstetricsGynecologyList = kGLListObstetricsGynecologyList;
+    public DrgCalcBasics(Integer biID, int biDataYear, int biIK, String biHospitalName, int biAccountID, Date biLastChanged, int biStatusID, short biDeliveryType, String biCorrectionNote, BigDecimal biSumCalcCost, int biCaseInStationCnt, int biCasePartialStationCnt, int biDaysPartialStation, int biPatientEscort, int biPreStation, int biBeds, int biPartialCnt, int biLocationCnt, boolean biDifLocationSupply, boolean biSpecialUnit, boolean biCentralFocus, int biNeonatLvl, boolean biGynecology, boolean biObstetrical, BigDecimal biDeliveryRoomHours, int biDeliveryRoomPreBirthHabitationCnt, int biDeliveryRoomInstationBirthCnt, boolean biNoDeliveryRoomHabitation, String biDeliveryRoomOrganizationalStructure, boolean biCardiology, int biCardiologyRoomCnt, int biCardiologyCaseCnt, boolean biEndoscopy, int biEndoscopyRoomCnt, int biEndoscopyCaseCnt, boolean biMinimalValvularIntervention, int biMviFulfilled, boolean biMviGuidelineAspired, boolean biNormalFreelancing, boolean biFeeContract, boolean biPKMSRecording, int biPKMSCaseCnt, boolean biKISIntegration, String biNormalStationOther, boolean biApproximationMethodMedInfra, boolean biStepladderMethodMedInfra, boolean biExtensionMethodMedInfra, boolean biOtherMethodMedInfra, boolean biApproximationMethodNonMedInfra, boolean biStepladderMethodNonMedInfra, boolean biExtensionMethodNonMedInfra, boolean biOtherMethodNonMedInfra, boolean biIntensiveBed, boolean biIntensiveStrokeBed) {
+        this._id = biID;
+        this._dataYear = biDataYear;
+        this._ik = biIK;
+        this._hospitalName = biHospitalName;
+        this._accountID = biAccountID;
+        this._lastChanged = biLastChanged;
+        this._statusID = biStatusID;
+        this._deliveryType = biDeliveryType;
+        this._correctionNote = biCorrectionNote;
+        this._sumCalcCost = biSumCalcCost;
+        this._caseInStationCnt = biCaseInStationCnt;
+        this._casePartialStationCnt = biCasePartialStationCnt;
+        this._daysPartialStation = biDaysPartialStation;
+        this._patientEscort = biPatientEscort;
+        this._preStation = biPreStation;
+        this._beds = biBeds;
+        this._partialCnt = biPartialCnt;
+        this._locationCnt = biLocationCnt;
+        this._difLocationSupply = biDifLocationSupply;
+        this._specialUnit = biSpecialUnit;
+        this._centralFocus = biCentralFocus;
+        this._neonatLvl = biNeonatLvl;
+        this._gynecology = biGynecology;
+        this._obstetrical = biObstetrical;
+        this._deliveryRoomHours = biDeliveryRoomHours;
+        this._deliveryRoomPreBirthHabitationCnt = biDeliveryRoomPreBirthHabitationCnt;
+        this._deliveryRoomInstationBirthCnt = biDeliveryRoomInstationBirthCnt;
+        this._noDeliveryRoomHabitation = biNoDeliveryRoomHabitation;
+        this._deliveryRoomOrganizationalStructure = biDeliveryRoomOrganizationalStructure;
+        this._cardiology = biCardiology;
+        this._cardiologyRoomCnt = biCardiologyRoomCnt;
+        this._cardiologyCaseCnt = biCardiologyCaseCnt;
+        this._endoscopy = biEndoscopy;
+        this._endoscopyRoomCnt = biEndoscopyRoomCnt;
+        this._endoscopyCaseCnt = biEndoscopyCaseCnt;
+        this._minimalValvularIntervention = biMinimalValvularIntervention;
+        this._mviFulfilled = biMviFulfilled;
+        this._mviGuidelineAspired = biMviGuidelineAspired;
+        this._normalFreelancing = biNormalFreelancing;
+        this._feeContract = biFeeContract;
+        this._pkmsRecording = biPKMSRecording;
+        this._pkmsCaseCnt = biPKMSCaseCnt;
+        this._kisIntegration = biKISIntegration;
+        this._normalStationOther = biNormalStationOther;
+        this._approximationMethodMedInfra = biApproximationMethodMedInfra;
+        this._stepladderMethodMedInfra = biStepladderMethodMedInfra;
+        this._extensionMethodMedInfra = biExtensionMethodMedInfra;
+        this._otherMethodMedInfra = biOtherMethodMedInfra;
+        this._approximationMethodNonMedInfra = biApproximationMethodNonMedInfra;
+        this._stepladderMethodNonMedInfra = biStepladderMethodNonMedInfra;
+        this._extensionMethodNonMedInfra = biExtensionMethodNonMedInfra;
+        this._otherMethodNonMedInfra = biOtherMethodNonMedInfra;
+        this._intensiveBed = biIntensiveBed;
+        this._intensiveStrokeBed = biIntensiveStrokeBed;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rsBaseInformationID")
-    private List<KGLRadiologyService> kGLRadiologyServiceList;
-
-    public List<KGLRadiologyService> getKGLRadiologyServiceList() {
-        return kGLRadiologyServiceList;
-    }
-
-    public void setKGLRadiologyServiceList(List<KGLRadiologyService> kGLRadiologyServiceList) {
-        this.kGLRadiologyServiceList = kGLRadiologyServiceList;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
-    private List<KGLOpAn> kGLOpAnList;
-
-    public List<KGLOpAn> getKGLOpAnList() {
-        return kGLOpAnList;
-    }
-
-    public void setKGLOpAnList(List<KGLOpAn> kGLOpAnList) {
-        this.kGLOpAnList = kGLOpAnList;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
-    private List<KGLListServiceProvision> kGLListServiceProvisionList;
-
-    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
-        return kGLListServiceProvisionList;
-    }
-
-    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
-        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ktBaseInformationID")
-    private List<KGLListKstTop> kGLListKstTopList;
-
-    public List<KGLListKstTop> getKGLListKstTopList() {
-        return kGLListKstTopList;
-    }
-
-    public void setKGLListKstTopList(List<KGLListKstTop> kGLListKstTopList) {
-        this.kGLListKstTopList = kGLListKstTopList;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation")
-    private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
-
-    public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
-        return kGLListEndoscopyDifferentialList;
-    }
-
-    public void setKGLListEndoscopyDifferentialList(List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList) {
-        this.kGLListEndoscopyDifferentialList = kGLListEndoscopyDifferentialList;
-    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + this._id;
-        hash = 89 * hash + this._dataYear;
-        hash = 89 * hash + this._ik;
+        int hash = 0;
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof DrgCalcBasics)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final DrgCalcBasics other = (DrgCalcBasics) obj;
-        if (this._id != other._id) {
-            return false;
-        }
-        if (this._dataYear != other._dataYear) {
-            return false;
-        }
-        if (this._ik != other._ik) {
+        DrgCalcBasics other = (DrgCalcBasics) object;
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -698,14 +952,7 @@ public class DrgCalcBasics implements Serializable {
 
     @Override
     public String toString() {
-        return "DrgCalcBasics{" + "_id=" + _id + '}';
+        return "org.inek.dataportal.entities.calc.DrgCalcBasics[ biID=" + _id + " ]";
     }
-
-    // </editor-fold>
-    @PrePersist
-    @PreUpdate
-    public void tagModifiedDate() {
-        _lastChanged = Calendar.getInstance().getTime();
-    }
-
+    
 }
