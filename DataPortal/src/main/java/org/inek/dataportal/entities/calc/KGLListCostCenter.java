@@ -167,16 +167,16 @@ public class KGLListCostCenter implements Serializable {
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
-    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics _baseInformation;
+//    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    private int _baseInformationId;
 
-    public DrgCalcBasics getBaseInformation() {
-        return _baseInformation;
+    public int getBaseInformation() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformation(DrgCalcBasics baseInformation) {
-        this._baseInformation = baseInformation;
+    public void setBaseInformation(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
