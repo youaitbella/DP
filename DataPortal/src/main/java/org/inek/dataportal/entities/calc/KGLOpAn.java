@@ -29,161 +29,197 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLOpAn.findAll", query = "SELECT k FROM KGLOpAn k")
-    , @NamedQuery(name = "KGLOpAn.findByOaID", query = "SELECT k FROM KGLOpAn k WHERE k.oaID = :oaID")
-    , @NamedQuery(name = "KGLOpAn.findByOaHasCentralOP", query = "SELECT k FROM KGLOpAn k WHERE k.oaHasCentralOP = :oaHasCentralOP")
-    , @NamedQuery(name = "KGLOpAn.findByOaCentralOPCnt", query = "SELECT k FROM KGLOpAn k WHERE k.oaCentralOPCnt = :oaCentralOPCnt")
-    , @NamedQuery(name = "KGLOpAn.findByOaMedicalService", query = "SELECT k FROM KGLOpAn k WHERE k.oaMedicalService = :oaMedicalService")
-    , @NamedQuery(name = "KGLOpAn.findByOaFunctionalService", query = "SELECT k FROM KGLOpAn k WHERE k.oaFunctionalService = :oaFunctionalService")
-    , @NamedQuery(name = "KGLOpAn.findByOaDescription", query = "SELECT k FROM KGLOpAn k WHERE k.oaDescription = :oaDescription")
-    , @NamedQuery(name = "KGLOpAn.findByOaMedicalServiceAmount", query = "SELECT k FROM KGLOpAn k WHERE k.oaMedicalServiceAmount = :oaMedicalServiceAmount")
-    , @NamedQuery(name = "KGLOpAn.findByOaFunctionalServiceAmount", query = "SELECT k FROM KGLOpAn k WHERE k.oaFunctionalServiceAmount = :oaFunctionalServiceAmount")})
+    , @NamedQuery(name = "KGLOpAn.findByOaID", query = "SELECT k FROM KGLOpAn k WHERE k._id = :oaID")
+    , @NamedQuery(name = "KGLOpAn.findByOaHasCentralOP", query = "SELECT k FROM KGLOpAn k WHERE k._hasCentralOP = :oaHasCentralOP")
+    , @NamedQuery(name = "KGLOpAn.findByOaCentralOPCnt", query = "SELECT k FROM KGLOpAn k WHERE k._centralOPCnt = :oaCentralOPCnt")
+    , @NamedQuery(name = "KGLOpAn.findByOaMedicalService", query = "SELECT k FROM KGLOpAn k WHERE k._medicalService = :oaMedicalService")
+    , @NamedQuery(name = "KGLOpAn.findByOaFunctionalService", query = "SELECT k FROM KGLOpAn k WHERE k._functionalService = :oaFunctionalService")
+    , @NamedQuery(name = "KGLOpAn.findByOaDescription", query = "SELECT k FROM KGLOpAn k WHERE k._description = :oaDescription")
+    , @NamedQuery(name = "KGLOpAn.findByOaMedicalServiceAmount", query = "SELECT k FROM KGLOpAn k WHERE k._medicalServiceAmount = :oaMedicalServiceAmount")
+    , @NamedQuery(name = "KGLOpAn.findByOaFunctionalServiceAmount", query = "SELECT k FROM KGLOpAn k WHERE k._functionalServiceAmount = :oaFunctionalServiceAmount")})
 public class KGLOpAn implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaID")
-    private Integer oaID;
+    private Integer _id;
+
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer id) {
+        this._id = id;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property HasCentralOP">
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaHasCentralOP")
-    private boolean oaHasCentralOP;
+    private boolean _hasCentralOP;
+
+    public boolean isHasCentralOP() {
+        return _hasCentralOP;
+    }
+
+    public void setHasCentralOP(boolean hasCentralOP) {
+        this._hasCentralOP = hasCentralOP;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property CentralOPCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaCentralOPCnt")
-    private int oaCentralOPCnt;
+    private int _centralOPCnt;
+
+    public int getCentralOPCnt() {
+        return _centralOPCnt;
+    }
+
+    public void setCentralOPCnt(int centralOPCnt) {
+        this._centralOPCnt = centralOPCnt;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MedicalService">
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaMedicalService")
-    private boolean oaMedicalService;
+    private boolean _medicalService;
+
+    public boolean isMedicalService() {
+        return _medicalService;
+    }
+
+    public void setMedicalService(boolean medicalService) {
+        this._medicalService = medicalService;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property FunctionalService">
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaFunctionalService")
-    private boolean oaFunctionalService;
+    private boolean _functionalService;
+
+    public boolean isFunctionalService() {
+        return _functionalService;
+    }
+
+    public void setFunctionalService(boolean functionalService) {
+        this._functionalService = functionalService;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Description">
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
     @Column(name = "oaDescription")
-    private String oaDescription;
+    private String _description;
+
+    public String getDescription() {
+        return _description;
+    }
+
+    public void setDescription(String description) {
+        this._description = description;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property MedicalServiceAmount">
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaMedicalServiceAmount")
-    private BigDecimal oaMedicalServiceAmount;
+    private BigDecimal _medicalServiceAmount;
+
+    public BigDecimal getMedicalServiceAmount() {
+        return _medicalServiceAmount;
+    }
+
+    public void setMedicalServiceAmount(BigDecimal medicalServiceAmount) {
+        this._medicalServiceAmount = medicalServiceAmount;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property FunctionalServiceAmount">
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaFunctionalServiceAmount")
-    private BigDecimal oaFunctionalServiceAmount;
-    @JoinColumn(name = "oaBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics oaBaseInformationID;
-    @JoinColumn(name = "oaContentTextID", referencedColumnName = "ctID")
-    @ManyToOne(optional = false)
-    private DrgContentText oaContentTextID;
+    private BigDecimal _functionalServiceAmount;
+    
+    public BigDecimal getFunctionalServiceAmount() {
+        return _functionalServiceAmount;
+    }
 
+    public void setFunctionalServiceAmount(BigDecimal functionalServiceAmount) {
+        this._functionalServiceAmount = functionalServiceAmount;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property BaseInformationID">
+//    @JoinColumn(name = "oaBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "oaBaseInformationID")
+    private int _baseInformationID;
+
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property ContentTextID">
+//    @JoinColumn(name = "oaContentTextID", referencedColumnName = "ctID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "oaContentTextID")
+    private int _contentTextID;
+
+    public int getContentTextID() {
+        return _contentTextID;
+    }
+
+    public void setContentTextID(int contentTextID) {
+        this._contentTextID = contentTextID;
+    }
+    // </editor-fold>
+    
     public KGLOpAn() {
     }
 
     public KGLOpAn(Integer oaID) {
-        this.oaID = oaID;
+        this._id = oaID;
     }
 
     public KGLOpAn(Integer oaID, boolean oaHasCentralOP, int oaCentralOPCnt, boolean oaMedicalService, boolean oaFunctionalService, String oaDescription, BigDecimal oaMedicalServiceAmount, BigDecimal oaFunctionalServiceAmount) {
-        this.oaID = oaID;
-        this.oaHasCentralOP = oaHasCentralOP;
-        this.oaCentralOPCnt = oaCentralOPCnt;
-        this.oaMedicalService = oaMedicalService;
-        this.oaFunctionalService = oaFunctionalService;
-        this.oaDescription = oaDescription;
-        this.oaMedicalServiceAmount = oaMedicalServiceAmount;
-        this.oaFunctionalServiceAmount = oaFunctionalServiceAmount;
+        this._id = oaID;
+        this._hasCentralOP = oaHasCentralOP;
+        this._centralOPCnt = oaCentralOPCnt;
+        this._medicalService = oaMedicalService;
+        this._functionalService = oaFunctionalService;
+        this._description = oaDescription;
+        this._medicalServiceAmount = oaMedicalServiceAmount;
+        this._functionalServiceAmount = oaFunctionalServiceAmount;
     }
 
-    public Integer getOaID() {
-        return oaID;
-    }
-
-    public void setOaID(Integer oaID) {
-        this.oaID = oaID;
-    }
-
-    public boolean getOaHasCentralOP() {
-        return oaHasCentralOP;
-    }
-
-    public void setOaHasCentralOP(boolean oaHasCentralOP) {
-        this.oaHasCentralOP = oaHasCentralOP;
-    }
-
-    public int getOaCentralOPCnt() {
-        return oaCentralOPCnt;
-    }
-
-    public void setOaCentralOPCnt(int oaCentralOPCnt) {
-        this.oaCentralOPCnt = oaCentralOPCnt;
-    }
-
-    public boolean getOaMedicalService() {
-        return oaMedicalService;
-    }
-
-    public void setOaMedicalService(boolean oaMedicalService) {
-        this.oaMedicalService = oaMedicalService;
-    }
-
-    public boolean getOaFunctionalService() {
-        return oaFunctionalService;
-    }
-
-    public void setOaFunctionalService(boolean oaFunctionalService) {
-        this.oaFunctionalService = oaFunctionalService;
-    }
-
-    public String getOaDescription() {
-        return oaDescription;
-    }
-
-    public void setOaDescription(String oaDescription) {
-        this.oaDescription = oaDescription;
-    }
-
-    public BigDecimal getOaMedicalServiceAmount() {
-        return oaMedicalServiceAmount;
-    }
-
-    public void setOaMedicalServiceAmount(BigDecimal oaMedicalServiceAmount) {
-        this.oaMedicalServiceAmount = oaMedicalServiceAmount;
-    }
-
-    public BigDecimal getOaFunctionalServiceAmount() {
-        return oaFunctionalServiceAmount;
-    }
-
-    public void setOaFunctionalServiceAmount(BigDecimal oaFunctionalServiceAmount) {
-        this.oaFunctionalServiceAmount = oaFunctionalServiceAmount;
-    }
-
-    public DrgCalcBasics getOaBaseInformationID() {
-        return oaBaseInformationID;
-    }
-
-    public void setOaBaseInformationID(DrgCalcBasics oaBaseInformationID) {
-        this.oaBaseInformationID = oaBaseInformationID;
-    }
-
-    public DrgContentText getOaContentTextID() {
-        return oaContentTextID;
-    }
-
-    public void setOaContentTextID(DrgContentText oaContentTextID) {
-        this.oaContentTextID = oaContentTextID;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (oaID != null ? oaID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -194,7 +230,7 @@ public class KGLOpAn implements Serializable {
             return false;
         }
         KGLOpAn other = (KGLOpAn) object;
-        if ((this.oaID == null && other.oaID != null) || (this.oaID != null && !this.oaID.equals(other.oaID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -202,7 +238,7 @@ public class KGLOpAn implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLOpAn[ oaID=" + oaID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLOpAn[ oaID=" + _id + " ]";
     }
     
 }

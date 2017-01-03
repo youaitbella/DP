@@ -616,7 +616,8 @@ public class DrgCalcBasics implements Serializable {
         this.kGLRadiologyServiceList = kGLRadiologyServiceList;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "oaBaseInformationID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(referencedColumnName = "_baseInformationId")
     private List<KGLOpAn> kGLOpAnList;
 
     public List<KGLOpAn> getKGLOpAnList() {
