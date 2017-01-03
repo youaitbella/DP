@@ -30,7 +30,7 @@
             <h:outputLabel value="FD/MTD" styleClass="label20 centered"/>
         </div>
 
-        <div>
+        <div class="inputPart">
             <h:outputLabel value="Personalbindungszeit" styleClass="label20"/>
             <h:selectBooleanCheckbox value="true" styleClass="element20"/>
             <h:selectBooleanCheckbox value="true" styleClass="element20"/>
@@ -38,7 +38,7 @@
             <h:selectBooleanCheckbox value="true" styleClass="element20"/>
         </div>
 
-        <div>
+        <div class="inputPart">
             <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
@@ -58,7 +58,7 @@
             </h:selectOneMenu>
         </div>
 
-        <div>
+        <div class="inputPart">
             <h:outputLabel value="Rüstzeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
@@ -77,6 +77,32 @@
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
         </div>
+
+        <h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle" styleClass="blockHeader"/>
+        <div class="inputPart">
+            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel value="Abweichung" styleClass="label20"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+        </div>
+
     </div>
 </ui:composition>
 
