@@ -569,7 +569,6 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
 
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
     private List<KGLListCostCenter> kGLListCostCenterList;
@@ -582,7 +581,8 @@ public class DrgCalcBasics implements Serializable {
         this.kGLListCostCenterList = kGLListCostCenterList;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(referencedColumnName = "_baseInformationId")
     private List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList;
 
     public List<KGLListRadiologyLaboratory> getKGLListRadiologyLaboratoryList() {
