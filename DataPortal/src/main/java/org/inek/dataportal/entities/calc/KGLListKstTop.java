@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -140,15 +138,14 @@ public class KGLListKstTop implements Serializable {
     }
 
     
-    @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics ktBaseInformationID;
+    @Column(name = "ktBaseInformationID")
+    private int ktBaseInformationID;
     
-    public DrgCalcBasics getKtBaseInformationID() {
+    public int getKtBaseInformationID() {
         return ktBaseInformationID;
     }
 
-    public void setKtBaseInformationID(DrgCalcBasics ktBaseInformationID) {
+    public void setKtBaseInformationID(int ktBaseInformationID) {
         this.ktBaseInformationID = ktBaseInformationID;
     }
     

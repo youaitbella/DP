@@ -639,7 +639,8 @@ public class DrgCalcBasics implements Serializable {
         this.kGLListServiceProvisionList = kGLListServiceProvisionList;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ktBaseInformationID")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
     private List<KGLListKstTop> kGLListKstTopList;
 
     public List<KGLListKstTop> getKGLListKstTopList() {

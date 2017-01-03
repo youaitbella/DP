@@ -31,6 +31,7 @@ import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -78,6 +79,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _calcBasics = loadCalcBasicsDrg(id);
         }
         updateIk();
+        ensureTopList();
     }
 
     public void updateIk() {
@@ -264,6 +266,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return "";
     }
     // </editor-fold>
+
+        private void ensureTopList() {
+        if (_calcBasics.getKGLListKstTopList() == null){
+            _calcBasics.setKGLListKstTopList(new Vector<>());
+            for (int i = 0; i < 3; i++) {
+                KGLListKstTop item = new KGLListKstTop();
+                item.setKtBaseInformationID(_calcBasics.getId());
+                _calcBasics.getKGLListKstTopList().add(item);
+            }
+        }
+    }
+
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;

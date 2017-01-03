@@ -81,10 +81,10 @@
         <h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle" styleClass="blockHeader"/>
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
         </div>
 
         <div class="inputPart">
@@ -104,5 +104,21 @@
         </div>
 
     </div>
+    
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList}" var="item">
+        <h:column>
+            <f:facet name="header">#{msg.lblTopAmbulantService}</f:facet>
+            <inek:InputTextWithMessage value="#{item.ktText}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+        </h:column>
+    </h:dataTable>
 </ui:composition>
 

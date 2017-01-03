@@ -8,6 +8,7 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="value"/>
+        <cc:attribute name="title" default=""/>
         <cc:attribute name="required" default="false"/>
         <cc:attribute name="styleClass" default=""/>
         <cc:attribute name="readonly" default="false"/>
@@ -18,6 +19,7 @@
         <cc:editableValueHolder name="#{cc.id}" targets="text"/>
         <h:inputText id="text" 
                      value="#{cc.attrs.value}" 
+                     title="#{cc.attrs.title}"
                      styleClass="#{cc.attrs.styleClass}"                          
                      readonly="#{cc.attrs.readonly}"
                      required="#{cc.attrs.required}"
