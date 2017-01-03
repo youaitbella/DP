@@ -22,18 +22,18 @@
             <inek:LabeledText styleClass="element30" rendered="#{!sessionController.isInekUser('MODEL_INTENTION')}"
                               readonly="#{not sessionController.isInekUser('MODEL_INTENTION')}"
                               displayAsLabel="true"
-                              Label="#{msg.lblModelIntentionCode}" 
-                              Text="#{sessionController.isInekUser('MODEL_INTENTION') or editModelIntention.modelIntention.code.length() gt 0
+                              label="#{msg.lblModelIntentionCode}" 
+                              value="#{sessionController.isInekUser('MODEL_INTENTION') or editModelIntention.modelIntention.code.length() gt 0
                                       ? editModelIntention.modelIntention.code 
                                       : msg.lblNotGrantedYet}" />
             <inek:LabeledText styleClass="element30" rendered="#{sessionController.isInekUser('MODEL_INTENTION')}" 
                               readonly="#{not sessionController.isInekUser('MODEL_INTENTION')}"
                               displayAsLabel="true"
-                              Label="#{msg.lblModelIntentionCode}" 
-                              Text="#{editModelIntention.modelIntention.code}" />
+                              label="#{msg.lblModelIntentionCode}" 
+                              value="#{editModelIntention.modelIntention.code}" />
 
-            <inek:LabeledText id="Appelation" Label="#{msg.lblAppellation}" Text="#{editModelIntention.modelIntention.description}" 
-                              Required="true" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledText id="Appelation" label="#{msg.lblAppellation}" value="#{editModelIntention.modelIntention.description}" 
+                              required="true" readonly="#{editModelIntention.readOnly}"/>
 
 
             <h2>#{msg.headerPatientTypes}</h2>
@@ -62,23 +62,23 @@
                 </h:selectOneMenu>
             </div>
 
-            <inek:LabeledTextarea Label="#{msg.lblPersonalMisc}" Text="#{editModelIntention.modelIntention.miscPatient}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblPersonalMisc}" value="#{editModelIntention.modelIntention.miscPatient}" readonly="#{editModelIntention.readOnly}"/>
 
             <inek:LabeledSelectAndText id="region"
-                                       Label="#{msg.lblRegionalFeatures}" 
-                                       SelectElement="#{editModelIntention.modelIntention.regionType}"
-                                       SelectItems="#{valueLists.regions}"
-                                       Text="#{editModelIntention.modelIntention.region}"
+                                       label="#{msg.lblRegionalFeatures}" 
+                                       selectElement="#{editModelIntention.modelIntention.regionType}"
+                                       selectItems="#{valueLists.regions}"
+                                       value="#{editModelIntention.modelIntention.region}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
             <inek:LabeledSelectAndText id="medicalSpecification" 
-                                       Label="#{msg.lblMedicalFeature}" 
-                                       SelectElement="#{editModelIntention.modelIntention.medicalAttributesType}"
-                                       SelectItems="#{valueLists.medicalAttributes}"
-                                       Text="#{editModelIntention.modelIntention.medicalSpecification}" 
+                                       label="#{msg.lblMedicalFeature}" 
+                                       selectElement="#{editModelIntention.modelIntention.medicalAttributesType}"
+                                       selectItems="#{valueLists.medicalAttributes}"
+                                       value="#{editModelIntention.modelIntention.medicalSpecification}" 
                                        readonly="#{editModelIntention.readOnly}"
-                                       Threshold="0"
+                                       threshold="0"
                                        />
 
             <h:outputLabel styleClass="label30" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
@@ -87,7 +87,7 @@
                 <f:ajax event="change" render="@this :logout:remaining" />
             </h:selectOneMenu>
 
-            <inek:LabeledTextarea Label="#{msg.lblMiscAttr}" Text="#{editModelIntention.modelIntention.miscAttribute}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMiscAttr}" value="#{editModelIntention.modelIntention.miscAttribute}" readonly="#{editModelIntention.readOnly}"/>
 
             <h:outputLabel styleClass="label30" id="patientAgreement" value="#{msg.lblPatientAgreement}" />
             <h:selectBooleanCheckbox value="#{editModelIntention.modelIntention.agreement}" readonly="#{editModelIntention.readOnly}">
@@ -98,29 +98,29 @@
             <h2>#{msg.headerAssignmentModelIntention}</h2>
 
             <inek:LabeledSelectAndText id="settleMedicText" 
-                                       Label="#{msg.lblSettledDocs}" 
-                                       SelectElement="#{editModelIntention.modelIntention.settleMedicType}"
-                                       SelectItems="#{valueLists.settledTypes}"
-                                       Text="#{editModelIntention.modelIntention.settleMedicText}"
-                                       Threshold="1" 
+                                       label="#{msg.lblSettledDocs}" 
+                                       selectElement="#{editModelIntention.modelIntention.settleMedicType}"
+                                       selectItems="#{valueLists.settledTypes}"
+                                       value="#{editModelIntention.modelIntention.settleMedicText}"
+                                       threshold="1" 
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
             <inek:LabeledSelectAndText id="piaText" 
-                                       Label="#{msg.lblPia}" 
-                                       SelectElement="#{editModelIntention.modelIntention.piaType}"
-                                       SelectItems="#{valueLists.piaTypes}"
-                                       Text="#{editModelIntention.modelIntention.piaText}" 
+                                       label="#{msg.lblPia}" 
+                                       selectElement="#{editModelIntention.modelIntention.piaType}"
+                                       selectItems="#{valueLists.piaTypes}"
+                                       value="#{editModelIntention.modelIntention.piaText}" 
                                        readonly="#{editModelIntention.readOnly}"
                                        />
 
             <inek:LabeledSelectAndText id="hospitalText" 
-                                       Label="#{msg.lblHospital}" 
-                                       SelectElement="#{editModelIntention.modelIntention.hospitalType}"
-                                       SelectItems="#{valueLists.hospitalTypes}"
-                                       Text="#{editModelIntention.modelIntention.hospitalText}"
+                                       label="#{msg.lblHospital}" 
+                                       selectElement="#{editModelIntention.modelIntention.hospitalType}"
+                                       selectItems="#{valueLists.hospitalTypes}"
+                                       value="#{editModelIntention.modelIntention.hospitalText}"
                                        readonly="#{editModelIntention.readOnly}"
-                                       Threshold="2"
+                                       threshold="2"
                                        />
 
             <div class="inputpart">
@@ -131,7 +131,7 @@
                 </h:selectOneMenu>
             </div>
 
-            <inek:LabeledTextarea Label="#{msg.lblMiscHospitalisation}" Text="#{editModelIntention.modelIntention.miscHospitalisation}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMiscHospitalisation}" value="#{editModelIntention.modelIntention.miscHospitalisation}" readonly="#{editModelIntention.readOnly}"/>
 
         </h:form>
 

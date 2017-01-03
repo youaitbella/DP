@@ -8,21 +8,21 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="Label"/>
-        <cc:attribute name="Text"/>
-        <cc:attribute name="Required" default="false"/>
+        <cc:attribute name="label"/>
+        <cc:attribute name="value"/>
+        <cc:attribute name="required" default="false"/>
         <cc:attribute name="readonly" default="false"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
-            <h:outputLabel styleClass="label30 alignTop" value="#{cc.attrs.Label}:" />
+            <h:outputLabel styleClass="label30 alignTop" value="#{cc.attrs.label}:" />
             <h:inputTextarea id="idText" 
-                             styleClass="area70Low alignTop #{cc.attrs.Required ? 'required' : ''}" 
+                             styleClass="area70Low alignTop #{cc.attrs.required ? 'required' : ''}" 
                              readonly="#{cc.attrs.readonly}"
-                             value="#{cc.attrs.Text}" 
-                             required="#{cc.attrs.Required}" 
+                             value="#{cc.attrs.value}" 
+                             required="#{cc.attrs.required}" 
                              requiredMessage="#{msg.msgValueNeeded}" >
                 <f:ajax event="blur" render="@this msgText :logout:remaining msgText" />
             </h:inputTextarea>

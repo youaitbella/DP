@@ -8,9 +8,9 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="Label"/>
-        <cc:attribute name="Text"/>
-        <cc:attribute name="Required" default="false"/>
+        <cc:attribute name="label"/>
+        <cc:attribute name="value"/>
+        <cc:attribute name="required" default="false"/>
         <cc:attribute name="styleClass" default="element70"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="displayAsLabel" default="false"/>
@@ -20,18 +20,19 @@
     <cc:implementation>
         <div class="inputPart">
             <h:message for="idText" id="msgText" styleClass="errorMessage"/>
-            <h:outputLabel styleClass="label" value="#{cc.attrs.Label}:" for="idText"/>
+            
+            <h:outputLabel styleClass="label" value="#{cc.attrs.label}:" for="idText"/>
             <br/>
             <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
-                         styleClass="#{cc.attrs.styleClass} #{cc.attrs.Required ? 'required' : ''}" 
-                         value="#{cc.attrs.Text}" 
+                         styleClass="#{cc.attrs.styleClass} #{cc.attrs.required ? 'required' : ''}" 
+                         value="#{cc.attrs.value}" 
                          readonly="#{cc.attrs.readonly}"
-                         required="#{cc.attrs.Required}">
+                         required="#{cc.attrs.required}">
                 <f:ajax event="blur" render="@this msgText :logout:remaining msgText" />
             </h:inputText>
             <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.readonly}"
                            styleClass="#{cc.attrs.styleClass}"
-                           value="#{cc.attrs.Text}"/>
+                           value="#{cc.attrs.value}"/>
     </div>
 </cc:implementation>
 </html>

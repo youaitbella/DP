@@ -17,80 +17,80 @@
             <h2>#{msg.headerModelIntentionTreatAreaAndCosts}</h2>
                    
             <inek:LabeledSelectAndText id="inpatientTreatmentText" 
-                                       Label="#{msg.lblInpatientTreatment}" 
-                                       SelectElement="#{editModelIntention.modelIntention.inpatientTreatmentType}"
-                                       SelectItems="#{valueLists.treatmentTypes}"
-                                       Text="#{editModelIntention.modelIntention.inpatientTreatmentText}"
+                                       label="#{msg.lblInpatientTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.inpatientTreatmentType}"
+                                       selectItems="#{valueLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.inpatientTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
             <inek:LabeledSelectAndText id="dayPatientTreatmentText" 
-                                       Label="#{msg.lblDayPatientTreatment}" 
-                                       SelectElement="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
-                                       SelectItems="#{valueLists.treatmentTypes}"
-                                       Text="#{editModelIntention.modelIntention.dayPatientTreatmentText}"
+                                       label="#{msg.lblDayPatientTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
+                                       selectItems="#{valueLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.dayPatientTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
             <inek:LabeledSelectAndText id="inpatientCompensationTreatmentText" 
-                                       Label="#{msg.lblInpatientCompensationTreatment}" 
-                                       SelectElement="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
-                                       SelectItems="#{valueLists.treatmentTypes}"
-                                       Text="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"
+                                       label="#{msg.lblInpatientCompensationTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
+                                       selectItems="#{valueLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
             <inek:LabeledSelectAndText id="inpatientCompensationHomeTreatmentText" 
-                                       Label="#{msg.lblInpatientCompensationHomeTreatment}" 
-                                       SelectElement="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
-                                       SelectItems="#{valueLists.treatmentTypes}"
-                                       Text="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"
+                                       label="#{msg.lblInpatientCompensationHomeTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
+                                       selectItems="#{valueLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
             <inek:LabeledSelectAndText id="outpatientTreatmentText" 
-                                       Label="#{msg.lblOutpatientTreatment}" 
-                                       SelectElement="#{editModelIntention.modelIntention.outpatientTreatmentType}"
-                                       SelectItems="#{valueLists.treatmentTypes}"
-                                       Text="#{editModelIntention.modelIntention.outpatientTreatmentText}"
+                                       label="#{msg.lblOutpatientTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.outpatientTreatmentType}"
+                                       selectItems="#{valueLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.outpatientTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
             <inek:LabeledSelectAndText id="outpatientHomeTreatmentText" 
-                                       Label="#{msg.lblOutpatientHomeTreatment}" 
-                                       SelectElement="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
-                                       SelectItems="#{valueLists.treatmentTypes}"
-                                       Text="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"
+                                       label="#{msg.lblOutpatientHomeTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
+                                       selectItems="#{valueLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
             
-            <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscTreatment}" 
-                                  readonly="#{editModelIntention.readOnly}" Required="false"/>
+            <inek:LabeledTextarea label="#{msg.lblMisc}" value="#{editModelIntention.modelIntention.miscTreatment}" 
+                                  readonly="#{editModelIntention.readOnly}" required="false"/>
             
 
             <h2>#{msg.headerSpecialPatientsConcept}</h2>
 
-            <inek:LabeledTextarea Label="#{msg.lblCaseManagement}" Text="#{editModelIntention.modelIntention.caseManagement}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblTeamBasedInnovations}" Text="#{editModelIntention.modelIntention.teamBasedInnovations}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblCrossSectoralSupply}" Text="#{editModelIntention.modelIntention.crossSectoralSupply}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblHomeTreatment}" Text="#{editModelIntention.modelIntention.homeTreatment}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscSpecialPatientConcept}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblCaseManagement}" value="#{editModelIntention.modelIntention.caseManagement}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblTeamBasedInnovations}" value="#{editModelIntention.modelIntention.teamBasedInnovations}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblCrossSectoralSupply}" value="#{editModelIntention.modelIntention.crossSectoralSupply}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblHomeTreatment}" value="#{editModelIntention.modelIntention.homeTreatment}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMisc}" value="#{editModelIntention.modelIntention.miscSpecialPatientConcept}" readonly="#{editModelIntention.readOnly}"/>
 
             <h2>#{msg.headerSpecificEffortModelIntention}</h2>
-            <inek:LabeledTextarea Label="#{msg.lblSpecialPsyTherapy}" Text="#{editModelIntention.modelIntention.specialPsyTherapy}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblSpecialMedicalMethod}" Text="#{editModelIntention.modelIntention.specialMedicalMethod}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblOtherSpecialMedicalMethod}" Text="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblMisc}" Text="#{editModelIntention.modelIntention.miscSpecificActivityContent}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblSpecialPsyTherapy}" value="#{editModelIntention.modelIntention.specialPsyTherapy}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblSpecialMedicalMethod}" value="#{editModelIntention.modelIntention.specialMedicalMethod}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblOtherSpecialMedicalMethod}" value="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMisc}" value="#{editModelIntention.modelIntention.miscSpecificActivityContent}" readonly="#{editModelIntention.readOnly}"/>
 
             <h2>#{msg.headerCosts}</h2>
-            <inek:LabeledTextarea Label="#{msg.lblSingleRefund}" Text="#{editModelIntention.modelIntention.singleRemuneration}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblDayPackage}" Text="#{editModelIntention.modelIntention.dayPackage}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblCasePackage}" Text="#{editModelIntention.modelIntention.casePackage}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblQuarterPackage}" Text="#{editModelIntention.modelIntention.quarterPackage}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblComplexPackage}" Text="#{editModelIntention.modelIntention.complexPackage}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblPeppRemuneration}" Text="#{editModelIntention.modelIntention.peppRemuneration}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblReginalBudget}" Text="#{editModelIntention.modelIntention.regionalBudget}" readonly="#{editModelIntention.readOnly}"/>
-            <inek:LabeledTextarea Label="#{msg.lblMiscRefund}" Text="#{editModelIntention.modelIntention.miscRemuneration}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblSingleRefund}" value="#{editModelIntention.modelIntention.singleRemuneration}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblDayPackage}" value="#{editModelIntention.modelIntention.dayPackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblCasePackage}" value="#{editModelIntention.modelIntention.casePackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblQuarterPackage}" value="#{editModelIntention.modelIntention.quarterPackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblComplexPackage}" value="#{editModelIntention.modelIntention.complexPackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblPeppRemuneration}" value="#{editModelIntention.modelIntention.peppRemuneration}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblReginalBudget}" value="#{editModelIntention.modelIntention.regionalBudget}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMiscRefund}" value="#{editModelIntention.modelIntention.miscRemuneration}" readonly="#{editModelIntention.readOnly}"/>
             
         </h:form>
 
