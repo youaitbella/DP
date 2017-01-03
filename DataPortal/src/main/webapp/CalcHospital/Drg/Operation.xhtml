@@ -10,8 +10,73 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h2 title="#{msg.titleCalcOperation}">#{msg.lblCalcOperation}</h2>
+    <h2 title="#{msg.titleCalcOperation}">#{msg.lblCalcOpAn}</h2>
 
-    <inek:LabeledText label="#{msg.lblCentralOR}" value="???" singleLine="true" styleClass="inputSmall marginLeft"/>
+    <inek:LabeledText label="#{msg.lblCentralOR}" value="???" singleLine="true" styleClass="inputSmall marginLeft" styleClassLabel="label20" title="#{msg.titleCalcCountOR}"/>
+
+    <div jsf:id="opInfo" jsf:rendered="true">
+        <hr/>
+        <div>
+            <h:outputLabel value="" styleClass="label20"/>
+            <h:outputLabel value="#{msg.lblCalcOperation}" styleClass="label40 centered"/>
+            <h:outputLabel value="#{msg.lblCalcAnaestesia}" styleClass="label40 centered"/>
+        </div>
+
+        <div>
+            <h:outputLabel value="" styleClass="label20"/>
+            <h:outputLabel value="ÄD" styleClass="label20 centered"/>
+            <h:outputLabel value="FD/MTD" styleClass="label20 centered"/>
+            <h:outputLabel value="ÄD" styleClass="label20 centered"/>
+            <h:outputLabel value="FD/MTD" styleClass="label20 centered"/>
+        </div>
+
+        <div>
+            <h:outputLabel value="Personalbindungszeit" styleClass="label20"/>
+            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
+        </div>
+
+        <div>
+            <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+        </div>
+
+        <div>
+            <h:outputLabel value="Rüstzeit" styleClass="label20"/>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax event="change" render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+        </div>
+    </div>
 </ui:composition>
 
