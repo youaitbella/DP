@@ -23,7 +23,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.persistence.Transient;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -642,6 +642,7 @@ public class DrgCalcBasics implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
+    //@Transient
     private List<KGLListKstTop> kGLListKstTopList;
 
     public List<KGLListKstTop> getKGLListKstTopList() {
