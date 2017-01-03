@@ -171,11 +171,11 @@ public class KGLListCostCenter implements Serializable {
 //    @ManyToOne(optional = false)
     private int _baseInformationId;
 
-    public int getBaseInformation() {
+    public int getBaseInformationId() {
         return _baseInformationId;
     }
 
-    public void setBaseInformation(int baseInformationId) {
+    public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
