@@ -6,13 +6,10 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,166 +26,197 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListRadiologyLaboratory.findAll", query = "SELECT k FROM KGLListRadiologyLaboratory k")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlID", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlID = :rlID")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlCostCenterID", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlCostCenterID = :rlCostCenterID")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlCostCenterText", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlCostCenterText = :rlCostCenterText")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlServiceDocumentation", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlServiceDocumentation = :rlServiceDocumentation")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlDescription", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlDescription = :rlDescription")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlServiceVolumePre", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlServiceVolumePre = :rlServiceVolumePre")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlAmountPre", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlAmountPre = :rlAmountPre")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlServiceVolumePost", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlServiceVolumePost = :rlServiceVolumePost")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByRlAmountPost", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k.rlAmountPost = :rlAmountPost")})
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByID", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._id = :rlID")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByCostCenterID", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._costCenterID = :rlCostCenterID")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByCostCenterText", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._costCenterText = :rlCostCenterText")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByServiceDocumentation", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._serviceDocumentation = :rlServiceDocumentation")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByDescription", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._description = :rlDescription")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByServiceVolumePre", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._serviceVolumePre = :rlServiceVolumePre")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByAmountPre", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._amountPre = :rlAmountPre")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByServiceVolumePost", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._serviceVolumePost = :rlServiceVolumePost")
+    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByAmountPost", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._amountPost = :rlAmountPost")})
 public class KGLListRadiologyLaboratory implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlID")
-    private Integer rlID;
+    private Integer _id;
+    
+    public Integer getID() {
+        return _id;
+    }
+
+    public void setID(Integer rlID) {
+        this._id = rlID;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlCostCenterID")
-    private int rlCostCenterID;
+    private int _costCenterID;
+    
+    public int getCostCenterID() {
+        return _costCenterID;
+    }
+
+    public void setCostCenterID(int rlCostCenterID) {
+        this._costCenterID = rlCostCenterID;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "rlCostCenterText")
-    private String rlCostCenterText;
+    private String _costCenterText = "";
+    
+    public String getCostCenterText() {
+        return _costCenterText;
+    }
+
+    public void setCostCenterText(String rlCostCenterText) {
+        this._costCenterText = rlCostCenterText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ServiceDocumentation">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "rlServiceDocumentation")
-    private String rlServiceDocumentation;
+    private String _serviceDocumentation = "";
+    
+    public String getServiceDocumentation() {
+        return _serviceDocumentation;
+    }
+
+    public void setServiceDocumentation(String rlServiceDocumentation) {
+        this._serviceDocumentation = rlServiceDocumentation;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Description">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size(max = 2147483647)
     @Column(name = "rlDescription")
-    private String rlDescription;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private String _description = "";
+    
+    public String getDescription() {
+        return _description;
+    }
+
+    public void setDescription(String rlDescription) {
+        this._description = rlDescription;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ServiceVolumePre">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceVolumePre")
-    private BigDecimal rlServiceVolumePre;
+    private double _serviceVolumePre;
+    
+    public double getServiceVolumePre() {
+        return _serviceVolumePre;
+    }
+
+    public void setServiceVolumePre(double rlServiceVolumePre) {
+        this._serviceVolumePre = rlServiceVolumePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="AmountPre">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlAmountPre")
-    private BigDecimal rlAmountPre;
+    private double _amountPre;
+    
+    public double getAmountPre() {
+        return _amountPre;
+    }
+
+    public void setAmountPre(double rlAmountPre) {
+        this._amountPre = rlAmountPre;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ServiceVolumePost">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceVolumePost")
-    private BigDecimal rlServiceVolumePost;
+    private double _serviceVolumePost;
+    
+    public double getServiceVolumePost() {
+        return _serviceVolumePost;
+    }
+
+    public void setServiceVolumePost(double rlServiceVolumePost) {
+        this._serviceVolumePost = rlServiceVolumePost;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="AmountPost">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlAmountPost")
-    private BigDecimal rlAmountPost;
-    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics rlBaseInformationID;
+    private double _amountPost;
+    
+    public double getAmountPost() {
+        return _amountPost;
+    }
 
+    public void setAmountPost(double rlAmountPost) {
+        this._amountPost = rlAmountPost;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
+//    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlBaseInformationID")
+    private int _baseInformationID;
+    
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int rlBaseInformationID) {
+        this._baseInformationID = rlBaseInformationID;
+    }
+    // </editor-fold>
+    
     public KGLListRadiologyLaboratory() {
     }
 
     public KGLListRadiologyLaboratory(Integer rlID) {
-        this.rlID = rlID;
+        this._id = rlID;
     }
 
-    public KGLListRadiologyLaboratory(Integer rlID, int rlCostCenterID, String rlCostCenterText, String rlServiceDocumentation, String rlDescription, BigDecimal rlServiceVolumePre, BigDecimal rlAmountPre, BigDecimal rlServiceVolumePost, BigDecimal rlAmountPost) {
-        this.rlID = rlID;
-        this.rlCostCenterID = rlCostCenterID;
-        this.rlCostCenterText = rlCostCenterText;
-        this.rlServiceDocumentation = rlServiceDocumentation;
-        this.rlDescription = rlDescription;
-        this.rlServiceVolumePre = rlServiceVolumePre;
-        this.rlAmountPre = rlAmountPre;
-        this.rlServiceVolumePost = rlServiceVolumePost;
-        this.rlAmountPost = rlAmountPost;
-    }
-
-    public Integer getRlID() {
-        return rlID;
-    }
-
-    public void setRlID(Integer rlID) {
-        this.rlID = rlID;
-    }
-
-    public int getRlCostCenterID() {
-        return rlCostCenterID;
-    }
-
-    public void setRlCostCenterID(int rlCostCenterID) {
-        this.rlCostCenterID = rlCostCenterID;
-    }
-
-    public String getRlCostCenterText() {
-        return rlCostCenterText;
-    }
-
-    public void setRlCostCenterText(String rlCostCenterText) {
-        this.rlCostCenterText = rlCostCenterText;
-    }
-
-    public String getRlServiceDocumentation() {
-        return rlServiceDocumentation;
-    }
-
-    public void setRlServiceDocumentation(String rlServiceDocumentation) {
-        this.rlServiceDocumentation = rlServiceDocumentation;
-    }
-
-    public String getRlDescription() {
-        return rlDescription;
-    }
-
-    public void setRlDescription(String rlDescription) {
-        this.rlDescription = rlDescription;
-    }
-
-    public BigDecimal getRlServiceVolumePre() {
-        return rlServiceVolumePre;
-    }
-
-    public void setRlServiceVolumePre(BigDecimal rlServiceVolumePre) {
-        this.rlServiceVolumePre = rlServiceVolumePre;
-    }
-
-    public BigDecimal getRlAmountPre() {
-        return rlAmountPre;
-    }
-
-    public void setRlAmountPre(BigDecimal rlAmountPre) {
-        this.rlAmountPre = rlAmountPre;
-    }
-
-    public BigDecimal getRlServiceVolumePost() {
-        return rlServiceVolumePost;
-    }
-
-    public void setRlServiceVolumePost(BigDecimal rlServiceVolumePost) {
-        this.rlServiceVolumePost = rlServiceVolumePost;
-    }
-
-    public BigDecimal getRlAmountPost() {
-        return rlAmountPost;
-    }
-
-    public void setRlAmountPost(BigDecimal rlAmountPost) {
-        this.rlAmountPost = rlAmountPost;
-    }
-
-    public DrgCalcBasics getRlBaseInformationID() {
-        return rlBaseInformationID;
-    }
-
-    public void setRlBaseInformationID(DrgCalcBasics rlBaseInformationID) {
-        this.rlBaseInformationID = rlBaseInformationID;
+    public KGLListRadiologyLaboratory(Integer id, int costCenterID, String costCenterText, String serviceDocumentation, String description, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
+        this._id = id;
+        this._costCenterID = costCenterID;
+        this._costCenterText = costCenterText;
+        this._serviceDocumentation = serviceDocumentation;
+        this._description = description;
+        this._serviceVolumePre = serviceVolumePre;
+        this._amountPre = amountPre;
+        this._serviceVolumePost = serviceVolumePost;
+        this._amountPost = amountPost;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (rlID != null ? rlID.hashCode() : 0);
+        hash += (_id != null ? _id.hashCode() : 0);
         return hash;
     }
 
@@ -199,7 +227,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
             return false;
         }
         KGLListRadiologyLaboratory other = (KGLListRadiologyLaboratory) object;
-        if ((this.rlID == null && other.rlID != null) || (this.rlID != null && !this.rlID.equals(other.rlID))) {
+        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
         return true;
@@ -207,7 +235,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory[ rlID=" + rlID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory[ rlID=" + _id + " ]";
     }
     
 }
