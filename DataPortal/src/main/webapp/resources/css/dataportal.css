@@ -105,7 +105,7 @@ h2 a{
 div#wrapper {
     text-align: left;
     min-width: 950px;
-    max-width: 1250px;
+    max-width: 1400px;
     height: auto;
     margin: 10px auto auto 0px;
     border-width: 0px;
@@ -533,6 +533,12 @@ div#wrapper {
     font-weight: bold;
     display:inline-block;
     width: 30%;
+}
+
+.label40 {
+    font-weight: bold;
+    display:inline-block;
+    width: 40%;
 }
 
 .element20 {

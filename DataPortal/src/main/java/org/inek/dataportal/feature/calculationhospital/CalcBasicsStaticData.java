@@ -72,6 +72,7 @@ public class CalcBasicsStaticData {
 			
     public List<SelectItem> getTimeRecordingTypeItems(){
        List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(0, "nicht dokumentiert"));
        items.add(new SelectItem(1, "als fallindividuell erfasster Wert je Mitarbeiter(in)"));
        items.add(new SelectItem(2, "als abgestufter Standardwert je OP-Art"));
        items.add(new SelectItem(3, "als Einheitswert"));
