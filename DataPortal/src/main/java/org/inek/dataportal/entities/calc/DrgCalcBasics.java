@@ -622,6 +622,9 @@ public class DrgCalcBasics implements Serializable {
     private KGLOpAn opAn;
 
     public KGLOpAn getOpAn() {
+        if (opAn == null){
+            opAn = new KGLOpAn(_id);
+        }
         return opAn;
     }
 

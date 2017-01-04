@@ -18,6 +18,8 @@ import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -118,9 +120,11 @@ public class CalcHospitalList {
                 deleteStatementOfParticipance(hospitalInfo);
                 break;
             case 1:
-                
+                deleteCalculationBasicsDrg(hospitalInfo);
+                break;
             case 2:
-                
+                deleteCalculationBasicsPepp(hospitalInfo);
+                break;
         }
         return "";
     }
@@ -133,7 +137,26 @@ public class CalcHospitalList {
         }else{
             _calcFacade.remove(statement);
         }
+    }
 
+    private void deleteCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
+        DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
+        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()){
+            calcBasics.setStatus(WorkflowStatus.Retired);
+            _calcFacade.saveCalcBasicsDrg(calcBasics);
+        }else{
+            _calcFacade.remove(calcBasics);
+        }
+    }
+
+    private void deleteCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
+        PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
+        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()){
+            calcBasics.setStatus(WorkflowStatus.Retired);
+            _calcFacade.saveCalcBasicsPepp(calcBasics);
+        }else{
+            _calcFacade.remove(calcBasics);
+        }
     }
 
     public String editHospitalInfo(int type) {

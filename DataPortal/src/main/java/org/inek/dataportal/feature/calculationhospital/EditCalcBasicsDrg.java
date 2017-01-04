@@ -32,6 +32,7 @@ import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -69,30 +70,40 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Object id = params.get("id");
-        if (id == null) {
+        String id = "" + params.get("id");
+        if (id.equals("new")) {
+            _calcBasics = newCalcBasicsDrg();
+        } else if (Utils.isInteger(id)) {
+            _calcBasics = loadCalcBasicsDrg(id);
+            retrievePriorData(_calcBasics);
+        } else {
+            Utils.navigate(Pages.Error.RedirectURL());
             return;
         }
-        if (id.toString().equals("new")) {
-            _calcBasics = newCalcBasicsDrg();
-        } else {
-            _calcBasics = loadCalcBasicsDrg(id);
-        }
-        updateIk();
         ensureTopList();
     }
 
-    public void updateIk() {
-        if (_calcBasics != null) {
-            Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
-            _hospitalInfo = c.getName() + ", " + c.getTown();
-            _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(_calcBasics);
-        }
+    public void retrievePriorData(DrgCalcBasics calcBasics) {
+            _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
     }
 
-    private DrgCalcBasics loadCalcBasicsDrg(Object idObject) {
+    public void ikChanged() {
+        retrievePriorData(_calcBasics);
+        preloadData(_calcBasics);
+    }
+
+    private void preloadData(DrgCalcBasics calcBasics) {
+        KGLOpAn opAn = _priorCalcBasics.getOpAn();
+        opAn.setMedicalServiceAmountOP(0);
+        opAn.setMedicalServiceAmountAN(0);
+        opAn.setFunctionalServiceAmountOP(0);
+        opAn.setFunctionalServiceAmountAN(0);
+        calcBasics.setOpAn(opAn);
+    }
+    
+    private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         try {
-            int id = Integer.parseInt("" + idObject);
+            int id = Integer.parseInt(idObject);
             DrgCalcBasics statement = _calcFacade.findCalcBasicsDrg(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
@@ -108,6 +119,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         DrgCalcBasics calcBasic = new DrgCalcBasics();
         calcBasic.setAccountId(account.getId());
         calcBasic.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        if (getIks().size() == 1){
+            calcBasic.setIk((int) getIks().get(0).getValue());
+        }
+        retrievePriorData(calcBasic);
+        preloadData(calcBasic);
         return calcBasic;
     }
 
@@ -275,6 +291,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
+    // todo: move into entity
     private void ensureTopList() {
         if (_calcBasics.getKGLListKstTopList() == null) {
             _calcBasics.setKGLListKstTopList(new Vector<>());
@@ -310,21 +327,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             for (int ik : iks) {
                 items.add(new SelectItem(ik));
             }
-            if (_calcBasics != null && _calcBasics.getIk() <= 0) {
-                items.add(0, new SelectItem(""));
-            }
             _iks = items;
         }
         return _iks;
     }
 
-    String _hospitalInfo = "";
-
     public String getHospitalInfo() {
-        return _hospitalInfo;
+        Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
+        if (c == null){return "";}
+        return c.getName() + ", " + c.getTown();
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
         if (calcBasics.getNeonateData() != null && !calcBasics.getNeonateData().isEmpty()) {
@@ -382,4 +396,5 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return "" + (data.getData() - priorValue);
     }
     // </editor-fold>    
+
 }

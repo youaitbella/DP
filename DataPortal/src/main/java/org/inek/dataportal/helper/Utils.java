@@ -327,4 +327,13 @@ public class Utils {
                 .replace("\u00c3\u00bc", "ü")
                 .replace("\u00c3\u0178", "ß");
     }
+
+    public static boolean isInteger(String numString) {
+        try {
+            Integer.parseInt(numString);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
 }
