@@ -25,7 +25,6 @@ import javax.persistence.PreUpdate;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.Transient;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -619,7 +618,7 @@ public class DrgCalcBasics implements Serializable {
     }
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn(name = "oaBaseInformationID")
+    @PrimaryKeyJoinColumn(name = "biID")
     private KGLOpAn opAn;
 
     public KGLOpAn getOpAn() {

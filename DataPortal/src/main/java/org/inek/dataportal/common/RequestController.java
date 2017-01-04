@@ -50,22 +50,40 @@ public class RequestController implements Serializable {
     }
 
     public void forceLogoutIfLoggedIn(ComponentSystemEvent e) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        String viewId = facesContext.getViewRoot().getViewId();
-        tryLogout(viewId);
-        if (!viewId.equals(Pages.NotAllowed.URL())) {
-            return;
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String viewId = facesContext.getViewRoot().getViewId();
+            tryLogout(viewId);
+            if (!viewId.equals(Pages.NotAllowed.URL())) {
+                return;
+            }
+            String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
+            if (url == null) {
+                url = "";
+            }
+            if (Utils.getClientIP().startsWith("192.168.0.")) {
+                return;
+            }
+            if (url.endsWith("/favicon.ico")) {
+                return;
+            }
+            if (url.endsWith("/wpad.dat")) {
+                return;
+            }
+            if (url.endsWith("/browserconfig.xml")) {
+                return;
+            }
+            if (url.endsWith("/apple-touch-icon.png")) {
+                return;
+            }
+            if (url.endsWith("/apple-touch-icon-precomposed.png")) {
+                return;
+            }
+            // log, if none of the well known accesses
+            _sessionController.logMessage("Invalid access: URL:" + url + "; IP=" + Utils.getClientIP());
+        } catch (Exception ex) {
+            _sessionController.logMessage("Invalid access: Error:" + ex.getMessage() + "; IP=" + Utils.getClientIP());
         }
-        String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
-        if (url == null){url = "";}
-        if (Utils.getClientIP().startsWith("192.168.0.")){return;}
-        if (url.endsWith("/favicon.ico")){return;}
-        if (url.endsWith("/wpad.dat")){return;}
-        if (url.endsWith("/browserconfig.xml")){return;}
-        if (url.endsWith("/apple-touch-icon.png")){return;}
-        if (url.endsWith("/apple-touch-icon-precomposed.png")){return;}
-        // log, if none of the well known accesses
-        _sessionController.logMessage("Invalid access: URL:" + url + "; IP=" + Utils.getClientIP());
         Utils.sleep(500);  // force client to wait a bit
     }
 
