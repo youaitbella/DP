@@ -215,7 +215,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     private void saveTopItems(DrgCalcBasics calcBasics) {
-        for (KGLListKstTop item : calcBasics.getKGLListKstTopList()) {
+        for (KGLListKstTop item : calcBasics.getKstTop()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
