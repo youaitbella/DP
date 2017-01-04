@@ -19,8 +19,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -616,8 +618,8 @@ public class DrgCalcBasics implements Serializable {
         this.kGLRadiologyServiceList = kGLRadiologyServiceList;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn(name = "oaBaseInformationID")
     private List<KGLOpAn> kGLOpAnList;
 
     public List<KGLOpAn> getKGLOpAnList() {
