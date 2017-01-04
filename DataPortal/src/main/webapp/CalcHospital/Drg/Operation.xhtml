@@ -89,18 +89,18 @@
         <h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle" styleClass="blockHeader"/>
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
         </div>
 
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" disabled="true"/>
         </div>
 
         <div class="inputPart">
