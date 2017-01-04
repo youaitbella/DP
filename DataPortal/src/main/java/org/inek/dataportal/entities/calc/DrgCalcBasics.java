@@ -900,7 +900,7 @@ public class DrgCalcBasics implements Serializable {
     
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rlBaseInformationID")//, referencedColumnName = "rlID")
+    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
     private List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList;
 
     @XmlTransient
@@ -914,7 +914,7 @@ public class DrgCalcBasics implements Serializable {
     
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ogBaseInformationID")//, referencedColumnName = "ogID")
+    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
     private List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList;
 
     @XmlTransient
@@ -928,7 +928,7 @@ public class DrgCalcBasics implements Serializable {
     
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rsBaseInformationID")//, referencedColumnName = "rsID")
+    @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
     private List<KGLRadiologyService> kGLRadiologyServiceList;
 
     @XmlTransient
@@ -956,7 +956,7 @@ public class DrgCalcBasics implements Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "_baseInformationId")
+    @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biId")
     private List<KGLListServiceProvision> kGLListServiceProvisionList;
 
     @XmlTransient
@@ -985,7 +985,7 @@ public class DrgCalcBasics implements Serializable {
     
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "edBaseInformationID")//, referencedColumnName = "edID")
+    @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
     private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
     @XmlTransient
     public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
@@ -998,32 +998,32 @@ public class DrgCalcBasics implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nfcBaseInformationID")//, referencedColumnName = "nfcID")
+    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalFeeContract> kGLNormalFeeContractList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nfBaseInformationID")//, referencedColumnName = "nfID")
+    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalFreelancer> kGLNormalFreelancerList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "isBaseInformationID")//, referencedColumnName = "isID")
+    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
     private List<KGLListIntensivStroke> kGLListIntensivStrokeList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "miBaseInformationID")//, referencedColumnName = "miID")
+    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
     private List<KGLListMedInfra> kGLListMedInfraList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID")//, referencedColumnName = "paID")
+    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     private List<KGLPersonalAccounting> kGLPersonalAccountingList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ndBaseInformationID")//, referencedColumnName = "ndID")
+    @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biID")
     private List<DrgNeonatData> _neonateData;
 
     public List<DrgNeonatData> getNeonateData() {
@@ -1036,22 +1036,22 @@ public class DrgCalcBasics implements Serializable {
         
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nssBaseInformationID")//, referencedColumnName = "nssID")
+    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalStationServiceDocumentation> kGLNormalStationServiceDocumentationList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "iscBaseInformationID")//, referencedColumnName = "iscID")
+    @JoinColumn(name = "iscBaseInformationID", referencedColumnName = "biID")
     private List<KGLListIntensiveStrokeCost> kGLListIntensiveStrokeCostList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cccBaseInformationID")//, referencedColumnName = "cccID")    
+    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")    
     private List<KGLListCostCenterCost> kGLListCostCenterCostList;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID")//, referencedColumnName = "paID")    
+    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")    
     private List<KGLPKMSAlternative> kGLPKMSAlternativeList;
     
     
