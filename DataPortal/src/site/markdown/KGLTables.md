@@ -127,7 +127,6 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Kostenvolumen vor Abgrenzung||rlAmountPre|
 |||Leistungsvolumen nach Abgrenzung||rlServiceVolumePost|
 |||Kostenvolumen nach Abgrenzung||rlAmountPost|
-
 |Leistungsdokumentation (KST 11-13)|||KGLListCostCenter||
 |||Kostenstelle||ccCostCenterID|
 |||Name Kostenstelle||ccCostCenterText|
