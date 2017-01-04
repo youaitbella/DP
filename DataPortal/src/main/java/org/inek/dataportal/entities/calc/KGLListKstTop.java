@@ -51,70 +51,70 @@ public class KGLListKstTop implements Serializable {
     }
 
     @Column(name = "ktText")
-    private String ktText = "";
+    private String text = "";
 
-    public String getKtText() {
-        return ktText;
+    public String getText() {
+        return text;
     }
 
-    public void setKtText(String ktText) {
-        this.ktText = ktText;
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Column(name = "ktCaseCnt")
-    private int ktCaseCnt;
+    private int caseCount;
 
-    public int getKtCaseCnt() {
-        return ktCaseCnt;
+    public int getCaseCount() {
+        return caseCount;
     }
 
-    public void setKtCaseCnt(int ktCaseCnt) {
-        this.ktCaseCnt = ktCaseCnt;
+    public void setCaseCount(int caseCount) {
+        this.caseCount = caseCount;
     }
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ktAmount")
-    private double ktAmount;
+    private double amount;
 
-    public double getKtAmount() {
-        return ktAmount;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setKtAmount(double ktAmount) {
-        this.ktAmount = ktAmount;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     @Column(name = "ktDelimitationAmount")
-    private double ktDelimitationAmount;
+    private double delimitationAmount;
 
-    public double getKtDelimitationAmount() {
-        return ktDelimitationAmount;
+    public double getDelimitationAmount() {
+        return delimitationAmount;
     }
 
-    public void setKtDelimitationAmount(double ktDelimitationAmount) {
-        this.ktDelimitationAmount = ktDelimitationAmount;
+    public void setDelimitationAmount(double delimitationAmount) {
+        this.delimitationAmount = delimitationAmount;
     }
 
     @Column(name = "ktRank")
-    private int ktRank;
+    private int rank;
 
-    public int getKtRank() {
-        return ktRank;
+    public int getRank() {
+        return rank;
     }
 
-    public void setKtRank(int ktRank) {
-        this.ktRank = ktRank;
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     @Column(name = "ktBaseInformationID")
-    private int ktBaseInformationID;
+    private int baseInformationID;
 
-    public int getKtBaseInformationID() {
-        return ktBaseInformationID;
+    public int getBaseInformationID() {
+        return baseInformationID;
     }
 
-    public void setKtBaseInformationID(int ktBaseInformationID) {
-        this.ktBaseInformationID = ktBaseInformationID;
+    public void setBaseInformationID(int baseInformationID) {
+        this.baseInformationID = baseInformationID;
     }
 
     public KGLListKstTop() {
@@ -127,11 +127,11 @@ public class KGLListKstTop implements Serializable {
     public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, double ktAmount, double ktDelimitationAmount, int ktRank) {
         this.id = ktID;
         this.ktCostCenterID = ktCostCenterID;
-        this.ktText = ktText;
-        this.ktCaseCnt = ktCaseCnt;
-        this.ktAmount = ktAmount;
-        this.ktDelimitationAmount = ktDelimitationAmount;
-        this.ktRank = ktRank;
+        this.text = ktText;
+        this.caseCount = ktCaseCnt;
+        this.amount = ktAmount;
+        this.delimitationAmount = ktDelimitationAmount;
+        this.rank = ktRank;
     }
 
     @Override

@@ -104,20 +104,50 @@
         </div>
 
     </div>
+
+    <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
+
     <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
         <h:column>
             <f:facet name="header">#{msg.lblTopAmbulantService}</f:facet>
-            <inek:InputTextWithMessage value="#{item.ktText}"/>
+            <inek:InputTextWithMessage value="#{item.text}"/>
         </h:column>
         <h:column>
             <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+            <inek:InputTextWithMessage value="#{item.caseCount}"/>
         </h:column>
         <h:column>
             <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+            <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
         </h:column>
         <h:column>
             <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+            <inek:InputTextWithMessage value="#{item.amount}"/>
         </h:column>
     </h:dataTable>
+
+    <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
+        <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+
+        <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
+            <h:column>
+                <f:facet name="header">#{msg.lblTopAmbulantService}</f:facet>
+                <h:inputText value="#{item.text}" disabled="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                <h:inputText value="#{item.caseCount}" disabled="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                <h:inputText value="#{item.delimitationAmount}" disabled="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                <h:inputText value="#{item.amount}" disabled="true"/>
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+
 </ui:composition>
 

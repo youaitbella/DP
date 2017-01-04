@@ -133,7 +133,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics = calcBasics;
     }
 
+    public DrgCalcBasics getPriorCalcBasics() {
+        return _priorCalcBasics;
+    }
+
+    public void setPriorCalcBasics(DrgCalcBasics priorCalcBasics) {
+        this._priorCalcBasics = priorCalcBasics;
+    }
     // </editor-fold>
+
     @Override
     protected void addTopics() {
         addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
@@ -279,7 +287,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_calcBasics.getKGLListKstTopList().stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
             for (int i = 0; i < count; i++) {
                 KGLListKstTop item = new KGLListKstTop();
-                item.setKtBaseInformationID(_calcBasics.getId());
+                item.setBaseInformationID(_calcBasics.getId());
                 item.setKtCostCenterID(costCenterId);
                 _calcBasics.getKGLListKstTopList().add(item);
             }
