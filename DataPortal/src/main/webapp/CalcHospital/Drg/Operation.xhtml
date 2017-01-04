@@ -12,8 +12,16 @@
 
     <h2 title="#{msg.titleCalcOperation}">#{msg.lblCalcOpAn}</h2>
 
-    <inek:LabeledText label="#{msg.lblCentralOR}" value="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt}" singleLine="true" styleClass="inputSmall marginLeft" styleClassLabel="label20" title="#{msg.titleCalcCountOR}"/>
-
+    <inek:LabeledText label="#{msg.lblCentralOR}" 
+                      value="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt}"
+                      renderElement="@form"
+                      singleLine="true" 
+                      styleClass="inputSmall marginLeft marginRight" 
+                      styleClassComponent="inputPart inlineBlock"
+                      title="#{msg.titleCalcCountOR}"/>
+    
+    <h:commandLink styleClass="button marginLeft" value="#{msg.btnRefresh}"/>
+    
     <div jsf:id="opInfo" jsf:rendered="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt gt 0}">
         <hr/>
         <div>
@@ -103,51 +111,50 @@
             <h:inputText value="12345" styleClass="element20" disabled="true"/>
         </div>
 
-    </div>
+        <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
-    <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
-
-    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
-        <h:column>
-            <f:facet name="header">#{msg.lblNotation}</f:facet>
-            <inek:InputTextWithMessage value="#{item.text}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-            <inek:InputTextWithMessage value="#{item.caseCount}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-            <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-            <inek:InputTextWithMessage value="#{item.amount}"/>
-        </h:column>
-    </h:dataTable>
-
-    <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
-        <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
-
-        <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
             <h:column>
                 <f:facet name="header">#{msg.lblNotation}</f:facet>
-                <h:inputText value="#{item.text}" disabled="true"/>
+                <inek:InputTextWithMessage value="#{item.text}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                <h:inputText value="#{item.caseCount}" disabled="true"/>
+                <inek:InputTextWithMessage value="#{item.caseCount}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                <h:inputText value="#{item.delimitationAmount}" disabled="true"/>
+                <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                <h:inputText value="#{item.amount}" disabled="true"/>
+                <inek:InputTextWithMessage value="#{item.amount}"/>
             </h:column>
         </h:dataTable>
-    </h:panelGroup>
+
+        <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
+            <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+
+            <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
+                <h:column>
+                    <f:facet name="header">#{msg.lblNotation}</f:facet>
+                    <h:inputText value="#{item.text}" disabled="true"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                    <h:inputText value="#{item.caseCount}" disabled="true"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                    <h:inputText value="#{item.delimitationAmount}" disabled="true"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                    <h:inputText value="#{item.amount}" disabled="true"/>
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
+    </div>
 
 </ui:composition>
 
