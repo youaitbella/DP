@@ -24,20 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListRadiologyLaboratory", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListRadiologyLaboratory.findAll", query = "SELECT k FROM KGLListRadiologyLaboratory k")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByID", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._id = :rlID")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByCostCenterID", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._costCenterID = :rlCostCenterID")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByCostCenterText", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._costCenterText = :rlCostCenterText")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByServiceDocumentation", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._serviceDocumentation = :rlServiceDocumentation")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByDescription", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._description = :rlDescription")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByServiceVolumePre", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._serviceVolumePre = :rlServiceVolumePre")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByAmountPre", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._amountPre = :rlAmountPre")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByServiceVolumePost", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._serviceVolumePost = :rlServiceVolumePost")
-    , @NamedQuery(name = "KGLListRadiologyLaboratory.findByAmountPost", query = "SELECT k FROM KGLListRadiologyLaboratory k WHERE k._amountPost = :rlAmountPost")})
 public class KGLListRadiologyLaboratory implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
@@ -45,12 +35,12 @@ public class KGLListRadiologyLaboratory implements Serializable {
     @Column(name = "rlID")
     private Integer _id;
     
-    public Integer getID() {
+    public Integer getId() {
         return _id;
     }
 
-    public void setID(Integer rlID) {
-        this._id = rlID;
+    public void setId(Integer rlId) {
+        this._id = rlId;
     }
     // </editor-fold>
 
@@ -117,22 +107,77 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="ServiceDocumentation">
     @Basic(optional = false)
     @NotNull
-    @Size(max = 200)
-    @Column(name = "rlServiceDocumentation")
-    private String _serviceDocumentation = "";
+    @Column(name = "rlServiceDocHome")
+    private boolean _serviceDocHome;
+
+    public boolean isServiceDocHome() {
+        return _serviceDocHome;
+    }
+
+    public void setServiceDocHome(boolean serviceDocHome) {
+        this._serviceDocHome = serviceDocHome;
+    }
     
-    public String getServiceDocumentation() {
-        return _serviceDocumentation;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlServiceDocDKG")
+    private boolean _serviceDocDKG;
+
+    public boolean isServiceDocDKG() {
+        return _serviceDocDKG;
     }
 
-    public void setServiceDocumentation(String rlServiceDocumentation) {
-        this._serviceDocumentation = rlServiceDocumentation;
+    public void setServiceDocDKG(boolean serviceDocDKG) {
+        this._serviceDocDKG = serviceDocDKG;
     }
-    // </editor-fold>
+    
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlServiceDocEBM")
+    private boolean _serviceDocEBM;
 
+    public boolean isServiceDocEBM() {
+        return _serviceDocEBM;
+    }
+
+    public void setServiceDocEBM(boolean serviceDocEBM) {
+        this._serviceDocEBM = serviceDocEBM;
+    }
+    
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlServiceDocGOA")
+    private boolean _serviceDocGOA;
+
+    public boolean isServiceDocGOA() {
+        return _serviceDocGOA;
+    }
+
+    public void setServiceDocGOA(boolean serviceDocGOA) {
+        this._serviceDocGOA = serviceDocGOA;
+    }
+    
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlServiceDocDif")
+    private boolean _serviceDocDif;
+
+    public boolean isServiceDocDif() {
+        return _serviceDocDif;
+    }
+
+    public void setServiceDocDif(boolean serviceDocDif) {
+        this._serviceDocDif = serviceDocDif;
+    }
+    
+    
+    
     // <editor-fold defaultstate="collapsed" desc="Description">
     @Basic(optional = false)
     @NotNull
@@ -217,12 +262,16 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._id = rlID;
     }
 
-    public KGLListRadiologyLaboratory(Integer id, int costCenterID, String costCenterText, String serviceDocumentation, String description, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
+    public KGLListRadiologyLaboratory(Integer id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
         this._id = id;
+        this._baseInformationID = baseInformationID;
+        this._costTypeID = costTypeID;
         this._costCenterID = costCenterID;
-        this._costCenterText = costCenterText;
-        this._serviceDocumentation = serviceDocumentation;
-        this._description = description;
+        this._serviceDocHome = serviceDocHome;
+        this._serviceDocDKG = serviceDocDKG;
+        this._serviceDocEBM = serviceDocEBM;
+        this._serviceDocGOA = serviceDocGOA;
+        this._serviceDocDif = serviceDocDif;
         this._serviceVolumePre = serviceVolumePre;
         this._amountPre = amountPre;
         this._serviceVolumePost = serviceVolumePost;
