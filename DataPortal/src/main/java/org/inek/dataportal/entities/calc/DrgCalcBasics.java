@@ -13,7 +13,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +43,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
 public class DrgCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,16 +51,16 @@ public class DrgCalcBasics implements Serializable {
     @NotNull
     @Column(name = "biID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Basic(optional = false)
     @NotNull
@@ -76,7 +75,7 @@ public class DrgCalcBasics implements Serializable {
         this._dataYear = dataYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="ik">
     @Basic(optional = false)
     @NotNull
@@ -91,7 +90,7 @@ public class DrgCalcBasics implements Serializable {
         this._ik = ik;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="hospitalName">
     @Basic(optional = false)
     @NotNull
@@ -107,7 +106,7 @@ public class DrgCalcBasics implements Serializable {
         this._hospitalName = hospitalName;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="accountID">
     @Basic(optional = false)
     @NotNull
@@ -122,7 +121,7 @@ public class DrgCalcBasics implements Serializable {
         this._accountId = accountId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="lastChanged">
     @Basic(optional = false)
     @NotNull
@@ -138,7 +137,7 @@ public class DrgCalcBasics implements Serializable {
         this._lastChanged = lastChanged;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="statusID">
     @Basic(optional = false)
     @NotNull
@@ -152,7 +151,7 @@ public class DrgCalcBasics implements Serializable {
     public void setStatusID(int statusID) {
         this._statusId = statusID;
     }
-    
+
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -160,9 +159,8 @@ public class DrgCalcBasics implements Serializable {
     public void setStatus(WorkflowStatus status) {
         _statusId = status.getValue();
     }
-    
+
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="deliveryType">
     @Basic(optional = false)
     @NotNull
@@ -177,7 +175,7 @@ public class DrgCalcBasics implements Serializable {
         this._deliveryType = deliveryType;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="correctionNote">
     @Basic(optional = false)
     @NotNull
@@ -193,7 +191,7 @@ public class DrgCalcBasics implements Serializable {
         this._correctionNote = correctionNote;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Basic(optional = false)
     @NotNull
@@ -208,7 +206,7 @@ public class DrgCalcBasics implements Serializable {
         this._sumCalcCost = sumCalcCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="caseInStationCnt">
     @Basic(optional = false)
     @NotNull
@@ -223,7 +221,7 @@ public class DrgCalcBasics implements Serializable {
         this._caseInStationCnt = caseInStationCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
     @Basic(optional = false)
     @NotNull
@@ -238,7 +236,7 @@ public class DrgCalcBasics implements Serializable {
         this._casePartialStationCnt = casePartialStationCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="daysPartialStation">
     @Basic(optional = false)
     @NotNull
@@ -253,7 +251,7 @@ public class DrgCalcBasics implements Serializable {
         this._daysPartialStation = daysPartialStation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="patientEscort">
     @Basic(optional = false)
     @NotNull
@@ -268,7 +266,7 @@ public class DrgCalcBasics implements Serializable {
         this._patientEscort = patientEscort;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="preStation">
     @Basic(optional = false)
     @NotNull
@@ -283,7 +281,7 @@ public class DrgCalcBasics implements Serializable {
         this._preStation = preStation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="beds">
     @Basic(optional = false)
     @NotNull
@@ -298,7 +296,7 @@ public class DrgCalcBasics implements Serializable {
         this._beds = beds;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="partialCnt">
     @Basic(optional = false)
     @NotNull
@@ -313,7 +311,7 @@ public class DrgCalcBasics implements Serializable {
         this._partialCnt = partialCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="locationCnt">
     @Basic(optional = false)
     @NotNull
@@ -328,7 +326,7 @@ public class DrgCalcBasics implements Serializable {
         this._locationCnt = locationCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="difLocationSupply">
     @Basic(optional = false)
     @NotNull
@@ -343,7 +341,7 @@ public class DrgCalcBasics implements Serializable {
         this._difLocationSupply = difLocationSupply;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="specialUnit">
     @Basic(optional = false)
     @NotNull
@@ -358,7 +356,7 @@ public class DrgCalcBasics implements Serializable {
         this._specialUnit = specialUnit;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="centralFocus">
     @Basic(optional = false)
     @NotNull
@@ -373,7 +371,7 @@ public class DrgCalcBasics implements Serializable {
         this._centralFocus = centralFocus;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Basic(optional = false)
     @NotNull
@@ -388,7 +386,7 @@ public class DrgCalcBasics implements Serializable {
         this._neonatLvl = neonatLvl;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Basic(optional = false)
     @NotNull
@@ -403,7 +401,7 @@ public class DrgCalcBasics implements Serializable {
         this._gynecology = gynecology;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="obstetrical">
     @Basic(optional = false)
     @NotNull
@@ -418,7 +416,7 @@ public class DrgCalcBasics implements Serializable {
         this._obstetrical = obstetrical;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomHours">
     @Basic(optional = false)
     @NotNull
@@ -433,7 +431,7 @@ public class DrgCalcBasics implements Serializable {
         this._deliveryRoomHours = deliveryRoomHours;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomPreBirthHabitationCnt">
     @Basic(optional = false)
     @NotNull
@@ -448,7 +446,7 @@ public class DrgCalcBasics implements Serializable {
         this._deliveryRoomPreBirthHabitationCnt = deliveryRoomPreBirthHabitationCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomInstationBirthCnt">
     @Basic(optional = false)
     @NotNull
@@ -463,7 +461,7 @@ public class DrgCalcBasics implements Serializable {
         this._deliveryRoomInstationBirthCnt = deliveryRoomInstationBirthCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
     @Basic(optional = false)
     @NotNull
@@ -478,11 +476,10 @@ public class DrgCalcBasics implements Serializable {
         this._noDeliveryRoomHabitation = noDeliveryRoomHabitation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomOrganizationalStructure">
     @Basic(optional = false)
     @NotNull
-    @Size(max = 2147483647)
     @Column(name = "biDeliveryRoomOrganizationalStructure")
     private String _deliveryRoomOrganizationalStructure = "";
 
@@ -494,7 +491,7 @@ public class DrgCalcBasics implements Serializable {
         this._deliveryRoomOrganizationalStructure = deliveryRoomOrganizationalStructure;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="cardiology">
     @Basic(optional = false)
     @NotNull
@@ -509,7 +506,7 @@ public class DrgCalcBasics implements Serializable {
         this._cardiology = cardiology;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="cardiologyRoomCnt">
     @Basic(optional = false)
     @NotNull
@@ -524,7 +521,7 @@ public class DrgCalcBasics implements Serializable {
         this._cardiologyRoomCnt = cardiologyRoomCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="cardiologyCaseCnt">
     @Basic(optional = false)
     @NotNull
@@ -539,7 +536,7 @@ public class DrgCalcBasics implements Serializable {
         this._cardiologyCaseCnt = cardiologyCaseCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="endoscopy">
     @Basic(optional = false)
     @NotNull
@@ -554,7 +551,7 @@ public class DrgCalcBasics implements Serializable {
         this._endoscopy = endoscopy;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="endoscopyRoomCnt">
     @Basic(optional = false)
     @NotNull
@@ -569,7 +566,7 @@ public class DrgCalcBasics implements Serializable {
         this._endoscopyRoomCnt = endoscopyRoomCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="endoscopyCaseCnt">
     @Basic(optional = false)
     @NotNull
@@ -584,7 +581,7 @@ public class DrgCalcBasics implements Serializable {
         this._endoscopyCaseCnt = endoscopyCaseCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
     @Basic(optional = false)
     @NotNull
@@ -599,7 +596,7 @@ public class DrgCalcBasics implements Serializable {
         this._minimalValvularIntervention = minimalValvularIntervention;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="mviFulfilled">
     @Basic(optional = false)
     @NotNull
@@ -614,7 +611,7 @@ public class DrgCalcBasics implements Serializable {
         this._mviFulfilled = mviFulfilled;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="mviGuidelineAspired">
     @Basic(optional = false)
     @NotNull
@@ -629,7 +626,7 @@ public class DrgCalcBasics implements Serializable {
         this._mviGuidelineAspired = mviGuidelineAspired;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="normalFreelancing">
     @Basic(optional = false)
     @NotNull
@@ -644,7 +641,7 @@ public class DrgCalcBasics implements Serializable {
         this._normalFreelancing = normalFreelancing;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="feeContract">
     @Basic(optional = false)
     @NotNull
@@ -659,7 +656,7 @@ public class DrgCalcBasics implements Serializable {
         this._feeContract = feeContract;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
     @Basic(optional = false)
     @NotNull
@@ -674,7 +671,7 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsRecording = pkmsRecording;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="pkmsCaseCnt">
     @Basic(optional = false)
     @NotNull
@@ -689,7 +686,7 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsCaseCnt = pkmsCaseCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="kisIntegration">
     @Basic(optional = false)
     @NotNull
@@ -704,11 +701,10 @@ public class DrgCalcBasics implements Serializable {
         this._kisIntegration = kisIntegration;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="normalStationOther">
     @Basic(optional = false)
     @NotNull
-    @Size( max = 2147483647)
     @Column(name = "biNormalStationOther")
     private String _normalStationOther = "";
     
@@ -720,7 +716,7 @@ public class DrgCalcBasics implements Serializable {
         this._normalStationOther = normalStationOther;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="approximationMethodMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -735,7 +731,7 @@ public class DrgCalcBasics implements Serializable {
         this._approximationMethodMedInfra = approximationMethodMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="stepladderMethodMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -750,7 +746,7 @@ public class DrgCalcBasics implements Serializable {
         this._stepladderMethodMedInfra = stepladderMethodMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="extensionMethodMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -765,7 +761,7 @@ public class DrgCalcBasics implements Serializable {
         this._extensionMethodMedInfra = extensionMethodMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -780,7 +776,7 @@ public class DrgCalcBasics implements Serializable {
         this._otherMethodMedInfra = otherMethodMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="approximationMethodNonMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -795,7 +791,7 @@ public class DrgCalcBasics implements Serializable {
         this._approximationMethodNonMedInfra = approximationMethodNonMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="stepladderMethodNonMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -810,7 +806,7 @@ public class DrgCalcBasics implements Serializable {
         this._stepladderMethodNonMedInfra = stepladderMethodNonMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="extensionMethodNonMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -825,7 +821,7 @@ public class DrgCalcBasics implements Serializable {
         this._extensionMethodNonMedInfra = extensionMethodNonMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
     @Basic(optional = false)
     @NotNull
@@ -840,7 +836,7 @@ public class DrgCalcBasics implements Serializable {
         this._otherMethodNonMedInfra = otherMethodNonMedInfra;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Basic(optional = false)
     @NotNull
@@ -855,7 +851,7 @@ public class DrgCalcBasics implements Serializable {
         this._intensiveBed = intensiveBed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="intensiveStrokeBed">
     @Basic(optional = false)
     @NotNull
@@ -870,9 +866,9 @@ public class DrgCalcBasics implements Serializable {
         this._intensiveStrokeBed = intensiveStrokeBed;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
@@ -884,10 +880,11 @@ public class DrgCalcBasics implements Serializable {
         this._delimitationFacts = _delimitationFacts;
     }
     // </editor-fold>
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
     private List<KGLListCostCenter> kGLListCostCenterList;
+
     @XmlTransient
     public List<KGLListCostCenter> getKGLListCostCenterList() {
         return kGLListCostCenterList;
@@ -896,7 +893,6 @@ public class DrgCalcBasics implements Serializable {
     public void setKGLListCostCenterList(List<KGLListCostCenter> kGLListCostCenterList) {
         this.kGLListCostCenterList = kGLListCostCenterList;
     }
-    
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
@@ -910,7 +906,6 @@ public class DrgCalcBasics implements Serializable {
     public void setKGLListRadiologyLaboratoryList(List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList) {
         this.kGLListRadiologyLaboratoryList = kGLListRadiologyLaboratoryList;
     }
-    
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
@@ -924,7 +919,6 @@ public class DrgCalcBasics implements Serializable {
     public void setKGLListObstetricsGynecologyList(List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList) {
         this.kGLListObstetricsGynecologyList = kGLListObstetricsGynecologyList;
     }
-    
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
@@ -944,7 +938,7 @@ public class DrgCalcBasics implements Serializable {
     private KGLOpAn _opAn;
 
     public KGLOpAn getOpAn() {
-        if (_opAn == null){
+        if (_opAn == null) {
             _opAn = new KGLOpAn(_id);
         }
         return _opAn;
@@ -966,11 +960,9 @@ public class DrgCalcBasics implements Serializable {
     public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
         this.kGLListServiceProvisionList = kGLListServiceProvisionList;
     }
-    
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
-    //@Transient
     private List<KGLListKstTop> kGLListKstTopList;
 
     @XmlTransient
@@ -981,11 +973,11 @@ public class DrgCalcBasics implements Serializable {
     public void setKGLListKstTopList(List<KGLListKstTop> kGLListKstTopList) {
         this.kGLListKstTopList = kGLListKstTopList;
     }
-    
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
     private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
+
     @XmlTransient
     public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
         return kGLListEndoscopyDifferentialList;
@@ -995,32 +987,26 @@ public class DrgCalcBasics implements Serializable {
         this.kGLListEndoscopyDifferentialList = kGLListEndoscopyDifferentialList;
     }
 
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalFeeContract> kGLNormalFeeContractList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalFreelancer> kGLNormalFreelancerList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
     private List<KGLListIntensivStroke> kGLListIntensivStrokeList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
     private List<KGLListMedInfra> kGLListMedInfraList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     private List<KGLPersonalAccounting> kGLPersonalAccountingList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biID")
     private List<DrgNeonatData> _neonateData;
@@ -1032,29 +1018,23 @@ public class DrgCalcBasics implements Serializable {
     public void setNeonateData(List<DrgNeonatData> neonateData) {
         this._neonateData = neonateData;
     }
-        
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalStationServiceDocumentation> kGLNormalStationServiceDocumentationList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "iscBaseInformationID", referencedColumnName = "biID")
     private List<KGLListIntensiveStrokeCost> kGLListIntensiveStrokeCostList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")    
+    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
     private List<KGLListCostCenterCost> kGLListCostCenterCostList;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")    
+    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     private List<KGLPKMSAlternative> kGLPKMSAlternativeList;
-    
-    
-    
+
     public DrgCalcBasics() {
     }
 
@@ -1119,7 +1099,6 @@ public class DrgCalcBasics implements Serializable {
         this._intensiveStrokeBed = biIntensiveStrokeBed;
     }
 
-
     @Override
     public int hashCode() {
         return _id;
@@ -1138,5 +1117,5 @@ public class DrgCalcBasics implements Serializable {
     public String toString() {
         return "org.inek.dataportal.entities.calc.DrgCalcBasics[ biID=" + _id + " ]";
     }
-    
+
 }

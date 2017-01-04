@@ -39,6 +39,18 @@ public class KGLListKstTop implements Serializable {
         this.id = id;
     }
 
+    @Column(name = "ktBaseInformationID")
+    private int baseInformationID;
+
+    public int getBaseInformationID() {
+        return baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this.baseInformationID = baseInformationID;
+    }
+
+    
     @Column(name = "ktCostCenterID")
     private int ktCostCenterID;
 
@@ -104,17 +116,6 @@ public class KGLListKstTop implements Serializable {
 
     public void setRank(int rank) {
         this.rank = rank;
-    }
-
-    @Column(name = "ktBaseInformationID")
-    private int baseInformationID;
-
-    public int getBaseInformationID() {
-        return baseInformationID;
-    }
-
-    public void setBaseInformationID(int baseInformationID) {
-        this.baseInformationID = baseInformationID;
     }
 
     public KGLListKstTop() {
