@@ -91,22 +91,6 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="hospitalName">
-    @Basic(optional = false)
-    @NotNull
-    @Size(max = 70)
-    @Column(name = "biHospitalName")
-    private String _hospitalName = "";
-
-    public String getHospitalName() {
-        return _hospitalName;
-    }
-
-    public void setHospitalName(String hospitalName) {
-        this._hospitalName = hospitalName;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="accountID">
     @Basic(optional = false)
     @NotNull
@@ -1034,70 +1018,6 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     private List<KGLPKMSAlternative> kGLPKMSAlternativeList;
-
-    public DrgCalcBasics() {
-    }
-
-    public DrgCalcBasics(Integer biID) {
-        this._id = biID;
-    }
-
-    public DrgCalcBasics(Integer biID, int biDataYear, int biIK, String biHospitalName, int biAccountID, Date biLastChanged, int biStatusID, short biDeliveryType, String biCorrectionNote, double biSumCalcCost, int biCaseInStationCnt, int biCasePartialStationCnt, int biDaysPartialStation, int biPatientEscort, int biPreStation, int biBeds, int biPartialCnt, int biLocationCnt, boolean biDifLocationSupply, boolean biSpecialUnit, boolean biCentralFocus, int biNeonatLvl, boolean biGynecology, boolean biObstetrical, double biDeliveryRoomHours, int biDeliveryRoomPreBirthHabitationCnt, int biDeliveryRoomInstationBirthCnt, boolean biNoDeliveryRoomHabitation, String biDeliveryRoomOrganizationalStructure, boolean biCardiology, int biCardiologyRoomCnt, int biCardiologyCaseCnt, boolean biEndoscopy, int biEndoscopyRoomCnt, int biEndoscopyCaseCnt, boolean biMinimalValvularIntervention, int biMviFulfilled, boolean biMviGuidelineAspired, boolean biNormalFreelancing, boolean biFeeContract, boolean biPKMSRecording, int biPKMSCaseCnt, boolean biKISIntegration, String biNormalStationOther, boolean biApproximationMethodMedInfra, boolean biStepladderMethodMedInfra, boolean biExtensionMethodMedInfra, boolean biOtherMethodMedInfra, boolean biApproximationMethodNonMedInfra, boolean biStepladderMethodNonMedInfra, boolean biExtensionMethodNonMedInfra, boolean biOtherMethodNonMedInfra, boolean biIntensiveBed, boolean biIntensiveStrokeBed) {
-        this._id = biID;
-        this._dataYear = biDataYear;
-        this._ik = biIK;
-        this._hospitalName = biHospitalName;
-        this._accountId = biAccountID;
-        this._lastChanged = biLastChanged;
-        this._statusId = biStatusID;
-        this._deliveryType = biDeliveryType;
-        this._correctionNote = biCorrectionNote;
-        this._sumCalcCost = biSumCalcCost;
-        this._caseInStationCnt = biCaseInStationCnt;
-        this._casePartialStationCnt = biCasePartialStationCnt;
-        this._daysPartialStation = biDaysPartialStation;
-        this._patientEscort = biPatientEscort;
-        this._preStation = biPreStation;
-        this._beds = biBeds;
-        this._partialCnt = biPartialCnt;
-        this._locationCnt = biLocationCnt;
-        this._difLocationSupply = biDifLocationSupply;
-        this._specialUnit = biSpecialUnit;
-        this._centralFocus = biCentralFocus;
-        this._neonatLvl = biNeonatLvl;
-        this._gynecology = biGynecology;
-        this._obstetrical = biObstetrical;
-        this._deliveryRoomHours = biDeliveryRoomHours;
-        this._deliveryRoomPreBirthHabitationCnt = biDeliveryRoomPreBirthHabitationCnt;
-        this._deliveryRoomInstationBirthCnt = biDeliveryRoomInstationBirthCnt;
-        this._noDeliveryRoomHabitation = biNoDeliveryRoomHabitation;
-        this._deliveryRoomOrganizationalStructure = biDeliveryRoomOrganizationalStructure;
-        this._cardiology = biCardiology;
-        this._cardiologyRoomCnt = biCardiologyRoomCnt;
-        this._cardiologyCaseCnt = biCardiologyCaseCnt;
-        this._endoscopy = biEndoscopy;
-        this._endoscopyRoomCnt = biEndoscopyRoomCnt;
-        this._endoscopyCaseCnt = biEndoscopyCaseCnt;
-        this._minimalValvularIntervention = biMinimalValvularIntervention;
-        this._mviFulfilled = biMviFulfilled;
-        this._mviGuidelineAspired = biMviGuidelineAspired;
-        this._normalFreelancing = biNormalFreelancing;
-        this._feeContract = biFeeContract;
-        this._pkmsRecording = biPKMSRecording;
-        this._pkmsCaseCnt = biPKMSCaseCnt;
-        this._kisIntegration = biKISIntegration;
-        this._normalStationOther = biNormalStationOther;
-        this._approximationMethodMedInfra = biApproximationMethodMedInfra;
-        this._stepladderMethodMedInfra = biStepladderMethodMedInfra;
-        this._extensionMethodMedInfra = biExtensionMethodMedInfra;
-        this._otherMethodMedInfra = biOtherMethodMedInfra;
-        this._approximationMethodNonMedInfra = biApproximationMethodNonMedInfra;
-        this._stepladderMethodNonMedInfra = biStepladderMethodNonMedInfra;
-        this._extensionMethodNonMedInfra = biExtensionMethodNonMedInfra;
-        this._otherMethodNonMedInfra = biOtherMethodNonMedInfra;
-        this._intensiveBed = biIntensiveBed;
-        this._intensiveStrokeBed = biIntensiveStrokeBed;
-    }
 
     @Override
     public int hashCode() {
