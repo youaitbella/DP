@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListRadiologyLaboratory", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLListRadiologyLaboratory", schema = "calc")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListRadiologyLaboratory.findAll", query = "SELECT k FROM KGLListRadiologyLaboratory k")
@@ -54,6 +54,38 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
+//    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlBaseInformationID")
+    private int _baseInformationID;
+    
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int rlBaseInformationID) {
+        this._baseInformationID = rlBaseInformationID;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="CostTypeID">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlCostTypeID")
+    private int _costTypeID;
+    
+    public int getCostTypeID() {
+        return _costTypeID;
+    }
+
+    public void setCostTypeID(int rlCostTypeID) {
+        this._costTypeID = rlCostTypeID;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="CostCenterID">
     @Basic(optional = false)
     @NotNull
@@ -177,22 +209,6 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
-//    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
-//    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "rlBaseInformationID")
-    private int _baseInformationID;
-    
-    public int getBaseInformationID() {
-        return _baseInformationID;
-    }
-
-    public void setBaseInformationID(int rlBaseInformationID) {
-        this._baseInformationID = rlBaseInformationID;
-    }
-    // </editor-fold>
     
     public KGLListRadiologyLaboratory() {
     }
