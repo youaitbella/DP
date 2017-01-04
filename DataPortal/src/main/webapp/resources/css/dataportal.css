@@ -542,11 +542,12 @@ div#wrapper {
 }
 
 .element20,
-.elemenrt25,
-.elemenrt30,
-.elemenrt33,
-.elemenrt50,
-.elemenrt70,
+.element25,
+.element30,
+.element33,
+.element40,
+.element50,
+.element70,
 .elementRight70{
     box-sizing: border-box;
     display:inline-block;
@@ -566,6 +567,10 @@ div#wrapper {
 
 .element33 {
     width: 33%;
+}
+
+.element40 {
+    width: 40%;
 }
 
 .element50 {

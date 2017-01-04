@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListIntensiveStrokeCost")
+@Table(name = "KGLListIntensiveStrokeCost", schema = "calc")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "KGLListIntensiveStrokeCost.findAll", query = "SELECT k FROM KGLListIntensiveStrokeCost k")})

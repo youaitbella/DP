@@ -19,9 +19,9 @@
                       styleClass="inputSmall marginLeft marginRight" 
                       styleClassComponent="inputPart inlineBlock"
                       title="#{msg.titleCalcCountOR}"/>
-    
+
     <h:commandLink styleClass="button marginLeft" value="#{msg.btnRefresh}"/>
-    
+
     <div jsf:id="opInfo" jsf:rendered="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt gt 0}">
         <hr/>
         <div>
@@ -50,41 +50,82 @@
             <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
         </div>
+
+        <h:panelGroup styleClass="inputPart" id="explainSnz" 
+                      rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP eq 4 
+                                  or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP eq 4 
+                                  or editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN eq 4 
+                                  or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN eq 4}">
+            <h:outputLabel value="Erläuterung der Alternative" styleClass="label20"/>
+            <h:panelGroup styleClass="element40">
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionSnzOP}" 
+                                           styleClass="inputwide" 
+                                           rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP eq 4 
+                                                       or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP eq 4}"/>
+            </h:panelGroup>
+            <h:panelGroup styleClass="element40">
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionSnzAN}" 
+                                           styleClass="inputwide" 
+                                           rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN eq 
+                                                       4 or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN eq 4}"/>
+            </h:panelGroup>
+        </h:panelGroup>
+
 
         <div class="inputPart">
             <h:outputLabel value="Rüstzeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@this :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
         </div>
+
+        <h:panelGroup styleClass="inputPart" id="explainRz" 
+                      rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP eq 4 
+                                  or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP eq 4 
+                                  or editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN eq 4 
+                                  or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN eq 4}">
+            <h:outputLabel value="Erläuterung der Alternative" styleClass="label20"/>
+            <h:panelGroup styleClass="element40">
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionRzOP}" 
+                                           styleClass="inputwide" 
+                                           rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP eq 4 
+                                                       or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP eq 4}"/>
+            </h:panelGroup>
+            <h:panelGroup styleClass="element40">
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionRzAN}" 
+                                           styleClass="inputwide" 
+                                           rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN eq 
+                                                       4 or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN eq 4}"/>
+            </h:panelGroup>
+        </h:panelGroup>
 
         <h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle" styleClass="blockHeader"/>
         <div class="inputPart">
