@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -96,9 +95,9 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="hospitalName">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 70)
+    @Size(max = 70)
     @Column(name = "biHospitalName")
-    private String _hospitalName;
+    private String _hospitalName = "";
 
     public String getHospitalName() {
         return _hospitalName;
@@ -182,9 +181,9 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="correctionNote">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+    @Size(max = 500)
     @Column(name = "biCorrectionNote")
-    private String _correctionNote;
+    private String _correctionNote = "";
 
     public String getCorrectionNote() {
         return _correctionNote;
@@ -199,13 +198,13 @@ public class DrgCalcBasics implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "biSumCalcCost")
-    private BigDecimal _sumCalcCost;
+    private double _sumCalcCost;
 
-    public BigDecimal getSumCalcCost() {
+    public double getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(BigDecimal sumCalcCost) {
+    public void setSumCalcCost(double sumCalcCost) {
         this._sumCalcCost = sumCalcCost;
     }
     //</editor-fold>
@@ -424,13 +423,13 @@ public class DrgCalcBasics implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "biDeliveryRoomHours")
-    private BigDecimal _deliveryRoomHours;
+    private double _deliveryRoomHours;
 
-    public BigDecimal getDeliveryRoomHours() {
+    public double getDeliveryRoomHours() {
         return _deliveryRoomHours;
     }
 
-    public void setDeliveryRoomHours(BigDecimal deliveryRoomHours) {
+    public void setDeliveryRoomHours(double deliveryRoomHours) {
         this._deliveryRoomHours = deliveryRoomHours;
     }
     //</editor-fold>
@@ -483,9 +482,9 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomOrganizationalStructure">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size(max = 2147483647)
     @Column(name = "biDeliveryRoomOrganizationalStructure")
-    private String _deliveryRoomOrganizationalStructure;
+    private String _deliveryRoomOrganizationalStructure = "";
 
     public String getDeliveryRoomOrganizationalStructure() {
         return _deliveryRoomOrganizationalStructure;
@@ -709,9 +708,9 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="normalStationOther">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size( max = 2147483647)
     @Column(name = "biNormalStationOther")
-    private String _normalStationOther;
+    private String _normalStationOther = "";
     
     public String getNormalStationOther() {
         return _normalStationOther;
@@ -1063,7 +1062,7 @@ public class DrgCalcBasics implements Serializable {
         this._id = biID;
     }
 
-    public DrgCalcBasics(Integer biID, int biDataYear, int biIK, String biHospitalName, int biAccountID, Date biLastChanged, int biStatusID, short biDeliveryType, String biCorrectionNote, BigDecimal biSumCalcCost, int biCaseInStationCnt, int biCasePartialStationCnt, int biDaysPartialStation, int biPatientEscort, int biPreStation, int biBeds, int biPartialCnt, int biLocationCnt, boolean biDifLocationSupply, boolean biSpecialUnit, boolean biCentralFocus, int biNeonatLvl, boolean biGynecology, boolean biObstetrical, BigDecimal biDeliveryRoomHours, int biDeliveryRoomPreBirthHabitationCnt, int biDeliveryRoomInstationBirthCnt, boolean biNoDeliveryRoomHabitation, String biDeliveryRoomOrganizationalStructure, boolean biCardiology, int biCardiologyRoomCnt, int biCardiologyCaseCnt, boolean biEndoscopy, int biEndoscopyRoomCnt, int biEndoscopyCaseCnt, boolean biMinimalValvularIntervention, int biMviFulfilled, boolean biMviGuidelineAspired, boolean biNormalFreelancing, boolean biFeeContract, boolean biPKMSRecording, int biPKMSCaseCnt, boolean biKISIntegration, String biNormalStationOther, boolean biApproximationMethodMedInfra, boolean biStepladderMethodMedInfra, boolean biExtensionMethodMedInfra, boolean biOtherMethodMedInfra, boolean biApproximationMethodNonMedInfra, boolean biStepladderMethodNonMedInfra, boolean biExtensionMethodNonMedInfra, boolean biOtherMethodNonMedInfra, boolean biIntensiveBed, boolean biIntensiveStrokeBed) {
+    public DrgCalcBasics(Integer biID, int biDataYear, int biIK, String biHospitalName, int biAccountID, Date biLastChanged, int biStatusID, short biDeliveryType, String biCorrectionNote, double biSumCalcCost, int biCaseInStationCnt, int biCasePartialStationCnt, int biDaysPartialStation, int biPatientEscort, int biPreStation, int biBeds, int biPartialCnt, int biLocationCnt, boolean biDifLocationSupply, boolean biSpecialUnit, boolean biCentralFocus, int biNeonatLvl, boolean biGynecology, boolean biObstetrical, double biDeliveryRoomHours, int biDeliveryRoomPreBirthHabitationCnt, int biDeliveryRoomInstationBirthCnt, boolean biNoDeliveryRoomHabitation, String biDeliveryRoomOrganizationalStructure, boolean biCardiology, int biCardiologyRoomCnt, int biCardiologyCaseCnt, boolean biEndoscopy, int biEndoscopyRoomCnt, int biEndoscopyCaseCnt, boolean biMinimalValvularIntervention, int biMviFulfilled, boolean biMviGuidelineAspired, boolean biNormalFreelancing, boolean biFeeContract, boolean biPKMSRecording, int biPKMSCaseCnt, boolean biKISIntegration, String biNormalStationOther, boolean biApproximationMethodMedInfra, boolean biStepladderMethodMedInfra, boolean biExtensionMethodMedInfra, boolean biOtherMethodMedInfra, boolean biApproximationMethodNonMedInfra, boolean biStepladderMethodNonMedInfra, boolean biExtensionMethodNonMedInfra, boolean biOtherMethodNonMedInfra, boolean biIntensiveBed, boolean biIntensiveStrokeBed) {
         this._id = biID;
         this._dataYear = biDataYear;
         this._ik = biIK;
