@@ -50,12 +50,26 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Kostenvolumen||spAmount|
 |Leistungsdokumentation (OP + AN)|Leistungsdokumentation||KGLOpAn||
 |||Wie viele Zentral-OPs hat das Krankenhaus?||oaCentralOPCnt|
-|||ÄD||oaMedicalService|
-|||FD/MTD||oaFunctionalService|
-|||Beschreibung||oaDescription|
-|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle ÄD||oaMedicalServiceAmount|
-|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD||oaFunctionalServiceAmount|
-|||Leistungsdokumentation Bezeichnung||oaContentTextID|
+|||Personalbindungszeit ÄD (OP)||oaStaffBindingMsOP|
+|||Personalbindungszeit FD (OP)||oaStaffBindingFsOP|
+|||SNZ ÄD (OP)||oaMedicalServiceSnzOP|
+|||SNZ FD (OP)||oaFunctionalServiceSnzOP|
+|||SNZ Alternative (OP)||oaDescriptionSnzOP|
+|||Rüstzeit ÄD (OP)||oaMedicalServiceRzOP|
+|||Rüstzeit FD (OP)||oaFunctionalServiceRzOP|
+|||Rüstzeit Alternative (OP)||oaDescriptionRzOP|
+|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle ÄD (OP)||oaMedicalServiceAmountOP|
+|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD (OP)||oaFunctionalServiceAmountOP|
+|||Personalbindungszeit ÄD (AN)||oaStaffBindingMsAN|
+|||Personalbindungszeit FD (AN)||oaStaffBindingFsAN|
+|||SNZ ÄD (AN)||oaMedicalServiceSnzAN|
+|||SNZ FD (AN)||oaFunctionalServiceSnzAN|
+|||SNZ Alternative (AN)||oaDescriptionSnzAN|
+|||Rüstzeit ÄD (AN)||oaMedicalServiceRzAN|
+|||Rüstzeit FD (AN)||oaFunctionalServiceRzAN|
+|||Rüstzeit Alternative (AN)||oaDescriptionRzAN|
+|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle ÄD (AN)||oaMedicalServiceAmountAN|
+|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD (AN)||oaFunctionalServiceAmountAN|
 ||||||
 |Leistungsdokumentation (OP + Kreißsaal)|Top 3 ambulante Leistungen / Top 5 Geburtshilfen||KGLListKstTop||
 |||Kostenstelle||ktCostCenterID|
