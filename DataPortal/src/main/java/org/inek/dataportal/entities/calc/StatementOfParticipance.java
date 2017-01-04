@@ -24,6 +24,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -75,7 +77,22 @@ public class StatementOfParticipance implements Serializable{
         this._ik = ik;
     }
     // </editor-fold>
-
+    
+    //<editor-fold defaultstate="collapsed" desc="hospitalName">
+    @NotNull
+    @Size(max = 150)
+    @Column(name = "sopHospitalName")
+    private String sopHospitalName = "";
+    
+    public String getSopHospitalName() {
+        return sopHospitalName;
+    }
+    
+    public void setSopHospitalName(String sopHospitalName) {
+        this.sopHospitalName = sopHospitalName;
+    }
+    //</editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "sopAccountId")
     private int _accountId;

@@ -8,13 +8,18 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +27,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
@@ -31,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "KGLBaseInformation.findAll", query = "SELECT k FROM KGLBaseInformation k")})
+    @NamedQuery(name = "KGLBaseInformation.findAll", query = "SELECT k FROM DrgCalcBasics k")})
 public class DrgCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -102,14 +109,14 @@ public class DrgCalcBasics implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "biAccountID")
-    private int _accountID;
+    private int _accountId;
 
-    public int getAccountID() {
-        return _accountID;
+    public int getAccountId() {
+        return _accountId;
     }
 
-    public void setAccountID(int accountID) {
-        this._accountID = accountID;
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
     }
     //</editor-fold>
     
@@ -133,15 +140,24 @@ public class DrgCalcBasics implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "biStatusID")
-    private int _statusID;
+    private int _statusId;
 
     public int getStatusID() {
-        return _statusID;
+        return _statusId;
     }
 
     public void setStatusID(int statusID) {
-        this._statusID = statusID;
+        this._statusId = statusID;
     }
+    
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_statusId);
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _statusId = status.getValue();
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="deliveryType">
@@ -852,8 +868,22 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
+    private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
+
+    public List<DrgDelimitationFact> getDelimitationFacts() {
+        return _delimitationFacts;
+    }
+
+    public void setDelimitationFacts(List<DrgDelimitationFact> _delimitationFacts) {
+        this._delimitationFacts = _delimitationFacts;
+    }
+    // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="kglOpAn">
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "kGLBaseInformation")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "_drgCalcBasics")
     private KGLOpAn _kglOpAn;
 
     public KGLOpAn getKglOpAn() {
@@ -864,6 +894,160 @@ public class DrgCalcBasics implements Serializable {
         this._kglOpAn = kglOpAn;
     }
     //</editor-fold>
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
+    private List<KGLListCostCenter> kGLListCostCenterList;
+    @XmlTransient
+    public List<KGLListCostCenter> getKGLListCostCenterList() {
+        return kGLListCostCenterList;
+    }
+
+    public void setKGLListCostCenterList(List<KGLListCostCenter> kGLListCostCenterList) {
+        this.kGLListCostCenterList = kGLListCostCenterList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rlBaseInformationID")//, referencedColumnName = "rlID")
+    private List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList;
+
+    @XmlTransient
+    public List<KGLListRadiologyLaboratory> getKGLListRadiologyLaboratoryList() {
+        return kGLListRadiologyLaboratoryList;
+    }
+
+    public void setKGLListRadiologyLaboratoryList(List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList) {
+        this.kGLListRadiologyLaboratoryList = kGLListRadiologyLaboratoryList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ogBaseInformationID")//, referencedColumnName = "ogID")
+    private List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList;
+
+    @XmlTransient
+    public List<KGLListObstetricsGynecology> getKGLListObstetricsGynecologyList() {
+        return kGLListObstetricsGynecologyList;
+    }
+
+    public void setKGLListObstetricsGynecologyList(List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList) {
+        this.kGLListObstetricsGynecologyList = kGLListObstetricsGynecologyList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rsBaseInformationID")//, referencedColumnName = "rsID")
+    private List<KGLRadiologyService> kGLRadiologyServiceList;
+
+    @XmlTransient
+    public List<KGLRadiologyService> getKGLRadiologyServiceList() {
+        return kGLRadiologyServiceList;
+    }
+
+    public void setKGLRadiologyServiceList(List<KGLRadiologyService> kGLRadiologyServiceList) {
+        this.kGLRadiologyServiceList = kGLRadiologyServiceList;
+    }
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "spBaseInformationID")//, referencedColumnName = "spID")
+    private List<KGLListServiceProvision> kGLListServiceProvisionList;
+
+    @XmlTransient
+    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
+        return kGLListServiceProvisionList;
+    }
+
+    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
+        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ktBaseInformationID")//, referencedColumnName = "ktID")
+    private List<KGLListKstTop> kGLListKstTopList;
+
+    @XmlTransient
+    public List<KGLListKstTop> getKGLListKstTopList() {
+        return kGLListKstTopList;
+    }
+
+    public void setKGLListKstTopList(List<KGLListKstTop> kGLListKstTopList) {
+        this.kGLListKstTopList = kGLListKstTopList;
+    }
+    
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "edBaseInformationID")//, referencedColumnName = "edID")
+    private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
+    @XmlTransient
+    public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
+        return kGLListEndoscopyDifferentialList;
+    }
+
+    public void setKGLListEndoscopyDifferentialList(List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList) {
+        this.kGLListEndoscopyDifferentialList = kGLListEndoscopyDifferentialList;
+    }
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "nfcBaseInformationID")//, referencedColumnName = "nfcID")
+    private List<KGLNormalFeeContract> kGLNormalFeeContractList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "nfBaseInformationID")//, referencedColumnName = "nfID")
+    private List<KGLNormalFreelancer> kGLNormalFreelancerList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "isBaseInformationID")//, referencedColumnName = "isID")
+    private List<KGLListIntensivStroke> kGLListIntensivStrokeList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "miBaseInformationID")//, referencedColumnName = "miID")
+    private List<KGLListMedInfra> kGLListMedInfraList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "paBaseInformationID")//, referencedColumnName = "paID")
+    private List<KGLPersonalAccounting> kGLPersonalAccountingList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ndBaseInformationID")//, referencedColumnName = "ndID")
+    private List<DrgNeonatData> _neonateData;
+
+    public List<DrgNeonatData> getNeonateData() {
+        return _neonateData;
+    }
+
+    public void setNeonateData(List<DrgNeonatData> neonateData) {
+        this._neonateData = neonateData;
+    }
+        
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "nssBaseInformationID")//, referencedColumnName = "nssID")
+    private List<KGLNormalStationServiceDocumentation> kGLNormalStationServiceDocumentationList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "iscBaseInformationID")//, referencedColumnName = "iscID")
+    private List<KGLListIntensiveStrokeCost> kGLListIntensiveStrokeCostList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cccBaseInformationID")//, referencedColumnName = "cccID")    
+    private List<KGLListCostCenterCost> kGLListCostCenterCostList;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "paBaseInformationID")//, referencedColumnName = "paID")    
+    private List<KGLPKMSAlternative> kGLPKMSAlternativeList;
+    
+    
     
     public DrgCalcBasics() {
     }
@@ -877,9 +1061,9 @@ public class DrgCalcBasics implements Serializable {
         this._dataYear = biDataYear;
         this._ik = biIK;
         this._hospitalName = biHospitalName;
-        this._accountID = biAccountID;
+        this._accountId = biAccountID;
         this._lastChanged = biLastChanged;
-        this._statusID = biStatusID;
+        this._statusId = biStatusID;
         this._deliveryType = biDeliveryType;
         this._correctionNote = biCorrectionNote;
         this._sumCalcCost = biSumCalcCost;

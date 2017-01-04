@@ -145,6 +145,9 @@ public class PeppCalcBasics implements Serializable {
     public void tagModifiedDate() {
         _lastChanged = Calendar.getInstance().getTime();
     }
+
+    public PeppCalcBasics() {
+    }
  
     
 }
