@@ -30,10 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "KGLListSheet", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "DRGSheetName.findAll", query = "SELECT k FROM DRGSheetName k")
-    , @NamedQuery(name = "DRGSheetName.findBySID", query = "SELECT k FROM DRGSheetName k WHERE k._id = :sID")
-    , @NamedQuery(name = "DRGSheetName.findBySSheet", query = "SELECT k FROM DRGSheetName k WHERE k._sheet = :sSheet")})
 public class DRGSheetName implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,13 +38,13 @@ public class DRGSheetName implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "sID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getID() {
+    public int getID() {
         return _id;
     }
     
-    public void setID(Integer id) {
+    public void setID(int id) {
         this._id = id;
     }
 //</editor-fold>
@@ -57,7 +53,7 @@ public class DRGSheetName implements Serializable {
 //<editor-fold defaultstate="collapsed" desc="Property Sheet">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 0, max = 100)
+    @Size(max = 100)
     @Column(name = "sSheet")
     private String _sheet = "";
     
@@ -72,7 +68,7 @@ public class DRGSheetName implements Serializable {
     
 //<editor-fold defaultstate="collapsed" desc="Property DrgHeaderText">
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sId", referencedColumnName = "htSheetId")
+    @JoinColumn(name = "htSheetId", referencedColumnName = "sId")
     private List<DrgHeaderText> _drgHeaderTextList;
     
     @XmlTransient
@@ -101,6 +97,7 @@ public class DRGSheetName implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 73 * hash + Objects.hashCode(this._id);
+        if (this._id != -1) return hash;
         hash = 73 * hash + Objects.hashCode(this._sheet);
         return hash;
     }
@@ -114,10 +111,10 @@ public class DRGSheetName implements Serializable {
             return false;
         }
         final DRGSheetName other = (DRGSheetName) obj;
-        if (!Objects.equals(this._sheet, other._sheet)) {
-            return false;
+        if (_id != -1) {
+            return _id == other._id;
         }
-        return Objects.equals(this._id, other._id);
+        return other._id == -1 && Objects.equals(this._sheet, other._sheet);        
     }
 
     @Override
