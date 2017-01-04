@@ -31,6 +31,8 @@ import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -68,29 +70,40 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Object id = params.get("id");
-        if (id == null) {
+        String id = "" + params.get("id");
+        if (id.equals("new")) {
+            _calcBasics = newCalcBasicsDrg();
+        } else if (Utils.isInteger(id)) {
+            _calcBasics = loadCalcBasicsDrg(id);
+            retrievePriorData(_calcBasics);
+        } else {
+            Utils.navigate(Pages.Error.RedirectURL());
             return;
         }
-        if (id.toString().equals("new")) {
-            _calcBasics = newCalcBasicsDrg();
-        } else {
-            _calcBasics = loadCalcBasicsDrg(id);
-        }
-        updateIk();
+        ensureTopList();
     }
 
-    public void updateIk() {
-        if (_calcBasics != null) {
-            Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
-            _hospitalInfo = c.getName() + ", " + c.getTown();
-            _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(_calcBasics);
-        }
+    public void retrievePriorData(DrgCalcBasics calcBasics) {
+            _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
+    }
+
+    public void ikChanged() {
+        retrievePriorData(_calcBasics);
+        preloadData(_calcBasics);
+    }
+
+    private void preloadData(DrgCalcBasics calcBasics) {
+        KGLOpAn opAn = _priorCalcBasics.getOpAn();
+        opAn.setMedicalServiceAmountOP(0);
+        opAn.setMedicalServiceAmountAN(0);
+        opAn.setFunctionalServiceAmountOP(0);
+        opAn.setFunctionalServiceAmountAN(0);
+        calcBasics.setOpAn(opAn);
     }
     
-    private DrgCalcBasics loadCalcBasicsDrg(Object idObject) {
+    private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         try {
-            int id = Integer.parseInt("" + idObject);
+            int id = Integer.parseInt(idObject);
             DrgCalcBasics statement = _calcFacade.findCalcBasicsDrg(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
@@ -106,6 +119,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         DrgCalcBasics calcBasic = new DrgCalcBasics();
         calcBasic.setAccountId(account.getId());
         calcBasic.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        if (getIks().size() == 1){
+            calcBasic.setIk((int) getIks().get(0).getValue());
+        }
+        retrievePriorData(calcBasic);
+        preloadData(calcBasic);
         return calcBasic;
     }
 
@@ -131,7 +149,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics = calcBasics;
     }
 
+    public DrgCalcBasics getPriorCalcBasics() {
+        return _priorCalcBasics;
+    }
+
+    public void setPriorCalcBasics(DrgCalcBasics priorCalcBasics) {
+        this._priorCalcBasics = priorCalcBasics;
+    }
     // </editor-fold>
+
     @Override
     protected void addTopics() {
         addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
@@ -265,6 +291,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
+    // todo: move into entity
+    private void ensureTopList() {
+        if (_calcBasics.getKGLListKstTopList() == null) {
+            _calcBasics.setKGLListKstTopList(new Vector<>());
+        }
+        ensureTopListCostCenter(4, 3);
+        ensureTopListCostCenter(6, 5);
+    }
+
+    private void ensureTopListCostCenter(int costCenterId, int count) {
+        if (_calcBasics.getKGLListKstTopList().stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
+            for (int i = 0; i < count; i++) {
+                KGLListKstTop item = new KGLListKstTop();
+                item.setBaseInformationID(_calcBasics.getId());
+                item.setKtCostCenterID(costCenterId);
+                _calcBasics.getKGLListKstTopList().add(item);
+            }
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;
 
@@ -281,20 +327,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             for (int ik : iks) {
                 items.add(new SelectItem(ik));
             }
-            if (_calcBasics != null && _calcBasics.getIk() <= 0) {
-                items.add(0, new SelectItem(""));
-            }
             _iks = items;
         }
         return _iks;
     }
 
-    String _hospitalInfo = "";
-
     public String getHospitalInfo() {
-        return _hospitalInfo;
+        Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
+        if (c == null){return "";}
+        return c.getName() + ", " + c.getTown();
     }
-
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
@@ -336,22 +378,23 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _calcBasics.getNeonateData()
                 .stream()
                 .filter(d -> d.getContentText().getHeaderTextId() == headerId)
-                .sorted((x, y) -> x.getContentText().getSequence()- y.getContentText().getSequence())
+                .sorted((x, y) -> x.getContentText().getSequence() - y.getContentText().getSequence())
                 .collect(Collectors.toList());
     }
 
-    public int priorData(int textId){
+    public int priorData(int textId) {
         int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
         return priorValue;
     }
 
-    public String diffData(int textId){
+    public String diffData(int textId) {
         DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
         int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
-        if (data.getContentText().isDiffAsPercent()){
+        if (data.getContentText().isDiffAsPercent()) {
             return Math.round(1000d * (data.getData() - priorValue) / priorValue) / 10d + "%";
         }
         return "" + (data.getData() - priorValue);
     }
     // </editor-fold>    
+
 }

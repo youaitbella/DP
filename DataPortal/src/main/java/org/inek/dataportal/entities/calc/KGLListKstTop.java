@@ -7,17 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,39 +22,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListKstTop", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListKstTop.findAll", query = "SELECT k FROM KGLListKstTop k")
-    , @NamedQuery(name = "KGLListKstTop.findByKtID", query = "SELECT k FROM KGLListKstTop k WHERE k.ktID = :ktID")
-    , @NamedQuery(name = "KGLListKstTop.findByKtCostCenterID", query = "SELECT k FROM KGLListKstTop k WHERE k.ktCostCenterID = :ktCostCenterID")
-    , @NamedQuery(name = "KGLListKstTop.findByKtText", query = "SELECT k FROM KGLListKstTop k WHERE k.ktText = :ktText")
-    , @NamedQuery(name = "KGLListKstTop.findByKtCaseCnt", query = "SELECT k FROM KGLListKstTop k WHERE k.ktCaseCnt = :ktCaseCnt")
-    , @NamedQuery(name = "KGLListKstTop.findByKtAmount", query = "SELECT k FROM KGLListKstTop k WHERE k.ktAmount = :ktAmount")
-    , @NamedQuery(name = "KGLListKstTop.findByKtDelimitationAmount", query = "SELECT k FROM KGLListKstTop k WHERE k.ktDelimitationAmount = :ktDelimitationAmount")
-    , @NamedQuery(name = "KGLListKstTop.findByKtRank", query = "SELECT k FROM KGLListKstTop k WHERE k.ktRank = :ktRank")})
 public class KGLListKstTop implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ktID")
-    private Integer ktID;
-    
-    public Integer getKtID() {
-        return ktID;
+    private int id = -1;
+
+    public int getId() {
+        return id;
     }
 
-    public void setKtID(Integer ktID) {
-        this.ktID = ktID;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ktCostCenterID")
     private int ktCostCenterID;
-    
+
     public int getKtCostCenterID() {
         return ktCostCenterID;
     }
@@ -68,115 +50,93 @@ public class KGLListKstTop implements Serializable {
         this.ktCostCenterID = ktCostCenterID;
     }
 
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "ktText")
-    private String ktText;
-    
-    public String getKtText() {
-        return ktText;
+    private String text = "";
+
+    public String getText() {
+        return text;
     }
 
-    public void setKtText(String ktText) {
-        this.ktText = ktText;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ktCaseCnt")
-    private int ktCaseCnt;
-    
-    public int getKtCaseCnt() {
-        return ktCaseCnt;
+    private int caseCount;
+
+    public int getCaseCount() {
+        return caseCount;
     }
 
-    public void setKtCaseCnt(int ktCaseCnt) {
-        this.ktCaseCnt = ktCaseCnt;
+    public void setCaseCount(int caseCount) {
+        this.caseCount = caseCount;
     }
 
-    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ktAmount")
-    private BigDecimal ktAmount;
-    
-    public BigDecimal getKtAmount() {
-        return ktAmount;
+    private double amount;
+
+    public double getAmount() {
+        return amount;
     }
 
-    public void setKtAmount(BigDecimal ktAmount) {
-        this.ktAmount = ktAmount;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
-    
-    @Basic(optional = false)
-    @NotNull
+
     @Column(name = "ktDelimitationAmount")
-    private BigDecimal ktDelimitationAmount;
-    
-    public BigDecimal getKtDelimitationAmount() {
-        return ktDelimitationAmount;
+    private double delimitationAmount;
+
+    public double getDelimitationAmount() {
+        return delimitationAmount;
     }
 
-    public void setKtDelimitationAmount(BigDecimal ktDelimitationAmount) {
-        this.ktDelimitationAmount = ktDelimitationAmount;
+    public void setDelimitationAmount(double delimitationAmount) {
+        this.delimitationAmount = delimitationAmount;
     }
 
-    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ktRank")
-    private int ktRank;
-    
-    public int getKtRank() {
-        return ktRank;
+    private int rank;
+
+    public int getRank() {
+        return rank;
     }
 
-    public void setKtRank(int ktRank) {
-        this.ktRank = ktRank;
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
-    
-    @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics ktBaseInformationID;
-    
-    public DrgCalcBasics getKtBaseInformationID() {
-        return ktBaseInformationID;
+    @Column(name = "ktBaseInformationID")
+    private int baseInformationID;
+
+    public int getBaseInformationID() {
+        return baseInformationID;
     }
 
-    public void setKtBaseInformationID(DrgCalcBasics ktBaseInformationID) {
-        this.ktBaseInformationID = ktBaseInformationID;
+    public void setBaseInformationID(int baseInformationID) {
+        this.baseInformationID = baseInformationID;
     }
-    
 
     public KGLListKstTop() {
     }
 
     public KGLListKstTop(Integer ktID) {
-        this.ktID = ktID;
+        this.id = ktID;
     }
 
-    public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, BigDecimal ktAmount, BigDecimal ktDelimitationAmount, int ktRank) {
-        this.ktID = ktID;
+    public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, double ktAmount, double ktDelimitationAmount, int ktRank) {
+        this.id = ktID;
         this.ktCostCenterID = ktCostCenterID;
-        this.ktText = ktText;
-        this.ktCaseCnt = ktCaseCnt;
-        this.ktAmount = ktAmount;
-        this.ktDelimitationAmount = ktDelimitationAmount;
-        this.ktRank = ktRank;
+        this.text = ktText;
+        this.caseCount = ktCaseCnt;
+        this.amount = ktAmount;
+        this.delimitationAmount = ktDelimitationAmount;
+        this.rank = ktRank;
     }
-
-
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (ktID != null ? ktID.hashCode() : 0);
-        return hash;
+        return id;
     }
 
     @Override
@@ -186,15 +146,12 @@ public class KGLListKstTop implements Serializable {
             return false;
         }
         KGLListKstTop other = (KGLListKstTop) object;
-        if ((this.ktID == null && other.ktID != null) || (this.ktID != null && !this.ktID.equals(other.ktID))) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListKstTop[ ktID=" + ktID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListKstTop[ ktID=" + id + " ]";
     }
-    
+
 }

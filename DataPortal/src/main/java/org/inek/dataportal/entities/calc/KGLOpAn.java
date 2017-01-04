@@ -67,13 +67,13 @@ public class KGLOpAn implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaStaffBindingMsOP")
-    private int _staffBindingMsOP;
+    private boolean _staffBindingMsOP;
 
-    public int getStaffBindingMsOP() {
+    public boolean getStaffBindingMsOP() {
         return _staffBindingMsOP;
     }
 
-    public void setStaffBindingMsOP(int staffBindingMsOP) {
+    public void setStaffBindingMsOP(boolean staffBindingMsOP) {
         this._staffBindingMsOP = staffBindingMsOP;
     }
     //</editor-fold>
@@ -82,13 +82,13 @@ public class KGLOpAn implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaStaffBindingFsOP")
-    private int _staffBindingFsOP;
+    private boolean _staffBindingFsOP;
 
-    public int getStaffBindingFsOP() {
+    public boolean getStaffBindingFsOP() {
         return _staffBindingFsOP;
     }
 
-    public void setStaffBindingFsOP(int staffBindingFsOP) {
+    public void setStaffBindingFsOP(boolean staffBindingFsOP) {
         this._staffBindingFsOP = staffBindingFsOP;
     }
     //</editor-fold>
@@ -228,13 +228,13 @@ public class KGLOpAn implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaStaffBindingMsAN")
-    private int _staffBindingMsAN;
+    private boolean _staffBindingMsAN;
 
-    public int getStaffBindingMsAN() {
+    public boolean getStaffBindingMsAN() {
         return _staffBindingMsAN;
     }
 
-    public void setStaffBindingMsAN(int staffBindingMsAN) {
+    public void setStaffBindingMsAN(boolean staffBindingMsAN) {
         this._staffBindingMsAN = staffBindingMsAN;
     }
     //</editor-fold>
@@ -244,13 +244,13 @@ public class KGLOpAn implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "oaStaffBindingFsAN")
-    private int _staffBindingFsAN;
+    private boolean _staffBindingFsAN;
 
-    public int getStaffBindingFsAN() {
+    public boolean getStaffBindingFsAN() {
         return _staffBindingFsAN;
     }
 
-    public void setStaffBindingFsAN(int staffBindingFsAN) {
+    public void setStaffBindingFsAN(boolean staffBindingFsAN) {
         this._staffBindingFsAN = staffBindingFsAN;
     }
     //</editor-fold>
@@ -386,19 +386,6 @@ public class KGLOpAn implements Serializable {
     //</editor-fold>
     
     
-    //<editor-fold defaultstate="collapsed" desc="drgCalcBasics">    
-    @JoinColumn(name = "oaBaseInformationID", referencedColumnName = "biID", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private DrgCalcBasics _drgCalcBasics;
-
-    public DrgCalcBasics getDrgCalcBasics() {
-        return _drgCalcBasics;
-    }
-
-    public void setDrgCalcBasics(DrgCalcBasics drgCalcBasics) {
-        this._drgCalcBasics = drgCalcBasics;
-    }
-    //</editor-fold>
 
     
     public KGLOpAn() {
@@ -408,7 +395,7 @@ public class KGLOpAn implements Serializable {
         this._baseInformationID = oaBaseInformationID;
     }
 
-    public KGLOpAn(Integer oaBaseInformationID, int oaCentralOPCnt, int oaStaffBindingMsOP, int oaStaffBindingFsOP, int oaMedicalServiceSnzOP, int oaFunctionalServiceSnzOP, String oaDescriptionSnzOP, int oaMedicalServiceRzOP, int oaFunctionalServiceRzOP, String oaDescriptionRzOP, double oaMedicalServiceAmountOP, double oaFunctionalServiceAmountOP, int oaStaffBindingMsAN, int oaStaffBindingFsAN, int oaMedicalServiceSnzAN, int oaFunctionalServiceSnzAN, String oaDescriptionSnzAN, int oaMedicalServiceRzAN, int oaFunctionalServiceRzAN, String oaDescriptionRzAN, double oaMedicalServiceAmountAN, double oaFunctionalServiceAmountAN) {
+    public KGLOpAn(Integer oaBaseInformationID, int oaCentralOPCnt, boolean oaStaffBindingMsOP, boolean oaStaffBindingFsOP, int oaMedicalServiceSnzOP, int oaFunctionalServiceSnzOP, String oaDescriptionSnzOP, int oaMedicalServiceRzOP, int oaFunctionalServiceRzOP, String oaDescriptionRzOP, double oaMedicalServiceAmountOP, double oaFunctionalServiceAmountOP, boolean oaStaffBindingMsAN, boolean oaStaffBindingFsAN, int oaMedicalServiceSnzAN, int oaFunctionalServiceSnzAN, String oaDescriptionSnzAN, int oaMedicalServiceRzAN, int oaFunctionalServiceRzAN, String oaDescriptionRzAN, double oaMedicalServiceAmountAN, double oaFunctionalServiceAmountAN) {
         this._baseInformationID = oaBaseInformationID;
         this._centralOPCnt = oaCentralOPCnt;
         this._staffBindingMsOP = oaStaffBindingMsOP;

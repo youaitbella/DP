@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.CalcContact;
@@ -22,6 +25,7 @@ import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -93,7 +97,7 @@ public class CalcFacade extends AbstractDataAccess {
         String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name\n"
                 + "from calc.StatementOfParticipance\n"
-                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n" 
+                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
                 + "union\n"
                 + "select biId as Id, 1 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name\n"
@@ -186,11 +190,17 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<DrgCalcBasics>> violations = validator.validate(calcBasics);
+        for (ConstraintViolation<DrgCalcBasics> violation : violations) {
+            System.out.println(violation.getMessage());
+        }
         if (calcBasics.getId() == -1) {
             persist(calcBasics);
             return calcBasics;
         }
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
+        saveTopItems(calcBasics);
         return merge(calcBasics);
     }
 
@@ -204,6 +214,15 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
+    private void saveTopItems(DrgCalcBasics calcBasics) {
+        for (KGLListKstTop item : calcBasics.getKGLListKstTopList()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
 
     public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
@@ -316,12 +335,16 @@ public class CalcFacade extends AbstractDataAccess {
         String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year";
         TypedQuery<DrgCalcBasics> query = getEntityManager().createQuery(jpql, DrgCalcBasics.class);
         query.setParameter("ik", calcBasics.getIk());
-        query.setParameter("year", calcBasics.getDataYear() -1);
+        query.setParameter("year", calcBasics.getDataYear() - 1);
         List<DrgCalcBasics> resultList = query.getResultList();
-        if (resultList.size() > 0){
+        if (resultList.size() > 0) {
             return resultList.get(0);
         }
         return new DrgCalcBasics();
+    }
+
+    public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

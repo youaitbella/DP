@@ -15,12 +15,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,16 +48,17 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "biID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
@@ -881,19 +885,6 @@ public class DrgCalcBasics implements Serializable {
         this._delimitationFacts = _delimitationFacts;
     }
     // </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="kglOpAn">
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "_drgCalcBasics")
-    private KGLOpAn _kglOpAn;
-
-    public KGLOpAn getKglOpAn() {
-        return _kglOpAn;
-    }
-
-    public void setKglOpAn(KGLOpAn kglOpAn) {
-        this._kglOpAn = kglOpAn;
-    }
-    //</editor-fold>
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
@@ -948,9 +939,24 @@ public class DrgCalcBasics implements Serializable {
     public void setKGLRadiologyServiceList(List<KGLRadiologyService> kGLRadiologyServiceList) {
         this.kGLRadiologyServiceList = kGLRadiologyServiceList;
     }
-    
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn(name = "biID")
+    private KGLOpAn _opAn;
+
+    public KGLOpAn getOpAn() {
+        if (_opAn == null){
+            _opAn = new KGLOpAn(_id);
+        }
+        return _opAn;
+    }
+
+    public void setOpAn(KGLOpAn opAn) {
+        this._opAn = opAn;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "spBaseInformationID")//, referencedColumnName = "spID")
+    @JoinColumn(referencedColumnName = "_baseInformationId")
     private List<KGLListServiceProvision> kGLListServiceProvisionList;
 
     @XmlTransient
@@ -963,8 +969,9 @@ public class DrgCalcBasics implements Serializable {
     }
     
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ktBaseInformationID")//, referencedColumnName = "ktID")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
+    //@Transient
     private List<KGLListKstTop> kGLListKstTopList;
 
     @XmlTransient
@@ -1116,22 +1123,16 @@ public class DrgCalcBasics implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof DrgCalcBasics)) {
             return false;
         }
         DrgCalcBasics other = (DrgCalcBasics) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return (this._id == other._id);
     }
 
     @Override

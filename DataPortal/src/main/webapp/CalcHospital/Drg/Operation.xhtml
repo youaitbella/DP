@@ -12,9 +12,9 @@
 
     <h2 title="#{msg.titleCalcOperation}">#{msg.lblCalcOpAn}</h2>
 
-    <inek:LabeledText label="#{msg.lblCentralOR}" value="???" singleLine="true" styleClass="inputSmall marginLeft" styleClassLabel="label20" title="#{msg.titleCalcCountOR}"/>
+    <inek:LabeledText label="#{msg.lblCentralOR}" value="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt}" singleLine="true" styleClass="inputSmall marginLeft" styleClassLabel="label20" title="#{msg.titleCalcCountOR}"/>
 
-    <div jsf:id="opInfo" jsf:rendered="true">
+    <div jsf:id="opInfo" jsf:rendered="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt gt 0}">
         <hr/>
         <div>
             <h:outputLabel value="" styleClass="label20"/>
@@ -32,27 +32,27 @@
 
         <div class="inputPart">
             <h:outputLabel value="Personalbindungszeit" styleClass="label20"/>
-            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
-            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
-            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
-            <h:selectBooleanCheckbox value="true" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsOP}" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsOP}" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsAN}" styleClass="element20"/>
+            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsAN}" styleClass="element20"/>
         </div>
 
         <div class="inputPart">
             <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
@@ -60,19 +60,19 @@
 
         <div class="inputPart">
             <h:outputLabel value="Rüstzeit" styleClass="label20"/>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@this :logout:remaining"/>
             </h:selectOneMenu>
@@ -81,10 +81,10 @@
         <h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle" styleClass="blockHeader"/>
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
-            <inek:InputTextWithMessage value="12345" styleClass="element20"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="12345" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
         </div>
 
         <div class="inputPart">
@@ -104,5 +104,50 @@
         </div>
 
     </div>
+
+    <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
+
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
+        <h:column>
+            <f:facet name="header">#{msg.lblNotation}</f:facet>
+            <inek:InputTextWithMessage value="#{item.text}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+            <inek:InputTextWithMessage value="#{item.caseCount}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+            <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+            <inek:InputTextWithMessage value="#{item.amount}"/>
+        </h:column>
+    </h:dataTable>
+
+    <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
+        <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+
+        <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.KGLListKstTopList.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
+            <h:column>
+                <f:facet name="header">#{msg.lblNotation}</f:facet>
+                <h:inputText value="#{item.text}" disabled="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                <h:inputText value="#{item.caseCount}" disabled="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                <h:inputText value="#{item.delimitationAmount}" disabled="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                <h:inputText value="#{item.amount}" disabled="true"/>
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+
 </ui:composition>
 

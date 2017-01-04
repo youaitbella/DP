@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.calculationhospital;
 
-import javax.enterprise.context.SessionScoped;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
@@ -11,7 +10,6 @@ import org.inek.dataportal.helper.Topics;
  *
  * @author muellermi
  */
-@SessionScoped
 public class CalcHospitalController extends AbstractFeatureController {
 
 

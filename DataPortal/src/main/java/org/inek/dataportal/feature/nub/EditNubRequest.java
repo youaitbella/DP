@@ -488,7 +488,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isRejectedNub() {
-        return WorkflowStatus.Rejected.getValue() == _nubRequest.getStatus().getValue();
+        // if the user has bookmarked a page, than he might try to open a non-existant request
+        return _nubRequest != null && WorkflowStatus.Rejected.getValue() == _nubRequest.getStatus().getValue();
     }
 
     public boolean isSealEnabled() {
