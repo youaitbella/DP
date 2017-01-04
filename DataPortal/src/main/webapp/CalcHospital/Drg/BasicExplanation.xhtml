@@ -52,7 +52,7 @@
                 <span class="label">Fälle vollstationär</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.caseInStationCount}" required="true">
+        <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.caseInStationCnt}" required="true">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputText>
         </td>
@@ -68,7 +68,7 @@
                 <span class="label">Fälle teilstationär</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.casePartialStationCount}" required="true">
+        <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.casePartialStationCnt}" required="true">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputText>
         </td>
@@ -148,7 +148,7 @@
                 <span class="label">Anzahl teilstationäre Plätze (DRG-Bereich)</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.cntPartial}" required="true">
+        <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.partialCnt}" required="true">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputText>
         </td>
@@ -168,7 +168,7 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.cntLocation}" required="true">
+        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}" required="true">
             <f:ajax event="blur" render="@this :logout:remaining"/>
         </h:inputText>
     </div>
