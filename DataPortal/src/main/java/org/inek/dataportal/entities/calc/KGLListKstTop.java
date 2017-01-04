@@ -74,24 +74,24 @@ public class KGLListKstTop implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ktAmount")
-    private double amount;
+    private int amount;
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
     @Column(name = "ktDelimitationAmount")
-    private double delimitationAmount;
+    private int delimitationAmount;
 
-    public double getDelimitationAmount() {
+    public int getDelimitationAmount() {
         return delimitationAmount;
     }
 
-    public void setDelimitationAmount(double delimitationAmount) {
+    public void setDelimitationAmount(int delimitationAmount) {
         this.delimitationAmount = delimitationAmount;
     }
 
@@ -124,7 +124,7 @@ public class KGLListKstTop implements Serializable {
         this.id = ktID;
     }
 
-    public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, double ktAmount, double ktDelimitationAmount, int ktRank) {
+    public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, int ktAmount, int ktDelimitationAmount, int ktRank) {
         this.id = ktID;
         this.ktCostCenterID = ktCostCenterID;
         this.text = ktText;
