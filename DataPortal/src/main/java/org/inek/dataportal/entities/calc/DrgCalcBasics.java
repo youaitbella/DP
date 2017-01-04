@@ -620,14 +620,14 @@ public class DrgCalcBasics implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "oaBaseInformationID")
-    private List<KGLOpAn> kGLOpAnList;
+    private KGLOpAn opAn;
 
-    public List<KGLOpAn> getKGLOpAnList() {
-        return kGLOpAnList;
+    public KGLOpAn getOpAn() {
+        return opAn;
     }
 
-    public void setKGLOpAnList(List<KGLOpAn> kGLOpAnList) {
-        this.kGLOpAnList = kGLOpAnList;
+    public void setOpAn(KGLOpAn opAn) {
+        this.opAn = opAn;
     }
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
