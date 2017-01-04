@@ -200,6 +200,8 @@ public class CalcContact implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 71 * hash + this._id;
+        if (this._id != -1) return hash;
+        
         hash = 71 * hash + this._statementOfParticipanceId;
         hash = 71 * hash + Objects.hashCode(this._gender);
         hash = 71 * hash + Objects.hashCode(this._title);
@@ -220,16 +222,18 @@ public class CalcContact implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof CalcContact)) {
             return false;
         }
         final CalcContact other = (CalcContact) obj;
+        
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        
         if (this._id != other._id) {
             return false;
-        }
+        }        
         if (this._statementOfParticipanceId != other._statementOfParticipanceId) {
             return false;
         }
