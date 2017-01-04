@@ -114,14 +114,20 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Fallzahl ambulant||rsCaseCntAmbulant|
 |||abgegr. Kostenvolumen ambulant||rsAbulantAmount|
 |Leistungsdokumentation(Radiologie + Laboratorien)|||KGLListRadiologyLaboratory||
+|||Kostenartengruppe||rlCostTypeID|
 |||Kostenstelle||rlCostCenterID|
 |||Name Kostenstelle||rlCostCenterText|
-|||Leistungsdokumentation||rlServiceDocumentation|
+|||Leistungsdokumentation Hauskatalog*||rlServiceDocHome|
+|||Leistungsdokumentation DKG-NT||rlServiceDocDKG|
+|||Leistungsdokumentation EBM||rlServiceDocEBM|
+|||Leistungsdokumentation GOÄ||rlServiceDocGOA|
+|||Leistungsdokumentation sonstige*||rlServiceDocDif|
 |||Beschreibung||rlDescription|
 |||Leistungsvolumen vor Abgrenzung||rlServiceVolumePre|
 |||Kostenvolumen vor Abgrenzung||rlAmountPre|
 |||Leistungsvolumen nach Abgrenzung||rlServiceVolumePost|
 |||Kostenvolumen nach Abgrenzung||rlAmountPost|
+
 |Leistungsdokumentation (KST 11-13)|||KGLListCostCenter||
 |||Kostenstelle||ccCostCenterID|
 |||Name Kostenstelle||ccCostCenterText|
