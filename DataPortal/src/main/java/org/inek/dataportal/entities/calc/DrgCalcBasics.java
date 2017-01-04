@@ -881,111 +881,130 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property List CostCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListCostCenter> kGLListCostCenterList;
+    private List<KGLListCostCenter> _costCenter = new Vector<>();
 
     @XmlTransient
-    public List<KGLListCostCenter> getKGLListCostCenterList() {
-        return kGLListCostCenterList;
+    public List<KGLListCostCenter> getCostCenter() {
+        return _costCenter;
     }
 
-    public void setKGLListCostCenterList(List<KGLListCostCenter> kGLListCostCenterList) {
-        this.kGLListCostCenterList = kGLListCostCenterList;
+    public void setCostCenter(List<KGLListCostCenter> costCenter) {
+        this._costCenter = costCenter;
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratory">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList;
+    private List<KGLListRadiologyLaboratory> _radiologyLaboratory;
 
     @XmlTransient
-    public List<KGLListRadiologyLaboratory> getKGLListRadiologyLaboratoryList() {
-        return kGLListRadiologyLaboratoryList;
+    public List<KGLListRadiologyLaboratory> getRadiologyLaboratory() {
+        return _radiologyLaboratory;
     }
 
-    public void setKGLListRadiologyLaboratoryList(List<KGLListRadiologyLaboratory> kGLListRadiologyLaboratoryList) {
-        this.kGLListRadiologyLaboratoryList = kGLListRadiologyLaboratoryList;
+    public void setRadiologyLaboratory(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
+        this._radiologyLaboratory = radiologyLaboratory;
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecology">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList;
-
+    private List<KGLListObstetricsGynecology> _obstetricsGynecology;
+    
     @XmlTransient
-    public List<KGLListObstetricsGynecology> getKGLListObstetricsGynecologyList() {
-        return kGLListObstetricsGynecologyList;
+    public List<KGLListObstetricsGynecology> getObstetricsGynecology() {
+        return _obstetricsGynecology;
     }
-
-    public void setKGLListObstetricsGynecologyList(List<KGLListObstetricsGynecology> kGLListObstetricsGynecologyList) {
-        this.kGLListObstetricsGynecologyList = kGLListObstetricsGynecologyList;
+    
+    public void setObstetricsGynecology(List<KGLListObstetricsGynecology> obstetricsGynecology) {
+        this._obstetricsGynecology = obstetricsGynecology;
     }
+    //</editor-fold>
+    
 
+    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyService">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
-    private List<KGLRadiologyService> kGLRadiologyServiceList;
+    private List<KGLRadiologyService> _radiologyService;
 
     @XmlTransient
-    public List<KGLRadiologyService> getKGLRadiologyServiceList() {
-        return kGLRadiologyServiceList;
+    public List<KGLRadiologyService> getRadiologyService() {
+        return _radiologyService;
     }
 
-    public void setKGLRadiologyServiceList(List<KGLRadiologyService> kGLRadiologyServiceList) {
-        this.kGLRadiologyServiceList = kGLRadiologyServiceList;
+    public void setRadiologyService(List<KGLRadiologyService> radiologyService) {
+        this._radiologyService = radiologyService;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property OpAn">
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "biID")
     private KGLOpAn _opAn;
-
+    
     public KGLOpAn getOpAn() {
         if (_opAn == null) {
             _opAn = new KGLOpAn(_id);
         }
         return _opAn;
     }
-
+    
     public void setOpAn(KGLOpAn opAn) {
         this._opAn = opAn;
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List ServiceProvision">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biId")
-    private List<KGLListServiceProvision> kGLListServiceProvisionList;
-
+    private List<KGLListServiceProvision> _serviceProvision;
+    
     @XmlTransient
-    public List<KGLListServiceProvision> getKGLListServiceProvisionList() {
-        return kGLListServiceProvisionList;
+    public List<KGLListServiceProvision> getServiceProvision() {
+        return _serviceProvision;
     }
-
-    public void setKGLListServiceProvisionList(List<KGLListServiceProvision> kGLListServiceProvisionList) {
-        this.kGLListServiceProvisionList = kGLListServiceProvisionList;
+    
+    public void setServiceProvision(List<KGLListServiceProvision> serviceProvision) {
+        this._serviceProvision = serviceProvision;
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List KstTop">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListKstTop> kGLListKstTopList;
-
+    private List<KGLListKstTop> _kstTop;
+    
     @XmlTransient
-    public List<KGLListKstTop> getKGLListKstTopList() {
-        return kGLListKstTopList;
+    public List<KGLListKstTop> getKstTop() {
+        return _kstTop;
     }
-
-    public void setKGLListKstTopList(List<KGLListKstTop> kGLListKstTopList) {
-        this.kGLListKstTopList = kGLListKstTopList;
+    
+    public void setKstTop(List<KGLListKstTop> kstTop) {
+        this._kstTop = kstTop;
     }
+    //</editor-fold>
+    
 
+    //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferential">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList;
-
+    private List<KGLListEndoscopyDifferential> _endoscopyDifferential;
+    
     @XmlTransient
-    public List<KGLListEndoscopyDifferential> getKGLListEndoscopyDifferentialList() {
-        return kGLListEndoscopyDifferentialList;
+    public List<KGLListEndoscopyDifferential> getEndoscopyDifferential() {
+        return _endoscopyDifferential;
     }
-
-    public void setKGLListEndoscopyDifferentialList(List<KGLListEndoscopyDifferential> kGLListEndoscopyDifferentialList) {
-        this.kGLListEndoscopyDifferentialList = kGLListEndoscopyDifferentialList;
+    
+    public void setEndoscopyDifferential(List<KGLListEndoscopyDifferential> endoscopyDifferential) {
+        this._endoscopyDifferential = endoscopyDifferential;
     }
+    //</editor-fold>
+    
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
@@ -1007,18 +1026,20 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     private List<KGLPersonalAccounting> kGLPersonalAccountingList;
 
+    //<editor-fold defaultstate="collapsed" desc="Property List NeonateData">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biID")
     private List<DrgNeonatData> _neonateData;
-
+    
     public List<DrgNeonatData> getNeonateData() {
         return _neonateData;
     }
-
+    
     public void setNeonateData(List<DrgNeonatData> neonateData) {
         this._neonateData = neonateData;
     }
-
+    //</editor-fold>
+    
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalStationServiceDocumentation> kGLNormalStationServiceDocumentationList;
