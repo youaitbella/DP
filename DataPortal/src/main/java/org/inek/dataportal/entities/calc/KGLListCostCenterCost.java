@@ -178,13 +178,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccPPRWeight")
-    private int _pprWeight;
+    private String _pprWeight = "";
     
-    public int getPPRWeight() {
+    public String getPPRWeight() {
         return _pprWeight;
     }
 
-    public void setPPRWeight(int pprWeight) {
+    public void setPPRWeight(String pprWeight) {
         this._pprWeight = pprWeight;
     }
     // </editor-fold>
@@ -361,7 +361,7 @@ public class KGLListCostCenterCost implements Serializable {
         this._id = cccID;
     }
 
-    public KGLListCostCenterCost(Integer cccID, int cccCostCenter, String cccCostCenterText, String cccDepartmentKey, String cccDepartmentAssignment, int cccBedCnt, int cccCareDays, int cccPPRMinutes, int cccPPRWeight, double cccMedicalServiceCnt, double cccNursingServiceCnt, double cccFunctionalServiceCnt, double cccMedicalServiceAmount, double cccNursingServiceAmount, double cccFunctionalServiceAmount, double cccOverheadsMedicine, double cccOverheadsMedicalGoods, double cccMedicalInfrastructureCost, double cccNonMedicalInfrastructureCost) {
+    public KGLListCostCenterCost(Integer cccID, int cccCostCenter, String cccCostCenterText, String cccDepartmentKey, String cccDepartmentAssignment, int cccBedCnt, int cccCareDays, int cccPPRMinutes, String cccPPRWeight, double cccMedicalServiceCnt, double cccNursingServiceCnt, double cccFunctionalServiceCnt, double cccMedicalServiceAmount, double cccNursingServiceAmount, double cccFunctionalServiceAmount, double cccOverheadsMedicine, double cccOverheadsMedicalGoods, double cccMedicalInfrastructureCost, double cccNonMedicalInfrastructureCost) {
         this._id = cccID;
         this._costCenter = cccCostCenter;
         this._costCenterText = cccCostCenterText;
