@@ -33,13 +33,13 @@ public class KGLListRadiologyLaboratory implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer rlId) {
+    public void setId(int rlId) {
         this._id = rlId;
     }
     // </editor-fold>
@@ -258,11 +258,11 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public KGLListRadiologyLaboratory() {
     }
 
-    public KGLListRadiologyLaboratory(Integer rlID) {
+    public KGLListRadiologyLaboratory(int rlID) {
         this._id = rlID;
     }
 
-    public KGLListRadiologyLaboratory(Integer id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
+    public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
         this._id = id;
         this._baseInformationID = baseInformationID;
         this._costTypeID = costTypeID;
@@ -280,9 +280,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -292,10 +290,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
             return false;
         }
         KGLListRadiologyLaboratory other = (KGLListRadiologyLaboratory) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
