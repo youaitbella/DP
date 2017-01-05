@@ -92,6 +92,14 @@
                                        onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                         </h:commandLink>
 
+                        <!-- for testing purpose only-->
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editCalcBasicsDrg.exportTest}"
+                                       value="Test Export"
+                                       immediate="true"
+                                       rendered="#{!editCalcBasicsDrg.readOnly}">
+                        </h:commandLink>
+                        
                     </div>
                 </div>
 

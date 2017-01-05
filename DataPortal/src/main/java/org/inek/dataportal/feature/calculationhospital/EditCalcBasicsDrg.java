@@ -5,6 +5,10 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,7 +19,6 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -84,7 +87,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
-            _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
+        _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
     }
 
     public void ikChanged() {
@@ -96,7 +99,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
     }
-    
+
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         try {
             int id = Integer.parseInt(idObject);
@@ -115,7 +118,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         DrgCalcBasics calcBasic = new DrgCalcBasics();
         calcBasic.setAccountId(account.getId());
         calcBasic.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        if (getIks().size() == 1){
+        if (getIks().size() == 1) {
             calcBasic.setIk((int) getIks().get(0).getValue());
         }
         retrievePriorData(calcBasic);
@@ -200,6 +203,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    public void exportTest() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        
+        // this produces read errors. enable once the data access is complete
+        // mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics);
+        mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics.getOpAn());
+        
+        // later on, we need to embedd the json string into an info file
+        //String json = mapper.writeValueAsString(_calcBasics);
     }
 
     private void setModifiedInfo() {
@@ -330,7 +345,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public String getHospitalInfo() {
         Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
-        if (c == null){return "";}
+        if (c == null) {
+            return "";
+        }
         return c.getName() + ", " + c.getTown();
     }
     // </editor-fold>
