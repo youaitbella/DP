@@ -26,14 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListProvidedType", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLListProvidedType", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListProvidedType.findAll", query = "SELECT k FROM KGLListProvidedType k")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtID", query = "SELECT k FROM KGLListProvidedType k WHERE k._id = :ptID")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtText", query = "SELECT k FROM KGLListProvidedType k WHERE k._text = :ptText")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtFirstYear", query = "SELECT k FROM KGLListProvidedType k WHERE k._firstYear = :ptFirstYear")
-    , @NamedQuery(name = "KGLListProvidedType.findByPtLastYear", query = "SELECT k FROM KGLListProvidedType k WHERE k._lastYear = :ptLastYear")})
 public class KGLListProvidedType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,13 +37,13 @@ public class KGLListProvidedType implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ptID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
@@ -103,11 +97,11 @@ public class KGLListProvidedType implements Serializable {
     public KGLListProvidedType() {
     }
 
-    public KGLListProvidedType(Integer ptID) {
+    public KGLListProvidedType(int ptID) {
         this._id = ptID;
     }
 
-    public KGLListProvidedType(Integer ptID, String ptText, int ptFirstYear, int ptLastYear) {
+    public KGLListProvidedType(int ptID, String ptText, int ptFirstYear, int ptLastYear) {
         this._id = ptID;
         this._text = ptText;
         this._firstYear = ptFirstYear;
@@ -117,9 +111,7 @@ public class KGLListProvidedType implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -129,10 +121,7 @@ public class KGLListProvidedType implements Serializable {
             return false;
         }
         KGLListProvidedType other = (KGLListProvidedType) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
