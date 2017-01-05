@@ -6,14 +6,10 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,107 +22,123 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "dataportaldev", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLNormalFeeContract.findAll", query = "SELECT k FROM KGLNormalFeeContract k")
-    , @NamedQuery(name = "KGLNormalFeeContract.findByNfcID", query = "SELECT k FROM KGLNormalFeeContract k WHERE k.nfcID = :nfcID")
-    , @NamedQuery(name = "KGLNormalFeeContract.findByNfcDivision", query = "SELECT k FROM KGLNormalFeeContract k WHERE k.nfcDivision = :nfcDivision")
-    , @NamedQuery(name = "KGLNormalFeeContract.findByNfcDepartmentKey", query = "SELECT k FROM KGLNormalFeeContract k WHERE k.nfcDepartmentKey = :nfcDepartmentKey")
-    , @NamedQuery(name = "KGLNormalFeeContract.findByNfcCaseCnt", query = "SELECT k FROM KGLNormalFeeContract k WHERE k.nfcCaseCnt = :nfcCaseCnt")
-    , @NamedQuery(name = "KGLNormalFeeContract.findByNfcAmount", query = "SELECT k FROM KGLNormalFeeContract k WHERE k.nfcAmount = :nfcAmount")})
 public class KGLNormalFeeContract implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer nfcID;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 300)
-    private String nfcDivision;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 4)
-    private String nfcDepartmentKey;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    private BigDecimal nfcCaseCnt;
-    @Basic(optional = false)
-    @NotNull
-    private BigDecimal nfcAmount;
-    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics nfcBaseInformationID;
+    @Column(name = "nfcID")
+    private int _id = -1;
 
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _division">
+    @Basic(optional = false)
+    @NotNull
+    @Size(max = 300)
+    @Column(name = "nfcDivision")
+    private String _division = "";
+
+    public String getDivision() {
+        return _division;
+    }
+
+    public void setDivision(String division) {
+        this._division = division;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
+    @Basic(optional = false)
+    @NotNull
+    @Size(max = 4)
+    @Column(name = "nfcDepartmentKey")
+    private String _departmentKey = "";
+
+    public String getDepartmentKey() {
+        return _departmentKey;
+    }
+
+    public void setDepartmentKey(String departmentKey) {
+        this._departmentKey = departmentKey;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _caseCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nfcCaseCnt")
+    private double _caseCnt;
+
+    public double getCaseCnt() {
+        return _caseCnt;
+    }
+
+    public void setCaseCnt(double caseCnt) {
+        this._caseCnt = caseCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _amount">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nfcAmount")
+    private double _amount;
+
+    public double getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(double amount) {
+        this._amount = amount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+//    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nfcBaseInformationID")
+    private int _baseInformationID;
+    
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    //</editor-fold>
+    
     public KGLNormalFeeContract() {
     }
 
     public KGLNormalFeeContract(Integer nfcID) {
-        this.nfcID = nfcID;
+        this._id = nfcID;
     }
 
-    public KGLNormalFeeContract(Integer nfcID, String nfcDivision, String nfcDepartmentKey, BigDecimal nfcCaseCnt, BigDecimal nfcAmount) {
-        this.nfcID = nfcID;
-        this.nfcDivision = nfcDivision;
-        this.nfcDepartmentKey = nfcDepartmentKey;
-        this.nfcCaseCnt = nfcCaseCnt;
-        this.nfcAmount = nfcAmount;
-    }
-
-    public Integer getNfcID() {
-        return nfcID;
-    }
-
-    public void setNfcID(Integer nfcID) {
-        this.nfcID = nfcID;
-    }
-
-    public String getNfcDivision() {
-        return nfcDivision;
-    }
-
-    public void setNfcDivision(String nfcDivision) {
-        this.nfcDivision = nfcDivision;
-    }
-
-    public String getNfcDepartmentKey() {
-        return nfcDepartmentKey;
-    }
-
-    public void setNfcDepartmentKey(String nfcDepartmentKey) {
-        this.nfcDepartmentKey = nfcDepartmentKey;
-    }
-
-    public BigDecimal getNfcCaseCnt() {
-        return nfcCaseCnt;
-    }
-
-    public void setNfcCaseCnt(BigDecimal nfcCaseCnt) {
-        this.nfcCaseCnt = nfcCaseCnt;
-    }
-
-    public BigDecimal getNfcAmount() {
-        return nfcAmount;
-    }
-
-    public void setNfcAmount(BigDecimal nfcAmount) {
-        this.nfcAmount = nfcAmount;
-    }
-
-    public DrgCalcBasics getNfcBaseInformationID() {
-        return nfcBaseInformationID;
-    }
-
-    public void setNfcBaseInformationID(DrgCalcBasics nfcBaseInformationID) {
-        this.nfcBaseInformationID = nfcBaseInformationID;
+    public KGLNormalFeeContract(Integer nfcID, String nfcDivision, String nfcDepartmentKey, double nfcCaseCnt, double nfcAmount) {
+        this._id = nfcID;
+        this._division = nfcDivision;
+        this._departmentKey = nfcDepartmentKey;
+        this._caseCnt = nfcCaseCnt;
+        this._amount = nfcAmount;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (nfcID != null ? nfcID.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -136,15 +148,12 @@ public class KGLNormalFeeContract implements Serializable {
             return false;
         }
         KGLNormalFeeContract other = (KGLNormalFeeContract) object;
-        if ((this.nfcID == null && other.nfcID != null) || (this.nfcID != null && !this.nfcID.equals(other.nfcID))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLNormalFeeContract[ nfcID=" + nfcID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLNormalFeeContract[ nfcID=" + _id + " ]";
     }
     
 }
