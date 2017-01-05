@@ -163,26 +163,26 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountOP">    
     @Column(name = "oaMedicalServiceAmountOP")
-    private double _medicalServiceAmountOP;
+    private int _medicalServiceAmountOP;
 
-    public double getMedicalServiceAmountOP() {
+    public int getMedicalServiceAmountOP() {
         return _medicalServiceAmountOP;
     }
 
-    public void setMedicalServiceAmountOP(double medicalServiceAmountOP) {
+    public void setMedicalServiceAmountOP(int medicalServiceAmountOP) {
         this._medicalServiceAmountOP = medicalServiceAmountOP;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountOP">    
     @Column(name = "oaFunctionalServiceAmountOP")
-    private double _functionalServiceAmountOP;
+    private int _functionalServiceAmountOP;
 
-    public double getFunctionalServiceAmountOP() {
+    public int getFunctionalServiceAmountOP() {
         return _functionalServiceAmountOP;
     }
 
-    public void setFunctionalServiceAmountOP(double functionalServiceAmountOP) {
+    public void setFunctionalServiceAmountOP(int functionalServiceAmountOP) {
         this._functionalServiceAmountOP = functionalServiceAmountOP;
     }
     //</editor-fold>
@@ -295,26 +295,26 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountAN">    
     @Column(name = "oaMedicalServiceAmountAN")
-    private double _medicalServiceAmountAN;
+    private int _medicalServiceAmountAN;
 
-    public double getMedicalServiceAmountAN() {
+    public int getMedicalServiceAmountAN() {
         return _medicalServiceAmountAN;
     }
 
-    public void setMedicalServiceAmountAN(double medicalServiceAmountAN) {
+    public void setMedicalServiceAmountAN(int medicalServiceAmountAN) {
         this._medicalServiceAmountAN = medicalServiceAmountAN;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountAN">    
     @Column(name = "oaFunctionalServiceAmountAN")
-    private double _functionalServiceAmountAN;
+    private int _functionalServiceAmountAN;
 
-    public double getFunctionalServiceAmountAN() {
+    public int getFunctionalServiceAmountAN() {
         return _functionalServiceAmountAN;
     }
 
-    public void setFunctionalServiceAmountAN(double functionalServiceAmountAN) {
+    public void setFunctionalServiceAmountAN(int functionalServiceAmountAN) {
         this._functionalServiceAmountAN = functionalServiceAmountAN;
     }
     //</editor-fold>
