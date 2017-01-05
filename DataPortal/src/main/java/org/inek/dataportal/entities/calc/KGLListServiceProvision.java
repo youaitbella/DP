@@ -26,12 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListServiceProvision", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListServiceProvision.findAll", query = "SELECT k FROM KGLListServiceProvision k")
-    , @NamedQuery(name = "KGLListServiceProvision.findBySpID", query = "SELECT k FROM KGLListServiceProvision k WHERE k._id = :spID")
-    , @NamedQuery(name = "KGLListServiceProvision.findBySpPartitionExternalAssignment", query = "SELECT k FROM KGLListServiceProvision k WHERE k._partitionExternalAssignment = :spPartitionExternalAssignment")
-    , @NamedQuery(name = "KGLListServiceProvision.findBySpNote", query = "SELECT k FROM KGLListServiceProvision k WHERE k._note = :spNote")
-    , @NamedQuery(name = "KGLListServiceProvision.findBySpAmount", query = "SELECT k FROM KGLListServiceProvision k WHERE k._amount = :spAmount")})
 public class KGLListServiceProvision implements Serializable {
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Id">
@@ -39,13 +33,13 @@ public class KGLListServiceProvision implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "spID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     // </editor-fold>
@@ -153,11 +147,11 @@ public class KGLListServiceProvision implements Serializable {
     public KGLListServiceProvision() {
     }
 
-    public KGLListServiceProvision(Integer spID) {
+    public KGLListServiceProvision(int spID) {
         this._id = spID;
     }
 
-    public KGLListServiceProvision(Integer id, String partitionExternalAssignment, String note, double amount) {
+    public KGLListServiceProvision(int id, String partitionExternalAssignment, String note, double amount) {
         this._id = id;
         this._partitionExternalAssignment = partitionExternalAssignment;
         this._note = note;
@@ -167,9 +161,7 @@ public class KGLListServiceProvision implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -179,10 +171,7 @@ public class KGLListServiceProvision implements Serializable {
             return false;
         }
         KGLListServiceProvision other = (KGLListServiceProvision) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
