@@ -42,7 +42,6 @@ public class KGLListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
     
-    
     //<editor-fold defaultstate="collapsed" desc="Text">
     @Basic(optional = false)
     @NotNull
@@ -89,8 +88,6 @@ public class KGLListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
     
-    
-
     public KGLListServiceProvisionType() {
     }
 

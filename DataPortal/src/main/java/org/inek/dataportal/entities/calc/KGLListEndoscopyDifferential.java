@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,13 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListEndoscopyDifferential", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLListEndoscopyDifferential", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListEndoscopyDifferential.findAll", query = "SELECT k FROM KGLListEndoscopyDifferential k")
-    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdID", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k._id = :edID")
-    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdDivision", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k._division = :edDivision")
-    , @NamedQuery(name = "KGLListEndoscopyDifferential.findByEdActivityKey", query = "SELECT k FROM KGLListEndoscopyDifferential k WHERE k._activityKey = :edActivityKey")})
 public class KGLListEndoscopyDifferential implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,15 +6,10 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,16 +22,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListCostCenter", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListCostCenter.findAll", query = "SELECT k FROM KGLListCostCenter k")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcID", query = "SELECT k FROM KGLListCostCenter k WHERE k._id = :ccID")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcCostCenterID", query = "SELECT k FROM KGLListCostCenter k WHERE k._costCenterID = :ccCostCenterID")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcCostCenterText", query = "SELECT k FROM KGLListCostCenter k WHERE k._costCenterText = :ccCostCenterText")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcAmount", query = "SELECT k FROM KGLListCostCenter k WHERE k._amount = :ccAmount")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcFullVigorCnt", query = "SELECT k FROM KGLListCostCenter k WHERE k._fullVigorCnt = :ccFullVigorCnt")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceKey", query = "SELECT k FROM KGLListCostCenter k WHERE k._serviceKey = :ccServiceKey")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceKeyDescription", query = "SELECT k FROM KGLListCostCenter k WHERE k._serviceKeyDescription = :ccServiceKeyDescription")
-    , @NamedQuery(name = "KGLListCostCenter.findByCcServiceSum", query = "SELECT k FROM KGLListCostCenter k WHERE k._serviceSum = :ccServiceSum")})
 public class KGLListCostCenter implements Serializable {
 
     private static final long serialVersionUID = 1L;

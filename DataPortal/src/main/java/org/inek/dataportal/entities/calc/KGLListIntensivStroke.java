@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,29 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListIntensivStroke", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListIntensivStroke.findAll", query = "SELECT k FROM KGLListIntensivStroke k")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsID", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._id = :isID")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsIntensiveType", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._intensiveType = :isIntensiveType")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsCostCenterID", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._costCenterID = :isCostCenterID")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsCostCenterText", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._costCenterText = :isCostCenterText")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsDepartmentKey", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._departmentKey = :isDepartmentKey")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsDepartmentAssignment", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._departmentAssignment = :isDepartmentAssignment")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsBedCnt", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._bedCnt = :isBedCnt")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsCaseCnt", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._caseCnt = :isCaseCnt")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsOPS8980", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._ops8980 = :isOPS8980")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsOPS898f", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._ops898f = :isOPS898f")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsOPS8981", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._ops8981 = :isOPS8981")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsOPS898b", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._ops898b = :isOPS898b")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsMinimumPeriod", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._minimumPeriod = :isMinimumPeriod")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsIntensivHoursWeighted", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._intensivHoursWeighted = :isIntensivHoursWeighted")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsIntensivHoursNotweighted", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._intensivHoursNotweighted = :isIntensivHoursNotweighted")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsWeightMinimum", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._weightMinimum = :isWeightMinimum")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsWeightMaximum", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._weightMaximum = :isWeightMaximum")
-    , @NamedQuery(name = "KGLListIntensivStroke.findByIsWeightDescription", query = "SELECT k FROM KGLListIntensivStroke k WHERE k._weightDescription = :isWeightDescription")})
 public class KGLListIntensivStroke implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)

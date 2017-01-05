@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,27 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListCostCenterCost", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListCostCenterCost.findAll", query = "SELECT k FROM KGLListCostCenterCost k")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccID", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._id = :cccID")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccCostCenter", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._costCenter = :cccCostCenter")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccCostCenterText", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._costCenterText = :cccCostCenterText")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccDepartmentKey", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._departmentKey = :cccDepartmentKey")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccDepartmentAssignment", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._departmentAssignment = :cccDepartmentAssignment")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccBedCnt", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._bedCnt = :cccBedCnt")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccCareDays", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._careDays = :cccCareDays")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccPPRMinutes", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._pprMinutes = :cccPPRMinutes")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccPPRWeight", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._pprWeight = :cccPPRWeight")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccMedicalServiceCnt", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._medicalServiceCnt = :cccMedicalServiceCnt")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccNursingServiceCnt", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._nursingServiceCnt = :cccNursingServiceCnt")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccFunctionalServiceCnt", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._functionalServiceCnt = :cccFunctionalServiceCnt")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccMedicalServiceAmount", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._medicalServiceAmount = :cccMedicalServiceAmount")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccNursingServiceAmount", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._nursingServiceAmount = :cccNursingServiceAmount")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccFunctionalServiceAmount", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._functionalServiceAmount = :cccFunctionalServiceAmount")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccOverheadsMedicine", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._overheadsMedicine = :cccOverheadsMedicine")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccOverheadsMedicalGoods", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._overheadsMedicalGoods = :cccOverheadsMedicalGoods")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccMedicalInfrastructureCost", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._medicalInfrastructureCost = :cccMedicalInfrastructureCost")
-    , @NamedQuery(name = "KGLListCostCenterCost.findByCccNonMedicalInfrastructureCost", query = "SELECT k FROM KGLListCostCenterCost k WHERE k._nonMedicalInfrastructureCost = :cccNonMedicalInfrastructureCost")})
 public class KGLListCostCenterCost implements Serializable {
 
     private static final long serialVersionUID = 1L;

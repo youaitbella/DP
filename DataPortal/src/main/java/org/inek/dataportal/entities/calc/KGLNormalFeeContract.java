@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(catalog = "dataportaldev", schema = "calc")
+@Table(name = "KGLNormalFeeContract", schema = "calc")
 @XmlRootElement
 public class KGLNormalFeeContract implements Serializable {
 
