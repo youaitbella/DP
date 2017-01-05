@@ -6,34 +6,22 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLListServiceProvisionType", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLListServiceProvisionType", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListServiceProvisionType.findAll", query = "SELECT k FROM KGLListServiceProvisionType k")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptID", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._id = :sptID")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptText", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._text = :sptText")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptFirstYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._firstYear = :sptFirstYear")
-    , @NamedQuery(name = "KGLListServiceProvisionType.findBySptLastYear", query = "SELECT k FROM KGLListServiceProvisionType k WHERE k._lastYear = :sptLastYear")})
 public class KGLListServiceProvisionType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,13 +31,13 @@ public class KGLListServiceProvisionType implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
@@ -106,11 +94,11 @@ public class KGLListServiceProvisionType implements Serializable {
     public KGLListServiceProvisionType() {
     }
 
-    public KGLListServiceProvisionType(Integer sptID) {
+    public KGLListServiceProvisionType(int sptID) {
         this._id = sptID;
     }
 
-    public KGLListServiceProvisionType(Integer sptID, String sptText, int sptFirstYear, int sptLastYear) {
+    public KGLListServiceProvisionType(int sptID, String sptText, int sptFirstYear, int sptLastYear) {
         this._id = sptID;
         this._text = sptText;
         this._firstYear = sptFirstYear;
@@ -119,9 +107,7 @@ public class KGLListServiceProvisionType implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -131,10 +117,7 @@ public class KGLListServiceProvisionType implements Serializable {
             return false;
         }
         KGLListServiceProvisionType other = (KGLListServiceProvisionType) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
