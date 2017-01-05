@@ -802,7 +802,7 @@ public class DrgCalcBasics implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyService">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
     private List<KGLRadiologyService> _radiologyService;
 
@@ -817,7 +817,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property OpAn">
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn(name = "biID")
+    @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationID")
     private KGLOpAn _opAn;
 
     public KGLOpAn getOpAn() {

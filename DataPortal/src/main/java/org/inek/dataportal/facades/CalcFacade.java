@@ -26,6 +26,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -197,6 +198,9 @@ public class CalcFacade extends AbstractDataAccess {
         }
         if (calcBasics.getId() == -1) {
             persist(calcBasics);
+            KGLOpAn opAn = calcBasics.getOpAn();
+            opAn.setBaseInformationID(calcBasics.getId());
+            persist(opAn);
             return calcBasics;
         }
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)

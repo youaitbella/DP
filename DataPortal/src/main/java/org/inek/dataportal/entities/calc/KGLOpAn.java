@@ -6,16 +6,12 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -31,26 +27,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLOpAn implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaBaseInformationID")
-    private Integer _baseInformationID;
-    
-    public Integer getBaseInformationID() {
+    private int _baseInformationID;
+
+    public int getBaseInformationID() {
         return _baseInformationID;
     }
-    
-    public void setBaseInformationID(Integer baseInformationID) {
+
+    public void setBaseInformationID(int baseInformationID) {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="centralOPCnt">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaCentralOPCnt")
     private int _centralOPCnt;
 
@@ -62,10 +54,8 @@ public class KGLOpAn implements Serializable {
         this._centralOPCnt = centralOPCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaStaffBindingMsOP")
     private boolean _staffBindingMsOP;
 
@@ -77,10 +67,8 @@ public class KGLOpAn implements Serializable {
         this._staffBindingMsOP = staffBindingMsOP;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="staffBindingFsOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaStaffBindingFsOP")
     private boolean _staffBindingFsOP;
 
@@ -92,11 +80,8 @@ public class KGLOpAn implements Serializable {
         this._staffBindingFsOP = staffBindingFsOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaMedicalServiceSnzOP")
     private int _medicalServiceSnzOP;
 
@@ -108,11 +93,8 @@ public class KGLOpAn implements Serializable {
         this._medicalServiceSnzOP = medicalServiceSnzOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaFunctionalServiceSnzOP")
     private int _functionalServiceSnzOP;
 
@@ -124,11 +106,8 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceSnzOP = functionalServiceSnzOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzOP">    
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "oaDescriptionSnzOP")
     private String _descriptionSnzOP = "";
@@ -141,11 +120,8 @@ public class KGLOpAn implements Serializable {
         this._descriptionSnzOP = descriptionSnzOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaMedicalServiceRzOP")
     private int _medicalServiceRzOP;
 
@@ -157,11 +133,8 @@ public class KGLOpAn implements Serializable {
         this._medicalServiceRzOP = medicalServiceRzOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaFunctionalServiceRzOP")
     private int _functionalServiceRzOP;
 
@@ -173,11 +146,8 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceRzOP = functionalServiceRzOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="descriptionRzOP">    
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "oaDescriptionRzOP")
     private String _descriptionRzOP = "";
@@ -190,11 +160,8 @@ public class KGLOpAn implements Serializable {
         this._descriptionRzOP = descriptionRzOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaMedicalServiceAmountOP")
     private double _medicalServiceAmountOP;
 
@@ -206,11 +173,8 @@ public class KGLOpAn implements Serializable {
         this._medicalServiceAmountOP = medicalServiceAmountOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountOP">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaFunctionalServiceAmountOP")
     private double _functionalServiceAmountOP;
 
@@ -222,11 +186,8 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceAmountOP = functionalServiceAmountOP;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaStaffBindingMsAN")
     private boolean _staffBindingMsAN;
 
@@ -238,11 +199,8 @@ public class KGLOpAn implements Serializable {
         this._staffBindingMsAN = staffBindingMsAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="staffBindingFsAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaStaffBindingFsAN")
     private boolean _staffBindingFsAN;
 
@@ -254,11 +212,8 @@ public class KGLOpAn implements Serializable {
         this._staffBindingFsAN = staffBindingFsAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaMedicalServiceSnzAN")
     private int _medicalServiceSnzAN;
 
@@ -270,11 +225,8 @@ public class KGLOpAn implements Serializable {
         this._medicalServiceSnzAN = medicalServiceSnzAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaFunctionalServiceSnzAN")
     private int _functionalServiceSnzAN;
 
@@ -286,11 +238,8 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceSnzAN = functionalServiceSnzAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzAN">    
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "oaDescriptionSnzAN")
     private String _descriptionSnzAN = "";
@@ -303,11 +252,8 @@ public class KGLOpAn implements Serializable {
         this._descriptionSnzAN = descriptionSnzAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaMedicalServiceRzAN")
     private int _medicalServiceRzAN;
 
@@ -319,11 +265,8 @@ public class KGLOpAn implements Serializable {
         this._medicalServiceRzAN = medicalServiceRzAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaFunctionalServiceRzAN")
     private int _functionalServiceRzAN;
 
@@ -335,11 +278,8 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceRzAN = functionalServiceRzAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="descriptionRzAN">    
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "oaDescriptionRzAN")
     private String _descriptionRzAN = "";
@@ -352,11 +292,8 @@ public class KGLOpAn implements Serializable {
         this._descriptionRzAN = descriptionRzAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaMedicalServiceAmountAN")
     private double _medicalServiceAmountAN;
 
@@ -368,11 +305,8 @@ public class KGLOpAn implements Serializable {
         this._medicalServiceAmountAN = medicalServiceAmountAN;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountAN">    
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "oaFunctionalServiceAmountAN")
     private double _functionalServiceAmountAN;
 
@@ -384,10 +318,7 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceAmountAN = functionalServiceAmountAN;
     }
     //</editor-fold>
-    
-    
 
-    
     public KGLOpAn() {
     }
 
@@ -420,12 +351,9 @@ public class KGLOpAn implements Serializable {
         this._functionalServiceAmountAN = oaFunctionalServiceAmountAN;
     }
 
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_baseInformationID != null ? _baseInformationID.hashCode() : 0);
-        return hash;
+        return _baseInformationID;
     }
 
     @Override
@@ -435,15 +363,12 @@ public class KGLOpAn implements Serializable {
             return false;
         }
         KGLOpAn other = (KGLOpAn) object;
-        if ((this._baseInformationID == null && other._baseInformationID != null) || (this._baseInformationID != null && !this._baseInformationID.equals(other._baseInformationID))) {
-            return false;
-        }
-        return true;
+        return this._baseInformationID == other._baseInformationID;
     }
 
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLOpAn[ oaBaseInformationID=" + _baseInformationID + " ]";
     }
-    
+
 }

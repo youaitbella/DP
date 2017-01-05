@@ -98,6 +98,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         opAn.setMedicalServiceAmountAN(0);
         opAn.setFunctionalServiceAmountOP(0);
         opAn.setFunctionalServiceAmountAN(0);
+        opAn.setBaseInformationID(calcBasics.getId());
         calcBasics.setOpAn(opAn);
     }
     
