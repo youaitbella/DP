@@ -114,25 +114,25 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="statusID">
     @Column(name = "biStatusID")
-    private int _statusId;
+    private int _statusID;
 
     public int getStatusID() {
-        return _statusId;
+        return _statusID;
     }
 
     public void setStatusID(int statusID) {
-        this._statusId = statusID;
+        this._statusID = statusID;
     }
 
     public WorkflowStatus getStatus() {
-        return WorkflowStatus.fromValue(_statusId);
+        return WorkflowStatus.fromValue(_statusID);
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusId = status.getValue();
+        _statusID = status.getValue();
     }
-
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="deliveryType">
     @Column(name = "biDeliveryType")
     private short _deliveryType;
@@ -759,59 +759,63 @@ public class DrgCalcBasics implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property List CostCenter">
+    //<editor-fold defaultstate="collapsed" desc="Property List CostCenters">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListCostCenter> _costCenter = new Vector<>();
+    private List<KGLListCostCenter> _costCenters = new Vector<>();
 
-    public List<KGLListCostCenter> getCostCenter() {
-        return _costCenter;
+    @XmlTransient
+    public List<KGLListCostCenter> getCostCenters() {
+        return _costCenters;
     }
 
-    public void setCostCenter(List<KGLListCostCenter> costCenter) {
-        this._costCenter = costCenter;
+    public void setCostCenters(List<KGLListCostCenter> costCenter) {
+        this._costCenters = costCenter;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratory">
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListRadiologyLaboratory> _radiologyLaboratory;
+    private List<KGLListRadiologyLaboratory> _radiologyLaboratories;
 
-    public List<KGLListRadiologyLaboratory> getRadiologyLaboratory() {
-        return _radiologyLaboratory;
+    @XmlTransient
+    public List<KGLListRadiologyLaboratory> getRadiologyLaboratories() {
+        return _radiologyLaboratories;
     }
 
-    public void setRadiologyLaboratory(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
-        this._radiologyLaboratory = radiologyLaboratory;
+    public void setRadiologyLaboratories(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
+        this._radiologyLaboratories = radiologyLaboratory;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecology">
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListObstetricsGynecology> _obstetricsGynecology;
-
-    public List<KGLListObstetricsGynecology> getObstetricsGynecology() {
-        return _obstetricsGynecology;
+    private List<KGLListObstetricsGynecology> _obstetricsGynecologies;
+    
+    @XmlTransient
+    public List<KGLListObstetricsGynecology> getObstetricsGynecologies() {
+        return _obstetricsGynecologies;
     }
-
-    public void setObstetricsGynecology(List<KGLListObstetricsGynecology> obstetricsGynecology) {
-        this._obstetricsGynecology = obstetricsGynecology;
+    
+    public void setObstetricsGynecologies(List<KGLListObstetricsGynecology> obstetricsGynecology) {
+        this._obstetricsGynecologies = obstetricsGynecology;
     }
-    //</editor-fold>
+    //</editor-fold>    
 
-    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyService">
+    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
-    private List<KGLRadiologyService> _radiologyService;
+    private List<KGLRadiologyService> _radiologyServices;
 
-    public List<KGLRadiologyService> getRadiologyService() {
-        return _radiologyService;
+    @XmlTransient
+    public List<KGLRadiologyService> getRadiologyServices() {
+        return _radiologyServices;
     }
 
-    public void setRadiologyService(List<KGLRadiologyService> radiologyService) {
-        this._radiologyService = radiologyService;
+    public void setRadiologyServices(List<KGLRadiologyService> radiologyService) {
+        this._radiologyServices = radiologyService;
     }
     //</editor-fold>
 
@@ -831,70 +835,126 @@ public class DrgCalcBasics implements Serializable {
         this._opAn = opAn;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property List ServiceProvision">
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List ServiceProvisions">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biId")
-    private List<KGLListServiceProvision> _serviceProvision;
-
-    public List<KGLListServiceProvision> getServiceProvision() {
-        return _serviceProvision;
+    private List<KGLListServiceProvision> _serviceProvisions;
+    
+    @XmlTransient
+    public List<KGLListServiceProvision> getServiceProvisions() {
+        return _serviceProvisions;
     }
-
-    public void setServiceProvision(List<KGLListServiceProvision> serviceProvision) {
-        this._serviceProvision = serviceProvision;
+    
+    public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
+        this._serviceProvisions = serviceProvision;
     }
     //</editor-fold>
-
+    
     //<editor-fold defaultstate="collapsed" desc="Property List KstTop">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
     private List<KGLListKstTop> _kstTop;
-
+    
+    @XmlTransient
     public List<KGLListKstTop> getKstTop() {
         return _kstTop;
     }
-
+    
     public void setKstTop(List<KGLListKstTop> kstTop) {
         this._kstTop = kstTop;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferential">
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListEndoscopyDifferential> _endoscopyDifferential;
-
-    public List<KGLListEndoscopyDifferential> getEndoscopyDifferential() {
-        return _endoscopyDifferential;
+    private List<KGLListEndoscopyDifferential> _endoscopyDifferentials;
+    
+    @XmlTransient
+    public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
+        return _endoscopyDifferentials;
     }
-
-    public void setEndoscopyDifferential(List<KGLListEndoscopyDifferential> endoscopyDifferential) {
-        this._endoscopyDifferential = endoscopyDifferential;
+    
+    public void setEndoscopyDifferentials(List<KGLListEndoscopyDifferential> endoscopyDifferential) {
+        this._endoscopyDifferentials = endoscopyDifferential;
     }
     //</editor-fold>
-
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List normalFeeContracts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
-    private List<KGLNormalFeeContract> kGLNormalFeeContractList;
-
+    private List<KGLNormalFeeContract> _normalFeeContracts;
+    
+    @XmlTransient
+    public List<KGLNormalFeeContract> getNormalFeeContracts() {
+        return _normalFeeContracts;
+    }
+    
+    public void setNormalFeeContracts(List<KGLNormalFeeContract> normalFeeContracts) {
+        this._normalFeeContracts = normalFeeContracts;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List NormalFreelancers">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
-    private List<KGLNormalFreelancer> kGLNormalFreelancerList;
+    private List<KGLNormalFreelancer> _normalFreelancers;
+    
+    public List<KGLNormalFreelancer> getNormalFreelancers() {
+        return _normalFreelancers;
+    }
+    
+    public void setNormalFreelancers(List<KGLNormalFreelancer> normalFreelancers) {
+        this._normalFreelancers = normalFreelancers;
+    }
+    //</editor-fold>
+    
+    
 
+    //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListIntensivStroke> kGLListIntensivStrokeList;
-
+    private List<KGLListIntensivStroke> _intensivStrokes;
+    
+    public List<KGLListIntensivStroke> getIntensivStrokes() {
+        return _intensivStrokes;
+    }
+    
+    public void setIntensivStrokes(List<KGLListIntensivStroke> intensivStrokes) {
+        this._intensivStrokes = intensivStrokes;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListMedInfra> kGLListMedInfraList;
-
+    private List<KGLListMedInfra> _medInfras;
+    
+    public List<KGLListMedInfra> getMedInfras() {
+        return _medInfras;
+    }
+    
+    public void setMedInfras(List<KGLListMedInfra> medInfras) {
+        this._medInfras = medInfras;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
-    private List<KGLPersonalAccounting> kGLPersonalAccountingList;
-
-    //<editor-fold defaultstate="collapsed" desc="Property List NeonateData">
+    private List<KGLPersonalAccounting> _personalAccountings;
+    
+    public List<KGLPersonalAccounting> getPersonalAccountings() {
+        return _personalAccountings;
+    }
+    
+    public void setPersonalAccountings(List<KGLPersonalAccounting> personalAccountings) {
+        this._personalAccountings = personalAccountings;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biID")
     private List<DrgNeonatData> _neonateData;
@@ -907,23 +967,64 @@ public class DrgCalcBasics implements Serializable {
         this._neonateData = neonateData;
     }
     //</editor-fold>
-
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List NormalStationServiceDocumentations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
-    private List<KGLNormalStationServiceDocumentation> kGLNormalStationServiceDocumentationList;
-
+    private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations;
+    
+    public List<KGLNormalStationServiceDocumentation> getNormalStationServiceDocumentations() {
+        return _normalStationServiceDocumentations;
+    }
+    
+    public void setNormalStationServiceDocumentations(List<KGLNormalStationServiceDocumentation> normalStationServiceDocumentations) {
+        this._normalStationServiceDocumentations = normalStationServiceDocumentations;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List IntensiveStrokeCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "iscBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListIntensiveStrokeCost> kGLListIntensiveStrokeCostList;
-
+    private List<KGLListIntensiveStrokeCost> _intensiveStrokeCosts;
+    
+    public List<KGLListIntensiveStrokeCost> getIntensiveStrokeCosts() {
+        return _intensiveStrokeCosts;
+    }
+    
+    public void setIntensiveStrokeCosts(List<KGLListIntensiveStrokeCost> intensiveStrokeCosts) {
+        this._intensiveStrokeCosts = intensiveStrokeCosts;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListCostCenterCost> kGLListCostCenterCostList;
-
+    private List<KGLListCostCenterCost> _costCenterCosts;
+    
+    public List<KGLListCostCenterCost> getCostCenterCosts() {
+        return _costCenterCosts;
+    }
+    
+    public void setCostCenterCosts(List<KGLListCostCenterCost> cCostCenterCosts) {
+        this._costCenterCosts = cCostCenterCosts;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List pkmsAlternatives">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
-    private List<KGLPKMSAlternative> kGLPKMSAlternativeList;
-
+    private List<KGLPKMSAlternative> _pkmsAlternatives;
+    
+    public List<KGLPKMSAlternative> getPkmsAlternatives() {
+        return _pkmsAlternatives;
+    }
+    
+    public void setPkmsAlternatives(List<KGLPKMSAlternative> pkmsAlternatives) {
+        this._pkmsAlternatives = pkmsAlternatives;
+    }
+    //</editor-fold>
+    
+    
     @Override
     public int hashCode() {
         return _id;
