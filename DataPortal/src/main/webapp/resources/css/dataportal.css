@@ -681,6 +681,16 @@ select:active, select:focus{
     font-weight: bold;
 }
 
+.blockHeader2 {
+    display: inline-block;
+    width: calc(100% - 2px);
+    margin: 0 1px;
+    background-color: #7F9BAF;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .areaNarrowLow {
     min-width: 100px;
     width: 100px;
