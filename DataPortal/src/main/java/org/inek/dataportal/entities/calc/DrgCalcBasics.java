@@ -565,13 +565,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
     @Column(name = "biPKMSRecording")
-    private boolean _pkmsRecording;
+    private int _pkmsRecording;
 
-    public boolean isPkmsRecording() {
+    public int isPkmsRecording() {
         return _pkmsRecording;
     }
 
-    public void setPkmsRecording(boolean pkmsRecording) {
+    public void setPkmsRecording(int pkmsRecording) {
         this._pkmsRecording = pkmsRecording;
     }
     //</editor-fold>
@@ -589,30 +589,17 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="kisIntegration">
-    @Column(name = "biKISIntegration")
-    private boolean _kisIntegration;
-
-    public boolean isKisIntegration() {
-        return _kisIntegration;
-    }
-
-    public void setKisIntegration(boolean kisIntegration) {
-        this._kisIntegration = kisIntegration;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="normalStationOther">
-    @Column(name = "biNormalStationOther")
-    private String _normalStationOther = "";
+    @Column(name = "biPKMSOther")
+    private String _pkmsStationOther = "";
 
-    public String getNormalStationOther() {
-        return _normalStationOther;
+    public String getPkmsStationOther() {
+        return _pkmsStationOther;
     }
 
-    public void setNormalStationOther(String normalStationOther) {
-        this._normalStationOther = normalStationOther;
-    }
+    public void setPkmsStationOther(String pkmsStationOther) {
+        this._pkmsStationOther = pkmsStationOther;
+    }    
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="approximationMethodMedInfra">
