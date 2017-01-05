@@ -6,19 +6,10 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,16 +22,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListObstetricsGynecology", catalog = "DataPortalDev", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListObstetricsGynecology.findAll", query = "SELECT k FROM KGLListObstetricsGynecology k")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByID", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._id = :ogID")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByCostCenterText", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._costCenterText = :ogCostCenterText")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByMedicalServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._medicalServiceCnt = :ogMedicalServiceCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByAttendingDoctorCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._attendingDoctorCnt = :ogAttendingDoctorCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByNursingServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._nursingServiceCnt = :ogNursingServiceCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByFunctionalServiceCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._functionalServiceCnt = :ogFunctionalServiceCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByMidwifeCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._midwifeCnt = :ogMidwifeCnt")
-    , @NamedQuery(name = "KGLListObstetricsGynecology.findByAttendingMidwifeCnt", query = "SELECT k FROM KGLListObstetricsGynecology k WHERE k._attendingMidwifeCnt = :ogAttendingMidwifeCnt")})
 public class KGLListObstetricsGynecology implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,13 +30,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogID")
-    private Integer _id;
+    private int _id;
     
-    public Integer getID() {
+    public int getID() {
         return _id;
     }
 
-    public void setID(Integer id) {
+    public void setID(int id) {
         this._id = id;
     }
     // </editor-fold>
@@ -80,13 +61,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogMedicalServiceCnt")
-    private BigDecimal _medicalServiceCnt;
+    private double _medicalServiceCnt;
     
-    public BigDecimal getMedicalServiceCnt() {
+    public double getMedicalServiceCnt() {
         return _medicalServiceCnt;
     }
 
-    public void setMedicalServiceCnt(BigDecimal medicalServiceCnt) {
+    public void setMedicalServiceCnt(double medicalServiceCnt) {
         this._medicalServiceCnt = medicalServiceCnt;
     }
     // </editor-fold>
@@ -95,13 +76,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogAttendingDoctorCnt")
-    private BigDecimal _attendingDoctorCnt;
+    private double _attendingDoctorCnt;
     
-    public BigDecimal getAttendingDoctorCnt() {
+    public double getAttendingDoctorCnt() {
         return _attendingDoctorCnt;
     }
 
-    public void setAttendingDoctorCnt(BigDecimal attendingDoctorCnt) {
+    public void setAttendingDoctorCnt(double attendingDoctorCnt) {
         this._attendingDoctorCnt = attendingDoctorCnt;
     }
     // </editor-fold>
@@ -110,13 +91,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogNursingServiceCnt")
-    private BigDecimal _nursingServiceCnt;
+    private double _nursingServiceCnt;
     
-    public BigDecimal getNursingServiceCnt() {
+    public double getNursingServiceCnt() {
         return _nursingServiceCnt;
     }
 
-    public void setNursingServiceCnt(BigDecimal nursingServiceCnt) {
+    public void setNursingServiceCnt(double nursingServiceCnt) {
         this._nursingServiceCnt = nursingServiceCnt;
     }
     // </editor-fold>
@@ -125,13 +106,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogFunctionalServiceCnt")
-    private BigDecimal _functionalServiceCnt;
+    private double _functionalServiceCnt;
     
-    public BigDecimal getFunctionalServiceCnt() {
+    public double getFunctionalServiceCnt() {
         return _functionalServiceCnt;
     }
 
-    public void setFunctionalServiceCnt(BigDecimal functionalServiceCnt) {
+    public void setFunctionalServiceCnt(double functionalServiceCnt) {
         this._functionalServiceCnt = functionalServiceCnt;
     }
     // </editor-fold>
@@ -140,13 +121,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogMidwifeCnt")
-    private BigDecimal _midwifeCnt;
+    private double _midwifeCnt;
     
-    public BigDecimal getMidwifeCnt() {
+    public double getMidwifeCnt() {
         return _midwifeCnt;
     }
 
-    public void setMidwifeCnt(BigDecimal midwifeCnt) {
+    public void setMidwifeCnt(double midwifeCnt) {
         this._midwifeCnt = midwifeCnt;
     }
     // </editor-fold>
@@ -155,13 +136,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogAttendingMidwifeCnt")
-    private BigDecimal _attendingMidwifeCnt;
+    private double _attendingMidwifeCnt;
     
-    public BigDecimal getAttendingMidwifeCnt() {
+    public double getAttendingMidwifeCnt() {
         return this._attendingMidwifeCnt;        
     }
     
-    public void setAttendingMidwifeCnt(BigDecimal attendingMidwifeCnt) {
+    public void setAttendingMidwifeCnt(double attendingMidwifeCnt) {
         this._attendingMidwifeCnt = attendingMidwifeCnt;        
     }
     // </editor-fold>
@@ -186,11 +167,11 @@ public class KGLListObstetricsGynecology implements Serializable {
     public KGLListObstetricsGynecology() {
     }
 
-    public KGLListObstetricsGynecology(Integer ogID) {
+    public KGLListObstetricsGynecology(int ogID) {
         this._id = ogID;
     }
 
-    public KGLListObstetricsGynecology(Integer ogID, String ogCostCenterText, BigDecimal ogMedicalServiceCnt, BigDecimal ogAttendingDoctorCnt, BigDecimal ogNursingServiceCnt, BigDecimal ogFunctionalServiceCnt, BigDecimal ogMidwifeCnt, BigDecimal ogAttendingMidwifeCnt) {
+    public KGLListObstetricsGynecology(int ogID, String ogCostCenterText, double ogMedicalServiceCnt, double ogAttendingDoctorCnt, double ogNursingServiceCnt, double ogFunctionalServiceCnt, double ogMidwifeCnt, double ogAttendingMidwifeCnt) {
         this._id = ogID;
         this._costCenterText = ogCostCenterText;
         this._medicalServiceCnt = ogMedicalServiceCnt;
@@ -203,9 +184,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -215,10 +194,7 @@ public class KGLListObstetricsGynecology implements Serializable {
             return false;
         }
         KGLListObstetricsGynecology other = (KGLListObstetricsGynecology) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return (this._id == other._id);
     }
  
     @Override
