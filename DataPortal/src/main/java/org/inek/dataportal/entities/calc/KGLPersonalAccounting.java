@@ -182,11 +182,11 @@ public class KGLPersonalAccounting implements Serializable {
     public KGLPersonalAccounting() {
     }
 
-    public KGLPersonalAccounting(Integer paID) {
+    public KGLPersonalAccounting(int paID) {
         this._id = paID;
     }
 
-    public KGLPersonalAccounting(Integer paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
+    public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
         this._id = paID;
         this._costTypeID = paCostTypeID;
         this._staffRecording = paStaffRecording;

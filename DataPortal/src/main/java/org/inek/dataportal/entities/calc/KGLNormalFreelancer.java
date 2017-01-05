@@ -26,7 +26,7 @@ public class KGLNormalFreelancer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
@@ -42,7 +42,7 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _division">
     @Basic(optional = false)
     @NotNull
     @Size(max = 300)
@@ -58,8 +58,7 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
     
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _fullVigorCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfFullVigorCnt")
@@ -74,7 +73,7 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfAmount")
@@ -89,7 +88,7 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _costType1">
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfCostType1")
@@ -104,7 +103,7 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _costType6c">
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfCostType6c")
@@ -119,7 +118,7 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Basic(optional = false)

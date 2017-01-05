@@ -33,13 +33,13 @@ public class KGLListIntensivStroke implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "isID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     // </editor-fold>
@@ -320,11 +320,11 @@ public class KGLListIntensivStroke implements Serializable {
     public KGLListIntensivStroke() {
     }
 
-    public KGLListIntensivStroke(Integer isID) {
+    public KGLListIntensivStroke(int isID) {
         this._id = isID;
     }
 
-    public KGLListIntensivStroke(Integer id, int intensiveType, int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, int minimumPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, String weightDescription) {
+    public KGLListIntensivStroke(int id, int intensiveType, int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, int minimumPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, String weightDescription) {
         this._id = id;
         this._intensiveType = intensiveType;
         this._costCenterID = costCenterID;
@@ -347,9 +347,7 @@ public class KGLListIntensivStroke implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -359,10 +357,7 @@ public class KGLListIntensivStroke implements Serializable {
             return false;
         }
         KGLListIntensivStroke other = (KGLListIntensivStroke) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override

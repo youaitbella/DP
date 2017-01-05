@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class DRGSheetName implements Serializable {
 
     private static final long serialVersionUID = 1L;
-//<editor-fold defaultstate="collapsed" desc="Property ID">
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ID">
     @Id
     @Basic(optional = false)
     @NotNull
@@ -45,10 +46,10 @@ public class DRGSheetName implements Serializable {
     public void setID(int id) {
         this._id = id;
     }
-//</editor-fold>
+    //</editor-fold>
     
     
-//<editor-fold defaultstate="collapsed" desc="Property Sheet">
+    //<editor-fold defaultstate="collapsed" desc="Property Sheet">
     @Basic(optional = false)
     @NotNull
     @Size(max = 100)
@@ -62,9 +63,9 @@ public class DRGSheetName implements Serializable {
     public void setSheet(String sheet) {
         this._sheet = sheet;
     }
-//</editor-fold>
+    //</editor-fold>
     
-//<editor-fold defaultstate="collapsed" desc="Property DrgHeaderText">
+    //<editor-fold defaultstate="collapsed" desc="Property DrgHeaderText">
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "htSheetId", referencedColumnName = "sId")
     private List<DrgHeaderText> _drgHeaderTextList;
@@ -77,7 +78,7 @@ public class DRGSheetName implements Serializable {
     public void setDrgHeaderTextList(List<DrgHeaderText> drgHeaderTextList) {
         this._drgHeaderTextList = drgHeaderTextList;
     }
-//</editor-fold>
+    //</editor-fold>
     
     public DRGSheetName() {
     }

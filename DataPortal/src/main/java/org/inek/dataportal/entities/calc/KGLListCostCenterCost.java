@@ -27,18 +27,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListCostCenterCost implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccID")
-    private Integer _id;
+    private int _id;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     // </editor-fold>
@@ -334,11 +335,11 @@ public class KGLListCostCenterCost implements Serializable {
     public KGLListCostCenterCost() {
     }
 
-    public KGLListCostCenterCost(Integer cccID) {
+    public KGLListCostCenterCost(int cccID) {
         this._id = cccID;
     }
 
-    public KGLListCostCenterCost(Integer cccID, int cccCostCenter, String cccCostCenterText, String cccDepartmentKey, String cccDepartmentAssignment, int cccBedCnt, int cccCareDays, int cccPPRMinutes, String cccPPRWeight, double cccMedicalServiceCnt, double cccNursingServiceCnt, double cccFunctionalServiceCnt, double cccMedicalServiceAmount, double cccNursingServiceAmount, double cccFunctionalServiceAmount, double cccOverheadsMedicine, double cccOverheadsMedicalGoods, double cccMedicalInfrastructureCost, double cccNonMedicalInfrastructureCost) {
+    public KGLListCostCenterCost(int cccID, int cccCostCenter, String cccCostCenterText, String cccDepartmentKey, String cccDepartmentAssignment, int cccBedCnt, int cccCareDays, int cccPPRMinutes, String cccPPRWeight, double cccMedicalServiceCnt, double cccNursingServiceCnt, double cccFunctionalServiceCnt, double cccMedicalServiceAmount, double cccNursingServiceAmount, double cccFunctionalServiceAmount, double cccOverheadsMedicine, double cccOverheadsMedicalGoods, double cccMedicalInfrastructureCost, double cccNonMedicalInfrastructureCost) {
         this._id = cccID;
         this._costCenter = cccCostCenter;
         this._costCenterText = cccCostCenterText;
@@ -363,9 +364,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -375,10 +374,7 @@ public class KGLListCostCenterCost implements Serializable {
             return false;
         }
         KGLListCostCenterCost other = (KGLListCostCenterCost) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override

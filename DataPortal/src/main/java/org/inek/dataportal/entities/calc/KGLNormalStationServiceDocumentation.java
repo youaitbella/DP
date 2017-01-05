@@ -26,7 +26,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
@@ -42,7 +42,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _used">
     @Basic(optional = false)
     @NotNull
     @Column(name = "nssUsed")
@@ -57,6 +57,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property _department">
     @Basic(optional = false)
     @NotNull
     @Size(max = 200)
@@ -72,7 +73,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
     @Basic(optional = false)
     @NotNull
     @Size(max = 4)
@@ -88,7 +89,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _alternative">
     @Basic(optional = false)
     @NotNull
     @Size(max = 200)
@@ -104,7 +105,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Basic(optional = false)
@@ -121,14 +122,13 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _contentTextID">
 //    @JoinColumn(name = "nssContentTextID", referencedColumnName = "ctID")
 //    @ManyToOne(optional = false)
     @Basic(optional = false)
     @NotNull
     @Column(name = "nssContentTextID")
     private int _contentTextID;
-    //</editor-fold>
 
     public int getContentTextID() {
         return _contentTextID;
@@ -137,12 +137,12 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     public void setContentTextID(int contentTextID) {
         this._contentTextID = contentTextID;
     }
-    
+    //</editor-fold>
 
     public KGLNormalStationServiceDocumentation() {
     }
 
-    public KGLNormalStationServiceDocumentation(Integer nssID) {
+    public KGLNormalStationServiceDocumentation(int nssID) {
         this._id = nssID;
     }
 

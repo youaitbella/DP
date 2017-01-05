@@ -26,7 +26,7 @@ public class KGLPKMSAlternative implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
@@ -42,7 +42,7 @@ public class KGLPKMSAlternative implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _department">
     @Basic(optional = false)
     @NotNull
     @Size(max = 200)
@@ -58,7 +58,7 @@ public class KGLPKMSAlternative implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
     @Basic(optional = false)
     @NotNull
     @Size(max = 4)
@@ -74,7 +74,7 @@ public class KGLPKMSAlternative implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _alternative">
     @Basic(optional = false)
     @NotNull
     @Size(max = 200)
@@ -90,7 +90,7 @@ public class KGLPKMSAlternative implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Basic(optional = false)
@@ -105,7 +105,6 @@ public class KGLPKMSAlternative implements Serializable {
     public void setBaseInformationID(int baseInformationID) {
         this._baseInformationID = baseInformationID;
     }
-    
     //</editor-fold>
 
     public KGLPKMSAlternative() {

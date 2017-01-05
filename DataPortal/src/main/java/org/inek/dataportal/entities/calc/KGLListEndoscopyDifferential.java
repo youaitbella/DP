@@ -32,13 +32,13 @@ public class KGLListEndoscopyDifferential implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "edID")
-    private Integer _id;
+    private int _id;
     
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     // </editor-fold>
@@ -105,9 +105,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -117,10 +115,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
             return false;
         }
         KGLListEndoscopyDifferential other = (KGLListEndoscopyDifferential) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override

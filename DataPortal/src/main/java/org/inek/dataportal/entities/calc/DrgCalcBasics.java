@@ -16,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -36,8 +34,6 @@ import org.inek.dataportal.enums.WorkflowStatus;
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLBaseInformation.findAll", query = "SELECT k FROM DrgCalcBasics k")})
 public class DrgCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;

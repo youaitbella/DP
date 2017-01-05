@@ -31,13 +31,13 @@ public class KGLListCostCenter implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccID")
-    private Integer _id;
+    private int _id = -1;
     
-    public Integer getID() {
+    public int getID() {
         return _id;
     }
 
-    public void setID(Integer ccID) {
+    public void setID(int ccID) {
         this._id = ccID;
     }
     // </editor-fold>
@@ -188,9 +188,7 @@ public class KGLListCostCenter implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -200,10 +198,7 @@ public class KGLListCostCenter implements Serializable {
             return false;
         }
         KGLListCostCenter other = (KGLListCostCenter) object;
-        if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
