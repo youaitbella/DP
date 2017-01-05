@@ -589,32 +589,6 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="kisIntegration">
-    @Column(name = "biKISIntegration")
-    private boolean _kisIntegration;
-
-    public boolean isKisIntegration() {
-        return _kisIntegration;
-    }
-
-    public void setKisIntegration(boolean kisIntegration) {
-        this._kisIntegration = kisIntegration;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="normalStationOther">
-    @Column(name = "biNormalStationOther")
-    private String _normalStationOther = "";
-
-    public String getNormalStationOther() {
-        return _normalStationOther;
-    }
-
-    public void setNormalStationOther(String normalStationOther) {
-        this._normalStationOther = normalStationOther;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="approximationMethodMedInfra">
     @Column(name = "biApproximationMethodMedInfra")
     private boolean _approximationMethodMedInfra;
