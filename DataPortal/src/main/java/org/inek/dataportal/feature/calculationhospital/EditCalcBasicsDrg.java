@@ -98,7 +98,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
+        int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
+        
+        _priorCalcBasics.getNeonateData().stream().filter(n -> n.getContentText().getHeaderTextId() == headerId).forEach(n -> {System.out.println("Wert: " + n.getData());});
+            
     }
+    
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         try {
@@ -121,11 +126,33 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (getIks().size() == 1) {
             calcBasic.setIk((int) getIks().get(0).getValue());
         }
+        ensureNeonateData(calcBasic);
         retrievePriorData(calcBasic);
         preloadData(calcBasic);
         return calcBasic;
     }
 
+    private void ensureNeonateData(DrgCalcBasics calcBasics) {
+        if (calcBasics.getNeonateData() != null && !calcBasics.getNeonateData().isEmpty()) {
+            return;
+        }
+        if (calcBasics.getNeonateData() == null) {
+            calcBasics.setNeonateData(new Vector<>());
+        }
+        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
+                .stream()
+                .map(ht -> ht.getId())
+                .collect(Collectors.toList());
+        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
+        for (DrgContentText contentText : contentTexts) {
+            DrgNeonatData data = new DrgNeonatData();
+            data.setContentTextId(contentText.getId());
+            data.setContentText(contentText);
+            data.setCalcBasicsId(calcBasics.getId());
+            calcBasics.getNeonateData().add(data);
+        }
+    }
+    
     public List<DrgDelimitationFact> getDelimitationFacts() {
         if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
             for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
@@ -353,26 +380,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
-    private void ensureNeonateData(DrgCalcBasics calcBasics) {
-        if (calcBasics.getNeonateData() != null && !calcBasics.getNeonateData().isEmpty()) {
-            return;
-        }
-        if (calcBasics.getNeonateData() == null) {
-            calcBasics.setNeonateData(new Vector<>());
-        }
-        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
-                .stream()
-                .map(ht -> ht.getId())
-                .collect(Collectors.toList());
-        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
-        for (DrgContentText contentText : contentTexts) {
-            DrgNeonatData data = new DrgNeonatData();
-            data.setContentTextId(contentText.getId());
-            data.setContentText(contentText);
-            data.setCalcBasicsId(calcBasics.getId());
-            calcBasics.getNeonateData().add(data);
-        }
-    }
 
     public List<DrgHeaderText> getHeaders() {
         return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
@@ -387,7 +394,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<DrgNeonatData> retrieveNeonatData(int headerId) {
-        ensureNeonateData(_calcBasics);
         return _calcBasics.getNeonateData()
                 .stream()
                 .filter(d -> d.getContentText().getHeaderTextId() == headerId)

@@ -6,12 +6,12 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,14 +23,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "KGLListServiceProvision", schema = "calc")
 @XmlRootElement
 public class KGLListServiceProvision implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
@@ -41,12 +40,10 @@ public class KGLListServiceProvision implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="PartitionExternalAssignment">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "spPartitionExternalAssignment")
     private String _partitionExternalAssignment = "";
-    
+
     public String getPartitionExternalAssignment() {
         return _partitionExternalAssignment;
     }
@@ -57,12 +54,10 @@ public class KGLListServiceProvision implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Note">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "spNote")
     private String _note = "";
-    
+
     public String getNote() {
         return _note;
     }
@@ -73,8 +68,6 @@ public class KGLListServiceProvision implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Amount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spAmount")
     private double _amount;
 
@@ -86,12 +79,10 @@ public class KGLListServiceProvision implements Serializable {
         this._amount = amount;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
 //    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spBaseInformationID")
     private int _baseInformationId;
 
@@ -103,12 +94,10 @@ public class KGLListServiceProvision implements Serializable {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ProvidedTypeID">
 //    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spProvidedTypeID")
     private int _providedTypeID;
 
@@ -120,12 +109,10 @@ public class KGLListServiceProvision implements Serializable {
         this._providedTypeID = providedTypeID;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ServiceProvisionTypeID">
 //    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spServiceProvisionTypeID")
     private int _serviceProvisionTypeID;
 
@@ -137,9 +124,21 @@ public class KGLListServiceProvision implements Serializable {
         this._serviceProvisionTypeID = serviceProvisionTypeID;
     }
     // </editor-fold>
-    
 
-    
+    // <editor-fold defaultstate="collapsed" desc="Property KGLListServiceProvisionType">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "spServiceProvisionTypeID")
+    private KGLListServiceProvisionType _serviceProvisionType;
+
+    public KGLListServiceProvisionType getServiceProvisionType() {
+        return _serviceProvisionType;
+    }
+
+    public void setServiceProvisionType(KGLListServiceProvisionType serviceProvisionType) {
+        _serviceProvisionType = serviceProvisionType;
+    }
+    // </editor-fold>
+
     public KGLListServiceProvision() {
     }
 
@@ -153,7 +152,6 @@ public class KGLListServiceProvision implements Serializable {
         this._note = note;
         this._amount = amount;
     }
-
 
     @Override
     public int hashCode() {

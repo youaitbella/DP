@@ -67,7 +67,7 @@ public class DrgNeonatData implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
-    @OneToOne()
+    @OneToOne
     @PrimaryKeyJoinColumn(name = "ndContentTextId")
     private DrgContentText _contentText;
 

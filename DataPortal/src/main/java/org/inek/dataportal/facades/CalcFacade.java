@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -36,7 +37,8 @@ import org.inek.dataportal.helper.Utils;
  *
  * @author muellermi
  */
-@Stateless
+@RequestScoped
+@Transactional
 public class CalcFacade extends AbstractDataAccess {
 
     // <editor-fold defaultstate="collapsed" desc="Statement of participance">
@@ -205,6 +207,7 @@ public class CalcFacade extends AbstractDataAccess {
             calcBasics.setOpAn(opAn);
             return calcBasics;
         }
+
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
         saveTopItems(calcBasics);
         return merge(calcBasics);
