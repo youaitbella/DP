@@ -8,6 +8,7 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,119 +27,141 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "dataportaldev", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLNormalFreelancer.findAll", query = "SELECT k FROM KGLNormalFreelancer k")
-    , @NamedQuery(name = "KGLNormalFreelancer.findByNfID", query = "SELECT k FROM KGLNormalFreelancer k WHERE k.nfID = :nfID")
-    , @NamedQuery(name = "KGLNormalFreelancer.findByNfDivision", query = "SELECT k FROM KGLNormalFreelancer k WHERE k.nfDivision = :nfDivision")
-    , @NamedQuery(name = "KGLNormalFreelancer.findByNfFullVigorCnt", query = "SELECT k FROM KGLNormalFreelancer k WHERE k.nfFullVigorCnt = :nfFullVigorCnt")
-    , @NamedQuery(name = "KGLNormalFreelancer.findByNfAmount", query = "SELECT k FROM KGLNormalFreelancer k WHERE k.nfAmount = :nfAmount")
-    , @NamedQuery(name = "KGLNormalFreelancer.findByNfCostType1", query = "SELECT k FROM KGLNormalFreelancer k WHERE k.nfCostType1 = :nfCostType1")
-    , @NamedQuery(name = "KGLNormalFreelancer.findByNfCostType6c", query = "SELECT k FROM KGLNormalFreelancer k WHERE k.nfCostType6c = :nfCostType6c")})
 public class KGLNormalFreelancer implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer nfID;
+    @Column(name = "nfID")
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
-    private String nfDivision;
+    @Size(max = 300)
+    @Column(name = "nfDivision")
+    private String _division = "";
+
+    public String getDivision() {
+        return _division;
+    }
+
+    public void setDivision(String division) {
+        this._division = division;
+    }
+    //</editor-fold>
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    private BigDecimal nfFullVigorCnt;
+    @Column(name = "nfFullVigorCnt")
+    private double _fullVigorCnt;
+
+    public double getFullVigorCnt() {
+        return _fullVigorCnt;
+    }
+
+    public void setFullVigorCnt(double fullVigorCnt) {
+        this._fullVigorCnt = fullVigorCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    private BigDecimal nfAmount;
+    @Column(name = "nfAmount")
+    private double _amount;
+
+    public double getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(double amount) {
+        this._amount = amount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    private boolean nfCostType1;
+    @Column(name = "nfCostType1")
+    private boolean _costType1;
+
+    public boolean isCostType1() {
+        return _costType1;
+    }
+
+    public void setCostType1(boolean costType1) {
+        this._costType1 = costType1;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    private boolean nfCostType6c;
-    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics nfBaseInformationID;
+    @Column(name = "nfCostType6c")
+    private boolean _costType6c;
+
+    public boolean isCostType6c() {
+        return _costType6c;
+    }
+
+    public void setCostType6c(boolean costType6c) {
+        this._costType6c = costType6c;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+//    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nfBaseInformationID")
+    private int _baseInformationID;
+
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    //</editor-fold>
+    
 
     public KGLNormalFreelancer() {
     }
 
     public KGLNormalFreelancer(Integer nfID) {
-        this.nfID = nfID;
+        this._id = nfID;
     }
 
-    public KGLNormalFreelancer(Integer nfID, String nfDivision, BigDecimal nfFullVigorCnt, BigDecimal nfAmount, boolean nfCostType1, boolean nfCostType6c) {
-        this.nfID = nfID;
-        this.nfDivision = nfDivision;
-        this.nfFullVigorCnt = nfFullVigorCnt;
-        this.nfAmount = nfAmount;
-        this.nfCostType1 = nfCostType1;
-        this.nfCostType6c = nfCostType6c;
+    public KGLNormalFreelancer(Integer nfID, String nfDivision, double nfFullVigorCnt, double nfAmount, boolean nfCostType1, boolean nfCostType6c) {
+        this._id = nfID;
+        this._division = nfDivision;
+        this._fullVigorCnt = nfFullVigorCnt;
+        this._amount = nfAmount;
+        this._costType1 = nfCostType1;
+        this._costType6c = nfCostType6c;
     }
 
-    public Integer getNfID() {
-        return nfID;
-    }
-
-    public void setNfID(Integer nfID) {
-        this.nfID = nfID;
-    }
-
-    public String getNfDivision() {
-        return nfDivision;
-    }
-
-    public void setNfDivision(String nfDivision) {
-        this.nfDivision = nfDivision;
-    }
-
-    public BigDecimal getNfFullVigorCnt() {
-        return nfFullVigorCnt;
-    }
-
-    public void setNfFullVigorCnt(BigDecimal nfFullVigorCnt) {
-        this.nfFullVigorCnt = nfFullVigorCnt;
-    }
-
-    public BigDecimal getNfAmount() {
-        return nfAmount;
-    }
-
-    public void setNfAmount(BigDecimal nfAmount) {
-        this.nfAmount = nfAmount;
-    }
-
-    public boolean getNfCostType1() {
-        return nfCostType1;
-    }
-
-    public void setNfCostType1(boolean nfCostType1) {
-        this.nfCostType1 = nfCostType1;
-    }
-
-    public boolean getNfCostType6c() {
-        return nfCostType6c;
-    }
-
-    public void setNfCostType6c(boolean nfCostType6c) {
-        this.nfCostType6c = nfCostType6c;
-    }
-
-    public DrgCalcBasics getNfBaseInformationID() {
-        return nfBaseInformationID;
-    }
-
-    public void setNfBaseInformationID(DrgCalcBasics nfBaseInformationID) {
-        this.nfBaseInformationID = nfBaseInformationID;
-    }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (nfID != null ? nfID.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -148,15 +171,12 @@ public class KGLNormalFreelancer implements Serializable {
             return false;
         }
         KGLNormalFreelancer other = (KGLNormalFreelancer) object;
-        if ((this.nfID == null && other.nfID != null) || (this.nfID != null && !this.nfID.equals(other.nfID))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLNormalFreelancer[ nfID=" + nfID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLNormalFreelancer[ nfID=" + _id + " ]";
     }
     
 }
