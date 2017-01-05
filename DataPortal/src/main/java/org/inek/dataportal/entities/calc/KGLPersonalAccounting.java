@@ -67,7 +67,7 @@ public class KGLPersonalAccounting implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    private BigDecimal paAmount;
+    private int paAmount;
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     @ManyToOne(optional = false)
     private DrgCalcBasics paBaseInformationID;
@@ -79,7 +79,7 @@ public class KGLPersonalAccounting implements Serializable {
         this.paID = paID;
     }
 
-    public KGLPersonalAccounting(Integer paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, BigDecimal paAmount) {
+    public KGLPersonalAccounting(Integer paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
         this.paID = paID;
         this.paCostTypeID = paCostTypeID;
         this.paStaffRecording = paStaffRecording;
@@ -155,11 +155,11 @@ public class KGLPersonalAccounting implements Serializable {
         this.paOther = paOther;
     }
 
-    public BigDecimal getPaAmount() {
+    public int getPaAmount() {
         return paAmount;
     }
 
-    public void setPaAmount(BigDecimal paAmount) {
+    public void setPaAmount(int paAmount) {
         this.paAmount = paAmount;
     }
 
