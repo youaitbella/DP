@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,96 +24,112 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(catalog = "dataportaldev", schema = "calc")
+@Table(name = "KGLPKMSAlternative", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLPKMSAlternative.findAll", query = "SELECT k FROM KGLPKMSAlternative k")
-    , @NamedQuery(name = "KGLPKMSAlternative.findByPaID", query = "SELECT k FROM KGLPKMSAlternative k WHERE k.paID = :paID")
-    , @NamedQuery(name = "KGLPKMSAlternative.findByPaDepartment", query = "SELECT k FROM KGLPKMSAlternative k WHERE k.paDepartment = :paDepartment")
-    , @NamedQuery(name = "KGLPKMSAlternative.findByPaDepartmentKey", query = "SELECT k FROM KGLPKMSAlternative k WHERE k.paDepartmentKey = :paDepartmentKey")
-    , @NamedQuery(name = "KGLPKMSAlternative.findByPaAlternative", query = "SELECT k FROM KGLPKMSAlternative k WHERE k.paAlternative = :paAlternative")})
 public class KGLPKMSAlternative implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer paID;
+    @Column(name = "paID")
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
-    private String paDepartment;
+    @Size(max = 200)
+    @Column(name = "paDepartment")
+    private String _department = "";
+
+    public String getDepartment() {
+        return _department;
+    }
+
+    public void setDepartment(String department) {
+        this._department = department;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
-    private String paDepartmentKey;
+    @Size(max = 4)
+    @Column(name = "paDepartmentKey")
+    private String _departmentKey = "";
+
+    public String getDepartmentKey() {
+        return _departmentKey;
+    }
+
+    public void setDepartmentKey(String departmentKey) {
+        this._departmentKey = departmentKey;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
-    private String paAlternative;
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics paBaseInformationID;
+    @Size(max = 200)
+    @Column(name = "paAlternative")
+    private String _alternative = "";
+
+    public String getAlternative() {
+        return _alternative;
+    }
+
+    public void setAlternative(String alternative) {
+        this._alternative = alternative;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+//    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "paBaseInformationID")
+    private int _baseInformationID;
+
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    
+    //</editor-fold>
 
     public KGLPKMSAlternative() {
     }
 
     public KGLPKMSAlternative(Integer paID) {
-        this.paID = paID;
+        this._id = paID;
     }
 
     public KGLPKMSAlternative(Integer paID, String paDepartment, String paDepartmentKey, String paAlternative) {
-        this.paID = paID;
-        this.paDepartment = paDepartment;
-        this.paDepartmentKey = paDepartmentKey;
-        this.paAlternative = paAlternative;
+        this._id = paID;
+        this._department = paDepartment;
+        this._departmentKey = paDepartmentKey;
+        this._alternative = paAlternative;
     }
 
-    public Integer getPaID() {
-        return paID;
-    }
-
-    public void setPaID(Integer paID) {
-        this.paID = paID;
-    }
-
-    public String getPaDepartment() {
-        return paDepartment;
-    }
-
-    public void setPaDepartment(String paDepartment) {
-        this.paDepartment = paDepartment;
-    }
-
-    public String getPaDepartmentKey() {
-        return paDepartmentKey;
-    }
-
-    public void setPaDepartmentKey(String paDepartmentKey) {
-        this.paDepartmentKey = paDepartmentKey;
-    }
-
-    public String getPaAlternative() {
-        return paAlternative;
-    }
-
-    public void setPaAlternative(String paAlternative) {
-        this.paAlternative = paAlternative;
-    }
-
-    public DrgCalcBasics getPaBaseInformationID() {
-        return paBaseInformationID;
-    }
-
-    public void setPaBaseInformationID(DrgCalcBasics paBaseInformationID) {
-        this.paBaseInformationID = paBaseInformationID;
-    }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (paID != null ? paID.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -122,15 +139,12 @@ public class KGLPKMSAlternative implements Serializable {
             return false;
         }
         KGLPKMSAlternative other = (KGLPKMSAlternative) object;
-        if ((this.paID == null && other.paID != null) || (this.paID != null && !this.paID.equals(other.paID))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLPKMSAlternative[ paID=" + paID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLPKMSAlternative[ paID=" + _id + " ]";
     }
     
 }
