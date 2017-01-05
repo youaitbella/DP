@@ -589,16 +589,16 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="normalStationOther">
+    //<editor-fold defaultstate="collapsed" desc="PkmsOther">
     @Column(name = "biPKMSOther")
-    private String _pkmsStationOther = "";
+    private String _pkmsOther = "";
 
-    public String getPkmsStationOther() {
-        return _pkmsStationOther;
+    public String getPkmsOther() {
+        return _pkmsOther;
     }
 
-    public void setPkmsStationOther(String pkmsStationOther) {
-        this._pkmsStationOther = pkmsStationOther;
+    public void setPkmsOther(String pkmsOther) {
+        this._pkmsOther = pkmsOther;
     }    
     //</editor-fold>
 

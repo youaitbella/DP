@@ -21,7 +21,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "KGLListDelimitationFact", schema = "calc")
 public class DrgDelimitationFact implements Serializable {
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,8 @@ public class DrgDelimitationFact implements Serializable {
         _id = id;
     }
     // </editor-fold>
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Property baseInformationId">
     @Column(name = "dfBaseInformationId")
     private int _baseInformationId;
 
@@ -47,7 +48,9 @@ public class DrgDelimitationFact implements Serializable {
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
-    
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property contentTextId">
     @Column(name = "dfContentTextId")
     private int _contentTextId;
 
@@ -58,7 +61,9 @@ public class DrgDelimitationFact implements Serializable {
     public void setContentTextId(int contentTextId) {
         this._contentTextId = contentTextId;
     }
-    
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property used">
     @Column(name = "dfUsed")
     private boolean _used;
 
@@ -69,7 +74,9 @@ public class DrgDelimitationFact implements Serializable {
     public void setUsed(boolean used) {
         this._used = used;
     }
-    
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property personalCost">
     @Column(name = "dfPersonalCost")
     private double _personalCost;
 
@@ -80,7 +87,9 @@ public class DrgDelimitationFact implements Serializable {
     public void setPersonalCost(double personalCost) {
         this._personalCost = personalCost;
     }
-    
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property materialCost">
     @Column(name = "dfMaterialCost")
     private double _materialCost;
 
@@ -91,7 +100,9 @@ public class DrgDelimitationFact implements Serializable {
     public void setMaterialCost(double materialCost) {
         this._materialCost = materialCost;
     }
-    
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Column(name = "dfInfraCost")
     private double _infraCost;
 
@@ -102,7 +113,8 @@ public class DrgDelimitationFact implements Serializable {
     public void setInfraCost(double infraCost) {
         this._infraCost = infraCost;
     }
-    
+    // </editor-fold>
+
     @Transient
     private String _label;
 
