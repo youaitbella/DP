@@ -26,121 +26,135 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "dataportaldev", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLListMedInfra.findAll", query = "SELECT k FROM KGLListMedInfra k")
-    , @NamedQuery(name = "KGLListMedInfra.findByMiID", query = "SELECT k FROM KGLListMedInfra k WHERE k.miID = :miID")
-    , @NamedQuery(name = "KGLListMedInfra.findByMiCostTypeID", query = "SELECT k FROM KGLListMedInfra k WHERE k.miCostTypeID = :miCostTypeID")
-    , @NamedQuery(name = "KGLListMedInfra.findByMiCostCenter", query = "SELECT k FROM KGLListMedInfra k WHERE k.miCostCenter = :miCostCenter")
-    , @NamedQuery(name = "KGLListMedInfra.findByMiCostCenterText", query = "SELECT k FROM KGLListMedInfra k WHERE k.miCostCenterText = :miCostCenterText")
-    , @NamedQuery(name = "KGLListMedInfra.findByMiKeyUsed", query = "SELECT k FROM KGLListMedInfra k WHERE k.miKeyUsed = :miKeyUsed")
-    , @NamedQuery(name = "KGLListMedInfra.findByMiAmount", query = "SELECT k FROM KGLListMedInfra k WHERE k.miAmount = :miAmount")})
 public class KGLListMedInfra implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer miID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
     @Basic(optional = false)
     @NotNull
-    private int miCostTypeID;
+    private int _costTypeID;
+
+    public int getCostTypeID() {
+        return _costTypeID;
+    }
+
+    public void setCostTypeID(int costTypeID) {
+        this._costTypeID = costTypeID;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costCenter">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    private String miCostCenter;
+    @Size(max = 20)
+    private String _costCenter = "";
+
+    public String getCostCenter() {
+        return _costCenter;
+    }
+
+    public void setCostCenter(String costCenter) {
+        this._costCenter = costCenter;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    private String miCostCenterText;
+    @Size(max = 100)
+    private String _costCenterText = "";
+
+    public String getCostCenterText() {
+        return _costCenterText;
+    }
+
+    public void setCostCenterText(String costCenterText) {
+        this._costCenterText = costCenterText;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String miKeyUsed;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Size(max = 50)
+    private String _keyUsed = "";
+
+    public String getKeyUsed() {
+        return _keyUsed;
+    }
+
+    public void setKeyUsed(String keyUsed) {
+        this._keyUsed = keyUsed;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
-    private BigDecimal miAmount;
-    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics miBaseInformationID;
+    private double _amount;
+
+    public double getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(double amount) {
+        this._amount = amount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+//    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    private int _baseInformationID;
+
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    //</editor-fold>
 
     public KGLListMedInfra() {
     }
 
     public KGLListMedInfra(Integer miID) {
-        this.miID = miID;
+        this._id = miID;
     }
 
-    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, BigDecimal miAmount) {
-        this.miID = miID;
-        this.miCostTypeID = miCostTypeID;
-        this.miCostCenter = miCostCenter;
-        this.miCostCenterText = miCostCenterText;
-        this.miKeyUsed = miKeyUsed;
-        this.miAmount = miAmount;
+    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, double miAmount) {
+        this._id = miID;
+        this._costTypeID = miCostTypeID;
+        this._costCenter = miCostCenter;
+        this._costCenterText = miCostCenterText;
+        this._keyUsed = miKeyUsed;
+        this._amount = miAmount;
     }
 
-    public Integer getMiID() {
-        return miID;
-    }
-
-    public void setMiID(Integer miID) {
-        this.miID = miID;
-    }
-
-    public int getMiCostTypeID() {
-        return miCostTypeID;
-    }
-
-    public void setMiCostTypeID(int miCostTypeID) {
-        this.miCostTypeID = miCostTypeID;
-    }
-
-    public String getMiCostCenter() {
-        return miCostCenter;
-    }
-
-    public void setMiCostCenter(String miCostCenter) {
-        this.miCostCenter = miCostCenter;
-    }
-
-    public String getMiCostCenterText() {
-        return miCostCenterText;
-    }
-
-    public void setMiCostCenterText(String miCostCenterText) {
-        this.miCostCenterText = miCostCenterText;
-    }
-
-    public String getMiKeyUsed() {
-        return miKeyUsed;
-    }
-
-    public void setMiKeyUsed(String miKeyUsed) {
-        this.miKeyUsed = miKeyUsed;
-    }
-
-    public BigDecimal getMiAmount() {
-        return miAmount;
-    }
-
-    public void setMiAmount(BigDecimal miAmount) {
-        this.miAmount = miAmount;
-    }
-
-    public DrgCalcBasics getMiBaseInformationID() {
-        return miBaseInformationID;
-    }
-
-    public void setMiBaseInformationID(DrgCalcBasics miBaseInformationID) {
-        this.miBaseInformationID = miBaseInformationID;
-    }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (miID != null ? miID.hashCode() : 0);
-        return hash;
+        
+        return _id;
     }
 
     @Override
@@ -150,15 +164,12 @@ public class KGLListMedInfra implements Serializable {
             return false;
         }
         KGLListMedInfra other = (KGLListMedInfra) object;
-        if ((this.miID == null && other.miID != null) || (this.miID != null && !this.miID.equals(other.miID))) {
-            return false;
-        }
-        return true;
+        return (this._id == other._id);
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLListMedInfra[ miID=" + miID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLListMedInfra[ miID=" + _id + " ]";
     }
     
 }
