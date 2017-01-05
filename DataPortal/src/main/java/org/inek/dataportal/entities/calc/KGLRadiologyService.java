@@ -6,15 +6,10 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,138 +20,158 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGLRadiologyService", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGLRadiologyService", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLRadiologyService.findAll", query = "SELECT k FROM KGLRadiologyService k")
-    , @NamedQuery(name = "KGLRadiologyService.findByRsID", query = "SELECT k FROM KGLRadiologyService k WHERE k.rsID = :rsID")
-    , @NamedQuery(name = "KGLRadiologyService.findByRsOpsCode", query = "SELECT k FROM KGLRadiologyService k WHERE k.rsOpsCode = :rsOpsCode")
-    , @NamedQuery(name = "KGLRadiologyService.findByRsServiceCost", query = "SELECT k FROM KGLRadiologyService k WHERE k.rsServiceCost = :rsServiceCost")
-    , @NamedQuery(name = "KGLRadiologyService.findByRsCaseCntStationary", query = "SELECT k FROM KGLRadiologyService k WHERE k.rsCaseCntStationary = :rsCaseCntStationary")
-    , @NamedQuery(name = "KGLRadiologyService.findByRsCaseCntAmbulant", query = "SELECT k FROM KGLRadiologyService k WHERE k.rsCaseCntAmbulant = :rsCaseCntAmbulant")
-    , @NamedQuery(name = "KGLRadiologyService.findByRsAbulantAmount", query = "SELECT k FROM KGLRadiologyService k WHERE k.rsAbulantAmount = :rsAbulantAmount")})
 public class KGLRadiologyService implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "rsID")
-    private Integer rsID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _opsCode">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(max = 10)
     @Column(name = "rsOpsCode")
-    private String rsOpsCode;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private String _opsCode = "";
+
+    public String getOpsCode() {
+        return _opsCode;
+    }
+
+    public void setOpsCode(String opsCode) {
+        this._opsCode = opsCode;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _serviceCost">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rsServiceCost")
-    private BigDecimal rsServiceCost;
+    private double _serviceCost;
+
+    public double getServiceCost() {
+        return _serviceCost;
+    }
+
+    public void setServiceCost(double serviceCost) {
+        this._serviceCost = serviceCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _caseCntStationary">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rsCaseCntStationary")
-    private int rsCaseCntStationary;
+    private int _caseCntStationary;
+
+    public int getCaseCntStationary() {
+        return _caseCntStationary;
+    }
+
+    public void setCaseCntStationary(int caseCntStationary) {
+        this._caseCntStationary = caseCntStationary;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _caseCntAmbulant">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rsCaseCntAmbulant")
-    private int rsCaseCntAmbulant;
+    private int _caseCntAmbulant;
+
+    public int getCaseCntAmbulant() {
+        return _caseCntAmbulant;
+    }
+
+    public void setCaseCntAmbulant(int caseCntAmbulant) {
+        this._caseCntAmbulant = caseCntAmbulant;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _ambulantAmount">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rsAbulantAmount")
-    private BigDecimal rsAbulantAmount;
-    @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics rsBaseInformationID;
-    @JoinColumn(name = "rsContentTextID", referencedColumnName = "ctID")
-    @ManyToOne(optional = false)
-    private DrgContentText rsContentTextID;
+    private double _ambulantAmount;
+
+    public double getAmbulantAmount() {
+        return _ambulantAmount;
+    }
+
+    public void setAmbulantAmount(double abulantAmount) {
+        this._ambulantAmount = abulantAmount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property rsBaseInformationID">
+//    @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rsBaseInformationID")
+    private int rsBaseInformationID;
+
+    public int getRsBaseInformationID() {
+        return rsBaseInformationID;
+    }
+
+    public void setRsBaseInformationID(int rsBaseInformationID) {
+        this.rsBaseInformationID = rsBaseInformationID;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property rsContentTextID">
+//    @JoinColumn(name = "rsContentTextID", referencedColumnName = "ctID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rsContentTextID")
+    private int rsContentTextID;
+
+    public int getRsContentTextID() {
+        return rsContentTextID;
+    }
+
+    public void setRsContentTextID(int rsContentTextID) {
+        this.rsContentTextID = rsContentTextID;
+    }
+    //</editor-fold>
+    
 
     public KGLRadiologyService() {
     }
 
     public KGLRadiologyService(Integer rsID) {
-        this.rsID = rsID;
+        this._id = rsID;
     }
 
-    public KGLRadiologyService(Integer rsID, String rsOpsCode, BigDecimal rsServiceCost, int rsCaseCntStationary, int rsCaseCntAmbulant, BigDecimal rsAbulantAmount) {
-        this.rsID = rsID;
-        this.rsOpsCode = rsOpsCode;
-        this.rsServiceCost = rsServiceCost;
-        this.rsCaseCntStationary = rsCaseCntStationary;
-        this.rsCaseCntAmbulant = rsCaseCntAmbulant;
-        this.rsAbulantAmount = rsAbulantAmount;
-    }
-
-    public Integer getRsID() {
-        return rsID;
-    }
-
-    public void setRsID(Integer rsID) {
-        this.rsID = rsID;
-    }
-
-    public String getRsOpsCode() {
-        return rsOpsCode;
-    }
-
-    public void setRsOpsCode(String rsOpsCode) {
-        this.rsOpsCode = rsOpsCode;
-    }
-
-    public BigDecimal getRsServiceCost() {
-        return rsServiceCost;
-    }
-
-    public void setRsServiceCost(BigDecimal rsServiceCost) {
-        this.rsServiceCost = rsServiceCost;
-    }
-
-    public int getRsCaseCntStationary() {
-        return rsCaseCntStationary;
-    }
-
-    public void setRsCaseCntStationary(int rsCaseCntStationary) {
-        this.rsCaseCntStationary = rsCaseCntStationary;
-    }
-
-    public int getRsCaseCntAmbulant() {
-        return rsCaseCntAmbulant;
-    }
-
-    public void setRsCaseCntAmbulant(int rsCaseCntAmbulant) {
-        this.rsCaseCntAmbulant = rsCaseCntAmbulant;
-    }
-
-    public BigDecimal getRsAbulantAmount() {
-        return rsAbulantAmount;
-    }
-
-    public void setRsAbulantAmount(BigDecimal rsAbulantAmount) {
-        this.rsAbulantAmount = rsAbulantAmount;
-    }
-
-    public DrgCalcBasics getRsBaseInformationID() {
-        return rsBaseInformationID;
-    }
-
-    public void setRsBaseInformationID(DrgCalcBasics rsBaseInformationID) {
-        this.rsBaseInformationID = rsBaseInformationID;
-    }
-
-    public DrgContentText getRsContentTextID() {
-        return rsContentTextID;
-    }
-
-    public void setRsContentTextID(DrgContentText rsContentTextID) {
-        this.rsContentTextID = rsContentTextID;
+    public KGLRadiologyService(Integer rsID, String rsOpsCode, double rsServiceCost, int rsCaseCntStationary, int rsCaseCntAmbulant, double rsAbulantAmount) {
+        this._id = rsID;
+        this._opsCode = rsOpsCode;
+        this._serviceCost = rsServiceCost;
+        this._caseCntStationary = rsCaseCntStationary;
+        this._caseCntAmbulant = rsCaseCntAmbulant;
+        this._ambulantAmount = rsAbulantAmount;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (rsID != null ? rsID.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -166,15 +181,12 @@ public class KGLRadiologyService implements Serializable {
             return false;
         }
         KGLRadiologyService other = (KGLRadiologyService) object;
-        if ((this.rsID == null && other.rsID != null) || (this.rsID != null && !this.rsID.equals(other.rsID))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLRadiologyService[ rsID=" + rsID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLRadiologyService[ rsID=" + _id + " ]";
     }
     
 }
