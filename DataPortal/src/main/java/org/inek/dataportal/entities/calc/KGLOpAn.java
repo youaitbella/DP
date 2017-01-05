@@ -326,29 +326,30 @@ public class KGLOpAn implements Serializable {
         this._baseInformationID = oaBaseInformationID;
     }
 
-    public KGLOpAn(Integer oaBaseInformationID, int oaCentralOPCnt, boolean oaStaffBindingMsOP, boolean oaStaffBindingFsOP, int oaMedicalServiceSnzOP, int oaFunctionalServiceSnzOP, String oaDescriptionSnzOP, int oaMedicalServiceRzOP, int oaFunctionalServiceRzOP, String oaDescriptionRzOP, double oaMedicalServiceAmountOP, double oaFunctionalServiceAmountOP, boolean oaStaffBindingMsAN, boolean oaStaffBindingFsAN, int oaMedicalServiceSnzAN, int oaFunctionalServiceSnzAN, String oaDescriptionSnzAN, int oaMedicalServiceRzAN, int oaFunctionalServiceRzAN, String oaDescriptionRzAN, double oaMedicalServiceAmountAN, double oaFunctionalServiceAmountAN) {
-        this._baseInformationID = oaBaseInformationID;
-        this._centralOPCnt = oaCentralOPCnt;
-        this._staffBindingMsOP = oaStaffBindingMsOP;
-        this._staffBindingFsOP = oaStaffBindingFsOP;
-        this._medicalServiceSnzOP = oaMedicalServiceSnzOP;
-        this._functionalServiceSnzOP = oaFunctionalServiceSnzOP;
-        this._descriptionSnzOP = oaDescriptionSnzOP;
-        this._medicalServiceRzOP = oaMedicalServiceRzOP;
-        this._functionalServiceRzOP = oaFunctionalServiceRzOP;
-        this._descriptionRzOP = oaDescriptionRzOP;
-        this._medicalServiceAmountOP = oaMedicalServiceAmountOP;
-        this._functionalServiceAmountOP = oaFunctionalServiceAmountOP;
-        this._staffBindingMsAN = oaStaffBindingMsAN;
-        this._staffBindingFsAN = oaStaffBindingFsAN;
-        this._medicalServiceSnzAN = oaMedicalServiceSnzAN;
-        this._functionalServiceSnzAN = oaFunctionalServiceSnzAN;
-        this._descriptionSnzAN = oaDescriptionSnzAN;
-        this._medicalServiceRzAN = oaMedicalServiceRzAN;
-        this._functionalServiceRzAN = oaFunctionalServiceRzAN;
-        this._descriptionRzAN = oaDescriptionRzAN;
-        this._medicalServiceAmountAN = oaMedicalServiceAmountAN;
-        this._functionalServiceAmountAN = oaFunctionalServiceAmountAN;
+    public KGLOpAn(int baseInformationId, KGLOpAn template) {
+        this._baseInformationID = baseInformationId;
+        this._centralOPCnt = template._centralOPCnt;
+        this._staffBindingMsOP = template._staffBindingMsOP;
+        this._staffBindingFsOP = template._staffBindingFsOP;
+        this._medicalServiceSnzOP = template._medicalServiceSnzOP;
+        this._functionalServiceSnzOP = template._functionalServiceSnzOP;
+        this._descriptionSnzOP = template._descriptionSnzOP;
+        this._medicalServiceRzOP = template._medicalServiceRzOP;
+        this._functionalServiceRzOP = template._functionalServiceRzOP;
+        this._descriptionRzOP = template._descriptionRzOP;
+        this._staffBindingMsAN = template._staffBindingMsAN;
+        this._staffBindingFsAN = template._staffBindingFsAN;
+        this._medicalServiceSnzAN = template._medicalServiceSnzAN;
+        this._functionalServiceSnzAN = template._functionalServiceSnzAN;
+        this._descriptionSnzAN = template._descriptionSnzAN;
+        this._medicalServiceRzAN = template._medicalServiceRzAN;
+        this._functionalServiceRzAN = template._functionalServiceRzAN;
+        this._descriptionRzAN = template._descriptionRzAN;
+        // these parts wont be copied!
+        //this._medicalServiceAmountAN = template._medicalServiceAmountAN;
+        //this._functionalServiceAmountAN = template._functionalServiceAmountAN;
+        //this._medicalServiceAmountOP = template._medicalServiceAmountOP;
+        //this._functionalServiceAmountOP = template._functionalServiceAmountOP;
     }
 
     @Override

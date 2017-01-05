@@ -93,12 +93,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private void preloadData(DrgCalcBasics calcBasics) {
-        KGLOpAn opAn = _priorCalcBasics.getOpAn();
-        opAn.setMedicalServiceAmountOP(0);
-        opAn.setMedicalServiceAmountAN(0);
-        opAn.setFunctionalServiceAmountOP(0);
-        opAn.setFunctionalServiceAmountAN(0);
-        opAn.setBaseInformationID(calcBasics.getId());
+        KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
     }
     
@@ -392,10 +387,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
         int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
         if (data.getContentText().isDiffAsPercent()) {
-            return Math.round(1000d * (data.getData() - priorValue) / priorValue) / 10d + "%";
+            return calcPercentualDiff(priorValue, data.getData());
         }
         return "" + (data.getData() - priorValue);
     }
     // </editor-fold>    
+
+    public String calcPercentualDiff(int priorValue, int currentValue) {
+        return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
+    }
 
 }
