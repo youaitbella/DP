@@ -58,4 +58,8 @@ public class AccountPwdFacade extends AbstractDataAccess {
     public boolean isWeakPassword(String password) {
         return find(WeakPassword.class, password) != null;
     }
+    
+    public void delete (AccountPwd accountPwd){
+        remove(accountPwd);
+    }
 }

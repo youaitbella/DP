@@ -470,7 +470,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             NubRequest copy = ObjectUtils.copy(nubRequest);
             copy.setId(-1);
             copy.setTargetYear(targetYear);
-            _nubRequestFacade.remove(nubRequest);
+            _nubRequestFacade.delete(nubRequest);
             nubRequest = copy;
         }
         return nubRequest;

@@ -168,4 +168,8 @@ public class InsuranceFacade extends AbstractDataAccess {
         return -1;
     }
 
+    public void delete(InsuranceNubNotice notice) {
+        remove(notice);
+    }
+
 }

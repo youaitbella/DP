@@ -499,4 +499,8 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
     // </editor-fold>    
 
+    public void delete(NubRequest nubRequest) {
+        remove(nubRequest);
+    }
+
 }

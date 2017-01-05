@@ -100,7 +100,7 @@ public class NubRequestList {
         }
         if (_sessionController.isMyAccount(nubRequest.getAccountId())) {
             if (nubRequest.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
-                _nubRequestFacade.remove(nubRequest);
+                _nubRequestFacade.delete(nubRequest);
             } else if (nubRequest.getExternalState().trim().isEmpty()) {
                 nubRequest.setStatus(WorkflowStatus.Retired);
                 nubRequest.setLastChangedBy(_sessionController.getAccountId());
