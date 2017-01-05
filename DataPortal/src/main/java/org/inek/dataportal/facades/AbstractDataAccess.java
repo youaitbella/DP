@@ -55,7 +55,7 @@ public abstract class AbstractDataAccess {
         }
     }
 
-    public void remove(Object entity) {
+    protected void remove(Object entity) {
         _em.remove(_em.merge(entity));
         _em.flush();
     }

@@ -807,7 +807,7 @@ public class DrgCalcBasics implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property OpAn">
-    @OneToOne(cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToOne
     @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationID")
     private KGLOpAn _opAn;
 

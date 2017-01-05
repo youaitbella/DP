@@ -53,7 +53,7 @@ public class InsuranceNubNoticeList {
         }
         if (_sessionController.isMyAccount(notice.getAccountId())) {
             if (notice.getWorkflowStatusId() < WorkflowStatus.Provided.getValue()) {
-                _insuranceFacade.remove(notice);
+                _insuranceFacade.delete(notice);
             } else {
                 notice.setWorkflowStatus(WorkflowStatus.Retired);
                 _insuranceFacade.saveNubNotice(notice);

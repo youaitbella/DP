@@ -206,7 +206,7 @@ public class AccountFacade extends AbstractFacade<Account> {
             emptyAccount.setId(account.getId());
             merge(emptyAccount);
             AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
-            _accountPwdFacade.remove(accountPwd);
+            _accountPwdFacade.delete(accountPwd);
         }
     }
 

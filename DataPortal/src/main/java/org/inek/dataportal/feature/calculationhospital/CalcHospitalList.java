@@ -135,7 +135,7 @@ public class CalcHospitalList {
             statement.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(statement);
         }else{
-            _calcFacade.remove(statement);
+            _calcFacade.delete(statement);
         }
     }
 
@@ -145,7 +145,7 @@ public class CalcHospitalList {
             calcBasics.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveCalcBasicsDrg(calcBasics);
         }else{
-            _calcFacade.remove(calcBasics);
+            _calcFacade.delete(calcBasics);
         }
     }
 
@@ -155,7 +155,7 @@ public class CalcHospitalList {
             calcBasics.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveCalcBasicsPepp(calcBasics);
         }else{
-            _calcFacade.remove(calcBasics);
+            _calcFacade.delete(calcBasics);
         }
     }
 

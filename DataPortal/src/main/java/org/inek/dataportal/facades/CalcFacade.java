@@ -197,10 +197,12 @@ public class CalcFacade extends AbstractDataAccess {
             System.out.println(violation.getMessage());
         }
         if (calcBasics.getId() == -1) {
-            persist(calcBasics);
             KGLOpAn opAn = calcBasics.getOpAn();
+            calcBasics.setOpAn(null); // can not persist otherwise :(
+            persist(calcBasics);
             opAn.setBaseInformationID(calcBasics.getId());
             persist(opAn);
+            calcBasics.setOpAn(opAn);
             return calcBasics;
         }
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
@@ -349,6 +351,23 @@ public class CalcFacade extends AbstractDataAccess {
 
     public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void delete(StatementOfParticipance statement) {
+        remove(statement);
+    }
+
+    public void delete(DrgCalcBasics calcBasics) {
+        KGLOpAn opAn = calcBasics.getOpAn();
+        if (opAn != null) {
+            remove(opAn);
+            calcBasics.setOpAn(null);
+        }
+        remove(calcBasics);
+    }
+
+    public void delete(PeppCalcBasics calcBasics) {
+        remove(calcBasics);
     }
 
 }
