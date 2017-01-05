@@ -7,12 +7,11 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,118 +24,142 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "dataportaldev", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGLNormalStationServiceDocumentation.findAll", query = "SELECT k FROM KGLNormalStationServiceDocumentation k")
-    , @NamedQuery(name = "KGLNormalStationServiceDocumentation.findByNssID", query = "SELECT k FROM KGLNormalStationServiceDocumentation k WHERE k.nssID = :nssID")
-    , @NamedQuery(name = "KGLNormalStationServiceDocumentation.findByNssUsed", query = "SELECT k FROM KGLNormalStationServiceDocumentation k WHERE k.nssUsed = :nssUsed")
-    , @NamedQuery(name = "KGLNormalStationServiceDocumentation.findByNssDepartment", query = "SELECT k FROM KGLNormalStationServiceDocumentation k WHERE k.nssDepartment = :nssDepartment")
-    , @NamedQuery(name = "KGLNormalStationServiceDocumentation.findByNssDepartmentKey", query = "SELECT k FROM KGLNormalStationServiceDocumentation k WHERE k.nssDepartmentKey = :nssDepartmentKey")
-    , @NamedQuery(name = "KGLNormalStationServiceDocumentation.findByNssAlternative", query = "SELECT k FROM KGLNormalStationServiceDocumentation k WHERE k.nssAlternative = :nssAlternative")})
 public class KGLNormalStationServiceDocumentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer nssID;
+    @Column(name = "nssID")
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    private boolean nssUsed;
+    @Column(name = "nssUsed")
+    private boolean _used;
+
+    public boolean isUsed() {
+        return _used;
+    }
+
+    public void setUsed(boolean used) {
+        this._used = used;
+    }
+    //</editor-fold>
+    
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
-    private String nssDepartment;
+    @Size(max = 200)
+    @Column(name = "nssDepartment")
+    private String _department = "";
+
+    public String getDepartment() {
+        return _department;
+    }
+
+    public void setDepartment(String department) {
+        this._department = department;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
-    private String nssDepartmentKey;
+    @Size(max = 4)
+    @Column(name = "nssDepartmentKey")
+    private String _departmentKey = "";
+
+    public String getDepartmentKey() {
+        return _departmentKey;
+    }
+
+    public void setDepartmentKey(String departmentKey) {
+        this._departmentKey = departmentKey;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
-    private String nssAlternative;
-    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics nssBaseInformationID;
-    @JoinColumn(name = "nssContentTextID", referencedColumnName = "ctID")
-    @ManyToOne(optional = false)
-    private DrgContentText nssContentTextID;
+    @Size(max = 200)
+    @Column(name = "nssAlternative")
+    private String _alternative = "";
+
+    public String getAlternative() {
+        return _alternative;
+    }
+
+    public void setAlternative(String alternative) {
+        this._alternative = alternative;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+//    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nssBaseInformationID")
+    private int _baseInformationID;
+
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+//    @JoinColumn(name = "nssContentTextID", referencedColumnName = "ctID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nssContentTextID")
+    private int _contentTextID;
+    //</editor-fold>
+
+    public int getContentTextID() {
+        return _contentTextID;
+    }
+
+    public void setContentTextID(int contentTextID) {
+        this._contentTextID = contentTextID;
+    }
+    
 
     public KGLNormalStationServiceDocumentation() {
     }
 
     public KGLNormalStationServiceDocumentation(Integer nssID) {
-        this.nssID = nssID;
+        this._id = nssID;
     }
 
-    public KGLNormalStationServiceDocumentation(Integer nssID, boolean nssUsed, String nssDepartment, String nssDepartmentKey, String nssAlternative) {
-        this.nssID = nssID;
-        this.nssUsed = nssUsed;
-        this.nssDepartment = nssDepartment;
-        this.nssDepartmentKey = nssDepartmentKey;
-        this.nssAlternative = nssAlternative;
+    public KGLNormalStationServiceDocumentation(int nssID, boolean nssUsed, String nssDepartment, String nssDepartmentKey, String nssAlternative) {
+        this._id = nssID;
+        this._used = nssUsed;
+        this._department = nssDepartment;
+        this._departmentKey = nssDepartmentKey;
+        this._alternative = nssAlternative;
     }
 
-    public Integer getNssID() {
-        return nssID;
-    }
-
-    public void setNssID(Integer nssID) {
-        this.nssID = nssID;
-    }
-
-    public boolean getNssUsed() {
-        return nssUsed;
-    }
-
-    public void setNssUsed(boolean nssUsed) {
-        this.nssUsed = nssUsed;
-    }
-
-    public String getNssDepartment() {
-        return nssDepartment;
-    }
-
-    public void setNssDepartment(String nssDepartment) {
-        this.nssDepartment = nssDepartment;
-    }
-
-    public String getNssDepartmentKey() {
-        return nssDepartmentKey;
-    }
-
-    public void setNssDepartmentKey(String nssDepartmentKey) {
-        this.nssDepartmentKey = nssDepartmentKey;
-    }
-
-    public String getNssAlternative() {
-        return nssAlternative;
-    }
-
-    public void setNssAlternative(String nssAlternative) {
-        this.nssAlternative = nssAlternative;
-    }
-
-    public DrgCalcBasics getNssBaseInformationID() {
-        return nssBaseInformationID;
-    }
-
-    public void setNssBaseInformationID(DrgCalcBasics nssBaseInformationID) {
-        this.nssBaseInformationID = nssBaseInformationID;
-    }
-
-    public DrgContentText getNssContentTextID() {
-        return nssContentTextID;
-    }
-
-    public void setNssContentTextID(DrgContentText nssContentTextID) {
-        this.nssContentTextID = nssContentTextID;
-    }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (nssID != null ? nssID.hashCode() : 0);
-        return hash;
+        return _id;
     }
 
     @Override
@@ -146,15 +169,12 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
             return false;
         }
         KGLNormalStationServiceDocumentation other = (KGLNormalStationServiceDocumentation) object;
-        if ((this.nssID == null && other.nssID != null) || (this.nssID != null && !this.nssID.equals(other.nssID))) {
-            return false;
-        }
-        return true;
+        return this._id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation[ nssID=" + nssID + " ]";
+        return "org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation[ nssID=" + _id + " ]";
     }
     
 }
