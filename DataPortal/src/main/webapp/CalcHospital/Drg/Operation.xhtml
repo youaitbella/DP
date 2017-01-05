@@ -130,26 +130,26 @@
         <h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle" styleClass="blockHeader"/>
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" title="#{msg.titleCalcOpAnSum}"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}" styleClass="element20" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}" styleClass="element20" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
         </div>
 
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
             <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" disabled="true"/>
-            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" disabled="true"/>
-            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}" styleClass="element20" disabled="true"/>
             <h:inputText value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClass="element20" disabled="true"/>
         </div>
 
-        <div class="inputPart">
+        <div class="inputPart" jsf:id="diff">
             <h:outputLabel value="Abweichung" styleClass="label20"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
-            <h:inputText value="12345" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP)}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP)}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN)}" styleClass="element20" disabled="true"/>
+            <h:inputText value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}" styleClass="element20" disabled="true"/>
         </div>
 
         <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
