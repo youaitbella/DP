@@ -811,7 +811,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListRadiologyLaboratory> _radiologyLaboratories;
+    private List<KGLListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     @XmlTransient
     public List<KGLListRadiologyLaboratory> getRadiologyLaboratories() {
@@ -826,7 +826,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListObstetricsGynecology> _obstetricsGynecologies;
+    private List<KGLListObstetricsGynecology> _obstetricsGynecologies  = new Vector<>();
     
     @XmlTransient
     public List<KGLListObstetricsGynecology> getObstetricsGynecologies() {
@@ -841,7 +841,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
-    private List<KGLRadiologyService> _radiologyServices;
+    private List<KGLRadiologyService> _radiologyServices = new Vector<>();
 
     @XmlTransient
     public List<KGLRadiologyService> getRadiologyServices() {
@@ -873,7 +873,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List ServiceProvisions">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biId")
-    private List<KGLListServiceProvision> _serviceProvisions;
+    private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
     
     @XmlTransient
     public List<KGLListServiceProvision> getServiceProvisions() {
@@ -888,7 +888,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List KstTop">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListKstTop> _kstTop;
+    private List<KGLListKstTop> _kstTop = new Vector<>();
     
     @XmlTransient
     public List<KGLListKstTop> getKstTop() {
@@ -903,7 +903,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
-    private List<KGLListEndoscopyDifferential> _endoscopyDifferentials;
+    private List<KGLListEndoscopyDifferential> _endoscopyDifferentials = new Vector<>();
     
     @XmlTransient
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
@@ -918,7 +918,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List normalFeeContracts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
-    private List<KGLNormalFeeContract> _normalFeeContracts;
+    private List<KGLNormalFeeContract> _normalFeeContracts = new Vector<>();
     
     @XmlTransient
     public List<KGLNormalFeeContract> getNormalFeeContracts() {
@@ -933,7 +933,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NormalFreelancers">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
-    private List<KGLNormalFreelancer> _normalFreelancers;
+    private List<KGLNormalFreelancer> _normalFreelancers = new Vector<>();
     
     public List<KGLNormalFreelancer> getNormalFreelancers() {
         return _normalFreelancers;
@@ -949,7 +949,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListIntensivStroke> _intensivStrokes;
+    private List<KGLListIntensivStroke> _intensivStrokes = new Vector<>();
     
     public List<KGLListIntensivStroke> getIntensivStrokes() {
         return _intensivStrokes;
@@ -963,7 +963,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListMedInfra> _medInfras;
+    private List<KGLListMedInfra> _medInfras = new Vector<>();
     
     public List<KGLListMedInfra> getMedInfras() {
         return _medInfras;
@@ -977,7 +977,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
-    private List<KGLPersonalAccounting> _personalAccountings;
+    private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
     
     public List<KGLPersonalAccounting> getPersonalAccountings() {
         return _personalAccountings;
@@ -991,7 +991,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biID")
-    private List<DrgNeonatData> _neonateData;
+    private List<DrgNeonatData> _neonateData = new Vector<>();
 
     public List<DrgNeonatData> getNeonateData() {
         return _neonateData;
@@ -1005,7 +1005,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NormalStationServiceDocumentations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
-    private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations;
+    private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations = new Vector<>();
     
     public List<KGLNormalStationServiceDocumentation> getNormalStationServiceDocumentations() {
         return _normalStationServiceDocumentations;
@@ -1019,7 +1019,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List IntensiveStrokeCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "iscBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListIntensiveStrokeCost> _intensiveStrokeCosts;
+    private List<KGLListIntensiveStrokeCost> _intensiveStrokeCosts = new Vector<>();
     
     public List<KGLListIntensiveStrokeCost> getIntensiveStrokeCosts() {
         return _intensiveStrokeCosts;
@@ -1033,7 +1033,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListCostCenterCost> _costCenterCosts;
+    private List<KGLListCostCenterCost> _costCenterCosts = new Vector<>();
     
     public List<KGLListCostCenterCost> getCostCenterCosts() {
         return _costCenterCosts;
@@ -1047,7 +1047,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List pkmsAlternatives">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
-    private List<KGLPKMSAlternative> _pkmsAlternatives;
+    private List<KGLPKMSAlternative> _pkmsAlternatives = new Vector<>();
     
     public List<KGLPKMSAlternative> getPkmsAlternatives() {
         return _pkmsAlternatives;
