@@ -125,6 +125,8 @@ public class CalcHospitalInfo implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 83 * hash + this._id;
+        if (this._id != -1) return hash;
+        
         hash = 83 * hash + this._type;
         hash = 83 * hash + this._accountId;
         hash = 83 * hash + this._dataYear;
@@ -139,13 +141,16 @@ public class CalcHospitalInfo implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        
+        if (!(obj instanceof CalcHospitalInfo)) {
             return false;
         }
         final CalcHospitalInfo other = (CalcHospitalInfo) obj;
+        
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        
         if (this._id != other._id) {
             return false;
         }
