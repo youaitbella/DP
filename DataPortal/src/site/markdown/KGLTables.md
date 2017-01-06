@@ -227,22 +227,16 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Gewichtungsfaktor Min.||isWeightMinimum|
 |||Gewichtungsfaktor Max.||isWeightMaximum|
 |||Gewichtungsfaktor Erläuterung||isWeightDescription|
-|Intensiv_Stroke Kosten|||KGLListIntensiveStrokeCost||
-|||IntensivTyp zur Unterscheidung Intensiv/Stroke||iscIntensiveType|
-|||Nummer Kostenstelle||iscCostCenterID|
-|||Name Kostenstelle||iscCostCenterText|
-|||FAB Schlüssel||iscDepartmentKey|
-|||Belegung: FAB||iscDepartmentAssignment|
-|||Anzahl VK ÄD||iscMedicalServiceCnt|
-|||Anzahl VK PD||iscNursingServiceCnt|
-|||Anzahl VK FD||iscFunctionalServiceCnt|
-|||Kosten ÄD||iscMedicalServiceCost|
-|||Kosten PD||iscNursingServiceCost|
-|||Kosten FD||iscFunctionalServiceCost|
-|||Gemeinkosten Arzneimittel||iscOverheadsMedicine|
-|||Gemeinkosten med. Sachbedarf||iscOverheadMedicalGoods|
-|||Kosten med. Infra||iscMedicalInfrastructureCost|
-|||Kosten nicht med. Infra||iscNonMedicalInfrastructureCost|
+|||Anzahl VK ÄD||isMedicalServiceCnt|
+|||Anzahl VK PD||isNursingServiceCnt|
+|||Anzahl VK FD||isFunctionalServiceCnt|
+|||Kosten ÄD||isMedicalServiceCost|
+|||Kosten PD||isNursingServiceCost|
+|||Kosten FD||isFunctionalServiceCost|
+|||Gemeinkosten Arzneimittel||isOverheadsMedicine|
+|||Gemeinkosten med. Sachbedarf||isOverheadsMedicalGoods|
+|||Kosten med. Infra||isMedicalInfrastructureCost|
+|||Kosten nicht med. Infra||isNonMedicalInfrastructureCost|
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGLTables)
