@@ -713,18 +713,71 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="intensiveStrokeBed">
-    @Column(name = "biIntensiveStrokeBed")
-    private boolean _intensiveStrokeBed;
+    //<editor-fold defaultstate="collapsed" desc="strokeBed">
+    @Column(name = "biStrokeBed")
+    private boolean _strokeBed;
 
-    public boolean isIntensiveStrokeBed() {
-        return _intensiveStrokeBed;
+    public boolean isStrokeBed() {
+        return _strokeBed;
     }
 
-    public void setIntensiveStrokeBed(boolean intensiveStrokeBed) {
-        this._intensiveStrokeBed = intensiveStrokeBed;
+    public void setStrokeBed(boolean intensiveStrokeBed) {
+        this._strokeBed = intensiveStrokeBed;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="_intensiveHoursWeighted">
+    @Column(name = "biIntensiveHoursWeighted")
+    private int _intensiveHoursWeighted;
+
+    public int getIntensiveHoursWeighted() {
+        return _intensiveHoursWeighted;
+    }
+
+    public void setIntensiveHoursWeighted(int intensiveHoursWeighted) {
+        this._intensiveHoursWeighted = intensiveHoursWeighted;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="_intensiveHoursNotWeighted">
+    @Column(name = "biIntensiveHoursNotWeighted")
+    private int _intensiveHoursNotWeighted;
+
+    public int getIntensiveHoursNotWeighted() {
+        return _intensiveHoursNotWeighted;
+    }
+
+    public void setIntensiveHoursNotWeighted(int intensiveHoursNotWeighted) {
+        this._intensiveHoursNotWeighted = intensiveHoursNotWeighted;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="_strokeHoursWeighted">
+    @Column(name = "biStrokeHoursWeighted")
+    private int _strokeHoursWeighted;
+
+    public int getStrokeHoursWeighted() {
+        return _strokeHoursWeighted;
+    }
+
+    public void setStrokeHoursWeighted(int strokeHoursWeighted) {
+        this._strokeHoursWeighted = strokeHoursWeighted;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="_strokeHoursNotWeighted">
+    @Column(name = "biStrokeHoursNotWeighted")
+    private int _strokeHoursNotWeighted;
+    
+    public int getStrokeHoursNotWeighted() {
+        return _strokeHoursNotWeighted;
+    }
+
+    public void setStrokeHoursNotWeighted(int strokeHoursNotWeighted) {
+        this._strokeHoursNotWeighted = strokeHoursNotWeighted;
+    }
+    //</editor-fold>
+    
 
     // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -1004,8 +1057,7 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsAlternatives = pkmsAlternatives;
     }
     //</editor-fold>
-    
-    
+                
     @Override
     public int hashCode() {
         return _id;
