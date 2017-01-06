@@ -215,15 +215,15 @@ public class KGLListIntensivStroke implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="MinimumPeriod">
     @Basic(optional = false)
     @NotNull
-    @Column(name = "isMinimumPeriod")
-    private int _minimumPeriod;
+    @Column(name = "isMinimumCriteriaPeriod")
+    private int _minimumCriteriaPeriod;
     
-    public int getMinimumPeriod() {
-        return _minimumPeriod;
+    public int getMinimumCriteriaPeriod() {
+        return _minimumCriteriaPeriod;
     }
 
-    public void setMinimumPeriod(int minimumPeriod) {
-        this._minimumPeriod = minimumPeriod;
+    public void setMinimumCriteriaPeriod(int minimumPeriod) {
+        this._minimumCriteriaPeriod = minimumPeriod;
     }
     // </editor-fold>
 
@@ -337,7 +337,7 @@ public class KGLListIntensivStroke implements Serializable {
         this._ops898f = ops898f;
         this._ops8981 = ops8981;
         this._ops898b = ops898b;
-        this._minimumPeriod = minimumPeriod;
+        this._minimumCriteriaPeriod = minimumPeriod;
         this._intensivHoursWeighted = intensivHoursWeighted;
         this._intensivHoursNotweighted = intensivHoursNotweighted;
         this._weightMinimum = weightMinimum;
