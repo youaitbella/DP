@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -129,30 +130,62 @@ public class DrgContentText implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
+        int hash = 7;
+        hash = 83 * hash + this._id;
+        if (this._id != -1) return hash;
+        
+        hash = 83 * hash + this._headerTextId;
+        hash = 83 * hash + Objects.hashCode(this._text);
+        hash = 83 * hash + this._firstYear;
+        hash = 83 * hash + this._lastYear;
+        hash = 83 * hash + this._decimalCount;
+        hash = 83 * hash + this._sequence;
+        hash = 83 * hash + (this._diffAsPercent ? 1 : 0);
         return hash;
     }
 
-    @Override
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
+    @Override    
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+        if (this == obj) {
+            return true;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof DrgContentText)) {
             return false;
         }
         final DrgContentText other = (DrgContentText) obj;
-        return _id == other.getId();
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._headerTextId != other._headerTextId) {
+            return false;
+        }
+        if (this._firstYear != other._firstYear) {
+            return false;
+        }
+        if (this._lastYear != other._lastYear) {
+            return false;
+        }
+        if (this._decimalCount != other._decimalCount) {
+            return false;
+        }
+        if (this._sequence != other._sequence) {
+            return false;
+        }
+        if (this._diffAsPercent != other._diffAsPercent) {
+            return false;
+        }
+        return Objects.equals(this._text, other._text);
     }
 
     @Override
     public String toString() {
         return "DrgContentText[ id=" + _id + " ]";
     }
-
     // </editor-fold>
 }
