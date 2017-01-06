@@ -221,7 +221,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||OPS 8-98f||isOPS898f|
 |||OPS 8-981 (Stroke)||isOPS8981|
 |||OPS 8-98b (Stroke)||isOPS898b|
-|||Mindestmerkmale Zeitabschnitt||isMinimumPeriod|
+|||Mindestmerkmale Zeitabschnitt||isMinimumCriteriaPeriod|
 |||Summe gew. Intensiv Std.||isIntensivHoursWeighted|
 |||Summe ungew. Intensiv Std.||isIntensivHoursNotweighted|
 |||Gewichtungsfaktor Min.||isWeightMinimum|
