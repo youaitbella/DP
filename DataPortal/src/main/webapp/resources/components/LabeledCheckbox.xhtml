@@ -10,7 +10,6 @@
         <cc:attribute name="label"/>
         <cc:attribute name="value"/>
         <cc:attribute name="required" default="false"/>
-        <cc:attribute name="styleClass" default="fullWidth"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="styleClassComponent" default="inputPart"/>
         <cc:attribute name="styleClassLabel" default="label"/>
@@ -22,12 +21,11 @@
         <cc:editableValueHolder name="#{cc.id}" targets="box"/>
         <div class="#{cc.attrs.styleClassComponent}">
             <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText"/>
-            <h:selectBooleanCheckbox id="box" 
-                                     value="#{cc.attrs.value}" 
-                                     styleClass="#{cc.attrs.styleClass}"  
-                                     disabled="#{cc.attrs.readonly}">
-                <f:ajax render="#{cc.attrs.renderElement} :logout:remaining"/>
-            </h:selectBooleanCheckbox>
+                <h:selectBooleanCheckbox id="box" 
+                                         value="#{cc.attrs.value}" 
+                                         disabled="#{cc.attrs.readonly}">
+                    <f:ajax render="#{cc.attrs.renderElement} :logout:remaining"/>
+                </h:selectBooleanCheckbox>
         </div>
     </cc:implementation>
 </html>

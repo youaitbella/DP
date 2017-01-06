@@ -9,24 +9,26 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <div class="inputpart">
-        <h:outputLabel styleClass="label40" value="#{msg.lblHasCardiology}"/>
-        <h:panelGroup styleClass="inlineBlock">
-        <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.cardiology}"/>
-        </h:panelGroup>
+    <h2>#{msg.lblCalcCardiology}</h2>
+
+    <inek:LabeledCheckbox label="#{msg.lblHasCardiology}" 
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.cardiology}"
+                          renderElement="@form"/>
+
+    <div jsf:id="cardiology" jsf:rendered="#{editCalcBasicsDrg.calcBasics.cardiology}">
+        <inek:LabeledText label="#{msg.lblCardiologyRoomCount}" 
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}" 
+                          singleLine="true" 
+                          styleClass="inputSmall"/>
+
+        <inek:LabeledText label="#{msg.lblCardiologyCaseCount}" 
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}" 
+                          singleLine="true" 
+                          styleClass="inputSmall"/>
     </div>
-    <inek:LabeledText styleClassComponent="inputpart"
-                      label="#{msg.lblCardiologyRoomCount}" 
-                      styleClassLabel="label40"
-                      value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}" 
-                      singleLine="true" 
-                      styleClass="inputSmall"/>
-    <inek:LabeledText styleClassComponent="inputpart"
-                      label="#{msg.lblCardiologyCaseCount}" 
-                      styleClassLabel="label40"
-                      value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}" 
-                      singleLine="true" 
-                      styleClass="inputSmall"/>
 
 </ui:composition>
 
