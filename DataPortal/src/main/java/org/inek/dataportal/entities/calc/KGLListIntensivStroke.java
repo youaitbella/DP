@@ -304,6 +304,111 @@ public class KGLListIntensivStroke implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property medicalServiceCost">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isMedicalServiceCost")
+    private int _medicalServiceCost;
+
+    public int getMedicalServiceCost() {
+        return _medicalServiceCost;
+    }
+
+    public void setMedicalServiceCost(int medicalServiceCost) {
+        this._medicalServiceCost = medicalServiceCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property nursingServiceCost">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isNursingServiceCost")
+    private int _nursingServiceCost;
+
+    public int getNursingServiceCost() {
+        return _nursingServiceCost;
+    }
+
+    public void setNursingServiceCost(int nursingServiceCost) {
+        this._nursingServiceCost = nursingServiceCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property functionalServiceCost">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isFunctionalServiceCost")
+    private int _functionalServiceCost;
+
+    public int getFunctionalServiceCost() {
+        return _functionalServiceCost;
+    }
+
+    public void setFunctionalServiceCost(int functionalServiceCost) {
+        this._functionalServiceCost = functionalServiceCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property overheadsMedicine">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isOverheadsMedicine")
+    private int _overheadsMedicine;
+
+    public int getOverheadsMedicine() {
+        return _overheadsMedicine;
+    }
+
+    public void setOverheadsMedicine(int overheadsMedicine) {
+        this._overheadsMedicine = overheadsMedicine;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property overheadMedicalGoods">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isOverheadsMedicalGoods")
+    private int _overheadMedicalGoods;
+
+    public int getOverheadMedicalGoods() {
+        return _overheadMedicalGoods;
+    }
+
+    public void setOverheadMedicalGoods(int overheadMedicalGoods) {
+        this._overheadMedicalGoods = overheadMedicalGoods;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property medicalInfrastructureCost">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isMedicalInfrastructureCost")
+    private int _medicalInfrastructureCost;
+
+    public int getMedicalInfrastructureCost() {
+        return _medicalInfrastructureCost;
+    }
+
+    public void setMedicalInfrastructureCost(int medicalInfrastructureCost) {
+        this._medicalInfrastructureCost = medicalInfrastructureCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property nonMedicalInfrastructureCost">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isNonMedicalInfrastructureCost")
+    private int _nonMedicalInfrastructureCost;
+
+    public int getNonMedicalInfrastructureCost() {
+        return _nonMedicalInfrastructureCost;
+    }
+
+    public void setNonMedicalInfrastructureCost(int nonMedicalInfrastructureCost) {
+        this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
+    }
+    //</editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
     @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
     @ManyToOne(optional = false)
@@ -325,26 +430,29 @@ public class KGLListIntensivStroke implements Serializable {
         this._id = isID;
     }
 
-    public KGLListIntensivStroke(int id, int intensiveType, int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, String weightDescription) {
-        this._id = id;
+    public KGLListIntensivStroke(int intensiveType, int costCenterID, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost) {
         this._intensiveType = intensiveType;
         this._costCenterID = costCenterID;
-        this._costCenterText = costCenterText;
-        this._departmentKey = departmentKey;
-        this._departmentAssignment = departmentAssignment;
         this._bedCnt = bedCnt;
         this._caseCnt = caseCnt;
         this._ops8980 = ops8980;
         this._ops898f = ops898f;
         this._ops8981 = ops8981;
         this._ops898b = ops898b;
-        this._minimumCriteriaPeriod = minimumPeriod;
+        this._minimumCriteriaPeriod = minimumCriteriaPeriod;
         this._intensivHoursWeighted = intensivHoursWeighted;
         this._intensivHoursNotweighted = intensivHoursNotweighted;
         this._weightMinimum = weightMinimum;
         this._weightMaximum = weightMaximum;
-        this._weightDescription = weightDescription;
+        this._medicalServiceCost = medicalServiceCost;
+        this._nursingServiceCost = nursingServiceCost;
+        this._functionalServiceCost = functionalServiceCost;
+        this._overheadsMedicine = overheadsMedicine;
+        this._overheadMedicalGoods = overheadMedicalGoods;
+        this._medicalInfrastructureCost = medicalInfrastructureCost;
+        this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
     }
+
 
     @Override
     public int hashCode() {

@@ -1016,20 +1016,6 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property List IntensiveStrokeCosts">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "iscBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListIntensiveStrokeCost> _intensiveStrokeCosts = new Vector<>();
-    
-    public List<KGLListIntensiveStrokeCost> getIntensiveStrokeCosts() {
-        return _intensiveStrokeCosts;
-    }
-    
-    public void setIntensiveStrokeCosts(List<KGLListIntensiveStrokeCost> intensiveStrokeCosts) {
-        this._intensiveStrokeCosts = intensiveStrokeCosts;
-    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
