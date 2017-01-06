@@ -100,6 +100,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
         
+        // cardiology
+        calcBasics.setCardiology(_priorCalcBasics.isCardiology());
+        calcBasics.setCardiologyCaseCnt(_priorCalcBasics.getCardiologyCaseCnt());
+        calcBasics.setCardiologyRoomCnt(_priorCalcBasics.getCardiologyRoomCnt());
+        
         // neonat
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
         int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();

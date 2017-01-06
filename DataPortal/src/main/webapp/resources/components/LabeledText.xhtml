@@ -4,7 +4,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -25,7 +26,7 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <cc:editableValueHolder name="#{cc.id}" targets="idText"/>
-        <h:panelGroup styleClass="#{cc.attrs.styleClassComponent}">
+        <div class="#{cc.attrs.styleClassComponent}">
             <h:panelGroup style="display: inline-block; width: 100%;" rendered="#{!cc.attrs.singleLine}">
                 <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText"/>
                 <h:message for="idText" id="msgText" styleClass="errorMessage"/>
@@ -43,6 +44,6 @@
                            styleClass="#{cc.attrs.styleClass}"
                            value="#{cc.attrs.value}"/>
             <h:message for="idText" id="msgText2" styleClass="errorMessage" rendered="#{cc.attrs.singleLine}"/>
-        </h:panelGroup>
+        </div>
     </cc:implementation>
 </html>
