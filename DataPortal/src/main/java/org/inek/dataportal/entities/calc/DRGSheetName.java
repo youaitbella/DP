@@ -48,7 +48,6 @@ public class DRGSheetName implements Serializable {
     }
     //</editor-fold>
     
-    
     //<editor-fold defaultstate="collapsed" desc="Property Sheet">
     @Basic(optional = false)
     @NotNull
@@ -83,11 +82,11 @@ public class DRGSheetName implements Serializable {
     public DRGSheetName() {
     }
 
-    public DRGSheetName(Integer sID) {
+    public DRGSheetName(int sID) {
         this._id = sID;
     }
 
-    public DRGSheetName(Integer sID, String sSheet) {
+    public DRGSheetName(int sID, String sSheet) {
         this._id = sID;
         this._sheet = sSheet;
     }
@@ -95,7 +94,7 @@ public class DRGSheetName implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + Objects.hashCode(this._id);
+        hash = 73 * hash + this._id;
         if (this._id != -1) return hash;
         hash = 73 * hash + Objects.hashCode(this._sheet);
         return hash;
@@ -113,7 +112,10 @@ public class DRGSheetName implements Serializable {
         if (_id != -1) {
             return _id == other._id;
         }
-        return other._id == -1 && Objects.equals(this._sheet, other._sheet);        
+        if (_id != other._id) {
+            return false;
+        }
+        return Objects.equals(this._sheet, other._sheet);        
     }
 
     @Override
