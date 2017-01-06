@@ -147,10 +147,9 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |Normalstation|||KGLBaseInformation||
 |||Ärzte freie Mitarbeit||biNormalFreelancing|
 |||Honorarverträge||biFeeContract|
-|||Erfassung PKMS Normalstation||biPKMSRecording|
 |||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
-|||KIS-Integration/Manuell||biKISIntegration|
-|||Sonstiges||biNormalStationOther|
+|||Erfassung PKMS Normalstation und KIS-Integration/Manuell||biPKMSRecording|
+|||Sonstiges||biPKMSOther|
 |Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGLPKMSAlternative||
 |||Fachabteilung||paDepartment|
 |||FAB Schlüssel 301||paDepartmentKey|
