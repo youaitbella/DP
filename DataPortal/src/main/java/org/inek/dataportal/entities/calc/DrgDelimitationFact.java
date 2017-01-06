@@ -125,4 +125,63 @@ public class DrgDelimitationFact implements Serializable {
     public void setLabel(String label) {
         this._label = label;
     }
+
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + this._id;
+        if (this._id != -1) return hash;
+        
+        hash = 79 * hash + this._baseInformationId;
+        hash = 79 * hash + this._contentTextId;
+        hash = 79 * hash + (this._used ? 1 : 0);
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._personalCost) ^ (Double.doubleToLongBits(this._personalCost) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._materialCost) ^ (Double.doubleToLongBits(this._materialCost) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._infraCost) ^ (Double.doubleToLongBits(this._infraCost) >>> 32));
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof DrgDelimitationFact)) {
+            return false;
+        }
+        final DrgDelimitationFact other = (DrgDelimitationFact) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (this._contentTextId != other._contentTextId) {
+            return false;
+        }
+        if (this._used != other._used) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._personalCost) != Double.doubleToLongBits(other._personalCost)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._materialCost) != Double.doubleToLongBits(other._materialCost)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._infraCost) != Double.doubleToLongBits(other._infraCost)) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "DrgDelimitationFact{" + "_id=" + _id + '}';
+    }
+    //</editor-fold>
+    
 }
