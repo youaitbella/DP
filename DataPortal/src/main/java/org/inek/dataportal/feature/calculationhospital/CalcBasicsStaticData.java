@@ -26,8 +26,8 @@ public class CalcBasicsStaticData {
 
     public List<SelectItem> getNeonatFulfillmentItems(){
        List<SelectItem> items = new ArrayList<>();
-       items.add(new SelectItem(-1, "nicht erfüllt"));
-       items.add(new SelectItem(0, "ganzjährig"));
+       items.add(new SelectItem(0, "nicht erfüllt"));
+       items.add(new SelectItem(13, "ganzjährig"));
        items.add(new SelectItem(1, "ab Januar"));
        items.add(new SelectItem(2, "ab Februar"));
        items.add(new SelectItem(3, "ab März"));

@@ -31,7 +31,7 @@
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{data.data}"
                                  hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-2}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                     <f:selectItems value="#{calcBasicsStaticData.neonatFulfillmentItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                     <f:ajax event="change" render="@form :logout:remaining msgFulFillment"/>
                 </h:selectOneMenu>

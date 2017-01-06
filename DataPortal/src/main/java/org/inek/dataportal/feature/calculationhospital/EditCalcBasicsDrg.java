@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -98,9 +99,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
-        int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
         
-        _priorCalcBasics.getNeonateData().stream().filter(n -> n.getContentText().getHeaderTextId() == headerId).forEach(n -> {System.out.println("Wert: " + n.getData());});
+        // neonat
+        calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
+        int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
+        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
+            Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
+            if (optDat.isPresent()){
+                optDat.get().setData(old.getData());
+            }
+        });
             
     }
     
