@@ -205,6 +205,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelDrg">
     @Column(name = "sopCdmDrg")
+    @Documentation
     private int _clinicalDistributionModelDrg = -1;
 
     public int getClinicalDistributionModelDrg() {
