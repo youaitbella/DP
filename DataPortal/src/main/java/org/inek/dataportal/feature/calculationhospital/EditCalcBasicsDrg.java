@@ -250,8 +250,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         
         // this produces read errors. enable once the data access is complete
-        // mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics);
-        mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics.getOpAn());
+         mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics);
+        // mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics.getOpAn());
         
         // later on, we need to embedd the json string into an info file
         //String json = mapper.writeValueAsString(_calcBasics);
