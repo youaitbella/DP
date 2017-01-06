@@ -558,7 +558,7 @@ public class NubRequest implements Serializable {
         _accountId = accountId;
     }
 
-    @Documentation(name = "Bearbeitungsstatus", rank = 10)
+    @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_status);
     }

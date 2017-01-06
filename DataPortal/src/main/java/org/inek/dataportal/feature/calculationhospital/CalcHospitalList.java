@@ -30,6 +30,7 @@ import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
  *
@@ -82,7 +83,7 @@ public class CalcHospitalList {
 
     public String newCalculationBasicsDrg() {
         destroyFeatureBeans();
-        
+
         return Pages.CalcDrgEdit.RedirectURL();
     }
 
@@ -110,8 +111,32 @@ public class CalcHospitalList {
         return Pages.StatementOfParticipanceEditAddress.URL();  // todo
     }
 
-    public String printHospitalInfo(int id) {
+    public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {
+        switch (hospitalInfo.getType()) {
+            case 0:
+                return printStatementOfParticipance(hospitalInfo);
+            case 1:
+                return printCalculationBasicsDrg(hospitalInfo);
+            case 2:
+                return printCalculationBasicsPepp(hospitalInfo);
+        }
         return "";
+    }
+
+    public String printStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
+        StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
+        Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + statement.getId());
+        Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
+        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(statement));
+        return Pages.PrintView.URL();
+    }
+
+    private String printCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private String printCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
@@ -131,30 +156,30 @@ public class CalcHospitalList {
 
     private void deleteStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
         StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
-        if (statement.getStatus().getValue() >= WorkflowStatus.Provided.getValue()){
+        if (statement.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
             statement.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(statement);
-        }else{
+        } else {
             _calcFacade.delete(statement);
         }
     }
 
     private void deleteCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
         DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
-        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()){
+        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
             calcBasics.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveCalcBasicsDrg(calcBasics);
-        }else{
+        } else {
             _calcFacade.delete(calcBasics);
         }
     }
 
     private void deleteCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
         PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
-        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()){
+        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
             calcBasics.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveCalcBasicsPepp(calcBasics);
-        }else{
+        } else {
             _calcFacade.delete(calcBasics);
         }
     }

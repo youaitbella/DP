@@ -28,6 +28,7 @@ import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -35,7 +36,8 @@ import org.inek.dataportal.helper.Utils;
  */
 @Entity
 @Table(name = "StatementOfParticipance", schema = "calc")
-public class StatementOfParticipance implements Serializable{
+public class StatementOfParticipance implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -55,7 +57,9 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "sopDataYear")
+    @Documentation(key = "lblYearData")
     private int _dataYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+
     public int getDataYear() {
         return _dataYear;
     }
@@ -67,7 +71,9 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
     @Column(name = "sopIK")
+    @Documentation(key = "lblIK")
     private int _ik;
+
     public int getIk() {
         return _ik;
     }
@@ -76,25 +82,26 @@ public class StatementOfParticipance implements Serializable{
         this._ik = ik;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="hospitalName">
     @NotNull
     @Size(max = 150)
     @Column(name = "sopHospitalName")
     private String sopHospitalName = "";
-    
+
     public String getSopHospitalName() {
         return sopHospitalName;
     }
-    
+
     public void setSopHospitalName(String sopHospitalName) {
         this.sopHospitalName = sopHospitalName;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "sopAccountId")
     private int _accountId;
+
     public int getAccountId() {
         return _accountId;
     }
@@ -103,10 +110,11 @@ public class StatementOfParticipance implements Serializable{
         _accountId = accountId;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
     @Column(name = "sopStatusId")
     private int _statusId;
+
     public int getStatusId() {
         return _statusId;
     }
@@ -114,7 +122,8 @@ public class StatementOfParticipance implements Serializable{
     public void setStatusId(int statusId) {
         _statusId = statusId;
     }
-    
+
+    @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -127,7 +136,8 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "sopLastChanged")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _lastChanged =  Calendar.getInstance().getTime();
+    private Date _lastChanged = Calendar.getInstance().getTime();
+
     public Date getLastChanged() {
         return _lastChanged;
     }
@@ -136,10 +146,12 @@ public class StatementOfParticipance implements Serializable{
         _lastChanged = lastChanged;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property IsDrgCalc">
     @Column(name = "sopIsDrg")
+    @Documentation(name = "Teilnahme DRG")
     private boolean _drgCalc = true;
+
     public boolean isDrgCalc() {
         return _drgCalc;
     }
@@ -151,7 +163,9 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property IsPsyCalc">
     @Column(name = "sopIsPsy")
+    @Documentation(name = "Teilnahme PSY")
     private boolean _psyCalc = true;
+
     public boolean isPsyCalc() {
         return _psyCalc;
     }
@@ -163,7 +177,9 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property IsInvCalc">
     @Column(name = "sopIsInv")
+    @Documentation(name = "Teilnahme INV")
     private boolean _invCalc;
+
     public boolean isInvCalc() {
         return _invCalc;
     }
@@ -175,7 +191,9 @@ public class StatementOfParticipance implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="Property IsTpgCalc">
     @Column(name = "sopIsTpg")
+    @Documentation(name = "Teilnahme TPG")
     private boolean _tpgCalc;
+
     public boolean isTpgCalc() {
         return _tpgCalc;
     }
@@ -188,6 +206,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelDrg">
     @Column(name = "sopCdmDrg")
     private int _clinicalDistributionModelDrg = -1;
+
     public int getClinicalDistributionModelDrg() {
         return _clinicalDistributionModelDrg;
     }
@@ -200,6 +219,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelPsy">
     @Column(name = "sopCdmPsy")
     private int _clinicalDistributionModelPsy = -1;
+
     public int getClinicalDistributionModelPsy() {
         return _clinicalDistributionModelPsy;
     }
@@ -212,6 +232,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrg">
     @Column(name = "sopMultiyearDrg")
     private String _multiyearDrg = "";
+
     public String getMultiyearDrg() {
         return _multiyearDrg;
     }
@@ -224,6 +245,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrgText">
     @Column(name = "sopMultiyearDrgText")
     private String _multiyearDrgText = "";
+
     public String getMultiyearDrgText() {
         return _multiyearDrgText;
     }
@@ -236,6 +258,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsy">
     @Column(name = "sopMultiyearPsy")
     private String _multiyearPsy = "";
+
     public String getMultiyearPsy() {
         return _multiyearPsy;
     }
@@ -248,6 +271,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsyText">
     @Column(name = "sopMultiyearPsyText")
     private String _multiyearPsyText = "";
+
     public String getMultiyearPsyText() {
         return _multiyearPsyText;
     }
@@ -260,6 +284,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property Section">
     @Column(name = "sopSection")
     private boolean _section;
+
     public boolean isSection() {
         return _section;
     }
@@ -272,6 +297,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property SectionExtern">
     @Column(name = "sopSectionExtern")
     private boolean _sectionExtern;
+
     public boolean isSectionExtern() {
         return _sectionExtern;
     }
@@ -284,6 +310,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property SectionCount">
     @Column(name = "sopSectionCount")
     private int _sectionCount;
+
     public int isSectionCount() {
         return _sectionCount;
     }
@@ -296,6 +323,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property DrgCare">
     @Column(name = "sopDrgCare")
     private String _drgCare = "";
+
     public String getDrgCare() {
         return _drgCare;
     }
@@ -308,6 +336,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property PsyDataIntensive">
     @Column(name = "sopPsyDataIntensive")
     private boolean _psyDataIntensive;
+
     public boolean isPsyDataIntensive() {
         return _psyDataIntensive;
     }
@@ -320,6 +349,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property WithConsultant">
     @Column(name = "sopIsWithConsultant")
     private boolean _withConsultant;
+
     public boolean isWithConsultant() {
         return _withConsultant;
     }
@@ -332,6 +362,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property ConsultantCompany">
     @Column(name = "sopConsultantCompany")
     private String _consultantCompany = "";
+
     public String getConsultantCompany() {
         return _consultantCompany;
     }
@@ -344,6 +375,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property ConsultantSendMail">
     @Column(name = "sopConsultantSendMail")
     private boolean _consultantSendMail;
+
     public boolean isConsultantSendMail() {
         return _consultantSendMail;
     }
@@ -354,7 +386,8 @@ public class StatementOfParticipance implements Serializable{
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Contacts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    
     @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
     private List<CalcContact> _contacts = new Vector<>();
 
@@ -366,7 +399,7 @@ public class StatementOfParticipance implements Serializable{
         _contacts = contacts;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
@@ -386,18 +419,17 @@ public class StatementOfParticipance implements Serializable{
         final StatementOfParticipance other = (StatementOfParticipance) obj;
         return _id == other._id;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.StatementOfParticipance[ id=" + _id + " ]";
     }
-    
-    // </editor-fold>
 
+    // </editor-fold>
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
         _lastChanged = Calendar.getInstance().getTime();
     }
-    
+
 }
