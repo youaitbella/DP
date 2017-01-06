@@ -216,13 +216,14 @@ public class KGLListIntensivStroke implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "isMinimumCriteriaPeriod")
-    private int _minimumCriteriaPeriod;
+    @Size(max = 100)
+    private String _minimumCriteriaPeriod;
     
-    public int getMinimumCriteriaPeriod() {
+    public String getMinimumCriteriaPeriod() {
         return _minimumCriteriaPeriod;
     }
 
-    public void setMinimumCriteriaPeriod(int minimumPeriod) {
+    public void setMinimumCriteriaPeriod(String minimumPeriod) {
         this._minimumCriteriaPeriod = minimumPeriod;
     }
     // </editor-fold>
@@ -324,7 +325,7 @@ public class KGLListIntensivStroke implements Serializable {
         this._id = isID;
     }
 
-    public KGLListIntensivStroke(int id, int intensiveType, int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, int minimumPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, String weightDescription) {
+    public KGLListIntensivStroke(int id, int intensiveType, int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, String weightDescription) {
         this._id = id;
         this._intensiveType = intensiveType;
         this._costCenterID = costCenterID;
