@@ -165,24 +165,6 @@ public class DrgHeaderText implements Serializable {
         return Objects.equals(this._text, other._text);
     }
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 3;
-//        hash = 71 * hash + this._id;
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj == null) {
-//            return false;
-//        }
-//        if (getClass() != obj.getClass()) {
-//            return false;
-//        }
-//        final DrgHeaderText other = (DrgHeaderText) obj;
-//        return _id == other.getId();
-//    }
     @Override
     public String toString() {
         return "DrgHeaderText[ id=" + _id + "; Sheet=" + _lastYear + "; Text=" + _text +" ]";
