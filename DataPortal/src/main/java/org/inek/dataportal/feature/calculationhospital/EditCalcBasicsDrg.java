@@ -504,6 +504,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>    
 
     public String calcPercentualDiff(int priorValue, int currentValue) {
+        if(priorValue == 0) {
+            return "";
+        }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
     }
 
