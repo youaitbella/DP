@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccID")
-    private int _id;
+    private int _id = -1;
     
     public int getId() {
         return _id;
@@ -142,12 +143,12 @@ public class KGLListCostCenterCost implements Serializable {
     @NotNull
     @Column(name = "cccPPRMinutes")
     private int _pprMinutes;
-    
-    public int getPPRMinutes() {
+
+    public int getPprMinutes() {
         return _pprMinutes;
     }
 
-    public void setPPRMinutes(int pprMinutes) {
+    public void setPprMinutes(int pprMinutes) {
         this._pprMinutes = pprMinutes;
     }
     // </editor-fold>
@@ -157,12 +158,12 @@ public class KGLListCostCenterCost implements Serializable {
     @NotNull
     @Column(name = "cccPPRWeight")
     private String _pprWeight = "";
-    
-    public String getPPRWeight() {
+
+    public String getPprWeight() {
         return _pprWeight;
     }
 
-    public void setPPRWeight(String pprWeight) {
+    public void setPprWeight(String pprWeight) {
         this._pprWeight = pprWeight;
     }
     // </editor-fold>
@@ -319,16 +320,19 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="cccBaseInformationID">
-    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics _baseInformation;
+//    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "cccBaseInformationID")
+    private int _baseInformationId;
 
-    public DrgCalcBasics getBaseInformationID() {
-        return _baseInformation;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(DrgCalcBasics baseInformationID) {
-        this._baseInformation = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
@@ -339,47 +343,141 @@ public class KGLListCostCenterCost implements Serializable {
         this._id = cccID;
     }
 
-    public KGLListCostCenterCost(int cccID, int cccCostCenter, String cccCostCenterText, String cccDepartmentKey, String cccDepartmentAssignment, int cccBedCnt, int cccCareDays, int cccPPRMinutes, String cccPPRWeight, double cccMedicalServiceCnt, double cccNursingServiceCnt, double cccFunctionalServiceCnt, double cccMedicalServiceAmount, double cccNursingServiceAmount, double cccFunctionalServiceAmount, double cccOverheadsMedicine, double cccOverheadsMedicalGoods, double cccMedicalInfrastructureCost, double cccNonMedicalInfrastructureCost) {
-        this._id = cccID;
-        this._costCenter = cccCostCenter;
-        this._costCenterText = cccCostCenterText;
-        this._departmentKey = cccDepartmentKey;
-        this._departmentAssignment = cccDepartmentAssignment;
-        this._bedCnt = cccBedCnt;
-        this._careDays = cccCareDays;
-        this._pprMinutes = cccPPRMinutes;
-        this._pprWeight = cccPPRWeight;
-        this._medicalServiceCnt = cccMedicalServiceCnt;
-        this._nursingServiceCnt = cccNursingServiceCnt;
-        this._functionalServiceCnt = cccFunctionalServiceCnt;
-        this._medicalServiceAmount = cccMedicalServiceAmount;
-        this._nursingServiceAmount = cccNursingServiceAmount;
-        this._functionalServiceAmount = cccFunctionalServiceAmount;
-        this._overheadsMedicine = cccOverheadsMedicine;
-        this._overheadsMedicalGoods = cccOverheadsMedicalGoods;
-        this._medicalInfrastructureCost = cccMedicalInfrastructureCost;
-        this._nonMedicalInfrastructureCost = cccNonMedicalInfrastructureCost;
+    public KGLListCostCenterCost(int costCenter, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, double medicalServiceAmount, double nursingServiceAmount, double functionalServiceAmount, double overheadsMedicine, double overheadsMedicalGoods, double medicalInfrastructureCost, double nonMedicalInfrastructureCost, int baseInformationId) {
+        this._costCenter = costCenter;
+        this._costCenterText = costCenterText;
+        this._departmentKey = departmentKey;
+        this._departmentAssignment = departmentAssignment;
+        this._bedCnt = bedCnt;
+        this._careDays = careDays;
+        this._pprMinutes = pprMinutes;
+        this._medicalServiceCnt = medicalServiceCnt;
+        this._nursingServiceCnt = nursingServiceCnt;
+        this._functionalServiceCnt = functionalServiceCnt;
+        this._medicalServiceAmount = medicalServiceAmount;
+        this._nursingServiceAmount = nursingServiceAmount;
+        this._functionalServiceAmount = functionalServiceAmount;
+        this._overheadsMedicine = overheadsMedicine;
+        this._overheadsMedicalGoods = overheadsMedicalGoods;
+        this._medicalInfrastructureCost = medicalInfrastructureCost;
+        this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
+        this._baseInformationId = baseInformationId;
     }
 
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 59 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 59 * hash + this._costCenter;
+        hash = 59 * hash + Objects.hashCode(this._costCenterText);
+        hash = 59 * hash + Objects.hashCode(this._departmentKey);
+        hash = 59 * hash + Objects.hashCode(this._departmentAssignment);
+        hash = 59 * hash + this._bedCnt;
+        hash = 59 * hash + this._careDays;
+        hash = 59 * hash + this._pprMinutes;
+        hash = 59 * hash + Objects.hashCode(this._pprWeight);
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalServiceCnt) ^ (Double.doubleToLongBits(this._medicalServiceCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._nursingServiceCnt) ^ (Double.doubleToLongBits(this._nursingServiceCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._functionalServiceCnt) ^ (Double.doubleToLongBits(this._functionalServiceCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalServiceAmount) ^ (Double.doubleToLongBits(this._medicalServiceAmount) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._nursingServiceAmount) ^ (Double.doubleToLongBits(this._nursingServiceAmount) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._functionalServiceAmount) ^ (Double.doubleToLongBits(this._functionalServiceAmount) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._overheadsMedicine) ^ (Double.doubleToLongBits(this._overheadsMedicine) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._overheadsMedicalGoods) ^ (Double.doubleToLongBits(this._overheadsMedicalGoods) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalInfrastructureCost) ^ (Double.doubleToLongBits(this._medicalInfrastructureCost) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._nonMedicalInfrastructureCost) ^ (Double.doubleToLongBits(this._nonMedicalInfrastructureCost) >>> 32));
+        hash = 59 * hash + this._baseInformationId;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListCostCenterCost)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListCostCenterCost other = (KGLListCostCenterCost) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListCostCenterCost other = (KGLListCostCenterCost) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._costCenter != other._costCenter) {
+            return false;
+        }
+        if (this._bedCnt != other._bedCnt) {
+            return false;
+        }
+        if (this._careDays != other._careDays) {
+            return false;
+        }
+        if (this._pprMinutes != other._pprMinutes) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._medicalServiceCnt) != Double.doubleToLongBits(other._medicalServiceCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._nursingServiceCnt) != Double.doubleToLongBits(other._nursingServiceCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._functionalServiceCnt) != Double.doubleToLongBits(other._functionalServiceCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._medicalServiceAmount) != Double.doubleToLongBits(other._medicalServiceAmount)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._nursingServiceAmount) != Double.doubleToLongBits(other._nursingServiceAmount)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._functionalServiceAmount) != Double.doubleToLongBits(other._functionalServiceAmount)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._overheadsMedicine) != Double.doubleToLongBits(other._overheadsMedicine)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._overheadsMedicalGoods) != Double.doubleToLongBits(other._overheadsMedicalGoods)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._medicalInfrastructureCost) != Double.doubleToLongBits(other._medicalInfrastructureCost)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._nonMedicalInfrastructureCost) != Double.doubleToLongBits(other._nonMedicalInfrastructureCost)) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
+            return false;
+        }
+        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
+            return false;
+        }
+        if (!Objects.equals(this._departmentAssignment, other._departmentAssignment)) {
+            return false;
+        }
+        if (!Objects.equals(this._pprWeight, other._pprWeight)) {
+            return false;
+        }
+        return true;
     }
-
+    
+    
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListCostCenterCost[ cccID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
