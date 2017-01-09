@@ -20,6 +20,7 @@ public class CalcHospitalInfoId implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 37 * hash + this._id;
+        if (_id != -1) return hash;
         hash = 37 * hash + this._type;
         return hash;
     }
@@ -36,14 +37,13 @@ public class CalcHospitalInfoId implements Serializable {
             return false;
         }
         final CalcHospitalInfoId other = (CalcHospitalInfoId) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
         if (this._id != other._id) {
             return false;
         }
-        if (this._type != other._type) {
-            return false;
-        }
-        return true;
+        return this._type == other._type;
     }
-
     
 }
