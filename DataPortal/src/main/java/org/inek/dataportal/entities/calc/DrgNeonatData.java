@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -95,13 +96,21 @@ public class DrgNeonatData implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
+        int hash = 7;
+        hash = 53 * hash + this._id;
+        if (this._id != -1) return hash;
+        hash = 53 * hash + this._calcBasicsId;
+        hash = 53 * hash + this._contentTextId;
+        hash = 53 * hash + Objects.hashCode(this._contentText);
+        hash = 53 * hash + this._data;
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -109,7 +118,22 @@ public class DrgNeonatData implements Serializable {
             return false;
         }
         final DrgNeonatData other = (DrgNeonatData) obj;
-        return _id == other.getId();
+        
+        if (this._id != -1 && other._id == this._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._calcBasicsId != other._calcBasicsId) {
+            return false;
+        }
+        if (this._contentTextId != other._contentTextId) {
+            return false;
+        }
+        if (this._data != other._data) {
+            return false;
+        }
+        return Objects.equals(this._contentText, other._contentText);
     }
 
     @Override
