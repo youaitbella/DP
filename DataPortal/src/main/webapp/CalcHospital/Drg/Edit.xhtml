@@ -31,21 +31,18 @@
             <h:panelGroup id="edit" class="edit">
 
                 <div class="narrowToolBar">
-                        <h:commandLink styleClass="button"
-                                       value="#{msg.btnPriorPage}"
-                                       disabled="#{!editCalcBasicsDrg.priorTopic}"
-                                       action="#{editCalcBasicsDrg.activatePriorTopic()}"
-                                       immediate="true"/>
-                        </h:commandLink>
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnPriorPage}"
+                                   disabled="#{!editCalcBasicsDrg.priorTopic}"
+                                   action="#{editCalcBasicsDrg.activatePriorTopic()}"
+                                   immediate="true"/>
 
-                        <h:commandLink styleClass="button"
-                                       value="#{msg.btnNextPage}"
-                                       disabled="#{!editCalcBasicsDrg.nextTopic}"
-                                       action="#{editCalcBasicsDrg.activateNextTopic()}"
-                                       immediate="true">
-                        </h:commandLink>
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnNextPage}"
+                                   disabled="#{!editCalcBasicsDrg.nextTopic}"
+                                   action="#{editCalcBasicsDrg.activateNextTopic()}"
+                                   immediate="true"/>
                 </div>
-
 
                 <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
 
@@ -56,14 +53,12 @@
                                        disabled="#{!editCalcBasicsDrg.priorTopic}"
                                        action="#{editCalcBasicsDrg.activatePriorTopic()}"
                                        immediate="true"/>
-                        </h:commandLink>
 
                         <h:commandLink styleClass="button"
                                        value="#{msg.btnNextPage}"
                                        disabled="#{!editCalcBasicsDrg.nextTopic}"
                                        action="#{editCalcBasicsDrg.activateNextTopic()}"
-                                       immediate="true">
-                        </h:commandLink>
+                                       immediate="true"/>
                     </div>
                     <div>
                         <h:commandLink styleClass="bigButton"
