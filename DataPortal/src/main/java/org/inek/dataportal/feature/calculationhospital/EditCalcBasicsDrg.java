@@ -205,7 +205,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
     }
-    
 
     public List<DrgDelimitationFact> getDelimitationFacts() {
         if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
@@ -447,6 +446,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return "" + prior.get().getAmount();
         }
         return "";
+    }
+
+    public void addServiceProvision() {
+        int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getSequence()).max().orElse(0);
+        KGLListServiceProvision data = new KGLListServiceProvision();
+        data.setBaseInformationId(_calcBasics.getId());
+        data.setServiceProvisionTypeID(-1);
+        data.setSequence(++seq);
+        _calcBasics.getServiceProvisions().add(data);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">

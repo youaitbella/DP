@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListServiceProvision implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -155,6 +157,19 @@ public class KGLListServiceProvision implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
+    @Transient
+    private String _domain;
+    
+    public String getDomain() {
+        return _domain;
+    }
+    
+    public void setDomain(String domain) {
+        this._domain = domain;
+    }
+    //</editor-fold>
+    
     public KGLListServiceProvision() {
     }
 

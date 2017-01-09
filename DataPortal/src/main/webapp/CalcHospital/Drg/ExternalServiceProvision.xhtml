@@ -15,12 +15,14 @@
                  value="#{editCalcBasicsDrg.calcBasics.serviceProvisions}" 
                  var ="item"
                  width="100%"
-                 columnClasses="colValue, colValue, colValue, colValue, col05em number, col05em number, col05em number"
+                 columnClasses="col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number"
                  rowClasses="row1, row2">
 
         <h:column>
             <f:facet name="header">Bereich</f:facet>
-            <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}"/>
+            <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeID ge 0}"/>
+            <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                       value="#{item.domain}" rendered="#{item.serviceProvisionTypeID lt 0}"/>
         </h:column>
 
         <h:column>
@@ -65,6 +67,11 @@
         </h:column>
 
     </h:dataTable>
+
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                   rendered="#{!editCalcBasicsDrg.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addServiceProvision}"/>
+    </h:commandLink>
 
 
 </ui:composition>
