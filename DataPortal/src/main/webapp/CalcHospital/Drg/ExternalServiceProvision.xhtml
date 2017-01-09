@@ -10,8 +10,16 @@
 
     #{msg.hintExternalServiceProvision}
 
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.serviceProvisions}" var ="item"
+                 rowClasses="row1, row2">
+
+        <h:column>
+            <f:facet name = "header">Bereich</f:facet>
+            <h:outputLabel value="#{item.serviceProvisionType.text}"/>
+        </h:column>
+    </h:dataTable>
+    
     <h:selectOneMenu id="externalProvision"
-                     title="Bitte Level wählen"
                      required="true"
                      requiredMessage="#{msg.msgValueNeeded}"
                      value="#{editCalcBasicsDrg.calcBasics.neonatLvl}" 
