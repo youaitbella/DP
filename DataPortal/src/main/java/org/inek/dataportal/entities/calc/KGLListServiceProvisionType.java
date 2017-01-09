@@ -6,12 +6,12 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,26 +25,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListServiceProvisionType implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="ID">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sptID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Text">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "sptText")
     private String _text = "";
@@ -57,10 +54,8 @@ public class KGLListServiceProvisionType implements Serializable {
         this._text = text;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="FirstYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sptFirstYear")
     private int _firstYear;
 
@@ -72,10 +67,8 @@ public class KGLListServiceProvisionType implements Serializable {
         this._firstYear = firstYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="LastYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sptLastYear")
     private int _lastYear;
 
@@ -87,7 +80,7 @@ public class KGLListServiceProvisionType implements Serializable {
         this._lastYear = lastYear;
     }
     //</editor-fold>
-    
+
     public KGLListServiceProvisionType() {
     }
 
@@ -121,5 +114,5 @@ public class KGLListServiceProvisionType implements Serializable {
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListServiceProvisionType[ sptID=" + _id + " ]";
     }
-    
+
 }
