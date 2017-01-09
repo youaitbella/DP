@@ -130,6 +130,7 @@ public class DrgContentText implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
         int hash = 7;
@@ -146,7 +147,6 @@ public class DrgContentText implements Serializable {
         return hash;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override    
     public boolean equals(Object obj) {
         if (this == obj) {
