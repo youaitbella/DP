@@ -548,6 +548,7 @@ div#wrapper {
 .element40,
 .element50,
 .element70,
+.element100,
 .elementRight70{
     box-sizing: border-box;
     display:inline-block;
@@ -579,6 +580,10 @@ div#wrapper {
 
 .element70 {
     width: 70%;
+}
+
+.element100 {
+    width: 100%;
 }
 
 .elementRight70 {

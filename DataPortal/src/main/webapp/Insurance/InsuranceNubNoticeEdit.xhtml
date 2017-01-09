@@ -88,7 +88,7 @@
             <h:inputTextarea rendered="#{editInsuranceNubNotice.importMessage.length() gt 0 and editInsuranceNubNotice.showJournal}" 
                              value="#{editInsuranceNubNotice.importMessage}"
                              readonly="true"
-                             styleClass="#{editInsuranceNubNotice.importMessage.length > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
+                             styleClass="#{editInsuranceNubNotice.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
         </h:form>
 
             <h:form id="messageForm" styleClass="marginTop">

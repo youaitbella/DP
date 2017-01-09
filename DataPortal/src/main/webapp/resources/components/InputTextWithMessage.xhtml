@@ -12,6 +12,7 @@
         <cc:attribute name="required" default="false"/>
         <cc:attribute name="disabled" default="false"/>
         <cc:attribute name="styleClass" default=""/>
+        <cc:attribute name="styleClassComponent" default=""/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="renderElement" default="@this"/>
     </cc:interface>
@@ -19,17 +20,19 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <cc:editableValueHolder name="#{cc.id}" targets="text"/>
-        <h:inputText id="text" 
-                     value="#{cc.attrs.value}" 
-                     title="#{cc.attrs.title}"
-                     styleClass="#{cc.attrs.styleClass}"                          
-                     readonly="#{cc.attrs.readonly}"
-                     disabled="#{cc.attrs.disabled}"
-                     required="#{cc.attrs.required}"
-                     requiredMessage="#{msg.msgValueNeeded}">
-            <f:ajax event="change" render="#{cc.attrs.renderElement} :logout:remaining message"/>
-        </h:inputText>
-        <h:message for="text" id="message" errorClass="errorMessage"/>
+        <h:panelGroup styleClass="#{cc.attrs.styleClassComponent}">
+            <h:inputText id="text" 
+                         value="#{cc.attrs.value}" 
+                         title="#{cc.attrs.title}"
+                         styleClass="#{cc.attrs.styleClass}"                          
+                         readonly="#{cc.attrs.readonly}"
+                         disabled="#{cc.attrs.disabled}"
+                         required="#{cc.attrs.required}"
+                         requiredMessage="#{msg.msgValueNeeded}">
+                <f:ajax event="change" render="#{cc.attrs.renderElement} :logout:remaining message"/>
+            </h:inputText>
+            <h:message for="text" id="message" errorClass="errorMessage"/>
+        </h:panelGroup>
 
     </cc:implementation>
 </html>
