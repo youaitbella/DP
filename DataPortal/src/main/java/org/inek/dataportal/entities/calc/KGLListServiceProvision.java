@@ -42,6 +42,19 @@ public class KGLListServiceProvision implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "spSequence")
+    private int _sequence;
+
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
+    }
+    //</editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="PartitionExternalAssignment">
     @Size(max = 200)
     @Column(name = "spPartitionExternalAssignment")
@@ -72,13 +85,13 @@ public class KGLListServiceProvision implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Amount">
     @Column(name = "spAmount")
-    private double _amount;
+    private int _amount;
 
-    public double getAmount() {
+    public int getAmount() {
         return _amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this._amount = amount;
     }
     // </editor-fold>
@@ -149,13 +162,6 @@ public class KGLListServiceProvision implements Serializable {
         this._id = spID;
     }
 
-    public KGLListServiceProvision(int id, String partitionExternalAssignment, String note, double amount) {
-        this._id = id;
-        this._partitionExternalAssignment = partitionExternalAssignment;
-        this._note = note;
-        this._amount = amount;
-    }
-
     @Override
     public int hashCode() {
         return _id;
@@ -175,4 +181,5 @@ public class KGLListServiceProvision implements Serializable {
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListServiceProvision[ spID=" + _id + " ]";
     }
+
 }

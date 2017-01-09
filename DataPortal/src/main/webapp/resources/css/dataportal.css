@@ -850,6 +850,10 @@ select:active, select:focus{
     width: 16em;
 }
 
+.col20em{
+    width: 25em;
+}
+
 .col25em{
     width: 25em;
 }
