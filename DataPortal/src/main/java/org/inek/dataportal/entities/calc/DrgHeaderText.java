@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -114,13 +115,25 @@ public class DrgHeaderText implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
+        int hash = 5;
+        hash = 37 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 37 * hash + this._sheetId;
+        hash = 37 * hash + this._type;
+        hash = 37 * hash + this._sequence;
+        hash = 37 * hash + Objects.hashCode(this._text);
+        hash = 37 * hash + this._firstYear;
+        hash = 37 * hash + this._lastYear;
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -128,14 +141,52 @@ public class DrgHeaderText implements Serializable {
             return false;
         }
         final DrgHeaderText other = (DrgHeaderText) obj;
-        return _id == other.getId();
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._sheetId != other._sheetId) {
+            return false;
+        }
+        if (this._type != other._type) {
+            return false;
+        }
+        if (this._sequence != other._sequence) {
+            return false;
+        }
+        if (this._firstYear != other._firstYear) {
+            return false;
+        }
+        if (this._lastYear != other._lastYear) {
+            return false;
+        }
+        return Objects.equals(this._text, other._text);
     }
-    
+
+//    @Override
+//    public int hashCode() {
+//        int hash = 3;
+//        hash = 71 * hash + this._id;
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final DrgHeaderText other = (DrgHeaderText) obj;
+//        return _id == other.getId();
+//    }
     @Override
     public String toString() {
         return "DrgHeaderText[ id=" + _id + "; Sheet=" + _lastYear + "; Text=" + _text +" ]";
     }
-    
     // </editor-fold>
     
 }
