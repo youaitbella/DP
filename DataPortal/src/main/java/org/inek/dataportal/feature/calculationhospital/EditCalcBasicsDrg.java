@@ -101,29 +101,28 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
-        
+
         // cardiology
         calcBasics.setCardiology(_priorCalcBasics.isCardiology());
         calcBasics.setCardiologyCaseCnt(_priorCalcBasics.getCardiologyCaseCnt());
         calcBasics.setCardiologyRoomCnt(_priorCalcBasics.getCardiologyRoomCnt());
-        
+
         // endoscopy
         calcBasics.setEndoscopy(_priorCalcBasics.isEndoscopy());
         calcBasics.setEndoscopyCaseCnt(_priorCalcBasics.getEndoscopyCaseCnt());
         calcBasics.setEndoscopyRoomCnt(_priorCalcBasics.getEndoscopyRoomCnt());
-        
+
         // neonat
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
         int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
         _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
             Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
-            if (optDat.isPresent()){
+            if (optDat.isPresent()) {
                 optDat.get().setData(old.getData());
             }
         });
-            
+
     }
-    
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         try {
@@ -170,19 +169,23 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNeonateData().add(data);
         }
     }
-    
+
     private void ensureServiceProvision(DrgCalcBasics calcBasics) {
         if (!calcBasics.getServiceProvisions().isEmpty()) {
             return;
         }
-        List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true );
+        List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
+        int i = 0;
         for (KGLListServiceProvisionType provisionType : provisionTypes) {
             KGLListServiceProvision data = new KGLListServiceProvision();
+            data.setBaseInformationId(calcBasics.getId());
             data.setServiceProvisionType(provisionType);
+            data.setServiceProvisionTypeID(provisionType.getId());
+            data.setSequence(++i);
             calcBasics.getServiceProvisions().add(data);
         }
     }
-    
+
     public List<DrgDelimitationFact> getDelimitationFacts() {
         if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
             for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
@@ -273,11 +276,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void exportTest() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        
+
         // this produces read errors. enable once the data access is complete
-         mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics);
+        mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() + ".json"), _calcBasics);
         // mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics.getOpAn());
-        
+
         // later on, we need to embedd the json string into an info file
         //String json = mapper.writeValueAsString(_calcBasics);
     }
@@ -417,8 +420,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
+    public String priorProvisionAmount(KGLListServiceProvision current) {
+        Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeID() == current.getServiceProvisionTypeID()).findAny();
+        if (prior.isPresent()) {
+            return "" + prior.get().getAmount();
+        }
+        return "";
+    }
 
+    // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<DrgHeaderText> getHeaders() {
         return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
     }
