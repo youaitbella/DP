@@ -195,6 +195,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _calcBasics.getDelimitationFacts();
     }
+    
+    public List<String> getDelimitationFactsSubTitles() {
+        List<String> tmp = new ArrayList<>();
+        tmp.add("Personalkosten");
+        tmp.add("Sachkosten");
+        tmp.add("Infrastrukturkosten");
+        return tmp;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public DrgCalcBasics getCalcBasics() {
