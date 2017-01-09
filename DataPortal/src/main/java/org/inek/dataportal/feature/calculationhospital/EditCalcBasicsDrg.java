@@ -178,7 +178,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true );
         for (KGLListServiceProvisionType provisionType : provisionTypes) {
             KGLListServiceProvision data = new KGLListServiceProvision();
-            data.setProvidedTypeID(provisionType.getId());
+            data.setServiceProvisionType(provisionType);
             calcBasics.getServiceProvisions().add(data);
         }
     }
@@ -410,7 +410,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public String getHospitalInfo() {
         Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
-        if (c == null) {
+        if (c == null || c.getName() == null) {
             return "";
         }
         return c.getName() + ", " + c.getTown();

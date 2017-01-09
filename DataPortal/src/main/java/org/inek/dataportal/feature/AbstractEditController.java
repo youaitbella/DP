@@ -82,6 +82,10 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
         _topics.activateNextTopic();
     }
     
+    public String refrehPage(){
+        return "";
+    }
+    
     public Topic findTopic(String key) {
         return _topics.findTopic(key);
     }

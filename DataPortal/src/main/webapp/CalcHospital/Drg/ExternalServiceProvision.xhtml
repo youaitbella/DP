@@ -11,26 +11,53 @@
     #{msg.hintExternalServiceProvision}
 
     <h:dataTable value="#{editCalcBasicsDrg.calcBasics.serviceProvisions}" var ="item"
+                 columnClasses="col09, col09, colValue, colValue, col05em number, col05em number"
                  rowClasses="row1, row2">
 
         <h:column>
-            <f:facet name = "header">Bereich</f:facet>
+            <f:facet name="header">Bereich</f:facet>
             <h:outputLabel value="#{item.serviceProvisionType.text}"/>
         </h:column>
+
+        <h:column>
+            <f:facet name="header">Erbringungsart</f:facet>
+            <h:selectOneMenu id="externalProvision"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{item.serviceProvisionTypeID}" 
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{1}"/>
+                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{2}"/>
+                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{3}"/>
+                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{4}"/>
+                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+            </h:selectOneMenu>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Fremdvergebene Teilbereiche</f:facet>
+            <h:inputText value="#{item.partitionExternalAssignment}" styleClass="inputwide"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Anmerkungen</f:facet>
+            <h:inputText value="#{item.note}" styleClass="inputwide"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear}</f:facet>
+            <h:inputText value="#{item.amount}" styleClass="col05em"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</f:facet>
+            <h:inputText value="#{item.amount}" disabled="true" styleClass="col05em"/>
+        </h:column>
+
+
     </h:dataTable>
-    
-    <h:selectOneMenu id="externalProvision"
-                     required="true"
-                     requiredMessage="#{msg.msgValueNeeded}"
-                     value="#{editCalcBasicsDrg.calcBasics.neonatLvl}" 
-                     hideNoSelectionOption="true" >
-        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-        <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{1}"/>
-        <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{2}"/>
-        <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{3}"/>
-        <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{4}"/>
-        <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-    </h:selectOneMenu>
+
 
 </ui:composition>
 

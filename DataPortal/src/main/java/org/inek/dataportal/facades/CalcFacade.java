@@ -27,6 +27,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
@@ -211,6 +212,7 @@ public class CalcFacade extends AbstractDataAccess {
 
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
         saveTopItems(calcBasics);
+        saveServiceProvisions(calcBasics);
         return merge(calcBasics);
     }
 
@@ -226,6 +228,16 @@ public class CalcFacade extends AbstractDataAccess {
 
     private void saveTopItems(DrgCalcBasics calcBasics) {
         for (KGLListKstTop item : calcBasics.getKstTop()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
+    private void saveServiceProvisions(DrgCalcBasics calcBasics) {
+        for (KGLListServiceProvision item : calcBasics.getServiceProvisions()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {

@@ -637,7 +637,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
-    private String _otherMethodMedInfra;
+    private String _otherMethodMedInfra = "";
 
     public String getOtherMethodMedInfra() {
         return _otherMethodMedInfra;
@@ -689,7 +689,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
     @Column(name = "biOtherMethodNonMedInfra")
-    private String _otherMethodNonMedInfra;
+    private String _otherMethodNonMedInfra = "";
 
     public String getOtherMethodNonMedInfra() {
         return _otherMethodNonMedInfra;
