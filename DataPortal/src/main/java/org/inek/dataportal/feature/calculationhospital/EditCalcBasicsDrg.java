@@ -31,6 +31,7 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.DrgCalcBasics_;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
@@ -197,6 +198,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
         return _calcBasics.getDelimitationFacts();
+    }
+    
+    public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
+        for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+            if(df.getContentTextId() == contentTextId) {
+                return df;
+            }
+        }
+        return new DrgDelimitationFact();
     }
     
     public List<String> getDelimitationFactsSubTitles() {
