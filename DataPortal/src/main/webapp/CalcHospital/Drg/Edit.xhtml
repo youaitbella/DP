@@ -34,14 +34,16 @@
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnPriorPage}"
                                    disabled="#{!editCalcBasicsDrg.priorTopic}"
-                                   action="#{editCalcBasicsDrg.activatePriorTopic()}"
-                                   immediate="true"/>
+                                   actionListener="#{editCalcBasicsDrg.activatePriorTopic()}">
+                        <f:ajax render="@form"/>                        
+                    </h:commandLink>
 
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnNextPage}"
                                    disabled="#{!editCalcBasicsDrg.nextTopic}"
-                                   action="#{editCalcBasicsDrg.activateNextTopic()}"
-                                   immediate="true"/>
+                                   actionListener="#{editCalcBasicsDrg.activateNextTopic()}">
+                        <f:ajax render="@form"/>                        
+                    </h:commandLink>
                 </div>
 
                 <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
