@@ -36,6 +36,8 @@ import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLListServiceProvision;
+import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -145,17 +147,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasic.setIk((int) getIks().get(0).getValue());
         }
         ensureNeonateData(calcBasic);
+        ensureServiceProvision(calcBasic);
         retrievePriorData(calcBasic);
         preloadData(calcBasic);
         return calcBasic;
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
-        if (calcBasics.getNeonateData() != null && !calcBasics.getNeonateData().isEmpty()) {
+        if (!calcBasics.getNeonateData().isEmpty()) {
             return;
-        }
-        if (calcBasics.getNeonateData() == null) {
-            calcBasics.setNeonateData(new Vector<>());
         }
         List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
                 .stream()
@@ -168,6 +168,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             data.setContentText(contentText);
             data.setCalcBasicsId(calcBasics.getId());
             calcBasics.getNeonateData().add(data);
+        }
+    }
+    
+    private void ensureServiceProvision(DrgCalcBasics calcBasics) {
+        if (!calcBasics.getServiceProvisions().isEmpty()) {
+            return;
+        }
+        List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true );
+        for (KGLListServiceProvisionType provisionType : provisionTypes) {
+            KGLListServiceProvision data = new KGLListServiceProvision();
+            data.setProvidedTypeID(provisionType.getId());
+            calcBasics.getServiceProvisions().add(data);
         }
     }
     

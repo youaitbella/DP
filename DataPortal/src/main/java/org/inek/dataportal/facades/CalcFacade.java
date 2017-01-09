@@ -27,6 +27,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -298,6 +299,17 @@ public class CalcFacade extends AbstractDataAccess {
         if (type >= 0) {
             query.setParameter("type", type);
         }
+        return query.getResultList();
+    }
+
+    public List<KGLListServiceProvisionType> retrieveServiceProvisionTypes(int year, boolean mandatoryOnly) {
+        String jpql = "select pt from KGLListServiceProvisionType pt "
+                + "where pt._firstYear <= :year and pt._lastYear >= :year ";
+        if (mandatoryOnly){
+            jpql += " and pt._firstYear > 1900";
+        }
+        TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
+        query.setParameter("year", year);
         return query.getResultList();
     }
 

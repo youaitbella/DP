@@ -31,18 +31,21 @@
             <h:panelGroup id="edit" class="edit">
 
                 <div class="narrowToolBar">
-                    <h:commandLink styleClass="button"
-                                   value="#{msg.btnPriorPage}"
-                                   disabled="#{!editCalcBasicsDrg.priorTopic}">
-                        <f:ajax render="@form" listener="#{editCalcBasicsDrg.activatePriorTopic()}"/>
-                    </h:commandLink>
+                        <h:commandLink styleClass="button"
+                                       value="#{msg.btnPriorPage}"
+                                       disabled="#{!editCalcBasicsDrg.priorTopic}"
+                                       action="#{editCalcBasicsDrg.activatePriorTopic()}"
+                                       immediate="true"/>
+                        </h:commandLink>
 
-                    <h:commandLink styleClass="button"
-                                   value="#{msg.btnNextPage}"
-                                   disabled="#{!editCalcBasicsDrg.nextTopic}">
-                        <f:ajax render="@form" listener="#{editCalcBasicsDrg.activateNextTopic()}"/>
-                    </h:commandLink>
+                        <h:commandLink styleClass="button"
+                                       value="#{msg.btnNextPage}"
+                                       disabled="#{!editCalcBasicsDrg.nextTopic}"
+                                       action="#{editCalcBasicsDrg.activateNextTopic()}"
+                                       immediate="true">
+                        </h:commandLink>
                 </div>
+
 
                 <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
 
@@ -50,14 +53,16 @@
                     <div>
                         <h:commandLink styleClass="button"
                                        value="#{msg.btnPriorPage}"
-                                       disabled="#{!editCalcBasicsDrg.priorTopic}">
-                            <f:ajax render="@form" listener="#{editCalcBasicsDrg.activatePriorTopic()}"/>
+                                       disabled="#{!editCalcBasicsDrg.priorTopic}"
+                                       action="#{editCalcBasicsDrg.activatePriorTopic()}"
+                                       immediate="true"/>
                         </h:commandLink>
 
                         <h:commandLink styleClass="button"
                                        value="#{msg.btnNextPage}"
-                                       disabled="#{!editCalcBasicsDrg.nextTopic}">
-                            <f:ajax render="@form" listener="#{editCalcBasicsDrg.activateNextTopic()}"/>
+                                       disabled="#{!editCalcBasicsDrg.nextTopic}"
+                                       action="#{editCalcBasicsDrg.activateNextTopic()}"
+                                       immediate="true">
                         </h:commandLink>
                     </div>
                     <div>
@@ -99,7 +104,7 @@
                                        immediate="true"
                                        rendered="#{!editCalcBasicsDrg.readOnly}">
                         </h:commandLink>
-                        
+
                     </div>
                 </div>
 
