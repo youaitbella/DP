@@ -178,7 +178,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true );
         for (KGLListServiceProvisionType provisionType : provisionTypes) {
             KGLListServiceProvision data = new KGLListServiceProvision();
-            data.setProvidedTypeID(provisionType.getId());
+            data.setServiceProvisionType(provisionType);
             calcBasics.getServiceProvisions().add(data);
         }
     }

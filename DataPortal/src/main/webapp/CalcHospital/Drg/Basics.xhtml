@@ -20,7 +20,7 @@
                          requiredMessage="#{msg.msgValueNeeded}"
                          value="#{editCalcBasicsDrg.calcBasics.ik}"
                          hideNoSelectionOption="true" >
-            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
             <f:selectItems value="#{editCalcBasicsDrg.iks}"/>
             <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
             <f:ajax event="change" listener="#{editCalcBasicsDrg.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
