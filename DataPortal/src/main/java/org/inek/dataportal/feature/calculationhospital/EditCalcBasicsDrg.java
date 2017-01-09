@@ -102,6 +102,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
 
+        // ServiceProvision
+        preloadServiceProvision(calcBasics);
+
         // cardiology
         calcBasics.setCardiology(_priorCalcBasics.isCardiology());
         calcBasics.setCardiologyCaseCnt(_priorCalcBasics.getCardiologyCaseCnt());
@@ -139,17 +142,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private DrgCalcBasics newCalcBasicsDrg() {
         Account account = _sessionController.getAccount();
-        DrgCalcBasics calcBasic = new DrgCalcBasics();
-        calcBasic.setAccountId(account.getId());
-        calcBasic.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        DrgCalcBasics calcBasics = new DrgCalcBasics();
+        calcBasics.setAccountId(account.getId());
+        calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (getIks().size() == 1) {
-            calcBasic.setIk((int) getIks().get(0).getValue());
+            calcBasics.setIk((int) getIks().get(0).getValue());
         }
-        ensureNeonateData(calcBasic);
-        ensureServiceProvision(calcBasic);
-        retrievePriorData(calcBasic);
-        preloadData(calcBasic);
-        return calcBasic;
+        ensureNeonateData(calcBasics);
+        retrievePriorData(calcBasics);
+        preloadData(calcBasics);
+        return calcBasics;
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -170,21 +172,40 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    private void ensureServiceProvision(DrgCalcBasics calcBasics) {
-        if (!calcBasics.getServiceProvisions().isEmpty()) {
-            return;
-        }
+    private void preloadServiceProvision(DrgCalcBasics calcBasics) {
+        calcBasics.getServiceProvisions().clear();
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
-        int i = 0;
+
+        int seq = 0;
+
+        // always populate mandatory entries
         for (KGLListServiceProvisionType provisionType : provisionTypes) {
             KGLListServiceProvision data = new KGLListServiceProvision();
             data.setBaseInformationId(calcBasics.getId());
             data.setServiceProvisionType(provisionType);
             data.setServiceProvisionTypeID(provisionType.getId());
-            data.setSequence(++i);
+            data.setSequence(++seq);
             calcBasics.getServiceProvisions().add(data);
         }
+
+        // get prior values and additional entries
+        for (KGLListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
+            Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeID() == prior.getServiceProvisionTypeID()).findAny();
+            if (currentOpt.isPresent()) {
+                KGLListServiceProvision current = currentOpt.get();
+                current.setProvidedTypeID(prior.getProvidedTypeID());
+            } else {
+                KGLListServiceProvision data = new KGLListServiceProvision();
+                data.setBaseInformationId(calcBasics.getId());
+                data.setServiceProvisionType(prior.getServiceProvisionType());
+                data.setServiceProvisionTypeID(prior.getServiceProvisionTypeID());
+                data.setProvidedTypeID(prior.getProvidedTypeID());
+                data.setSequence(++seq);
+                calcBasics.getServiceProvisions().add(data);
+            }
+        }
     }
+    
 
     public List<DrgDelimitationFact> getDelimitationFacts() {
         if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
@@ -198,7 +219,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _calcBasics.getDelimitationFacts();
     }
-    
+
     public List<String> getDelimitationFactsSubTitles() {
         List<String> tmp = new ArrayList<>();
         tmp.add("Personalkosten");

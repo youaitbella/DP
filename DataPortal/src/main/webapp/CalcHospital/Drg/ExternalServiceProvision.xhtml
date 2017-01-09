@@ -15,7 +15,7 @@
                  value="#{editCalcBasicsDrg.calcBasics.serviceProvisions}" 
                  var ="item"
                  width="100%"
-                 columnClasses="colValue, col09, colValue, colValue, col05em number, col05em number"
+                 columnClasses="colValue, colValue, colValue, colValue, col05em number, col05em number, col05em number"
                  rowClasses="row1, row2">
 
         <h:column>
@@ -28,7 +28,7 @@
             <h:selectOneMenu id="externalProvision"
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{item.serviceProvisionTypeID}" 
+                             value="#{item.providedTypeID}" 
                              hideNoSelectionOption="true" >
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{1}"/>
@@ -41,7 +41,7 @@
 
         <h:column>
             <f:facet name="header">Fremdvergebene Teilbereiche</f:facet>
-            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.serviceProvisionTypeID ne 4}"/>
+            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeID ne 4}"/>
         </h:column>
 
         <h:column>
@@ -51,14 +51,18 @@
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear}</f:facet>
-            <inek:InputTextWithMessage value="#{item.amount}" styleClass="col05em"/>
+            <inek:InputTextWithMessage value="#{item.amount}" styleClass="col05em" renderElement="@form"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Abw.</f:facet>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClass="col05em"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</f:facet>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClass="col05em"/>
+            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
         </h:column>
-
 
     </h:dataTable>
 
