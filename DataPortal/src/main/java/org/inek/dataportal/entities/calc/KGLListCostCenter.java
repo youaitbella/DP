@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -186,24 +187,75 @@ public class KGLListCostCenter implements Serializable {
         this._serviceSum = serviceSum;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 3;
+        hash = 71 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 71 * hash + this._costCenterID;
+        hash = 71 * hash + Objects.hashCode(this._costCenterText);
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this._fullVigorCnt) ^ (Double.doubleToLongBits(this._fullVigorCnt) >>> 32));
+        hash = 71 * hash + Objects.hashCode(this._serviceKey);
+        hash = 71 * hash + Objects.hashCode(this._serviceKeyDescription);
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this._serviceSum) ^ (Double.doubleToLongBits(this._serviceSum) >>> 32));
+        hash = 71 * hash + this._baseInformationId;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListCostCenter)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListCostCenter other = (KGLListCostCenter) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListCostCenter other = (KGLListCostCenter) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._costCenterID != other._costCenterID) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._fullVigorCnt) != Double.doubleToLongBits(other._fullVigorCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._serviceSum) != Double.doubleToLongBits(other._serviceSum)) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
+            return false;
+        }
+        if (!Objects.equals(this._serviceKey, other._serviceKey)) {
+            return false;
+        }
+        if (!Objects.equals(this._serviceKeyDescription, other._serviceKeyDescription)) {
+            return false;
+        }
+        return true;
     }
-
+    
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListCostCenter[ ccID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
