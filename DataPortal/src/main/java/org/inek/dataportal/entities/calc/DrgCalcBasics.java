@@ -637,13 +637,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
-    private boolean _otherMethodMedInfra;
+    private String _otherMethodMedInfra;
 
-    public boolean isOtherMethodMedInfra() {
+    public String getOtherMethodMedInfra() {
         return _otherMethodMedInfra;
     }
 
-    public void setOtherMethodMedInfra(boolean otherMethodMedInfra) {
+    public void setOtherMethodMedInfra(String otherMethodMedInfra) {
         this._otherMethodMedInfra = otherMethodMedInfra;
     }
     //</editor-fold>
@@ -689,13 +689,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
     @Column(name = "biOtherMethodNonMedInfra")
-    private boolean _otherMethodNonMedInfra;
+    private String _otherMethodNonMedInfra;
 
-    public boolean isOtherMethodNonMedInfra() {
+    public String getOtherMethodNonMedInfra() {
         return _otherMethodNonMedInfra;
     }
 
-    public void setOtherMethodNonMedInfra(boolean otherMethodNonMedInfra) {
+    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
         this._otherMethodNonMedInfra = otherMethodNonMedInfra;
     }
     //</editor-fold>
