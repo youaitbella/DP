@@ -98,11 +98,15 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Das Krankenhaus führt minimalinvasive Herzklappeninterventionen durch||biMinimalValvularIntervention|
 |||Erfüllungsgrad||biMviFulfilled|
 |||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMviGuidelineAspired|
-|Leistungsdokumentation (Kreißsaal Gynäkologie)|||KGLListObstetricsGynecology||
+|Leistungsdokumentation (Kreißsaal Geburtshilfe/Gynäkologie)|||KGLListObstetricsGynecology||
 |||Kostenstelle||ogCostCenterText|
-|||Ärztlicher Dienst||ogMedicalServiceCnt||||davon: Belegärzte||ogAttendingDoctorCnt|
-|||Pflegedienst||ogNursingServiceCnt||||Funktionsdienst (ohne Hebammen)||ogFunctionalServiceCnt|
-|||Hebammen||ogMidwifeCnt||||davon: Beleg-Hebammen||ogAttendingMidwifeCnt|
+|||Zuordnung Kostenstellengruppe||ogCostTypeID|
+|||Ärztlicher Dienst||ogMedicalServiceCnt|
+|||davon: Belegärzte||ogAttendingDoctorCnt|
+|||Pflegedienst||ogNursingServiceCnt|
+|||Funktionsdienst (ohne Hebammen)||ogFunctionalServiceCnt|
+|||Hebammen||ogMidwifeCnt|
+|||davon: Beleg-Hebammen||ogAttendingMidwifeCnt|
 |Leistungsdokumentation(Endoskopie)|endoskopischen Bereiche die nicht den Leistungsschlüssel "Eingriffszeit" verwenden||KGLListEndoscopyDifferential||
 |||Bereich||edDivision|
 |||Leistungsschlüssel||edActivityKey|
