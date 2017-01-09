@@ -57,12 +57,12 @@
         </h:column>
 
         <h:column>
-            <f:facet name="header">Abw.</f:facet>
+            <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</f:facet>
             <inek:InputTextWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClass="col05em"/>
         </h:column>
 
         <h:column>
-            <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</f:facet>
+            <f:facet name="header">Abw.</f:facet>
             <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
         </h:column>
 
