@@ -98,7 +98,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Das Krankenhaus führt minimalinvasive Herzklappeninterventionen durch||biMinimalValvularIntervention|
 |||Erfüllungsgrad||biMviFulfilled|
 |||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMviGuidelineAspired|
-|Leistungsdokumentation (Kreißsaal Geburtshilfe/Gynäkologie)|||KGLListObstetricsGynecology||
+|Leistungsdokumentation (Kreißsaal)|Geburtshilfe/Gynäkologie||KGLListObstetricsGynecology||
 |||Kostenstelle||ogCostCenterText|
 |||Zuordnung Kostenstellengruppe||ogCostTypeID|
 |||Ärztlicher Dienst||ogMedicalServiceCnt|
