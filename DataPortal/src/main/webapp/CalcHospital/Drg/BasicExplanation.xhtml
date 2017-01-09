@@ -369,35 +369,53 @@
     </h:commandLink>
 
     <br/><br/>
+    
+    <ui:repeat value="#{editCalcBasicsDrg.delimitationFacts}" var="x" varStatus="status">
+        <h:dataTable value="#{editCalcBasicsDrg.delimitationFactsSubTitles}" 
+                     var="data" 
+                     width="100%"
+                     rowClasses="row1, row2"
+                     columnClasses="colValue, col05em number, col05em number, col05em number"
+                     styleClass="marginTop">
+            
+            <h:column rendered="#{!x.used}">
+                <f:facet name="header">
+                    <h:outputLabel value="#{x.label}" styleClass="blockHeader" style="display: inline-block; width: auto;"/> &nbsp;
+                    <h:selectBooleanCheckbox style="display: inline-block;" value="#{x.used}" >
+                        <f:ajax event="change" render="@form :logout:remaining delimit-content" />
+                    </h:selectBooleanCheckbox>
+                </f:facet>
+            </h:column>
+            
+            <h:column rendered="#{x.used}">
+                <f:facet name="header">
+                    <h:outputLabel value="#{x.label}" styleClass="blockHeader" style="display: inline-block; width: auto;"/> &nbsp;
+                    <h:selectBooleanCheckbox style="display: inline-block;" value="#{x.used}" >
+                        <f:ajax event="change" render="@form :logout:remaining delimit-content" />
+                    </h:selectBooleanCheckbox>
+                </f:facet>
+                <h:outputLabel value="#{data}"/>
+            </h:column>
 
-    <c:forEach items="#{editCalcBasicsDrg.delimitationFacts}" var="x">
+            <h:column rendered="#{x.used}">
+                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
+                <h:outputLabel value="" styleClass="col06em"/>
+            </h:column>
 
-        <div class="inputPart" style="border-bottom: dashed 1px #7F9BAF;">
-            <span class="label">#{x.label}: </span>
-            <h:selectBooleanCheckbox value="#{x.used}" >
-                <f:ajax event="change" render="@form :logout:remaining delimit-content" />
-            </h:selectBooleanCheckbox><br/>
-            <h:panelGroup id="delimit-content" rendered="#{x.used}">
-                <div style="float: left;">
-                    <inek:LabeledText value="#{x.personalCost}" label="Personalkosten" styleClass="col03"/>
-                    <inek:LabeledText value="#{x.materialCost}" label="Sachkosten" styleClass="col03"/>
-                    <inek:LabeledText value="#{x.infraCost}" label="Infrastrukturkosten" styleClass="col03"/>
-                </div>
-                <div style="float: left; margin-left: 10px;">
-                    <inek:LabeledText readonly="true" label="Personalkosten (Vorjahr)" styleClass="col03"/>
-                    <inek:LabeledText readonly="true" label="Sachkosten (Vorjahr)" styleClass="col03"/>
-                    <inek:LabeledText readonly="true" label="Infrastrukturkosten (Vorjahr)" styleClass="col03"/>
-                </div>
-                <div style="float: left; margin-left: 10px;">
-                    <inek:LabeledText readonly="true" label="Personalkosten (Differenz)" styleClass="col03"/>
-                    <inek:LabeledText readonly="true" label="Sachkosten (Differenz)" styleClass="col03"/>
-                    <inek:LabeledText readonly="true" label="Infrastrukturkosten (Differenz)" styleClass="col03"/>
-                </div>
-            </h:panelGroup>
-        </div>
-        <div style="clear: both;"></div><br/>
-    </c:forEach>
+            <h:column rendered="#{x.used}">
+                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
+                <h:inputText id="data" value="" styleClass="col06em">
+                    <f:ajax event="change" render="@this diff msgData :logout:remain"/>
+                </h:inputText>
+                <h:message for="data" id="msgData" styleClass="errorMessage"/>
+            </h:column>
 
+            <h:column rendered="#{x.used}">
+                <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
+                <h:outputLabel id="diff" value="" styleClass="col06em"/>
+            </h:column>
+        </h:dataTable>
+    </ui:repeat>
 
 </ui:composition>
 
