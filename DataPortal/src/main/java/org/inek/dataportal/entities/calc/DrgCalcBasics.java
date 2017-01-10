@@ -895,12 +895,33 @@ public class DrgCalcBasics implements Serializable {
     
     @XmlTransient
     public List<KGLListKstTop> getKstTop() {
+        ensureTopList();
         return _kstTop;
     }
     
     public void setKstTop(List<KGLListKstTop> kstTop) {
         this._kstTop = kstTop;
     }
+    
+    private void ensureTopList() {
+        if (_kstTop == null) {
+            _kstTop = new Vector<>();
+        }
+        ensureTopListCostCenter(4, 3);
+        ensureTopListCostCenter(6, 5);
+    }
+
+    private void ensureTopListCostCenter(int costCenterId, int count) {
+        if (_kstTop.stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
+            for (int i = 0; i < count; i++) {
+                KGLListKstTop item = new KGLListKstTop();
+                item.setBaseInformationID(_id);
+                item.setKtCostCenterID(costCenterId);
+                _kstTop.add(item);
+            }
+        }
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">

@@ -87,7 +87,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             Utils.navigate(Pages.Error.RedirectURL());
             return;
         }
-        ensureTopList();
     }
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
@@ -401,24 +400,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // todo: move into entity
-    private void ensureTopList() {
-        if (_calcBasics.getKstTop() == null) {
-            _calcBasics.setKstTop(new Vector<>());
-        }
-        ensureTopListCostCenter(4, 3);
-        ensureTopListCostCenter(6, 5);
-    }
-
-    private void ensureTopListCostCenter(int costCenterId, int count) {
-        if (_calcBasics.getKstTop().stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
-            for (int i = 0; i < count; i++) {
-                KGLListKstTop item = new KGLListKstTop();
-                item.setBaseInformationID(_calcBasics.getId());
-                item.setKtCostCenterID(costCenterId);
-                _calcBasics.getKstTop().add(item);
-            }
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;
