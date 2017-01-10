@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -157,13 +158,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private double _sumCalcCost;
+    private BigDecimal _sumCalcCost;
 
-    public double getSumCalcCost() {
+    public BigDecimal getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(double sumCalcCost) {
+    public void setSumCalcCost(BigDecimal sumCalcCost) {
         this._sumCalcCost = sumCalcCost;
     }
     //</editor-fold>
