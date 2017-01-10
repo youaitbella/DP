@@ -13,7 +13,6 @@ import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -159,7 +158,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private BigDecimal _sumCalcCost;
+    private BigDecimal _sumCalcCost = new BigDecimal(0);
 
     public BigDecimal getSumCalcCost() {
         return _sumCalcCost;
