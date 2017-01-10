@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,11 +28,10 @@ public class KGLListEndoscopyDifferential implements Serializable {
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "edID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
@@ -45,12 +42,10 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Division">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "edDivision")
     private String _division = "";
-    
+
     public String getDivision() {
         return _division;
     }
@@ -61,12 +56,10 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ActivityKey">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 20)
     @Column(name = "edActivityKey")
     private String _activityKey = "";
-    
+
     public String getActivityKey() {
         return _activityKey;
     }
@@ -79,8 +72,6 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
 //    @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "edBaseInformationID")
     private int _baseInformationId;
 
@@ -92,7 +83,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
-    
+
     public KGLListEndoscopyDifferential() {
     }
 
@@ -105,15 +96,17 @@ public class KGLListEndoscopyDifferential implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 41 * hash + this._id;
-        
-        if (this._id != -1) return hash;
-        
+
+        if (this._id != -1) {
+            return hash;
+        }
+
         hash = 41 * hash + Objects.hashCode(this._division);
         hash = 41 * hash + Objects.hashCode(this._activityKey);
         hash = 41 * hash + this._baseInformationId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -126,9 +119,11 @@ public class KGLListEndoscopyDifferential implements Serializable {
             return false;
         }
         final KGLListEndoscopyDifferential other = (KGLListEndoscopyDifferential) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
@@ -143,8 +138,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
         }
         return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential[ edID=" + _id + " ]";
