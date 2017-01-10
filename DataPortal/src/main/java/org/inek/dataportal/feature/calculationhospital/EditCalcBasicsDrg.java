@@ -36,6 +36,7 @@ import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
@@ -237,6 +238,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return tmp;
     }
 
+    public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
+        List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
+        if (result.isEmpty()) {
+            result.add(new KGLListEndoscopyDifferential());
+        }
+        return result;
+    }
+    
+    public List<KGLListEndoscopyDifferential> addEndoscopyDifferentials() {
+        List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
+        result.add(new KGLListEndoscopyDifferential());
+        return result;
+    }
+    
+    public void deleteEndoscopyDifferential(KGLListEndoscopyDifferential differential) {
+        List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
+        result.remove(differential);
+    }
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public DrgCalcBasics getCalcBasics() {
         return _calcBasics;

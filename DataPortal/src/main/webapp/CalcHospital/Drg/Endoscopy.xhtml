@@ -30,5 +30,39 @@
                           styleClass="inputSmall"/>
     </div>
 
+    <h4><h:outputLabel value="Bitte geben Sie an für welche endoskopischen Bereiche Sie nicht den Leistungsschlüssel Eingriffszeit verwenden"/></h4>
+    <h:dataTable value="#{editCalcBasicsDrg.endoscopyDifferentials}" 
+                 var="data" 
+                 width="100%" rowClasses="row1, row2" 
+                 columnClasses="colIcon, volValue, col04em, col04em, volValue">
+
+        <h:column>
+            <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyDifferential(data)}" 
+                           rendered="true"
+                           immediate="true" styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Endoskopischer Bereich</f:facet>
+            <inek:InputTextWithMessage id="endoscopyDivision" required="true" value="#{data.division}" readonly="false" styleClass="fullWidth">
+                <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+            </inek:InputTextWithMessage>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Leistungsschlüssel</f:facet>
+            <inek:InputTextWithMessage id="endoscopyKey" required="true" value="#{data.activityKey}" readonly="false" styleClass="fullWidth">
+                <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+            </inek:InputTextWithMessage>
+        </h:column>
+    </h:dataTable>
+    
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
+    </h:commandLink>
+
 </ui:composition>
 
