@@ -5,8 +5,17 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -207,6 +216,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
+        createTransferFile(_statement);
 
         if (isValidId(_statement.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _statement.getId());
@@ -324,7 +334,36 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return "";
     }
 
+    private void createTransferFile(StatementOfParticipance statement) {
+        File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
+        File file;
+        Date ts;
+        do {
+            ts = Calendar.getInstance().getTime();
+            file = new File(dir, "Transfer" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".txt");
+        } while (file.exists());
+        
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
+            if (_sessionController.getAccount().isReportViaPortal()) {
+                pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
+            }
+            pw.println("From=" + _sessionController.getAccount().getEmail());
+            pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
+            pw.println("Subject=Teilnahmeerklärung_" + statement.getIk());
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            String json = mapper.writeValueAsString(statement);
+            pw.println("Content=" + json);
+
+            pw.flush();
+        } catch (FileNotFoundException | JsonProcessingException ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+        }
+    }
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;
 
