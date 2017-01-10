@@ -5,13 +5,19 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +46,7 @@ import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLOpAn;
+import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -303,16 +310,38 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void exportTest() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        // this produces read errors. enable once the data access is complete
-        mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() + ".json"), _calcBasics);
-        // mapper.writeValue(new File("d:/transfer/kgl" + _calcBasics.getId() +  ".json"), _calcBasics.getOpAn());
-
-        // later on, we need to embedd the json string into an info file
-        //String json = mapper.writeValueAsString(_calcBasics);
+        createTransferFile(_calcBasics);
     }
+    
+    private void createTransferFile(DrgCalcBasics calcBasics) {
+        File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
+        File file;
+        Date ts;
+        do {
+            ts = Calendar.getInstance().getTime();
+            file = new File(dir, "Transfer" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".txt");
+        } while (file.exists());
+        
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
+            if (_sessionController.getAccount().isReportViaPortal()) {
+                pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
+            }
+            pw.println("From=" + _sessionController.getAccount().getEmail());
+            pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
+            pw.println("Subject=KGL_" + calcBasics.getIk());
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            String json = mapper.writeValueAsString(calcBasics);
+            pw.println("Content=" + json);
+
+            pw.flush();
+        } catch (FileNotFoundException | JsonProcessingException ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+        }
+    }
+    
 
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
