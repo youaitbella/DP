@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -179,17 +180,65 @@ public class KGLListServiceProvision implements Serializable {
 
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 37 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 37 * hash + this._sequence;
+        hash = 37 * hash + Objects.hashCode(this._partitionExternalAssignment);
+        hash = 37 * hash + Objects.hashCode(this._note);
+        hash = 37 * hash + this._amount;
+        hash = 37 * hash + this._baseInformationId;
+        hash = 37 * hash + this._providedTypeID;
+        hash = 37 * hash + this._serviceProvisionTypeID;
+        hash = 37 * hash + Objects.hashCode(this._domain);
+        return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListServiceProvision)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListServiceProvision other = (KGLListServiceProvision) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListServiceProvision other = (KGLListServiceProvision) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._sequence != other._sequence) {
+            return false;
+        }
+        if (this._amount != other._amount) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (this._providedTypeID != other._providedTypeID) {
+            return false;
+        }
+        if (this._serviceProvisionTypeID != other._serviceProvisionTypeID) {
+            return false;
+        }
+        if (!Objects.equals(this._partitionExternalAssignment, other._partitionExternalAssignment)) {
+            return false;
+        }
+        if (!Objects.equals(this._note, other._note)) {
+            return false;
+        }
+        if (!Objects.equals(this._domain, other._domain)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

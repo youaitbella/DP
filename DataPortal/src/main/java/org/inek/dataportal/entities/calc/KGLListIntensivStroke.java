@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -410,16 +411,19 @@ public class KGLListIntensivStroke implements Serializable {
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
-    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics _baseInformation;
+//    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isBaseInformationID")
+    private DrgCalcBasics _baseInformationId;
 
-    public DrgCalcBasics getBaseInformation() {
-        return _baseInformation;
+    public DrgCalcBasics getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformation(DrgCalcBasics baseInformation) {
-        this._baseInformation = baseInformation;
+    public void setBaseInformationId(DrgCalcBasics baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
     
@@ -430,7 +434,7 @@ public class KGLListIntensivStroke implements Serializable {
         this._id = isID;
     }
 
-    public KGLListIntensivStroke(int intensiveType, int costCenterID, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost) {
+    public KGLListIntensivStroke(int intensiveType, int costCenterID, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, DrgCalcBasics baseInformationId) {
         this._intensiveType = intensiveType;
         this._costCenterID = costCenterID;
         this._bedCnt = bedCnt;
@@ -451,27 +455,146 @@ public class KGLListIntensivStroke implements Serializable {
         this._overheadMedicalGoods = overheadMedicalGoods;
         this._medicalInfrastructureCost = medicalInfrastructureCost;
         this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
+        this._baseInformationId = baseInformationId;
     }
 
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 79 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 79 * hash + this._intensiveType;
+        hash = 79 * hash + this._costCenterID;
+        hash = 79 * hash + Objects.hashCode(this._costCenterText);
+        hash = 79 * hash + Objects.hashCode(this._departmentKey);
+        hash = 79 * hash + Objects.hashCode(this._departmentAssignment);
+        hash = 79 * hash + this._bedCnt;
+        hash = 79 * hash + this._caseCnt;
+        hash = 79 * hash + (this._ops8980 ? 1 : 0);
+        hash = 79 * hash + (this._ops898f ? 1 : 0);
+        hash = 79 * hash + (this._ops8981 ? 1 : 0);
+        hash = 79 * hash + (this._ops898b ? 1 : 0);
+        hash = 79 * hash + Objects.hashCode(this._minimumCriteriaPeriod);
+        hash = 79 * hash + this._intensivHoursWeighted;
+        hash = 79 * hash + this._intensivHoursNotweighted;
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._weightMinimum) ^ (Double.doubleToLongBits(this._weightMinimum) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._weightMaximum) ^ (Double.doubleToLongBits(this._weightMaximum) >>> 32));
+        hash = 79 * hash + Objects.hashCode(this._weightDescription);
+        hash = 79 * hash + this._medicalServiceCost;
+        hash = 79 * hash + this._nursingServiceCost;
+        hash = 79 * hash + this._functionalServiceCost;
+        hash = 79 * hash + this._overheadsMedicine;
+        hash = 79 * hash + this._overheadMedicalGoods;
+        hash = 79 * hash + this._medicalInfrastructureCost;
+        hash = 79 * hash + this._nonMedicalInfrastructureCost;
+        hash = 79 * hash + Objects.hashCode(this._baseInformationId);
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListIntensivStroke)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListIntensivStroke other = (KGLListIntensivStroke) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListIntensivStroke other = (KGLListIntensivStroke) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._intensiveType != other._intensiveType) {
+            return false;
+        }
+        if (this._costCenterID != other._costCenterID) {
+            return false;
+        }
+        if (this._bedCnt != other._bedCnt) {
+            return false;
+        }
+        if (this._caseCnt != other._caseCnt) {
+            return false;
+        }
+        if (this._ops8980 != other._ops8980) {
+            return false;
+        }
+        if (this._ops898f != other._ops898f) {
+            return false;
+        }
+        if (this._ops8981 != other._ops8981) {
+            return false;
+        }
+        if (this._ops898b != other._ops898b) {
+            return false;
+        }
+        if (this._intensivHoursWeighted != other._intensivHoursWeighted) {
+            return false;
+        }
+        if (this._intensivHoursNotweighted != other._intensivHoursNotweighted) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._weightMinimum) != Double.doubleToLongBits(other._weightMinimum)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._weightMaximum) != Double.doubleToLongBits(other._weightMaximum)) {
+            return false;
+        }
+        if (this._medicalServiceCost != other._medicalServiceCost) {
+            return false;
+        }
+        if (this._nursingServiceCost != other._nursingServiceCost) {
+            return false;
+        }
+        if (this._functionalServiceCost != other._functionalServiceCost) {
+            return false;
+        }
+        if (this._overheadsMedicine != other._overheadsMedicine) {
+            return false;
+        }
+        if (this._overheadMedicalGoods != other._overheadMedicalGoods) {
+            return false;
+        }
+        if (this._medicalInfrastructureCost != other._medicalInfrastructureCost) {
+            return false;
+        }
+        if (this._nonMedicalInfrastructureCost != other._nonMedicalInfrastructureCost) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
+            return false;
+        }
+        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
+            return false;
+        }
+        if (!Objects.equals(this._departmentAssignment, other._departmentAssignment)) {
+            return false;
+        }
+        if (!Objects.equals(this._minimumCriteriaPeriod, other._minimumCriteriaPeriod)) {
+            return false;
+        }
+        if (!Objects.equals(this._weightDescription, other._weightDescription)) {
+            return false;
+        }
+        if (!Objects.equals(this._baseInformationId, other._baseInformationId)) {
+            return false;
+        }
+        return true;
     }
-
+    
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListIntensivStroke[ isID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

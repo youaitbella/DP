@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -105,6 +106,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="serviceDocHome">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceDocHome")
@@ -117,8 +119,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public void setServiceDocHome(boolean serviceDocHome) {
         this._serviceDocHome = serviceDocHome;
     }
+    // </editor-fold>
     
     
+    // <editor-fold defaultstate="collapsed" desc="serviceDocDKG">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceDocDKG")
@@ -131,8 +135,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public void setServiceDocDKG(boolean serviceDocDKG) {
         this._serviceDocDKG = serviceDocDKG;
     }
+    // </editor-fold>
     
     
+    // <editor-fold defaultstate="collapsed" desc="serviceDocEBM">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceDocEBM")
@@ -145,8 +151,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public void setServiceDocEBM(boolean serviceDocEBM) {
         this._serviceDocEBM = serviceDocEBM;
     }
+    // </editor-fold>
     
     
+    // <editor-fold defaultstate="collapsed" desc="serviceDocGOA">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceDocGOA")
@@ -159,8 +167,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public void setServiceDocGOA(boolean serviceDocGOA) {
         this._serviceDocGOA = serviceDocGOA;
     }
+    // </editor-fold>
     
     
+    // <editor-fold defaultstate="collapsed" desc="serviceDocDif">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceDocDif")
@@ -173,6 +183,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public void setServiceDocDif(boolean serviceDocDif) {
         this._serviceDocDif = serviceDocDif;
     }
+    // </editor-fold>
     
     
     
@@ -261,7 +272,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
 
     public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
-        this._id = id;
+        this._id = id; 
         this._baseInformationID = baseInformationID;
         this._costTypeID = costTypeID;
         this._costCenterID = costCenterID;
@@ -276,24 +287,98 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._amountPost = amountPost;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 43 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 43 * hash + this._baseInformationID;
+        hash = 43 * hash + this._costTypeID;
+        hash = 43 * hash + this._costCenterID;
+        hash = 43 * hash + Objects.hashCode(this._costCenterText);
+        hash = 43 * hash + (this._serviceDocHome ? 1 : 0);
+        hash = 43 * hash + (this._serviceDocDKG ? 1 : 0);
+        hash = 43 * hash + (this._serviceDocEBM ? 1 : 0);
+        hash = 43 * hash + (this._serviceDocGOA ? 1 : 0);
+        hash = 43 * hash + (this._serviceDocDif ? 1 : 0);
+        hash = 43 * hash + Objects.hashCode(this._description);
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._serviceVolumePre) ^ (Double.doubleToLongBits(this._serviceVolumePre) >>> 32));
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._amountPre) ^ (Double.doubleToLongBits(this._amountPre) >>> 32));
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._serviceVolumePost) ^ (Double.doubleToLongBits(this._serviceVolumePost) >>> 32));
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._amountPost) ^ (Double.doubleToLongBits(this._amountPost) >>> 32));
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListRadiologyLaboratory)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListRadiologyLaboratory other = (KGLListRadiologyLaboratory) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListRadiologyLaboratory other = (KGLListRadiologyLaboratory) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        if (this._costTypeID != other._costTypeID) {
+            return false;
+        }
+        if (this._costCenterID != other._costCenterID) {
+            return false;
+        }
+        if (this._serviceDocHome != other._serviceDocHome) {
+            return false;
+        }
+        if (this._serviceDocDKG != other._serviceDocDKG) {
+            return false;
+        }
+        if (this._serviceDocEBM != other._serviceDocEBM) {
+            return false;
+        }
+        if (this._serviceDocGOA != other._serviceDocGOA) {
+            return false;
+        }
+        if (this._serviceDocDif != other._serviceDocDif) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._serviceVolumePre) != Double.doubleToLongBits(other._serviceVolumePre)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._amountPre) != Double.doubleToLongBits(other._amountPre)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._serviceVolumePost) != Double.doubleToLongBits(other._serviceVolumePost)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._amountPost) != Double.doubleToLongBits(other._amountPost)) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
+            return false;
+        }
+        if (!Objects.equals(this._description, other._description)) {
+            return false;
+        }
+        return true;
     }
-
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory[ rlID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

@@ -198,25 +198,72 @@ public class KGLPersonalAccounting implements Serializable {
         this._amount = paAmount;
     }
 
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 3;
+        hash = 97 * hash + this._id;
+        hash = 97 * hash + this._costTypeID;
+        hash = 97 * hash + (this._staffRecording ? 1 : 0);
+        hash = 97 * hash + (this._staffEvaluation ? 1 : 0);
+        hash = 97 * hash + (this._serviceEvaluation ? 1 : 0);
+        hash = 97 * hash + (this._serviceStatistic ? 1 : 0);
+        hash = 97 * hash + (this._expertRating ? 1 : 0);
+        hash = 97 * hash + (this._other ? 1 : 0);
+        hash = 97 * hash + this._amount;
+        hash = 97 * hash + this._baseInformationID;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLPersonalAccounting)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLPersonalAccounting other = (KGLPersonalAccounting) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLPersonalAccounting other = (KGLPersonalAccounting) obj;
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._costTypeID != other._costTypeID) {
+            return false;
+        }
+        if (this._staffRecording != other._staffRecording) {
+            return false;
+        }
+        if (this._staffEvaluation != other._staffEvaluation) {
+            return false;
+        }
+        if (this._serviceEvaluation != other._serviceEvaluation) {
+            return false;
+        }
+        if (this._serviceStatistic != other._serviceStatistic) {
+            return false;
+        }
+        if (this._expertRating != other._expertRating) {
+            return false;
+        }
+        if (this._other != other._other) {
+            return false;
+        }
+        if (this._amount != other._amount) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        return true;
     }
-
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLPersonalAccounting[ paID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -145,26 +146,63 @@ public class KGLListMedInfra implements Serializable {
         this._amount = miAmount;
     }
 
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this._id;
         
-        return _id;
+        if (this._id != -1) return hash;
+        
+        hash = 29 * hash + this._costTypeID;
+        hash = 29 * hash + Objects.hashCode(this._costCenter);
+        hash = 29 * hash + Objects.hashCode(this._costCenterText);
+        hash = 29 * hash + Objects.hashCode(this._keyUsed);
+        hash = 29 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
+        hash = 29 * hash + this._baseInformationID;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListMedInfra)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListMedInfra other = (KGLListMedInfra) object;
-        return (this._id == other._id);
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListMedInfra other = (KGLListMedInfra) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._costTypeID != other._costTypeID) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenter, other._costCenter)) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
+            return false;
+        }
+        return Objects.equals(this._keyUsed, other._keyUsed);
     }
-
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListMedInfra[ miID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

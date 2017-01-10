@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +53,6 @@ public class KGLListKstTop implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-
     
     //<editor-fold defaultstate="collapsed" desc="Property ktCostCenterID">
     @Column(name = "ktCostCenterID")
@@ -151,18 +151,64 @@ public class KGLListKstTop implements Serializable {
 
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 23 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 23 * hash + this._baseInformationID;
+        hash = 23 * hash + this._ktCostCenterID;
+        hash = 23 * hash + Objects.hashCode(this._text);
+        hash = 23 * hash + this._caseCount;
+        hash = 23 * hash + this._amount;
+        hash = 23 * hash + this._delimitationAmount;
+        hash = 23 * hash + this._rank;
+        return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListKstTop)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListKstTop other = (KGLListKstTop) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListKstTop other = (KGLListKstTop) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+         
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        if (this._ktCostCenterID != other._ktCostCenterID) {
+            return false;
+        }
+        if (this._caseCount != other._caseCount) {
+            return false;
+        }
+        if (this._amount != other._amount) {
+            return false;
+        }
+        if (this._delimitationAmount != other._delimitationAmount) {
+            return false;
+        }
+        if (this._rank != other._rank) {
+            return false;
+        }
+        if (!Objects.equals(this._text, other._text)) {
+            return false;
+        }
+        return true;
     }
+
+    
 
     @Override
     public String toString() {

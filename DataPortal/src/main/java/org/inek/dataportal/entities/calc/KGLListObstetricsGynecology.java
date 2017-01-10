@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,13 +32,13 @@ public class KGLListObstetricsGynecology implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ogID")
-    private int _id;
-    
-    public int getID() {
+    private int _id = -1;
+
+    public int getId() {
         return _id;
     }
 
-    public void setID(int id) {
+    public void setId(int id) {
         this._id = id;
     }
     // </editor-fold>
@@ -183,24 +184,71 @@ public class KGLListObstetricsGynecology implements Serializable {
         this._attendingMidwifeCnt = ogAttendingMidwifeCnt;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 19 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 19 * hash + Objects.hashCode(this._costCenterText);
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._medicalServiceCnt) ^ (Double.doubleToLongBits(this._medicalServiceCnt) >>> 32));
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._attendingDoctorCnt) ^ (Double.doubleToLongBits(this._attendingDoctorCnt) >>> 32));
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._nursingServiceCnt) ^ (Double.doubleToLongBits(this._nursingServiceCnt) >>> 32));
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._functionalServiceCnt) ^ (Double.doubleToLongBits(this._functionalServiceCnt) >>> 32));
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._midwifeCnt) ^ (Double.doubleToLongBits(this._midwifeCnt) >>> 32));
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._attendingMidwifeCnt) ^ (Double.doubleToLongBits(this._attendingMidwifeCnt) >>> 32));
+        hash = 19 * hash + this._baseInformationID;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListObstetricsGynecology)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListObstetricsGynecology other = (KGLListObstetricsGynecology) object;
-        return (this._id == other._id);
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListObstetricsGynecology other = (KGLListObstetricsGynecology) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._medicalServiceCnt) != Double.doubleToLongBits(other._medicalServiceCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._attendingDoctorCnt) != Double.doubleToLongBits(other._attendingDoctorCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._nursingServiceCnt) != Double.doubleToLongBits(other._nursingServiceCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._functionalServiceCnt) != Double.doubleToLongBits(other._functionalServiceCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._midwifeCnt) != Double.doubleToLongBits(other._midwifeCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._attendingMidwifeCnt) != Double.doubleToLongBits(other._attendingMidwifeCnt)) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        return Objects.equals(this._costCenterText, other._costCenterText);
     }
- 
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListObstetricsGynecology[ ogID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

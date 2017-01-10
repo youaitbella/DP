@@ -8,6 +8,7 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -114,30 +115,62 @@ public class PeppCalcBasics implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
+        int hash = 7;
+        hash = 17 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 17 * hash + this._dataYear;
+        hash = 17 * hash + this._ik;
+        hash = 17 * hash + this._accountId;
+        hash = 17 * hash + this._statusId;
+        hash = 17 * hash + Objects.hashCode(this._lastChanged);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final StatementOfParticipance other = (StatementOfParticipance) obj;
-        return _id == other.getId();
+        final PeppCalcBasics other = (PeppCalcBasics) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._dataYear != other._dataYear) {
+            return false;
+        }
+        if (this._ik != other._ik) {
+            return false;
+        }
+        if (this._accountId != other._accountId) {
+            return false;
+        }
+        if (this._statusId != other._statusId) {
+            return false;
+        }
+        if (!Objects.equals(this._lastChanged, other._lastChanged)) {
+            return false;
+        }
+        return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.BasicsPepp[ id=" + _id + " ]";
     }
-    
     // </editor-fold>
     
     @PrePersist

@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -136,24 +137,63 @@ public class KGLNormalFeeContract implements Serializable {
         this._amount = nfcAmount;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 31 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 31 * hash + Objects.hashCode(this._division);
+        hash = 31 * hash + Objects.hashCode(this._departmentKey);
+        hash = 31 * hash + (int) (Double.doubleToLongBits(this._caseCnt) ^ (Double.doubleToLongBits(this._caseCnt) >>> 32));
+        hash = 31 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
+        hash = 31 * hash + this._baseInformationID;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLNormalFeeContract)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLNormalFeeContract other = (KGLNormalFeeContract) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLNormalFeeContract other = (KGLNormalFeeContract) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._caseCnt) != Double.doubleToLongBits(other._caseCnt)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        if (!Objects.equals(this._division, other._division)) {
+            return false;
+        }
+        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
+            return false;
+        }
+        return true;
     }
-
+    
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLNormalFeeContract[ nfcID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

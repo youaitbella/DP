@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -401,16 +402,46 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
+        int hash = 5;
+        hash = 37 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 37 * hash + this._dataYear;
+        hash = 37 * hash + this._ik;
+        hash = 37 * hash + Objects.hashCode(this.sopHospitalName);
+        hash = 37 * hash + this._accountId;
+        hash = 37 * hash + this._statusId;
+        hash = 37 * hash + Objects.hashCode(this._lastChanged);
+        hash = 37 * hash + (this._drgCalc ? 1 : 0);
+        hash = 37 * hash + (this._psyCalc ? 1 : 0);
+        hash = 37 * hash + (this._invCalc ? 1 : 0);
+        hash = 37 * hash + (this._tpgCalc ? 1 : 0);
+        hash = 37 * hash + this._clinicalDistributionModelDrg;
+        hash = 37 * hash + this._clinicalDistributionModelPsy;
+        hash = 37 * hash + Objects.hashCode(this._multiyearDrg);
+        hash = 37 * hash + Objects.hashCode(this._multiyearDrgText);
+        hash = 37 * hash + Objects.hashCode(this._multiyearPsy);
+        hash = 37 * hash + Objects.hashCode(this._multiyearPsyText);
+        hash = 37 * hash + (this._section ? 1 : 0);
+        hash = 37 * hash + (this._sectionExtern ? 1 : 0);
+        hash = 37 * hash + this._sectionCount;
+        hash = 37 * hash + Objects.hashCode(this._drgCare);
+        hash = 37 * hash + (this._psyDataIntensive ? 1 : 0);
+        hash = 37 * hash + (this._withConsultant ? 1 : 0);
+        hash = 37 * hash + Objects.hashCode(this._consultantCompany);
+        hash = 37 * hash + (this._consultantSendMail ? 1 : 0);
         return hash;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -418,15 +449,93 @@ public class StatementOfParticipance implements Serializable {
             return false;
         }
         final StatementOfParticipance other = (StatementOfParticipance) obj;
-        return _id == other._id;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._dataYear != other._dataYear) {
+            return false;
+        }
+        if (this._ik != other._ik) {
+            return false;
+        }
+        if (this._accountId != other._accountId) {
+            return false;
+        }
+        if (this._statusId != other._statusId) {
+            return false;
+        }
+        if (this._drgCalc != other._drgCalc) {
+            return false;
+        }
+        if (this._psyCalc != other._psyCalc) {
+            return false;
+        }
+        if (this._invCalc != other._invCalc) {
+            return false;
+        }
+        if (this._tpgCalc != other._tpgCalc) {
+            return false;
+        }
+        if (this._clinicalDistributionModelDrg != other._clinicalDistributionModelDrg) {
+            return false;
+        }
+        if (this._clinicalDistributionModelPsy != other._clinicalDistributionModelPsy) {
+            return false;
+        }
+        if (this._section != other._section) {
+            return false;
+        }
+        if (this._sectionExtern != other._sectionExtern) {
+            return false;
+        }
+        if (this._sectionCount != other._sectionCount) {
+            return false;
+        }
+        if (this._psyDataIntensive != other._psyDataIntensive) {
+            return false;
+        }
+        if (this._withConsultant != other._withConsultant) {
+            return false;
+        }
+        if (this._consultantSendMail != other._consultantSendMail) {
+            return false;
+        }
+        if (!Objects.equals(this.sopHospitalName, other.sopHospitalName)) {
+            return false;
+        }
+        if (!Objects.equals(this._multiyearDrg, other._multiyearDrg)) {
+            return false;
+        }
+        if (!Objects.equals(this._multiyearDrgText, other._multiyearDrgText)) {
+            return false;
+        }
+        if (!Objects.equals(this._multiyearPsy, other._multiyearPsy)) {
+            return false;
+        }
+        if (!Objects.equals(this._multiyearPsyText, other._multiyearPsyText)) {
+            return false;
+        }
+        if (!Objects.equals(this._drgCare, other._drgCare)) {
+            return false;
+        }
+        if (!Objects.equals(this._consultantCompany, other._consultantCompany)) {
+            return false;
+        }
+        if (!Objects.equals(this._lastChanged, other._lastChanged)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.StatementOfParticipance[ id=" + _id + " ]";
     }
-
     // </editor-fold>
+    
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {

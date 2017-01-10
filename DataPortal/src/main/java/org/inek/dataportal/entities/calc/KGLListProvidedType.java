@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -103,25 +104,51 @@ public class KGLListProvidedType implements Serializable {
         this._lastYear = ptLastYear;
     }
 
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 7;
+        hash = 29 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 29 * hash + Objects.hashCode(this._text);
+        hash = 29 * hash + this._firstYear;
+        hash = 29 * hash + this._lastYear;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListProvidedType)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListProvidedType other = (KGLListProvidedType) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListProvidedType other = (KGLListProvidedType) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._firstYear != other._firstYear) {
+            return false;
+        }
+        if (this._lastYear != other._lastYear) {
+            return false;
+        }
+        return Objects.equals(this._text, other._text);
     }
-
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListProvidedType[ ptID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }

@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "edID")
-    private int _id;
+    private int _id = -1;
     
     public int getId() {
         return _id;
@@ -76,19 +77,22 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
-    @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private DrgCalcBasics _baseInformation;
-    
-    public DrgCalcBasics getBaseInformationID() {
-        return _baseInformation;
+//    @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "edBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(DrgCalcBasics baseInformation) {
-        this._baseInformation = baseInformation;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
-
+    
     public KGLListEndoscopyDifferential() {
     }
 
@@ -96,31 +100,54 @@ public class KGLListEndoscopyDifferential implements Serializable {
         this._id = edID;
     }
 
-    public KGLListEndoscopyDifferential(Integer edID, String edDivision, String edActivityKey) {
-        this._id = edID;
-        this._division = edDivision;
-        this._activityKey = edActivityKey;
-    }
-
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        return _id;
+        int hash = 5;
+        hash = 41 * hash + this._id;
+        
+        if (this._id != -1) return hash;
+        
+        hash = 41 * hash + Objects.hashCode(this._division);
+        hash = 41 * hash + Objects.hashCode(this._activityKey);
+        hash = 41 * hash + this._baseInformationId;
+        return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGLListEndoscopyDifferential)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGLListEndoscopyDifferential other = (KGLListEndoscopyDifferential) object;
-        return this._id == other._id;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListEndoscopyDifferential other = (KGLListEndoscopyDifferential) obj;
+        
+        if (this._id != -1 && this._id == other._id) return true;
+        
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (!Objects.equals(this._division, other._division)) {
+            return false;
+        }
+        if (!Objects.equals(this._activityKey, other._activityKey)) {
+            return false;
+        }
+        return true;
     }
-
+    
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential[ edID=" + _id + " ]";
     }
-    
+    //</editor-fold>
 }
