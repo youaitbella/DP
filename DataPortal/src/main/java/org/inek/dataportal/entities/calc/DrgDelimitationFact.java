@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -78,39 +79,39 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property personalCost">
     @Column(name = "dfPersonalCost")
-    private double _personalCost;
+    private BigDecimal _personalCost;
 
-    public double getPersonalCost() {
+    public BigDecimal getPersonalCost() {
         return _personalCost;
     }
 
-    public void setPersonalCost(double personalCost) {
+    public void setPersonalCost(BigDecimal personalCost) {
         this._personalCost = personalCost;
     }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property materialCost">
     @Column(name = "dfMaterialCost")
-    private double _materialCost;
+    private BigDecimal _materialCost;
 
-    public double getMaterialCost() {
+    public BigDecimal getMaterialCost() {
         return _materialCost;
     }
 
-    public void setMaterialCost(double materialCost) {
+    public void setMaterialCost(BigDecimal materialCost) {
         this._materialCost = materialCost;
     }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Column(name = "dfInfraCost")
-    private double _infraCost;
+    private BigDecimal _infraCost;
 
-    public double getInfraCost() {
+    public BigDecimal getInfraCost() {
         return _infraCost;
     }
 
-    public void setInfraCost(double infraCost) {
+    public void setInfraCost(BigDecimal infraCost) {
         this._infraCost = infraCost;
     }
     // </editor-fold>
@@ -136,9 +137,9 @@ public class DrgDelimitationFact implements Serializable {
         hash = 79 * hash + this._baseInformationId;
         hash = 79 * hash + this._contentTextId;
         hash = 79 * hash + (this._used ? 1 : 0);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._personalCost) ^ (Double.doubleToLongBits(this._personalCost) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._materialCost) ^ (Double.doubleToLongBits(this._materialCost) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._infraCost) ^ (Double.doubleToLongBits(this._infraCost) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._personalCost.doubleValue()) ^ (Double.doubleToLongBits(this._personalCost.doubleValue()) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._materialCost.doubleValue()) ^ (Double.doubleToLongBits(this._materialCost.doubleValue()) >>> 32));
+        hash = 79 * hash + (int) (Double.doubleToLongBits(this._infraCost.doubleValue()) ^ (Double.doubleToLongBits(this._infraCost.doubleValue()) >>> 32));
         return hash;
     }
     
@@ -166,13 +167,13 @@ public class DrgDelimitationFact implements Serializable {
         if (this._used != other._used) {
             return false;
         }
-        if (Double.doubleToLongBits(this._personalCost) != Double.doubleToLongBits(other._personalCost)) {
+        if (Double.doubleToLongBits(this._personalCost.doubleValue()) != Double.doubleToLongBits(other._personalCost.doubleValue())) {
             return false;
         }
-        if (Double.doubleToLongBits(this._materialCost) != Double.doubleToLongBits(other._materialCost)) {
+        if (Double.doubleToLongBits(this._materialCost.doubleValue()) != Double.doubleToLongBits(other._materialCost.doubleValue())) {
             return false;
         }
-        if (Double.doubleToLongBits(this._infraCost) != Double.doubleToLongBits(other._infraCost)) {
+        if (Double.doubleToLongBits(this._infraCost.doubleValue()) != Double.doubleToLongBits(other._infraCost.doubleValue())) {
             return false;
         }
         return true;

@@ -399,9 +399,9 @@
 
             <h:column rendered="#{x.used}">
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.id).personalCost}" styleClass="col06em"/>
-                <h:outputLabel rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.id).materialCost}" styleClass="col06em"/>
-                <h:outputLabel rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.id).infraCost}" styleClass="col06em"/>
+                <h:outputLabel rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em"/>
+                <h:outputLabel rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em"/>
+                <h:outputLabel rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em"/>
             </h:column>
 
             <h:column rendered="#{x.used}">
@@ -420,9 +420,9 @@
 
             <h:column rendered="#{x.used}">
                 <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel id="diff-personal" rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.id).personalCost, x.personalCost)}" styleClass="col06em"/>
-                <h:outputLabel id="diff-material" rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.id).materialCost, x.materialCost)}" styleClass="col06em"/>
-                <h:outputLabel id="diff-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.id).infraCost, x.infraCost)}" styleClass="col06em"/>
+                <h:outputLabel id="diff-personal" rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}" styleClass="col06em"/>
+                <h:outputLabel id="diff-material" rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}" styleClass="col06em"/>
+                <h:outputLabel id="diff-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}" styleClass="col06em"/>
             </h:column>
         </h:dataTable>
     </ui:repeat>
