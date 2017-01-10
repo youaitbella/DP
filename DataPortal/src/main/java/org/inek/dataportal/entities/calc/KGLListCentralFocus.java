@@ -41,6 +41,21 @@ public class KGLListCentralFocus implements Serializable {
         this._id = id;
     }
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="baseInformationID">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "cfBaseInformationID")
+    private int _baseInformationID = -1;
+
+    public int getBaseInformationID() {
+        return _baseInformationID;
+    }
+
+    public void setBaseInformationID(int baseInformationID) {
+        this._baseInformationID = baseInformationID;
+    }
+    //</editor-fold>
         
     //<editor-fold defaultstate="collapsed" desc="text">
     @Basic(optional = false)
@@ -156,8 +171,9 @@ public class KGLListCentralFocus implements Serializable {
         this._id = cfID;
     }
 
-    public KGLListCentralFocus(int cfID, String cfText, int cfCaseCnt, double cfPersonalCost, double cfMaterialcost, double cfInfraCost, double cfRemunerationAmount, String cfRemunerationKey) {
+    public KGLListCentralFocus(int cfID, int baseInformationID, String cfText, int cfCaseCnt, double cfPersonalCost, double cfMaterialcost, double cfInfraCost, double cfRemunerationAmount, String cfRemunerationKey) {
         this._id = cfID;
+        this._baseInformationID = baseInformationID;
         this._text = cfText;
         this._caseCnt = cfCaseCnt;
         this._personalCost = cfPersonalCost;
@@ -175,6 +191,7 @@ public class KGLListCentralFocus implements Serializable {
         if (this._id != -1) {
             return hash;
         }
+        hash = 41 * hash + this._baseInformationID;
         hash = 41 * hash + Objects.hashCode(this._text);
         hash = 41 * hash + this._caseCnt;
         hash = 41 * hash + (int) (Double.doubleToLongBits(this._personalCost) ^ (Double.doubleToLongBits(this._personalCost) >>> 32));
@@ -201,6 +218,9 @@ public class KGLListCentralFocus implements Serializable {
             return true;
         }
         if (this._id != other._id) {
+            return false;
+        }
+        if (this._baseInformationID != other._baseInformationID) {
             return false;
         }
         if (this._caseCnt != other._caseCnt) {
