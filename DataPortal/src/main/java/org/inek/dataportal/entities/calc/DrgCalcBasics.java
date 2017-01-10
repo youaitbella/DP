@@ -13,6 +13,7 @@ import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -1067,7 +1068,21 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsAlternatives = pkmsAlternatives;
     }
     //</editor-fold>
-                
+              
+    // <editor-fold defaultstate="collapsed" desc="Property Documents">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
+    private List<KGLDocument> _documents = new Vector<>();
+
+    public List<KGLDocument> getDocuments() {
+        return _documents;
+    }
+
+    public void setDocuments(List<KGLDocument> documents) {
+        _documents = documents;
+    }
+    // </editor-fold>
+    
     @Override
     public int hashCode() {
         return _id;
