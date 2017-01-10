@@ -158,7 +158,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private BigDecimal _sumCalcCost;
+    private BigDecimal _sumCalcCost = new BigDecimal(0);
 
     public BigDecimal getSumCalcCost() {
         return _sumCalcCost;
@@ -1067,7 +1067,21 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsAlternatives = pkmsAlternatives;
     }
     //</editor-fold>
-                
+              
+    // <editor-fold defaultstate="collapsed" desc="Property Documents">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
+    private List<KGLDocument> _documents = new Vector<>();
+
+    public List<KGLDocument> getDocuments() {
+        return _documents;
+    }
+
+    public void setDocuments(List<KGLDocument> documents) {
+        _documents = documents;
+    }
+    // </editor-fold>
+    
     @Override
     public int hashCode() {
         return _id;
