@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -157,13 +158,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private double _sumCalcCost;
+    private BigDecimal _sumCalcCost;
 
-    public double getSumCalcCost() {
+    public BigDecimal getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(double sumCalcCost) {
+    public void setSumCalcCost(BigDecimal sumCalcCost) {
         this._sumCalcCost = sumCalcCost;
     }
     //</editor-fold>
@@ -894,12 +895,33 @@ public class DrgCalcBasics implements Serializable {
     
     @XmlTransient
     public List<KGLListKstTop> getKstTop() {
+        ensureTopList();
         return _kstTop;
     }
     
     public void setKstTop(List<KGLListKstTop> kstTop) {
         this._kstTop = kstTop;
     }
+    
+    private void ensureTopList() {
+        if (_kstTop == null) {
+            _kstTop = new Vector<>();
+        }
+        ensureTopListCostCenter(4, 3);
+        ensureTopListCostCenter(6, 5);
+    }
+
+    private void ensureTopListCostCenter(int costCenterId, int count) {
+        if (_kstTop.stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
+            for (int i = 0; i < count; i++) {
+                KGLListKstTop item = new KGLListKstTop();
+                item.setBaseInformationID(_id);
+                item.setKtCostCenterID(costCenterId);
+                _kstTop.add(item);
+            }
+        }
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">

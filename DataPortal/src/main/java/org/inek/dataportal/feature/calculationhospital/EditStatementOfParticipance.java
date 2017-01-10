@@ -85,8 +85,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
             contact.setConsultant(true);
             _statement.getContacts().add(contact);
         }
-
-        changedIk();
     }
 
     private StatementOfParticipance loadStatementOfParticipance(Object idObject) {
@@ -103,12 +101,18 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     private StatementOfParticipance newStatementOfParticipance() {
+        int ik = getIks().size() == 1 ? (int) getIks().get(0).getValue() : 0;
+        int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        return retrievePriorData(ik, year);
+    }
+
+    private StatementOfParticipance retrievePriorData(int ik, int year) {
+        StatementOfParticipance statement = _calcFacade.retrievePriorStatementOfParticipance(ik, year);
         Account account = _sessionController.getAccount();
-        StatementOfParticipance statement = new StatementOfParticipance();
         statement.setAccountId(account.getId());
-        if (getIks().size() == 1){
-            statement.setIk((int) getIks().get(0).getValue());
-        }
+        statement.setId(-1);
+        statement.setIk(ik);
+        statement.setStatus(WorkflowStatus.New);
         return statement;
     }
 
@@ -336,24 +340,23 @@ public class EditStatementOfParticipance extends AbstractEditController {
             for (int ik : iks) {
                 items.add(new SelectItem(ik));
             }
-            if (_statement != null && _statement.getIk() <= 0) {
-                items.add(0, new SelectItem(""));
-            }
             _iks = items;
         }
         return _iks;
     }
 
-    String _hospitalInfo = "";
-
     public String getHospitalInfo() {
-        return _hospitalInfo;
+        Customer c = _customerFacade.getCustomerByIK(_statement.getIk());
+        if (c == null || c.getName() == null) {
+            return "";
+        }
+        return c.getName() + ", " + c.getTown();
     }
 
-    public void changedIk() {
-        if (_statement != null) {
-            Customer c = _customerFacade.getCustomerByIK(_statement.getIk());
-            _hospitalInfo = c.getName() + ", " + c.getTown();
+    public void ikChanged() {
+        if (_statement.getId() == -1) {
+            // paranoid check. usually the ik cannot be changed, once the statement is stored
+            _statement = retrievePriorData(_statement.getIk(), _statement.getDataYear());
         }
     }
 

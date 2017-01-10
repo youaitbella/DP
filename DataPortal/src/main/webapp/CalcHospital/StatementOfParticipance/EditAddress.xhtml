@@ -19,21 +19,22 @@
                 <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
                 <br/>
                 <h:selectOneMenu styleClass="inputmedium"
-                                 rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"
+                                 rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"
                                  id="ikMulti"
                                  title="#{msg.titleIK}"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editStatementOfParticipance.statement.ik}">
+                                 value="#{editStatementOfParticipance.statement.ik}"
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{editStatementOfParticipance.iks}"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-                    <f:ajax event="change" listener="#{editStatementOfParticipance.changedIk}" render="@form :logout:remaining msgMultiIk"/>
+                    <f:ajax event="change" listener="#{editStatementOfParticipance.ikChanged}" render="@all :logout:remaining msgMultiIk"/>
                 </h:selectOneMenu>
-                
-                <h:inputText styleClass="inputmedium" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1}"/>
-                
+
+                <h:inputText styleClass="inputmedium" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1 or editStatementOfParticipance.statement.id ge 0}"/>
+
                 <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
-                
+
                 <br/>
                 <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"/>
             </div>

@@ -8,14 +8,12 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
-
-    <span class="label"></span>
     <table cellspacing="6">
         <thead>
         <th>Bezeichnung</th>
-        <th>Datenjahr</th>
-        <th>Vorjahr</th>
-        <th>Abweichung in %</th>
+        <th>#{editCalcBasicsDrg.calcBasics.dataYear}</th>
+        <th>#{editCalcBasicsDrg.calcBasics.dataYear-1}</th>
+        <th>Abweichung</th>
         </thead>
         <tr>
             <td>
@@ -23,28 +21,25 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="sumCalcCosts" value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.sumCalcCost}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.sumCalcCost, editCalcBasicsDrg.calcBasics.sumCalcCost)}
         </td>
         </tr>
         <tr>
             <td>
-                <span class="label">Anzahl kalkulationsrelevante Fälle</span>
+                <span class="label">Anzahl kalkulationsrelevanter Fälle</span>
             </td>
             <td>
-
             </td>
             <td>
-
             </td>
             <td>
-
             </td>
         </tr>
         <tr>
@@ -53,14 +48,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.caseInStationCnt}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.caseInStationCnt}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.caseInStationCnt, editCalcBasicsDrg.calcBasics.caseInStationCnt)}
         </td>
         </tr>
         <tr>
@@ -69,14 +64,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.casePartialStationCnt}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.casePartialStationCnt}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.casePartialStationCnt, editCalcBasicsDrg.calcBasics.casePartialStationCnt)}
         </td>
         </tr>
         <tr>
@@ -85,14 +80,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="halfCalcDays" value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.daysPartialStation}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.daysPartialStation, editCalcBasicsDrg.calcBasics.daysPartialStation)}
         </td>
         </tr>
         <tr>
@@ -101,14 +96,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="companions" value="#{editCalcBasicsDrg.calcBasics.patientEscort}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.patientEscort}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.patientEscort, editCalcBasicsDrg.calcBasics.patientEscort)}
         </td>
         </tr>
         <tr>
@@ -117,14 +112,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="onlyStationary" value="#{editCalcBasicsDrg.calcBasics.preStation}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.preStation}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.preStation, editCalcBasicsDrg.calcBasics.preStation)}
         </td>
         </tr>
         <tr>
@@ -133,14 +128,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="drgBeds" value="#{editCalcBasicsDrg.calcBasics.beds}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.beds}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.beds, editCalcBasicsDrg.calcBasics.beds)}
         </td>
         </tr>
         <tr>
@@ -149,14 +144,14 @@
             </td>
             <td>
         <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.partialCnt}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@form :logout:remaining" />
         </h:inputText>
         </td>
         <td>
-            Vorjahrswert
+            #{editCalcBasicsDrg.priorCalcBasics.partialCnt}
         </td>
         <td>
-            % Abweichung berechnet
+            #{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.partialCnt, editCalcBasicsDrg.calcBasics.partialCnt)}
         </td>
         </tr>
         <tbody>
