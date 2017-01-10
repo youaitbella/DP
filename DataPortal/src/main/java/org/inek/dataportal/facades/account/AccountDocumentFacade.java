@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
@@ -28,7 +29,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 //        return query.getResultList();
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("accountId", accountId);
-        List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], ""));
@@ -62,7 +63,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         }
         query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
         //dumpSql(query);
-        List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10] + " (" + obj[11] + " " + obj[12] + ")"));
@@ -72,7 +73,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     public List<String> getNewDocs(int accountId) {
         String sql = "SELECT d._name FROM AccountDocument d WHERE d._accountId = :accountId and d._created > :referenceDate ORDER BY d._id DESC";
-        Query query = getEntityManager().createQuery(sql, String.class);
+        TypedQuery<String> query = getEntityManager().createQuery(sql, String.class);
         query.setParameter("accountId", accountId);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-30));
         return query.setMaxResults(5).getResultList();
@@ -80,7 +81,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     public List<AccountDocument> findAll(int accountId) {
         String sql = "SELECT d FROM AccountDocument d WHERE d._accountId = :accountId ORDER BY d._id DESC";
-        Query query = getEntityManager().createQuery(sql, AccountDocument.class);
+        TypedQuery<AccountDocument> query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
@@ -106,7 +107,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         String sql = "SELECT p FROM AccountDocument p WHERE p._validUntil < :date";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
-        List<AccountDocument> docs = query.getResultList();
+        @SuppressWarnings("unchecked") List<AccountDocument> docs = query.getResultList();
         for (AccountDocument doc : docs) {
             _logger.log(Level.WARNING, "Delete old document {0} of account {1}", new Object[]{doc.getName(), doc.getAccountId()});
             remove(doc);
