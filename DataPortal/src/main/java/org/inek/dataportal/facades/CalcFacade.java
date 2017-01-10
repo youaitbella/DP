@@ -48,21 +48,35 @@ public class CalcFacade extends AbstractDataAccess {
     public StatementOfParticipance findStatementOfParticipance(int id) {
         return findFresh(StatementOfParticipance.class, id);
     }
-    
+
+    public StatementOfParticipance retrievePriorStatementOfParticipance(int ik, int year) {
+        String jpql = "select c from StatementOfParticipance c where c._ik = :ik and c._dataYear = :year";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", year - 1);
+        try {
+            StatementOfParticipance statement  = query.getSingleResult();
+            getEntityManager().detach(statement);
+            return statement;
+        } catch (Exception ex) {
+            return new StatementOfParticipance();
+        }
+    }
+
     public List<StatementOfParticipance> listStatementsOfParticipance(int accountId) {
         String sql = "SELECT sop FROM StatementOfParticipance sop WHERE sop._accountId = :accountId ORDER BY sop._id DESC";
         TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(sql, StatementOfParticipance.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
-    
+
     public StatementOfParticipance saveStatementOfParticipance(StatementOfParticipance statementOfParticipance) {
         if (statementOfParticipance.getStatus() == WorkflowStatus.Unknown) {
             statementOfParticipance.setStatus(WorkflowStatus.New);
         }
-        
+
         removeEmptyContacts(statementOfParticipance);
-        
+
         if (statementOfParticipance.getId() == -1) {
             persist(statementOfParticipance);
             return statementOfParticipance;
@@ -80,7 +94,7 @@ public class CalcFacade extends AbstractDataAccess {
         StatementOfParticipance statement = merge(statementOfParticipance);
         return statement;
     }
-    
+
     public void removeEmptyContacts(StatementOfParticipance statement) {
         List<CalcContact> contacts = statement.getContacts();
         for (int i = contacts.size() - 1; i >= 0; i--) {
@@ -90,13 +104,13 @@ public class CalcFacade extends AbstractDataAccess {
             }
         }
     }
-    
+
     public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         Set<Integer> accountIds = new HashSet<>();
         accountIds.add(accountId);
         return getListCalcInfo(accountIds, year, statusLow, statusHigh);
     }
-    
+
     public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
@@ -118,7 +132,7 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         return query.getResultList();
     }
-    
+
     public Set<Integer> getCalcYears(Set<Integer> accountIds) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String sql = "select sopDataYear as DataYear\n"
@@ -135,7 +149,7 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
-    
+
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
@@ -169,7 +183,7 @@ public class CalcFacade extends AbstractDataAccess {
         });
         return agreements;
     }
-    
+
     public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
         String sql = "select distinct cuIK\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
@@ -190,20 +204,20 @@ public class CalcFacade extends AbstractDataAccess {
     public DrgCalcBasics findCalcBasicsDrg(int id) {
         return findFresh(DrgCalcBasics.class, id);
     }
-    
+
     public PeppCalcBasics findCalcBasicsPepp(int id) {
         return findFresh(PeppCalcBasics.class, id);
     }
-    
+
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<DrgCalcBasics>> violations = validator.validate(calcBasics);
         for (ConstraintViolation<DrgCalcBasics> violation : violations) {
             System.out.println(violation.getMessage());
         }
-        
+
         prepareServiceProvisionTypes(calcBasics.getServiceProvisions());
-        
+
         if (calcBasics.getId() == -1) {
             KGLOpAn opAn = calcBasics.getOpAn();
             calcBasics.setOpAn(null); // can not persist otherwise :(
@@ -213,13 +227,13 @@ public class CalcFacade extends AbstractDataAccess {
             calcBasics.setOpAn(opAn);
             return calcBasics;
         }
-        
+
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
         saveTopItems(calcBasics);
         saveServiceProvisions(calcBasics);
         return merge(calcBasics);
     }
-    
+
     private void prepareServiceProvisionTypes(List<KGLListServiceProvision> serviceProvisions) {
         for (KGLListServiceProvision serviceProvision : serviceProvisions) {
             if (serviceProvision.getServiceProvisionTypeID() == -1 && !serviceProvision.getDomain().trim().isEmpty()) {
@@ -236,14 +250,14 @@ public class CalcFacade extends AbstractDataAccess {
             }
         }
     }
-    
+
     KGLListServiceProvisionType findServiceProvisionType(String text) {
         String jpql = "select pt from KGLListServiceProvisionType pt where pt._text = :text";
         TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
         query.setParameter("text", text);
         return query.getSingleResult();
     }
-    
+
     private void saveNeonatData(DrgCalcBasics calcBasics) {
         for (DrgNeonatData item : calcBasics.getNeonateData()) {
             if (item.getId() == -1) {
@@ -253,7 +267,7 @@ public class CalcFacade extends AbstractDataAccess {
             }
         }
     }
-    
+
     private void saveTopItems(DrgCalcBasics calcBasics) {
         for (KGLListKstTop item : calcBasics.getKstTop()) {
             if (item.getId() == -1) {
@@ -263,7 +277,7 @@ public class CalcFacade extends AbstractDataAccess {
             }
         }
     }
-    
+
     private void saveServiceProvisions(DrgCalcBasics calcBasics) {
         for (KGLListServiceProvision item : calcBasics.getServiceProvisions()) {
             if (item.getId() == -1) {
@@ -273,14 +287,14 @@ public class CalcFacade extends AbstractDataAccess {
             }
         }
     }
-    
+
     public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
             return obtainIks4NewBasiscsDrg(accountIds, year);
         }
         return obtainIks4NewBasiscsPepp(accountIds, year);
     }
-    
+
     private Set<Integer> obtainIks4NewBasiscsDrg(Set<Integer> accountIds, int year) {
         String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select sopIk \n"
@@ -299,7 +313,7 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
     }
-    
+
     private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year) {
         String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select sopIk \n"
@@ -323,11 +337,11 @@ public class CalcFacade extends AbstractDataAccess {
     public DrgHeaderText findCalcHeaderText(int id) {
         return findFresh(DrgHeaderText.class, id);
     }
-    
+
     public List<DrgHeaderText> findAllCalcHeaderTexts() {
         return findAll(DrgHeaderText.class);
     }
-    
+
     public List<DrgHeaderText> retrieveHeaderTexts(int year, int sheetId, int type) {
         String jpql = "select ht from DrgHeaderText ht "
                 + "where ht._firstYear <= :year and ht._lastYear >= :year and ht._sheetId = :sheetId "
@@ -341,7 +355,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
         return query.getResultList();
     }
-    
+
     public List<KGLListServiceProvisionType> retrieveServiceProvisionTypes(int year, boolean mandatoryOnly) {
         String jpql = "select pt from KGLListServiceProvisionType pt "
                 + "where pt._firstYear <= :year and pt._lastYear >= :year ";
@@ -352,7 +366,7 @@ public class CalcFacade extends AbstractDataAccess {
         query.setParameter("year", year);
         return query.getResultList();
     }
-    
+
     public DrgHeaderText saveCalcHeaderText(DrgHeaderText headerText) {
         if (headerText.getId() > 0) {
             return merge(headerText);
@@ -360,15 +374,15 @@ public class CalcFacade extends AbstractDataAccess {
         persist(headerText);
         return headerText;
     }
-    
+
     public DrgContentText findCalcContentText(int id) {
         return findFresh(DrgContentText.class, id);
     }
-    
+
     public List<DrgContentText> findAllCalcContentTexts() {
         return findAll(DrgContentText.class);
     }
-    
+
     public DrgContentText saveCalcContentText(DrgContentText contentText) {
         if (contentText.getId() > 0) {
             return merge(contentText);
@@ -376,13 +390,13 @@ public class CalcFacade extends AbstractDataAccess {
         persist(contentText);
         return contentText;
     }
-    
+
     public List<DrgContentText> retrieveContentTexts(int headerId, int year) {
         List<Integer> headerIds = new ArrayList<>();
         headerIds.add(headerId);
         return retrieveContentTexts(headerIds, year);
     }
-    
+
     public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
         String jpql = "select ct from DrgContentText ct where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
         TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
@@ -397,21 +411,23 @@ public class CalcFacade extends AbstractDataAccess {
         TypedQuery<DrgCalcBasics> query = getEntityManager().createQuery(jpql, DrgCalcBasics.class);
         query.setParameter("ik", calcBasics.getIk());
         query.setParameter("year", calcBasics.getDataYear() - 1);
-        List<DrgCalcBasics> resultList = query.getResultList();
-        if (resultList.size() > 0) {
-            return resultList.get(0);
+        try {
+            DrgCalcBasics priorCalcBasics  = query.getSingleResult();
+            getEntityManager().detach(priorCalcBasics);
+            return priorCalcBasics;
+        } catch (Exception ex) {
+            return new DrgCalcBasics();
         }
-        return new DrgCalcBasics();
     }
-    
+
     public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public void delete(StatementOfParticipance statement) {
         remove(statement);
     }
-    
+
     public void delete(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = calcBasics.getOpAn();
         if (opAn != null) {
@@ -420,9 +436,9 @@ public class CalcFacade extends AbstractDataAccess {
         }
         remove(calcBasics);
     }
-    
+
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);
     }
-    
+
 }
