@@ -207,13 +207,13 @@ public class KGLListRadiologyLaboratory implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceVolumePre")
-    private double _serviceVolumePre;
+    private int _serviceVolumePre;
     
-    public double getServiceVolumePre() {
+    public int getServiceVolumePre() {
         return _serviceVolumePre;
     }
 
-    public void setServiceVolumePre(double rlServiceVolumePre) {
+    public void setServiceVolumePre(int rlServiceVolumePre) {
         this._serviceVolumePre = rlServiceVolumePre;
     }
     // </editor-fold>
@@ -222,13 +222,13 @@ public class KGLListRadiologyLaboratory implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlAmountPre")
-    private double _amountPre;
+    private int _amountPre;
     
-    public double getAmountPre() {
+    public int getAmountPre() {
         return _amountPre;
     }
 
-    public void setAmountPre(double rlAmountPre) {
+    public void setAmountPre(int rlAmountPre) {
         this._amountPre = rlAmountPre;
     }
     // </editor-fold>
@@ -237,13 +237,13 @@ public class KGLListRadiologyLaboratory implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlServiceVolumePost")
-    private double _serviceVolumePost;
+    private int _serviceVolumePost;
     
-    public double getServiceVolumePost() {
+    public int getServiceVolumePost() {
         return _serviceVolumePost;
     }
 
-    public void setServiceVolumePost(double rlServiceVolumePost) {
+    public void setServiceVolumePost(int rlServiceVolumePost) {
         this._serviceVolumePost = rlServiceVolumePost;
     }
     // </editor-fold>
@@ -252,13 +252,13 @@ public class KGLListRadiologyLaboratory implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlAmountPost")
-    private double _amountPost;
+    private int _amountPost;
     
-    public double getAmountPost() {
+    public int getAmountPost() {
         return _amountPost;
     }
 
-    public void setAmountPost(double rlAmountPost) {
+    public void setAmountPost(int rlAmountPost) {
         this._amountPost = rlAmountPost;
     }
     // </editor-fold>
@@ -271,7 +271,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._id = rlID;
     }
 
-    public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, double serviceVolumePre, double amountPre, double serviceVolumePost, double amountPost) {
+    public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, int serviceVolumePre, int amountPre, int serviceVolumePost, int amountPost) {
         this._id = id; 
         this._baseInformationID = baseInformationID;
         this._costTypeID = costTypeID;
@@ -305,10 +305,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
         hash = 43 * hash + (this._serviceDocGOA ? 1 : 0);
         hash = 43 * hash + (this._serviceDocDif ? 1 : 0);
         hash = 43 * hash + Objects.hashCode(this._description);
-        hash = 43 * hash + (int) (Double.doubleToLongBits(this._serviceVolumePre) ^ (Double.doubleToLongBits(this._serviceVolumePre) >>> 32));
-        hash = 43 * hash + (int) (Double.doubleToLongBits(this._amountPre) ^ (Double.doubleToLongBits(this._amountPre) >>> 32));
-        hash = 43 * hash + (int) (Double.doubleToLongBits(this._serviceVolumePost) ^ (Double.doubleToLongBits(this._serviceVolumePost) >>> 32));
-        hash = 43 * hash + (int) (Double.doubleToLongBits(this._amountPost) ^ (Double.doubleToLongBits(this._amountPost) >>> 32));
+        hash = 43 * hash + this._serviceVolumePre;
+        hash = 43 * hash + this._amountPre;
+        hash = 43 * hash + this._serviceVolumePost;
+        hash = 43 * hash + this._amountPost;
         return hash;
     }
     
@@ -354,16 +354,16 @@ public class KGLListRadiologyLaboratory implements Serializable {
         if (this._serviceDocDif != other._serviceDocDif) {
             return false;
         }
-        if (Double.doubleToLongBits(this._serviceVolumePre) != Double.doubleToLongBits(other._serviceVolumePre)) {
+        if (this._serviceVolumePre != other._serviceVolumePre) {
             return false;
         }
-        if (Double.doubleToLongBits(this._amountPre) != Double.doubleToLongBits(other._amountPre)) {
+        if (this._amountPre != other._amountPre) {
             return false;
         }
-        if (Double.doubleToLongBits(this._serviceVolumePost) != Double.doubleToLongBits(other._serviceVolumePost)) {
+        if (this._serviceVolumePost != other._serviceVolumePost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._amountPost) != Double.doubleToLongBits(other._amountPost)) {
+        if (this._amountPost != other._amountPost) {
             return false;
         }
         if (!Objects.equals(this._costCenterText, other._costCenterText)) {
