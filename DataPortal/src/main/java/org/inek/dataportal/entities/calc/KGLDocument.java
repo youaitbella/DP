@@ -68,7 +68,7 @@ public class KGLDocument implements Serializable, Document{
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "adName")
+    @Column(name = "doName")
     private String _name;
     @Override
     public String getName() {
@@ -83,7 +83,7 @@ public class KGLDocument implements Serializable, Document{
     
     // <editor-fold defaultstate="collapsed" desc="Property Content">
     @Lob
-    @Column(name = "adContent")
+    @Column(name = "doContent")
     private byte[] _content;
     @Override
     public byte[] getContent() {
