@@ -541,6 +541,18 @@ div#wrapper {
     width: 40%;
 }
 
+.label50 {
+    font-weight: bold;
+    display:inline-block;
+    width: 50%;
+}
+
+.label60 {
+    font-weight: bold;
+    display:inline-block;
+    width: 60%;
+}
+
 .element20,
 .element25,
 .element30,

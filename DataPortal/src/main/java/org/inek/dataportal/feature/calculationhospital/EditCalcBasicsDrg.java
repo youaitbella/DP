@@ -123,6 +123,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setEndoscopyCaseCnt(_priorCalcBasics.getEndoscopyCaseCnt());
         calcBasics.setEndoscopyRoomCnt(_priorCalcBasics.getEndoscopyRoomCnt());
 
+        // maternity
+        calcBasics.setGynecology(_priorCalcBasics.isGynecology());
+        calcBasics.setObstetrical(_priorCalcBasics.isObstetrical());
+        
         // neonat
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
         int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
