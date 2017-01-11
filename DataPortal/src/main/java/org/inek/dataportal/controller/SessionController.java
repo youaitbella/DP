@@ -202,6 +202,7 @@ public class SessionController implements Serializable {
     public void endAllConversations() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+        @SuppressWarnings("unchecked")
         Map<String, Conversation> conversations = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
         if (conversations == null) {
             return;
@@ -645,7 +646,7 @@ public class SessionController implements Serializable {
         return false;
     }
 
-    private final Set _acceptedTerms = new HashSet(4);
+    private final Set<String> _acceptedTerms = new HashSet<>(4);
 
     public void acceptTermsOfUse(String name) {
         _acceptedTerms.add(name);
@@ -656,9 +657,11 @@ public class SessionController implements Serializable {
         return _acceptedTerms.contains(name);
     }
 
-    public <T> T findBean(String beanName) {
+    //@SuppressWarnings("unchecked")
+    public <T> T findBean(String beanName, Class<T> clazz) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        return (T) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class);
+        return clazz.cast(facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class));
+        //return (T) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class);
     }
 
 }
