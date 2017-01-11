@@ -63,13 +63,13 @@ public class KGLRadiologyService implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "rsServiceCost")
-    private double _serviceCost;
+    private int _serviceCost;
 
-    public double getServiceCost() {
+    public int getServiceCost() {
         return _serviceCost;
     }
 
-    public void setServiceCost(double serviceCost) {
+    public void setServiceCost(int serviceCost) {
         this._serviceCost = serviceCost;
     }
     //</editor-fold>
@@ -107,14 +107,14 @@ public class KGLRadiologyService implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _ambulantAmount">
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rsAbulantAmount")
-    private double _ambulantAmount;
+    @Column(name = "rsAmbulantAmount")
+    private int _ambulantAmount;
 
-    public double getAmbulantAmount() {
+    public int getAmbulantAmount() {
         return _ambulantAmount;
     }
 
-    public void setAmbulantAmount(double abulantAmount) {
+    public void setAmbulantAmount(int abulantAmount) {
         this._ambulantAmount = abulantAmount;
     }
     //</editor-fold>
@@ -161,7 +161,7 @@ public class KGLRadiologyService implements Serializable {
         this._id = rsID;
     }
 
-    public KGLRadiologyService(Integer rsID, String rsOpsCode, double rsServiceCost, int rsCaseCntStationary, int rsCaseCntAmbulant, double rsAbulantAmount) {
+    public KGLRadiologyService(int rsID, String rsOpsCode, int rsServiceCost, int rsCaseCntStationary, int rsCaseCntAmbulant, int rsAbulantAmount) {
         this._id = rsID;
         this._opsCode = rsOpsCode;
         this._serviceCost = rsServiceCost;
@@ -179,10 +179,10 @@ public class KGLRadiologyService implements Serializable {
             return hash;
         }
         hash = 71 * hash + Objects.hashCode(this._opsCode);
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this._serviceCost) ^ (Double.doubleToLongBits(this._serviceCost) >>> 32));
+        hash = 71 * hash + this._serviceCost;
         hash = 71 * hash + this._caseCntStationary;
         hash = 71 * hash + this._caseCntAmbulant;
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this._ambulantAmount) ^ (Double.doubleToLongBits(this._ambulantAmount) >>> 32));
+        hash = 71 * hash + this._ambulantAmount;
         hash = 71 * hash + this.rsBaseInformationID;
         hash = 71 * hash + this.rsContentTextID;
         return hash;
