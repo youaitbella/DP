@@ -26,13 +26,11 @@
                     </c:forEach>
                 </ul>
             </div>
-        </h:form>
 
-        <div class="edit">
-            <!--<ui:include src="# {editDrgProposal.part}"/>-->
-            <ui:insert name="editContent">Content</ui:insert>
+            <div class="edit">
+                <!--<ui:include src="# {editDrgProposal.part}"/>-->
+                <ui:insert name="editContent">Content</ui:insert>
 
-            <h:form>
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editStatementOfParticipance.save}"
@@ -65,8 +63,9 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                 </div>
-            </h:form>
-        </div>
+            </div>
+        </h:form>
+
     </ui:define>
 
 </ui:composition>

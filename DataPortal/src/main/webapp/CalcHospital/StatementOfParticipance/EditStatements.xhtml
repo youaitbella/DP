@@ -12,7 +12,7 @@
 
     <ui:define name="editContent">
 
-        <h:form id="drgCalc" rendered="#{editStatementOfParticipance.statement.drgCalc}">
+        <h:panelGroup id="drgCalc" rendered="#{editStatementOfParticipance.statement.drgCalc}">
             <h2>#{msg.lblDrgCalculation}</h2>
 
             <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
@@ -26,10 +26,10 @@
             <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearDrg}"
                                 valueText="#{editStatementOfParticipance.statement.multiyearDrgText}"
                                 readonly="#{editStatementOfParticipance.readOnly}"/>
-            
-        </h:form>
 
-        <h:form id="psyCalc" rendered="#{editStatementOfParticipance.statement.psyCalc}">
+        </h:panelGroup>
+
+        <h:panelGroup id="psyCalc" rendered="#{editStatementOfParticipance.statement.psyCalc}">
             <h2>#{msg.lblPsyCalculation}</h2>
 
             <h:outputLabel styleClass="blockHeader" value="#{msg.headStatementSingleCostAttribution}"/>
@@ -44,7 +44,7 @@
                                 valueText="#{editStatementOfParticipance.statement.multiyearPsyText}"
                                 readonly="#{editStatementOfParticipance.readOnly}"/>
 
-        </h:form>
+        </h:panelGroup>
 
     </ui:define>
 </ui:composition>

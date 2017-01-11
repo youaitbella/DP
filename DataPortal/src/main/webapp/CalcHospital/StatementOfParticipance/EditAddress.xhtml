@@ -13,86 +13,82 @@
 
         <h2>#{msg.lblHospital}</h2>
 
-        <h:form>
-            <div class="inputPart">
-                <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
-                <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
-                <br/>
-                <h:selectOneMenu styleClass="inputmedium"
-                                 rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"
-                                 id="ikMulti"
-                                 title="#{msg.titleIK}"
-                                 required="true"
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editStatementOfParticipance.statement.ik}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editStatementOfParticipance.iks}"/>
-                    <f:ajax event="change" listener="#{editStatementOfParticipance.ikChanged}" render="@all :logout:remaining msgMultiIk"/>
-                </h:selectOneMenu>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+            <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+            <br/>
+            <h:selectOneMenu styleClass="inputmedium"
+                             rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"
+                             id="ikMulti"
+                             title="#{msg.titleIK}"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{editStatementOfParticipance.statement.ik}"
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{editStatementOfParticipance.iks}"/>
+                <f:ajax event="change" listener="#{editStatementOfParticipance.ikChanged}" render="@all :logout:remaining msgMultiIk"/>
+            </h:selectOneMenu>
 
-                <h:inputText styleClass="inputmedium" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1 or editStatementOfParticipance.statement.id ge 0}"/>
+            <h:inputText styleClass="inputmedium" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1 or editStatementOfParticipance.statement.id ge 0}"/>
 
-                <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
+            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
 
-                <br/>
-                <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"/>
-            </div>
+            <br/>
+            <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"/>
+        </div>
 
-            <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
+        <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
 
-            <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
-                                         value="#{editStatementOfParticipance.statement.drgCalc}" 
-                                         renderElement="@all"
-                                         readonly="#{editStatementOfParticipance.readOnly}"/>
-            </div>
+        <div class="inputPart">
+            <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
+                                     value="#{editStatementOfParticipance.statement.drgCalc}" 
+                                     renderElement="@all"
+                                     readonly="#{editStatementOfParticipance.readOnly}"/>
+        </div>
 
-            <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
-                                         value="#{editStatementOfParticipance.statement.psyCalc}" 
-                                         renderElement="@all"
-                                         readonly="#{editStatementOfParticipance.readOnly}"/>
-            </div>
+        <div class="inputPart">
+            <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
+                                     value="#{editStatementOfParticipance.statement.psyCalc}" 
+                                     renderElement="@all"
+                                     readonly="#{editStatementOfParticipance.readOnly}"/>
+        </div>
 
-            <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
-                                         value="#{editStatementOfParticipance.statement.invCalc}" 
-                                         renderElement="@all"
-                                         readonly="#{editStatementOfParticipance.readOnly}"/>
-            </div>
+        <div class="inputPart">
+            <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
+                                     value="#{editStatementOfParticipance.statement.invCalc}" 
+                                     renderElement="@all"
+                                     readonly="#{editStatementOfParticipance.readOnly}"/>
+        </div>
 
-            <div class="inputPart">
-                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
-                                         value="#{editStatementOfParticipance.statement.tpgCalc}" 
-                                         renderElement="@all"
-                                         readonly="#{editStatementOfParticipance.readOnly}"/>
-            </div>
+        <div class="inputPart">
+            <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
+                                     value="#{editStatementOfParticipance.statement.tpgCalc}" 
+                                     renderElement="@all"
+                                     readonly="#{editStatementOfParticipance.readOnly}"/>
+        </div>
 
-        </h:form>
 
 
         <h2>#{msg.lblContactPerson}</h2>
 
-        <h:form>
-            <calc:CalcContactTable id="contact"
-                                   value="#{editStatementOfParticipance.contacts}" 
-                                   allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
-                                   allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
-                                   allowInv="#{editStatementOfParticipance.statement.invCalc}"
-                                   allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
-                                   readonly="#{editStatementOfParticipance.readOnly}"/>
+        <calc:CalcContactTable id="contact"
+                               value="#{editStatementOfParticipance.contacts}" 
+                               allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
+                               allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
+                               allowInv="#{editStatementOfParticipance.statement.invCalc}"
+                               allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
+                               readonly="#{editStatementOfParticipance.readOnly}"/>
 
-            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                           rendered="#{!editStatementOfParticipance.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addContact}"/>
-            </h:commandLink>
-        </h:form>
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                       rendered="#{!editStatementOfParticipance.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addContact}"/>
+        </h:commandLink>
 
 
         <h2>#{msg.lblExternalSupport}</h2>
 
-        <h:form styleClass="inputPart" id="consultantData">
+        <h:panelGroup styleClass="inputPart" id="consultantData">
             <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}" 
                                      value="#{editStatementOfParticipance.statement.withConsultant}" 
                                      labelStyle="col45em label" 
@@ -121,9 +117,7 @@
 
             </div>
 
-        </h:form>
-
-
+        </h:panelGroup>
 
 
     </ui:define>
