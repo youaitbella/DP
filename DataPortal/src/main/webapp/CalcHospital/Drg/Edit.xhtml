@@ -10,6 +10,7 @@
                 >
 
     <ui:define name="content">
+    <h:outputStylesheet name="css/fileuploader.css"/>
 
         <h:form id="form" prependId="false" enctype="multipart/form-data">
             <h1><h:commandLink value="#{msg.lblCalcBasicDrg} #{msg.lblYearData} #{editCalcBasicsDrg.calcBasics.dataYear}" 
@@ -53,14 +54,16 @@
                         <h:commandLink styleClass="button"
                                        value="#{msg.btnPriorPage}"
                                        disabled="#{!editCalcBasicsDrg.priorTopic}"
-                                       action="#{editCalcBasicsDrg.activatePriorTopic()}"
-                                       immediate="true"/>
+                                       actionListener="#{editCalcBasicsDrg.activatePriorTopic()}">
+                            <f:ajax render="@form"/>                        
+                        </h:commandLink>
 
                         <h:commandLink styleClass="button"
                                        value="#{msg.btnNextPage}"
                                        disabled="#{!editCalcBasicsDrg.nextTopic}"
-                                       action="#{editCalcBasicsDrg.activateNextTopic()}"
-                                       immediate="true"/>
+                                       actionListener="#{editCalcBasicsDrg.activateNextTopic()}">
+                            <f:ajax render="@form"/>                        
+                        </h:commandLink>
                     </div>
                     <div>
                         <h:commandLink styleClass="bigButton"
