@@ -78,13 +78,13 @@ public class KGLNormalFreelancer implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfAmount")
-    private double _amount;
+    private int _amount;
 
-    public double getAmount() {
+    public int getAmount() {
         return _amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this._amount = amount;
     }
     //</editor-fold>
@@ -144,7 +144,7 @@ public class KGLNormalFreelancer implements Serializable {
         this._id = nfID;
     }
 
-    public KGLNormalFreelancer(Integer nfID, String nfDivision, double nfFullVigorCnt, double nfAmount, boolean nfCostType1, boolean nfCostType6c) {
+    public KGLNormalFreelancer(Integer nfID, String nfDivision, double nfFullVigorCnt, int nfAmount, boolean nfCostType1, boolean nfCostType6c) {
         this._id = nfID;
         this._division = nfDivision;
         this._fullVigorCnt = nfFullVigorCnt;
@@ -162,7 +162,7 @@ public class KGLNormalFreelancer implements Serializable {
         }
         hash = 67 * hash + Objects.hashCode(this._division);
         hash = 67 * hash + (int) (Double.doubleToLongBits(this._fullVigorCnt) ^ (Double.doubleToLongBits(this._fullVigorCnt) >>> 32));
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
+        hash = 67 * hash + this._amount;
         hash = 67 * hash + (this._costType1 ? 1 : 0);
         hash = 67 * hash + (this._costType6c ? 1 : 0);
         hash = 67 * hash + this._baseInformationID;
@@ -190,7 +190,7 @@ public class KGLNormalFreelancer implements Serializable {
         if (Double.doubleToLongBits(this._fullVigorCnt) != Double.doubleToLongBits(other._fullVigorCnt)) {
             return false;
         }
-        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
+        if (this._amount != other._amount) {
             return false;
         }
         if (this._costType1 != other._costType1) {
