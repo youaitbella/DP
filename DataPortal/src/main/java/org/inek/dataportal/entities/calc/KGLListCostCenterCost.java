@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -218,13 +216,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccMedicalServiceAmount")
-    private double _medicalServiceAmount;
+    private int _medicalServiceAmount;
     
-    public double getMedicalServiceAmount() {
+    public int getMedicalServiceAmount() {
         return _medicalServiceAmount;
     }
 
-    public void setMedicalServiceAmount(double medicalServiceAmount) {
+    public void setMedicalServiceAmount(int medicalServiceAmount) {
         this._medicalServiceAmount = medicalServiceAmount;
     }
     // </editor-fold>
@@ -233,13 +231,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccNursingServiceAmount")
-    private double _nursingServiceAmount;
+    private int _nursingServiceAmount;
     
-    public double getNursingServiceAmount() {
+    public int getNursingServiceAmount() {
         return _nursingServiceAmount;
     }
 
-    public void setNursingServiceAmount(double nursingServiceAmount) {
+    public void setNursingServiceAmount(int nursingServiceAmount) {
         this._nursingServiceAmount = nursingServiceAmount;
     }
     // </editor-fold>
@@ -248,13 +246,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccFunctionalServiceAmount")
-    private double _functionalServiceAmount;
+    private int _functionalServiceAmount;
     
-    public double getFunctionalServiceAmount() {
+    public int getFunctionalServiceAmount() {
         return _functionalServiceAmount;
     }
 
-    public void setFunctionalServiceAmount(double functionalServiceAmount) {
+    public void setFunctionalServiceAmount(int functionalServiceAmount) {
         this._functionalServiceAmount = functionalServiceAmount;
     }
     // </editor-fold>
@@ -263,13 +261,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccOverheadsMedicine")
-    private double _overheadsMedicine;
+    private int _overheadsMedicine;
     
-    public double getOverheadsMedicine() {
+    public int getOverheadsMedicine() {
         return _overheadsMedicine;
     }
 
-    public void setOverheadsMedicine(double overheadsMedicine) {
+    public void setOverheadsMedicine(int overheadsMedicine) {
         this._overheadsMedicine = overheadsMedicine;
     }
     // </editor-fold>
@@ -278,13 +276,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccOverheadsMedicalGoods")
-    private double _overheadsMedicalGoods;
+    private int _overheadsMedicalGoods;
     
-    public double getOverheadsMedicalGoods() {
+    public int getOverheadsMedicalGoods() {
         return _overheadsMedicalGoods;
     }
 
-    public void setOverheadsMedicalGoods(double overheadsMedicalGoods) {
+    public void setOverheadsMedicalGoods(int overheadsMedicalGoods) {
         this._overheadsMedicalGoods = overheadsMedicalGoods;
     }
     // </editor-fold>
@@ -293,13 +291,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccMedicalInfrastructureCost")
-    private double _medicalInfrastructureCost;
+    private int _medicalInfrastructureCost;
     
-    public double getMedicalInfrastructureCost() {
+    public int getMedicalInfrastructureCost() {
         return _medicalInfrastructureCost;
     }
 
-    public void setMedicalInfrastructureCost(double medicalInfrastructureCost) {
+    public void setMedicalInfrastructureCost(int medicalInfrastructureCost) {
         this._medicalInfrastructureCost = medicalInfrastructureCost;
     }
     // </editor-fold>
@@ -308,13 +306,13 @@ public class KGLListCostCenterCost implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cccNonMedicalInfrastructureCost")
-    private double _nonMedicalInfrastructureCost;
+    private int _nonMedicalInfrastructureCost;
     
-    public double getNonMedicalInfrastructureCost() {
+    public int getNonMedicalInfrastructureCost() {
         return _nonMedicalInfrastructureCost;
     }
 
-    public void setNonMedicalInfrastructureCost(double nonMedicalInfrastructureCost) {
+    public void setNonMedicalInfrastructureCost(int nonMedicalInfrastructureCost) {
         this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
     }
     // </editor-fold>
@@ -343,7 +341,7 @@ public class KGLListCostCenterCost implements Serializable {
         this._id = cccID;
     }
 
-    public KGLListCostCenterCost(int costCenter, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, double medicalServiceAmount, double nursingServiceAmount, double functionalServiceAmount, double overheadsMedicine, double overheadsMedicalGoods, double medicalInfrastructureCost, double nonMedicalInfrastructureCost, int baseInformationId) {
+    public KGLListCostCenterCost(int costCenter, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, int medicalServiceAmount, int nursingServiceAmount, int functionalServiceAmount, int overheadsMedicine, int overheadsMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId) {
         this._costCenter = costCenter;
         this._costCenterText = costCenterText;
         this._departmentKey = departmentKey;
