@@ -158,7 +158,7 @@ public class KGLListMedInfra implements Serializable {
         hash = 29 * hash + Objects.hashCode(this._costCenter);
         hash = 29 * hash + Objects.hashCode(this._costCenterText);
         hash = 29 * hash + Objects.hashCode(this._keyUsed);
-        hash = 29 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
+        hash = 29 * hash + this._amount;
         hash = 29 * hash + this._baseInformationID;
         return hash;
     }
@@ -184,7 +184,7 @@ public class KGLListMedInfra implements Serializable {
         if (this._costTypeID != other._costTypeID) {
             return false;
         }
-        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
+        if (this._amount != other._amount) {
             return false;
         }
         if (this._baseInformationID != other._baseInformationID) {

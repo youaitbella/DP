@@ -137,9 +137,9 @@ public class DrgDelimitationFact implements Serializable {
         hash = 79 * hash + this._baseInformationId;
         hash = 79 * hash + this._contentTextId;
         hash = 79 * hash + (this._used ? 1 : 0);
-        hash = 79 * hash + (int) (this._personalCost ^ this._personalCost >>> 31);
-        hash = 79 * hash + (int) (this._materialCost ^ this._materialCost >>> 31);
-        hash = 79 * hash + (int) (this._infraCost ^ this._infraCost >>> 31);
+        hash = 79 * hash + this._personalCost;
+        hash = 79 * hash + this._materialCost;
+        hash = 79 * hash + this._infraCost;
         return hash;
     }
     
@@ -173,10 +173,7 @@ public class DrgDelimitationFact implements Serializable {
         if (this._materialCost != other._materialCost) {
             return false;
         }
-        if (this._infraCost != other._infraCost) {
-            return false;
-        }
-        return true;
+        return this._infraCost == other._infraCost;
     }
     
     @Override

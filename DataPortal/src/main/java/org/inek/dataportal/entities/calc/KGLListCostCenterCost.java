@@ -381,13 +381,13 @@ public class KGLListCostCenterCost implements Serializable {
         hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalServiceCnt) ^ (Double.doubleToLongBits(this._medicalServiceCnt) >>> 32));
         hash = 59 * hash + (int) (Double.doubleToLongBits(this._nursingServiceCnt) ^ (Double.doubleToLongBits(this._nursingServiceCnt) >>> 32));
         hash = 59 * hash + (int) (Double.doubleToLongBits(this._functionalServiceCnt) ^ (Double.doubleToLongBits(this._functionalServiceCnt) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalServiceAmount) ^ (Double.doubleToLongBits(this._medicalServiceAmount) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._nursingServiceAmount) ^ (Double.doubleToLongBits(this._nursingServiceAmount) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._functionalServiceAmount) ^ (Double.doubleToLongBits(this._functionalServiceAmount) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._overheadsMedicine) ^ (Double.doubleToLongBits(this._overheadsMedicine) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._overheadsMedicalGoods) ^ (Double.doubleToLongBits(this._overheadsMedicalGoods) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalInfrastructureCost) ^ (Double.doubleToLongBits(this._medicalInfrastructureCost) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this._nonMedicalInfrastructureCost) ^ (Double.doubleToLongBits(this._nonMedicalInfrastructureCost) >>> 32));
+        hash = 59 * hash + this._medicalServiceAmount;
+        hash = 59 * hash + this._nursingServiceAmount;
+        hash = 59 * hash + this._functionalServiceAmount;
+        hash = 59 * hash + this._overheadsMedicine;
+        hash = 59 * hash + this._overheadsMedicalGoods;
+        hash = 59 * hash + this._medicalInfrastructureCost;
+        hash = 59 * hash + this._nonMedicalInfrastructureCost;
         hash = 59 * hash + this._baseInformationId;
         return hash;
     }
@@ -431,25 +431,25 @@ public class KGLListCostCenterCost implements Serializable {
         if (Double.doubleToLongBits(this._functionalServiceCnt) != Double.doubleToLongBits(other._functionalServiceCnt)) {
             return false;
         }
-        if (Double.doubleToLongBits(this._medicalServiceAmount) != Double.doubleToLongBits(other._medicalServiceAmount)) {
+        if (this._medicalServiceAmount != other._medicalServiceAmount) {
             return false;
         }
-        if (Double.doubleToLongBits(this._nursingServiceAmount) != Double.doubleToLongBits(other._nursingServiceAmount)) {
+        if (this._nursingServiceAmount != other._nursingServiceAmount) {
             return false;
         }
-        if (Double.doubleToLongBits(this._functionalServiceAmount) != Double.doubleToLongBits(other._functionalServiceAmount)) {
+        if (this._functionalServiceAmount != other._functionalServiceAmount) {
             return false;
         }
-        if (Double.doubleToLongBits(this._overheadsMedicine) != Double.doubleToLongBits(other._overheadsMedicine)) {
+        if (this._overheadsMedicine != other._overheadsMedicine) {
             return false;
         }
-        if (Double.doubleToLongBits(this._overheadsMedicalGoods) != Double.doubleToLongBits(other._overheadsMedicalGoods)) {
+        if (this._overheadsMedicalGoods != other._overheadsMedicalGoods) {
             return false;
         }
-        if (Double.doubleToLongBits(this._medicalInfrastructureCost) != Double.doubleToLongBits(other._medicalInfrastructureCost)) {
+        if (this._medicalInfrastructureCost != other._medicalInfrastructureCost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._nonMedicalInfrastructureCost) != Double.doubleToLongBits(other._nonMedicalInfrastructureCost)) {
+        if (this._nonMedicalInfrastructureCost != other._nonMedicalInfrastructureCost) {
             return false;
         }
         if (this._baseInformationId != other._baseInformationId) {

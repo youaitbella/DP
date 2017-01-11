@@ -197,10 +197,10 @@ public class KGLListCentralFocus implements Serializable {
         hash = 41 * hash + this._baseInformationID;
         hash = 41 * hash + Objects.hashCode(this._text);
         hash = 41 * hash + this._caseCnt;
-        hash = 41 * hash + (int) (Double.doubleToLongBits(this._personalCost) ^ (Double.doubleToLongBits(this._personalCost) >>> 32));
-        hash = 41 * hash + (int) (Double.doubleToLongBits(this._materialcost) ^ (Double.doubleToLongBits(this._materialcost) >>> 32));
-        hash = 41 * hash + (int) (Double.doubleToLongBits(this._infraCost) ^ (Double.doubleToLongBits(this._infraCost) >>> 32));
-        hash = 41 * hash + (int) (Double.doubleToLongBits(this._remunerationAmount) ^ (Double.doubleToLongBits(this._remunerationAmount) >>> 32));
+        hash = 41 * hash + this._personalCost;
+        hash = 41 * hash + this._materialcost;
+        hash = 41 * hash + this._infraCost;
+        hash = 41 * hash + this._remunerationAmount;
         hash = 41 * hash + Objects.hashCode(this._remunerationKey);
         return hash;
     }
@@ -229,16 +229,16 @@ public class KGLListCentralFocus implements Serializable {
         if (this._caseCnt != other._caseCnt) {
             return false;
         }
-        if (Double.doubleToLongBits(this._personalCost) != Double.doubleToLongBits(other._personalCost)) {
+        if (this._personalCost != other._personalCost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._materialcost) != Double.doubleToLongBits(other._materialcost)) {
+        if (this._materialcost != other._materialcost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._infraCost) != Double.doubleToLongBits(other._infraCost)) {
+        if (this._infraCost != other._infraCost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._remunerationAmount) != Double.doubleToLongBits(other._remunerationAmount)) {
+        if (this._remunerationAmount != other._remunerationAmount) {
             return false;
         }
         if (!Objects.equals(this._text, other._text)) {
