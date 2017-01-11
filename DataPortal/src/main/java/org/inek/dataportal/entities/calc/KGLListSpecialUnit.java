@@ -96,14 +96,14 @@ public class KGLListSpecialUnit implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "suCost")
-    private double _cost;
+    private int _cost;
 
 
-    public double getCost() {
+    public int getCost() {
         return _cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(int cost) {
         this._cost = cost;
     }
     //</editor-fold>
@@ -115,7 +115,7 @@ public class KGLListSpecialUnit implements Serializable {
         this._id = suID;
     }
 
-    public KGLListSpecialUnit(int suID, int baseInformationId, String suType, int suCaseCnt, double suCost) {
+    public KGLListSpecialUnit(int suID, int baseInformationId, String suType, int suCaseCnt, int suCost) {
         this._id = suID;
         this._baseInformationId = baseInformationId;
         this._type = suType;
@@ -134,7 +134,7 @@ public class KGLListSpecialUnit implements Serializable {
         hash = 97 * hash + this._baseInformationId;
         hash = 97 * hash + Objects.hashCode(this._type);
         hash = 97 * hash + this._caseCnt;
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this._cost) ^ (Double.doubleToLongBits(this._cost) >>> 32));
+        hash = 97 * hash + this._cost;
         return hash;
     }
     
@@ -162,7 +162,7 @@ public class KGLListSpecialUnit implements Serializable {
         if (this._caseCnt != other._caseCnt) {
             return false;
         }
-        if (Double.doubleToLongBits(this._cost) != Double.doubleToLongBits(other._cost)) {
+        if (this._cost != other._cost) {
             return false;
         }
         if (!Objects.equals(this._type, other._type)) {
