@@ -967,8 +967,6 @@ public class DrgCalcBasics implements Serializable {
         this._normalFreelancers = normalFreelancers;
     }
     //</editor-fold>
-    
-    
 
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
