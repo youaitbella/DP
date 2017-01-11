@@ -15,8 +15,18 @@
                  value="#{editCalcBasicsDrg.calcBasics.serviceProvisions}" 
                  var ="item"
                  width="100%"
-                 columnClasses="col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number"
+                 columnClasses="colIcon, col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number"
                  rowClasses="row1, row2">
+
+        <h:column id="colDeleteId">
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{editCalcBasicsDrg.deleteServiceProvision(item)}" immediate="true" rendered="#{item.serviceProvisionType.firstYear eq 1900 and !editCalcBasicsDrg.readOnly}">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
 
         <h:column>
             <f:facet name="header">Bereich</f:facet>

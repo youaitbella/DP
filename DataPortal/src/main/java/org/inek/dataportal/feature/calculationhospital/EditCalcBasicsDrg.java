@@ -486,7 +486,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
-    // todo: move into entity
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;
 
@@ -517,6 +516,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public String priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeID() == current.getServiceProvisionTypeID()).findAny();
         if (prior.isPresent()) {
@@ -524,7 +524,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return "";
     }
-
+    
     public void addServiceProvision() {
         int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getSequence()).max().orElse(0);
         KGLListServiceProvision data = new KGLListServiceProvision();
@@ -533,7 +533,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         data.setSequence(++seq);
         _calcBasics.getServiceProvisions().add(data);
     }
-
+    
+    public void deleteServiceProvision (KGLListServiceProvision item){
+        _calcBasics.getServiceProvisions().remove(item);
+    }
+//</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
     public String downloadDocument(String name) {
         Document document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
