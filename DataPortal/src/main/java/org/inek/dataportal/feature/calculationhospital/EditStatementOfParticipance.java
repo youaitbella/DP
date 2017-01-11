@@ -122,6 +122,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         statement.setId(-1);
         statement.setIk(ik);
         statement.setStatus(WorkflowStatus.New);
+        statement.setDataYear(year);
         return statement;
     }
 

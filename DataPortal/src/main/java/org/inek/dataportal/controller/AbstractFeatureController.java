@@ -84,7 +84,4 @@ public abstract class AbstractFeatureController implements IFeatureController, S
     @Override
     public abstract Feature getFeature();
 
-    public <T> T findBean(String beanName) {
-        return (T) _facesContext.getApplication().evaluateExpressionGet(_facesContext, "#{" + beanName + "}", Object.class);
-    }
 }

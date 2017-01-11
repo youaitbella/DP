@@ -158,13 +158,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private BigDecimal _sumCalcCost = new BigDecimal(0);
+    private int _sumCalcCost;
 
-    public BigDecimal getSumCalcCost() {
+    public int getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(BigDecimal sumCalcCost) {
+    public void setSumCalcCost(int sumCalcCost) {
         this._sumCalcCost = sumCalcCost;
     }
     //</editor-fold>
@@ -967,8 +967,6 @@ public class DrgCalcBasics implements Serializable {
         this._normalFreelancers = normalFreelancers;
     }
     //</editor-fold>
-    
-    
 
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -1113,13 +1111,13 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "suBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListLocation> _specialUnits = new Vector<>();
+    private List<KGLListSpecialUnit> _specialUnits = new Vector<>();
 
-    public List<KGLListLocation> getSpecialUnits() {
+    public List<KGLListSpecialUnit> getSpecialUnits() {
         return _specialUnits;
     }
 
-    public void setSpecialUnits(List<KGLListLocation> specialUnits) {
+    public void setSpecialUnits(List<KGLListSpecialUnit> specialUnits) {
         this._specialUnits = specialUnits;
     }
     //</editor-fold>
