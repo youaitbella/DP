@@ -1,6 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To changeData this license header, choose License Headers in Project Properties.
+ * To changeData this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package org.inek.dataportal.feature.calculationhospital;
@@ -228,6 +228,17 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return "";
     }
 
+    /**
+     * 
+     */
+    public void changeData(){
+                if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsSendEnabled)) {
+            return;
+        }
+
+        
+    }
+    
     private boolean statementIsComplete() {
         MessageContainer message = composeMissingFieldsMessage(_statement);
         if (message.containsMessage()) {
