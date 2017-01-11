@@ -105,7 +105,7 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Column(name = "dfInfraCost")
-    private BigDecimal _infraCost;
+    private BigDecimal _infraCost = new BigDecimal(0);
 
     public BigDecimal getInfraCost() {
         return _infraCost;

@@ -247,13 +247,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         if (result.isEmpty()) {
-            result.add(new KGLListEndoscopyDifferential());
+        KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
+        item.setBaseInformationId(_calcBasics.getId());
+            result.add(item);
         }
         return result;
     }
     
     public List<KGLListEndoscopyDifferential> addEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
+        KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
+        item.setBaseInformationId(_calcBasics.getId());
         result.add(new KGLListEndoscopyDifferential());
         return result;
     }

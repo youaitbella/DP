@@ -158,7 +158,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private BigDecimal _sumCalcCost;
+    private BigDecimal _sumCalcCost = new BigDecimal(0);
 
     public BigDecimal getSumCalcCost() {
         return _sumCalcCost;
@@ -1065,7 +1065,63 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsAlternatives = pkmsAlternatives;
     }
     //</editor-fold>
-                
+              
+    // <editor-fold defaultstate="collapsed" desc="Property Documents">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
+    private List<KGLDocument> _documents = new Vector<>();
+
+    public List<KGLDocument> getDocuments() {
+        return _documents;
+    }
+
+    public void setDocuments(List<KGLDocument> documents) {
+        _documents = documents;
+    }
+    // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List centralFocuses">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cfBaseInformationID", referencedColumnName = "biID")
+    private List<KGLListCentralFocus> _centralFocuses = new Vector<>();
+
+    public List<KGLListCentralFocus> getCentralFocuses() {
+        return _centralFocuses;
+    }
+
+    public void setCentralFocuses(List<KGLListCentralFocus> centralFocuses) {
+        this._centralFocuses = centralFocuses;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property List locations">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
+    private List<KGLListLocation> _locations = new Vector<>();
+
+    public List<KGLListLocation> getLocations() {
+        return _locations;
+    }
+
+    public void setLocations(List<KGLListLocation> locations) {
+        this._locations = locations;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "suBaseInformationID", referencedColumnName = "biID")
+    private List<KGLListLocation> _specialUnits = new Vector<>();
+
+    public List<KGLListLocation> getSpecialUnits() {
+        return _specialUnits;
+    }
+
+    public void setSpecialUnits(List<KGLListLocation> specialUnits) {
+        this._specialUnits = specialUnits;
+    }
+    //</editor-fold>
+    
     @Override
     public int hashCode() {
         return _id;
