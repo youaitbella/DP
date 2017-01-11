@@ -158,13 +158,13 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    private BigDecimal _sumCalcCost = new BigDecimal(0);
+    private int _sumCalcCost;
 
-    public BigDecimal getSumCalcCost() {
+    public int getSumCalcCost() {
         return _sumCalcCost;
     }
 
-    public void setSumCalcCost(BigDecimal sumCalcCost) {
+    public void setSumCalcCost(int sumCalcCost) {
         this._sumCalcCost = sumCalcCost;
     }
     //</editor-fold>

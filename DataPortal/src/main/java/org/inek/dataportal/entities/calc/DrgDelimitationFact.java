@@ -79,39 +79,39 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property personalCost">
     @Column(name = "dfPersonalCost")
-    private BigDecimal _personalCost;
+    private int _personalCost;
 
-    public BigDecimal getPersonalCost() {
+    public int getPersonalCost() {
         return _personalCost;
     }
 
-    public void setPersonalCost(BigDecimal personalCost) {
+    public void setPersonalCost(int personalCost) {
         this._personalCost = personalCost;
     }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property materialCost">
     @Column(name = "dfMaterialCost")
-    private BigDecimal _materialCost;
+    private int _materialCost;
 
-    public BigDecimal getMaterialCost() {
+    public int getMaterialCost() {
         return _materialCost;
     }
 
-    public void setMaterialCost(BigDecimal materialCost) {
+    public void setMaterialCost(int materialCost) {
         this._materialCost = materialCost;
     }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Column(name = "dfInfraCost")
-    private BigDecimal _infraCost = new BigDecimal(0);
+    private int _infraCost;
 
-    public BigDecimal getInfraCost() {
+    public int getInfraCost() {
         return _infraCost;
     }
 
-    public void setInfraCost(BigDecimal infraCost) {
+    public void setInfraCost(int infraCost) {
         this._infraCost = infraCost;
     }
     // </editor-fold>
@@ -137,9 +137,9 @@ public class DrgDelimitationFact implements Serializable {
         hash = 79 * hash + this._baseInformationId;
         hash = 79 * hash + this._contentTextId;
         hash = 79 * hash + (this._used ? 1 : 0);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._personalCost.doubleValue()) ^ (Double.doubleToLongBits(this._personalCost.doubleValue()) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._materialCost.doubleValue()) ^ (Double.doubleToLongBits(this._materialCost.doubleValue()) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._infraCost.doubleValue()) ^ (Double.doubleToLongBits(this._infraCost.doubleValue()) >>> 32));
+        hash = 79 * hash + (int) (this._personalCost ^ this._personalCost >>> 31);
+        hash = 79 * hash + (int) (this._materialCost ^ this._materialCost >>> 31);
+        hash = 79 * hash + (int) (this._infraCost ^ this._infraCost >>> 31);
         return hash;
     }
     
@@ -167,13 +167,13 @@ public class DrgDelimitationFact implements Serializable {
         if (this._used != other._used) {
             return false;
         }
-        if (Double.doubleToLongBits(this._personalCost.doubleValue()) != Double.doubleToLongBits(other._personalCost.doubleValue())) {
+        if (this._personalCost != other._personalCost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._materialCost.doubleValue()) != Double.doubleToLongBits(other._materialCost.doubleValue())) {
+        if (this._materialCost != other._materialCost) {
             return false;
         }
-        if (Double.doubleToLongBits(this._infraCost.doubleValue()) != Double.doubleToLongBits(other._infraCost.doubleValue())) {
+        if (this._infraCost != other._infraCost) {
             return false;
         }
         return true;
