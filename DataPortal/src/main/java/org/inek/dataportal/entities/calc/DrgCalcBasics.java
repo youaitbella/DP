@@ -1111,13 +1111,13 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "suBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListLocation> _specialUnits = new Vector<>();
+    private List<KGLListSpecialUnit> _specialUnits = new Vector<>();
 
-    public List<KGLListLocation> getSpecialUnits() {
+    public List<KGLListSpecialUnit> getSpecialUnits() {
         return _specialUnits;
     }
 
-    public void setSpecialUnits(List<KGLListLocation> specialUnits) {
+    public void setSpecialUnits(List<KGLListSpecialUnit> specialUnits) {
         this._specialUnits = specialUnits;
     }
     //</editor-fold>

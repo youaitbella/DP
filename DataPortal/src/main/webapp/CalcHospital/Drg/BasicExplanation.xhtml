@@ -223,7 +223,7 @@
     </div>
 
     <h:dataTable  headerClass="list-header" id="special"
-                  value="" var="item" width="70%" rowClasses="row1, row2" 
+                  value="#{editCalcBasicsDrg.calcBasics.specialUnits}" var="item" width="70%" rowClasses="row1, row2" 
                   columnClasses="colIcon, col03, col03, col03"
                   rendered="true"
                   >
@@ -232,9 +232,9 @@
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink immediate="true" styleClass="colIcon">
+            <h:commandLink styleClass="colIcon">
                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <cb:confirmDelete/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteSpecialUnit(item)}"/>
             </h:commandLink>
         </h:column>
 
@@ -242,7 +242,7 @@
             <f:facet name="header">
                 <h:outputText value="Art der BE"/><br/>
             </f:facet>
-            <h:inputText value="" styleClass="inputwide" required="true">
+            <h:inputText value="#{item.type}" styleClass="inputwide" required="true">
                 <f:ajax render="@form :logout:remaining"/>
             </h:inputText>
         </h:column>
@@ -251,7 +251,7 @@
             <f:facet name="header">
                 <h:outputText value="Fallzahl"/>
             </f:facet>
-            <h:inputText value="" styleClass="inputwide" required="true">
+            <h:inputText value="#{item.caseCnt}" styleClass="inputwide" required="true">
                 <f:ajax render="@form :logout:remaining"/>
             </h:inputText>
         </h:column>
@@ -260,7 +260,7 @@
             <f:facet name="header">
                 <h:outputText value="Kostenvolumen"/>
             </f:facet>
-            <h:inputText value="" styleClass="inputwide" required="true">
+            <h:inputText value="#{item.cost}" styleClass="inputwide" required="true">
                 <f:ajax render="@form :logout:remaining"/>
             </h:inputText>
         </h:column>
@@ -268,7 +268,7 @@
     </h:dataTable>
 
     <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining"/>
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addSpecialUnit()}"/>
     </h:commandLink>
 
     <h2>Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG</h2>

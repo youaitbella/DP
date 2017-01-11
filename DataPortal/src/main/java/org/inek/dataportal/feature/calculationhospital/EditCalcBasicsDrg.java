@@ -47,6 +47,7 @@ import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -253,6 +254,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public void deleteLocation(KGLListLocation loc) {
         _calcBasics.getLocations().remove(loc);
+    }
+    
+    public void addSpecialUnit() {
+        KGLListSpecialUnit su = new KGLListSpecialUnit();
+        su.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getSpecialUnits().add(su);
+    }
+    
+    public void deleteSpecialUnit(KGLListSpecialUnit su) {
+        _calcBasics.getSpecialUnits().remove(su);
     }
 
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
