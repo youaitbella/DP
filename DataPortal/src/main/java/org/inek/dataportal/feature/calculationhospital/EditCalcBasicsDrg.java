@@ -42,6 +42,7 @@ import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
@@ -264,6 +265,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public void deleteSpecialUnit(KGLListSpecialUnit su) {
         _calcBasics.getSpecialUnits().remove(su);
+    }
+    
+    public void addCentralFocus() {
+        KGLListCentralFocus cf = new KGLListCentralFocus();
+        cf.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getCentralFocuses().add(cf);
+    }
+    
+    public void deleteCentralFocus(KGLListCentralFocus cf) {
+        _calcBasics.getCentralFocuses().remove(cf);
     }
 
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
