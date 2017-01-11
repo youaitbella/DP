@@ -79,13 +79,13 @@ public class KGLNormalFeeContract implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfcCaseCnt")
-    private double _caseCnt;
+    private int _caseCnt;
 
-    public double getCaseCnt() {
+    public int getCaseCnt() {
         return _caseCnt;
     }
 
-    public void setCaseCnt(double caseCnt) {
+    public void setCaseCnt(int caseCnt) {
         this._caseCnt = caseCnt;
     }
     //</editor-fold>
@@ -94,13 +94,13 @@ public class KGLNormalFeeContract implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "nfcAmount")
-    private double _amount;
+    private int _amount;
 
-    public double getAmount() {
+    public int getAmount() {
         return _amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this._amount = amount;
     }
     //</editor-fold>
@@ -129,7 +129,7 @@ public class KGLNormalFeeContract implements Serializable {
         this._id = nfcID;
     }
 
-    public KGLNormalFeeContract(Integer nfcID, String nfcDivision, String nfcDepartmentKey, double nfcCaseCnt, double nfcAmount) {
+    public KGLNormalFeeContract(Integer nfcID, String nfcDivision, String nfcDepartmentKey, int nfcCaseCnt, int nfcAmount) {
         this._id = nfcID;
         this._division = nfcDivision;
         this._departmentKey = nfcDepartmentKey;
@@ -147,8 +147,8 @@ public class KGLNormalFeeContract implements Serializable {
         }
         hash = 31 * hash + Objects.hashCode(this._division);
         hash = 31 * hash + Objects.hashCode(this._departmentKey);
-        hash = 31 * hash + (int) (Double.doubleToLongBits(this._caseCnt) ^ (Double.doubleToLongBits(this._caseCnt) >>> 32));
-        hash = 31 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
+        hash = 31 * hash + this._caseCnt;
+        hash = 31 * hash + this._amount;
         hash = 31 * hash + this._baseInformationID;
         return hash;
     }
@@ -171,10 +171,10 @@ public class KGLNormalFeeContract implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (Double.doubleToLongBits(this._caseCnt) != Double.doubleToLongBits(other._caseCnt)) {
+        if (this._caseCnt != other._caseCnt) {
             return false;
         }
-        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
+        if (this._amount != other._amount) {
             return false;
         }
         if (this._baseInformationID != other._baseInformationID) {
