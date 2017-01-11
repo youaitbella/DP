@@ -72,6 +72,38 @@
                                  renderElement=":logout:remaining">
         </inek:BooleanRadioButton>
 
+                <div>
+            <br/>
+            #{msg.lblDocumentsOnline}
+            <br/>
+            <br/>
+        </div>
+        <div class="inputPart">
+            <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.documents.size() > 0}">
+                <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
+                <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+                              value="#{editCalcBasicsDrg.calcBasics.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                    <h:column id="colDeleteId" rendered="#{editCalcBasicsDrg.calcBasics.status.value lt 10}">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink action="#{editCalcBasicsDrg.deleteDocument(file.name)}" immediate="true" >
+                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                            <cb:confirmDelete/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column id="colName">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblName}"/>
+                        </f:facet>
+                        <h:commandLink id="filename" value="#{file.name}" action="#{editCalcBasicsDrg.downloadDocument(file.name)}" immediate="true" />
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+
+        </div>
+
+        
         <div class="inputPart" jsf:rendered = "#{editCalcBasicsDrg.calcBasics.status.value ge 0 and editCalcBasicsDrg.calcBasics.status.value lt 5}">
             <div id="file-uploader">
                 <script>
