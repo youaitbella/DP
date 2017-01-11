@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -35,22 +34,21 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.DrgCalcBasics_;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
+import org.inek.dataportal.entities.calc.KGLDocument;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
-import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
-import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -229,16 +227,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _calcBasics.getDelimitationFacts();
     }
-    
+
     public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
-        for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
-            if(df.getContentTextId() == contentTextId) {
+        for (DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+            if (df.getContentTextId() == contentTextId) {
                 return df;
             }
         }
         return new DrgDelimitationFact();
     }
-    
+
     public List<String> getDelimitationFactsSubTitles() {
         List<String> tmp = new ArrayList<>();
         tmp.add("Personalkosten");
@@ -280,13 +278,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         if (result.isEmpty()) {
-        KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
-        item.setBaseInformationId(_calcBasics.getId());
+            KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
+            item.setBaseInformationId(_calcBasics.getId());
             result.add(item);
         }
         return result;
     }
-    
+
     public List<KGLListEndoscopyDifferential> addEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
@@ -294,11 +292,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.add(new KGLListEndoscopyDifferential());
         return result;
     }
-    
+
     public void deleteEndoscopyDifferential(KGLListEndoscopyDifferential differential) {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         result.remove(differential);
     }
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public DrgCalcBasics getCalcBasics() {
         return _calcBasics;
@@ -368,7 +367,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void exportTest() throws IOException {
         createTransferFile(_calcBasics);
     }
-    
+
     private void createTransferFile(DrgCalcBasics calcBasics) {
         File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
         File file;
@@ -377,7 +376,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             ts = Calendar.getInstance().getTime();
             file = new File(dir, "Transfer" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".txt");
         } while (file.exists());
-        
+
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
             if (_sessionController.getAccount().isReportViaPortal()) {
                 pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
@@ -397,7 +396,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } finally {
         }
     }
-    
 
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
@@ -485,7 +483,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // todo: move into entity
-
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     List<SelectItem> _iks;
 
@@ -533,6 +530,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getServiceProvisions().add(data);
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Tab MVI">
+    public String downloadDocument(String name) {
+        Document document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
+        if (document != null) {
+            return Utils.downloadDocument(document);
+        }
+        return "";
+    }
+    
+    public String deleteDocument(String name) {
+        KGLDocument document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
+        if (document != null) {
+            _calcBasics.getDocuments().remove(document);
+        }
+        return null;
+    }
+    //</editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<DrgHeaderText> getHeaders() {
         return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
@@ -570,7 +585,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>    
 
     public String calcPercentualDiff(int priorValue, int currentValue) {
-        if(priorValue == 0) {
+        if (priorValue == 0) {
             return "";
         }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
