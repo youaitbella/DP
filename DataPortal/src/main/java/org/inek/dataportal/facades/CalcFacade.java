@@ -27,10 +27,13 @@ import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -223,16 +226,22 @@ public class CalcFacade extends AbstractDataAccess {
             KGLOpAn opAn = calcBasics.getOpAn();
             calcBasics.setOpAn(null); // can not persist otherwise :(
             persist(calcBasics);
+            saveLocations(calcBasics);
+            saveSpecialUnits(calcBasics);
+            saveCentralFocus(calcBasics);
             opAn.setBaseInformationID(calcBasics.getId());
             persist(opAn);
             calcBasics.setOpAn(opAn);
             return calcBasics;
         }
-
+        
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
         saveTopItems(calcBasics);
         saveServiceProvisions(calcBasics);
         saveEndoscopyDifferentials(calcBasics);
+        saveLocations(calcBasics);
+        saveSpecialUnits(calcBasics);
+        saveCentralFocus(calcBasics);
         return merge(calcBasics);
     }
 
@@ -276,6 +285,40 @@ public class CalcFacade extends AbstractDataAccess {
                 persist(item);
             } else {
                 merge(item);
+            }
+        }
+    }
+    
+    private void saveLocations(DrgCalcBasics calcBasics) {
+        for(KGLListLocation loc : calcBasics.getLocations()) {
+            if(loc.getId() == -1) {
+                loc.setBaseInformationId(calcBasics.getId());
+                persist(loc);
+            }
+            else {
+                merge(loc);
+            }
+        }
+    }
+    
+    private void saveSpecialUnits(DrgCalcBasics calcBasics) {
+        for(KGLListSpecialUnit su : calcBasics.getSpecialUnits()) {
+            if(su.getId() == -1) {
+                su.setBaseInformationId(calcBasics.getId());
+                persist(su);
+            } else {
+                merge(su);
+            }
+        }
+    }
+    
+    private void saveCentralFocus(DrgCalcBasics calcBasics) {
+        for(KGLListCentralFocus cf : calcBasics.getCentralFocuses()) {
+            if(cf.getId() == -1) {
+                cf.setBaseInformationID(calcBasics.getId());
+                persist(cf);
+            } else {
+                merge(cf);
             }
         }
     }

@@ -26,7 +26,7 @@
         <h:dataTable value="#{cc.attrs.value}" 
                      var="contact" 
                      width="100%" rowClasses="row1, row2" 
-                     columnClasses="colIcon, volValue, col04em, col04em, volValue, colValue, colValue">
+                     columnClasses="colIcon, col04em, col04em, volValue, colValue, colValue, volValue">
 
             <h:column>
                 <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" 
@@ -35,13 +35,6 @@
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <cb:confirmDelete/>
                 </h:commandLink>
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">#{msg.lblMail}</f:facet>
-                <inek:InputTextWithMessage id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth">
-                    <f:validator validatorId="EmailValidator" for="contactMail"/>
-                </inek:InputTextWithMessage>
             </h:column>
 
             <h:column>
@@ -74,6 +67,13 @@
             <h:column>
                 <f:facet name="header">#{msg.lblPhone}</f:facet>
                 <inek:InputTextWithMessage value="#{contact.phone}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">#{msg.lblMail}</f:facet>
+                <inek:InputTextWithMessage id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth">
+                    <f:validator validatorId="EmailValidator" for="contactMail"/>
+                </inek:InputTextWithMessage>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">

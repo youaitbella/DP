@@ -56,6 +56,14 @@
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
+                                   action="#{editStatementOfParticipance.changeData}"
+                                   value="#{msg.btnChangeData}"
+                                   immediate="true"
+                                   rendered="#{editStatementOfParticipance.statement.statusId ge 10 and applicationTools.isEnabled('IsCalationBasicsSendEnabled')}">
+                        <cb:confirmChangeData/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editStatementOfParticipance.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"

@@ -41,6 +41,13 @@
     </tag>
 
     <tag>
+        <tag-name>confirmChangeData</tag-name>
+        <behavior>
+            <behavior-id>confirmChangeData</behavior-id>
+        </behavior>
+    </tag>
+
+    <tag>
         <tag-name>confirmRequestApproval</tag-name>
         <behavior>
             <behavior-id>confirmRequestApproval</behavior-id>
