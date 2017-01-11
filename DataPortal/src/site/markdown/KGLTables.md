@@ -116,7 +116,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Kosten pro Leistung||rsServiceCost|
 |||Fallzahl stationär||rsCaseCntStationary|
 |||Fallzahl ambulant||rsCaseCntAmbulant|
-|||abgegr. Kostenvolumen ambulant||rsAbulantAmount|
+|||abgegr. Kostenvolumen ambulant||rsAmbulantAmount|
 |Leistungsdokumentation(Radiologie + Laboratorien)|||KGLListRadiologyLaboratory||
 |||Kostenartengruppe||rlCostTypeID|
 |||Kostenstelle||rlCostCenterID|
