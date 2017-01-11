@@ -115,10 +115,10 @@ public class SessionController implements Serializable {
             throw new NotLoggedInException();
         }
     }
-    
+
     public boolean isHospital() {
         CustomerType type = _typeFacade.find(_account.getCustomerTypeId());
-         return type.isHospital() || isInekUser(Feature.ADMIN);
+        return type.isHospital() || isInekUser(Feature.ADMIN);
     }
 
     public boolean isLoggedIn() {
@@ -655,4 +655,10 @@ public class SessionController implements Serializable {
     public boolean isTermsOfUseAccepted(String name) {
         return _acceptedTerms.contains(name);
     }
+
+    public <T> T findBean(String beanName) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        return (T) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class);
+    }
+
 }
