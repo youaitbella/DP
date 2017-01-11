@@ -103,13 +103,13 @@ public class KGLListMedInfra implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
-    private double _amount;
+    private int _amount;
 
-    public double getAmount() {
+    public int getAmount() {
         return _amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this._amount = amount;
     }
     //</editor-fold>
@@ -137,7 +137,7 @@ public class KGLListMedInfra implements Serializable {
         this._id = miID;
     }
 
-    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, double miAmount) {
+    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, int miAmount) {
         this._id = miID;
         this._costTypeID = miCostTypeID;
         this._costCenter = miCostCenter;
