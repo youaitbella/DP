@@ -1095,6 +1095,20 @@ public class DrgCalcBasics implements Serializable {
         this._centralFocuses = centralFocuses;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property List locations">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cfBaseInformationID", referencedColumnName = "biID")
+    private List<KGLListLocation> _locations = new Vector<>();
+
+    public List<KGLListLocation> getLocations() {
+        return _locations;
+    }
+
+    public void setLocations(List<KGLListLocation> locations) {
+        this._locations = locations;
+    }
+    //</editor-fold>
     
     @Override
     public int hashCode() {

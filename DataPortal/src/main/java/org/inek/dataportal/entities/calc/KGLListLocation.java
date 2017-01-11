@@ -44,6 +44,22 @@ public class KGLListLocation implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="id">
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "lBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="location">
     @Basic(optional = false)
     @NotNull
@@ -82,8 +98,9 @@ public class KGLListLocation implements Serializable {
         this._id = lID;
     }
 
-    public KGLListLocation(Integer lID, String lLocation, short lLocationNo) {
+    public KGLListLocation(Integer lID, int baseInformationId, String lLocation, short lLocationNo) {
         this._id = lID;
+        this._baseInformationId = baseInformationId;
         this._location = lLocation;
         this._locationNo = lLocationNo;
     }
@@ -96,6 +113,7 @@ public class KGLListLocation implements Serializable {
         if (this._id != -1) {
             return hash;
         }
+        hash = 13 * hash + this._baseInformationId;
         hash = 13 * hash + Objects.hashCode(this._location);
         hash = 13 * hash + this._locationNo;
         return hash;
@@ -115,6 +133,9 @@ public class KGLListLocation implements Serializable {
         final KGLListLocation other = (KGLListLocation) obj;
         if (this._id != -1 && this._id == other._id) {
             return true;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
         }
         if (this._id != other._id) {
             return false;
