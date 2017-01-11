@@ -177,6 +177,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |Normalstation|Kosten KstGr 1||KGLListCostCenterCost||
 |||Nummer der Kostenstelle||cccCostCenter|
 |||Name der Kostenstelle||cccCostCenterText|
+|||Zugeordnete Kostenstellengruppe||cccCostTypeID|
 |||FAB Schlüssel 301||cccDepartmentKey|
 |||Belegung: FAB||cccDepartmentAssignment|
 |||Bettenzahl||cccBedCnt|
