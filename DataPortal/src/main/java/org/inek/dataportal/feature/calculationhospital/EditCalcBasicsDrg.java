@@ -44,6 +44,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLOpAn;
@@ -242,6 +243,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         tmp.add("Sachkosten");
         tmp.add("Infrastrukturkosten");
         return tmp;
+    }
+    
+    public void addLocation() {
+        KGLListLocation loc = new KGLListLocation();
+        loc.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getLocations().add(loc);
+    }
+    
+    public void deleteLocation(KGLListLocation loc) {
+        _calcBasics.getLocations().remove(loc);
     }
 
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
