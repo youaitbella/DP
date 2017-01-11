@@ -27,7 +27,7 @@ public class DrgDelimitationFact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dfId")
-    private int _id = -1;
+    private int _id;
 
     public int getId() {
         return _id;

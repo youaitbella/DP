@@ -110,7 +110,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
-
+        
+        // Locations
+        calcBasics.setLocations(_priorCalcBasics.getLocations());
+        
+        // Special units
+        calcBasics.setSpecialUnits(_priorCalcBasics.getSpecialUnits());
+        
+        // Central focuses
+        calcBasics.setCentralFocuses(_priorCalcBasics.getCentralFocuses());
+        
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
