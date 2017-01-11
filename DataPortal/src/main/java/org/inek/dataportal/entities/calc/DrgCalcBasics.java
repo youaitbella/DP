@@ -1110,6 +1110,20 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "suBaseInformationID", referencedColumnName = "biID")
+    private List<KGLListLocation> _specialUnits = new Vector<>();
+
+    public List<KGLListLocation> getSpecialUnits() {
+        return _specialUnits;
+    }
+
+    public void setSpecialUnits(List<KGLListLocation> specialUnits) {
+        this._specialUnits = specialUnits;
+    }
+    //</editor-fold>
+    
     @Override
     public int hashCode() {
         return _id;

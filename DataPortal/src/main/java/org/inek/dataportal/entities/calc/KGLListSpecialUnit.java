@@ -42,6 +42,22 @@ public class KGLListSpecialUnit implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "suBaseInformationID")
+    private int _baseInformationId = -1;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="type">
     @Basic(optional = false)
     @NotNull
@@ -96,8 +112,9 @@ public class KGLListSpecialUnit implements Serializable {
         this._id = suID;
     }
 
-    public KGLListSpecialUnit(int suID, String suType, int suCaseCnt, double suCost) {
+    public KGLListSpecialUnit(int suID, int baseInformationId, String suType, int suCaseCnt, double suCost) {
         this._id = suID;
+        this._baseInformationId = baseInformationId;
         this._type = suType;
         this._caseCnt = suCaseCnt;
         this._cost = suCost;
@@ -111,6 +128,7 @@ public class KGLListSpecialUnit implements Serializable {
         if (this._id != -1) {
             return hash;
         }
+        hash = 97 * hash + this._baseInformationId;
         hash = 97 * hash + Objects.hashCode(this._type);
         hash = 97 * hash + this._caseCnt;
         hash = 97 * hash + (int) (Double.doubleToLongBits(this._cost) ^ (Double.doubleToLongBits(this._cost) >>> 32));
@@ -131,6 +149,9 @@ public class KGLListSpecialUnit implements Serializable {
         final KGLListSpecialUnit other = (KGLListSpecialUnit) obj;
         if (this._id != -1 && this._id == other._id) {
             return true;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
         }
         if (this._id != other._id) {
             return false;
