@@ -95,13 +95,13 @@ public class KGLListCentralFocus implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cfPersonalCost")
-    private double _personalCost;
+    private int _personalCost;
     
-    public double getPersonalCost() {
+    public int getPersonalCost() {
         return _personalCost;
     }
 
-    public void setPersonalCost(double personalCost) {
+    public void setPersonalCost(int personalCost) {
         this._personalCost = personalCost;
     }
     //</editor-fold>
@@ -110,13 +110,13 @@ public class KGLListCentralFocus implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cfMaterialcost")
-    private double _materialcost;
+    private int _materialcost;
     
-    public double getMaterialcost() {
+    public int getMaterialcost() {
         return _materialcost;
     }
 
-    public void setMaterialcost(double materialcost) {
+    public void setMaterialcost(int materialcost) {
         this._materialcost = materialcost;
     }
     //</editor-fold>
@@ -125,13 +125,13 @@ public class KGLListCentralFocus implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cfInfraCost")
-    private double _infraCost;
+    private int _infraCost;
     
-    public double getInfraCost() {
+    public int getInfraCost() {
         return _infraCost;
     }
 
-    public void setInfraCost(double infraCost) {
+    public void setInfraCost(int infraCost) {
         this._infraCost = infraCost;
     }
     //</editor-fold>
@@ -140,13 +140,13 @@ public class KGLListCentralFocus implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cfRemunerationAmount")
-    private double _remunerationAmount;
+    private int _remunerationAmount;
 
-    public double getRemunerationAmount() {
+    public int getRemunerationAmount() {
         return _remunerationAmount;
     }
 
-    public void setRemunerationAmount(double remunerationAmount) {
+    public void setRemunerationAmount(int remunerationAmount) {
         this._remunerationAmount = remunerationAmount;
     }
     //</editor-fold>
@@ -174,7 +174,7 @@ public class KGLListCentralFocus implements Serializable {
         this._id = cfID;
     }
 
-    public KGLListCentralFocus(int cfID, int baseInformationID, String cfText, int cfCaseCnt, double cfPersonalCost, double cfMaterialcost, double cfInfraCost, double cfRemunerationAmount, String cfRemunerationKey) {
+    public KGLListCentralFocus(int cfID, int baseInformationID, String cfText, int cfCaseCnt, int cfPersonalCost, int cfMaterialcost, int cfInfraCost, int cfRemunerationAmount, String cfRemunerationKey) {
         this._id = cfID;
         this._baseInformationID = baseInformationID;
         this._text = cfText;
