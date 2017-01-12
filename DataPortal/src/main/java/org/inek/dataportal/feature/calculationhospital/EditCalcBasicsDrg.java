@@ -45,6 +45,7 @@ import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
@@ -298,6 +299,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteCentralFocus(KGLListCentralFocus cf) {
         _calcBasics.getCentralFocuses().remove(cf);
+    }
+    
+    public void addLaboratory() {
+        KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
+        rl.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getRadiologyLaboratories().add(rl);
     }
 
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {

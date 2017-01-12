@@ -8,6 +8,76 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.radiologyLaboratories}" 
+                     var="item" 
+                     width="100%"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col03em number, col05em, col05em, col04em, col10em"
+                     styleClass="marginTop">
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteSpecialUnit(item)}"/>
+            </h:commandLink>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Nr. Kostenstelle"/>
+            </f:facet>
+            <h:inputText value="#{item.costCenterID}" >
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Name Kostenstelle"/><br/>
+                <h:outputLabel value="(aussagekräftiger Name)"/>
+            </f:facet>
+            <h:inputText value="#{item.costCenterText}" >
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Leistungsdokumentation"/>
+            </f:facet>
+            
+            <h:outputLabel value="Hauskatalog" for="serviceHome" />&nbsp;
+            <h:selectBooleanCheckbox id="serviceHome" value="#{item.serviceDocHome}"/> <br/>
+            
+            <h:outputLabel value="DKG-NT" for="serviceDocDKG" /> &nbsp;
+            <h:selectBooleanCheckbox id="serviceDocDKG" value="#{item.serviceDocDKG}"/> <br/>
+            
+            <h:outputLabel value="EBM" for="EBM" /> &nbsp;
+            <h:selectBooleanCheckbox id="EBM" value="#{item.serviceDocEBM}"/> <br/>
+            
+            <h:outputLabel value="GOÄ" for="serviceDocGOA" /> &nbsp;
+            <h:selectBooleanCheckbox id="serviceDocGOA" value="#{item.serviceDocGOA}"/><br/>
+            
+            <h:outputLabel value="Sonstige" for="serviceDocDif" /> &nbsp;
+            <h:selectBooleanCheckbox id="serviceDocDif" value="#{item.serviceDocDif}"/>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Beschreibung"/>
+            </f:facet>
+            <h:inputTextarea class="areaWideLow" value="#{item.description}" >
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputTextarea>
+        </h:column>
+    </h:dataTable>
+    
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addLaboratory()}"/>
+    </h:commandLink>
+    
 </ui:composition>
 
