@@ -68,8 +68,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         tabStatementOfParticipanceAddress,
         tabStatementOfParticipanceStatements
     }
-
     // </editor-fold>
+    
     @PostConstruct
     private void init() {
 
@@ -123,6 +123,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         statement.setIk(ik);
         statement.setStatus(WorkflowStatus.New);
         statement.setDataYear(year);
+        statement.setObligatory(_calcFacade.isObligateCalculation(ik, year));
         return statement;
     }
 
@@ -142,8 +143,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public List<CalcContact> getConsultants() {
         return _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
     }
-
     // </editor-fold>
+
     @Override
     protected void addTopics() {
         addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceAddress.name(), Pages.StatementOfParticipanceEditAddress.URL());

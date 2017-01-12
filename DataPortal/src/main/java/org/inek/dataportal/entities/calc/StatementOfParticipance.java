@@ -84,21 +84,6 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="hospitalName">
-    @NotNull
-    @Size(max = 150)
-    @Column(name = "sopHospitalName")
-    private String sopHospitalName = "";
-
-    public String getSopHospitalName() {
-        return sopHospitalName;
-    }
-
-    public void setSopHospitalName(String sopHospitalName) {
-        this.sopHospitalName = sopHospitalName;
-    }
-    //</editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "sopAccountId")
     private int _accountId;
@@ -438,7 +423,6 @@ public class StatementOfParticipance implements Serializable {
         }
         hash = 37 * hash + this._dataYear;
         hash = 37 * hash + this._ik;
-        hash = 37 * hash + Objects.hashCode(this.sopHospitalName);
         hash = 37 * hash + this._accountId;
         hash = 37 * hash + this._statusId;
         hash = 37 * hash + Objects.hashCode(this._lastChanged);
@@ -506,6 +490,9 @@ public class StatementOfParticipance implements Serializable {
         if (this._tpgCalc != other._tpgCalc) {
             return false;
         }
+        if (this._obdCalc != other._obdCalc) {
+            return false;
+        }
         if (this._clinicalDistributionModelDrg != other._clinicalDistributionModelDrg) {
             return false;
         }
@@ -528,9 +515,6 @@ public class StatementOfParticipance implements Serializable {
             return false;
         }
         if (this._consultantSendMail != other._consultantSendMail) {
-            return false;
-        }
-        if (!Objects.equals(this.sopHospitalName, other.sopHospitalName)) {
             return false;
         }
         if (!Objects.equals(this._multiyearDrg, other._multiyearDrg)) {

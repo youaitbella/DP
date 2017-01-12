@@ -40,34 +40,52 @@
 
         <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
 
-        <div class="inputPart">
-            <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
-                                     value="#{editStatementOfParticipance.statement.drgCalc}" 
-                                     renderElement="@all"
-                                     readonly="#{editStatementOfParticipance.readOnly}"/>
+        <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatory}">
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
+                                         value="#{editStatementOfParticipance.statement.drgCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
+            </div>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
+                                         value="#{editStatementOfParticipance.statement.psyCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
+            </div>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
+                                         value="#{editStatementOfParticipance.statement.invCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
+            </div>
+
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
+                                         value="#{editStatementOfParticipance.statement.tpgCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
+            </div>
         </div>
 
-        <div class="inputPart">
-            <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
-                                     value="#{editStatementOfParticipance.statement.psyCalc}" 
-                                     renderElement="@all"
-                                     readonly="#{editStatementOfParticipance.readOnly}"/>
-        </div>
+        <div jsf:rendered="#{editStatementOfParticipance.statement.obligatory}">
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="vereinfachte Kalkulation" 
+                                         value="#{editStatementOfParticipance.statement.drgCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
+            </div>
 
-        <div class="inputPart">
-            <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
-                                     value="#{editStatementOfParticipance.statement.invCalc}" 
-                                     renderElement="@all"
-                                     readonly="#{editStatementOfParticipance.readOnly}"/>
-        </div>
+            <div class="inputPart">
+                <inek:BooleanRadioButton label="Probekalkulation" 
+                                         value="#{editStatementOfParticipance.statement.psyCalc}" 
+                                         renderElement="@all"
+                                         readonly="#{editStatementOfParticipance.readOnly}"/>
+            </div>
 
-        <div class="inputPart">
-            <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
-                                     value="#{editStatementOfParticipance.statement.tpgCalc}" 
-                                     renderElement="@all"
-                                     readonly="#{editStatementOfParticipance.readOnly}"/>
         </div>
-
 
 
         <h2>#{msg.lblContactPerson}</h2>

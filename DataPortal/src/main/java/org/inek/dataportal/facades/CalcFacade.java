@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.NoResultException;
@@ -36,6 +37,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -59,7 +61,7 @@ public class CalcFacade extends AbstractDataAccess {
         query.setParameter("ik", ik);
         query.setParameter("year", year - 1);
         try {
-            StatementOfParticipance statement  = query.getSingleResult();
+            StatementOfParticipance statement = query.getSingleResult();
             getEntityManager().detach(statement);
             return statement;
         } catch (Exception ex) {
@@ -173,11 +175,13 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     /**
-     * Check, whether the customers assigned to the account iks have an agreement and the account is a well known contact (2)
-     * An IK is only available, if no SoP exists for the given year
+     * Check, whether the customers assigned to the account iks have an
+     * agreement and the account is a well known contact (2) An IK is only
+     * available, if no SoP exists for the given year
+     *
      * @param accountId
      * @param year
-     * @return 
+     * @return
      */
     public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
         String sql = "select distinct cuIK\n"
@@ -196,6 +200,19 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	and sopId is null";
         Query query = getEntityManager().createNativeQuery(sql);
         return new HashSet<>(query.getResultList());
+    }
+
+    public boolean isObligateCalculation(int ik, int year) {
+        String jpql = "select c from Customer c where c._ik = :ik";
+        TypedQuery<Customer> query = getEntityManager().createQuery(jpql, Customer.class);
+        query.setParameter("ik", ik);
+        try {
+            Customer customer = query.getSingleResult();
+            return customer.getObligateCalculationYear() > year - 5;
+        } catch (Exception ex) {
+            _logger.log(Level.WARNING, "isObligateCalculation - non unique ik {0}", ik);
+            return false;
+        }
     }
     // </editor-fold>
 
@@ -225,7 +242,7 @@ public class CalcFacade extends AbstractDataAccess {
             calcBasics.setOpAn(opAn);
             return calcBasics;
         }
-        
+
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
         saveTopItems(calcBasics);
         saveServiceProvisions(calcBasics);
@@ -279,30 +296,30 @@ public class CalcFacade extends AbstractDataAccess {
             }
         }
     }
-    
+
     private void saveLocations(DrgCalcBasics calcBasics) {
-        for(KGLListLocation loc : calcBasics.getLocations()) {
-            if(loc.getId() == -1) {
+        for (KGLListLocation loc : calcBasics.getLocations()) {
+            if (loc.getId() == -1) {
                 persist(loc);
             } else {
                 merge(loc);
             }
         }
     }
-    
+
     private void saveSpecialUnits(DrgCalcBasics calcBasics) {
-        for(KGLListSpecialUnit su : calcBasics.getSpecialUnits()) {
-            if(su.getId() == -1) {
+        for (KGLListSpecialUnit su : calcBasics.getSpecialUnits()) {
+            if (su.getId() == -1) {
                 persist(su);
             } else {
                 merge(su);
             }
         }
     }
-    
+
     private void saveCentralFocus(DrgCalcBasics calcBasics) {
-        for(KGLListCentralFocus cf : calcBasics.getCentralFocuses()) {
-            if(cf.getId() == -1) {
+        for (KGLListCentralFocus cf : calcBasics.getCentralFocuses()) {
+            if (cf.getId() == -1) {
                 persist(cf);
             } else {
                 merge(cf);
@@ -320,7 +337,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    private void saveEndoscopyDifferentials(DrgCalcBasics calcBasics) {        
+    private void saveEndoscopyDifferentials(DrgCalcBasics calcBasics) {
         for (KGLListEndoscopyDifferential item : calcBasics.getEndoscopyDifferentials()) {
             if (item.getId() == -1) {
                 persist(item);
@@ -460,7 +477,7 @@ public class CalcFacade extends AbstractDataAccess {
         query.setParameter("ik", calcBasics.getIk());
         query.setParameter("year", calcBasics.getDataYear() - 1);
         try {
-            DrgCalcBasics priorCalcBasics  = query.getSingleResult();
+            DrgCalcBasics priorCalcBasics = query.getSingleResult();
             getEntityManager().detach(priorCalcBasics);
             return priorCalcBasics;
         } catch (Exception ex) {

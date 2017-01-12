@@ -228,6 +228,7 @@ public class CalcContact implements Serializable {
         hash = 71 * hash + (this._psy ? 1 : 0);
         hash = 71 * hash + (this._inv ? 1 : 0);
         hash = 71 * hash + (this._tpg ? 1 : 0);
+        hash = 71 * hash + (this._obd ? 1 : 0);
         hash = 71 * hash + (this._consultant ? 1 : 0);
         return hash;
     }
@@ -262,6 +263,9 @@ public class CalcContact implements Serializable {
             return false;
         }
         if (this._tpg != other._tpg) {
+            return false;
+        }
+        if (this._obd != other._obd) {
             return false;
         }
         if (this._consultant != other._consultant) {

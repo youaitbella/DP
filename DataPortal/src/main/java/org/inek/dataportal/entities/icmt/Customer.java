@@ -89,6 +89,17 @@ public class Customer implements Serializable {
     }
     // </editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property ObligateCalculationYear">
+    @Column(name = "cuObligateCalculationYear")
+    private int _obligateCalculationYear;
+    public int getObligateCalculationYear() {
+        return _obligateCalculationYear;
+    }
+    
+    public void setObligateCalculationYear(int obligateCalculationYear) {
+        this._obligateCalculationYear = obligateCalculationYear;
+    }
+    //</editor-fold>
     
     @PrePersist
     @PreUpdate
@@ -96,4 +107,5 @@ public class Customer implements Serializable {
         _logger.warning("Attempt to write customer");
         throw new IllegalStateException("Attempt to write customer");
     }
+
 }
