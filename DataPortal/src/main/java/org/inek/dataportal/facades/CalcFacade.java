@@ -184,10 +184,10 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from CallCenterDb.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
-                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId = " + accountId + "\n" // (2) - but let InEK staff test without this restriction
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + "left join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
-                + "where caHasAgreement = 1\n"
+                + "where (isnull(caHasAgreement, 0) = 1 and isnull(caIsInactive, 0) = 0 or cuObligateCalculationYear > " + (year - 5) + ")\n"
                 + "     and cuIk in (\n"
                 + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "		union \n"
