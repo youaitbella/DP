@@ -40,11 +40,11 @@
                 </h:selectOneMenu>
             </div>
             <div class="inputPart" jsf:rendered="#{cc.attrs.value == 'A'}">
-                <h:outputLabel for="alternative" value="#{msg.lblDescriptionOfAlternative}"/>
+                <h:outputLabel for="alternative" value="#{msg.lblDescriptionOfAlternative}" styleClass="label element100"/>
                 <h:message for="alternative" id="msgAlternative" styleClass="errorMessage"/>
-                <h:inputText id="alternative" value="#{cc.attrs.valueText}" readonly="#{cc.attrs.readonly}">
+                <h:inputTextarea id="alternative" value="#{cc.attrs.valueText}" readonly="#{cc.attrs.readonly}" styleClass="inputwide areaLow">
                     <f:ajax render="@this :logout:remaining msgAlternative"/>
-                </h:inputText>
+                </h:inputTextarea>
             </div>
     </cc:implementation>
 </html>

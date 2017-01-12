@@ -31,6 +31,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Vereinbartes Entgelt||cfRemunerationAmount|
 |||Entgeltschlüssel||cfRemunerationKey|
 |Grundlagen|Berücksichtigte Abgrenzungstatbestände||KGLListDelimitationFact||
+|||Text (Label)||dfContentTextID|
 |||bitte markieren||dfUsed|
 |||Personalkosten||dfPersonalCost|
 |||Sachkosten||dfMaterialcost|

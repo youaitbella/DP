@@ -172,28 +172,22 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
-    // todo: seems to be unused. keep or remove?
-    public Map<Integer, Boolean> getAgreement(Set<Integer> iks) {
-        String ikList = iks.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
-        String sql = "select cuIK, caHasAgreement\n"
-                + "from CallCenterDb.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "where cuIk in (" + ikList + ")";
-        Query query = getEntityManager().createNativeQuery(sql);
-        Map<Integer, Boolean> agreements = new HashMap<>();
-        List<Object[]> objects = query.getResultList();
-        objects.forEach((obj) -> {
-            agreements.put((int) obj[0], (boolean) obj[1]);
-        });
-        return agreements;
-    }
-
+    /**
+     * Check, whether the customers assigned to the account iks have an agreement and the account is a well known contact (2)
+     * An IK is only available, if no SoP exists for the given year
+     * @param accountId
+     * @param year
+     * @return 
+     */
     public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
         String sql = "select distinct cuIK\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + " and sopStatusId != " + WorkflowStatus.Retired.getValue() + "\n"
-                + "where caHasAgreement = 1\n"
+                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n" // (2)
+                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
+                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + "left join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
+                + "where (isnull(caHasAgreement, 0) = 1 and isnull(caIsInactive, 0) = 0 or cuObligateCalculationYear > " + (year - 5) + ")\n"
                 + "     and cuIk in (\n"
                 + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "		union \n"
@@ -345,8 +339,12 @@ public class CalcFacade extends AbstractDataAccess {
 
     private Set<Integer> obtainIks4NewBasiscsDrg(Set<Integer> accountIds, int year) {
         String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
-        String sql = "select sopIk \n"
+        String sql = "select distinct sopIk \n"
                 + "from calc.StatementOfParticipance\n"
+                + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
+                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
+                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
                 + "	and sopIsDrg=1\n"
@@ -354,8 +352,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	and not exists (\n"
                 + "		select 1\n"
                 + "		from calc.KGLBaseInformation\n"
-                + "		where biAccountId in (" + accountList + ")\n"
-                + "			and biDataYear = " + year + "\n"
+                + "		where biDataYear = " + year + "\n"
                 + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
@@ -364,8 +361,12 @@ public class CalcFacade extends AbstractDataAccess {
 
     private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year) {
         String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
-        String sql = "select sopIk \n"
+        String sql = "select distinct sopIk \n"
                 + "from calc.StatementOfParticipance\n"
+                + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
+                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
+                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
                 + "	and sopIsPsy=1\n"
@@ -373,8 +374,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	and not exists (\n"
                 + "		select 1\n"
                 + "		from calc.KGPBaseInformation\n"
-                + "		where biAccountId in (" + accountList + ")\n"
-                + "			and biDataYear = " + year + "\n"
+                + "		where biDataYear = " + year + "\n"
                 + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);

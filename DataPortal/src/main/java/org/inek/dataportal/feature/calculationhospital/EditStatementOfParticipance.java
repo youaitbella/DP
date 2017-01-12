@@ -229,16 +229,15 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     /**
-     * 
+     *
      */
-    public void changeData(){
-                if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsSendEnabled)) {
+    public void changeData() {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsSendEnabled)) {
             return;
         }
 
-        
     }
-    
+
     private boolean statementIsComplete() {
         MessageContainer message = composeMissingFieldsMessage(_statement);
         if (message.containsMessage()) {
@@ -354,7 +353,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             ts = Calendar.getInstance().getTime();
             file = new File(dir, "Transfer" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".txt");
         } while (file.exists());
-        
+
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
             if (_sessionController.getAccount().isReportViaPortal()) {
                 pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
@@ -380,20 +379,17 @@ public class EditStatementOfParticipance extends AbstractEditController {
     List<SelectItem> _iks;
 
     public List<SelectItem> getIks() {
-        if (_iks == null) {
-            Account account = _sessionController.getAccount();
-            Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-            if (_statement != null && _statement.getIk() > 0) {
-                iks.add(_statement.getIk());
-            }
-
-            List<SelectItem> items = new ArrayList<>();
-            for (int ik : iks) {
-                items.add(new SelectItem(ik));
-            }
-            _iks = items;
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        if (_statement != null && _statement.getIk() > 0) {
+            iks.add(_statement.getIk());
         }
-        return _iks;
+
+        List<SelectItem> items = new ArrayList<>();
+        for (int ik : iks) {
+            items.add(new SelectItem(ik));
+        }
+        return items;
     }
 
     public String getHospitalInfo() {
