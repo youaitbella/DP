@@ -226,9 +226,6 @@ public class CalcFacade extends AbstractDataAccess {
             KGLOpAn opAn = calcBasics.getOpAn();
             calcBasics.setOpAn(null); // can not persist otherwise :(
             persist(calcBasics);
-            saveLocations(calcBasics);
-            saveSpecialUnits(calcBasics);
-            saveCentralFocus(calcBasics);
             opAn.setBaseInformationID(calcBasics.getId());
             persist(opAn);
             calcBasics.setOpAn(opAn);
@@ -292,10 +289,8 @@ public class CalcFacade extends AbstractDataAccess {
     private void saveLocations(DrgCalcBasics calcBasics) {
         for(KGLListLocation loc : calcBasics.getLocations()) {
             if(loc.getId() == -1) {
-                loc.setBaseInformationId(calcBasics.getId());
                 persist(loc);
-            }
-            else {
+            } else {
                 merge(loc);
             }
         }
@@ -304,7 +299,6 @@ public class CalcFacade extends AbstractDataAccess {
     private void saveSpecialUnits(DrgCalcBasics calcBasics) {
         for(KGLListSpecialUnit su : calcBasics.getSpecialUnits()) {
             if(su.getId() == -1) {
-                su.setBaseInformationId(calcBasics.getId());
                 persist(su);
             } else {
                 merge(su);
@@ -315,7 +309,6 @@ public class CalcFacade extends AbstractDataAccess {
     private void saveCentralFocus(DrgCalcBasics calcBasics) {
         for(KGLListCentralFocus cf : calcBasics.getCentralFocuses()) {
             if(cf.getId() == -1) {
-                cf.setBaseInformationID(calcBasics.getId());
                 persist(cf);
             } else {
                 merge(cf);

@@ -26,28 +26,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "KGLListCentralFocus", schema = "calc")
 @XmlRootElement
 public class KGLListCentralFocus implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="baseInformationID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfBaseInformationID")
     private int _baseInformationID = -1;
 
@@ -59,10 +56,8 @@ public class KGLListCentralFocus implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-        
+
     //<editor-fold defaultstate="collapsed" desc="text">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "cfText")
     private String _text = "";
@@ -75,10 +70,8 @@ public class KGLListCentralFocus implements Serializable {
         this._text = text;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="caseCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfCaseCnt")
     private int _caseCnt;
 
@@ -90,13 +83,11 @@ public class KGLListCentralFocus implements Serializable {
         this._caseCnt = caseCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="personalCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfPersonalCost")
     private int _personalCost;
-    
+
     public int getPersonalCost() {
         return _personalCost;
     }
@@ -105,13 +96,11 @@ public class KGLListCentralFocus implements Serializable {
         this._personalCost = personalCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="materialcost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfMaterialcost")
     private int _materialcost;
-    
+
     public int getMaterialcost() {
         return _materialcost;
     }
@@ -120,13 +109,11 @@ public class KGLListCentralFocus implements Serializable {
         this._materialcost = materialcost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="_infraCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfInfraCost")
     private int _infraCost;
-    
+
     public int getInfraCost() {
         return _infraCost;
     }
@@ -135,10 +122,8 @@ public class KGLListCentralFocus implements Serializable {
         this._infraCost = infraCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="remunerationAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cfRemunerationAmount")
     private int _remunerationAmount;
 
@@ -150,14 +135,12 @@ public class KGLListCentralFocus implements Serializable {
         this._remunerationAmount = remunerationAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="_remunerationKey">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 8)
     @Column(name = "cfRemunerationKey")
     private String _remunerationKey = "";
-    
+
     public String getRemunerationKey() {
         return _remunerationKey;
     }
@@ -204,7 +187,7 @@ public class KGLListCentralFocus implements Serializable {
         hash = 41 * hash + Objects.hashCode(this._remunerationKey);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -249,7 +232,7 @@ public class KGLListCentralFocus implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListCentralFocus[ cfID=" + _id + " ]";

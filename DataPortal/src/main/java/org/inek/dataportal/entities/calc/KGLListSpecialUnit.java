@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,29 +24,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "KGLListSpecialUnit", schema = "calc")
 @XmlRootElement
 public class KGLListSpecialUnit implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "suID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "suBaseInformationID")
     private int _baseInformationId = -1;
 
@@ -62,12 +57,10 @@ public class KGLListSpecialUnit implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="type">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "suType")
     private String _type = "";
-    
+
     public String getType() {
         return _type;
     }
@@ -78,11 +71,9 @@ public class KGLListSpecialUnit implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="caseCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "suCaseCnt")
     private int _caseCnt;
-    
+
     public int getCaseCnt() {
         return _caseCnt;
     }
@@ -91,13 +82,10 @@ public class KGLListSpecialUnit implements Serializable {
         this._caseCnt = caseCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="cost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "suCost")
     private int _cost;
-
 
     public int getCost() {
         return _cost;
@@ -107,7 +95,7 @@ public class KGLListSpecialUnit implements Serializable {
         this._cost = cost;
     }
     //</editor-fold>
-    
+
     public KGLListSpecialUnit() {
     }
 
@@ -137,7 +125,7 @@ public class KGLListSpecialUnit implements Serializable {
         hash = 97 * hash + this._cost;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -170,11 +158,11 @@ public class KGLListSpecialUnit implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListSpecialUnit[ suID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

@@ -112,13 +112,25 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setOpAn(opAn);
         
         // Locations
-        calcBasics.setLocations(_priorCalcBasics.getLocations());
+        for (KGLListLocation location : _priorCalcBasics.getLocations()) {
+            location.setId(-1);
+            location.setBaseInformationId(calcBasics.getId());
+            calcBasics.getLocations().add(location);
+        }
         
         // Special units
-        calcBasics.setSpecialUnits(_priorCalcBasics.getSpecialUnits());
+        for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
+            specialUnit.setId(-1);
+            specialUnit.setBaseInformationId(calcBasics.getId());
+            calcBasics.getSpecialUnits().add(specialUnit);
+        }
         
         // Central focuses
-        calcBasics.setCentralFocuses(_priorCalcBasics.getCentralFocuses());
+        for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
+            centralFocus.setId(-1);
+            centralFocus.setBaseInformationID(calcBasics.getId());
+            calcBasics.getCentralFocuses().add(centralFocus);
+        }
         
         // ServiceProvision
         preloadServiceProvision(calcBasics);
