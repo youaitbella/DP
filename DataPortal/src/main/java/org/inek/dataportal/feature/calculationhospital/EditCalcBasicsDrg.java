@@ -110,28 +110,28 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
-        
+
         // Locations
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
             location.setId(-1);
             location.setBaseInformationId(calcBasics.getId());
             calcBasics.getLocations().add(location);
         }
-        
+
         // Special units
         for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
             specialUnit.setId(-1);
             specialUnit.setBaseInformationId(calcBasics.getId());
             calcBasics.getSpecialUnits().add(specialUnit);
         }
-        
+
         // Central focuses
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             centralFocus.setId(-1);
             centralFocus.setBaseInformationID(calcBasics.getId());
             calcBasics.getCentralFocuses().add(centralFocus);
         }
-        
+
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
@@ -148,7 +148,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         // maternity
         calcBasics.setGynecology(_priorCalcBasics.isGynecology());
         calcBasics.setObstetrical(_priorCalcBasics.isObstetrical());
-        
+
         // neonat
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
         int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
@@ -269,33 +269,33 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         tmp.add("Infrastrukturkosten");
         return tmp;
     }
-    
+
     public void addLocation() {
         KGLListLocation loc = new KGLListLocation();
         loc.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getLocations().add(loc);
     }
-    
+
     public void deleteLocation(KGLListLocation loc) {
         _calcBasics.getLocations().remove(loc);
     }
-    
+
     public void addSpecialUnit() {
         KGLListSpecialUnit su = new KGLListSpecialUnit();
         su.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getSpecialUnits().add(su);
     }
-    
+
     public void deleteSpecialUnit(KGLListSpecialUnit su) {
         _calcBasics.getSpecialUnits().remove(su);
     }
-    
+
     public void addCentralFocus() {
         KGLListCentralFocus cf = new KGLListCentralFocus();
         cf.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getCentralFocuses().add(cf);
     }
-    
+
     public void deleteCentralFocus(KGLListCentralFocus cf) {
         _calcBasics.getCentralFocuses().remove(cf);
     }
@@ -508,24 +508,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    List<SelectItem> _iks;
-
     public List<SelectItem> getIks() {
-        if (_iks == null) {
-            Set<Integer> ids = new HashSet<>();
-            ids.add(_sessionController.getAccountId());
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, ids, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-            if (_calcBasics != null && _calcBasics.getIk() > 0) {
-                iks.add(_calcBasics.getIk());
-            }
-
-            List<SelectItem> items = new ArrayList<>();
-            for (int ik : iks) {
-                items.add(new SelectItem(ik));
-            }
-            _iks = items;
+        Set<Integer> ids = new HashSet<>();
+        ids.add(_sessionController.getAccountId());
+        Set<Integer> iks = _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, ids, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        if (_calcBasics != null && _calcBasics.getIk() > 0) {
+            iks.add(_calcBasics.getIk());
         }
-        return _iks;
+
+        List<SelectItem> items = new ArrayList<>();
+        for (int ik : iks) {
+            items.add(new SelectItem(ik));
+        }
+        return items;
     }
 
     public String getHospitalInfo() {
@@ -545,7 +540,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return "";
     }
-    
+
     public void addServiceProvision() {
         int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getSequence()).max().orElse(0);
         KGLListServiceProvision data = new KGLListServiceProvision();
@@ -554,12 +549,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         data.setSequence(++seq);
         _calcBasics.getServiceProvisions().add(data);
     }
-    
-    public void deleteServiceProvision (KGLListServiceProvision item){
+
+    public void deleteServiceProvision(KGLListServiceProvision item) {
         _calcBasics.getServiceProvisions().remove(item);
     }
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
+
     public String downloadDocument(String name) {
         Document document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
         if (document != null) {
@@ -567,7 +563,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return "";
     }
-    
+
     public String deleteDocument(String name) {
         KGLDocument document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
         if (document != null) {
@@ -576,7 +572,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return null;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<DrgHeaderText> getHeaders() {
         return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
