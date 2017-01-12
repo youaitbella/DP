@@ -43,7 +43,6 @@ public class KGLListSpecialUnit implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
-    @Id
     @Column(name = "suBaseInformationID")
     private int _baseInformationId = -1;
 

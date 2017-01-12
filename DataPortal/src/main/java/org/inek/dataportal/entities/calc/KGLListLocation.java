@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -22,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLListLocation", schema = "calc")
-@XmlRootElement
 public class KGLListLocation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,7 +41,6 @@ public class KGLListLocation implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
-    @Id
     @Column(name = "lBaseInformationID")
     private int _baseInformationId;
 
