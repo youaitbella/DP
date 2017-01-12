@@ -148,7 +148,20 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property IsDrgCalc">
+    // <editor-fold defaultstate="collapsed" desc="Property Obligatory">
+    @Column(name = "sopIsObligatory")
+    private boolean _obligatory;
+
+    public boolean isObligatory() {
+        return _obligatory;
+    }
+
+    public void setObligatory(boolean obligatory) {
+        _obligatory = obligatory;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DrgCalc">
     @Column(name = "sopIsDrg")
     @Documentation(name = "Teilnahme DRG")
     private boolean _drgCalc = true;
@@ -162,7 +175,7 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property IsPsyCalc">
+    // <editor-fold defaultstate="collapsed" desc="Property PsyCalc">
     @Column(name = "sopIsPsy")
     @Documentation(name = "Teilnahme PSY")
     private boolean _psyCalc = true;
@@ -176,7 +189,7 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property IsInvCalc">
+    // <editor-fold defaultstate="collapsed" desc="Property InvCalc">
     @Column(name = "sopIsInv")
     @Documentation(name = "Teilnahme INV")
     private boolean _invCalc;
@@ -190,7 +203,7 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property IsTpgCalc">
+    // <editor-fold defaultstate="collapsed" desc="Property TpgCalc">
     @Column(name = "sopIsTpg")
     @Documentation(name = "Teilnahme TPG")
     private boolean _tpgCalc;
@@ -201,6 +214,20 @@ public class StatementOfParticipance implements Serializable {
 
     public void setTpgCalc(boolean tpgCalc) {
         _tpgCalc = tpgCalc;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ObdCalc">
+    @Column(name = "sopIsObd")
+    @Documentation(name = "Teilnahme OBD")
+    private boolean _obdCalc;
+
+    public boolean isObdCalc() {
+        return _obdCalc;
+    }
+
+    public void setObdCalc(boolean obdCalc) {
+        _obdCalc = obdCalc;
     }
     // </editor-fold>
 

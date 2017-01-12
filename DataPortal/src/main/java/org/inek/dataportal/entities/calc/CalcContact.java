@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -183,6 +184,20 @@ public class CalcContact implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Obd">
+    @Column(name = "coIsObd")
+    @Documentation(name = "OBD")
+    private boolean _obd;
+
+    public boolean isObd() {
+        return _obd;
+    }
+
+    public void setObd(boolean obd) {
+        _obd = obd;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property IsConsultant">
     @Column(name = "coIsConsultant")
     private boolean _consultant;
@@ -282,7 +297,7 @@ public class CalcContact implements Serializable {
     public boolean isEmpty() {
         return _id < 0 && getGender() == null 
                 && (_title + _firstName + _lastName + _phone + _mail).length() == 0 
-                && !_drg && !_psy && !_inv && ! _tpg; 
+                && !_drg && !_psy && !_inv && ! _tpg && ! _obd; 
     }
     
 }
