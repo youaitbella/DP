@@ -45,6 +45,7 @@ import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
@@ -613,6 +614,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>    
 
+    public void deleteObstreticsGynecology(KGLListObstetricsGynecology item) {
+        _calcBasics.getObstetricsGynecologies().remove(item);
+    }
+    
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
             return "";

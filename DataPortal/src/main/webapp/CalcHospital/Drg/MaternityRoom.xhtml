@@ -24,80 +24,120 @@
                                             || editCalcBasicsDrg.calcBasics.obstetrical}">
         <h2>Erbrachte Leistungen</h2>
 
-        <table cellspacing="5">
-            <thead>
-            <th></th>
-            <th>#{editCalcBasicsDrg.calcBasics.dataYear}</th>
-            <th>#{editCalcBasicsDrg.calcBasics.dataYear-1}</th>
-            <th>Abweichung</th>
-            <th></th>
-            </thead>
-            <tr>
-                <td>
-                    <span class="label">Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)</span>
-                </td>
-                <td>
-            <h:inputText styleClass="inputshort" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
-                <f:ajax event="blur" render="@form :logout:remaining" />
-            </h:inputText>
-            </td>
-            <td>
-                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}
-            </td>
-            <td>
-                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours - editCalcBasicsDrg.calcBasics.deliveryRoomHours}
-            </td>
-            </tr>
+        <h:outputLabel styleClass="label50" value=" "/>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
+        <h:outputLabel styleClass="label15 number" value="Abweichung"/>
+        
+        <br/>
+        <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
+        <h:inputText styleClass="element15" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours - editCalcBasicsDrg.calcBasics.deliveryRoomHours}"/>
 
-            <tr>
-                <td>
-                    <span class="label">davon für vorgeburtliche Kreißsaalaufenthalte</span>
-                </td>
-                <td>
-            <h:inputText styleClass="inputshort" id="preBirthHabitationCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}" required="true">
-                <f:ajax event="blur" render="@form :logout:remaining" />
-            </h:inputText>
-            </td>
-            <td>
-                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}
-            </td>
-            <td>
-                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}
-            </td>
-            </tr>
+        <br/>
+        <h:outputLabel styleClass="label50"  value="davon für vorgeburtliche Kreißsaalaufenthalte"/>
 
-            <tr>
-                <td>
-                    <span class="label">Anzahl vollstationär geborener Kinder </span>
-                </td>
-                <td>
-            <h:inputText styleClass="inputshort" id="instationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}" required="true">
-                <f:ajax event="blur" render="@form :logout:remaining" />
-            </h:inputText>
-            </td>
-            <td>
-                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}
-            </td>
-            <td>
-                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}
-            </td>
-            </tr>
+        <h:inputText styleClass="element15" id="preBirthHabitationCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}" required="true">
+            <f:ajax event="blur" render="@this lblDiffPreBirthHabitantCnt :maternity:txtStructure :logout:remaining" />
+        </h:inputText>
+        <h:outputLabel styleClass="label15 number" id="lblPreBirthHabitantCnt" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
+        <h:outputLabel styleClass="label15 number" id="lblDiffPreBirthHabitantCnt" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}"/>
 
-        </table>
+        <br/>
+        <h:outputLabel styleClass="label50"  value="Anzahl vollstationär geborener Kinder"/>
+        <h:inputText styleClass="element15" id="instationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}" required="true">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputText>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}"/>
 
+        <h:inputTextarea id="txtStructure" styleClass="areaHuge" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}" 
+                         rendered="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt == 0}" >
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
 
         <h2>Kostenstellen der erbrachten Leistungen</h2>
-        <inek:LabeledText label="#{msg.lblCardiologyRoomCount}" 
-                          styleClassLabel="label40"
-                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}" 
-                          singleLine="true" 
-                          styleClass="inputSmall"/>
 
-        <inek:LabeledText label="#{msg.lblCardiologyCaseCount}" 
-                          styleClassLabel="label40"
-                          value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}" 
-                          singleLine="true" 
-                          styleClass="inputSmall"/>
+        <h:dataTable id="table"
+                     value="#{editCalcBasicsDrg.calcBasics.obstetricsGynecologies}" 
+                     var ="item"
+                     width="100%"
+                     columnClasses="colIcon, col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number, col05em number"
+                     rowClasses="row1, row2">
+
+            <h:column id="colDeleteId">
+                <f:facet name="header">
+                    <h:outputText value=""/>
+                </f:facet>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteObstreticsGynecology(item)}" immediate="true" rendered="true">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenstelle</f:facet>
+                <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeID ge 0}"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{item.domain}" rendered="#{item.serviceProvisionTypeID lt 0}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenstellengruppe</f:facet>
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{item.providedTypeID}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{2}"/>
+                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{3}"/>
+                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{4}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Ärztlicher Dienst</f:facet>
+                <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeID ne 4}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">davon Belegärzte</f:facet>
+                <inek:InputTextWithMessage value="#{item.note}" styleClass="inputwide"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Pflegedienst</f:facet>
+                <inek:InputTextWithMessage value="#{item.amount}" styleClass="col05em" renderElement="@form"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClass="col05em"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Hebammen</f:facet>
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">davon Beleg-Hebammen</f:facet>
+                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
+            </h:column>
+
+        </h:dataTable>
+
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                       rendered="#{!editCalcBasicsDrg.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addServiceProvision}"/>
+        </h:commandLink>
+
 
         <h2>#{msg.lblTopMaternityService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
