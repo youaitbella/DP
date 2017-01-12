@@ -22,8 +22,71 @@
 
     <div jsf:id="maternity" jsf:rendered="#{editCalcBasicsDrg.calcBasics.gynecology 
                                             || editCalcBasicsDrg.calcBasics.obstetrical}">
-        <hr/>
+        <h2>Erbrachte Leistungen</h2>
 
+        <table cellspacing="5">
+            <thead>
+            <th></th>
+            <th>#{editCalcBasicsDrg.calcBasics.dataYear}</th>
+            <th>#{editCalcBasicsDrg.calcBasics.dataYear-1}</th>
+            <th>Abweichung</th>
+            <th></th>
+            </thead>
+            <tr>
+                <td>
+                    <span class="label">Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)</span>
+                </td>
+                <td>
+            <h:inputText styleClass="inputshort" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
+                <f:ajax event="blur" render="@form :logout:remaining" />
+            </h:inputText>
+            </td>
+            <td>
+                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}
+            </td>
+            <td>
+                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours - editCalcBasicsDrg.calcBasics.deliveryRoomHours}
+            </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="label">davon für vorgeburtliche Kreißsaalaufenthalte</span>
+                </td>
+                <td>
+            <h:inputText styleClass="inputshort" id="preBirthHabitationCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}" required="true">
+                <f:ajax event="blur" render="@form :logout:remaining" />
+            </h:inputText>
+            </td>
+            <td>
+                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}
+            </td>
+            <td>
+                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}
+            </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="label">Anzahl vollstationär geborener Kinder </span>
+                </td>
+                <td>
+            <h:inputText styleClass="inputshort" id="instationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}" required="true">
+                <f:ajax event="blur" render="@form :logout:remaining" />
+            </h:inputText>
+            </td>
+            <td>
+                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}
+            </td>
+            <td>
+                #{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}
+            </td>
+            </tr>
+
+        </table>
+
+
+        <h2>Kostenstellen der erbrachten Leistungen</h2>
         <inek:LabeledText label="#{msg.lblCardiologyRoomCount}" 
                           styleClassLabel="label40"
                           value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}" 
