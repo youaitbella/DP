@@ -121,6 +121,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     private StatementOfParticipance retrievePriorData(int ik, int year) {
+        /* 
+        This code might be used, if we load the data from a former StatementOfParticipance
+        Although we did this in a first approach, we decided to load the data from ICMT, at least for the first time (2017).
+        If we load it from ICMT in 2018, then remove this commented code.
+        
+        
         StatementOfParticipance statement = _calcFacade.retrievePriorStatementOfParticipance(ik, year);
         Account account = _sessionController.getAccount();
         statement.setAccountId(account.getId());
@@ -142,6 +148,56 @@ public class EditStatementOfParticipance extends AbstractEditController {
         ensureContacts(statement);
         statement.setConsultantSendMail(false);
         statement.setConsultantCompany("");
+        return statement;
+         */
+
+        StatementOfParticipance statement = new StatementOfParticipance();
+        statement.setIk(ik);
+        statement.setDataYear(year);
+        statement.setAccountId(_sessionController.getAccountId());
+        List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(ik);
+        for (Object[] obj : currentData) {
+            String domain = (String) obj[0];
+            String type = (String) obj[1];
+            String value = (String) obj[2];
+            if (domain.equals("DRG")) {
+                statement.setDrgCalc(true);
+                if (type.equals("KVM")) {
+                    statement.setClinicalDistributionModelDrg(value.equals("T") ? 1 : 0);
+                }
+                if (type.equals("Multiyear")) {
+                    try {
+                        int multi = Integer.parseInt(value);
+                        statement.setMultiyearDrg(multi);
+                    } catch (NumberFormatException ex) {
+                    }
+                }
+            }
+            if (domain.equals("PSY")) {
+                statement.setPsyCalc(true);
+                if (type.equals("KVM")) {
+                    statement.setClinicalDistributionModelPsy(value.equals("T") ? 1 : 0);
+                }
+                if (type.equals("Multiyear")) {
+                    try {
+                        int multi = Integer.parseInt(value);
+                        statement.setMultiyearPsy(multi);
+                    } catch (NumberFormatException ex) {
+                    }
+                }
+            }
+            if (domain.equals("INV")) {
+                statement.setInvCalc(true);
+            }
+            if (domain.equals("TPG")) {
+                statement.setTpgCalc(true);
+            }
+            if (domain.equals("OBD")) {
+                statement.setObdCalc(true);
+            }
+        }
+
+        statement.setContacts(_calcFacade.retrieveCurrentContacts(ik));
         return statement;
     }
 

@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
@@ -202,20 +203,58 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
-    public List retrieveCurrentStatementOfParticipanceData (int ik){
-        String sql = "case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end as domain, "
+    public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik) {
+        String sql = "select case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end as domain, "
                 + "case ctpPropertyId when 3 then 'KVM' else 'Multiyear' end as PropertyType, "
-                + "left(ctpValue, 1) as value\n" 
-                + "from CallCenterDB.dbo.ccCustomer\n" 
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n" 
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n" 
-                + "join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId\n" 
+                + "left(ctpValue, 1) as value\n"
+                + "from CallCenterDB.dbo.ccCustomer\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId\n"
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 "
                 + "and ciParticipation = 1 and ciParticipationRetreat = 0 and ctpPropertyId in (3, 6) and cuIk = " + ik;
         Query query = getEntityManager().createNativeQuery(sql);
         return query.getResultList();
     }
-    
+
+    public List<CalcContact> retrieveCurrentContacts(int ik) {
+        String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, "
+                + "coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, "
+                + "dbo.concatenate(case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end) as domain\n"
+                + "from CallCenterDB.dbo.ccCustomer\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerCalcContact on ciId = mcccCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccContact on mcccContactId = coId\n"
+                + "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E'\n"
+                + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n"
+                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and coIsActive = 1 and cuIk = " + ik + "\n"
+                + "and not exists (select 1 from CallCenterDB.dbo.mapContactRole where mcrRoleId = 14 and mcrContactId = coId)\n"
+                + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<CalcContact> contacts = new Vector<>();
+        List<Object[]> objects = query.getResultList();
+        for (Object[] obj : objects) {
+            CalcContact contact = new CalcContact();
+            contact.setGender((int) obj[0]);
+            contact.setTitle((String) obj[1]);
+            contact.setFirstName((String) obj[2]);
+            contact.setLastName((String) obj[3]);
+            contact.setPhone((String) obj[4]);
+            contact.setMail((String) obj[5]);
+            String domains = (String) obj[6];
+            if (!domains.contains("obligatory")) {
+                contact.setDrg(domains.contains("DRG"));
+                contact.setPsy(domains.contains("PSY"));
+                contact.setInv(domains.contains("INV"));
+                contact.setTpg(domains.contains("TPG"));
+                contact.setObd(domains.contains("OBD"));
+            }
+            contacts.add(contact);
+        }
+        return contacts;
+    }
+
     public boolean isObligateCalculation(int ik, int year) {
         String jpql = "select c from Customer c where c._ik = :ik";
         TypedQuery<Customer> query = getEntityManager().createQuery(jpql, Customer.class);
