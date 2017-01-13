@@ -307,6 +307,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         rl.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
+    
+    public void deleteLaboratory(KGLListRadiologyLaboratory rl) {
+        _calcBasics.getRadiologyLaboratories().remove(rl);
+    }
 
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
