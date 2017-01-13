@@ -257,13 +257,13 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrg">
     @Column(name = "sopMultiyearDrg")
-    private String _multiyearDrg = "";
+    private int _multiyearDrg;
 
-    public String getMultiyearDrg() {
+    public int getMultiyearDrg() {
         return _multiyearDrg;
     }
 
-    public void setMultiyearDrg(String multiyearDrg) {
+    public void setMultiyearDrg(int multiyearDrg) {
         _multiyearDrg = multiyearDrg;
     }
     // </editor-fold>
@@ -283,13 +283,13 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsy">
     @Column(name = "sopMultiyearPsy")
-    private String _multiyearPsy = "";
+    private int _multiyearPsy;
 
-    public String getMultiyearPsy() {
+    public int getMultiyearPsy() {
         return _multiyearPsy;
     }
 
-    public void setMultiyearPsy(String multiyearPsy) {
+    public void setMultiyearPsy(int multiyearPsy) {
         _multiyearPsy = multiyearPsy;
     }
     // </editor-fold>

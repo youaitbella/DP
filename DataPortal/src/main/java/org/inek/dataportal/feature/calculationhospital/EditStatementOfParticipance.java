@@ -87,13 +87,17 @@ public class EditStatementOfParticipance extends AbstractEditController {
         } else {
             _statement = loadStatementOfParticipance(id);
         }
-        if (_statement.getContacts().isEmpty()) {
-            _statement.getContacts().add(new CalcContact());
+        ensureContacts(_statement);
+    }
+
+    private void ensureContacts(StatementOfParticipance statement) {
+        if (statement.getContacts().isEmpty()) {
+            statement.getContacts().add(new CalcContact());
         }
-        if (_statement.getContacts().stream().filter(c -> c.isConsultant()).count() == 0) {
+        if (statement.getContacts().stream().filter(c -> c.isConsultant()).count() == 0) {
             CalcContact contact = new CalcContact();
             contact.setConsultant(true);
-            _statement.getContacts().add(contact);
+            statement.getContacts().add(contact);
         }
     }
 
@@ -135,6 +139,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 })
                 .collect(Collectors.toList());
         statement.setContacts(currentContacts);
+        ensureContacts(statement);
         statement.setConsultantSendMail(false);
         statement.setConsultantCompany("");
         return statement;
