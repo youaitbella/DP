@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,8 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
+import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -59,6 +62,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
+import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -79,6 +83,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
     @Inject private CustomerFacade _customerFacade;
+    @Inject private CostTypeFacade _costTypeFacade;
 
     private String _script;
     private DrgCalcBasics _calcBasics;
@@ -112,7 +117,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
-
+        
         // Locations
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
             location.setId(-1);
@@ -133,7 +138,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             centralFocus.setBaseInformationID(calcBasics.getId());
             calcBasics.getCentralFocuses().add(centralFocus);
         }
-
+        
+        // Personal Accounting
+        calcBasics.getPersonalAccountings().clear();
+        for(KGLPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
+            pa.setId(-1);
+            pa.setBaseInformationID(calcBasics.getId());
+            calcBasics.getPersonalAccountings().add(pa);
+        }
+        ensurePersonalAccountingData(calcBasics);
+            
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
@@ -188,6 +202,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
         return calcBasics;
+    }
+    
+    private void ensurePersonalAccountingData(DrgCalcBasics calcBasics) {
+        if(calcBasics.getPersonalAccountings().size() == 3)
+            return;
+        
+        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110));
+        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120));
+        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130));
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -627,5 +650,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
     }
-
+    
+    public String getCostTypeText(int costTypeId){
+        CostType ct = _costTypeFacade.find(costTypeId);
+        if(ct != null) {
+            return ct.getText();
+        }
+        return "Unbekannte Kostenartengruppe";
+    }
 }

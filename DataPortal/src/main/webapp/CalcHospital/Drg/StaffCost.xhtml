@@ -6,8 +6,103 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
+    <h2>#{"Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung"}</h2>
 
+    <style>
+        .col1 {
+            width: 130px;
+        }
+        .col2 {
+            width: 100px;
+        }
+        .col3 {
+            width: auto;
+        }
+    </style>
+    
+   <h:dataTable  headerClass="list-header" id="personalAccountings"
+                 value="#{editCalcBasicsDrg.calcBasics.personalAccountings}" var="item" width="100%" rowClasses="row1, row2" 
+                  columnClasses="col1, col2 centered"
+                  rendered="true"
+                  >
+
+       <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kostenartengruppe"/>
+            </f:facet>
+            <h:outputLabel value="#{editCalcBasicsDrg.getCostTypeText(item.costTypeID)}" />
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="mitar. Zeiterfassung" title="mitarbeiterbezogene Zeiterfassung"/>
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.staffRecording}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Stellenplanauswertung"/>
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.staffEvaluation}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Dienstplanauswertung" />
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.serviceEvaluation}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+        
+       <h:column>
+            <f:facet name="header">
+                <h:outputText value="Leistungsstatistiken"/>
+            </f:facet>
+           <h:selectBooleanCheckbox value="#{item.serviceStatistic}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+       
+        <h:column>
+            <f:facet name="header">
+                Expertenschätzung
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.expertRating}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+       
+        <h:column>
+           <f:facet name="header">
+                <h:outputText value="Kostenvolumen"/>
+            </f:facet>
+            <h:inputText styleClass="inputmedium" value="#{item.amount}">
+              <f:ajax event="blur" render="@this :logout:remaining" />
+           </h:inputText>
+        </h:column>
+       
+        <h:column>
+           <f:facet name="header">
+                <h:outputText value="Absolute Abweichung"/>
+            </f:facet>
+           <h:inputText value="#{item.amount}">
+              <f:ajax event="blur" render="@this :logout:remaining" />
+           </h:inputText>
+        </h:column>
+       
+       
+       
+    </h:dataTable>
+    
+    
 </ui:composition>
 
