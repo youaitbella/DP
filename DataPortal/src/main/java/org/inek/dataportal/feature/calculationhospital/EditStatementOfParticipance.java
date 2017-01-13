@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -69,7 +70,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         tabStatementOfParticipanceStatements
     }
     // </editor-fold>
-    
+
     @PostConstruct
     private void init() {
 
@@ -124,6 +125,18 @@ public class EditStatementOfParticipance extends AbstractEditController {
         statement.setStatus(WorkflowStatus.New);
         statement.setDataYear(year);
         statement.setObligatory(_calcFacade.isObligateCalculation(ik, year));
+        List<CalcContact> currentContacts = statement.getContacts()
+                .stream()
+                .filter(c -> !c.isConsultant()) // do not take former consultant contacts
+                .map(c -> {
+                    c.setId(-1);
+                    c.setStatementOfParticipanceId(-1);
+                    return c;
+                })
+                .collect(Collectors.toList());
+        statement.setContacts(currentContacts);
+        statement.setConsultantSendMail(false);
+        statement.setConsultantCompany("");
         return statement;
     }
 
@@ -257,36 +270,39 @@ public class EditStatementOfParticipance extends AbstractEditController {
         MessageContainer message = new MessageContainer();
 
         String ik = statement.getIk() < 0 ? "" : "" + statement.getIk();
-        checkField(message, ik, "lblIK", "form:ikMulti", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
+        checkField(message, ik, "lblIK", "sop:ikMulti", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
 
         if (statement.isDrgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isDrg())) {
-            applyMessageValues(message, "lblNeedContactDrg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+            applyMessageValues(message, "lblNeedContactDrg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isPsyCalc() && !statement.getContacts().stream().anyMatch(c -> c.isPsy())) {
-            applyMessageValues(message, "lblNeedContactPsy", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+            applyMessageValues(message, "lblNeedContactPsy", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isInvCalc() && !statement.getContacts().stream().anyMatch(c -> c.isInv())) {
-            applyMessageValues(message, "lblNeedContactInv", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+            applyMessageValues(message, "lblNeedContactInv", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isTpgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isTpg())) {
-            applyMessageValues(message, "lblNeedContactTpg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+            applyMessageValues(message, "lblNeedContactTpg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+        }
+        if (statement.isObdCalc() && !statement.getContacts().stream().anyMatch(c -> c.isObd())) {
+            applyMessageValues(message, "lblNeedContactObd", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.getContacts().stream()
                 .filter(c -> !c.isEmpty())
                 .anyMatch(c -> c.getFirstName().isEmpty() || c.getLastName().isEmpty() || c.getMail().isEmpty() || c.getPhone().isEmpty())) {
-            applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contact");
+            applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isWithConsultant()) {
-            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "form:consultantCompany", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
+            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "sop:consultantCompany", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
             List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
             if (consultantContacts.isEmpty() || consultantContacts.get(0).isEmpty()) {
-                applyMessageValues(message, "lblNeedContactConsultant", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "form:contactConsultant");
+                applyMessageValues(message, "lblNeedContactConsultant", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
             }
         }
 
         if (statement.isDrgCalc()) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
-                    "lblStatementSingleCostAttributionDrg", "form:clinicalDistributionModelDrg",
+                    "lblStatementSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearDrg().equals("A") && statement.getMultiyearDrgText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
@@ -295,7 +311,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
         if (statement.isPsyCalc()) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
-                    "lblStatementSingleCostAttributionPsy", "form:clinicalDistributionModelPsy",
+                    "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearPsy().equals("A") && statement.getMultiyearPsyText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");

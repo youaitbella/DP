@@ -24,8 +24,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -146,6 +144,20 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property ObligatoryCalcType">
+    @Column(name = "sopObligatoryCalcType")
+    private int _obligatoryCalcType;
+
+    public int getObligatoryCalcType() {
+        return _obligatoryCalcType;
+    }
+
+    public void setObligatoryCalcType(int obligatoryCalcType) {
+        _obligatoryCalcType = obligatoryCalcType;
+    }
+    // </editor-fold>
+
+    
     // <editor-fold defaultstate="collapsed" desc="Property DrgCalc">
     @Column(name = "sopIsDrg")
     @Documentation(name = "Teilnahme DRG")

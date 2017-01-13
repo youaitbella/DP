@@ -18,6 +18,7 @@
         <cc:attribute name="allowPsy" default="true"/>
         <cc:attribute name="allowInv" default="true"/>
         <cc:attribute name="allowTpg" default="true"/>
+        <cc:attribute name="allowObd" default="true"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -26,7 +27,7 @@
         <h:dataTable value="#{cc.attrs.value}" 
                      var="contact" 
                      width="100%" rowClasses="row1, row2" 
-                     columnClasses="colIcon, col04em, col04em, volValue, colValue, colValue, volValue">
+                     columnClasses="colIcon, col04em, col04em, volValue, colValue, colValue, volValue, volValue">
 
             <h:column>
                 <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" 
@@ -94,6 +95,11 @@
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblTpg}</f:facet>
                 <inek:Checkbox value="#{contact.tpg}" readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg}"/>
+            </h:column>
+
+            <h:column rendered="#{cc.attrs.queryDomain}">
+                <f:facet name="header">#{msg.lblObd}</f:facet>
+                <inek:Checkbox value="#{contact.obd}" readonly="#{cc.attrs.readonly or !cc.attrs.allowObd}"/>
             </h:column>
 
         </h:dataTable>

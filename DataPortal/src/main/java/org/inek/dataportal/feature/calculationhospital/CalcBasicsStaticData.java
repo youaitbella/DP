@@ -80,4 +80,11 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
+    public List<SelectItem> getCalculationTypeItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "vereinfachte Kalkulation"));
+       items.add(new SelectItem(2, "Probekalkulation"));
+       return items;
+   } 
+
 }
