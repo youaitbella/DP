@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,8 +29,7 @@ public class KGLPersonalAccounting implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "paID")
     private int _id = -1;
 
@@ -42,8 +43,6 @@ public class KGLPersonalAccounting implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paCostTypeID")
     private int _costTypeID;
 
@@ -164,10 +163,8 @@ public class KGLPersonalAccounting implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationID = -1;
     
     public int getBaseInformationID() {
         return _baseInformationID;
@@ -181,9 +178,9 @@ public class KGLPersonalAccounting implements Serializable {
 
     public KGLPersonalAccounting() {
     }
-
-    public KGLPersonalAccounting(int paID) {
-        this._id = paID;
+    
+    public KGLPersonalAccounting(int costTypeId) {
+        this._costTypeID = costTypeId;
     }
 
     public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
