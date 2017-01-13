@@ -309,7 +309,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
-            if (statement.getMultiyearDrg().equals("A") && statement.getMultiyearDrgText().isEmpty()) {
+            if (statement.getMultiyearDrg() == 4 && statement.getMultiyearDrgText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
@@ -318,7 +318,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
-            if (statement.getMultiyearPsy().equals("A") && statement.getMultiyearPsyText().isEmpty()) {
+            if (statement.getMultiyearPsy() == 4 && statement.getMultiyearPsyText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }

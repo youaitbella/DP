@@ -202,6 +202,20 @@ public class CalcFacade extends AbstractDataAccess {
         return new HashSet<>(query.getResultList());
     }
 
+    public List retrieveCurrentStatementOfParticipanceData (int ik){
+        String sql = "case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end as domain, "
+                + "case ctpPropertyId when 3 then 'KVM' else 'Multiyear' end as PropertyType, "
+                + "left(ctpValue, 1) as value\n" 
+                + "from CallCenterDB.dbo.ccCustomer\n" 
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n" 
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n" 
+                + "join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId\n" 
+                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 "
+                + "and ciParticipation = 1 and ciParticipationRetreat = 0 and ctpPropertyId in (3, 6) and cuIk = " + ik;
+        Query query = getEntityManager().createNativeQuery(sql);
+        return query.getResultList();
+    }
+    
     public boolean isObligateCalculation(int ik, int year) {
         String jpql = "select c from Customer c where c._ik = :ik";
         TypedQuery<Customer> query = getEntityManager().createQuery(jpql, Customer.class);

@@ -31,15 +31,15 @@
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{cc.attrs.value}"
                                  hideNoSelectionOption="true">
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{''}" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="#{msg.chooseOverlayerAll}" itemValue="G"/>
-                    <f:selectItem itemLabel="#{msg.chooseOverlayerPartial}" itemValue="T"/>
-                    <f:selectItem itemLabel="#{msg.chooseOverlayerNone}" itemValue="N"/>
-                    <f:selectItem itemLabel="#{msg.chooseOverlayerAlternative}" itemValue="A"/>
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="#{msg.chooseOverlayerAll}" itemValue="1"/>
+                    <f:selectItem itemLabel="#{msg.chooseOverlayerPartial}" itemValue="2"/>
+                    <f:selectItem itemLabel="#{msg.chooseOverlayerNone}" itemValue="3"/>
+                    <f:selectItem itemLabel="#{msg.chooseOverlayerAlternative}" itemValue="4"/>
                     <f:ajax render="@form :logout:remaining msgOverlayer"/>
                 </h:selectOneMenu>
             </div>
-            <div class="inputPart" jsf:rendered="#{cc.attrs.value == 'A'}">
+            <div class="inputPart" jsf:rendered="#{cc.attrs.value eq 4}">
                 <h:outputLabel for="alternative" value="#{msg.lblDescriptionOfAlternative}" styleClass="label element100"/>
                 <h:message for="alternative" id="msgAlternative" styleClass="errorMessage"/>
                 <h:inputTextarea id="alternative" value="#{cc.attrs.valueText}" readonly="#{cc.attrs.readonly}" styleClass="inputwide areaLow">
