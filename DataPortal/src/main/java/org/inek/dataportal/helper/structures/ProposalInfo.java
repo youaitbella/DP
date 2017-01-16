@@ -1,12 +1,13 @@
 package org.inek.dataportal.helper.structures;
 
+import java.io.Serializable;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  *
  * @author muellermi
  */
-public class ProposalInfo {
+public class ProposalInfo implements Serializable{
 
     private int _id;
     private String _name;

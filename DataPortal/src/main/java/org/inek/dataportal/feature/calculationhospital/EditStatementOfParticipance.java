@@ -1,6 +1,6 @@
 /*
- * To changeData this license header, choose License Headers in Project Properties.
- * To changeData this template file, choose Tools | Templates
+ * To copyForResend this license header, choose License Headers in Project Properties.
+ * To copyForResend this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package org.inek.dataportal.feature.calculationhospital;
@@ -290,14 +290,21 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return "";
     }
 
-    /**
-     *
-     */
-    public void changeData() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsSendEnabled)) {
-            return;
+    public boolean isCopyForResendAllowed() {
+        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+            return false;
         }
+        return !_calcFacade.existActiveStatementOfParticipance(_statement.getIk());
+    }
 
+    public void copyForResend() {
+        _statement.setId(-1);
+        _statement.setStatus(WorkflowStatus.New);
+        _statement.setAccountId(_sessionController.getAccountId());
+        for (CalcContact contact : _statement.getContacts()) {
+            contact.setId(-1);
+            contact.setStatementOfParticipanceId(-1);
+        }
     }
 
     private boolean statementIsComplete() {

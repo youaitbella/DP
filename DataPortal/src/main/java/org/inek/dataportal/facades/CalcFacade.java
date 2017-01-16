@@ -6,10 +6,8 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -41,6 +39,7 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
 
@@ -78,6 +77,19 @@ public class CalcFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public void delete(StatementOfParticipance statement) {
+        remove(statement);
+    }
+
+    public boolean existActiveStatementOfParticipance(int ik) {
+        String jpql = "select c from StatementOfParticipance c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        return query.getResultList().size() == 1;
+    }
+
+    
     public StatementOfParticipance saveStatementOfParticipance(StatementOfParticipance statementOfParticipance) {
         if (statementOfParticipance.getStatus() == WorkflowStatus.Unknown) {
             statementOfParticipance.setStatus(WorkflowStatus.New);
@@ -136,7 +148,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGPBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
-                + "order by 2, 4, 5";
+                + "order by 2, 4, 5, 8 desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         List<CalcHospitalInfo> infos = query.getResultList();
         return infos;
@@ -558,10 +570,6 @@ public class CalcFacade extends AbstractDataAccess {
 
     public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void delete(StatementOfParticipance statement) {
-        remove(statement);
     }
 
     public void delete(DrgCalcBasics calcBasics) {
