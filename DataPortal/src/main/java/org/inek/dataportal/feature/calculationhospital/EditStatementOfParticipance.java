@@ -73,11 +73,11 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     @PostConstruct
     private void init() {
-
         Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
+            return;
         } else if (id.toString().equals("new")) {
             if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -88,10 +88,11 @@ public class EditStatementOfParticipance extends AbstractEditController {
             _statement = loadStatementOfParticipance(id);
         }
         ensureContacts(_statement);
+        enableDisableStatementPage();
     }
-
+    
     private void ensureContacts(StatementOfParticipance statement) {
-        if (statement.getContacts().isEmpty()) {
+        if (statement.getContacts().stream().filter(c -> !c.isConsultant()).count() == 0) {
             statement.getContacts().add(new CalcContact());
         }
         if (statement.getContacts().stream().filter(c -> c.isConsultant()).count() == 0) {
@@ -156,48 +157,29 @@ public class EditStatementOfParticipance extends AbstractEditController {
         statement.setDataYear(year);
         statement.setAccountId(_sessionController.getAccountId());
         List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(ik);
-        for (Object[] obj : currentData) {
+        if (currentData.size() == 1) {
+            Object[] obj = currentData.get(0);
             String domain = (String) obj[0];
-            String type = (String) obj[1];
-            String value = (String) obj[2];
-            if (domain.equals("DRG")) {
-                statement.setDrgCalc(true);
-                if (type.equals("KVM")) {
-                    statement.setClinicalDistributionModelDrg(value.equals("T") ? 1 : 0);
-                }
-                if (type.equals("Multiyear")) {
-                    try {
-                        int multi = Integer.parseInt(value);
-                        statement.setMultiyearDrg(multi);
-                    } catch (NumberFormatException ex) {
-                    }
-                }
-            }
-            if (domain.equals("PSY")) {
-                statement.setPsyCalc(true);
-                if (type.equals("KVM")) {
-                    statement.setClinicalDistributionModelPsy(value.equals("T") ? 1 : 0);
-                }
-                if (type.equals("Multiyear")) {
-                    try {
-                        int multi = Integer.parseInt(value);
-                        statement.setMultiyearPsy(multi);
-                    } catch (NumberFormatException ex) {
-                    }
-                }
-            }
-            if (domain.equals("INV")) {
-                statement.setInvCalc(true);
-            }
-            if (domain.equals("TPG")) {
-                statement.setTpgCalc(true);
-            }
-            if (domain.equals("OBD")) {
-                statement.setObdCalc(true);
+            String drgKvm = (String) obj[1];
+            String drgMultiyear = (String) obj[2];
+            String psyKvm = (String) obj[3];
+            String psyMultiyear = (String) obj[4];
+            statement.setObligatory(domain.contains("obligatory"));
+            if (!statement.isObligatory()) {
+                statement.setDrgCalc(domain.contains("DRG"));
+                statement.setClinicalDistributionModelDrg(drgKvm.equals("T") ? 1 : 0);
+                statement.setMultiyearDrg(Integer.parseInt(drgMultiyear));
+                statement.setPsyCalc(domain.contains("PSY"));
+                statement.setClinicalDistributionModelPsy(psyKvm.equals("T") ? 1 : 0);
+                statement.setMultiyearPsy(Integer.parseInt(psyMultiyear));
+                statement.setInvCalc(domain.contains("INF"));
+                statement.setTpgCalc(domain.contains("TPG"));
+                statement.setObdCalc(domain.contains("OBD"));
             }
         }
 
         statement.setContacts(_calcFacade.retrieveCurrentContacts(ik));
+        ensureContacts(statement);
         return statement;
     }
 
@@ -223,6 +205,11 @@ public class EditStatementOfParticipance extends AbstractEditController {
     protected void addTopics() {
         addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceAddress.name(), Pages.StatementOfParticipanceEditAddress.URL());
         addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name(), Pages.StatementOfParticipanceEditStatements.URL());
+    }
+
+    public void enableDisableStatementPage() {
+        boolean enable = !_statement.isObligatory() || _statement.getObligatoryCalcType() > 1;
+        findTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name()).setVisible(enable);
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -482,6 +469,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_statement.getId() == -1) {
             // paranoid check. usually the ik cannot be changed, once the statement is stored
             _statement = retrievePriorData(_statement.getIk(), _statement.getDataYear());
+            enableDisableStatementPage();
         }
     }
 

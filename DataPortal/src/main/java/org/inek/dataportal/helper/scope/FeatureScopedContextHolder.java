@@ -1,5 +1,6 @@
 package org.inek.dataportal.helper.scope;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -144,7 +145,7 @@ public enum FeatureScopedContextHolder {
         getFeatureScopedMap().put(key, featureScopedInstance);
     }
 
-    public static class FeatureScopedInstance<T> {
+    public static class FeatureScopedInstance<T> implements Serializable{
 
         private Bean<T> _bean;
         public Bean<T> getBean() {

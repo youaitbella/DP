@@ -204,15 +204,20 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik) {
-        String sql = "select case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end as domain, "
-                + "case ctpPropertyId when 3 then 'KVM' else 'Multiyear' end as PropertyType, "
-                + "left(ctpValue, 1) as value\n"
+        String sql = "select dbo.concatenate(case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end) as domain, \n"
+                + "max(isnull(left(dk.ctpValue, 1), 'F')) as DrgKvm,\n"
+                + "max(isnull(left(dm.ctpValue, 1), '0')) as DrgMultiyear,\n"
+                + "max(isnull(left(pk.ctpValue, 1), 'F')) as PsyKvm,\n"
+                + "max(isnull(left(pm.ctpValue, 1), '0')) as PsyMultiyear\n"
                 + "from CallCenterDB.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
-                + "join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId\n"
-                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 "
-                + "and ciParticipation = 1 and ciParticipationRetreat = 0 and ctpPropertyId in (3, 6) and cuIk = " + ik;
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dk on ciId = dk.ctpCalcInformationId and dk.ctpPropertyId = 3 and caCalcTypeId = 1 -- ctpPropertyId 3|6 : KVM| Multiyear; caCalcTypeId 1|3 : DRG|Psy\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dm on ciId = dm.ctpCalcInformationId and dm.ctpPropertyId = 6 and caCalcTypeId = 1\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pk on ciId = pk.ctpCalcInformationId and pk.ctpPropertyId = 3 and caCalcTypeId = 3\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pm on ciId = pm.ctpCalcInformationId and pm.ctpPropertyId = 6 and caCalcTypeId = 3\n"
+                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
+                + "group by cuIk";
         Query query = getEntityManager().createNativeQuery(sql);
         return query.getResultList();
     }

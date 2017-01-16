@@ -161,7 +161,7 @@ public class StatementOfParticipance implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property DrgCalc">
     @Column(name = "sopIsDrg")
     @Documentation(name = "Teilnahme DRG")
-    private boolean _drgCalc = true;
+    private boolean _drgCalc;
 
     public boolean isDrgCalc() {
         return _drgCalc;
@@ -175,7 +175,7 @@ public class StatementOfParticipance implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property PsyCalc">
     @Column(name = "sopIsPsy")
     @Documentation(name = "Teilnahme PSY")
-    private boolean _psyCalc = true;
+    private boolean _psyCalc;
 
     public boolean isPsyCalc() {
         return _psyCalc;
@@ -412,8 +412,7 @@ public class StatementOfParticipance implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Contacts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
     private List<CalcContact> _contacts = new Vector<>();
 

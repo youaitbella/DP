@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.helper.tree;
 
+import java.io.Serializable;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
 import org.inek.dataportal.entities.account.Account;
@@ -13,7 +14,7 @@ import org.inek.dataportal.entities.account.Account;
  *
  * @author muellermi
  */
-public class AccountTreeNode extends TreeNode {
+public class AccountTreeNode extends TreeNode{
 
     private final Account _account;
 

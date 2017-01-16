@@ -89,7 +89,7 @@
                                  hideNoSelectionOption="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                    <f:ajax event="change" render="@this :logout:remaining msgCalcType"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgCalcType" listener="#{editStatementOfParticipance.enableDisableStatementPage}"/>
                 </h:selectOneMenu>
                 <h:outputLabel value="durchführen."/>
                 <h:message for="calcType" id="msgCalcType" styleClass="errorMessage"/>

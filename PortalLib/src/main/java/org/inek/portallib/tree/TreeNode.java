@@ -5,6 +5,7 @@
  */
 package org.inek.portallib.tree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author muellermi
  */
-public abstract class TreeNode {
+public abstract class TreeNode implements Serializable{
 
     private final TreeNode _parent;
 
