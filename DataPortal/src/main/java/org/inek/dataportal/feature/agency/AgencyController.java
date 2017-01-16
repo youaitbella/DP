@@ -23,9 +23,9 @@ public class AgencyController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
 //        if (getSessionController().isInekUser(Feature.CERT)) {
-//            topics.addTopic(getMsg().getString("lblCert"), Pages.AgencyManagement.URL());
+//            topics.addTopic(Utils.getMessage("lblCert"), Pages.AgencyManagement.URL());
 //        } else {
-//            topics.addTopic(getMsg().getString("lblCert"), Pages.CertCertification.URL());
+//            topics.addTopic(Utils.getMessage("lblCert"), Pages.CertCertification.URL());
 //        }
     }
 

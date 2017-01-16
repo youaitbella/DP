@@ -48,7 +48,7 @@ public class DropBoxController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblDropBoxSystem"), Pages.DropBoxSummary.URL());
+        topics.addTopic(Utils.getMessage("lblDropBoxSystem"), Pages.DropBoxSummary.URL());
     }
 
     @Override

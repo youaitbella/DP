@@ -93,7 +93,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AgeYearsFrom">
-    @Documentation(key = "lblAgeFrom", translateValue = "-1=empty", omitOnEmpty = true)
+    @Documentation(key = "lblAgeFrom", omitOnValue = "-1")
     @Column(name = "miAgeYearsFrom")
     private int _ageYearsFrom = -1;
 
@@ -109,7 +109,7 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AgeYearsTo">
-    @Documentation(key = "lblAgeTo", translateValue = "-1=empty", omitOnEmpty = true)
+    @Documentation(key = "lblAgeTo", omitOnValue = "-1")
     @Column(name = "miAgeYearsTo")
     private int _ageYearsTo = -1;
 

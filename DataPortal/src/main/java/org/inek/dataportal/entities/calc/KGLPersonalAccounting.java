@@ -145,6 +145,20 @@ public class KGLPersonalAccounting implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property _description">
+
+    @Column(name = "paDescription")
+    private String _description;
+
+    public String getDescription() {
+        return _description;
+    }
+
+    public void setDescription(String description) {
+        this._description = description;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
@@ -183,7 +197,7 @@ public class KGLPersonalAccounting implements Serializable {
         this._costTypeID = costTypeId;
     }
 
-    public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
+    public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, String paDescription, int paAmount) {
         this._id = paID;
         this._costTypeID = paCostTypeID;
         this._staffRecording = paStaffRecording;
@@ -192,6 +206,7 @@ public class KGLPersonalAccounting implements Serializable {
         this._serviceStatistic = paServiceStatistic;
         this._expertRating = paExpertRating;
         this._other = paOther;
+        this._description = paDescription;
         this._amount = paAmount;
     }
 
@@ -252,6 +267,9 @@ public class KGLPersonalAccounting implements Serializable {
             return false;
         }
         if (this._baseInformationID != other._baseInformationID) {
+            return false;
+        }
+        if (this._description != other._description){
             return false;
         }
         return true;

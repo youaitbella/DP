@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -91,11 +92,9 @@ public class DocumentationUtil {
     private void docElement(Documentation doc, String fieldName, Object rawValue) {
         String name = getName(doc, fieldName);
         if (rawValue instanceof Collection) {
-            //addDoc(name, "", doc, 0);
             documentCollection(doc, name, (Collection) rawValue);
         } else {
-            String value = translate(rawValue, doc);
-            addDoc(name, value, doc, 0);
+            addDoc(name, rawValue, doc, 0);
         }
     }
 
@@ -117,7 +116,7 @@ public class DocumentationUtil {
             try {
                 field.setAccessible(true);
                 Object rawValue = field.get(o);
-                subList.add(new KeyValueLevel(getName(doc, field.getName()), translate(rawValue, doc), 1));
+                addDocToSubList(subList, doc, field.getName(), rawValue);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
@@ -129,17 +128,44 @@ public class DocumentationUtil {
             try {
                 method.setAccessible(true);
                 Object rawValue = method.invoke(o);
-                subList.add(new KeyValueLevel(getName(doc, method.getName()), translate(rawValue, doc), 1));
+                addDocToSubList(subList, doc, method.getName(), rawValue);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
         }
         return subList;
     }
 
-    private void addDoc(String name, Object value, Documentation doc, int level) {
+    private void addDocToSubList(List<KeyValueLevel> subList, Documentation doc, String elementName, Object rawValue) {
+        String name = getName(doc, elementName);
+        if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
+            return;
+        }
+        if (!doc.omitOnValue().isEmpty()) {
+            List<String> values = Arrays.asList(doc.omitOnValue().split(";"));
+            if (values.contains(rawValue.toString())) {
+                return;
+            }
+        }
+        String value = translate(rawValue, doc);
+        subList.add(new KeyValueLevel(name, value, 1));
+    }
+
+    private void addDoc(String name, Object rawValue, Documentation doc, int level) {
         Long sorterKey = 1000L * doc.rank() + _position;
         _position++;
-        if ((value.toString().length() > 0 || !doc.omitOnEmpty()) && !doc.omitAlways()) {
+        if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
+            return;
+        }
+        if (!doc.omitOnValue().isEmpty()) {
+            List<String> values = Arrays.asList(doc.omitOnValue().split(";"));
+            if (values.contains(rawValue.toString())) {
+                return;
+            }
+        }
+        if (rawValue instanceof Collection) {
+            _sorter.put(sorterKey, new KeyValueLevel<>(name, rawValue, level));
+        } else {
+            String value = translate(rawValue, doc);
             _sorter.put(sorterKey, new KeyValueLevel<>(name, value, level));
         }
     }

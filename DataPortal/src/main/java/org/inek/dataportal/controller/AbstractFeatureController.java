@@ -5,9 +5,7 @@
 package org.inek.dataportal.controller;
 
 import java.io.Serializable;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
-import javax.faces.context.FacesContext;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.helper.Topics;
@@ -21,23 +19,13 @@ public abstract class AbstractFeatureController implements IFeatureController, S
     private static final long serialVersionUID = 1L;
 
     private boolean _isActive;
-    private final FacesContext _facesContext;
-    private SessionController _sessionController;
-
-    public AbstractFeatureController() {
-        _facesContext = FacesContext.getCurrentInstance();
-    }
+    private final SessionController _sessionController;
 
     public AbstractFeatureController(SessionController sessionController) {
-        this();
         _sessionController = sessionController;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public ResourceBundle getMsg() {
-        return _facesContext.getApplication().getResourceBundle(_facesContext, "msg");
-    }
-
     protected Account getAccount() {
         return _sessionController.getAccount();
     }
@@ -50,10 +38,6 @@ public abstract class AbstractFeatureController implements IFeatureController, S
     @Override
     public void setActive(boolean active) {
         _isActive = active;
-    }
-
-    public FacesContext getFacesContext() {
-        return _facesContext;
     }
 
     public SessionController getSessionController() {

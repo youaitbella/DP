@@ -11,6 +11,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -25,9 +26,9 @@ public class DocumentsController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         if (getSessionController().isInekUser(Feature.DOCUMENTS)) {
-            topics.addTopic(getMsg().getString("lblDocuments"), Pages.DocumentsList.URL());
+            topics.addTopic(Utils.getMessage("lblDocuments"), Pages.DocumentsList.URL());
         } else {
-            topics.addTopic(getMsg().getString("lblDocuments"), Pages.DocumentsSummary.URL());
+            topics.addTopic(Utils.getMessage("lblDocuments"), Pages.DocumentsSummary.URL());
         }
     }
 

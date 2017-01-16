@@ -10,6 +10,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -23,7 +24,7 @@ public class InsuranceController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblInsurance"), Pages.InsuranceSummary.URL());
+        topics.addTopic(Utils.getMessage("lblInsurance"), Pages.InsuranceSummary.URL());
     }
 
     @Override

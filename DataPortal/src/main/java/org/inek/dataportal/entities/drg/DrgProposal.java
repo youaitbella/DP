@@ -81,12 +81,12 @@ public class DrgProposal implements Serializable {
     @Enumerated(EnumType.STRING)
     private DrgProposalCategory _category = DrgProposalCategory.UNKNOWN;
 
-    @Documentation(name = "Aktion Diagnose", translateValue = "UNKNOWN=empty", omitOnEmpty = true)
+    @Documentation(name = "Aktion Diagnose", omitOnValue = "UNKNOWN")
     @Column(name = "prChangeMethodDiag")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodDiag = DrgProposalChangeMethod.UNKNOWN;
 
-    @Documentation(name = "Aktion Procedure",  translateValue = "UNKNOWN=empty", omitOnEmpty = true)
+    @Documentation(name = "Aktion Procedure",  omitOnValue = "UNKNOWN")
     @Column(name = "prChangeMethodProc")
     @Enumerated(EnumType.STRING)
     private DrgProposalChangeMethod _changeMethodProc = DrgProposalChangeMethod.UNKNOWN;

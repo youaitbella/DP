@@ -12,6 +12,7 @@ import org.inek.dataportal.entities.drg.DrgProposalDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -27,7 +28,7 @@ public class DrgProposalController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblDrgProposal"), Pages.DrgProposalSummary.URL());
+        topics.addTopic(Utils.getMessage("lblDrgProposal"), Pages.DrgProposalSummary.URL());
     }
 
     @Override

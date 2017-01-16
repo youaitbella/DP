@@ -5,6 +5,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -24,7 +25,7 @@ public class AdminController extends AbstractFeatureController {
     // </editor-fold>
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("nameADMIN"), Pages.AdminTaskSystemStatus.URL());
+        topics.addTopic(Utils.getMessage("nameADMIN"), Pages.AdminTaskSystemStatus.URL());
     }
 
     @Override
