@@ -183,7 +183,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsTpg">
     @Column(name = "coIsTpg")
-    @Documentation(key = "lblTPG", omitOnValues = "false")
+    @Documentation(key = "lblTpg", omitOnValues = "false")
     private boolean _tpg;
     public boolean isTpg() {
         return _tpg;
