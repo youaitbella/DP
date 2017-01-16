@@ -1,7 +1,6 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,7 +18,6 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.datatype.XMLGregorianCalendar;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.CustomerType;
 import org.inek.dataportal.entities.dropbox.DropBoxType;
@@ -39,16 +37,16 @@ import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 @Named
 @SessionScoped
 public class SessionTools implements Serializable {
-
+    
     private List<SelectItem> _roleItems;
     private List<SelectItem> _customerTypeItems;
     private List<Integer> _hospitals;
     private int _result;
     private Map<String, String> _pages;
-    @Inject private ContactRoleFacade _contactRoleFacade;
-    @Inject private CustomerTypeFacade _typeFacade;
-    @Inject private DropBoxTypeFacade _dropBoxTypeFacade;
-    @Inject TrashMailFacade _trashMailfacade;
+    @Inject transient private ContactRoleFacade _contactRoleFacade;
+    @Inject transient private CustomerTypeFacade _typeFacade;
+    @Inject transient private DropBoxTypeFacade _dropBoxTypeFacade;
+    @Inject transient TrashMailFacade _trashMailfacade;
 
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
@@ -64,7 +62,7 @@ public class SessionTools implements Serializable {
         return _pages;
     }
 
-    String _language = "de";
+    private String _language = "de";
     public String getLanguage() {
         return _language;
     }
@@ -169,10 +167,6 @@ public class SessionTools implements Serializable {
         return items;
     }
 
-    public String formatDate(XMLGregorianCalendar calendar, String format) {
-        return new SimpleDateFormat(format).format(calendar.toGregorianCalendar().getTime());
-    }
-
     public String formatDate(Date date, String format) {
         return new SimpleDateFormat(format).format(date);
     }
@@ -185,7 +179,7 @@ public class SessionTools implements Serializable {
         return !_trashMailfacade.exists(domain);
     }
 
-    @Inject CustomerFacade _customerFacade;
+    @Inject transient CustomerFacade _customerFacade;
 
     public void checkIk(FacesContext context, UIComponent component, Object value) {
         if (value == null || value.toString().isEmpty()) {
