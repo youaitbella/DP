@@ -33,6 +33,7 @@ import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
@@ -309,7 +310,18 @@ public class CalcFacade extends AbstractDataAccess {
         saveLocations(calcBasics);
         saveSpecialUnits(calcBasics);
         saveCentralFocus(calcBasics);
+        saveLaboratoryData(calcBasics);
         return merge(calcBasics);
+    }
+    
+    private void saveLaboratoryData(DrgCalcBasics calcBasics) {
+        for (KGLListRadiologyLaboratory item : calcBasics.getRadiologyLaboratories()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
     }
 
     private void prepareServiceProvisionTypes(List<KGLListServiceProvision> serviceProvisions) {
