@@ -147,6 +147,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getPersonalAccountings().add(pa);
         }
         ensurePersonalAccountingData(calcBasics);
+        
+        // Laboratory
+        calcBasics.getRadiologyLaboratories().clear();
+        for(KGLListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
+            rl.setId(-1);
+            rl.setBaseInformationID(calcBasics.getId());
+            calcBasics.getRadiologyLaboratories().add(rl);
+        }
             
         // ServiceProvision
         preloadServiceProvision(calcBasics);

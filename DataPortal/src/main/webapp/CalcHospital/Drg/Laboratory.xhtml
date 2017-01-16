@@ -12,20 +12,37 @@
         td {
             vertical-align: top !important;
         }
+        .col1 {
+            max-width: 60px;
+        }
+        .col2 {
+            max-width: 220px;
+            width: 200px;
+        }
+        .col3 {
+            max-width: 120px;
+        }
+        .col4 {
+            max-width: 180px;
+            width: 160px;
+        }
+        .col5 {
+            max-width: 120px;
+        }
     </style>
 
     <h:dataTable value="#{editCalcBasicsDrg.calcBasics.radiologyLaboratories}" 
                      var="item" 
                      width="100%"
                      rowClasses="row1, row2"
-                     columnClasses="colIcon, col03em number, col05em, col05em, col04em, col10em"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5"
                      styleClass="marginTop">
         
         <h:column>
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink styleClass="colIcon">
+            <h:commandLink>
                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteLaboratory(item)}"/>
             </h:commandLink>
@@ -35,7 +52,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
             </f:facet>
-            <h:inputText value="#{item.costCenterID}" >
+            <h:inputText styleClass="inputshort" value="#{item.costCenterID}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -95,7 +112,27 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText rendered="#{item.serviceDocDif}" class="areaWideHigh" value="#{item.description}" >
+            <h:inputText value="#{item.serviceVolumePre}" >
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen"/><br/>
+                <h:outputLabel value="vor Abgrenzung"/><br/>
+            </f:facet>
+            <h:inputText value="#{item.amountPre}" >
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen"/><br/>
+                <h:outputLabel value="nach Abgrenzung"/><br/>
+            </f:facet>
+            <h:inputText value="#{item.amountPost}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
