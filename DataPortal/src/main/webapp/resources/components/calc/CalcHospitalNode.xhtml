@@ -20,7 +20,7 @@
     <cc:implementation>
         <h:dataTable headerClass="list-header" id="calcHospitalInfos"
                      value="#{cc.attrs.parentNode.sortedChildren}" var="node" width="100%" rowClasses="row1, row2" 
-                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId' : ''} colIk, colValue">
+                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, colIk, #{cc.attrs.isSealed.equals('true') ? 'col10em,' : ''} colValue">
             
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
@@ -62,17 +62,6 @@
                 </h:link>
             </h:column>
             
-            <h:column rendered="#{cc.attrs.isSealed}">
-                <f:facet name="header">
-                    <h:commandLink value="ID #{cc.attrs.parentNode.sortCriteria.equals('Id') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}" render="calcHospitalInfos :logout:remaining"/>
-                    </h:commandLink>
-                </f:facet>
-                <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
-                               value="V#{node.calcHospitalInfo.id}"/>
-            </h:column>
-
-            
             <h:column>
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblIkShort} #{cc.attrs.parentNode.sortCriteria.equals('IK') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
@@ -85,6 +74,18 @@
                 </h:link>
             </h:column>
             
+            <h:column rendered="#{cc.attrs.isSealed}">
+                <f:facet name="header">
+                    <h:commandLink value="#{msg.lblDate} #{cc.attrs.parentNode.sortCriteria.equals('date') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('date')}" render="calcHospitalInfos :logout:remaining"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
+                               value="#{sessionTools.formatDate(node.calcHospitalInfo.lastChanged, 'dd.MM.yyyy HH:mm')}" >
+                    <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
+                </h:link>
+            </h:column>
+
             <h:column>
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblAppellation} #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">

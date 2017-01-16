@@ -122,22 +122,23 @@ public class CalcFacade extends AbstractDataAccess {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
         String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name\n"
+                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
                 + "from calc.StatementOfParticipance\n"
                 + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
                 + "union\n"
                 + "select biId as Id, 1 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name\n"
+                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGLBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "union\n"
                 + "select biId as Id, 2 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name\n"
+                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGPBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "order by 2, 4, 5";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
-        return query.getResultList();
+        List<CalcHospitalInfo> infos = query.getResultList();
+        return infos;
     }
 
     public Set<Integer> getCalcYears(Set<Integer> accountIds) {

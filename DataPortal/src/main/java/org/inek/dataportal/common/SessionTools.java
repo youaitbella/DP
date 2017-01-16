@@ -1,9 +1,11 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -169,6 +171,10 @@ public class SessionTools implements Serializable {
 
     public String formatDate(XMLGregorianCalendar calendar, String format) {
         return new SimpleDateFormat(format).format(calendar.toGregorianCalendar().getTime());
+    }
+
+    public String formatDate(Date date, String format) {
+        return new SimpleDateFormat(format).format(date);
     }
 
     public boolean isValidNonTrashEmail(String address) {

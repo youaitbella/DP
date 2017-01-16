@@ -234,6 +234,13 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
                     sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
                 }
                 break;
+            case "date":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getLastChanged().compareTo(n1.getCalcHospitalInfo().getLastChanged()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getLastChanged().compareTo(n2.getCalcHospitalInfo().getLastChanged()));
+                }
+                break;
             case "status":
             default:
                 sorted = stream;

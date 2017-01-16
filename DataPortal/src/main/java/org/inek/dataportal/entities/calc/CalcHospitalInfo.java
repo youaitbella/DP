@@ -6,11 +6,14 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Temporal;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -120,6 +123,20 @@ public class CalcHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name = "LastChanged")
+    private Date _lastChanged;
+
+    public Date getLastChanged() {
+        return _lastChanged;
+    }
+
+    public void setLastChanged(Date lastChanged) {
+        _lastChanged = lastChanged;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Hash & Equals">
     @Override
     public int hashCode() {
