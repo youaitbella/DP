@@ -9,6 +9,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -23,9 +24,9 @@ public class CertController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         if (getSessionController().isInekUser(Feature.CERT)) {
-            topics.addTopic(getMsg().getString("lblCert"), Pages.CertSystemManagement.URL());
+            topics.addTopic(Utils.getMessage("lblCert"), Pages.CertSystemManagement.URL());
         } else {
-            topics.addTopic(getMsg().getString("lblCert"), Pages.CertCertification.URL());
+            topics.addTopic(Utils.getMessage("lblCert"), Pages.CertCertification.URL());
         }
     }
 

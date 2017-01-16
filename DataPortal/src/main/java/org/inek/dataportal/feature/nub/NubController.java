@@ -27,9 +27,9 @@ public class NubController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblNUB"), Pages.NubSummary.URL());
+        topics.addTopic(Utils.getMessage("lblNUB"), Pages.NubSummary.URL());
         if (getSessionController().isHospital()) {
-            topics.addTopic(getMsg().getString("lblNubMethodInfo"), Pages.NubMethodInfo.URL());
+            topics.addTopic(Utils.getMessage("lblNubMethodInfo"), Pages.NubMethodInfo.URL());
         }
     }
 

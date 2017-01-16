@@ -5,6 +5,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -18,7 +19,7 @@ public class UserMaintenanceController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("nameUSER_MAINTENANCE"), Pages.UserMaintenanceMasterData.URL());
+        topics.addTopic(Utils.getMessage("nameUSER_MAINTENANCE"), Pages.UserMaintenanceMasterData.URL());
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -20,7 +21,7 @@ public class CalcHospitalController extends AbstractFeatureController {
     // <editor-fold defaultstate="collapsed" desc="Override abstract methods">
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblCalculationParticipance"), Pages.CalculationHospitalSummary.URL());
+        topics.addTopic(Utils.getMessage("lblCalculationParticipance"), Pages.CalculationHospitalSummary.URL());
     }
 
     @Override

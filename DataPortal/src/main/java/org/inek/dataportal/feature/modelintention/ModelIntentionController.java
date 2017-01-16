@@ -10,6 +10,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -23,7 +24,7 @@ public class ModelIntentionController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblModelIntention"), Pages.ModelIntentionSummary.URL());
+        topics.addTopic(Utils.getMessage("lblModelIntention"), Pages.ModelIntentionSummary.URL());
     }
 
     @Override

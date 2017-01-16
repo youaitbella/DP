@@ -9,6 +9,7 @@ import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -41,7 +42,7 @@ public class PeppProposalController extends AbstractFeatureController {
     // </editor-fold>
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(getMsg().getString("lblPeppProposal"), Pages.PeppProposalSummary.URL());
+        topics.addTopic(Utils.getMessage("lblPeppProposal"), Pages.PeppProposalSummary.URL());
     }
 
     @Override

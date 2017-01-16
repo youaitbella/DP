@@ -160,7 +160,7 @@ public class StatementOfParticipance implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property DrgCalc">
     @Column(name = "sopIsDrg")
-    @Documentation(name = "Teilnahme DRG")
+    @Documentation(name = "Teilnahme DRG", omitOnValue = "false")
     private boolean _drgCalc;
 
     public boolean isDrgCalc() {
@@ -174,7 +174,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property PsyCalc">
     @Column(name = "sopIsPsy")
-    @Documentation(name = "Teilnahme PSY")
+    @Documentation(name = "Teilnahme PSY", omitOnValue = "false")
     private boolean _psyCalc;
 
     public boolean isPsyCalc() {
@@ -188,7 +188,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property InvCalc">
     @Column(name = "sopIsInv")
-    @Documentation(name = "Teilnahme INV")
+    @Documentation(name = "Teilnahme INV", omitOnValue = "false")
     private boolean _invCalc;
 
     public boolean isInvCalc() {
@@ -202,7 +202,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property TpgCalc">
     @Column(name = "sopIsTpg")
-    @Documentation(name = "Teilnahme TPG")
+    @Documentation(name = "Teilnahme TPG", omitOnValue = "false")
     private boolean _tpgCalc;
 
     public boolean isTpgCalc() {
@@ -216,7 +216,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ObdCalc">
     @Column(name = "sopIsObd")
-    @Documentation(name = "Teilnahme OBD")
+    @Documentation(name = "Teilnahme OBD", omitOnValue = "false")
     private boolean _obdCalc;
 
     public boolean isObdCalc() {
@@ -414,6 +414,7 @@ public class StatementOfParticipance implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Contacts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "coStatementOfParticipanceId", referencedColumnName = "sopId")
+    @Documentation(key = "lblContactPerson")
     private List<CalcContact> _contacts = new Vector<>();
 
     public List<CalcContact> getContacts() {

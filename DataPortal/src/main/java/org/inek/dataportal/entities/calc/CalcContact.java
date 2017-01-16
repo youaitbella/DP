@@ -55,6 +55,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "coGender")
+    @Documentation(key = "lblSalutation", omitOnValue = "0", translateValue = "1=salutationFemale;2=salutationMale")
     private Integer _gender = -1;
 
     public Integer getGender() {
@@ -68,6 +69,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Title">
     @Column(name = "coTitle")
+    @Documentation(key = "lblTitle", omitOnEmpty = true)
     private String _title = "";
 
     @Size(max = 50)
@@ -82,6 +84,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property FirstName">
     @Column(name = "coFirstName")
+    @Documentation(key = "lblFirstName")
     private String _firstName = "";
 
     @Size(max = 50)
@@ -96,6 +99,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Column(name = "coLastName")
+    @Documentation(key = "lblFirstName")
     private String _lastName = "";
 
     @Size(max = 50)
@@ -110,6 +114,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Phone">
     @Column(name = "coPhone")
+    @Documentation(key = "lblPhone")
     private String _phone = "";
 
     @Size(max = 50)
@@ -124,6 +129,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Mail">
     @Column(name = "coMail")
+    @Documentation(key = "lblMail")
     private String _mail = "";
 
     @Size(max = 100)
@@ -138,6 +144,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsDrg">
     @Column(name = "coIsDrg")
+    @Documentation(key = "lblDrg", omitOnValue = "false")
     private boolean _drg;
     public boolean isDrg() {
         return _drg;
@@ -150,6 +157,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsPsy">
     @Column(name = "coIsPsy")
+    @Documentation(key = "lblPsy", omitOnValue = "false")
     private boolean _psy;
     public boolean isPsy() {
         return _psy;
@@ -162,6 +170,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsInv">
     @Column(name = "coIsInv")
+    @Documentation(key = "lblInv", omitOnValue = "false")
     private boolean _inv;
     public boolean isInv() {
         return _inv;
@@ -174,6 +183,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsTpg">
     @Column(name = "coIsTpg")
+    @Documentation(key = "lblTPG", omitOnValue = "false")
     private boolean _tpg;
     public boolean isTpg() {
         return _tpg;
@@ -186,7 +196,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Obd">
     @Column(name = "coIsObd")
-    @Documentation(name = "OBD")
+    @Documentation(key = "lblObd", omitOnValue = "false")
     private boolean _obd;
 
     public boolean isObd() {
@@ -200,6 +210,7 @@ public class CalcContact implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property IsConsultant">
     @Column(name = "coIsConsultant")
+    @Documentation(name = "Externer Berater", omitOnValue = "false")
     private boolean _consultant;
     public boolean isConsultant() {
         return _consultant;

@@ -48,12 +48,11 @@ public @interface Documentation {
     public String translateValue() default "";
 
     /**
-     * relative order
-     *
-     * @return
+     * omit documentation if the translated value of the field has a specific value
+     * A couple of values might be provided, separated by semicolon
      */
-    public int rank() default 100;
-
+    public String omitOnValue() default "";
+    
     /**
      * omit documentation if value is empty
      */
@@ -65,6 +64,13 @@ public @interface Documentation {
      */
     public boolean omitAlways() default false;
     
+    /**
+     * relative order
+     *
+     * @return
+     */
+    public int rank() default 100;
+
     /**
      *
      * @return
