@@ -140,8 +140,8 @@ public class DocumentationUtil {
         if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
             return;
         }
-        if (!doc.omitOnValue().isEmpty()) {
-            List<String> values = Arrays.asList(doc.omitOnValue().split(";"));
+        if (!doc.omitOnValues().isEmpty()) {
+            List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
             if (values.contains(rawValue.toString())) {
                 return;
             }
@@ -156,8 +156,8 @@ public class DocumentationUtil {
         if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
             return;
         }
-        if (!doc.omitOnValue().isEmpty()) {
-            List<String> values = Arrays.asList(doc.omitOnValue().split(";"));
+        if (!doc.omitOnValues().isEmpty()) {
+            List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
             if (values.contains(rawValue.toString())) {
                 return;
             }

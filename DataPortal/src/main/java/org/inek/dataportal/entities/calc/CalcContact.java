@@ -55,7 +55,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "coGender")
-    @Documentation(key = "lblSalutation", omitOnValue = "0", translateValue = "1=salutationFemale;2=salutationMale")
+    @Documentation(key = "lblSalutation", omitOnValues = "0", translateValue = "1=salutationFemale;2=salutationMale")
     private Integer _gender = -1;
 
     public Integer getGender() {
@@ -144,7 +144,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsDrg">
     @Column(name = "coIsDrg")
-    @Documentation(key = "lblDrg", omitOnValue = "false")
+    @Documentation(key = "lblDrg", omitOnValues = "false")
     private boolean _drg;
     public boolean isDrg() {
         return _drg;
@@ -157,7 +157,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsPsy">
     @Column(name = "coIsPsy")
-    @Documentation(key = "lblPsy", omitOnValue = "false")
+    @Documentation(key = "lblPsy", omitOnValues = "false")
     private boolean _psy;
     public boolean isPsy() {
         return _psy;
@@ -170,7 +170,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsInv">
     @Column(name = "coIsInv")
-    @Documentation(key = "lblInv", omitOnValue = "false")
+    @Documentation(key = "lblInv", omitOnValues = "false")
     private boolean _inv;
     public boolean isInv() {
         return _inv;
@@ -183,7 +183,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IsTpg">
     @Column(name = "coIsTpg")
-    @Documentation(key = "lblTPG", omitOnValue = "false")
+    @Documentation(key = "lblTPG", omitOnValues = "false")
     private boolean _tpg;
     public boolean isTpg() {
         return _tpg;
@@ -196,7 +196,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Obd">
     @Column(name = "coIsObd")
-    @Documentation(key = "lblObd", omitOnValue = "false")
+    @Documentation(key = "lblObd", omitOnValues = "false")
     private boolean _obd;
 
     public boolean isObd() {
@@ -210,7 +210,7 @@ public class CalcContact implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property IsConsultant">
     @Column(name = "coIsConsultant")
-    @Documentation(name = "Externer Berater", omitOnValue = "false")
+    @Documentation(name = "Externer Berater", omitOnValues = "false")
     private boolean _consultant;
     public boolean isConsultant() {
         return _consultant;

@@ -160,7 +160,7 @@ public class StatementOfParticipance implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property DrgCalc">
     @Column(name = "sopIsDrg")
-    @Documentation(name = "Teilnahme DRG", omitOnValue = "false")
+    @Documentation(name = "Teilnahme DRG", omitOnValues = "false")
     private boolean _drgCalc;
 
     public boolean isDrgCalc() {
@@ -174,7 +174,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property PsyCalc">
     @Column(name = "sopIsPsy")
-    @Documentation(name = "Teilnahme PSY", omitOnValue = "false")
+    @Documentation(name = "Teilnahme PSY", omitOnValues = "false")
     private boolean _psyCalc;
 
     public boolean isPsyCalc() {
@@ -188,7 +188,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property InvCalc">
     @Column(name = "sopIsInv")
-    @Documentation(name = "Teilnahme INV", omitOnValue = "false")
+    @Documentation(name = "Teilnahme INV", omitOnValues = "false")
     private boolean _invCalc;
 
     public boolean isInvCalc() {
@@ -202,7 +202,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property TpgCalc">
     @Column(name = "sopIsTpg")
-    @Documentation(name = "Teilnahme TPG", omitOnValue = "false")
+    @Documentation(name = "Teilnahme TPG", omitOnValues = "false")
     private boolean _tpgCalc;
 
     public boolean isTpgCalc() {
@@ -216,7 +216,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ObdCalc">
     @Column(name = "sopIsObd")
-    @Documentation(name = "Teilnahme OBD", omitOnValue = "false")
+    @Documentation(name = "Teilnahme OBD", omitOnValues = "false")
     private boolean _obdCalc;
 
     public boolean isObdCalc() {
@@ -230,7 +230,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelDrg">
     @Column(name = "sopCdmDrg")
-    @Documentation
+    @Documentation(name = "KVM DRG", omitOnValues = "-1;0", translateValue = "1=lblStatementSingleCostAttributionDrg")
     private int _clinicalDistributionModelDrg = -1;
 
     public int getClinicalDistributionModelDrg() {
@@ -244,6 +244,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelPsy">
     @Column(name = "sopCdmPsy")
+    @Documentation(name = "KVM PSY", omitOnValues = "-1;0", translateValue = "1=lblStatementSingleCostAttributionPsy")
     private int _clinicalDistributionModelPsy = -1;
 
     public int getClinicalDistributionModelPsy() {
@@ -257,6 +258,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrg">
     @Column(name = "sopMultiyearDrg")
+    @Documentation(name = "Überlieger DRG", omitOnValues = "0", translateValue = "1=chooseOverlayerAll;2=chooseOverlayerPartial;3=chooseOverlayerNone;4=chooseOverlayerAlternative")
     private int _multiyearDrg;
 
     public int getMultiyearDrg() {
@@ -270,6 +272,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrgText">
     @Column(name = "sopMultiyearDrgText")
+    @Documentation(name = "Beschreibung Alternative", omitOnEmpty = true)
     private String _multiyearDrgText = "";
 
     public String getMultiyearDrgText() {
@@ -283,6 +286,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsy">
     @Column(name = "sopMultiyearPsy")
+    @Documentation(name = "Überlieger PSY", omitOnValues = "0", translateValue = "1=chooseOverlayerAll;2=chooseOverlayerPartial;3=chooseOverlayerNone;4=chooseOverlayerAlternative")
     private int _multiyearPsy;
 
     public int getMultiyearPsy() {
@@ -296,6 +300,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsyText">
     @Column(name = "sopMultiyearPsyText")
+    @Documentation(name = "Beschreibung Alternative", omitOnEmpty = true)
     private String _multiyearPsyText = "";
 
     public String getMultiyearPsyText() {

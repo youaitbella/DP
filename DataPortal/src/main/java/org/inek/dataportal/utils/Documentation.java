@@ -51,7 +51,7 @@ public @interface Documentation {
      * omit documentation if the translated value of the field has a specific value
      * A couple of values might be provided, separated by semicolon
      */
-    public String omitOnValue() default "";
+    public String omitOnValues() default "";
     
     /**
      * omit documentation if value is empty
