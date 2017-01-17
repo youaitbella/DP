@@ -125,7 +125,7 @@ public class CalcHospitalList {
 
     public String printStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
         StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
-        Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + statement.getId());
+        Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
         Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(statement));
         return Pages.PrintView.URL();

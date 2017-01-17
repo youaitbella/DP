@@ -288,13 +288,10 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
     // </editor-fold>
-
+    
+    // <editor-fold defaultstate="collapsed" desc="CalcBasics DRG">
     public DrgCalcBasics findCalcBasicsDrg(int id) {
         return findFresh(DrgCalcBasics.class, id);
-    }
-
-    public PeppCalcBasics findCalcBasicsPepp(int id) {
-        return findFresh(PeppCalcBasics.class, id);
     }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
@@ -581,10 +578,6 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void delete(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = calcBasics.getOpAn();
         if (opAn != null) {
@@ -593,9 +586,20 @@ public class CalcFacade extends AbstractDataAccess {
         }
         remove(calcBasics);
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="CalcBasics PSY">
+    public PeppCalcBasics findCalcBasicsPepp(int id) {
+        return findFresh(PeppCalcBasics.class, id);
+    }
+    
+    public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);
     }
+    // </editor-fold>
 
 }

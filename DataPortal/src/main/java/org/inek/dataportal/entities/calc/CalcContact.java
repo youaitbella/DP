@@ -99,7 +99,7 @@ public class CalcContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Column(name = "coLastName")
-    @Documentation(key = "lblFirstName")
+    @Documentation(key = "lblLastName")
     private String _lastName = "";
 
     @Size(max = 50)

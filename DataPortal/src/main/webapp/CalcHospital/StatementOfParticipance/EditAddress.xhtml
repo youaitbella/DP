@@ -35,7 +35,7 @@
             <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
 
             <br/>
-            <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1}"/>
+            <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"/>
         </div>
 
 
