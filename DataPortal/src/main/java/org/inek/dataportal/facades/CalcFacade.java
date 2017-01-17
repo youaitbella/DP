@@ -316,6 +316,7 @@ public class CalcFacade extends AbstractDataAccess {
             return calcBasics;
         }
 
+        merge(calcBasics.getOpAn());
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
         saveTopItems(calcBasics);
         saveServiceProvisions(calcBasics);
