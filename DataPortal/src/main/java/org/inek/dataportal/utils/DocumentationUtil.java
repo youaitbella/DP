@@ -198,7 +198,7 @@ public class DocumentationUtil {
                 String val = pair.substring(0, pos).trim();
                 String key = pair.substring(pos + 1).trim();
                 if (val.equals(value)) {
-                    String translatedValue = Utils.getMessage(key);
+                    String translatedValue = Utils.getMessageOrKey(key);
                     if (!translatedValue.startsWith(KeyNotFound)) {
                         return translatedValue;
                     }

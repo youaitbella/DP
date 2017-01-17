@@ -506,6 +506,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
      * @return
      */
     public String seal() {
+        populateDefaultsForUnreachableFields();
         if (!statementIsComplete()) {
             return getActiveTopic().getOutcome();
         }
@@ -523,6 +524,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return "";
     }
 
+    private void populateDefaultsForUnreachableFields() {
+        // Some input fields can't be reached depending on other fields.
+        // But they might contain elder values, which became obsolte by setting the other field 
+        // Such fields will be populated with default values
+        
+        // todo
+    }
+    
     private boolean statementIsComplete() {
         // todo
         return true;

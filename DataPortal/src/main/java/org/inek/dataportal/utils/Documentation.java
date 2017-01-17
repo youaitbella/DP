@@ -42,7 +42,7 @@ public @interface Documentation {
      * original=translation[;original=translation]...
      * Values which aren't in the list will be yielded without translation
      * The translation will be treated a key to the message bundle 
-     * If no such key is fount, then the translation is literaly used.
+     * If no such key is found, then the translation is literaly used.
      * @return
      */
     public String translateValue() default "";

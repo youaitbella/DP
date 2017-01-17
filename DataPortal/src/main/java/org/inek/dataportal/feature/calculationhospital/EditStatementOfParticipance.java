@@ -90,7 +90,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         ensureContacts(_statement);
         enableDisableStatementPage();
     }
-    
+
     private void ensureContacts(StatementOfParticipance statement) {
         if (statement.getContacts().stream().filter(c -> !c.isConsultant()).count() == 0) {
             statement.getContacts().add(new CalcContact());
@@ -272,10 +272,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
      * @return
      */
     public String seal() {
+        populateDefaultsForUnreachableFields();
         if (!statementIsComplete()) {
             return getActiveTopic().getOutcome();
         }
-
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
@@ -288,6 +288,50 @@ public class EditStatementOfParticipance extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    private void populateDefaultsForUnreachableFields() {
+        // Some input fields can't be reached depending on other fields.
+        // But they might contain elder values, which became obsolte by setting the other field 
+        // Such fields will be removed or populated with default values
+        if (!_statement.isWithConsultant()) {
+            _statement.setConsultantCompany("");
+            _statement.setConsultantSendMail(false);
+            _statement.getContacts();
+            List<CalcContact> consultContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
+            consultContacts.forEach((consultContact) -> {
+                _statement.getContacts().remove(consultContact);
+            });
+        }
+        for (CalcContact contact : _statement.getContacts()) {
+            if (!_statement.isDrgCalc()) {
+                contact.setDrg(false);
+            }
+            if (!_statement.isPsyCalc()) {
+                contact.setPsy(false);
+            }
+            if (!_statement.isInvCalc()) {
+                contact.setInv(false);
+            }
+            if (!_statement.isTpgCalc()) {
+                contact.setTpg(false);
+            }
+            if (!_statement.isObdCalc()) {
+                contact.setObd(false);
+            }
+        }
+        if (_statement.isObligatory() && _statement.getObligatoryCalcType() < 2) {
+            _statement.setMultiyearDrg(0);
+            _statement.setClinicalDistributionModelDrg(-1);
+            _statement.setMultiyearPsy(0);
+            _statement.setClinicalDistributionModelPsy(-1);
+        }
+        if (_statement.getMultiyearDrg() < 4) {
+            _statement.setMultiyearDrgText("");
+        }
+        if (_statement.getMultiyearPsy() < 4) {
+            _statement.setMultiyearPsyText("");
+        }
     }
 
     public boolean isCopyForResendAllowed() {
@@ -341,6 +385,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         if (statement.isObdCalc() && !statement.getContacts().stream().anyMatch(c -> c.isObd())) {
             applyMessageValues(message, "lblNeedContactObd", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+        }
+        if (statement.isObligatory() && statement.getContacts().stream().filter(c -> !c.isConsultant()).count() == 0) {
+            applyMessageValues(message, "lblNeedContact", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+        }
+        if (statement.isObligatory() && _statement.getObligatoryCalcType() < 1) {
+            applyMessageValues(message, "lblObligatoryCalcType", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:calcType");
         }
         if (statement.getContacts().stream()
                 .filter(c -> !c.isEmpty())
