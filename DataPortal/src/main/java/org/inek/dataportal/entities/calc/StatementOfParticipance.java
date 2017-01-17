@@ -312,71 +312,6 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Section">
-    @Column(name = "sopSection")
-    private boolean _section;
-
-    public boolean isSection() {
-        return _section;
-    }
-
-    public void setSection(boolean section) {
-        _section = section;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property SectionExtern">
-    @Column(name = "sopSectionExtern")
-    private boolean _sectionExtern;
-
-    public boolean isSectionExtern() {
-        return _sectionExtern;
-    }
-
-    public void setSectionExtern(boolean sectionExtern) {
-        _sectionExtern = sectionExtern;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property SectionCount">
-    @Column(name = "sopSectionCount")
-    private int _sectionCount;
-
-    public int isSectionCount() {
-        return _sectionCount;
-    }
-
-    public void setSectionCount(int sectionCount) {
-        _sectionCount = sectionCount;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property DrgCare">
-    @Column(name = "sopDrgCare")
-    private String _drgCare = "";
-
-    public String getDrgCare() {
-        return _drgCare;
-    }
-
-    public void setDrgCare(String drgCare) {
-        _drgCare = drgCare;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property PsyDataIntensive">
-    @Column(name = "sopPsyDataIntensive")
-    private boolean _psyDataIntensive;
-
-    public boolean isPsyDataIntensive() {
-        return _psyDataIntensive;
-    }
-
-    public void setPsyDataIntensive(boolean psyDataIntensive) {
-        _psyDataIntensive = psyDataIntensive;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property WithConsultant">
     @Column(name = "sopIsWithConsultant")
     private boolean _withConsultant;
@@ -453,11 +388,6 @@ public class StatementOfParticipance implements Serializable {
         hash = 37 * hash + Objects.hashCode(this._multiyearDrgText);
         hash = 37 * hash + Objects.hashCode(this._multiyearPsy);
         hash = 37 * hash + Objects.hashCode(this._multiyearPsyText);
-        hash = 37 * hash + (this._section ? 1 : 0);
-        hash = 37 * hash + (this._sectionExtern ? 1 : 0);
-        hash = 37 * hash + this._sectionCount;
-        hash = 37 * hash + Objects.hashCode(this._drgCare);
-        hash = 37 * hash + (this._psyDataIntensive ? 1 : 0);
         hash = 37 * hash + (this._withConsultant ? 1 : 0);
         hash = 37 * hash + Objects.hashCode(this._consultantCompany);
         hash = 37 * hash + (this._consultantSendMail ? 1 : 0);
@@ -516,18 +446,6 @@ public class StatementOfParticipance implements Serializable {
         if (this._clinicalDistributionModelPsy != other._clinicalDistributionModelPsy) {
             return false;
         }
-        if (this._section != other._section) {
-            return false;
-        }
-        if (this._sectionExtern != other._sectionExtern) {
-            return false;
-        }
-        if (this._sectionCount != other._sectionCount) {
-            return false;
-        }
-        if (this._psyDataIntensive != other._psyDataIntensive) {
-            return false;
-        }
         if (this._withConsultant != other._withConsultant) {
             return false;
         }
@@ -544,9 +462,6 @@ public class StatementOfParticipance implements Serializable {
             return false;
         }
         if (!Objects.equals(this._multiyearPsyText, other._multiyearPsyText)) {
-            return false;
-        }
-        if (!Objects.equals(this._drgCare, other._drgCare)) {
             return false;
         }
         if (!Objects.equals(this._consultantCompany, other._consultantCompany)) {
