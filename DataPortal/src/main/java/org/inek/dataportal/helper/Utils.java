@@ -69,6 +69,14 @@ public class Utils {
         }
     }
 
+    public static String getMessageOrKey(String key) {
+        try {
+            return obtainMessage(key);
+        } catch (MissingResourceException e) {
+            return key;
+        }
+    }
+
     public static String getMessageOrEmpty(String key) {
         try {
             return obtainMessage(key);

@@ -14,7 +14,6 @@ import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -119,6 +118,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "sopLastChanged")
+    @Documentation(name = "Stand")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastChanged = Calendar.getInstance().getTime();
 
@@ -146,6 +146,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ObligatoryCalcType">
     @Column(name = "sopObligatoryCalcType")
+    @Documentation(name = "Kalkulationstyp", omitOnValues = "0", translateValue = "1=vereinfachte Kalkulation;2=Probekalkulation")
     private int _obligatoryCalcType;
 
     public int getObligatoryCalcType() {
@@ -157,7 +158,6 @@ public class StatementOfParticipance implements Serializable {
     }
     // </editor-fold>
 
-    
     // <editor-fold defaultstate="collapsed" desc="Property DrgCalc">
     @Column(name = "sopIsDrg")
     @Documentation(name = "Teilnahme DRG", omitOnValues = "false")
@@ -314,6 +314,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property WithConsultant">
     @Column(name = "sopIsWithConsultant")
+    @Documentation(name = "Mit externem Berater")
     private boolean _withConsultant;
 
     public boolean isWithConsultant() {
@@ -327,6 +328,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ConsultantCompany">
     @Column(name = "sopConsultantCompany")
+    @Documentation(key = "lblNameConsultant", omitOnEmpty = true)
     private String _consultantCompany = "";
 
     public String getConsultantCompany() {
@@ -340,6 +342,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ConsultantSendMail">
     @Column(name = "sopConsultantSendMail")
+    @Documentation(key = "Berater in Mailversand aufnehmen", omitOnValues = "false")
     private boolean _consultantSendMail;
 
     public boolean isConsultantSendMail() {

@@ -12,18 +12,25 @@
 
     <h2 title="#{msg.titleCalcOperation}">#{msg.lblCalcOpAn}</h2>
 
-    <inek:LabeledText label="#{msg.lblCentralOR}" 
-                      value="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt}"
-                      renderElement="@form"
-                      singleLine="true" 
-                      styleClass="inputSmall marginLeft marginRight" 
-                      styleClassComponent="inputPart inlineBlock"
-                      title="#{msg.titleCalcCountOR}"/>
+    <inek:LabeledCheckbox label="Das Krankenhaus hat einen/mehrere Zentral-OPs"
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.opAn.centralOP}"
+                          renderElement="@form"/>
 
-    <h:commandLink styleClass="button marginLeft" value="#{msg.btnRefresh}"/>
 
     <div jsf:id="opInfo" jsf:rendered="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt gt 0}">
         <hr/>
+        <inek:LabeledText id="opCount" 
+                          label="#{msg.lblCentralOR}" 
+                          value="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt}"
+                          singleLine="true" 
+                          styleClassLabel="label20"
+                          styleClass="inputSmall" 
+                          styleClassComponent="element100 marginBottom"
+                          title="#{msg.titleCalcCountOR}">
+            <f:validateLongRange for="opCount" minimum="1"/>
+        </inek:LabeledText>
+
         <div>
             <h:outputLabel value="" styleClass="label20"/>
             <h:panelGroup styleClass="element40">
@@ -139,7 +146,7 @@
             </h:panelGroup>
         </h:panelGroup>
 
-        
+
         <h4><h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle"/></h4>
 
         <div class="inputPart">
