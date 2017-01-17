@@ -429,6 +429,20 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="personalAccountingDescription">
+
+    @Column(name = "biPersonalAccountingDescription")
+    private String _personalAccountingDescription = "";
+
+    public String getPersonalAccountingDescription() {
+        return _personalAccountingDescription;
+    }
+
+    public void setPersonalAccountingDescription(String personalAccountingDescription) {
+        this._personalAccountingDescription = personalAccountingDescription;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="cardiologyRoomCnt">
     @Column(name = "biCardiologyRoomCnt")
     private int _cardiologyRoomCnt;
@@ -999,6 +1013,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+    @OrderBy(value = "_costTypeID")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
     
     public List<KGLPersonalAccounting> getPersonalAccountings() {

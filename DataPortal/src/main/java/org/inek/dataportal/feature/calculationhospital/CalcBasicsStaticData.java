@@ -79,6 +79,15 @@ public class CalcBasicsStaticData {
        items.add(new SelectItem(4, "Alternative (bitte beschreiben)"));
        return items;
    } 
+    
+     public List<SelectItem> getTimeRecordingTypeItemsSNZ(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(0, "nicht dokumentiert"));
+       items.add(new SelectItem(1, "mit fallindividuellem Gleichzeitigkeitsfaktor"));
+       items.add(new SelectItem(2, "mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art"));
+       items.add(new SelectItem(4, "Alternative (bitte beschreiben)"));
+       return items;
+   } 
 
     public List<SelectItem> getCalculationTypeItems(){
        List<SelectItem> items = new ArrayList<>();

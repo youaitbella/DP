@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -145,20 +146,6 @@ public class KGLPersonalAccounting implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property _description">
-
-    @Column(name = "paDescription")
-    private String _description;
-
-    public String getDescription() {
-        return _description;
-    }
-
-    public void setDescription(String description) {
-        this._description = description;
-    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
@@ -189,15 +176,27 @@ public class KGLPersonalAccounting implements Serializable {
     }
     //</editor-fold>
     
+    @Transient
+    private int priorCostAmount;
+
+    public int getPriorCostAmount() {
+        return priorCostAmount;
+    }
+
+    public void setPriorCostAmount(int priorCostAmount) {
+        this.priorCostAmount = priorCostAmount;
+    }
+    
 
     public KGLPersonalAccounting() {
     }
     
-    public KGLPersonalAccounting(int costTypeId) {
+    public KGLPersonalAccounting(int costTypeId, int prior) {
         this._costTypeID = costTypeId;
+        this.priorCostAmount = prior;
     }
 
-    public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, String paDescription, int paAmount) {
+    public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
         this._id = paID;
         this._costTypeID = paCostTypeID;
         this._staffRecording = paStaffRecording;
@@ -206,7 +205,6 @@ public class KGLPersonalAccounting implements Serializable {
         this._serviceStatistic = paServiceStatistic;
         this._expertRating = paExpertRating;
         this._other = paOther;
-        this._description = paDescription;
         this._amount = paAmount;
     }
 
@@ -267,9 +265,6 @@ public class KGLPersonalAccounting implements Serializable {
             return false;
         }
         if (this._baseInformationID != other._baseInformationID) {
-            return false;
-        }
-        if (this._description != other._description){
             return false;
         }
         return true;

@@ -36,6 +36,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
+import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -323,6 +324,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveSpecialUnits(calcBasics);
         saveCentralFocus(calcBasics);
         saveLaboratoryData(calcBasics);
+        savePersonalAccounting(calcBasics);
         return merge(calcBasics);
     }
     
@@ -422,6 +424,16 @@ public class CalcFacade extends AbstractDataAccess {
 
     private void saveEndoscopyDifferentials(DrgCalcBasics calcBasics) {
         for (KGLListEndoscopyDifferential item : calcBasics.getEndoscopyDifferentials()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+    
+        private void savePersonalAccounting(DrgCalcBasics calcBasics) {
+        for (KGLPersonalAccounting item : calcBasics.getPersonalAccountings()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {

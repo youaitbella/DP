@@ -107,6 +107,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
+        
+        for(KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            for(KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+                if(ppa.getCostTypeID() == pa.getCostTypeID()) {
+                    pa.setPriorCostAmount(ppa.getAmount());
+                }
+            }
+        }
     }
 
     public void ikChanged() {
@@ -144,6 +152,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for(KGLPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
             pa.setId(-1);
             pa.setBaseInformationID(calcBasics.getId());
+            pa.setPriorCostAmount(pa.getAmount());
+            pa.setAmount(0);
             calcBasics.getPersonalAccountings().add(pa);
         }
         ensurePersonalAccountingData(calcBasics);
@@ -216,9 +226,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if(calcBasics.getPersonalAccountings().size() == 3)
             return;
         
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130));
+        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
+        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
+        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -669,5 +679,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return ct.getText();
         }
         return "Unbekannte Kostenartengruppe";
+    }
+    
+    public boolean renderPersonalAccountingDescription(){
+        for(KGLPersonalAccounting pa : _calcBasics.getPersonalAccountings()){
+            if(pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()){
+                return true;
+            }
+        }
+        return false;
     }
 }
