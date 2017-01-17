@@ -1,6 +1,7 @@
 package org.inek.dataportal.facades.admin;
 
 import java.util.Date;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -17,6 +18,11 @@ public class LogFacade extends AbstractFacade<Log> {
     }
 
     @Schedule(info = "every day")
+    private void startRemoveOldEntries() {
+        removeOldEntries();
+    }
+    
+    @Asynchronous
     private void removeOldEntries() {
         Date logDate = DateUtils.getDateWithDayOffset(-90);
         String sql = "DELETE FROM Log l WHERE l._creationDate < :date";

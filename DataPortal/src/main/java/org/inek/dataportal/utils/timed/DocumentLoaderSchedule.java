@@ -7,29 +7,22 @@ package org.inek.dataportal.utils.timed;
 
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import org.inek.dataportal.facades.admin.ConfigFacade;
 
 /**
  *
  * @author vohldo
  */
-@Startup
-@Singleton
+@Stateless
 public class DocumentLoaderSchedule {
 
     private static final Logger _logger = Logger.getLogger("DocumentLoaderSchedule");
 
     @Inject
-    private ConfigFacade _config;
-
-    @Inject
     private DocumentLoader _docLoader;
 
     @Schedule(hour = "*", minute = "*/1", info = "every 1 minute")
-    //    @Schedule(hour = "*", minute = "*", second = "*/5", info = "every 5 minutes") // for testing purpose
     private void monitorDocumentRoot() {
         _docLoader.monitorDocumentRoot();
     }

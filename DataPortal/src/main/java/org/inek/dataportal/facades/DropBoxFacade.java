@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -99,8 +100,12 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return dropbox;
     }
 
-    //@Schedule(hour = "1")
-    @Schedule(hour = "*", minute = "*/1")
+    @Schedule(hour = "1")
+    private void startCleanDropBoxes() {
+        cleanDropBoxes();
+    }
+    
+    @Asynchronous
     private void cleanDropBoxes() {
         deleteInvalid();
         deleteOldDropBoxes();

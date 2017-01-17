@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -67,10 +68,15 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
     }
 
     @Schedule(hour = "2")
+    private void startcleanAccountRequests() {
+        cleanAccountRequests();
+    }
+    
+    @Asynchronous
     private void cleanAccountRequests() {
         List<AccountRequest> requests = findRequestsOlderThan(DateUtils.getDateWithDayOffset(-3));
         for (AccountRequest request : requests) {
-            _logger.log(Level.WARNING, "Clean request {0}, {1}", new Object[]{request.getAccountId(), request.getUser()});
+            _logger.log(Level.INFO, "Clean request {0}, {1}", new Object[]{request.getAccountId(), request.getUser()});
             remove(request);
         }
     }

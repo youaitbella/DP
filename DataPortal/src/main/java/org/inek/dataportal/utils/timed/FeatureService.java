@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -37,6 +38,11 @@ public class FeatureService {
 
     @Schedule(hour = "0", info = "once a day")
     //    @Schedule(hour = "*", minute = "*/1", info = "every minute")  // use this for testing purpose
+    public void startCheckFeatures() {
+        checkFeatures();
+    }
+    
+    @Asynchronous
     public void checkFeatures() {
         
         _logger.log(Level.INFO, "Start checkFeatures");

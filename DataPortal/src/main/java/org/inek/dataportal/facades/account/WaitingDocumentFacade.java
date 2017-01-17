@@ -1,9 +1,9 @@
 package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -62,13 +62,18 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
 
     @Schedule(hour = "2", minute = "15", info = "once a day")
     // for test: @Schedule(hour = "*", minute = "*/1", info = "once a minute")
-    private void sweepOldDocuments() {
+    private void startDeleteOldDocuments() {
+        deleteOldDocuments();
+    }
+    
+    @Asynchronous
+    private void deleteOldDocuments() {
         String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
         Query query = getEntityManager().createQuery(sql, WaitingDocument.class);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
         List<WaitingDocument> docs = query.getResultList();
         for (WaitingDocument doc : docs) {
-            _logger.log(Level.WARNING, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(), doc.getAgentAccountId()});
+            _logger.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(), doc.getAgentAccountId()});
             remove(doc);
         }
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -51,6 +52,7 @@ public class NubReminder {
      * As a service, we will inform all accounts with non-sealed NUB requests
      * one week and one day before the official end of delivery
      */
+    @Asynchronous
     public void remindSeal() {
         if (!_config.readBool(ConfigKey.RemindNubSeal)) {
             _logger.log(Level.INFO, "RemindNubSeal is not enabled");
