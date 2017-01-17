@@ -1233,6 +1233,14 @@ div.modelIntYesNo {
     margin-top: 5px;
 }
 
+.marginTop01em {
+    margin-top: 1em;
+}
+
+.marginTop02em {
+    margin-top: 2em;
+}
+
 .marginBottom {
     margin-bottom: 5px;
 }

@@ -70,16 +70,6 @@ public class CalcBasicsStaticData {
        return items;
    } 
 			
-    public List<SelectItem> getTimeRecordingTypeItems(){
-       List<SelectItem> items = new ArrayList<>();
-       items.add(new SelectItem(0, "nicht dokumentiert"));
-       items.add(new SelectItem(1, "als fallindividuell erfasster Wert je Mitarbeiter(in)"));
-       items.add(new SelectItem(2, "als abgestufter Standardwert je OP-Art"));
-       items.add(new SelectItem(3, "als Einheitswert"));
-       items.add(new SelectItem(4, "Alternative (bitte beschreiben)"));
-       return items;
-   } 
-    
      public List<SelectItem> getTimeRecordingTypeItemsSNZ(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(0, "nicht dokumentiert"));
@@ -89,6 +79,16 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
+    public List<SelectItem> getTimeRecordingTypeItemsRZ(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(0, "nicht dokumentiert"));
+       items.add(new SelectItem(1, "als fallindividuell erfasster Wert je Mitarbeiter(in)"));
+       items.add(new SelectItem(2, "als abgestufter Standardwert je OP-Art"));
+       items.add(new SelectItem(3, "als Einheitswert"));
+       items.add(new SelectItem(4, "Alternative (bitte beschreiben)"));
+       return items;
+   } 
+    
     public List<SelectItem> getCalculationTypeItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "vereinfachte Kalkulation"));

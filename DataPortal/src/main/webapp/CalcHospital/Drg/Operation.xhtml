@@ -13,7 +13,8 @@
     <h2 title="#{msg.titleCalcOperation}">#{msg.lblCalcOpAn}</h2>
 
     <inek:LabeledCheckbox label="Das Krankenhaus hat einen/mehrere Zentral-OPs"
-                          styleClassLabel="label40"
+                          styleClassComponent="marginTop02em"
+                          styleClassLabel="label inlineBlock col20em"
                           value="#{editCalcBasicsDrg.calcBasics.opAn.centralOP}"
                           renderElement="@form"/>
 
@@ -59,28 +60,28 @@
 
         <div class="inputPart">
             <h:outputLabel value="Personalbindungszeit" styleClass="label20"/>
-            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsOP}" styleClass="element20"/>
-            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsOP}" styleClass="element20"/>
-            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsAN}" styleClass="element20"/>
-            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsAN}" styleClass="element20"/>
+            <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsOP}" styleClass="element20"/>
+            <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsOP}" styleClass="element20"/>
+            <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsAN}" styleClass="element20"/>
+            <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsAN}" styleClass="element20"/>
         </div>
 
         <div class="inputPart">
             <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@form :logout:remaining"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@form :logout:remaining"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:ajax render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
         </div>
@@ -109,19 +110,19 @@
         <div class="inputPart">
             <h:outputLabel value="Rüstzeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN}" styleClass="element20">
-                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
+                <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
         </div>
@@ -173,29 +174,10 @@
             <h:inputText value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}" styleClass="element20" disabled="true"/>
         </div>
 
-        <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
-
-        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
-            <h:column>
-                <f:facet name="header">#{msg.lblNotation}</f:facet>
-                <inek:InputTextWithMessage value="#{item.text}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                <inek:InputTextWithMessage value="#{item.caseCount}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                <inek:InputTextWithMessage value="#{item.amount}"/>
-            </h:column>
-        </h:dataTable>
-
+            <h2>#{msg.lblTopAmbulantService}</h2>
+            
         <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
-            <h2>#{msg.lblTopAmbulantService} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+            <h3>#{editCalcBasicsDrg.calcBasics.dataYear - 1}</h3>
 
             <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
                 <h:column>
@@ -216,6 +198,28 @@
                 </h:column>
             </h:dataTable>
         </h:panelGroup>
+
+        <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
+
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item">
+            <h:column>
+                <f:facet name="header">#{msg.lblNotation}</f:facet>
+                <inek:InputTextWithMessage value="#{item.text}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                <inek:InputTextWithMessage value="#{item.caseCount}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                <inek:InputTextWithMessage value="#{item.amount}"/>
+            </h:column>
+        </h:dataTable>
+
     </div>
 
 </ui:composition>
