@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -115,17 +117,20 @@ public class DrgDelimitationFact implements Serializable {
         this._infraCost = infraCost;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property ContentText">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "dfContentTextId")
+    private DrgContentText _contentText;
 
-    @Transient
-    private String _label;
-
-    public String getLabel() {
-        return _label;
+    public DrgContentText getContentText() {
+        return _contentText;
     }
 
-    public void setLabel(String label) {
-        this._label = label;
+    public void setContentText(DrgContentText contentText) {
+        _contentText = contentText;
     }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override

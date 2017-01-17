@@ -376,7 +376,7 @@
             
             <h:column rendered="#{!x.used}">
                 <f:facet name="header">
-                    <h:outputLabel value="#{x.label}" styleClass="blockHeader" style="display: inline-block; width: auto;"/> &nbsp;
+                    <h:outputLabel value="#{x.contentText.text}" styleClass="blockHeader" style="display: inline-block; width: auto;"/> &nbsp;
                     <h:selectBooleanCheckbox style="display: inline-block;" value="#{x.used}" >
                         <f:ajax event="change" render="@form :logout:remaining delimit-content" />
                     </h:selectBooleanCheckbox>
@@ -385,7 +385,7 @@
             
             <h:column rendered="#{x.used}">
                 <f:facet name="header">
-                    <h:outputLabel value="#{x.label}" styleClass="blockHeader" style="display: inline-block; width: auto;"/> &nbsp;
+                    <h:outputLabel value="#{x.contentText.text}" styleClass="blockHeader" style="display: inline-block; width: auto;"/> &nbsp;
                     <h:selectBooleanCheckbox style="display: inline-block;" value="#{x.used}" >
                         <f:ajax event="change" render="@form :logout:remaining delimit-content" />
                     </h:selectBooleanCheckbox>

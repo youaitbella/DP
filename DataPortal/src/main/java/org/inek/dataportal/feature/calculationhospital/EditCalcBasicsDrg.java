@@ -278,7 +278,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
                 DrgDelimitationFact df = new DrgDelimitationFact();
                 df.setContentTextId(ct.getId());
-                df.setLabel(ct.getText());
                 df.setBaseInformationId(_calcBasics.getId());
                 _calcBasics.getDelimitationFacts().add(df);
             }
