@@ -8,7 +8,10 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,15 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLListMedInfra", schema = "calc")
-@XmlRootElement
 public class KGLListMedInfra implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "miID")
     private int _id = -1;
 
     public int getId() {
@@ -40,10 +42,9 @@ public class KGLListMedInfra implements Serializable {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "miCostTypeID")
     private int _costTypeID;
 
     public int getCostTypeID() {
@@ -54,10 +55,9 @@ public class KGLListMedInfra implements Serializable {
         this._costTypeID = costTypeID;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenter">
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "miCostCenter")
     @Size(max = 20)
     private String _costCenter = "";
 
@@ -69,10 +69,9 @@ public class KGLListMedInfra implements Serializable {
         this._costCenter = costCenter;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "miCostCenterText")
     @Size(max = 100)
     private String _costCenterText = "";
 
@@ -84,10 +83,9 @@ public class KGLListMedInfra implements Serializable {
         this._costCenterText = costCenterText;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "miKeyUsed")
     @Size(max = 50)
     private String _keyUsed = "";
 
@@ -99,10 +97,9 @@ public class KGLListMedInfra implements Serializable {
         this._keyUsed = keyUsed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "miAmount")
     private int _amount;
 
     public int getAmount() {
@@ -113,12 +110,9 @@ public class KGLListMedInfra implements Serializable {
         this._amount = amount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
-//    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
-//    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "miBaseInformationID")
     private int _baseInformationID;
 
     public int getBaseInformationID() {
@@ -151,9 +145,11 @@ public class KGLListMedInfra implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + this._id;
-        
-        if (this._id != -1) return hash;
-        
+
+        if (this._id != -1) {
+            return hash;
+        }
+
         hash = 29 * hash + this._costTypeID;
         hash = 29 * hash + Objects.hashCode(this._costCenter);
         hash = 29 * hash + Objects.hashCode(this._costCenterText);
@@ -162,7 +158,7 @@ public class KGLListMedInfra implements Serializable {
         hash = 29 * hash + this._baseInformationID;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -175,9 +171,11 @@ public class KGLListMedInfra implements Serializable {
             return false;
         }
         final KGLListMedInfra other = (KGLListMedInfra) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
@@ -198,11 +196,11 @@ public class KGLListMedInfra implements Serializable {
         }
         return Objects.equals(this._keyUsed, other._keyUsed);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListMedInfra[ miID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

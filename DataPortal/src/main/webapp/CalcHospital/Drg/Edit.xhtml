@@ -10,7 +10,7 @@
                 >
 
     <ui:define name="content">
-    <h:outputStylesheet name="css/fileuploader.css"/>
+        <h:outputStylesheet name="css/fileuploader.css"/>
 
         <h:form id="form" prependId="false" enctype="multipart/form-data">
             <h1><h:commandLink value="#{msg.lblCalcBasicDrg} #{msg.lblYearData} #{editCalcBasicsDrg.calcBasics.dataYear}" 
@@ -97,15 +97,17 @@
                                        onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                         </h:commandLink>
 
-                        <!-- for testing purpose only-->
-                        <h:commandLink styleClass="bigButton"
-                                       action="#{editCalcBasicsDrg.exportTest}"
-                                       value="Test Export"
-                                       immediate="true"
-                                       rendered="#{!editCalcBasicsDrg.readOnly}">
-                        </h:commandLink>
 
                     </div>
+
+                    <!-- for testing purpose only-->
+                    <h:commandLink styleClass="button"
+                                   action="#{editCalcBasicsDrg.exportTest}"
+                                   value="Test Export (nur zur Entwicklung)"
+                                   immediate="true"
+                                   rendered="#{!editCalcBasicsDrg.readOnly}">
+                    </h:commandLink>
+
                 </div>
 
             </h:panelGroup>

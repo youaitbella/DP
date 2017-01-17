@@ -10,8 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLOpAn", schema = "calc")
-@XmlRootElement
 public class KGLOpAn implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +47,21 @@ public class KGLOpAn implements Serializable {
 
     public void setCentralOPCnt(int centralOPCnt) {
         this._centralOPCnt = centralOPCnt;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="centralOP">    
+    public boolean isCentralOP() {
+        return _centralOPCnt > 0;
+    }
+
+    public void setCentralOP(boolean centralOP) {
+        if (centralOP && _centralOPCnt < 1){
+            _centralOPCnt = 1;
+        }
+        if (!centralOP){
+            _centralOPCnt = 0;
+        }
     }
     //</editor-fold>
 
