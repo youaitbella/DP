@@ -8,5 +8,22 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+        <h2 title="#{msg.titleNonMedicalInfrastructure}">#{msg.lblNonMedicalInfrastructure}</h2>
+
+
+        <h:outputLabel value="#{msg.lblMethodInternalCostAllocation}" styleClass="label"/>
+        <br/>
+        <h:selectOneMenu id="costAllocation"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" 
+                         hideNoSelectionOption="true"> 
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{calcBasicsStaticData.internalCostAllocationItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+            <f:ajax event="change" render="@this :logout:remaining msgCostAllocation"/>
+        </h:selectOneMenu>
+        <h:message for="costAllocation" id="msgCostAllocation" styleClass="errorMessage"/>
+    
+    
 </ui:composition>
 
