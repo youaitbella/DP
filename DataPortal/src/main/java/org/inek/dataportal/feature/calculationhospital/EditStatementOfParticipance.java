@@ -282,7 +282,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         createTransferFile(_statement);
 
         if (isValidId(_statement.getId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _statement.getId());
+            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_statement));
             return Pages.PrintView.URL();
