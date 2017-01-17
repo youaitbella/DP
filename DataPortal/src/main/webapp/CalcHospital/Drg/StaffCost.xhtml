@@ -121,7 +121,7 @@
            <f:facet name="header">
                 <h:outputText value="Kostenvolumen"/>
             </f:facet>
-            <h:inputText style="width: 75%;" value="#{item.amount}">
+            <h:inputText style="width: 75%; text-align:right;" value="#{item.amount}">
               <f:ajax event="blur" render="@this diff :logout:remaining" />
            </h:inputText>
         </h:column>
@@ -130,7 +130,7 @@
            <f:facet name="header">
                 <h:outputText value="Kostenvolumen Vorjahr"/>
             </f:facet>
-            <h:inputText readonly="true" style="width: 75%" value="#{item.priorCostAmount}" />
+            <h:inputText readonly="true" style="width: 75%; text-align: right;" value="#{item.priorCostAmount}" />
         </h:column>
        
        
@@ -138,7 +138,7 @@
            <f:facet name="header">
                 <h:outputText value="Absolute Abweichung"/>
             </f:facet>
-            <h:inputText id="diff" readonly="true" style="width: 75%;" value="#{item.amount - item.priorCostAmount}" />
+            <h:inputText id="diff" readonly="true" style="width: 75%; text-align: right;" value="#{item.amount - item.priorCostAmount}" />
         </h:column>
        
     </h:dataTable>
