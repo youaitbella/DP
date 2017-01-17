@@ -394,7 +394,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         if (statement.getContacts().stream()
                 .filter(c -> !c.isEmpty())
-                .anyMatch(c -> c.getFirstName().isEmpty() || c.getLastName().isEmpty() || c.getMail().isEmpty() || c.getPhone().isEmpty())) {
+                .anyMatch(c -> c.getFirstName() == null || c.getFirstName().isEmpty() 
+                        || c.getLastName() == null || c.getLastName().isEmpty() 
+                        || c.getMail() == null || c.getMail().isEmpty() 
+                        || c.getPhone() == null || c.getPhone().isEmpty())) {
             applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isWithConsultant()) {
