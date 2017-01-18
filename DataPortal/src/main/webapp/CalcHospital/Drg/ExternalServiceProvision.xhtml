@@ -9,6 +9,8 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+    <h2>#{msg.lblCalcExternalServiceProvision}</h2>
+    
     #{msg.hintExternalServiceProvision}
 
     <h:dataTable id="table"
@@ -63,17 +65,17 @@
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear}</f:facet>
-            <inek:InputTextWithMessage value="#{item.amount}" styleClass="col05em" renderElement="@form"/>
+            <inek:InputNumberWithMessage value="#{item.amount}" styleClassComponent="col05em" renderElement="@form"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</f:facet>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClass="col05em"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClassComponent="col05em"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Abw.</f:facet>
-            <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClassComponent="col05em"/>
         </h:column>
 
     </h:dataTable>

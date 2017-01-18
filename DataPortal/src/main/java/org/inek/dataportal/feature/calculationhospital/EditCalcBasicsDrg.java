@@ -593,13 +593,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
-    public String priorProvisionAmount(KGLListServiceProvision current) {
+    //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
+    public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeID() == current.getServiceProvisionTypeID()).findAny();
         if (prior.isPresent()) {
-            return "" + prior.get().getAmount();
+            return prior.get().getAmount();
         }
-        return "";
+        return 0;
     }
 
     public void addServiceProvision() {
@@ -614,7 +614,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteServiceProvision(KGLListServiceProvision item) {
         _calcBasics.getServiceProvisions().remove(item);
     }
-//</editor-fold>
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
 
     public String downloadDocument(String name) {
