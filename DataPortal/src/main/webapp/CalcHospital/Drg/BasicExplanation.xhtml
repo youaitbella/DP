@@ -402,23 +402,25 @@
 
             <h:column rendered="#{x.used}">
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
-                <h:inputText id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}" styleClass="col06em">
-                    <f:ajax event="change" render="@this diff-personal-#{x.id} :logout:remain"/>
+                <h:inputText id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}" styleClass="col06em"
+                             disabled="#{x.contentText.text eq 'Investitionskosten'}">
+                    <f:ajax event="blur" render="@this diff-personal :logout:remain"/>
                 </h:inputText>
                 <h:inputText id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}" styleClass="col06em">
-                    <f:ajax event="change" render="@this diff-material-#{x.id} :logout:remain"/>
+                    <f:ajax event="blur" render="@this diff-material :logout:remain"/>
                 </h:inputText>
-                <h:inputText id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{x.infraCost}" styleClass="col06em">
-                    <f:ajax event="change" render="@this diff-infra-#{x.id} :logout:remain"/>
+                <h:inputText id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{x.infraCost}" styleClass="col06em"
+                             disabled="#{x.contentText.text eq 'Investitionskosten'}">
+                    <f:ajax event="blur" render="@this diff-infra :logout:remain"/>
                 </h:inputText>
                 <h:message for="data" id="msgData" styleClass="errorMessage"/>
             </h:column>
 
             <h:column rendered="#{x.used}">
                 <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel id="diff-personal-#{x.id}" rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}" styleClass="col06em"/>
-                <h:outputLabel id="diff-material-#{x.id}" rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}" styleClass="col06em"/>
-                <h:outputLabel id="diff-infra-#{x.id}" rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}" styleClass="col06em"/>
+                <h:outputLabel id="diff-personal" rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}" styleClass="col06em"/>
+                <h:outputLabel id="diff-material" rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}" styleClass="col06em"/>
+                <h:outputLabel id="diff-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}" styleClass="col06em"/>
             </h:column>
         </h:dataTable>
     </ui:repeat>
