@@ -44,8 +44,10 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
+import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
@@ -363,6 +365,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getRadiologyLaboratories().remove(rl);
     }
 
+    public void addMedInfra() {
+        KGLListMedInfra mif = new KGLListMedInfra();
+        mif.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getMedInfras().add(mif);
+    }
+
+    public void deleteMedInfra(KGLListMedInfra mif) {
+        _calcBasics.getMedInfras().remove(mif);
+    }
+    
+    
+    
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         if (result.isEmpty()) {
@@ -624,6 +638,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteServiceProvision(KGLListServiceProvision item) {
         _calcBasics.getServiceProvisions().remove(item);
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics">
+    public void addCostCenter(int costCenterId) {
+        KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);
+        _calcBasics.getCostCenters().add(item);
+    }
+
+    public void deleteCostCenter(KGLListCostCenter item) {
+        _calcBasics.getCostCenters().remove(item);
     }
     //</editor-fold>
     
