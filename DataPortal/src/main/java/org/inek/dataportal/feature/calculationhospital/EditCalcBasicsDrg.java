@@ -127,6 +127,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setOpAn(opAn);
         
         // Locations
+        calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
+        calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
+        calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
             location.setId(-1);
             location.setBaseInformationId(calcBasics.getId());
