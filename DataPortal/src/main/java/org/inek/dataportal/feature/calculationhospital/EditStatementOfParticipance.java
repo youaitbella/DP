@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -125,31 +124,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         /* 
         This code might be used, if we load the data from a former StatementOfParticipance
         Although we did this in a first approach, we decided to load the data from ICMT, at least for the first time (2017).
-        If we load it from ICMT in 2018, then remove this commented code.
-        
-        
-        StatementOfParticipance statement = _calcFacade.retrievePriorStatementOfParticipance(ik, year);
-        Account account = _sessionController.getAccount();
-        statement.setAccountId(account.getId());
-        statement.setId(-1);
-        statement.setIk(ik);
-        statement.setStatus(WorkflowStatus.New);
-        statement.setDataYear(year);
-        statement.setObligatory(_calcFacade.isObligateCalculation(ik, year));
-        List<CalcContact> currentContacts = statement.getContacts()
-                .stream()
-                .filter(c -> !c.isConsultant()) // do not take former consultant contacts
-                .map(c -> {
-                    c.setId(-1);
-                    c.setStatementOfParticipanceId(-1);
-                    return c;
-                })
-                .collect(Collectors.toList());
-        statement.setContacts(currentContacts);
-        ensureContacts(statement);
-        statement.setConsultantSendMail(false);
-        statement.setConsultantCompany("");
-        return statement;
+        If we load it from ICMT in 2018, then get the code of the pre 20170118 version.
          */
 
         StatementOfParticipance statement = new StatementOfParticipance();
@@ -164,8 +139,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
             String drgMultiyear = (String) obj[2];
             String psyKvm = (String) obj[3];
             String psyMultiyear = (String) obj[4];
+            boolean isDrg = (boolean) obj[5];
+            boolean isPsy = (boolean) obj[6];
             statement.setObligatory(domain.contains("obligatory"));
-            if (!statement.isObligatory()) {
+            if (statement.isObligatory()) {
+                statement.setDrgCalc(isDrg);
+                statement.setPsyCalc(isPsy);
+            } else {
                 statement.setDrgCalc(domain.contains("DRG"));
                 statement.setClinicalDistributionModelDrg(drgKvm.equals("T") ? 1 : 0);
                 statement.setMultiyearDrg(Integer.parseInt(drgMultiyear));
@@ -371,33 +351,36 @@ public class EditStatementOfParticipance extends AbstractEditController {
         String ik = statement.getIk() < 0 ? "" : "" + statement.getIk();
         checkField(message, ik, "lblIK", "sop:ikMulti", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
 
-        if (statement.isDrgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isDrg())) {
-            applyMessageValues(message, "lblNeedContactDrg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
-        }
-        if (statement.isPsyCalc() && !statement.getContacts().stream().anyMatch(c -> c.isPsy())) {
-            applyMessageValues(message, "lblNeedContactPsy", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
-        }
-        if (statement.isInvCalc() && !statement.getContacts().stream().anyMatch(c -> c.isInv())) {
-            applyMessageValues(message, "lblNeedContactInv", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
-        }
-        if (statement.isTpgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isTpg())) {
-            applyMessageValues(message, "lblNeedContactTpg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
-        }
-        if (statement.isObdCalc() && !statement.getContacts().stream().anyMatch(c -> c.isObd())) {
-            applyMessageValues(message, "lblNeedContactObd", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
-        }
-        if (statement.isObligatory() && statement.getContacts().stream().filter(c -> !c.isConsultant()).count() == 0) {
-            applyMessageValues(message, "lblNeedContact", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
-        }
-        if (statement.isObligatory() && _statement.getObligatoryCalcType() < 1) {
-            applyMessageValues(message, "lblObligatoryCalcType", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:calcType");
+        if (_statement.isObligatory()) {
+            if (statement.getContacts().stream().filter(c -> !c.isConsultant()).count() == 0) {
+                applyMessageValues(message, "lblNeedContact", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+            }
+            if (_statement.getObligatoryCalcType() < 1) {
+                applyMessageValues(message, "lblObligatoryCalcType", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:calcType");
+            }
+        } else {
+            if (statement.isDrgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isDrg())) {
+                applyMessageValues(message, "lblNeedContactDrg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+            }
+            if (statement.isPsyCalc() && !statement.getContacts().stream().anyMatch(c -> c.isPsy())) {
+                applyMessageValues(message, "lblNeedContactPsy", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+            }
+            if (statement.isInvCalc() && !statement.getContacts().stream().anyMatch(c -> c.isInv())) {
+                applyMessageValues(message, "lblNeedContactInv", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+            }
+            if (statement.isTpgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isTpg())) {
+                applyMessageValues(message, "lblNeedContactTpg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+            }
+            if (statement.isObdCalc() && !statement.getContacts().stream().anyMatch(c -> c.isObd())) {
+                applyMessageValues(message, "lblNeedContactObd", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
+            }
         }
         if (statement.getContacts().stream()
                 .filter(c -> !c.isEmpty())
-                .anyMatch(c -> c.getFirstName() == null || c.getFirstName().isEmpty() 
-                        || c.getLastName() == null || c.getLastName().isEmpty() 
-                        || c.getMail() == null || c.getMail().isEmpty() 
-                        || c.getPhone() == null || c.getPhone().isEmpty())) {
+                .anyMatch(c -> c.getFirstName() == null || c.getFirstName().isEmpty()
+                || c.getLastName() == null || c.getLastName().isEmpty()
+                || c.getMail() == null || c.getMail().isEmpty()
+                || c.getPhone() == null || c.getPhone().isEmpty())) {
             applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isWithConsultant()) {
