@@ -6,7 +6,53 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h2>#{msg.lblCalcDiagnosticScope}</h2>
+    
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.costCenters}" var="item"
+                         columnClasses="colValue, col14 number, col14 number, col14 number" rowClasses="row1, row2">
+                <h:column>
+                    <f:facet name="header">Nummer der Kostenstelle</f:facet>
+                    <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Name der Kostenstelle</f:facet>
+                    <inek:InputTextWithMessage value="#{item.costCenterText}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Kostenvolumen</f:facet>
+                    <inek:InputNumberWithMessage value="#{item.amount}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle</f:facet>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Leistungsschlüssel</f:facet>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0</f:facet>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"></f:facet>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"></f:facet>
+                </h:column>
+
+            </h:dataTable>
+        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                   rendered="#{!editCalcBasicsDrg.readOnly}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenter(11)}"/>
+    </h:commandLink>
 
 
 </ui:composition>

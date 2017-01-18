@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -26,7 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -793,7 +791,6 @@ public class DrgCalcBasics implements Serializable {
         this._strokeHoursNotWeighted = strokeHoursNotWeighted;
     }
     //</editor-fold>
-    
 
     // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -814,7 +811,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
     private List<KGLListCostCenter> _costCenters = new Vector<>();
 
-    @XmlTransient
+    
     public List<KGLListCostCenter> getCostCenters() {
         return _costCenters;
     }
@@ -829,7 +826,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
     private List<KGLListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
-    @XmlTransient
+    
     public List<KGLListRadiologyLaboratory> getRadiologyLaboratories() {
         return _radiologyLaboratories;
     }
@@ -844,7 +841,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
     private List<KGLListObstetricsGynecology> _obstetricsGynecologies  = new Vector<>();
     
-    @XmlTransient
+    
     public List<KGLListObstetricsGynecology> getObstetricsGynecologies() {
         return _obstetricsGynecologies;
     }
@@ -859,7 +856,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
     private List<KGLRadiologyService> _radiologyServices = new Vector<>();
 
-    @XmlTransient
+    
     public List<KGLRadiologyService> getRadiologyServices() {
         return _radiologyServices;
     }
@@ -892,7 +889,7 @@ public class DrgCalcBasics implements Serializable {
     @OrderBy("_sequence")
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
     
-    @XmlTransient
+    
     public List<KGLListServiceProvision> getServiceProvisions() {
         return _serviceProvisions;
     }
@@ -907,7 +904,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
     private List<KGLListKstTop> _kstTop = new Vector<>();
     
-    @XmlTransient
+    
     public List<KGLListKstTop> getKstTop() {
         ensureTopList();
         return _kstTop;
@@ -943,7 +940,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
     private List<KGLListEndoscopyDifferential> _endoscopyDifferentials = new Vector<>();
     
-    @XmlTransient
+    
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
         return _endoscopyDifferentials;
     }
@@ -958,7 +955,7 @@ public class DrgCalcBasics implements Serializable {
     @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
     private List<KGLNormalFeeContract> _normalFeeContracts = new Vector<>();
     
-    @XmlTransient
+    
     public List<KGLNormalFeeContract> getNormalFeeContracts() {
         return _normalFeeContracts;
     }

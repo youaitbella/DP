@@ -44,6 +44,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
+import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListMedInfra;
@@ -128,6 +129,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setOpAn(opAn);
         
         // Locations
+        calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
+        calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
+        calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
             location.setId(-1);
             location.setBaseInformationId(calcBasics.getId());
@@ -606,13 +610,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
-    public String priorProvisionAmount(KGLListServiceProvision current) {
+    //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
+    public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeID() == current.getServiceProvisionTypeID()).findAny();
         if (prior.isPresent()) {
-            return "" + prior.get().getAmount();
+            return prior.get().getAmount();
         }
-        return "";
+        return 0;
     }
 
     public void addServiceProvision() {
@@ -627,7 +631,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteServiceProvision(KGLListServiceProvision item) {
         _calcBasics.getServiceProvisions().remove(item);
     }
-//</editor-fold>
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics">
+    public void addCostCenter(int costCenterId) {
+        KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);
+        _calcBasics.getCostCenters().add(item);
+    }
+
+    public void deleteCostCenter(KGLListCostCenter item) {
+        _calcBasics.getCostCenters().remove(item);
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
 
     public String downloadDocument(String name) {
