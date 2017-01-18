@@ -44,6 +44,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
+import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
@@ -616,6 +617,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteServiceProvision(KGLListServiceProvision item) {
         _calcBasics.getServiceProvisions().remove(item);
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics">
+    public void addCostCenter(int costCenterId) {
+        KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);
+        _calcBasics.getCostCenters().add(item);
+    }
+
+    public void deleteCostCenter(KGLListCostCenter item) {
+        _calcBasics.getCostCenters().remove(item);
     }
     //</editor-fold>
     

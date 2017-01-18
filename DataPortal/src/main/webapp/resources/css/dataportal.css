@@ -113,8 +113,9 @@ div#wrapper {
 
 @media print {
     div#wrapper {
-        width: 500px;
-    max-width: 500px;
+        min-width: 500px;
+        width: 600px;
+        max-width: 650px;
     }
 
     #top .left{
@@ -1097,7 +1098,7 @@ a.button, .midButton, .smallButton, input.button, label.button{
     background-color: #043358;
     color: white;
     margin: 0.5em 1.5em 0.5em 0;
-    
+
 }
 
 a.secondaryButton{
