@@ -8,6 +8,8 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
+    <h2>Erklärung zur Kalkulationsgrundlage</h2>
+    
     <table cellspacing="6">
         <thead>
         <th>Bezeichnung</th>
@@ -20,15 +22,28 @@
                 <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="sumCalcCosts" value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}" required="true">
-            <f:ajax event="blur" render="@this pSumCalcCost pDiffSumCalcCost :logout:remaining" />
-        </h:inputText>
+        <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}" 
+                                     required="true" 
+                                     id="sumCalcCosts"
+                                     renderElement="@this pDiffSumCalcCost :logout:remaining"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pSumCalcCost" value="#{editCalcBasicsDrg.priorCalcBasics.sumCalcCost}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.sumCalcCost}" 
+                                     disabled="true"
+                                     id="pSumCalcCost"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pDiffSumCalcCost" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.sumCalcCost, editCalcBasicsDrg.calcBasics.sumCalcCost)}" />
+            <h:panelGroup id="pDiffSumCalcCost">
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                         value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.sumCalcCost, editCalcBasicsDrg.calcBasics.sumCalcCost)}" 
+                                         disabled="true"
+                                         id="pDiffSumCalcCostXXX"
+                                         />
+            </h:panelGroup>
         </td>
         </tr>
         <tr>
@@ -47,15 +62,27 @@
                 <span class="label">Fälle vollstationär</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="fullCases" value="#{editCalcBasicsDrg.calcBasics.caseInStationCnt}" required="true">
-            <f:ajax event="blur" render="@this pCaseInstationCount pDiffCaseInstationCount :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.caseInStationCnt}" 
+                                     required="true" 
+                                     id="fullCases"
+                                     renderElement="@this pDiffCaseInstationCount :logout:remaining"
+                                     />
         </td>
         <td>
-            <h:outputLabel id="pCaseInstationCount" value="#{editCalcBasicsDrg.priorCalcBasics.caseInStationCnt}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.caseInStationCnt}" 
+                                     id="pCaseInstationCount"
+                                     disabled="true"
+                                     />
         </td>
         <td>
-            <h:outputLabel id="pDiffCaseInstationCount" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.caseInStationCnt, editCalcBasicsDrg.calcBasics.caseInStationCnt)}" />
+        <h:panelGroup id="pDiffCaseInstationCount">
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.caseInStationCnt, editCalcBasicsDrg.calcBasics.caseInStationCnt)}" 
+                                     disabled="true"
+                                     />
+        </h:panelGroup>
         </td>
         </tr>
         <tr>
@@ -63,15 +90,26 @@
                 <span class="label">Fälle teilstationär</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="halfCases" value="#{editCalcBasicsDrg.calcBasics.casePartialStationCnt}" required="true">
-            <f:ajax event="blur" render="@this pPartialStationCount pDiffPartialStationCount :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.casePartialStationCnt}" 
+                                     required="true" 
+                                     id="halfCases"
+                                     renderElement="@this pDiffPartialStationCount :logout:remaining"
+                                     />
+            </td>
+        <td>
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.casePartialStationCnt}"
+                                     disabled="true"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pPartialStationCount" value="#{editCalcBasicsDrg.priorCalcBasics.casePartialStationCnt}" />
-        </td>
-        <td>
-        <h:outputLabel id="pDiffPartialStationCount" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.casePartialStationCnt, editCalcBasicsDrg.calcBasics.casePartialStationCnt)}" />
+        <h:panelGroup id="pDiffPartialStationCount">
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.casePartialStationCnt, editCalcBasicsDrg.calcBasics.casePartialStationCnt)}"
+                                     disabled="true"
+                                     />
+        </h:panelGroup>
         </td>
         </tr>
         <tr>
@@ -79,15 +117,27 @@
                 <span class="label">Berechnungstage teilstationär</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="halfCalcDays" value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}" required="true">
-            <f:ajax event="blur" render="@this pHalfCalcDays pDiffHalfCalcDays :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}"
+                                     required="true" 
+                                     id="halfCalcDays"
+                                     renderElement="@this pDiffHalfCalcDays :logout:remaining"
+                                     />
         </td>
         <td>
-            <h:outputLabel id="pHalfCalcDays" value="#{editCalcBasicsDrg.priorCalcBasics.daysPartialStation}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.daysPartialStation}"
+                                     id="pHalfCalcDays"
+                                     disabled="true"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pDiffHalfCalcDays" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.daysPartialStation, editCalcBasicsDrg.calcBasics.daysPartialStation)}" />
+        <h:panelGroup id="pDiffHalfCalcDays">
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.daysPartialStation, editCalcBasicsDrg.calcBasics.daysPartialStation)}"
+                                     disabled="true"
+                                     />
+        </h:panelGroup>
         </td>
         </tr>
         <tr>

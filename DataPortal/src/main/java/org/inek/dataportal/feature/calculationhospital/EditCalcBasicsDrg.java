@@ -51,6 +51,7 @@ import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
+import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.common.CostType;
@@ -167,6 +168,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             rl.setId(-1);
             rl.setBaseInformationID(calcBasics.getId());
             calcBasics.getRadiologyLaboratories().add(rl);
+        }
+        
+        // Normal Ward
+        for(KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
+            nf.setId(-1);
+            nf.setBaseInformationID(calcBasics.getId());
+            calcBasics.getNormalFreelancers().add(nf);
         }
             
         // ServiceProvision
