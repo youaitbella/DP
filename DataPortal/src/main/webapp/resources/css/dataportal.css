@@ -114,6 +114,7 @@ div#wrapper {
 @media print {
     div#wrapper {
         width: 500px;
+    max-width: 500px;
     }
 
     #top .left{
@@ -975,6 +976,10 @@ tr.row2 > td.colIk > input {
 
 .row1 {
     background-color: #eeeeee;
+}
+
+.edit .row1 {
+    background-color: #f8f8f8;
 }
 
 .row2 {
