@@ -7,23 +7,117 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <!--
+        <h2 #{msg.titleNonMedicalInfrastructure} title="#{msg.lblNonMedicalInfrastructure}"></h2>
+    -->    
+    <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
+        
+    <table cellspacing="6">
+        <thead>
+        <th>Gleichungsverfahren</th>
+        <th>Stufenleiterverfahren</th>
+        <th>Anbauverfahren</th>
+        <th>Sonstige Vorgehensweise</th>
+        </thead>
+        <tr>
+            <td>
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.approximationMethodNonMedInfra}">
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+            <td>
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.stepladderMethodNonMedInfra}">
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+            <td>
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.extensionMethodNonMedInfra}">
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+            <td>
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}" >
+                    <f:ajax event="change" render="@form description :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+        </tr>
+        <tbody>
 
-        <h2 title="#{msg.titleNonMedicalInfrastructure}">#{msg.lblNonMedicalInfrastructure}</h2>
-
-
-        <h:outputLabel value="#{msg.lblMethodInternalCostAllocation}" styleClass="label"/>
-        <br/>
-        <h:selectOneMenu id="costAllocation"
-                         required="true"
-                         requiredMessage="#{msg.msgValueNeeded}"
-                         value="#{editCalcBasicsDrg.calcBasics.mviFulfilled}" 
-                         hideNoSelectionOption="true"> 
-            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{calcBasicsStaticData.internalCostAllocationItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-            <f:ajax event="change" render="@this :logout:remaining msgCostAllocation"/>
-        </h:selectOneMenu>
-        <h:message for="costAllocation" id="msgCostAllocation" styleClass="errorMessage"/>
+        </tbody>
+    </table>
+      
+    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}" >
+        <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
+        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>    
     
+    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  
     
+    <h:dataTable  headerClass="list-header" id="nonMedInfras"
+                  value="#{editCalcBasicsDrg.calcBasics.medInfras}" var="item" width="70%" rowClasses="row1, row2" 
+                  columnClasses="colIcon, col50, col90, col50, col50"
+                  rendered="true"
+                  >
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Nummer der"/><br/>
+                <h:outputText value="Kostenstelle"/>
+            </f:facet>
+                <h:inputText value="#{item.costCenter}" styleClass="inputmedium" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+                <h:column>
+            <f:facet name="header">
+                <h:outputText value="Name der "/>
+                <h:outputText value="Kostenstelle"/>
+            </f:facet>
+                <h:inputText value="#{item.costCenterText}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+        
+                <h:column>
+            <f:facet name="header">
+                <h:outputText value="Verwendeter"/>
+                <h:outputText value="Schlüssel"/>
+            </f:facet>
+                    <h:inputText value="#{item.keyUsed}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+        
+                <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kostenvolumen vor Durchführung der IBLV"/><br/>
+                <h:outputText value="und vor Abgrenzung nicht kalkulationsrelevanter Kosten"/>
+            </f:facet>
+            <h:inputText value="#{item.amount}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+    </h:dataTable>
+
+    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra()}"/>
+    </h:commandLink>   
+                    
+           
+        
 </ui:composition>
 
