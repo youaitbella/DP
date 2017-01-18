@@ -116,6 +116,13 @@
                 <f:ajax event="change" render="@form description :logout:remaining" />
             </h:selectBooleanCheckbox>
         </h:column>
+
+        <h:column>
+           <f:facet name="header">
+                <h:outputText value="Kostenvolumen Vorjahr"/>
+            </f:facet>
+            <h:inputText readonly="true" style="width: 75%; text-align: right;" value="#{item.priorCostAmount}" />
+        </h:column>
        
         <h:column>
            <f:facet name="header">
@@ -125,14 +132,6 @@
               <f:ajax event="blur" render="@this diff :logout:remaining" />
            </h:inputText>
         </h:column>
-       
-        <h:column>
-           <f:facet name="header">
-                <h:outputText value="Kostenvolumen Vorjahr"/>
-            </f:facet>
-            <h:inputText readonly="true" style="width: 75%; text-align: right;" value="#{item.priorCostAmount}" />
-        </h:column>
-       
        
         <h:column>
            <f:facet name="header">
