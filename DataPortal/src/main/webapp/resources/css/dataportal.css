@@ -114,6 +114,7 @@ div#wrapper {
 @media print {
     div#wrapper {
         width: 500px;
+    max-width: 500px;
     }
 
     #top .left{
