@@ -131,6 +131,19 @@ public class DrgDelimitationFact implements Serializable {
         _contentText = contentText;
     }
     // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property requireInputs">
+    @Transient
+    private boolean _requireInputs = false;
+
+    public boolean isRequireInputs() {
+        return _requireInputs;
+    }
+
+    public void setRequireInputs(boolean _requireInputs) {
+        this._requireInputs = _requireInputs;
+    }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
