@@ -152,10 +152,19 @@
                                      />
         </td>
         <td>
-            <h:outputLabel id="pPatientEscort" value="#{editCalcBasicsDrg.priorCalcBasics.patientEscort}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.patientEscort}"
+                                     disabled="true"
+                                     id="pPatientEscort"
+                                     />
         </td>
         <td>
-            <h:outputLabel id="pDiffPatientEscort" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.patientEscort, editCalcBasicsDrg.calcBasics.patientEscort)}" />
+        <h:panelGroup id="pDiffPatientEscort">
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.patientEscort, editCalcBasicsDrg.calcBasics.patientEscort)}"
+                                     disabled="true"
+                                     />
+        </h:panelGroup>
         </td>
         </tr>
         <tr>
@@ -163,15 +172,26 @@
                 <span class="label">rein vorstationär</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="onlyStationary" value="#{editCalcBasicsDrg.calcBasics.preStation}" required="true">
-            <f:ajax event="blur" render="@this pPreStation pDiffPreStation :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.preStation}"
+                                     required="true" 
+                                     id="onlyStationary"
+                                     renderElement="@this pDiffPreStation :logout:remaining"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pPreStation" value="#{editCalcBasicsDrg.priorCalcBasics.preStation}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.preStation}"
+                                     disabled="true"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pDiffPreStation" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.preStation, editCalcBasicsDrg.calcBasics.preStation)}" />
+        <h:panelGroup id="pDiffPreStation">
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.preStation, editCalcBasicsDrg.calcBasics.preStation)}"
+                                     disabled="true"
+                                     />
+        </h:panelGroup>
         </td>
         </tr>
         <tr>
@@ -179,15 +199,25 @@
                 <span class="label">Betten (DRG-Bereich)</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="drgBeds" value="#{editCalcBasicsDrg.calcBasics.beds}" required="true">
-            <f:ajax event="blur" render="@this pBeds pDiffBeds :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.beds}"
+                                     required="true" 
+                                     renderElement="@this pDiffBeds :logout:remaining"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pBeds" value="#{editCalcBasicsDrg.priorCalcBasics.beds}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.priorCalcBasics.beds}"
+                                     disabled="true"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pDiffBeds" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.beds, editCalcBasicsDrg.calcBasics.beds)}" />
+            <h:panelGroup id="pDiffBeds">
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                         value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.beds, editCalcBasicsDrg.calcBasics.beds)}"
+                                         disabled="true"
+                                         />
+            </h:panelGroup>
         </td>
         </tr>
         <tr>
@@ -195,15 +225,23 @@
                 <span class="label">Anzahl teilstationäre Plätze (DRG-Bereich)</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="numHalfSpace" value="#{editCalcBasicsDrg.calcBasics.partialCnt}" required="true">
-            <f:ajax event="blur" render="@this pPartialCnt pDiffPartialCnt :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.partialCnt}"
+                                     required="true" 
+                                     renderElement="@this pDiffPartialCnt :logout:remaining"
+                                     />
         </td>
         <td>
-        <h:outputLabel id="pPartialCnt" value="#{editCalcBasicsDrg.priorCalcBasics.partialCnt}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                         value="#{editCalcBasicsDrg.priorCalcBasics.partialCnt}"
+                                         disabled="true"
+                                         />
         </td>
         <td>
-        <h:outputLabel id="pDiffPartialCnt" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.partialCnt, editCalcBasicsDrg.calcBasics.partialCnt)}" />
+            <inek:InputNumberWithMessage styleClass="inputwide"
+                                         value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.partialCnt, editCalcBasicsDrg.calcBasics.partialCnt)}"
+                                         disabled="true"
+                                         />
         </td>
         </tr>
         <tbody>
