@@ -32,6 +32,7 @@ import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
@@ -326,6 +327,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveLaboratoryData(calcBasics);
         saveCostCenterData(calcBasics);
         savePersonalAccounting(calcBasics);
+        saveObstetricsGynecologies(calcBasics);
         return merge(calcBasics);
     }
     
@@ -445,6 +447,16 @@ public class CalcFacade extends AbstractDataAccess {
     
         private void savePersonalAccounting(DrgCalcBasics calcBasics) {
         for (KGLPersonalAccounting item : calcBasics.getPersonalAccountings()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
+    private void saveObstetricsGynecologies(DrgCalcBasics calcBasics) {
+        for (KGLListObstetricsGynecology item : calcBasics.getObstetricsGynecologies()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
