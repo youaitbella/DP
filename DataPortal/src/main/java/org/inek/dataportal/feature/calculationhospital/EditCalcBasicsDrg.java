@@ -714,6 +714,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getObstetricsGynecologies().remove(item);
     }
     
+    public void addObstreticsGynecology() {
+        int seq = (int) _calcBasics.getObstetricsGynecologies().stream().mapToInt(i -> i.getId()).max().orElse(0);
+        KGLListObstetricsGynecology item = new KGLListObstetricsGynecology(seq + 1);
+        item.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getObstetricsGynecologies().add(item);
+    }
+    
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
             return "";
