@@ -23,6 +23,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -661,7 +662,20 @@ public class DrgCalcBasics implements Serializable {
         this._otherMethodMedInfra = otherMethodMedInfra;
     }
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfraDesc">
+    @Transient
+    private boolean _hasDescMedicalInfra = false;
 
+    public boolean isDescMedicalInfra() {
+        return _hasDescMedicalInfra;
+    }
+
+    public void setDescMedicalInfra(boolean _hasDesc) {
+        this._hasDescMedicalInfra = _hasDesc;
+    }
+    //</editor-fold>
+        
     //<editor-fold defaultstate="collapsed" desc="approximationMethodNonMedInfra">
     @Column(name = "biApproximationMethodNonMedInfra")
     private boolean _approximationMethodNonMedInfra;
@@ -714,6 +728,20 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfraDesc">
+    @Transient
+    private boolean _hasDescNonMedicalInfra = false;
+
+    public boolean isDescNonMedicalInfra() {
+        return _hasDescNonMedicalInfra;
+    }
+
+    public void setDescNonMedicalInfra(boolean _hasDesc) {
+        this._hasDescNonMedicalInfra = _hasDesc;
+    }
+    //</editor-fold>
+    
+    
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
     private boolean _intensiveBed;

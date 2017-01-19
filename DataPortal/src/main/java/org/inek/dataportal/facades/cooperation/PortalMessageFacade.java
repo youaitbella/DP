@@ -23,7 +23,7 @@ public class PortalMessageFacade extends AbstractFacade<PortalMessage> {
 
     public int countUnreadMessages(int accountId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery<Long> cq = getEntityManager().getCriteriaBuilder().createQuery(Long.class);
         Root<PortalMessage> request = cq.from(PortalMessage.class);
         Predicate isReceiver = cb.equal(request.get("_toAccountId"), accountId);
         Predicate isUnread = cb.equal(request.get("_status"), 0);
@@ -33,7 +33,7 @@ public class PortalMessageFacade extends AbstractFacade<PortalMessage> {
 
     public int countUnreadMessages(int accountId, int fromAccountId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery<Long> cq = getEntityManager().getCriteriaBuilder().createQuery(Long.class);
         Root<PortalMessage> request = cq.from(PortalMessage.class);
         Predicate isReceiver = cb.equal(request.get("_toAccountId"), accountId);
         Predicate isSender = cb.equal(request.get("_fromAccountId"), fromAccountId);
@@ -45,7 +45,7 @@ public class PortalMessageFacade extends AbstractFacade<PortalMessage> {
     public List<PortalMessage> getMessagesByReceiver(int accountId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<PortalMessage> cq = cb.createQuery(PortalMessage.class);
-        Root request = cq.from(PortalMessage.class);
+        Root<PortalMessage> request = cq.from(PortalMessage.class);
         Predicate isReceiver = cb.equal(request.get("_toAccountId"), accountId);
         cq.select(request).where(isReceiver);
         return getEntityManager().createQuery(cq).getResultList();
@@ -54,7 +54,7 @@ public class PortalMessageFacade extends AbstractFacade<PortalMessage> {
     public List<PortalMessage> getMessagesByReceiver(int accountId, Feature feature, int keyId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<PortalMessage> cq = cb.createQuery(PortalMessage.class);
-        Root request = cq.from(PortalMessage.class);
+        Root<PortalMessage> request = cq.from(PortalMessage.class);
         Predicate isReceiver = cb.equal(request.get("_toAccountId"), accountId);
         Predicate isFeature = cb.equal(request.get("_feature"), feature);
         Predicate isKeyId = cb.equal(request.get("_keyId"), keyId);
@@ -65,7 +65,7 @@ public class PortalMessageFacade extends AbstractFacade<PortalMessage> {
     public List<PortalMessage> getMessagesByParticipants(int accountId, int partnerId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<PortalMessage> cq = cb.createQuery(PortalMessage.class);
-        Root request = cq.from(PortalMessage.class);
+        Root<PortalMessage> request = cq.from(PortalMessage.class);
         Predicate isReceiver = cb.or(isReceiver(cb, request, accountId), isReceiver(cb, request, partnerId));
         Predicate isSender = cb.or(isSender(cb, request, accountId), isSender(cb, request, partnerId));
         cq.where(cb.and(isReceiver, isSender));

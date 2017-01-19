@@ -54,16 +54,16 @@ public class KGLListMedInfra implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenter">
-    @Column(name = "miCostCenter")
+    @Column(name = "miCostCenterNumber")
     @Size(max = 20)
-    private String _costCenter = "";
+    private String _costCenterNumber = "";
 
-    public String getCostCenter() {
-        return _costCenter;
+    public String getCostCenterNumber() {
+        return _costCenterNumber;
     }
 
-    public void setCostCenter(String costCenter) {
-        this._costCenter = costCenter;
+    public void setCostCenterNumber(String costCenterNumber) {
+        this._costCenterNumber = costCenterNumber;
     }
     //</editor-fold>
 
@@ -128,13 +128,14 @@ public class KGLListMedInfra implements Serializable {
         this._id = miID;
     }
 
-    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, int miAmount) {
+    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, int miAmount, int baseInfo) {
         this._id = miID;
         this._costTypeID = miCostTypeID;
-        this._costCenter = miCostCenter;
+        this._costCenterNumber = miCostCenter;
         this._costCenterText = miCostCenterText;
         this._keyUsed = miKeyUsed;
         this._amount = miAmount;
+        this._baseInformationID = baseInfo;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -148,7 +149,7 @@ public class KGLListMedInfra implements Serializable {
         }
 
         hash = 29 * hash + this._costTypeID;
-        hash = 29 * hash + Objects.hashCode(this._costCenter);
+        hash = 29 * hash + Objects.hashCode(this._costCenterNumber);
         hash = 29 * hash + Objects.hashCode(this._costCenterText);
         hash = 29 * hash + Objects.hashCode(this._keyUsed);
         hash = 29 * hash + this._amount;
@@ -185,7 +186,7 @@ public class KGLListMedInfra implements Serializable {
         if (this._baseInformationID != other._baseInformationID) {
             return false;
         }
-        if (!Objects.equals(this._costCenter, other._costCenter)) {
+        if (!Objects.equals(this._costCenterNumber, other._costCenterNumber)) {
             return false;
         }
         if (!Objects.equals(this._costCenterText, other._costCenterText)) {

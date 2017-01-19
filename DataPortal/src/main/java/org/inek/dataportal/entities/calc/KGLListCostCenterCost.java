@@ -43,15 +43,15 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenter">
-    @Column(name = "cccCostCenter")
-    private int _costCenter;
-
+    @Column(name = "cccCostCenterID")
+    private int _costCenterID;
+    
     public int getCostCenter() {
-        return _costCenter;
+        return _costCenterID;
     }
 
-    public void setCostCenter(int costCenter) {
-        this._costCenter = costCenter;
+    public void setCostCenter(int costCenterID) {
+        this._costCenterID = costCenterID;
     }
     // </editor-fold>
 
@@ -296,15 +296,16 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="costTypeID">
-    @Column(name = "cccCostTypeID")
-    private int _costTypeId;
 
-    public int getCostTypeId() {
-        return _costTypeId;
+    @Column(name = "cccCostCenterNumber")
+    private int _costCenterNumber;
+    
+    public int getCostCenterNumber() {
+        return _costCenterNumber;
     }
 
-    public void setCostTypeId(int costTypeId) {
-        this._costTypeId = costTypeId;
+    public void setCostCenterNumber(int costCenterNumber) {
+        this._costCenterNumber = costCenterNumber;
     }
     // </editor-fold>
 
@@ -315,8 +316,8 @@ public class KGLListCostCenterCost implements Serializable {
         this._id = cccID;
     }
 
-    public KGLListCostCenterCost(int costCenter, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, int medicalServiceAmount, int nursingServiceAmount, int functionalServiceAmount, int overheadsMedicine, int overheadsMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId, int costTypeID) {
-        this._costCenter = costCenter;
+    public KGLListCostCenterCost(int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, int medicalServiceAmount, int nursingServiceAmount, int functionalServiceAmount, int overheadsMedicine, int overheadsMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId, int costCenterNumber) {
+        this._costCenterID = costCenterID;
         this._costCenterText = costCenterText;
         this._departmentKey = departmentKey;
         this._departmentAssignment = departmentAssignment;
@@ -334,7 +335,7 @@ public class KGLListCostCenterCost implements Serializable {
         this._medicalInfrastructureCost = medicalInfrastructureCost;
         this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
         this._baseInformationId = baseInformationId;
-        this._costTypeId = costTypeID;
+        this._costCenterNumber = costCenterNumber;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -342,12 +343,8 @@ public class KGLListCostCenterCost implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this._id;
-
-        if (this._id != -1) {
-            return hash;
-        }
-
-        hash = 59 * hash + this._costCenter;
+        if (this._id != -1) return hash;
+        hash = 59 * hash + this._costCenterID;
         hash = 59 * hash + Objects.hashCode(this._costCenterText);
         hash = 59 * hash + Objects.hashCode(this._departmentKey);
         hash = 59 * hash + Objects.hashCode(this._departmentAssignment);
@@ -366,7 +363,7 @@ public class KGLListCostCenterCost implements Serializable {
         hash = 59 * hash + this._medicalInfrastructureCost;
         hash = 59 * hash + this._nonMedicalInfrastructureCost;
         hash = 59 * hash + this._baseInformationId;
-        hash = 59 * hash + this._costTypeId;
+        hash = 59 * hash + this._costCenterNumber;
         return hash;
     }
 
@@ -390,7 +387,7 @@ public class KGLListCostCenterCost implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._costCenter != other._costCenter) {
+        if (this._costCenterID != other._costCenterID) {
             return false;
         }
         if (this._bedCnt != other._bedCnt) {
@@ -447,7 +444,7 @@ public class KGLListCostCenterCost implements Serializable {
         if (!Objects.equals(this._pprWeight, other._pprWeight)) {
             return false;
         }
-        return this._costTypeId == other._costTypeId;
+        return this._costCenterNumber == other._costCenterNumber;
     }
 
     @Override
