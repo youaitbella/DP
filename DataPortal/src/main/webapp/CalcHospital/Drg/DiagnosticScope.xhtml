@@ -30,22 +30,27 @@
 
                 <h:column>
                     <f:facet name="header">Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle</f:facet>
+                    <inek:InputNumberWithMessage value="#{item.fullVigorCnt}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Leistungsschlüssel</f:facet>
+                    <inek:InputTextWithMessage value="#{item.serviceKey}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0</f:facet>
+                    <inek:InputTextWithMessage value="#{item.serviceKeyDescription}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Summe der Leistungseinheiten</f:facet>
+                    <inek:InputNumberWithMessage value="#{item.serviceSum}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header"></f:facet>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header"></f:facet>
+                    <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true"/>
                 </h:column>
 
             </h:dataTable>
