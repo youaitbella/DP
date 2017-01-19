@@ -59,13 +59,13 @@
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
 
-        <h2>Kostenstellen der erbrachten Leistungen</h2>
+        <h2>Kostenstellen der erbrachten Leistungen #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
-        <h:dataTable id="table"
+        <h:dataTable id="tblObstretics"
                      value="#{editCalcBasicsDrg.calcBasics.obstetricsGynecologies}" 
-                     var ="item"
+                     var ="obstretic"
                      width="100%"
-                     columnClasses="colIcon, col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column id="colDeleteId">
@@ -80,9 +80,9 @@
 
             <h:column>
                 <f:facet name="header">Kostenstelle</f:facet>
-                <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeID ge 0}"/>
+                <h:outputLabel styleClass="label" value="#{obstretic.costCenterText}" rendered="true"/>
                 <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                           value="#{item.domain}" rendered="#{item.serviceProvisionTypeID lt 0}"/>
+                                           value="#{obstretic.costCenterText}" rendered="true"/>
             </h:column>
 
             <h:column>
@@ -90,54 +90,121 @@
                 <h:selectOneMenu id="externalProvision"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{item.providedTypeID}" 
+                                 value="#{obstretic.costTypeId}" 
                                  hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{1}"/>
-                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{2}"/>
-                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{3}"/>
-                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{4}"/>
+                    <f:selectItem itemLabel="eine aus 1,4,6,11,12,13" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="1" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="4" itemValue="#{4}"/>
+                    <f:selectItem itemLabel="6" itemValue="#{6}"/>
+                    <f:selectItem itemLabel="11" itemValue="#{11}"/>
+                    <f:selectItem itemLabel="12" itemValue="#{12}"/>
+                    <f:selectItem itemLabel="13" itemValue="#{13}"/>
                     <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
                 </h:selectOneMenu>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Ärztlicher Dienst</f:facet>
-                <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeID ne 4}"/>
+                <inek:InputTextWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputTextWithMessage value="#{item.note}" styleClass="inputwide"/>
+                <inek:InputTextWithMessage value="#{obstretic.attendingDoctorCnt}" styleClass="col05em number"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
-                <inek:InputTextWithMessage value="#{item.amount}" styleClass="col05em" renderElement="@form"/>
+                <inek:InputTextWithMessage value="#{obstretic.nursingServiceCnt}" styleClass="col05em number" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
-                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.priorProvisionAmount(item)}" disabled="true" styleClass="col05em"/>
+                <inek:InputTextWithMessage value="#{obstretic.functionalServiceCnt}" styleClass="col05em number"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
-                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
+                <inek:InputTextWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClass="col05em"/>
+                <inek:InputTextWithMessage value="#{obstretic.attendingMidwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
         </h:dataTable>
 
         <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                        rendered="#{!editCalcBasicsDrg.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addServiceProvision}"/>
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addObstreticsGynecology()}"/>
         </h:commandLink>
 
+
+        <h2>Kostenstellen der erbrachten Leistungen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+
+        <h:dataTable id="tblPrevObstretics"
+                     value="#{editCalcBasicsDrg.priorCalcBasics.obstetricsGynecologies}" 
+                     var ="prevObstretic"
+                     width="100%"
+                     columnClasses="col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     rowClasses="row1, row2">
+
+            <h:column>
+                <f:facet name="header">Kostenstelle</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{prevObstretic.costCenterText}" rendered="true" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenstellengruppe</f:facet>
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{prevObstretic.costTypeId}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="eine aus 1,4,6,11,12,13" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="1" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="4" itemValue="#{4}"/>
+                    <f:selectItem itemLabel="6" itemValue="#{6}"/>
+                    <f:selectItem itemLabel="11" itemValue="#{11}"/>
+                    <f:selectItem itemLabel="12" itemValue="#{12}"/>
+                    <f:selectItem itemLabel="13" itemValue="#{13}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Ärztlicher Dienst</f:facet>
+                <inek:InputTextWithMessage id="partition" value="#{prevObstretic.medicalServiceCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">davon Belegärzte</f:facet>
+                <inek:InputTextWithMessage value="#{prevObstretic.attendingDoctorCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Pflegedienst</f:facet>
+                <inek:InputTextWithMessage value="#{prevObstretic.nursingServiceCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
+                <inek:InputTextWithMessage value="#{prevObstretic.functionalServiceCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Hebammen</f:facet>
+                <inek:InputTextWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">davon Beleg-Hebammen</f:facet>
+                <inek:InputTextWithMessage value="#{prevObstretic.attendingMidwifeCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+        </h:dataTable>
 
         <h2>#{msg.lblTopMaternityService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
