@@ -67,6 +67,7 @@ public class NoticeItemImporter {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
             InsuranceNubNoticeItem item = new InsuranceNubNoticeItem();
+            item.setInsuranceNubNoticeId(_notice.getId());
             tryImportRequestId(item, data[0]);
             tryImportDosageForm(item, data[1]);
             tryImportAmount(item, data[2]);

@@ -117,11 +117,14 @@
         <h2>#{msg.lblExternalSupport}</h2>
 
         <h:panelGroup styleClass="inputPart" id="consultantData">
-            <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}" 
-                                     value="#{editStatementOfParticipance.statement.withConsultant}" 
-                                     labelStyle="col45em label" 
-                                     readonly="#{editStatementOfParticipance.readOnly}"
-                                     renderElement="@form"/>
+
+            <div class="marginTop01em">
+                <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}" 
+                                         value="#{editStatementOfParticipance.statement.withConsultant}" 
+                                         labelStyle="col45em" 
+                                         readonly="#{editStatementOfParticipance.readOnly}"
+                                         renderElement="@form"/>
+            </div>
 
 
             <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
@@ -132,10 +135,12 @@
                                   value="#{editStatementOfParticipance.statement.consultantCompany}" 
                                   styleClass="col50em"/> 
 
-                <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
-                                         value="#{editStatementOfParticipance.statement.consultantSendMail}" 
-                                         readonly="#{editStatementOfParticipance.readOnly}"
-                                         labelStyle="col45em label"/>
+                <div class="marginTop01em">
+                    <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
+                                             value="#{editStatementOfParticipance.statement.consultantSendMail}" 
+                                             readonly="#{editStatementOfParticipance.readOnly}"
+                                             labelStyle="col45em"/>
+                </div>
 
                 <calc:CalcContactTable id="contactConsultant"
                                        value="#{editStatementOfParticipance.consultants}" 

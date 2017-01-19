@@ -23,17 +23,23 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Tuple;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -69,6 +75,7 @@ import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.insurance.NoticeItemImporter;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -688,6 +695,91 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteCostCenter(KGLListCostCenter item) {
         _calcBasics.getCostCenters().remove(item);
+    }
+    
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _file = file;
+    }
+
+    private String _importMessage = "";
+
+    public String getImportMessage() {
+        return _importMessage;
+    }
+
+    @Inject private Instance<CostCenterDataImporter> _importProvider;
+
+    public void uploadNotices() {
+        try {
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                CostCenterDataImporter itemImporter = _importProvider.get();
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.contains(";Head1;Head2;...")) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                _importMessage = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessage);
+                _showJournal = false;
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    public String downloadJournal() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+        try {
+            byte[] buffer = _importMessage.getBytes();
+            response.reset();
+            response.setContentType("text/plain");
+            response.setHeader("Content-Length", "" + buffer.length);
+            response.setHeader("Content-Disposition", "attachment;filename=\"Importprotokoll.txt\"");
+            response.getOutputStream().write(buffer);
+            response.flushBuffer();
+            facesContext.responseComplete();
+        } catch (IOException ex) {
+            _logger.log(Level.SEVERE, null, ex);
+            return Pages.Error.URL();
+        }
+        return "";
+    }
+    
+    public String toggleJournal() {
+        _showJournal = !_showJournal;
+        return "";
+    }
+    
+    private boolean _showJournal = false;
+
+    public boolean isShowJournal() {
+        return _showJournal;
+    }
+
+    public void setShowJournal(boolean showJournal) {
+        this._showJournal = showJournal;
     }
     //</editor-fold>
     

@@ -165,7 +165,7 @@ public class EditCooperation extends AbstractEditController {
 
     private void setTopicsVisibility() {
         setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Arrays.asList(Feature.NUB));
-        setTopicVisibility(CooperationTabs.tabCooperationOther.name(), Arrays.asList(Feature.MODEL_INTENTION, Feature.DRG_PROPOSAL, Feature.PEPP_PROPOSAL));
+        setTopicVisibility(CooperationTabs.tabCooperationOther.name(), Arrays.asList(Feature.MODEL_INTENTION, Feature.DRG_PROPOSAL, Feature.PEPP_PROPOSAL, Feature.CALCULATION_HOSPITAL));
     }
 
     private void setTopicVisibility(String topicName, List<Feature> features) {
