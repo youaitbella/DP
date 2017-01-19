@@ -149,6 +149,21 @@ public class KGLListObstetricsGynecology implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ogCostTypeId">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ogCostTypeID")
+    private double _costTypeId;
+
+    public double getCostTypeId() {
+        return _costTypeId;
+    }
+
+    public void setCostTypeId(double costTypeId) {
+        this._costTypeId = costTypeId;
+    }    
+    // </editor-fold>
+
    // <editor-fold defaultstate="collapsed" desc="ogBaseInformationID">
 //    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
