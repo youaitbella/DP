@@ -20,23 +20,23 @@
         <th>Sonstige Vorgehensweise</th>
         </thead>
         <tr>
-            <td>
+            <td style="text-align: center;">
                 <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.approximationMethodNonMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
-            <td>
+            <td style="text-align: center;">
                 <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.stepladderMethodNonMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
-            <td>
+            <td style="text-align: center;">
                 <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.extensionMethodNonMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
-            <td>
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}" >
+            <td style="text-align: center;">
+            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.descNonMedicalInfra}" >
                     <f:ajax event="change" render="@form description :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
@@ -46,7 +46,7 @@
         </tbody>
     </table>
       
-    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}" >
+    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.descNonMedicalInfra}" >
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
         <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}">
             <f:ajax event="blur" render="@this :logout:remaining" />
@@ -55,9 +55,10 @@
     
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  
     
+    <!--180 = nicht med. Infra-->
     <h:dataTable  headerClass="list-header" id="nonMedInfras"
-                  value="#{editCalcBasicsDrg.calcBasics.medInfras}" var="item" width="70%" rowClasses="row1, row2" 
-                  columnClasses="colIcon, col50, col90, col50, col50"
+                  value="#{editCalcBasicsDrg.getMedInfra(180)}" var="item" width="100%" rowClasses="row1, row2" 
+                  columnClasses=""
                   rendered="true"
                   >
 
@@ -74,10 +75,10 @@
 
         <h:column>
             <f:facet name="header">
-                <h:outputText value="Nummer der"/><br/>
+                <h:outputText value="Nummer der "/>
                 <h:outputText value="Kostenstelle"/>
             </f:facet>
-                <h:inputText value="#{item.costCenter}" styleClass="inputmedium" required="true">
+                <h:inputText value="#{item.costCenterNumber}" styleClass="inputwide" required="true">
                 <f:ajax render="@this :logout:remaining"/>
             </h:inputText>
         </h:column>
@@ -94,7 +95,7 @@
         
                 <h:column>
             <f:facet name="header">
-                <h:outputText value="Verwendeter"/>
+                <h:outputText value="Verwendeter "/>
                 <h:outputText value="Schlüssel"/>
             </f:facet>
                     <h:inputText value="#{item.keyUsed}" styleClass="inputwide" required="true">
@@ -113,8 +114,9 @@
         </h:column>
     </h:dataTable>
 
+    <!--180 = nicht med. Infra-->
     <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra()}"/>
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra(180)}"/>
     </h:commandLink>   
                     
            
