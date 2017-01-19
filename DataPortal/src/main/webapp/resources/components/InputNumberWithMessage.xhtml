@@ -18,6 +18,7 @@
         <cc:attribute name="isInt" default="true"/>
         <cc:attribute name="minimum" default="0"/>
         <cc:attribute name="maximum" default="999999999"/>
+        <cc:attribute name="pattern" default=""/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -32,8 +33,9 @@
                          disabled="#{cc.attrs.disabled}"
                          required="#{cc.attrs.required}"
                          requiredMessage="#{msg.msgValueNeeded}">
-                <f:ajax event="change" render="@this #{cc.attrs.renderElement} :logout:remaining message"/>
-                <f:convertNumber/>
+                <f:ajax event="blur" render="@this #{cc.attrs.renderElement} :logout:remaining message"/>
+                <f:convertNumber rendered="#{cc.attrs.pattern.length() eq 0}"/>
+                <f:convertNumber rendered="#{cc.attrs.pattern.length() gt 0}" pattern="#{cc.attrs.pattern}"/>
                 <f:validateLongRange rendered="#{cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
                 <f:validateDoubleRange rendered="#{!cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
             </h:inputText>

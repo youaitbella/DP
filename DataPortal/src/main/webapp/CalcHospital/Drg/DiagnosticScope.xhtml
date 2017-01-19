@@ -10,53 +10,55 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h2>#{msg.lblCalcDiagnosticScope}</h2>
-    
+
     <h:dataTable value="#{editCalcBasicsDrg.calcBasics.costCenters}" var="item"
-                         columnClasses="colValue, col14 number, col14 number, col14 number" rowClasses="row1, row2">
-                <h:column>
-                    <f:facet name="header">Nummer der Kostenstelle</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
-                </h:column>
+                 columnClasses="col14 number, colValue, col14 number, col14 number, colValue, colValue, col14 number, col14 number" rowClasses="row1, row2">
+        <h:column>
+            <f:facet name="header">Nummer der Kostenstelle</f:facet>
+            <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header">Name der Kostenstelle</f:facet>
-                    <inek:InputTextWithMessage value="#{item.costCenterText}"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Name der Kostenstelle</f:facet>
+            <inek:InputTextWithMessage value="#{item.costCenterText}"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header">Kostenvolumen</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.amount}"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Kostenvolumen</f:facet>
+            <inek:InputNumberWithMessage value="#{item.amount}" renderElement="result"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header">Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.fullVigorCnt}"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle</f:facet>
+            <inek:InputNumberWithMessage value="#{item.fullVigorCnt}"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header">Leistungsschlüssel</f:facet>
-                    <inek:InputTextWithMessage value="#{item.serviceKey}"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Leistungsschlüssel</f:facet>
+            <inek:InputTextWithMessage value="#{item.serviceKey}"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header">Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0</f:facet>
-                    <inek:InputTextWithMessage value="#{item.serviceKeyDescription}"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0</f:facet>
+            <inek:InputTextWithMessage value="#{item.serviceKeyDescription}"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header">Summe der Leistungseinheiten</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.serviceSum}"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Summe der Leistungseinheiten</f:facet>
+            <inek:InputNumberWithMessage value="#{item.serviceSum}" renderElement="@form"/>
+        </h:column>
 
-                <h:column>
-                    <f:facet name="header"></f:facet>
-                    <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true"/>
-                </h:column>
+        <h:column>
+            <f:facet name="header">Kostensatz je LE</f:facet>
+            <h:panelGroup id="result">
+                <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true" pattern="#,##0.00"/>
+            </h:panelGroup>
+        </h:column>
 
-            </h:dataTable>
-        <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+    </h:dataTable>
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                    rendered="#{!editCalcBasicsDrg.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenter(11)}"/>
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenter(11)}"/>
     </h:commandLink>
 
 

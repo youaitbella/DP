@@ -156,6 +156,10 @@ public class CalcHospitalList {
 
     private void deleteStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
         StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
+        if (statement == null){
+            // might be deleted by somebody else
+            return;
+        }
         if (statement.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
             statement.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(statement);
