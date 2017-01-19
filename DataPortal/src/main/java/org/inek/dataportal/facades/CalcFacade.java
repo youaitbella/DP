@@ -28,6 +28,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
+import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
@@ -323,12 +324,23 @@ public class CalcFacade extends AbstractDataAccess {
         saveSpecialUnits(calcBasics);
         saveCentralFocus(calcBasics);
         saveLaboratoryData(calcBasics);
+        saveCostCenterData(calcBasics);
         savePersonalAccounting(calcBasics);
         return merge(calcBasics);
     }
     
     private void saveLaboratoryData(DrgCalcBasics calcBasics) {
         for (KGLListRadiologyLaboratory item : calcBasics.getRadiologyLaboratories()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
+    private void saveCostCenterData(DrgCalcBasics calcBasics) {
+        for (KGLListCostCenter item : calcBasics.getCostCenters()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {

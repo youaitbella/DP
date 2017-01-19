@@ -7,12 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,14 +26,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListCostCenterCost implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cccID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
@@ -44,27 +43,23 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenter">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "cccCostCenter")
-    private int _costCenter;
+    @Column(name = "cccCostCenterID")
+    private int _costCenterID;
     
     public int getCostCenter() {
-        return _costCenter;
+        return _costCenterID;
     }
 
-    public void setCostCenter(int costCenter) {
-        this._costCenter = costCenter;
+    public void setCostCenter(int costCenterID) {
+        this._costCenterID = costCenterID;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "cccCostCenterText")
     private String _costCenterText;
-    
+
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -75,12 +70,10 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 4)
     @Column(name = "cccDepartmentKey")
     private String _departmentKey;
-    
+
     public String getDepartmentKey() {
         return _departmentKey;
     }
@@ -91,12 +84,10 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 4)
     @Column(name = "cccDepartmentAssignment")
     private String _departmentAssignment;
-    
+
     public String getDepartmentAssignment() {
         return _departmentAssignment;
     }
@@ -107,11 +98,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BedCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccBedCnt")
     private int _bedCnt;
-    
+
     public int getBedCnt() {
         return _bedCnt;
     }
@@ -122,11 +111,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CareDays">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccCareDays")
     private int _careDays;
-    
+
     public int getCareDays() {
         return _careDays;
     }
@@ -137,8 +124,6 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="PPRMinutes">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccPPRMinutes")
     private int _pprMinutes;
 
@@ -152,8 +137,6 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="PPRWeight">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccPPRWeight")
     private String _pprWeight = "";
 
@@ -168,11 +151,9 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="MedicalServiceCnt">
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccMedicalServiceCnt")
     private double _medicalServiceCnt;
-    
+
     public double getMedicalServiceCnt() {
         return _medicalServiceCnt;
     }
@@ -183,11 +164,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="NursingServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccNursingServiceCnt")
     private double _nursingServiceCnt;
-    
+
     public double getNursingServiceCnt() {
         return _nursingServiceCnt;
     }
@@ -198,11 +177,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="FunctionalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccFunctionalServiceCnt")
     private double _functionalServiceCnt;
-    
+
     public double getFunctionalServiceCnt() {
         return _functionalServiceCnt;
     }
@@ -213,11 +190,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="MedicalServiceAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccMedicalServiceAmount")
     private int _medicalServiceAmount;
-    
+
     public int getMedicalServiceAmount() {
         return _medicalServiceAmount;
     }
@@ -228,11 +203,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="NursingServiceAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccNursingServiceAmount")
     private int _nursingServiceAmount;
-    
+
     public int getNursingServiceAmount() {
         return _nursingServiceAmount;
     }
@@ -243,11 +216,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="FunctionalServiceAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccFunctionalServiceAmount")
     private int _functionalServiceAmount;
-    
+
     public int getFunctionalServiceAmount() {
         return _functionalServiceAmount;
     }
@@ -258,11 +229,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="OverheadsMedicine">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccOverheadsMedicine")
     private int _overheadsMedicine;
-    
+
     public int getOverheadsMedicine() {
         return _overheadsMedicine;
     }
@@ -273,11 +242,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="OverheadsMedicalGoods">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccOverheadsMedicalGoods")
     private int _overheadsMedicalGoods;
-    
+
     public int getOverheadsMedicalGoods() {
         return _overheadsMedicalGoods;
     }
@@ -288,11 +255,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="MedicalInfrastructureCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccMedicalInfrastructureCost")
     private int _medicalInfrastructureCost;
-    
+
     public int getMedicalInfrastructureCost() {
         return _medicalInfrastructureCost;
     }
@@ -303,11 +268,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="NonMedicalInfrastructureCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccNonMedicalInfrastructureCost")
     private int _nonMedicalInfrastructureCost;
-    
+
     public int getNonMedicalInfrastructureCost() {
         return _nonMedicalInfrastructureCost;
     }
@@ -320,8 +283,6 @@ public class KGLListCostCenterCost implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="cccBaseInformationID">
 //    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "cccBaseInformationID")
     private int _baseInformationId;
 
@@ -333,19 +294,18 @@ public class KGLListCostCenterCost implements Serializable {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="costTypeID">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "cccCostTypeID")
-    private int _costTypeId;
 
-    public int getCostTypeId() {
-        return _costTypeId;
+    // <editor-fold defaultstate="collapsed" desc="costTypeID">
+
+    @Column(name = "cccCostCenterNumber")
+    private int _costCenterNumber;
+    
+    public int getCostCenterNumber() {
+        return _costCenterNumber;
     }
 
-    public void setCostTypeId(int costTypeId) {
-        this._costTypeId = costTypeId;
+    public void setCostCenterNumber(int costCenterNumber) {
+        this._costCenterNumber = costCenterNumber;
     }
     // </editor-fold>
 
@@ -356,8 +316,8 @@ public class KGLListCostCenterCost implements Serializable {
         this._id = cccID;
     }
 
-    public KGLListCostCenterCost(int costCenter, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, int medicalServiceAmount, int nursingServiceAmount, int functionalServiceAmount, int overheadsMedicine, int overheadsMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId, int costTypeID) {
-        this._costCenter = costCenter;
+    public KGLListCostCenterCost(int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, int medicalServiceAmount, int nursingServiceAmount, int functionalServiceAmount, int overheadsMedicine, int overheadsMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId, int costCenterNumber) {
+        this._costCenterID = costCenterID;
         this._costCenterText = costCenterText;
         this._departmentKey = departmentKey;
         this._departmentAssignment = departmentAssignment;
@@ -375,7 +335,7 @@ public class KGLListCostCenterCost implements Serializable {
         this._medicalInfrastructureCost = medicalInfrastructureCost;
         this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
         this._baseInformationId = baseInformationId;
-        this._costTypeId = costTypeID;
+        this._costCenterNumber = costCenterNumber;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -383,10 +343,8 @@ public class KGLListCostCenterCost implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this._id;
-        
         if (this._id != -1) return hash;
-        
-        hash = 59 * hash + this._costCenter;
+        hash = 59 * hash + this._costCenterID;
         hash = 59 * hash + Objects.hashCode(this._costCenterText);
         hash = 59 * hash + Objects.hashCode(this._departmentKey);
         hash = 59 * hash + Objects.hashCode(this._departmentAssignment);
@@ -405,10 +363,10 @@ public class KGLListCostCenterCost implements Serializable {
         hash = 59 * hash + this._medicalInfrastructureCost;
         hash = 59 * hash + this._nonMedicalInfrastructureCost;
         hash = 59 * hash + this._baseInformationId;
-        hash = 59 * hash + this. _costTypeId;
+        hash = 59 * hash + this._costCenterNumber;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -421,13 +379,15 @@ public class KGLListCostCenterCost implements Serializable {
             return false;
         }
         final KGLListCostCenterCost other = (KGLListCostCenterCost) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
-        if (this._costCenter != other._costCenter) {
+        if (this._costCenterID != other._costCenterID) {
             return false;
         }
         if (this._bedCnt != other._bedCnt) {
@@ -484,15 +444,13 @@ public class KGLListCostCenterCost implements Serializable {
         if (!Objects.equals(this._pprWeight, other._pprWeight)) {
             return false;
         }
-        return this._costTypeId == other._costTypeId;
+        return this._costCenterNumber == other._costCenterNumber;
     }
-    
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListCostCenterCost[ cccID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }
