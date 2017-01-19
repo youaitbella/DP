@@ -32,6 +32,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Tuple;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -151,6 +152,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             centralFocus.setId(-1);
             centralFocus.setBaseInformationID(calcBasics.getId());
             calcBasics.getCentralFocuses().add(centralFocus);
+        }
+        
+        // Delimitation facts
+        for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+            df.setId(-1);
+            df.setBaseInformationId(calcBasics.getId());
+            checkRequireInputsForDelimitationFact(df);
+            calcBasics.getDelimitationFacts().add(df);
         }
         
         // Personal Accounting
@@ -295,17 +304,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
     }
-
-    public List<DrgDelimitationFact> getDelimitationFacts() {
-        if (_calcBasics.getDelimitationFacts() == null || _calcBasics.getDelimitationFacts().isEmpty()) {
-            for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, _calcBasics.getDataYear())) {
-                DrgDelimitationFact df = new DrgDelimitationFact();
-                df.setContentTextId(ct.getId());
-                df.setBaseInformationId(_calcBasics.getId());
-                _calcBasics.getDelimitationFacts().add(df);
-            }
-        }
-        return _calcBasics.getDelimitationFacts();
+    
+    private void checkRequireInputsForDelimitationFact(DrgDelimitationFact df) {
+        int id = df.getContentText().getId();
+        if(id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18)
+            df.setRequireInputs(true);
     }
 
     public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {

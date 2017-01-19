@@ -41,7 +41,6 @@
                 <inek:InputNumberWithMessage styleClass="inputwide"
                                          value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.sumCalcCost, editCalcBasicsDrg.calcBasics.sumCalcCost)}" 
                                          disabled="true"
-                                         id="pDiffSumCalcCostXXX"
                                          />
             </h:panelGroup>
         </td>
@@ -145,9 +144,12 @@
                 <span class="label">Begleitpersonen</span>
             </td>
             <td>
-        <h:inputText styleClass="inputwide" id="companions" value="#{editCalcBasicsDrg.calcBasics.patientEscort}" required="true">
-            <f:ajax event="blur" render="@this pPatientEscort pDiffPatientEscort :logout:remaining" />
-        </h:inputText>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                     value="#{editCalcBasicsDrg.calcBasics.patientEscort}"
+                                     required="true" 
+                                     id="companions"
+                                     renderElement="@this pPatientEscort pDiffPatientEscort :logout:remaining"
+                                     />
         </td>
         <td>
             <h:outputLabel id="pPatientEscort" value="#{editCalcBasicsDrg.priorCalcBasics.patientEscort}" />
@@ -416,7 +418,7 @@
 
     <br/><br/>
     
-    <ui:repeat value="#{editCalcBasicsDrg.delimitationFacts}" var="x" varStatus="status">
+    <ui:repeat value="#{editCalcBasicsDrg.calcBasics.delimitationFacts}" var="x" varStatus="status">
         <h:dataTable value="#{editCalcBasicsDrg.delimitationFactsSubTitles}" 
                      var="data" 
                      width="100%"
@@ -440,17 +442,17 @@
                         <f:ajax event="change" render="@form :logout:remaining delimit-content" />
                     </h:selectBooleanCheckbox>
                 </f:facet>
-                <h:outputLabel value="#{data}"/>
+                <h:outputLabel rendered="#{x.requireInputs}" value="#{data}"/>
             </h:column>
 
-            <h:column rendered="#{x.used}">
+            <h:column rendered="#{x.used and x.requireInputs}">
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
                 <h:outputLabel rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em"/>
                 <h:outputLabel rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em"/>
                 <h:outputLabel rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em"/>
             </h:column>
 
-            <h:column rendered="#{x.used}">
+            <h:column rendered="#{x.used and x.requireInputs}">
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
                 <h:inputText id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}" styleClass="col06em"
                              disabled="#{x.contentText.text eq 'Investitionskosten'}">
@@ -466,7 +468,7 @@
                 <h:message for="data" id="msgData" styleClass="errorMessage"/>
             </h:column>
 
-            <h:column rendered="#{x.used}">
+            <h:column rendered="#{x.used and x.requireInputs}">
                 <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
                 <h:outputLabel id="diff-personal" rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}" styleClass="col06em"/>
                 <h:outputLabel id="diff-material" rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}" styleClass="col06em"/>

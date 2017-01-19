@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -25,15 +27,16 @@ public class KGLListCostCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ccID")
     private int _id = -1;
 
-    public int getID() {
+    public int getId() {
         return _id;
     }
 
-    public void setID(int ccID) {
-        this._id = ccID;
+    public void setId(int id) {
+        this._id = id;
     }
     // </editor-fold>
 
@@ -66,7 +69,7 @@ public class KGLListCostCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Size(max = 50)
     @Column(name = "ccCostCenterText")
-    private String _costCenterText;
+    private String _costCenterText = "";
 
     public String getCostCenterText() {
         return _costCenterText;
@@ -107,7 +110,7 @@ public class KGLListCostCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="ServiceKey">
     @Size(max = 50)
     @Column(name = "ccServiceKey")
-    private String _serviceKey;
+    private String _serviceKey = "";
 
     public String getServiceKey() {
         return _serviceKey;
@@ -119,9 +122,8 @@ public class KGLListCostCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKeyDescription">
-    @Size(max = 2147483647)
     @Column(name = "ccServiceKeyDescription")
-    private String _serviceKeyDescription;
+    private String _serviceKeyDescription = "";
 
     public String getServiceKeyDescription() {
         return _serviceKeyDescription;

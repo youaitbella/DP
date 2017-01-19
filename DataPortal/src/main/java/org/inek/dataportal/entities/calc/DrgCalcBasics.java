@@ -795,6 +795,7 @@ public class DrgCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
+    @OrderBy(value = "_contentTextId")
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<DrgDelimitationFact> getDelimitationFacts() {
