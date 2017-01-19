@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -239,6 +240,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             int id = Integer.parseInt(idObject);
             DrgCalcBasics statement = _calcFacade.findCalcBasicsDrg(id);
             statement.setDescNonMedicalInfra(!statement.getOtherMethodNonMedInfra().isEmpty());
+            for (Iterator<DrgDelimitationFact> it = statement.getDelimitationFacts().iterator(); it.hasNext();) {
+                checkRequireInputsForDelimitationFact(it.next());
+            }
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
             }
