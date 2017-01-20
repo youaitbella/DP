@@ -781,9 +781,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    public String toggleJournal() {
+    public void toggleJournal() {
         _showJournal = !_showJournal;
-        return "";
     }
 
     private boolean _showJournal = false;
