@@ -110,8 +110,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     public List<Account> getInekAcounts() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Account> cq = cb.createQuery(Account.class);
-        Root request = cq.from(Account.class);
-        //cq.select(request).where(cb.like(request.get("_email"), "%@inek-drg.de"));
+        Root<Account> request = cq.from(Account.class);
         cq.select(request).where(cb.like(request.get("_email"), "%@inek-drg.de"));
         TypedQuery<Account> query = getEntityManager().createQuery(cq);
         return query.getResultList();
@@ -346,7 +345,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     public List<Account> getAccounts4Ik(Integer ik) {
         String jpql = "SELECT DISTINCT a FROM Account a left join AccountAdditionalIK i WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik order by a._lastName";
-        Query query = getEntityManager().createQuery(jpql);
+        TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         dumpSql(query);
         query.setParameter("ik", ik);
         return query.getResultList();
@@ -362,8 +361,9 @@ public class AccountFacade extends AbstractFacade<Account> {
                 + "\r\n from dbo.Account"
                 + "\r\n join dbo.AccountAdditionalIK on acId = aaiAccountId"
                 + "\r\n where acId in (" + accountIdList + ")";
-        Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        Query query = getEntityManager().createNativeQuery(sql, Integer.class);
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<Integer>(query.getResultList());
+        return result;
     }
 
 }
