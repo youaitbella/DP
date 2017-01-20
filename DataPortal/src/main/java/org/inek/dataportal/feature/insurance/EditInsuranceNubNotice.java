@@ -337,26 +337,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
     }
 
-    public String downloadJournal() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-
-        try {
-            byte[] buffer = _importMessage.getBytes();
-            response.reset();
-            response.setContentType("text/plain");
-            response.setHeader("Content-Length", "" + buffer.length);
-            response.setHeader("Content-Disposition", "attachment;filename=\"Importprotokoll.txt\"");
-            response.getOutputStream().write(buffer);
-            response.flushBuffer();
-            facesContext.responseComplete();
-        } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
-        }
-        return "";
-    }
-    
     public String toggleJournal() {
         _showJournal = !_showJournal;
         return "";

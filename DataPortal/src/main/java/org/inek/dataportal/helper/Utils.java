@@ -32,6 +32,7 @@ import javax.faces.context.Flash;
 import javax.faces.context.PartialResponseWriter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -266,23 +267,28 @@ public class Utils {
         return "";
     }
 
-    public static String downloadDocument(String document, String name) {
+    public static void downloadText(String text, String filename) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
+        Utils.downloadText(facesContext, text, filename);
+    }
+
+    public static void downloadText(FacesContext facesContext, String text, String filename) {
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
         try {
-            byte[] buffer = document.getBytes("UTF-8");
-            externalContext.setResponseHeader("Content-Type", Helper.getContentType(name));
-            externalContext.setResponseHeader("Content-Length", "" + buffer.length);
-            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + name);
-            ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
+            byte[] buffer = text.getBytes();
+            response.reset();
+            response.setContentType(Helper.getContentType(filename));
+            response.setHeader("Content-Length", "" + buffer.length);
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
+            response.getOutputStream().write(buffer);
+            response.flushBuffer();
+            facesContext.responseComplete();
         } catch (IOException ex) {
             _logger.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
+            NavigationHandler nav = facesContext.getApplication().getNavigationHandler();
+            nav.handleNavigation(facesContext, null, Pages.Error.RedirectURL());
         }
-        facesContext.responseComplete();
-        return "";
     }
 
     public static String encodeUrl(String url) {
@@ -344,4 +350,5 @@ public class Utils {
             return false;
         }
     }
+
 }
