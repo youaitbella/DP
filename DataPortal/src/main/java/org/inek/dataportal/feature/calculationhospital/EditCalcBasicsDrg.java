@@ -58,6 +58,7 @@ import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
+import org.inek.dataportal.entities.calc.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
@@ -138,6 +139,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
         calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
+        calcBasics.getLocations().clear();
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
             location.setId(-1);
             location.setBaseInformationId(calcBasics.getId());
@@ -145,6 +147,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Special units
+        calcBasics.getSpecialUnits().clear();
         for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
             specialUnit.setId(-1);
             specialUnit.setBaseInformationId(calcBasics.getId());
@@ -152,6 +155,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Central focuses
+        calcBasics.getCentralFocuses().clear();
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             centralFocus.setId(-1);
             centralFocus.setBaseInformationID(calcBasics.getId());
@@ -159,7 +163,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Delimitation facts
-        for (DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+        calcBasics.getNormalFreelancers().clear();
+        for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             df.setId(-1);
             df.setBaseInformationId(calcBasics.getId());
             checkRequireInputsForDelimitationFact(df);
@@ -186,12 +191,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Normal Ward
+        calcBasics.getNormalFreelancers().clear();
         for (KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
             nf.setId(-1);
             nf.setBaseInformationID(calcBasics.getId());
             calcBasics.getNormalFreelancers().add(nf);
         }
-
+        calcBasics.getNormalFeeContracts().clear();
+        for(KGLNormalFeeContract fc : _priorCalcBasics.getNormalFeeContracts()) {
+            fc.setId(-1);
+            fc.setBaseInformationID(calcBasics.getId());
+            calcBasics.getNormalFeeContracts().add(fc);
+        }
+        
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
@@ -401,7 +413,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         mif.setCostTypeID(costType);
         _calcBasics.getMedInfras().add(mif);
     }
-
+    
+    public void addFreelancer() {
+        KGLNormalFreelancer nf = new KGLNormalFreelancer();
+        nf.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getNormalFreelancers().add(nf);
+    }
+    
+    public void deleteFreelancer(KGLNormalFreelancer nf) {
+        _calcBasics.getNormalFreelancers().remove(nf);
+    }
+    
+    public void addFeeContract() {
+        KGLNormalFeeContract fc = new KGLNormalFeeContract();
+        fc.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getNormalFeeContracts().add(fc);
+    }
+    
+    public void deleteFeeContract(KGLNormalFeeContract fc) {
+        _calcBasics.getNormalFeeContracts().remove(fc);
+    }
+    
     public List<KGLListMedInfra> getMedInfra(int costType) {
         List<KGLListMedInfra> tmp = new ArrayList<>();
         _calcBasics.getMedInfras().stream().filter((mi) -> (mi.getCostTypeID() == costType)).forEachOrdered((mi) -> {
@@ -756,9 +788,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    public String toggleJournal() {
+    public void toggleJournal() {
         _showJournal = !_showJournal;
-        return "";
     }
 
     private boolean _showJournal = false;
