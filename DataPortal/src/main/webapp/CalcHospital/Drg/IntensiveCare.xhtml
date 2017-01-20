@@ -18,6 +18,34 @@
                              value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
                              renderElement="@form :logout:remaining">
     </inek:BooleanRadioButton>
+
+    <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
+        <hr/>
+        <h:dataTable id="tblIntensiv"
+                     value="#{editCalcBasicsDrg.calcBasics.intensivStrokes}" 
+                     var ="varIntensiv"
+                     width="100%"
+                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     rowClasses="row1, row2">
+
+            <h:column id="colDeleteId">
+                <f:facet name="header">
+                    <h:outputText value=""/>
+                </f:facet>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteIntensivStroke(item)}" immediate="true" rendered="true">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.costCenterText}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.costCenterText}" rendered="true"/>
+            </h:column>
+        </h:dataTable>
+    </div>
+
     <br/>
 
 
