@@ -661,11 +661,11 @@ public class EditNubRequest extends AbstractEditController {
         }
         return !message.containsMessage();
     }
-
     // </editor-fold>
+    
     public String downloadTemplate() {
         String content = getNubController().createTemplate(_nubRequest);
-        Utils.downloadDocument(content, _nubRequest.getName() + ".nub\"");
+        Utils.downloadText(content, _nubRequest.getName() + ".nub\"");
         return null;
     }
 

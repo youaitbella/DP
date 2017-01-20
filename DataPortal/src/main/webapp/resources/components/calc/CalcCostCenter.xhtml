@@ -88,17 +88,21 @@
                     <h:outputLabel style="margin-top: 0;" styleClass="button" value="#{msg.btnUploadMessage}"/>
                 </div>
             </div>
-                <h:commandLink rendered="#{editCalcBasicsDrg.importMessage.length() gt 0}" 
-                               styleClass="button"
-                               value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '↑' : '↓'}" immediate="true"
-                               action="#{editCalcBasicsDrg.toggleJournal}">
-                    <f:ajax event="blur" render="@form :logout:remaining"/>
-                </h:commandLink>
+            
+            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadTemplate}" immediate="true"/>
 
-            <h:inputTextarea rendered="#{editCalcBasicsDrg.importMessage.length() gt 0 and editCalcBasicsDrg.showJournal}" 
+            <h:commandLink rendered="#{editCalcBasicsDrg.importMessage.length() gt 0}" 
+                           styleClass="button"
+                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '˄' : '˅'}" immediate="true"
+                           action="#{editCalcBasicsDrg.toggleJournal}">
+                <f:ajax render="journal :logout:remaining"/>
+            </h:commandLink>
+
+            <h:inputTextarea id="journal" rendered="#{editCalcBasicsDrg.importMessage.length() gt 0 and editCalcBasicsDrg.showJournal}" 
                              value="#{editCalcBasicsDrg.importMessage}"
                              readonly="true"
                              styleClass="element100 #{editCalcBasicsDrg.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
         </h:panelGroup>
+        
     </cc:implementation>
 </html>
