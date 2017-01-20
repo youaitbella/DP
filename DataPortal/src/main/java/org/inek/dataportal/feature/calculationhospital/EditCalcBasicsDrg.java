@@ -62,6 +62,7 @@ import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
+import org.inek.dataportal.entities.calc.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
@@ -195,12 +196,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Normal Ward
+        calcBasics.getNormalFreelancers().clear();
         for (KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
             nf.setId(-1);
             nf.setBaseInformationID(calcBasics.getId());
             calcBasics.getNormalFreelancers().add(nf);
         }
-
+        calcBasics.getNormalFeeContracts().clear();
+        for(KGLNormalFeeContract fc : _priorCalcBasics.getNormalFeeContracts()) {
+            fc.setId(-1);
+            fc.setBaseInformationID(calcBasics.getId());
+            calcBasics.getNormalFeeContracts().add(fc);
+        }
+        
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
@@ -419,6 +427,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public void deleteFreelancer(KGLNormalFreelancer nf) {
         _calcBasics.getNormalFreelancers().remove(nf);
+    }
+    
+    public void addFeeContract() {
+        KGLNormalFeeContract fc = new KGLNormalFeeContract();
+        fc.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getNormalFeeContracts().add(fc);
+    }
+    
+    public void deleteFeeContract(KGLNormalFeeContract fc) {
+        _calcBasics.getNormalFeeContracts().remove(fc);
     }
     
     public List<KGLListMedInfra> getMedInfra(int costType) {
