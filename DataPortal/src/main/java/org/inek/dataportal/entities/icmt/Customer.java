@@ -24,7 +24,7 @@ public class Customer implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Contacts">
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "coCustomerId", referencedColumnName = "cuId")
-    private List<Contact> _contacts = Collections.EMPTY_LIST;
+    private List<Contact> _contacts = Collections.emptyList();
 
     public List<Contact> getContacts() {
         return _contacts;
