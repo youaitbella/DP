@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
       xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
@@ -15,10 +15,13 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:dataTable value="#{editCalcBasicsDrg.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}" var="item"
-                     columnClasses="colIcon, col14, colValue, col14 number, col14 number, colValue, colValue, col14 number, col14 number" rowClasses="row1, row2">
+                     styleClass="marginTop" width="100%"
+                     columnClasses="colIcon, col05em, colValue, col05em number, col05em number, colValue, colValue, col05em number, col05em number" rowClasses="row1, row2">
 
             <h:column>
-                <f:facet name="header"><h:outputText value=""/></f:facet>
+                <f:facet name="header">
+                    <h:graphicImage alt="" name="Icon/small/information.png" title="Platzieren SIe den Mauszeiger auf eine Spaltenüberschrift, um zusätzliche Informationen zu erhalten."/>
+                </f:facet>
                 <h:commandLink action="#{editCalcBasicsDrg.deleteCostCenter(item)}" immediate="true" rendered="#{!editCalcBasicsDrg.readOnly}">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <cb:confirmDelete/>
@@ -27,41 +30,43 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Nummer" title="Nummer der Kostenstelle"/></f:facet>
-                <inek:InputTextWithMessage value="#{item.costCenterNumber}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterNumber}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">Name der Kostenstelle</f:facet>
-                <inek:InputTextWithMessage value="#{item.costCenterText}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <f:facet name="header"><h:outputLabel value="Bezeichnung" title="Name der Kostenstelle"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterText}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen</f:facet>
-                <inek:InputNumberWithMessage value="#{item.amount}" renderElement="result" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.amount}" renderElement="result" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
-            <h:column>
-                <f:facet name="header">Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle</f:facet>
-                <inek:InputNumberWithMessage value="#{item.fullVigorCnt}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+            <h:column class="col05em">
+                <f:facet name="header">
+                    <h:outputLabel value="VK ÄD" title="Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Leistungsschlüssel</f:facet>
-                <inek:InputTextWithMessage value="#{item.serviceKey}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKey}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0</f:facet>
-                <inek:InputTextWithMessage value="#{item.serviceKeyDescription}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <f:facet name="header"><h:outputLabel value="Beschreibung" title="Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKeyDescription}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">Summe der Leistungseinheiten</f:facet>
-                <inek:InputNumberWithMessage value="#{item.serviceSum}" renderElement="@form" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <f:facet name="header"><h:outputLabel value="Sum. LE" title="Summe der Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header">Kostensatz je LE</f:facet>
+                <f:facet name="header"><h:outputLabel value="Kost/LE" title="Kostensatz je Leistungseinheiten"/></f:facet>
                 <h:panelGroup id="result">
                     <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true" pattern="#,##0.00"/>
                 </h:panelGroup>
@@ -70,7 +75,7 @@
         </h:dataTable>
 
         <h:panelGroup rendered="#{!editCalcBasicsDrg.readOnly}" class="inputPart">
-            <h:commandLink id="addButton" styleClass="addButton" value="#{msg.btnAddEntry}"
+            <h:commandLink id="addButton" styleClass="addButton marginTop01em" value="#{msg.btnAddEntry}"
                            rendered="#{!editCalcBasicsDrg.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenter(cc.attrs.costCenterId)}"/>
             </h:commandLink>
@@ -80,15 +85,16 @@
                     <f:ajax listener="#{editCalcBasicsDrg.uploadNotices()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
-                    <h:outputLabel styleClass="button" value="#{msg.btnUploadMessage}"/>
+                    <h:outputLabel style="margin-top: 0;" styleClass="button" value="#{msg.btnUploadMessage}"/>
                 </div>
+            </div>
                 <h:commandLink rendered="#{editCalcBasicsDrg.importMessage.length() gt 0}" 
                                styleClass="button"
                                value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '↑' : '↓'}" immediate="true"
                                action="#{editCalcBasicsDrg.toggleJournal}">
                     <f:ajax event="blur" render="@form :logout:remaining"/>
                 </h:commandLink>
-            </div>
+
             <h:inputTextarea rendered="#{editCalcBasicsDrg.importMessage.length() gt 0 and editCalcBasicsDrg.showJournal}" 
                              value="#{editCalcBasicsDrg.importMessage}"
                              readonly="true"
