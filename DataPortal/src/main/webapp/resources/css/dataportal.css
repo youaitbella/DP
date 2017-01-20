@@ -720,6 +720,17 @@ select:active, select:focus{
     font-weight: bold;
 }
 
+.blockElement {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0.1em 0.25em;
+    margin: 0 1px;
+    background-color: #043358;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .areaNarrowLow {
     min-width: 100px;
     width: 100px;
@@ -849,6 +860,10 @@ select:active, select:focus{
 }
 .col11{
     width: 11%;
+}
+
+.col02em{
+    width: 2em;
 }
 
 .col03em{
