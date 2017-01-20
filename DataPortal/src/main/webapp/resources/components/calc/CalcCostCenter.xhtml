@@ -39,7 +39,7 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header">Kostenvolumen</f:facet>
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.amount}" renderElement="result" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
@@ -51,7 +51,7 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header">Leistungsschlüssel</f:facet>
+                <f:facet name="header"><h:outputLabel value="Leistungsschlüssel" title="Leistungsschlüssel"/></f:facet>
                 <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKey}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
@@ -75,17 +75,17 @@
         </h:dataTable>
 
         <h:panelGroup rendered="#{!editCalcBasicsDrg.readOnly}" class="inputPart">
-            <h:commandLink id="addButton" styleClass="addButton marginTop01em" value="#{msg.btnAddEntry}"
+            <h:commandLink id="addButton" styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
                            rendered="#{!editCalcBasicsDrg.readOnly}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenter(cc.attrs.costCenterId)}"/>
             </h:commandLink>
 
-            <div class="uploadFile inlineBlock marginLeft05">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" title="#{msg.btnUploadMessage}" onclick="document.getElementById('wrapper').style.cursor = 'progress';" >
+            <div class="uploadFile inlineBlock marginRight">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
                     <f:ajax listener="#{editCalcBasicsDrg.uploadNotices()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 0;" styleClass="button" value="#{msg.btnUploadMessage}"/>
+                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Kostenstellengruppen 11-13"/>
                 </div>
             </div>
             
@@ -93,8 +93,8 @@
 
             <h:commandLink rendered="#{editCalcBasicsDrg.importMessage.length() gt 0}" 
                            styleClass="button"
-                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '˄' : '˅'}" immediate="true"
-                           action="#{editCalcBasicsDrg.toggleJournal}">
+                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '˄' : '˅'}" 
+                           actionListener="#{editCalcBasicsDrg.toggleJournal}">
                 <f:ajax render="journal :logout:remaining"/>
             </h:commandLink>
 
