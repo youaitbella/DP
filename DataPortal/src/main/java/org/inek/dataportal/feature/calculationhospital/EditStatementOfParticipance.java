@@ -61,7 +61,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject ApplicationTools _appTools;
     @Inject private CustomerFacade _customerFacade;
 
-    private String _script;
     private StatementOfParticipance _statement;
 
     enum StatementOfParticipanceTabs {
@@ -156,6 +155,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 statement.setTpgCalc(domain.contains("TPG"));
                 statement.setObdCalc(domain.contains("OBD"));
             }
+            _sessionController.setScript("alert('Zu Ihrer Unterstützung wurden die letztjährigen Daten bereits in den Dialog geladen. "
+                    + "Bevor Sie die Daten an das InEK senden, überprüfen Sie diese bitte auf eventuelle Änderungen.');");
         }
 
         statement.setContacts(_calcFacade.retrieveCurrentContacts(ik));

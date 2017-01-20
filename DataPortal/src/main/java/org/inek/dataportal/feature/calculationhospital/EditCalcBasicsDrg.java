@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
+import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -119,10 +120,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
-        
-        for(KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            for(KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if(ppa.getCostTypeID() == pa.getCostTypeID()) {
+
+        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+                if (ppa.getCostTypeID() == pa.getCostTypeID()) {
                     pa.setPriorCostAmount(ppa.getAmount());
                 }
             }
@@ -137,7 +138,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
-        
+
         // Locations
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
@@ -164,7 +165,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             centralFocus.setBaseInformationID(calcBasics.getId());
             calcBasics.getCentralFocuses().add(centralFocus);
         }
-        
+
         // Delimitation facts
         calcBasics.getNormalFreelancers().clear();
         for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
@@ -173,10 +174,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             checkRequireInputsForDelimitationFact(df);
             calcBasics.getDelimitationFacts().add(df);
         }
-        
+
         // Personal Accounting
         calcBasics.getPersonalAccountings().clear();
-        for(KGLPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
+        for (KGLPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
             pa.setId(-1);
             pa.setBaseInformationID(calcBasics.getId());
             pa.setPriorCostAmount(pa.getAmount());
@@ -184,23 +185,22 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getPersonalAccountings().add(pa);
         }
         ensurePersonalAccountingData(calcBasics);
-        
+
         // Laboratory
         calcBasics.getRadiologyLaboratories().clear();
-        for(KGLListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
+        for (KGLListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
             rl.setId(-1);
             rl.setBaseInformationID(calcBasics.getId());
             calcBasics.getRadiologyLaboratories().add(rl);
         }
-        
+
         // Normal Ward
-        calcBasics.getNormalFreelancers().clear();
-        for(KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
+        for (KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
             nf.setId(-1);
             nf.setBaseInformationID(calcBasics.getId());
             calcBasics.getNormalFreelancers().add(nf);
         }
-            
+
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
@@ -227,24 +227,21 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 optDat.get().setData(old.getData());
             }
         });
-        
+
         // NonMedicalInfrastructure
         calcBasics.setDescNonMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
         calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
         calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
         calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
         calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
-        
-        
+
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
         calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
         calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
-        
-        
-        
+
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
@@ -271,8 +268,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         calcBasics.getMedInfras().add(new KGLListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
         calcBasics.getMedInfras().add(new KGLListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
-        
-        
+
         if (getIks().size() == 1) {
             calcBasics.setIk((int) getIks().get(0).getValue());
         }
@@ -281,11 +277,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         preloadData(calcBasics);
         return calcBasics;
     }
-    
+
     private void ensurePersonalAccountingData(DrgCalcBasics calcBasics) {
-        if(calcBasics.getPersonalAccountings().size() == 3)
+        if (calcBasics.getPersonalAccountings().size() == 3) {
             return;
-        
+        }
+
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
@@ -342,11 +339,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
     }
-    
+
     private void checkRequireInputsForDelimitationFact(DrgDelimitationFact df) {
         int id = df.getContentText().getId();
-        if(id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18)
+        if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
             df.setRequireInputs(true);
+        }
     }
 
     public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
@@ -395,13 +393,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteCentralFocus(KGLListCentralFocus cf) {
         _calcBasics.getCentralFocuses().remove(cf);
     }
-    
+
     public void addLaboratory() {
         KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
         rl.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
-    
+
     public void deleteLaboratory(KGLListRadiologyLaboratory rl) {
         _calcBasics.getRadiologyLaboratories().remove(rl);
     }
@@ -431,13 +429,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return tmp;
     }
 
-    
     public void deleteMedInfra(KGLListMedInfra mif) {
         _calcBasics.getMedInfras().remove(mif);
     }
-    
-    
-    
+
     public List<KGLListEndoscopyDifferential> getEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         if (result.isEmpty()) {
@@ -624,10 +619,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         // Some input fields can't be reached depending on other fields.
         // But they might contain elder values, which became obsolte by setting the other field 
         // Such fields will be populated with default values
-        
+
         // todo
     }
-    
+
     private boolean statementIsComplete() {
         // todo
         return true;
@@ -701,7 +696,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getServiceProvisions().remove(item);
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics">
     public void addCostCenter(int costCenterId) {
         KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);
@@ -711,7 +706,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteCostCenter(KGLListCostCenter item) {
         _calcBasics.getCostCenters().remove(item);
     }
-    
+
     private Part _file;
 
     public Part getFile() {
@@ -722,6 +717,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _file = file;
     }
 
+    private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+    
+    public void downloadTemplate(){
+        Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
+    }
+    
     private String _importMessage = "";
 
     public String getImportMessage() {
@@ -750,7 +751,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.contains(";Head1;Head2;...")) {
+                    if (!line.equals(HeadLine)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -762,31 +763,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    public String downloadJournal() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-
-        try {
-            byte[] buffer = _importMessage.getBytes();
-            response.reset();
-            response.setContentType("text/plain");
-            response.setHeader("Content-Length", "" + buffer.length);
-            response.setHeader("Content-Disposition", "attachment;filename=\"Importprotokoll.txt\"");
-            response.getOutputStream().write(buffer);
-            response.flushBuffer();
-            facesContext.responseComplete();
-        } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
-        }
-        return "";
-    }
-    
     public String toggleJournal() {
         _showJournal = !_showJournal;
         return "";
     }
-    
+
     private boolean _showJournal = false;
 
     public boolean isShowJournal() {
@@ -797,9 +778,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         this._showJournal = showJournal;
     }
     //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Tab MVI">
 
+    //<editor-fold defaultstate="collapsed" desc="Tab MVI">
     public String downloadDocument(String name) {
         Document document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
         if (document != null) {
@@ -856,32 +836,32 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteObstreticsGynecology(KGLListObstetricsGynecology item) {
         _calcBasics.getObstetricsGynecologies().remove(item);
     }
-    
+
     public void addObstreticsGynecology() {
         int seq = (int) _calcBasics.getObstetricsGynecologies().stream().mapToInt(i -> i.getId()).max().orElse(0);
         KGLListObstetricsGynecology item = new KGLListObstetricsGynecology(seq + 1);
         item.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getObstetricsGynecologies().add(item);
     }
-    
+
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
             return "";
         }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
     }
-    
-    public String getCostTypeText(int costTypeId){
+
+    public String getCostTypeText(int costTypeId) {
         CostType ct = _costTypeFacade.find(costTypeId);
-        if(ct != null) {
+        if (ct != null) {
             return ct.getText();
         }
         return "Unbekannte Kostenartengruppe";
     }
-    
-    public boolean renderPersonalAccountingDescription(){
-        for(KGLPersonalAccounting pa : _calcBasics.getPersonalAccountings()){
-            if(pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()){
+
+    public boolean renderPersonalAccountingDescription() {
+        for (KGLPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
+            if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
                 return true;
             }
         }

@@ -80,7 +80,7 @@
                 </div>
                 <h:commandLink rendered="#{editInsuranceNubNotice.importMessage.length() gt 0}" 
                                styleClass="button"
-                               value="#{msg.btnJournal} &nbsp; #{editInsuranceNubNotice.showJournal ? '↑' : '↓'}" immediate="true"
+                               value="#{msg.btnJournal} &nbsp; #{editInsuranceNubNotice.showJournal ? '˄' : '˅'}" immediate="true"
                                action="#{editInsuranceNubNotice.toggleJournal}">
                         <f:ajax event="blur" render="@form :logout:remaining"/>
                 </h:commandLink>

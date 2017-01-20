@@ -5,18 +5,13 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
-import org.inek.dataportal.entities.common.RemunerationType;
-import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.helper.Utils;
 
 /**
