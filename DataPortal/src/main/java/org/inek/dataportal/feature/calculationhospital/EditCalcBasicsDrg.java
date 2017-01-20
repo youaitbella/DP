@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -27,19 +26,15 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
-import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Tuple;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
@@ -55,6 +50,7 @@ import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
+import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
@@ -76,7 +72,6 @@ import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.insurance.NoticeItemImporter;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
 
@@ -433,13 +428,25 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
         item.setBaseInformationId(_calcBasics.getId());
-        result.add(new KGLListEndoscopyDifferential());
+        result.add(item);
         return result;
     }
 
     public void deleteEndoscopyDifferential(KGLListEndoscopyDifferential differential) {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         result.remove(differential);
+    }
+
+    public List<KGLListIntensivStroke> addIntensivStroke() {
+        List<KGLListIntensivStroke> result = _calcBasics.getIntensivStrokes();
+        KGLListIntensivStroke item = new KGLListIntensivStroke();
+        item.setBaseInformationId(_calcBasics.getId());
+        result.add(item);
+        return result;
+    }
+
+    public void deleteIntensivStroke(KGLListIntensivStroke item) {
+        _calcBasics.getIntensivStrokes().remove(item);
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
