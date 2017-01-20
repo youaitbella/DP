@@ -142,6 +142,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
         calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
+        calcBasics.getLocations().clear();
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
             location.setId(-1);
             location.setBaseInformationId(calcBasics.getId());
@@ -149,6 +150,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Special units
+        calcBasics.getSpecialUnits().clear();
         for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
             specialUnit.setId(-1);
             specialUnit.setBaseInformationId(calcBasics.getId());
@@ -156,6 +158,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Central focuses
+        calcBasics.getCentralFocuses().clear();
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             centralFocus.setId(-1);
             centralFocus.setBaseInformationID(calcBasics.getId());
@@ -163,6 +166,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         
         // Delimitation facts
+        calcBasics.getNormalFreelancers().clear();
         for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             df.setId(-1);
             df.setBaseInformationId(calcBasics.getId());
@@ -190,6 +194,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         
         // Normal Ward
+        calcBasics.getNormalFreelancers().clear();
         for(KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
             nf.setId(-1);
             nf.setBaseInformationID(calcBasics.getId());
@@ -406,6 +411,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         mif.setBaseInformationID(_calcBasics.getId());
         mif.setCostTypeID(costType);
         _calcBasics.getMedInfras().add(mif);
+    }
+    
+    public void addFreelancer() {
+        KGLNormalFreelancer nf = new KGLNormalFreelancer();
+        nf.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getNormalFreelancers().add(nf);
+    }
+    
+    public void deleteFreelancer(KGLNormalFreelancer nf) {
+        _calcBasics.getNormalFreelancers().remove(nf);
     }
     
     public List<KGLListMedInfra> getMedInfra(int costType) {

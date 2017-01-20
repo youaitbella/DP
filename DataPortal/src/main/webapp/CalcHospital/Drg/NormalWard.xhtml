@@ -8,12 +8,14 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
-
+    
+    <h2>Ergänzende Angaben zur Normalstation</h2>
+    
     <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte in freier Mitarbeit beschäftigt" value="#{editCalcBasicsDrg.calcBasics.normalFreelancing}" renderElement="@form :logout:remaining" />
     
     <h:dataTable  headerClass="list-header" id="centre"
                   value="#{editCalcBasicsDrg.calcBasics.normalFreelancers}" var="item" width="100%" rowClasses="row1, row2" 
-                  columnClasses=""
+                  columnClasses=",,,,centered, centered"
                   rendered="#{editCalcBasicsDrg.calcBasics.normalFreelancing}"
                   >
 
@@ -23,7 +25,7 @@
             </f:facet>
             <h:commandLink styleClass="colIcon">
                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining" />
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteFreelancer(item)}"/>
             </h:commandLink>
         </h:column>
 
@@ -54,31 +56,29 @@
             </h:inputText>
         </h:column>
 
-        <h:column>
+        <h:column class="centered">
             <f:facet name="header">
                 KoArtGr 1
             </f:facet>
-            <h:inputText value="#{item.costType1}" styleClass="inputwide" required="true">
+            <h:selectBooleanCheckbox style="text-align: center;" value="#{item.costType1}" required="true">
                 <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
+            </h:selectBooleanCheckbox>
         </h:column>
 
-        <h:column>
+        <h:column class="centered">
             <f:facet name="header">
                 KoArtGr 6c
             </f:facet>
-            <h:inputText value="#{item.costType6c}" styleClass="inputwide" required="true">
+            <h:selectBooleanCheckbox value="#{item.costType6c}" required="true">
                 <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
+            </h:selectBooleanCheckbox>
         </h:column>
 
     </h:dataTable>
 
     <h:commandLink rendered="#{editCalcBasicsDrg.calcBasics.normalFreelancing}" id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" />
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addFreelancer()}"/>
     </h:commandLink>
-    
-    <hr></hr>
     
 </ui:composition>
 
