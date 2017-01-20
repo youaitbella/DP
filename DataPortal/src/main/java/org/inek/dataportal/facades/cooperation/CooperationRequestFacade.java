@@ -62,7 +62,7 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
     public CooperationRequest findCooperationRequest(int requestorId, int requestedId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CooperationRequest> cq = cb.createQuery(CooperationRequest.class);
-        Root request = cq.from(CooperationRequest.class);
+        Root<CooperationRequest> request = cq.from(CooperationRequest.class);
         Predicate criteria = cb.conjunction();
         criteria = cb.and(criteria, cb.equal(request.get("_requestorId"), requestorId));
         criteria = cb.and(criteria, cb.equal(request.get("_requestedId"), requestedId));
@@ -104,8 +104,8 @@ public class CooperationRequestFacade extends AbstractFacade<CooperationRequest>
     public List<CooperationRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CooperationRequest> cq = cb.createQuery(CooperationRequest.class);
-        Root request = cq.from(CooperationRequest.class);
-        cq.select(request).where(cb.lessThan(request.get("_creationDate"), date));
+        Root<CooperationRequest> request = cq.from(CooperationRequest.class);
+        cq.select(request).where(cb.lessThan(request.<Date>get("_creationDate"), date));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
