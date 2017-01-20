@@ -416,13 +416,13 @@ public class KGLListIntensivStroke implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "isBaseInformationID")
-    private DrgCalcBasics _baseInformationId;
+    private int _baseInformationId;
 
-    public DrgCalcBasics getBaseInformationId() {
+    public int getBaseInformationId() {
         return _baseInformationId;
     }
 
-    public void setBaseInformationId(DrgCalcBasics baseInformationId) {
+    public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
@@ -434,7 +434,7 @@ public class KGLListIntensivStroke implements Serializable {
         this._id = isID;
     }
 
-    public KGLListIntensivStroke(int intensiveType, int costCenterID, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, DrgCalcBasics baseInformationId) {
+    public KGLListIntensivStroke(int intensiveType, int costCenterID, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId) {
         this._intensiveType = intensiveType;
         this._costCenterID = costCenterID;
         this._bedCnt = bedCnt;
