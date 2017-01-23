@@ -187,5 +187,61 @@
     
     </h:dataTable>
     
+    <h2>Hochaufwendige Pflegeleistungen</h2>
+    <table>
+        <tr>
+            <th>Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor</th>
+        </tr>
+        <tr>
+            <td>
+        <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.pkmsRecording}">
+            <f:selectItem itemValue="0" itemLabel="Nein" />
+            <f:selectItem itemValue="1" itemLabel="Ja" />
+            <f:selectItem itemValue="2" itemLabel="KIS-integriert" />
+            <f:selectItem itemValue="3" itemLabel="Manuell" />
+            <f:selectItem itemValue="4" itemLabel="Sonstiges" />
+            <f:ajax event="change" render="@form :logout:remaining" />
+        </h:selectOneMenu>
+            </td>
+        </tr>
+    </table>
+    
+    <h:dataTable  headerClass="list-header" id="pkmsAlt"
+                  value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%" rowClasses="row1, row2" 
+                  columnClasses=""
+                  rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+                  >
+        <h:column>
+            <f:facet name="header">
+                Fachabteilung
+            </f:facet>
+            <h:inputText styleClass="inputwide" value="#{item.department}">
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
+            </f:facet>
+            <h:inputText styleClass="inputwide" value="#{item.departmentKey}">
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                Alternativverfahren
+            </f:facet>
+            <h:inputText styleClass="inputwide" value="#{item.alternative}">
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+    </h:dataTable>
+    
+    <h:commandLink id="addButton3" rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addPkmsService()}"/>
+    </h:commandLink>
+    
 </ui:composition>
 

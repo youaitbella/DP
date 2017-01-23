@@ -576,7 +576,7 @@ public class DrgCalcBasics implements Serializable {
     @Column(name = "biPKMSRecording")
     private int _pkmsRecording;
 
-    public int isPkmsRecording() {
+    public int getPkmsRecording() {
         return _pkmsRecording;
     }
 

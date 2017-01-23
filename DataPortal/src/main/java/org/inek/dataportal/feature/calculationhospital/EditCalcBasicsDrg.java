@@ -62,6 +62,7 @@ import org.inek.dataportal.entities.calc.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.KGLOpAn;
+import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -447,6 +448,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLNormalFeeContract fc = new KGLNormalFeeContract();
         fc.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getNormalFeeContracts().add(fc);
+    }
+    
+    public void addPkmsService() {
+        KGLPKMSAlternative pkmsAlt = new KGLPKMSAlternative();
+        pkmsAlt.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getPkmsAlternatives().add(pkmsAlt);
     }
     
     public void deleteFeeContract(KGLNormalFeeContract fc) {
