@@ -25,7 +25,7 @@
                      value="#{editCalcBasicsDrg.calcBasics.intensivStrokes}" 
                      var ="varIntensiv"
                      width="100%"
-                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column id="colDeleteId">
@@ -39,11 +39,113 @@
             </h:column>
 
             <h:column>
+                <f:facet name="header">Nummer der Kostenstelle</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.costCenterID}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.costCenterID}" rendered="true"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Name der Kostenstelle</f:facet>
                 <h:outputLabel styleClass="label" value="#{varIntensiv.costCenterText}" rendered="true"/>
                 <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
                                            value="#{varIntensiv.costCenterText}" rendered="true"/>
             </h:column>
+            <h:column>
+                <f:facet name="header">FAB- Schlüssel</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.departmentKey}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.departmentKey}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Belegung: FAB</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.departmentAssignment}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.departmentAssignment}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Anzahl Betten</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.bedCnt}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.bedCnt}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Anzahl Fälle</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.caseCnt}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.caseCnt}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Mindestmerkmale OPS 8-980 erfüllt</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.ops8980}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.ops8980}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Mindestmerkmale OPS 8-98f erfüllt</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.ops898f}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.ops898f}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Mindest-merkmale nur erfüllt im Zeit-abschnitt:</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.minimumCriteriaPeriod}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.minimumCriteriaPeriod}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Summe gewichtete Intensiv-stunden</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.intensivHoursWeighted}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.intensivHoursWeighted}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Summe unge-wichtete Intensiv-stunden</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.intensivHoursNotweighted}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.intensivHoursNotweighted}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Auslastung</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.costCenterText}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.costCenterText}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Minimum</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.weightMinimum}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.weightMinimum}" rendered="true"/>
+            </h:column>
+
+
+            <h:column>
+                <f:facet name="header">Maximum</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.weightMaximum}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.weightMaximum}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Spreizung</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.costCenterText}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.costCenterText}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Erläuterung</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensiv.weightDescription}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensiv.weightDescription}" rendered="true"/>
+            </h:column>
         </h:dataTable>
+        
+         <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                       rendered="#{!editCalcBasicsDrg.readOnly}">
+             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addIntensivStroke()}"/>
+        </h:commandLink>
     </div>
 
     <br/>
