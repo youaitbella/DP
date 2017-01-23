@@ -141,13 +141,14 @@ public class Utils {
         return test == null || test.isEmpty();
     }
 
-    public static <T> T getBean(Class<?> type) {
+    public static <T> T getBean(Class<T> type) {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         Application application = FacesContext.getCurrentInstance().getApplication();
         ExpressionFactory expressionFactory = application.getExpressionFactory();
         String name = type.getSimpleName().substring(0, 1).toLowerCase() + type.getSimpleName().substring(1);
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, "#{" + name + "}", type);
-        return (T) valueExpression.getValue(elContext);
+        //return (T) valueExpression.getValue(elContext);
+        return type.cast(valueExpression.getValue(elContext));
     }
 
     public static Flash getFlash() {
