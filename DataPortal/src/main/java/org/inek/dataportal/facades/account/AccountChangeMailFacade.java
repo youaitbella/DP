@@ -34,8 +34,8 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
     public List<AccountChangeMail> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountChangeMail> cq = cb.createQuery(AccountChangeMail.class);
-        Root request = cq.from(AccountChangeMail.class);
-        cq.select(request).where(cb.lessThan(request.get("_creationDate"), date));
+        Root<AccountChangeMail> request = cq.from(AccountChangeMail.class);
+        cq.select(request).where(cb.lessThan(request.<Date>get("_creationDate"), date));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
@@ -43,7 +43,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
     public List<AccountChangeMail> findByActivationKey(String key, String mail) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountChangeMail> cq = cb.createQuery(AccountChangeMail.class);
-        Root request = cq.from(AccountChangeMail.class);
+        Root<AccountChangeMail> request = cq.from(AccountChangeMail.class);
         Predicate isKey = cb.equal(request.get("_activationKey"), key);
         Predicate isMail = cb.equal(request.get("_mail"), mail);
         cq.select(request).where(cb.and(isKey, isMail));
