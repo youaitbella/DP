@@ -60,6 +60,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
+import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.common.CostType;
@@ -244,7 +245,25 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
         calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
         calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
-
+        
+        // NormalStationServiceDocumentation
+        calcBasics.getNormalStationServiceDocumentations().clear();
+        for(DrgContentText ct : getNormalWardServiceDocHeaders()) {
+            KGLNormalStationServiceDocumentation add = new KGLNormalStationServiceDocumentation();
+            add.setContentTextID(ct.getId());
+            add.setBaseInformationID(calcBasics.getId());
+            for(KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
+                if(add.getContentTextID() == addPrior.getContentTextID()) {
+                    add.setAlternative(addPrior.getAlternative());
+                    add.setDepartment(addPrior.getDepartment());
+                    add.setDepartmentKey(addPrior.getDepartmentKey());
+                    add.setUsed(addPrior.isUsed());
+                    break;
+                }
+            }
+            add.setLabel(_calcFacade.findCalcContentText(add.getContentTextID()).getText());
+            calcBasics.getNormalStationServiceDocumentations().add(add);
+        }
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
@@ -479,6 +498,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
         _calcBasics.getIntensivStrokes().remove(item);
+    }
+    
+    public List<DrgContentText> getNormalWardServiceDocHeaders() {
+        return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
