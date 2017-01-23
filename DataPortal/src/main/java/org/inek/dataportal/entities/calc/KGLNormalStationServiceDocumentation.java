@@ -8,10 +8,15 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -139,6 +144,17 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._contentTextID = contentTextID;
     }
     //</editor-fold>
+    
+    @Transient
+    private String _label;
+
+    public String getLabel() {
+        return _label;
+    }
+
+    public void setLabel(String _label) {
+        this._label = _label;
+    }
 
     public KGLNormalStationServiceDocumentation() {
     }
