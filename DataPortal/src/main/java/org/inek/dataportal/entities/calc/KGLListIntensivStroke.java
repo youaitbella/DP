@@ -305,6 +305,51 @@ public class KGLListIntensivStroke implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property medicalServiceCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isMedicalServiceCnt")
+    private double _medicalServiceCnt;
+
+    public double getMedicalServiceCnt() {
+        return _medicalServiceCnt;
+    }
+
+    public void setMedicalServiceCnt(double medicalServiceCnt) {
+        this._medicalServiceCnt = medicalServiceCnt;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property nursingServiceCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isNursingServiceCnt")
+    private double _nursingServiceCnt;
+
+    public double getNursingServiceCnt() {
+        return _nursingServiceCnt;
+    }
+
+    public void setNursingServiceCnt(double nursingServiceCnt) {
+        this._nursingServiceCnt = nursingServiceCnt;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property functionalServiceCnt">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "isFunctionalServiceCnt")
+    private double _functionalServiceCnt;
+
+    public double getFunctionalServiceCnt() {
+        return _functionalServiceCnt;
+    }
+
+    public void setFunctionalServiceCnt(double functionalServiceCnt) {
+        this._functionalServiceCnt = functionalServiceCnt;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property medicalServiceCost">
     @Basic(optional = false)
     @NotNull
