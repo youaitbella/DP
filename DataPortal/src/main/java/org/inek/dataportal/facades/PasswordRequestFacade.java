@@ -26,8 +26,8 @@ public class PasswordRequestFacade extends AbstractFacade<PasswordRequest> {
     public List<PasswordRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<PasswordRequest> cq = cb.createQuery(PasswordRequest.class);
-        Root request = cq.from(PasswordRequest.class);
-        cq.select(request).where(cb.lessThan(request.get("_creationDate"), date));
+        Root<PasswordRequest> request = cq.from(PasswordRequest.class);
+        cq.select(request).where(cb.lessThan(request.<Date>get("_creationDate"), date));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
