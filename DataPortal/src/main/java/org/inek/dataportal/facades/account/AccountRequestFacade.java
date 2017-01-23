@@ -41,8 +41,8 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
     public List<AccountRequest> findRequestsOlderThan(Date date) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cq = cb.createQuery(AccountRequest.class);
-        Root request = cq.from(AccountRequest.class);
-        cq.select(request).where(cb.lessThan(request.get("_creationDate"), date));
+        Root<AccountRequest> request = cq.from(AccountRequest.class);
+        cq.select(request).where(cb.lessThan(request.<Date>get("_creationDate"), date));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
