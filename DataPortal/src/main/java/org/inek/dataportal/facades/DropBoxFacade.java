@@ -6,6 +6,7 @@ package org.inek.dataportal.facades;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -34,10 +35,10 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
     public List<DropBox> findAll(int accountId, boolean isClosed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
-        Root request = cq.from(DropBox.class);
+        Root<DropBox> request = cq.from(DropBox.class);
         Predicate criteria = cb.conjunction();
         criteria = cb.and(criteria, cb.isFalse(request.get("_isComplete")));
-        criteria = cb.and(criteria, cb.greaterThan(request.get("_validUntil"), Calendar.getInstance().getTime()));
+        criteria = cb.and(criteria, cb.greaterThan(request.<Date>get("_validUntil"), Calendar.getInstance().getTime()));
         Predicate isAccount = cb.equal(request.get("_accountId"), accountId);
         if (isClosed) {
             cq.select(request).where(cb.and(isAccount, cb.not(criteria))).orderBy(cb.desc(request.get("_dropBoxId")));
@@ -50,8 +51,8 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
     public List<DropBox> findInvalid() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
-        Root request = cq.from(DropBox.class);
-        cq.select(request).where(cb.and(cb.isFalse(request.get("_isComplete")), cb.lessThan(request.get("_validUntil"), Calendar.getInstance().getTime())));
+        Root<DropBox> request = cq.from(DropBox.class);
+        cq.select(request).where(cb.and(cb.isFalse(request.get("_isComplete")), cb.lessThan(request.<Date>get("_validUntil"), Calendar.getInstance().getTime())));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
