@@ -495,10 +495,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.remove(differential);
     }
 
-    public List<KGLListIntensivStroke> addIntensivStroke() {
+    public List<KGLListIntensivStroke> addIntensivStroke(boolean isIntensiv) {
         List<KGLListIntensivStroke> result = _calcBasics.getIntensivStrokes();
         KGLListIntensivStroke item = new KGLListIntensivStroke();
         item.setBaseInformationId(_calcBasics.getId());
+        if (isIntensiv) {
+            item.setIntensiveType(1);
+        } else {
+            item.setIntensiveType(2);
+        }
         result.add(item);
         return result;
     }
