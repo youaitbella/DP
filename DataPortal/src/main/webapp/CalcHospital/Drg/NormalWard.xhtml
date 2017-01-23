@@ -42,18 +42,14 @@
             <f:facet name="header">
                 Anzahl Vollkräfte
             </f:facet>
-            <h:inputText value="#{item.fullVigorCnt}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
+            <inek:InputNumberWithMessage value="#{item.fullVigorCnt}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining" isInt="false" pattern="###,###,###,###.00"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 Kostenvolumen (€)
             </f:facet>
-            <h:inputText value="#{item.amount}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
+            <inek:InputNumberWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining"/>
         </h:column>
 
         <h:column class="centered">
@@ -134,7 +130,7 @@
 
      </h:dataTable>
     
-    <h:commandLink rendered="#{editCalcBasicsDrg.calcBasics.feeContract}" id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+    <h:commandLink rendered="#{editCalcBasicsDrg.calcBasics.feeContract}" id="addButton2" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addFeeContract()}"/>
     </h:commandLink>
     
