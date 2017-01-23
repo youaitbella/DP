@@ -20,7 +20,7 @@ public class ContactRoleFacade extends AbstractFacade<ContactRole> {
     public List<ContactRole> findAllExtern() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ContactRole> cq = cb.createQuery(ContactRole.class);
-        Root request = cq.from(ContactRole.class);
+        Root<ContactRole> request = cq.from(ContactRole.class);
         cq.select(request).where(cb.isTrue(request.get("_externVisible")));
         return getEntityManager().createQuery(cq).getResultList();
     }
