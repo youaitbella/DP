@@ -31,7 +31,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -777,6 +779,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Tab Operation">
+    public void checkOption(AjaxBehaviorEvent event){
+        HtmlSelectOneMenu component =  (HtmlSelectOneMenu) event.getComponent();
+        if (component.getValue().equals(3)){
+            //_sessionController.setScript("alert('Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.')");
+            Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
+        }
+    }
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics">
     public void addCostCenter(int costCenterId) {
         KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);

@@ -345,7 +345,7 @@
                     nicht med. Infrastruktur
                 </td>
             </tr>
-            <c:forEach items="#{editCalcBasicsDrg.calcBasics.costCenterCosts}" var="x">
+            <c:forEach items="#{editCalcBasicsDrg.calcBasics.costCenterCosts}" var="x" varStatus="loop">
                 <tr>
                     <td>
                         <h:commandLink styleClass="colIcon">
@@ -372,10 +372,10 @@
                     </h:inputText>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="@this calc-field :logout:remaining"/>
+                    <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="@this calc-field-#{loop.index}:text :logout:remaining"/>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.careDays}"  renderElement="@this calc-field :logout:remaining"/>
+                    <inek:InputNumberWithMessage value="#{x.careDays}"  renderElement="@this calc-field-#{loop.index}:text :logout:remaining"/>
                     </td>
                     <td>
                     <inek:InputNumberWithMessage value="#{x.pprMinutes}"  renderElement="@this :logout:remaining"/>
@@ -386,7 +386,7 @@
                     <td>
                     <inek:InputNumberWithMessage title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
                                                 styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
-                                                 id="calc-field" disabled="true" 
+                                                 id="calc-field-#{loop.index}" disabled="true" 
                                                  value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}" 
                                                  renderElement="@this :logout:remaining" isInt="false"
                                                  pattern="0.00"/>
