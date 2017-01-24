@@ -49,6 +49,7 @@ import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
+import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.KGLListLocation;
@@ -264,6 +265,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             add.setLabel(_calcFacade.findCalcContentText(add.getContentTextID()).getText());
             calcBasics.getNormalStationServiceDocumentations().add(add);
+            
+            calcBasics.getCostCenterCosts().clear();
+            calcBasics.getCostCenterCosts().add(new KGLListCostCenterCost());
         }
     }
 
@@ -401,6 +405,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLListSpecialUnit su = new KGLListSpecialUnit();
         su.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getSpecialUnits().add(su);
+    }
+    
+    public void addCostCenterCosts() {
+        KGLListCostCenterCost ccc = new KGLListCostCenterCost();
+        ccc.setBaseInformationId(_calcBasics.getId());
+        ccc.setId(-1);
+        _calcBasics.getCostCenterCosts().add(ccc);
+    }
+    
+    public void deleteCostCenterCosts(KGLListCostCenterCost x) {
+        _calcBasics.getCostCenterCosts().remove(x);
     }
 
     public void deleteSpecialUnit(KGLListSpecialUnit su) {
