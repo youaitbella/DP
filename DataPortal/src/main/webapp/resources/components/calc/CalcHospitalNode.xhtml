@@ -44,7 +44,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{calcHospitalList.deleteHospitalInfo(node.calcHospitalInfo)}" immediate="true" rendered="#{cc.attrs.showDelete and node.calcHospitalInfo.status.value lt 90}">
+                <h:commandLink action="#{calcHospitalList.deleteHospitalInfo(node.calcHospitalInfo)}" immediate="true" rendered="#{cc.attrs.showDelete and node.calcHospitalInfo.status.value le 9}"> 
                     <h:graphicImage alt="löschen" name="Icon/small/#{node.calcHospitalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                     title="#{node.calcHospitalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     <cb:confirmDelete/>
