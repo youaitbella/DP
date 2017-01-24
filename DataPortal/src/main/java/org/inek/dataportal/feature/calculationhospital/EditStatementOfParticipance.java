@@ -392,7 +392,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
 
-        if (statement.isDrgCalc()) {
+        if (statement.isDrgCalc() && (!statement.isObligatory() || statement.getObligatoryCalcType() == 2)) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
@@ -401,7 +401,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
 
-        if (statement.isPsyCalc()) {
+        if (statement.isPsyCalc() && (!statement.isObligatory() || statement.getObligatoryCalcType() == 2)) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
