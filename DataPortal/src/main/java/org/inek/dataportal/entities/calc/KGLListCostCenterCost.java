@@ -138,13 +138,13 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="PPRWeight">
     @Column(name = "cccPPRWeight")
-    private String _pprWeight = "";
+    private int _pprWeight;
 
-    public String getPprWeight() {
+    public int getPprWeight() {
         return _pprWeight;
     }
 
-    public void setPprWeight(String pprWeight) {
+    public void setPprWeight(int pprWeight) {
         this._pprWeight = pprWeight;
     }
     // </editor-fold>
