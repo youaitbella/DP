@@ -111,7 +111,7 @@
             <h:outputLabel value="Rüstzeit" styleClass="label20"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax event="change" render="@form :logout:remaining"/>
+                <f:ajax event="change" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.checkOption}"/>
             </h:selectOneMenu>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP}" styleClass="element20">
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>

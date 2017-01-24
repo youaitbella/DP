@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Teilnahmeerklärung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Teilnahmeerklärung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Teilnahmeerklärung geben Sie organisatorische Informationen zu Ihrer Kalkulationsteilnahme an. Sofern Sie mit dem InEK eine Kalkulationsvereinbarung getroffen haben und an der freiwilligen Kalkulation teilnehmen, geben Sie hier an, für welche Kalkulationsarten Sie teilnehmen. Sofern Ihr Haus im Rahmen der </text><text styleclass="Normal" style="font-style:italic;" translate="true">Vereinbarung zur Erhöhung der Repräsentativität der Kalkulation</text><text styleclass="Normal" translate="true"> ausgewählt wurde, sind die Kalkulationsarten gesetzt. Der Dialog zur Teilnahmeerklärung unterscheidet sich daher ein wenig. Im Folgenden wird zunächst der Dialog im Rahmen der freiwilligen Teilnahme erläutert. Im Anschluss werden nur die Abweichungen zu diesem Standard-Dialog erklärt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
