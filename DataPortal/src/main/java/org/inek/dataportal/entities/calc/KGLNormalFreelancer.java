@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -24,15 +21,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLNormalFreelancer", schema = "calc")
-@XmlRootElement
 public class KGLNormalFreelancer implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nfID")
     private int _id = -1;
 
@@ -44,10 +39,8 @@ public class KGLNormalFreelancer implements Serializable {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _division">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "nfDivision")
     private String _division = "";
@@ -60,10 +53,8 @@ public class KGLNormalFreelancer implements Serializable {
         this._division = division;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _fullVigorCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfFullVigorCnt")
     private double _fullVigorCnt;
 
@@ -75,10 +66,8 @@ public class KGLNormalFreelancer implements Serializable {
         this._fullVigorCnt = fullVigorCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfAmount")
     private int _amount;
 
@@ -90,10 +79,8 @@ public class KGLNormalFreelancer implements Serializable {
         this._amount = amount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costType1">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfCostType1")
     private boolean _costType1;
 
@@ -105,10 +92,8 @@ public class KGLNormalFreelancer implements Serializable {
         this._costType1 = costType1;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costType6c">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfCostType6c")
     private boolean _costType6c;
 
@@ -120,12 +105,10 @@ public class KGLNormalFreelancer implements Serializable {
         this._costType6c = costType6c;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfBaseInformationID")
     private int _baseInformationID;
 
@@ -137,9 +120,8 @@ public class KGLNormalFreelancer implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-    
-    //</editor-fold>
 
+    //</editor-fold>
     public KGLNormalFreelancer() {
     }
 
@@ -211,10 +193,9 @@ public class KGLNormalFreelancer implements Serializable {
         return true;
     }
 
-
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLNormalFreelancer[ nfID=" + _id + " ]";
     }
-    
+
 }

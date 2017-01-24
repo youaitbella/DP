@@ -213,6 +213,16 @@
                   >
         <h:column>
             <f:facet name="header">
+                
+            </f:facet>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deletePkmsService(item)}"/>
+            </h:commandLink>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
                 Fachabteilung
             </f:facet>
             <h:inputText styleClass="inputwide" value="#{item.department}">

@@ -11,6 +11,7 @@
         <cc:attribute name="required" default="false"/>
         <cc:attribute name="styleClass" default="fullWidth"/>
         <cc:attribute name="readonly" default="false"/>
+        <cc:attribute name="renderElement" default="@this"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -20,7 +21,7 @@
                                  value="#{cc.attrs.value}" 
                                  styleClass="#{cc.attrs.styleClass}"  
                                  disabled="#{cc.attrs.readonly}">
-            <f:ajax render="@this :logout:remaining"/>
+            <f:ajax render="#{cc.attrs.renderElement} :logout:remaining"/>
         </h:selectBooleanCheckbox>
     </cc:implementation>
 </html>

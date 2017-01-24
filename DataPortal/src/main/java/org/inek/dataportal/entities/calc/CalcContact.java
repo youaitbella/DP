@@ -56,14 +56,14 @@ public class CalcContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "coGender")
     @Documentation(key = "lblSalutation", omitOnValues = "0", translateValue = "1=salutationFemale;2=salutationMale")
-    private Integer _gender = -1;
+    private int _gender = 0;
 
-    public Integer getGender() {
-        return (_gender == null || _gender < 0 || _gender > 2) ? null : _gender; 
+    public int getGender() {
+        return  _gender; 
     }
 
-    public void setGender(Integer gender) {
-        _gender = (gender == null || gender < 0 || gender > 2) ? -1 : gender;
+    public void setGender(int gender) {
+        _gender = (gender < 0 || gender > 2) ? 0 : gender;
     }
     // </editor-fold>
 
@@ -310,7 +310,7 @@ public class CalcContact implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id < 0 && getGender() == null 
+        return _id < 0 && getGender() == 0 
                 && (_title + _firstName + _lastName + _phone + _mail).length() == 0 
                 && !_drg && !_psy && !_inv && ! _tpg && ! _obd; 
     }

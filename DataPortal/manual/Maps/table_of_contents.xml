@@ -221,6 +221,9 @@
         <caption translate="true">NUB-Meldung</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="427595867392904" build="ALL" modified="2017-01-24T10:10:13.534Z" icon="0" href="Teilnahme-Kostenkalkulation">
+      <caption translate="true">Teilnahme Kostenkalkulation</caption>
+    </topicref>
     <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
       <caption translate="true">Grouper-Zertifizierung</caption>
     </topicref>

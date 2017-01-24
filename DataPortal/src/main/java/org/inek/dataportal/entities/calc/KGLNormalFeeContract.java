@@ -7,14 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -22,15 +21,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLNormalFeeContract", schema = "calc")
-@XmlRootElement
 public class KGLNormalFeeContract implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nfcID")
     private int _id = -1;
 
@@ -42,10 +39,8 @@ public class KGLNormalFeeContract implements Serializable {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _division">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "nfcDivision")
     private String _division = "";
@@ -58,10 +53,8 @@ public class KGLNormalFeeContract implements Serializable {
         this._division = division;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 4)
     @Column(name = "nfcDepartmentKey")
     private String _departmentKey = "";
@@ -74,10 +67,8 @@ public class KGLNormalFeeContract implements Serializable {
         this._departmentKey = departmentKey;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _caseCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfcCaseCnt")
     private int _caseCnt;
 
@@ -89,10 +80,8 @@ public class KGLNormalFeeContract implements Serializable {
         this._caseCnt = caseCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfcAmount")
     private int _amount;
 
@@ -104,15 +93,13 @@ public class KGLNormalFeeContract implements Serializable {
         this._amount = amount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nfcBaseInformationID")
     private int _baseInformationID;
-    
+
     public int getBaseInformationID() {
         return _baseInformationID;
     }
@@ -121,7 +108,7 @@ public class KGLNormalFeeContract implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-    
+
     public KGLNormalFeeContract() {
     }
 
@@ -152,7 +139,7 @@ public class KGLNormalFeeContract implements Serializable {
         hash = 31 * hash + this._baseInformationID;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -188,12 +175,11 @@ public class KGLNormalFeeContract implements Serializable {
         }
         return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLNormalFeeContract[ nfcID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

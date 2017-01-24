@@ -7,19 +7,14 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -27,15 +22,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLNormalStationServiceDocumentation", schema = "calc")
-@XmlRootElement
 public class KGLNormalStationServiceDocumentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nssID")
     private int _id = -1;
 
@@ -47,10 +40,8 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _used">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nssUsed")
     private boolean _used;
 
@@ -62,10 +53,8 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._used = used;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _department">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "nssDepartment")
     private String _department = "";
@@ -78,10 +67,8 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._department = department;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 4)
     @Column(name = "nssDepartmentKey")
     private String _departmentKey = "";
@@ -94,10 +81,8 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._departmentKey = departmentKey;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _alternative">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "nssAlternative")
     private String _alternative = "";
@@ -110,12 +95,10 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._alternative = alternative;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nssBaseInformationID")
     private int _baseInformationID;
 
@@ -127,12 +110,10 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _contentTextID">
 //    @JoinColumn(name = "nssContentTextID", referencedColumnName = "ctID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "nssContentTextID")
     private int _contentTextID;
 
@@ -144,7 +125,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         this._contentTextID = contentTextID;
     }
     //</editor-fold>
-    
+
     @Transient
     private String _label;
 
@@ -187,7 +168,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         hash = 59 * hash + this._contentTextID;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -226,12 +207,11 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         }
         return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation[ nssID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

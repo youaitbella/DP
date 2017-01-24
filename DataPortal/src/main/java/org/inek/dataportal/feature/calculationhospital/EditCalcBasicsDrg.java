@@ -457,6 +457,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getPkmsAlternatives().add(pkmsAlt);
     }
     
+    public void deletePkmsService(KGLPKMSAlternative item) {
+        _calcBasics.getPkmsAlternatives().remove(item);
+    }
+    
     public void deleteFeeContract(KGLNormalFeeContract fc) {
         _calcBasics.getNormalFeeContracts().remove(fc);
     }
