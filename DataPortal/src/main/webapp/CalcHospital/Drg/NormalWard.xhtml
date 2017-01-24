@@ -253,5 +253,90 @@
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addPkmsService()}"/>
     </h:commandLink>
     
+    <style>
+        #tbl {
+            margin-top: 20px;
+        }
+        #tbl tr:first-child td {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        #tbl td {
+            background-color: #7F9BAF;
+            font-weight: bold;
+            color: white;
+            padding: 2px 6px 2px 6px;
+        }
+    </style>
+    
+    <div style="overflow-x: scroll;">
+        <table id="tbl">
+            <tr>
+                <td class="" colspan="9">Kosten in der Kostenstellengruppe 1 (Normalstation)</td>
+                <td colspan="3">Anzahl der zugeordneten VK</td>
+                <td colspan="7">Kosten der Kostenstelle</td>
+            </tr>
+            <tr>
+                <td class="">
+                    Nummer der Kostenstelle
+                </td>
+                <td class="">
+                    Name der Kostenstelle
+                </td>
+                <td class="">
+                    FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
+                </td>
+                <td class="">
+                    Belegung: FAB
+                </td>
+                <td class="">
+                    Bettenzahl
+                </td>
+                <td class="">
+                    Pflegetage
+                </td>
+                <td class="">
+                    PPR-Minuten
+                </td>
+                <td class="">
+                    zusätzliche Gewichtung außer PPR
+                </td>
+                <td class="">
+                    Auslastung
+                </td>
+                <td>
+                    Ärztlicher Dienst
+                </td>
+                <td>
+                    Pflegedienst
+                </td>
+                <td>
+                    Funktionsdienst
+                </td>
+                <td>
+                    Ärztlicher Dienst
+                </td>
+                <td>
+                    Pflegedienst
+                </td>
+                <td>
+                    Funktionsdienst
+                </td>
+                <td>
+                    Gemeinkosten Arzneimittel
+                </td>
+                <td>
+                    Gemeinkosten med. Sachbedarf
+                </td>
+                <td>
+                    medizinische Infrastruktur
+                </td>
+                <td>
+                    nicht med. Infrastruktur
+                </td>
+            </tr>
+        </table>
+    </div>
+    
 </ui:composition>
 
