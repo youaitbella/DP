@@ -42,7 +42,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DrgProposal> cq = cb.createQuery(DrgProposal.class);
-        Root request = cq.from(DrgProposal.class);
+        Root<DrgProposal> request = cq.from(DrgProposal.class);
         Predicate sealed;
         Order order;
         if (dataSet == DataSet.AllOpen) {
@@ -114,12 +114,14 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         int toId = fromId + 9999;
         String statement = "select distinct prAccountId from DrgProposal where prId between ?1 and ?2 and prStatus = 10";
         Query query = getEntityManager().createNativeQuery(statement).setParameter(1, fromId).setParameter(2, toId);
-        return query.getResultList();
+        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        return result;
     }
 
     public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT DISTINCT p._accountId FROM DrgProposal p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
-        Query query = getEntityManager().createQuery(jpql, DrgProposal.class);
+        //TypedQuery<DrgProposal> query = getEntityManager().createQuery(jpql, DrgProposal.class);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
@@ -129,7 +131,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
     public List<Integer> getProposalYears(Set<Integer> accountIds) {
         String jpql = "SELECT DISTINCT p._targetYear FROM DrgProposal p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
-        Query query = getEntityManager().createQuery(jpql, Integer.class);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }

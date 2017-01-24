@@ -64,7 +64,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     public List<NubRequest> findAll(int accountId, int ik, boolean includeProxyIks, int year, DataSet dataSet, String filter) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
-        Root request = cq.from(NubRequest.class);
+        Root<NubRequest> request = cq.from(NubRequest.class);
         Predicate condition = null;
         Order order = null;
         if (null != dataSet) {
@@ -110,7 +110,7 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public List<NubRequest> findAll(int accountId) {
         String sql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
-        Query query = getEntityManager().createQuery(sql, NubRequest.class);
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(sql, NubRequest.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
@@ -160,7 +160,7 @@ public class NubRequestFacade extends AbstractDataAccess {
                 + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
                 + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
                 + "ORDER BY p._id DESC";
-        Query query = getEntityManager().createQuery(jql, NubRequest.class);
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jql, NubRequest.class);
         query.setParameter("accountId", accountId);
         query.setParameter("ik", ik);
         query.setParameter("minStatus", minStatus);
@@ -188,14 +188,14 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public List<Integer> getNubYears(Set<Integer> accountIds) {
         String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
-        Query query = getEntityManager().createQuery(jpql, NubRequest.class);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
 
     public Set<Integer> checkAccountsForNubOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
-        Query query = getEntityManager().createQuery(jpql, Integer.class);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
@@ -205,7 +205,7 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public List<Integer> findAccountIdForIk(int ik) {
         String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
-        Query query = getEntityManager().createQuery(jpql);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("ik", ik);
         return query.getResultList();
     }
@@ -222,7 +222,7 @@ public class NubRequestFacade extends AbstractDataAccess {
         List<AccountInfo> infos = new ArrayList<>();
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("ik", ik);
-        List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         for (Object[] obj : objects) {
             AccountInfo info = new AccountInfo((Account) obj[0], (boolean) obj[1], (int) (long) obj[2]);
             infos.add(info);
@@ -251,10 +251,10 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public List<NubRequest> find(List<Integer> requestIds) {
         if (requestIds.isEmpty()) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         String jpql = "SELECT p FROM NubRequest p WHERE p._id in :requestIds  ";
-        Query query = getEntityManager().createQuery(jpql);
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("requestIds", requestIds);
         return query.getResultList();
     }
@@ -408,7 +408,7 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter, boolean maxYearOnly) {
         if (ik < 100000000) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         List<NubFormerRequestMerged> list = new ArrayList<>();
@@ -445,7 +445,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfo + Description">    
-    private List<NubMethodInfo> _nubMethodInfos = Collections.EMPTY_LIST;
+    private List<NubMethodInfo> _nubMethodInfos = Collections.emptyList();
     private final Map<Integer, String> _methodDescriptions = new ConcurrentHashMap<>();
     private ReentrantLock _lock = new ReentrantLock();
 

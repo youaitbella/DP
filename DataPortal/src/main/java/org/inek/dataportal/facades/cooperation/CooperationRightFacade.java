@@ -168,11 +168,12 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 + "select aaiAccountId from dbo.AccountAdditionalIK "
                 + "join accountFeature on aaiAccountId = afaccountId and afFeature = ?1 "
                 + "where aaiAccountId is not null and aaiIk = ?2";
-        return new HashSet<>(getEntityManager()
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(getEntityManager()
                 .createNativeQuery(jpql)
                 .setParameter(1, feature.name())
                 .setParameter(2, ik)
                 .getResultList());
+        return result;
     }
 
     public CooperationRight save(CooperationRight right) {
@@ -191,7 +192,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         
         // although the compiler tells us something else, this is whalt we get
         List<IkSupervisorInfo> infos = new ArrayList<>();
-        List<Object[]> objects = getEntityManager().createQuery(jpql).getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> objects = getEntityManager().createQuery(jpql).getResultList();
         for (Object[] obj : objects){
             IkSupervisorInfo info = new IkSupervisorInfo((Feature)obj[0], (int)obj[1], (Account)obj[2], (CooperativeRight)obj[3]);
             infos.add(info);
