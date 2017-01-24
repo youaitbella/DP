@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Teilnahme Kostenkalkulation</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Teilnahme Kostenkalkulation</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für das deutsche DRG-System wie auch PEPP werden die Bewertungsrelationen anhand echter Kostendaten berechnet. Diese Daten entstammen einer Kalkulationsstichprobe, an der sich die Krankenhäuser freiwillig beteiligen können. Die Ergebnisse der Berechnungen sind abhängig von der Repräsentativität der zugrunde liegenden Daten. Während dies Repräsentativität für die meisten DRGs bereits durch die &#160;freiwillige Teilnahme gegeben war, wurden erstmalig in 2016 für weniger gut repräsentierte Bereiche entsprechende Häuser in einen Losverfahren ausgewählt, um auch hier die Repräsentativität und damit die Qualität der Abrechnungssysteme weiter zu verbessern.</text></para>
+  </body>
+</topic>
