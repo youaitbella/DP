@@ -151,19 +151,19 @@
         <h4><h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle"/></h4>
 
         <div class="inputPart">
-            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-        </div>
-
-        <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
             <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
             <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
             <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
             <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
         </div>
 
         <div class="inputPart" jsf:id="diff">
@@ -179,6 +179,28 @@
         </div>
 
         <h2>#{msg.lblTopAmbulantService}</h2>
+
+        <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
+
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item"
+                     columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
+            <h:column>
+                <f:facet name="header">#{msg.lblNotation}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.text}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.caseCount}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.delimitationAmount}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.amount}"/>
+            </h:column>
+        </h:dataTable>
 
         <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
             <h3>#{editCalcBasicsDrg.calcBasics.dataYear - 1}</h3>
@@ -206,28 +228,6 @@
                 </h:column>
             </h:dataTable>
         </h:panelGroup>
-
-        <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
-
-        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item"
-                     columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
-            <h:column>
-                <f:facet name="header">#{msg.lblNotation}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.text}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.caseCount}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.delimitationAmount}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.amount}"/>
-            </h:column>
-        </h:dataTable>
 
     </div>
 
