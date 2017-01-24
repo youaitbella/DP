@@ -326,13 +326,13 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Kostensatz je VK ÄD</f:facet>
-<!--                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                           value="#{varIntensivPersonal.weightDescription}" rendered="true"/>-->
+               <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                          value="#{varIntensivPersonal.costPerMedicalVK}" rendered="true"/>
             </h:column>
             <h:column>
                 <f:facet name="header">Kostensatz je VK PD</f:facet>
-<!--                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                           value="#{varIntensivPersonal.weightDescription}" rendered="true"/>-->
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                                           value="#{varIntensivPersonal.costPerNursingVK}" rendered="true"/>
             </h:column>
         </h:dataTable>
         
@@ -343,7 +343,224 @@
     
     
     <h2>Personal Intensiv Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+        <h:dataTable id="tblIntensivPersonalPrior"
+                     value="#{editCalcBasicsDrg.priorCalcBasics.intensivStrokes}" 
+                     var ="varIntensivPersonalPrior"
+                     width="100%"
+                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     rowClasses="row1, row2">
 
+            <h:column id="colDeleteId">
+                <f:facet name="header">
+                    <h:outputText value=""/>
+                </f:facet>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteIntensivStroke(item)}" immediate="true" rendered="true">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Nummer der Kostenstelle</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.costCenterID}" rendered="true"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Name der Kostenstelle</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.costCenterText}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">FAB- Schlüssel</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.departmentKey}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Belegung: FAB</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.departmentAssignment}" rendered="true"/>
+            </h:column>
+            
+            
+            <h:column>
+                <f:facet name="header">VK ÄD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.medicalServiceCnt}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">VK PD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.nursingServiceCnt}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">VK FD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.functionalServiceCnt}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kosten ÄD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.medicalServiceCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten PD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.nursingServiceCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten FD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.functionalServiceCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten GK Arzneimittel</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.overheadsMedicine}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kosten GK med. Sachbedarf</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.overheadMedicalGoods}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten med. Infra.</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.medicalInfrastructureCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten nicht med. Infra.</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalPrior.nonMedicalInfrastructureCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Gesamtkosten</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensivPersonalPrior.overallCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kostensatz je VK ÄD</f:facet>
+               <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                          value="#{varIntensivPersonalPrior.costPerMedicalVK}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kostensatz je VK PD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                                           value="#{varIntensivPersonalPrior.costPerNursingVK}" rendered="true"/>
+            </h:column>
+        </h:dataTable>
+
+    <h2>Abweichung Personal Intensiv Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
+        <h:dataTable id="tblIntensivPersonalDiff"
+                     value="#{editCalcBasicsDrg.intensivStrokeDiffList}" 
+                     var ="varIntensivPersonalDiff"
+                     width="100%"
+                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     rowClasses="row1, row2">
+
+            <h:column id="colDeleteId">
+                <f:facet name="header">
+                    <h:outputText value=""/>
+                </f:facet>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteIntensivStroke(item)}" immediate="true" rendered="true">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Nummer der Kostenstelle</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.costCenterID}" rendered="true"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Name der Kostenstelle</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.costCenterText}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">FAB- Schlüssel</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.departmentKey}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Belegung: FAB</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.departmentAssignment}" rendered="true"/>
+            </h:column>
+            
+            
+            <h:column>
+                <f:facet name="header">VK ÄD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.medicalServiceCnt}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">VK PD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.nursingServiceCnt}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">VK FD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.functionalServiceCnt}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kosten ÄD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.medicalServiceCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten PD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.nursingServiceCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten FD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.functionalServiceCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten GK Arzneimittel</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.overheadsMedicine}" rendered="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kosten GK med. Sachbedarf</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.overheadMedicalGoods}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten med. Infra.</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.medicalInfrastructureCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kosten nicht med. Infra.</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                           value="#{varIntensivPersonalDiff.nonMedicalInfrastructureCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Gesamtkosten</f:facet>
+                <h:outputLabel styleClass="label" value="#{varIntensivPersonalDiff.overallCost}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kostensatz je VK ÄD</f:facet>
+               <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                          value="#{varIntensivPersonalDiff.costPerMedicalVK}" rendered="true"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Kostensatz je VK PD</f:facet>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                                                           value="#{varIntensivPersonalDiff.costPerNursingVK}" rendered="true"/>
+            </h:column>
+        </h:dataTable>
     
     </div>
 
