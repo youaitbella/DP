@@ -45,8 +45,9 @@ public class KGPListSheet implements Serializable {
     private String sSheet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "htSheetID")
     private List<KGPListHeaderText> kGPListHeaderTextList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doSheetID")
-    private List<KGPDocuments> kGPDocumentsList;
+    // todo: commented due to deploy error, correct and try to deply
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doSheetID")
+//    private List<KGPDocuments> kGPDocumentsList;
 
     public KGPListSheet() {
     }
@@ -84,15 +85,15 @@ public class KGPListSheet implements Serializable {
     public void setKGPListHeaderTextList(List<KGPListHeaderText> kGPListHeaderTextList) {
         this.kGPListHeaderTextList = kGPListHeaderTextList;
     }
-
-    @XmlTransient
-    public List<KGPDocuments> getKGPDocumentsList() {
-        return kGPDocumentsList;
-    }
-
-    public void setKGPDocumentsList(List<KGPDocuments> kGPDocumentsList) {
-        this.kGPDocumentsList = kGPDocumentsList;
-    }
+// refer to comment at field
+//    @XmlTransient
+//    public List<KGPDocuments> getKGPDocumentsList() {
+//        return kGPDocumentsList;
+//    }
+//
+//    public void setKGPDocumentsList(List<KGPDocuments> kGPDocumentsList) {
+//        this.kGPDocumentsList = kGPDocumentsList;
+//    }
 
     @Override
     public int hashCode() {

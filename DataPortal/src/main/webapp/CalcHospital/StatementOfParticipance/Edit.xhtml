@@ -76,8 +76,9 @@
                                    value="#{msg.btnNextPage}"
                                    rendered="#{editStatementOfParticipance.activeTopicKey eq 'tabStatementOfParticipanceAddress' and (not editStatementOfParticipance.statement.obligatory or editStatementOfParticipance.statement.obligatoryCalcType eq 2)}"
                                    actionListener="#{editStatementOfParticipance.activateNextTopic}"
-                                   action="#{sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"
-                                   immediate="true">
+                                   action="/CalcHospital/StatementOfParticipance/EditStatements"
+                                   immediate="true"> <!--action="# {sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"-->
+
                     </h:commandLink>
                     
                 </div>
