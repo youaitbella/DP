@@ -460,6 +460,16 @@ public class KGLListIntensivStroke implements Serializable {
                 + _overheadMedicalGoods + _medicalInfrastructureCost + _nonMedicalInfrastructureCost;
     }
     
+    public Integer getCostPerMedicalVK() {
+        if (_medicalServiceCnt == 0) return null;
+        return (int)((double)_medicalServiceCost / _medicalServiceCnt);
+    }
+    
+    public Integer getCostPerNursingVK() {
+        if (_nursingServiceCnt == 0) return null;
+        return (int)((double)_nursingServiceCost / _nursingServiceCnt);
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
 //    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
