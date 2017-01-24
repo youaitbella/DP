@@ -42,7 +42,7 @@
                 <f:facet name="header">#{msg.lblSalutation}</f:facet>
                 <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
                                  required="true" requiredMessage="#{msg.msgChooseEntryShort}">
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItem itemLabel="#{msg.salutationFemale}" itemValue="1"/>
                     <f:selectItem itemLabel="#{msg.salutationMale}" itemValue="2"/>
                     <f:ajax event="blur" render="@this msgContactGender :logout:remaining"/>
@@ -79,27 +79,32 @@
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblDrg}</f:facet>
-                <inek:Checkbox value="#{contact.drg}" readonly="#{cc.attrs.readonly or !cc.attrs.allowDrg}"/>
+                <inek:Checkbox value="#{contact.drg}" renderElement="@form"
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowDrg or !contact.drg and editStatementOfParticipance.contacts.stream().filter(c -> c.drg).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblPsy}</f:facet>
-                <inek:Checkbox value="#{contact.psy}" readonly="#{cc.attrs.readonly or !cc.attrs.allowPsy}"/>
+                <inek:Checkbox value="#{contact.psy}" renderElement="@form"
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowPsy or !contact.psy and editStatementOfParticipance.contacts.stream().filter(c -> c.psy).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblInv}</f:facet>
-                <inek:Checkbox value="#{contact.inv}" readonly="#{cc.attrs.readonly or !cc.attrs.allowInv}"/>
+                <inek:Checkbox value="#{contact.inv}" renderElement="@form"
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowInv or !contact.inv and editStatementOfParticipance.contacts.stream().filter(c -> c.inv).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblTpg}</f:facet>
-                <inek:Checkbox value="#{contact.tpg}" readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg}"/>
+                <inek:Checkbox value="#{contact.tpg}" renderElement="@form"
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg or !contact.tpg and editStatementOfParticipance.contacts.stream().filter(c -> c.tpg).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblObd}</f:facet>
-                <inek:Checkbox value="#{contact.obd}" readonly="#{cc.attrs.readonly or !cc.attrs.allowObd}"/>
+                <inek:Checkbox value="#{contact.obd}" renderElement="@form"
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowObd or !contact.obd and editStatementOfParticipance.contacts.stream().filter(c -> c.obd).count() ge 3}"/>
             </h:column>
 
         </h:dataTable>
