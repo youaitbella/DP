@@ -6,14 +6,13 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,100 +23,132 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListStationDepartment", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListStationDepartment", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListStationDepartment.findAll", query = "SELECT k FROM KGPListStationDepartment k")})
 public class KGPListStationDepartment implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "sdID")
-    private Integer sdID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _departmentName">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "seDepartmentName")
-    private String seDepartmentName;
+    private String _departmentName = "";
+
+    public String getDepartmentName() {
+        return _departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this._departmentName = departmentName;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _alternative">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(max = 300)
     @Column(name = "seAlternative")
-    private String seAlternative;
-    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private PeppCalcBasics seBaseInformationID;
+    private String _alternative = "";
+
+    public String getAlternative() {
+        return _alternative;
+    }
+
+    public void setAlternative(String alternative) {
+        this._alternative = alternative;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
+//    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Column(name = "seAlternative")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
+    
 
     public KGPListStationDepartment() {
     }
 
-    public KGPListStationDepartment(Integer sdID) {
-        this.sdID = sdID;
+    public KGPListStationDepartment(int sdID) {
+        this._id = sdID;
     }
 
-    public KGPListStationDepartment(Integer sdID, String seDepartmentName, String seAlternative) {
-        this.sdID = sdID;
-        this.seDepartmentName = seDepartmentName;
-        this.seAlternative = seAlternative;
+    public KGPListStationDepartment(int sdID, String seDepartmentName, String seAlternative) {
+        this._id = sdID;
+        this._departmentName = seDepartmentName;
+        this._alternative = seAlternative;
     }
 
-    public Integer getSdID() {
-        return sdID;
-    }
-
-    public void setSdID(Integer sdID) {
-        this.sdID = sdID;
-    }
-
-    public String getSeDepartmentName() {
-        return seDepartmentName;
-    }
-
-    public void setSeDepartmentName(String seDepartmentName) {
-        this.seDepartmentName = seDepartmentName;
-    }
-
-    public String getSeAlternative() {
-        return seAlternative;
-    }
-
-    public void setSeAlternative(String seAlternative) {
-        this.seAlternative = seAlternative;
-    }
-
-    public PeppCalcBasics getSeBaseInformationID() {
-        return seBaseInformationID;
-    }
-
-    public void setSeBaseInformationID(PeppCalcBasics seBaseInformationID) {
-        this.seBaseInformationID = seBaseInformationID;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (sdID != null ? sdID.hashCode() : 0);
+        int hash = 7;
+        hash = 53 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 53 * hash + Objects.hashCode(this._departmentName);
+        hash = 53 * hash + Objects.hashCode(this._alternative);
+        hash = 53 * hash + this._baseInformationId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListStationDepartment)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListStationDepartment)) {
             return false;
         }
-        KGPListStationDepartment other = (KGPListStationDepartment) object;
-        if ((this.sdID == null && other.sdID != null) || (this.sdID != null && !this.sdID.equals(other.sdID))) {
+        final KGPListStationDepartment other = (KGPListStationDepartment) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
             return false;
         }
-        return true;
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (!Objects.equals(this._departmentName, other._departmentName)) {
+            return false;
+        }
+        return Objects.equals(this._alternative, other._alternative);
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListStationDepartment[ sdID=" + sdID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListStationDepartment[ sdID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
