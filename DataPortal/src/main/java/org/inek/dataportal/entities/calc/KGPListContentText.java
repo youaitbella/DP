@@ -7,170 +7,234 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListContentText", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListContentText", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListContentText.findAll", query = "SELECT k FROM KGPListContentText k")})
 public class KGPListContentText implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctID")
-    private Integer ctID;
+    private Integer _id = -1;
+
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(max = 300)
     @Column(name = "ctText")
-    private String ctText;
+    private String _text = "";
+
+    public String getText() {
+        return _text;
+    }
+
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctFirstYear")
-    private int ctFirstYear;
+    private int _firstYear;
+
+    public int getFirstYear() {
+        return _firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this._firstYear = firstYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctLastYear")
-    private int ctLastYear;
+    private int _lastYear;
+
+    public int getLastYear() {
+        return _lastYear;
+    }
+
+    public void setLastYear(int lastYear) {
+        this._lastYear = lastYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctDecimalCnt")
-    private int ctDecimalCnt;
+    private int _decimalCnt;
+
+    public int getDecimalCnt() {
+        return _decimalCnt;
+    }
+
+    public void setDecimalCnt(int decimalCnt) {
+        this._decimalCnt = decimalCnt;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctSeq")
-    private int ctSeq;
-    @JoinColumn(name = "ctHeaderTextID", referencedColumnName = "htID")
-    @ManyToOne(optional = false)
-    private KGPListHeaderText ctHeaderTextID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dfContentTextID")
-    private List<KGPListDelimitationFact> kGPListDelimitationFactList;
+    private int _seq;
+
+    public int getSeq() {
+        return _seq;
+    }
+
+    public void setSeq(int seq) {
+        this._seq = seq;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+//    @JoinColumn(name = "ctHeaderTextID", referencedColumnName = "htID")
+//    @ManyToOne(optional = false)
+    @Column(name = "ctHeaderTextID")
+    private int _headerTextID;
+
+    public int getHeaderTextID() {
+        return _headerTextID;
+    }
+
+    public void setHeaderTextID(int headerTextID) {
+        this._headerTextID = headerTextID;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+    @Column(name = "dfContentTextID")
+    private int _contentTextId;
+
+    public int getContentTextId() {
+        return _contentTextId;
+    }
+
+    public void setContentTextId(int contentTextId) {
+        this._contentTextId = contentTextId;
+    }
+    //</editor-fold>
 
     public KGPListContentText() {
     }
 
     public KGPListContentText(Integer ctID) {
-        this.ctID = ctID;
+        this._id = ctID;
     }
 
     public KGPListContentText(Integer ctID, String ctText, int ctFirstYear, int ctLastYear, int ctDecimalCnt, int ctSeq) {
-        this.ctID = ctID;
-        this.ctText = ctText;
-        this.ctFirstYear = ctFirstYear;
-        this.ctLastYear = ctLastYear;
-        this.ctDecimalCnt = ctDecimalCnt;
-        this.ctSeq = ctSeq;
+        this._id = ctID;
+        this._text = ctText;
+        this._firstYear = ctFirstYear;
+        this._lastYear = ctLastYear;
+        this._decimalCnt = ctDecimalCnt;
+        this._seq = ctSeq;
     }
 
-    public Integer getCtID() {
-        return ctID;
-    }
-
-    public void setCtID(Integer ctID) {
-        this.ctID = ctID;
-    }
-
-    public String getCtText() {
-        return ctText;
-    }
-
-    public void setCtText(String ctText) {
-        this.ctText = ctText;
-    }
-
-    public int getCtFirstYear() {
-        return ctFirstYear;
-    }
-
-    public void setCtFirstYear(int ctFirstYear) {
-        this.ctFirstYear = ctFirstYear;
-    }
-
-    public int getCtLastYear() {
-        return ctLastYear;
-    }
-
-    public void setCtLastYear(int ctLastYear) {
-        this.ctLastYear = ctLastYear;
-    }
-
-    public int getCtDecimalCnt() {
-        return ctDecimalCnt;
-    }
-
-    public void setCtDecimalCnt(int ctDecimalCnt) {
-        this.ctDecimalCnt = ctDecimalCnt;
-    }
-
-    public int getCtSeq() {
-        return ctSeq;
-    }
-
-    public void setCtSeq(int ctSeq) {
-        this.ctSeq = ctSeq;
-    }
-
-    public KGPListHeaderText getCtHeaderTextID() {
-        return ctHeaderTextID;
-    }
-
-    public void setCtHeaderTextID(KGPListHeaderText ctHeaderTextID) {
-        this.ctHeaderTextID = ctHeaderTextID;
-    }
-
-    @XmlTransient
-    public List<KGPListDelimitationFact> getKGPListDelimitationFactList() {
-        return kGPListDelimitationFactList;
-    }
-
-    public void setKGPListDelimitationFactList(List<KGPListDelimitationFact> kGPListDelimitationFactList) {
-        this.kGPListDelimitationFactList = kGPListDelimitationFactList;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (ctID != null ? ctID.hashCode() : 0);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this._id);
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 29 * hash + Objects.hashCode(this._text);
+        hash = 29 * hash + this._firstYear;
+        hash = 29 * hash + this._lastYear;
+        hash = 29 * hash + this._decimalCnt;
+        hash = 29 * hash + this._seq;
+        hash = 29 * hash + this._headerTextID;
+        hash = 29 * hash + this._contentTextId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListContentText)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        KGPListContentText other = (KGPListContentText) object;
-        if ((this.ctID == null && other.ctID != null) || (this.ctID != null && !this.ctID.equals(other.ctID))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGPListContentText other = (KGPListContentText) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._firstYear != other._firstYear) {
+            return false;
+        }
+        if (this._lastYear != other._lastYear) {
+            return false;
+        }
+        if (this._decimalCnt != other._decimalCnt) {
+            return false;
+        }
+        if (this._seq != other._seq) {
+            return false;
+        }
+        if (this._headerTextID != other._headerTextID) {
+            return false;
+        }
+        if (this._contentTextId != other._contentTextId) {
+            return false;
+        }
+        if (!Objects.equals(this._text, other._text)) {
+            return false;
+        }
+        if (!Objects.equals(this._id, other._id)) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListContentText[ ctID=" + ctID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListContentText[ ctID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
