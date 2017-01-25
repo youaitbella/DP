@@ -51,7 +51,7 @@
                                    immediate="true"
                                    action="#{editStatementOfParticipance.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editStatementOfParticipance.sealEnabled and editStatementOfParticipance.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editStatementOfParticipance.statement.obligatoryCalcType ne 1}"
+                                   rendered="#{editStatementOfParticipance.sealEnabled and (editStatementOfParticipance.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editStatementOfParticipance.statement.obligatoryCalcType eq 1)}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
@@ -74,10 +74,11 @@
                     
                     <h:commandLink styleClass="bigButton"
                                    value="#{msg.btnNextPage}"
-                                   rendered="#{editStatementOfParticipance.activeTopicKey eq 'tabStatementOfParticipanceAddress' and editStatementOfParticipance.statement.obligatoryCalcType eq 1}"
+                                   rendered="#{editStatementOfParticipance.activeTopicKey eq 'tabStatementOfParticipanceAddress' and (not editStatementOfParticipance.statement.obligatory or editStatementOfParticipance.statement.obligatoryCalcType eq 2)}"
                                    actionListener="#{editStatementOfParticipance.activateNextTopic}"
-                                   action="#{sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"
-                                   immediate="true">
+                                   action="/CalcHospital/StatementOfParticipance/EditStatements"
+                                   immediate="true"> <!--action="# {sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"-->
+
                     </h:commandLink>
                     
                 </div>
