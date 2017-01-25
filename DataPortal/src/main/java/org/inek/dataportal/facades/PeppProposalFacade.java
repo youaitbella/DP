@@ -48,7 +48,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<PeppProposal> cq = cb.createQuery(PeppProposal.class);
-        Root request = cq.from(PeppProposal.class);
+        Root<PeppProposal> request = cq.from(PeppProposal.class);
         Predicate sealed;
         Order order;
         if (dataSet == DataSet.AllOpen) {
@@ -117,12 +117,13 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         int toId = fromId + 99999;
         String statement = "select distinct ppAccountId from PeppProposal where ppId between ?1 and ?2 and ppStatus = 10";
         Query query = getEntityManager().createNativeQuery(statement).setParameter(1, fromId).setParameter(2, toId);
-        return query.getResultList();
+        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        return result;
     }
 
     public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT DISTINCT p._accountId FROM PeppProposal p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
-        Query query = getEntityManager().createQuery(jpql, PeppProposal.class);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
@@ -132,7 +133,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
 
     public List<Integer> getProposalYears(Set<Integer> accountIds) {
         String jpql = "SELECT DISTINCT p._targetYear FROM PeppProposal p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
-        Query query = getEntityManager().createQuery(jpql, Integer.class);
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
