@@ -6,118 +6,115 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListSheet", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListSheet", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListSheet.findAll", query = "SELECT k FROM KGPListSheet k")})
 public class KGPListSheet implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "sID")
-    private Integer sID;
+    private int _id;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _sheet">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "sSheet")
-    private String sSheet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "htSheetID")
-    private List<KGPListHeaderText> kGPListHeaderTextList;
-    // todo: commented due to deploy error, correct and try to deply
+    private String _sheet = "";
+
+    public String getSheet() {
+        return _sheet;
+    }
+
+    public void setSheet(String sheet) {
+        this._sheet = sheet;
+    }
+    //</editor-fold>
+    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "htSheetID")
+//    private List<KGPListHeaderText> kGPListHeaderTextList;
+    
+    
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doSheetID")
 //    private List<KGPDocuments> kGPDocumentsList;
 
     public KGPListSheet() {
     }
 
-    public KGPListSheet(Integer sID) {
-        this.sID = sID;
+    public KGPListSheet(int sID) {
+        this._id = sID;
     }
 
-    public KGPListSheet(Integer sID, String sSheet) {
-        this.sID = sID;
-        this.sSheet = sSheet;
+    public KGPListSheet(int sID, String sSheet) {
+        this._id = sID;
+        this._sheet = sSheet;
     }
 
-    public Integer getSID() {
-        return sID;
-    }
-
-    public void setSID(Integer sID) {
-        this.sID = sID;
-    }
-
-    public String getSSheet() {
-        return sSheet;
-    }
-
-    public void setSSheet(String sSheet) {
-        this.sSheet = sSheet;
-    }
-
-    @XmlTransient
-    public List<KGPListHeaderText> getKGPListHeaderTextList() {
-        return kGPListHeaderTextList;
-    }
-
-    public void setKGPListHeaderTextList(List<KGPListHeaderText> kGPListHeaderTextList) {
-        this.kGPListHeaderTextList = kGPListHeaderTextList;
-    }
-// refer to comment at field
-//    @XmlTransient
-//    public List<KGPDocuments> getKGPDocumentsList() {
-//        return kGPDocumentsList;
-//    }
-//
-//    public void setKGPDocumentsList(List<KGPDocuments> kGPDocumentsList) {
-//        this.kGPDocumentsList = kGPDocumentsList;
-//    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (sID != null ? sID.hashCode() : 0);
+        int hash = 7;
+        hash = 37 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 37 * hash + Objects.hashCode(this._sheet);
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListSheet)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListSheet)) {
             return false;
         }
-        KGPListSheet other = (KGPListSheet) object;
-        if ((this.sID == null && other.sID != null) || (this.sID != null && !this.sID.equals(other.sID))) {
+        final KGPListSheet other = (KGPListSheet) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
             return false;
         }
-        return true;
+        return Objects.equals(this._sheet, other._sheet);
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListSheet[ sID=" + sID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListSheet[ sID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
