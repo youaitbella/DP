@@ -77,7 +77,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         } else if (id.toString().equals("new")) {
-            if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+            if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
