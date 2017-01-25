@@ -9,11 +9,9 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,176 +21,249 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPPersonalAccounting", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPPersonalAccounting",schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPPersonalAccounting.findAll", query = "SELECT k FROM KGPPersonalAccounting k")})
 public class KGPPersonalAccounting implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "paID")
-    private Integer paID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paCostTypeID")
-    private int paCostTypeID;
+    private int _costTypeId;
+
+    public int getCostTypeId() {
+        return _costTypeId;
+    }
+
+    public void setCostTypeId(int costTypeId) {
+        this._costTypeId = costTypeId;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _staffRecording">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paStaffRecording")
-    private boolean paStaffRecording;
+    private boolean _staffRecording;
+
+    public boolean isStaffRecording() {
+        return _staffRecording;
+    }
+
+    public void setStaffRecording(boolean staffRecording) {
+        this._staffRecording = staffRecording;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _staffEvaluation">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paStaffEvaluation")
-    private boolean paStaffEvaluation;
+    private boolean _staffEvaluation;
+
+    public boolean isStaffEvaluation() {
+        return _staffEvaluation;
+    }
+
+    public void setStaffEvaluation(boolean staffEvaluation) {
+        this._staffEvaluation = staffEvaluation;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _serviceEvaluation">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paServiceEvaluation")
-    private boolean paServiceEvaluation;
+    private boolean _serviceEvaluation;
+
+    public boolean isServiceEvaluation() {
+        return _serviceEvaluation;
+    }
+
+    public void setServiceEvaluation(boolean serviceEvaluation) {
+        this._serviceEvaluation = serviceEvaluation;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _serviceStatistic">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paServiceStatistic")
-    private boolean paServiceStatistic;
+    private boolean _serviceStatistic;
+
+    public boolean isServiceStatistic() {
+        return _serviceStatistic;
+    }
+
+    public void setServiceStatistic(boolean serviceStatistic) {
+        this._serviceStatistic = serviceStatistic;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _expertRating">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paExpertRating")
-    private boolean paExpertRating;
+    private boolean _expertRating;
+
+    public boolean isExpertRating() {
+        return _expertRating;
+    }
+
+    public void setExpertRating(boolean expertRating) {
+        this._expertRating = expertRating;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _other">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paOther")
-    private boolean paOther;
+    private boolean _other;
+
+    public boolean isOther() {
+        return _other;
+    }
+
+    public void setOther(boolean other) {
+        this._other = other;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
     @Column(name = "paAmount")
-    private int paAmount;
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private PeppCalcBasics paBaseInformationID;
+    private int _amount;
+
+    public int getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(int amount) {
+        this._amount = amount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
+//    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Column(name = "paBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
 
     public KGPPersonalAccounting() {
     }
 
-    public KGPPersonalAccounting(Integer paID) {
-        this.paID = paID;
+    public KGPPersonalAccounting(int paID) {
+        this._id = paID;
     }
 
-    public KGPPersonalAccounting(Integer paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
-        this.paID = paID;
-        this.paCostTypeID = paCostTypeID;
-        this.paStaffRecording = paStaffRecording;
-        this.paStaffEvaluation = paStaffEvaluation;
-        this.paServiceEvaluation = paServiceEvaluation;
-        this.paServiceStatistic = paServiceStatistic;
-        this.paExpertRating = paExpertRating;
-        this.paOther = paOther;
-        this.paAmount = paAmount;
+    public KGPPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
+        this._id = paID;
+        this._costTypeId = paCostTypeID;
+        this._staffRecording = paStaffRecording;
+        this._staffEvaluation = paStaffEvaluation;
+        this._serviceEvaluation = paServiceEvaluation;
+        this._serviceStatistic = paServiceStatistic;
+        this._expertRating = paExpertRating;
+        this._other = paOther;
+        this._amount = paAmount;
     }
 
-    public Integer getPaID() {
-        return paID;
-    }
-
-    public void setPaID(Integer paID) {
-        this.paID = paID;
-    }
-
-    public int getPaCostTypeID() {
-        return paCostTypeID;
-    }
-
-    public void setPaCostTypeID(int paCostTypeID) {
-        this.paCostTypeID = paCostTypeID;
-    }
-
-    public boolean getPaStaffRecording() {
-        return paStaffRecording;
-    }
-
-    public void setPaStaffRecording(boolean paStaffRecording) {
-        this.paStaffRecording = paStaffRecording;
-    }
-
-    public boolean getPaStaffEvaluation() {
-        return paStaffEvaluation;
-    }
-
-    public void setPaStaffEvaluation(boolean paStaffEvaluation) {
-        this.paStaffEvaluation = paStaffEvaluation;
-    }
-
-    public boolean getPaServiceEvaluation() {
-        return paServiceEvaluation;
-    }
-
-    public void setPaServiceEvaluation(boolean paServiceEvaluation) {
-        this.paServiceEvaluation = paServiceEvaluation;
-    }
-
-    public boolean getPaServiceStatistic() {
-        return paServiceStatistic;
-    }
-
-    public void setPaServiceStatistic(boolean paServiceStatistic) {
-        this.paServiceStatistic = paServiceStatistic;
-    }
-
-    public boolean getPaExpertRating() {
-        return paExpertRating;
-    }
-
-    public void setPaExpertRating(boolean paExpertRating) {
-        this.paExpertRating = paExpertRating;
-    }
-
-    public boolean getPaOther() {
-        return paOther;
-    }
-
-    public void setPaOther(boolean paOther) {
-        this.paOther = paOther;
-    }
-
-    public int getPaAmount() {
-        return paAmount;
-    }
-
-    public void setPaAmount(int paAmount) {
-        this.paAmount = paAmount;
-    }
-
-    public PeppCalcBasics getPaBaseInformationID() {
-        return paBaseInformationID;
-    }
-
-    public void setPaBaseInformationID(PeppCalcBasics paBaseInformationID) {
-        this.paBaseInformationID = paBaseInformationID;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (paID != null ? paID.hashCode() : 0);
+        int hash = 5;
+        hash = 97 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 97 * hash + this._costTypeId;
+        hash = 97 * hash + (this._staffRecording ? 1 : 0);
+        hash = 97 * hash + (this._staffEvaluation ? 1 : 0);
+        hash = 97 * hash + (this._serviceEvaluation ? 1 : 0);
+        hash = 97 * hash + (this._serviceStatistic ? 1 : 0);
+        hash = 97 * hash + (this._expertRating ? 1 : 0);
+        hash = 97 * hash + (this._other ? 1 : 0);
+        hash = 97 * hash + this._amount;
+        hash = 97 * hash + this._baseInformationId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPPersonalAccounting)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPPersonalAccounting)) {
             return false;
         }
-        KGPPersonalAccounting other = (KGPPersonalAccounting) object;
-        if ((this.paID == null && other.paID != null) || (this.paID != null && !this.paID.equals(other.paID))) {
+        final KGPPersonalAccounting other = (KGPPersonalAccounting) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
             return false;
         }
-        return true;
+        if (this._costTypeId != other._costTypeId) {
+            return false;
+        }
+        if (this._staffRecording != other._staffRecording) {
+            return false;
+        }
+        if (this._staffEvaluation != other._staffEvaluation) {
+            return false;
+        }
+        if (this._serviceEvaluation != other._serviceEvaluation) {
+            return false;
+        }
+        if (this._serviceStatistic != other._serviceStatistic) {
+            return false;
+        }
+        if (this._expertRating != other._expertRating) {
+            return false;
+        }
+        if (this._other != other._other) {
+            return false;
+        }
+        if (this._amount != other._amount) {
+            return false;
+        }
+        return this._baseInformationId == other._baseInformationId;
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPPersonalAccounting[ paID=" + paID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPPersonalAccounting[ paID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
