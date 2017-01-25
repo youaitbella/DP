@@ -9,11 +9,9 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,135 +21,188 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListDelimitationFact", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListDelimitationFact", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListDelimitationFact.findAll", query = "SELECT k FROM KGPListDelimitationFact k")})
 public class KGPListDelimitationFact implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfID")
-    private Integer dfID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfUsed")
-    private boolean dfUsed;
+    private boolean _used;
+
+    public boolean isUsed() {
+        return _used;
+    }
+
+    public void setUsed(boolean used) {
+        this._used = used;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfPersonalCost")
-    private int dfPersonalCost;
+    private int _personalCost;
+
+    public int getPersonalCost() {
+        return _personalCost;
+    }
+
+    public void setPersonalCost(int personalCost) {
+        this._personalCost = personalCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfMaterialcost")
-    private int dfMaterialcost;
+    private int _materialcost;
+
+    public int getMaterialcost() {
+        return _materialcost;
+    }
+
+    public void setMaterialcost(int materialcost) {
+        this._materialcost = materialcost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfInfraCost")
-    private int dfInfraCost;
-    @JoinColumn(name = "dfBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private PeppCalcBasics dfBaseInformationID;
-    @JoinColumn(name = "dfContentTextID", referencedColumnName = "ctID")
-    @ManyToOne(optional = false)
-    private KGPListContentText dfContentTextID;
+    private int _infraCost;
+
+    public int getInfraCost() {
+        return _infraCost;
+    }
+
+    public void setInfraCost(int infraCost) {
+        this._infraCost = infraCost;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+    @Column(name = "dfBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
+    @Column(name = "dfContentTextID")
+    private int _contentTextId;
+
+    public int getContentTextId() {
+        return _contentTextId;
+    }
+
+    public void setContentTextId(int contentTextId) {
+        this._contentTextId = contentTextId;
+    }
+    //</editor-fold>
+    
 
     public KGPListDelimitationFact() {
     }
 
     public KGPListDelimitationFact(Integer dfID) {
-        this.dfID = dfID;
+        this._id = dfID;
     }
 
     public KGPListDelimitationFact(Integer dfID, boolean dfUsed, int dfPersonalCost, int dfMaterialcost, int dfInfraCost) {
-        this.dfID = dfID;
-        this.dfUsed = dfUsed;
-        this.dfPersonalCost = dfPersonalCost;
-        this.dfMaterialcost = dfMaterialcost;
-        this.dfInfraCost = dfInfraCost;
+        this._id = dfID;
+        this._used = dfUsed;
+        this._personalCost = dfPersonalCost;
+        this._materialcost = dfMaterialcost;
+        this._infraCost = dfInfraCost;
     }
 
-    public Integer getDfID() {
-        return dfID;
-    }
-
-    public void setDfID(Integer dfID) {
-        this.dfID = dfID;
-    }
-
-    public boolean getDfUsed() {
-        return dfUsed;
-    }
-
-    public void setDfUsed(boolean dfUsed) {
-        this.dfUsed = dfUsed;
-    }
-
-    public int getDfPersonalCost() {
-        return dfPersonalCost;
-    }
-
-    public void setDfPersonalCost(int dfPersonalCost) {
-        this.dfPersonalCost = dfPersonalCost;
-    }
-
-    public int getDfMaterialcost() {
-        return dfMaterialcost;
-    }
-
-    public void setDfMaterialcost(int dfMaterialcost) {
-        this.dfMaterialcost = dfMaterialcost;
-    }
-
-    public int getDfInfraCost() {
-        return dfInfraCost;
-    }
-
-    public void setDfInfraCost(int dfInfraCost) {
-        this.dfInfraCost = dfInfraCost;
-    }
-
-    public PeppCalcBasics getDfBaseInformationID() {
-        return dfBaseInformationID;
-    }
-
-    public void setDfBaseInformationID(PeppCalcBasics dfBaseInformationID) {
-        this.dfBaseInformationID = dfBaseInformationID;
-    }
-
-    public KGPListContentText getDfContentTextID() {
-        return dfContentTextID;
-    }
-
-    public void setDfContentTextID(KGPListContentText dfContentTextID) {
-        this.dfContentTextID = dfContentTextID;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (dfID != null ? dfID.hashCode() : 0);
+        int hash = 5;
+        hash = 29 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 29 * hash + (this._used ? 1 : 0);
+        hash = 29 * hash + this._personalCost;
+        hash = 29 * hash + this._materialcost;
+        hash = 29 * hash + this._infraCost;
+        hash = 29 * hash + this._baseInformationId;
+        hash = 29 * hash + this._contentTextId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListDelimitationFact)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListDelimitationFact)) {
             return false;
         }
-        KGPListDelimitationFact other = (KGPListDelimitationFact) object;
-        if ((this.dfID == null && other.dfID != null) || (this.dfID != null && !this.dfID.equals(other.dfID))) {
+        final KGPListDelimitationFact other = (KGPListDelimitationFact) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._used != other._used) {
+            return false;
+        }
+        if (this._personalCost != other._personalCost) {
+            return false;
+        }
+        if (this._materialcost != other._materialcost) {
+            return false;
+        }
+        if (this._infraCost != other._infraCost) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (this._contentTextId != other._contentTextId) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListDelimitationFact[ dfID=" + dfID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListDelimitationFact[ dfID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
