@@ -608,7 +608,7 @@ public class EditModelIntention extends AbstractEditController {
 
     private CostDynamicTable _costTable;
 
-    public CostDynamicTable getCostTable() {
+    public DynamicTable getCostTable() {
         if (_costTable == null) {
             _costTable = new CostDynamicTable(getModelIntention());
         }
@@ -711,7 +711,7 @@ public class EditModelIntention extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="tab quality">
     private QualityDynamicTable _internalQualityTable;
 
-    public DynamicTable getInternalQualityTable() {
+    public DynamicTable<Quality> getInternalQualityTable() {
         final int typeId = 1;
         if (_internalQualityTable == null) {
             List<Quality> list = getQualities(typeId);
@@ -730,7 +730,7 @@ public class EditModelIntention extends AbstractEditController {
 
     private QualityDynamicTable _externalQualityTable;
 
-    public DynamicTable getExternalQualityTable() {
+    public DynamicTable<Quality> getExternalQualityTable() {
         final int typeId = 2;
         if (_externalQualityTable == null) {
             List<Quality> list = getQualities(typeId);

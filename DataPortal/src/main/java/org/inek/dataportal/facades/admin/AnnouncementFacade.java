@@ -19,7 +19,7 @@ public class AnnouncementFacade extends AbstractFacade<Announcement> {
         clearCache(Announcement.class);
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Announcement> cq = cb.createQuery(Announcement.class);
-        Root request = cq.from(Announcement.class);
+        Root<Announcement> request = cq.from(Announcement.class);
         cq.select(request)
                 .where(cb.isTrue(request.get("_isActive")))
                 .orderBy(cb.asc(request.get("_id")));

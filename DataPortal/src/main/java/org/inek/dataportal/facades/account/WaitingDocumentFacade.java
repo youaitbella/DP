@@ -69,7 +69,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
     @Asynchronous
     private void deleteOldDocuments() {
         String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
-        Query query = getEntityManager().createQuery(sql, WaitingDocument.class);
+        TypedQuery<WaitingDocument> query = getEntityManager().createQuery(sql, WaitingDocument.class);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
         List<WaitingDocument> docs = query.getResultList();
         for (WaitingDocument doc : docs) {

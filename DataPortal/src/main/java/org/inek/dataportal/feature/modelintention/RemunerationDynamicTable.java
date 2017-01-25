@@ -3,7 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 
-public class RemunerationDynamicTable extends DynamicTable {
+public class RemunerationDynamicTable extends DynamicTable<Remuneration> {
 
     public RemunerationDynamicTable(ModelIntention modelIntention) {
         super(modelIntention, modelIntention.getRemunerations());
@@ -19,8 +19,7 @@ public class RemunerationDynamicTable extends DynamicTable {
     }
 
     @Override
-    protected boolean isEmptyEntry(Object entry) {
-        Remuneration remuneration = (Remuneration) entry;
+    protected boolean isEmptyEntry(Remuneration remuneration) {
         return remuneration.getCode().length() == 0 && remuneration.getText().length() == 0;
     }
 

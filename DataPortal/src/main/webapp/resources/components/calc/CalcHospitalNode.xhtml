@@ -56,6 +56,7 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}">
+                    <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                     <h:graphicImage alt="Status" name="Icon/small/#{node.calcHospitalInfo.status.icon}" 
                                     title="#{node.calcHospitalInfo.status.description}" value=""
                                     rendered="#{node.calcHospitalInfo.status.icon.length() gt 0}"/>

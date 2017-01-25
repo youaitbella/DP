@@ -230,7 +230,8 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelDrg">
     @Column(name = "sopCdmDrg")
-    @Documentation(name = "KVM DRG", omitOnValues = "-1;0", translateValue = "1=lblStatementSingleCostAttributionDrg")
+    //@Documentation(name = "KVM DRG", omitOnValues = "-1;0", translateValue = "1=lblStatementSingleCostAttributionDrg")
+    @Documentation(name = "KVM DRG", omitOnValues = "-1", translateValue = "0=Nein;1=Ja")
     private int _clinicalDistributionModelDrg = -1;
 
     public int getClinicalDistributionModelDrg() {

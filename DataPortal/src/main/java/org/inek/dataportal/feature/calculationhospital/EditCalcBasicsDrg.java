@@ -706,21 +706,21 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());

@@ -21,10 +21,12 @@
                 <inek:TriStateRadioButton id="clinicalDistributionModelDrg" 
                                           label="#{msg.lblStatementSingleCostAttributionDrg}" 
                                           labelStyle="element80"
+                                          readonly="#{editStatementOfParticipance.readOnly}"
                                           value="#{editStatementOfParticipance.statement.clinicalDistributionModelDrg}"/>
             </div>
 
-            <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearDrg}"
+            <calc:CalcOverlayer id="multiyearDrg" 
+                                value="#{editStatementOfParticipance.statement.multiyearDrg}"
                                 valueText="#{editStatementOfParticipance.statement.multiyearDrgText}"
                                 readonly="#{editStatementOfParticipance.readOnly}"/>
 
@@ -39,10 +41,12 @@
                 <inek:TriStateRadioButton id="clinicalDistributionModelPsy" 
                                           label="#{msg.lblStatementSingleCostAttributionPsy}" 
                                           labelStyle="element80"
+                                          readonly="#{editStatementOfParticipance.readOnly}"
                                           value="#{editStatementOfParticipance.statement.clinicalDistributionModelPsy}"/>
             </div>
 
-            <calc:CalcOverlayer value="#{editStatementOfParticipance.statement.multiyearPsy}"
+            <calc:CalcOverlayer id="multiyearPsy" 
+                                value="#{editStatementOfParticipance.statement.multiyearPsy}"
                                 valueText="#{editStatementOfParticipance.statement.multiyearPsyText}"
                                 readonly="#{editStatementOfParticipance.readOnly}"/>
 
