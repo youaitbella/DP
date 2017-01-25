@@ -6,132 +6,151 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListServiceProvisionType", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListServiceProvisionType", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListServiceProvisionType.findAll", query = "SELECT k FROM KGPListServiceProvisionType k")})
 public class KGPListServiceProvisionType implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptID")
-    private Integer sptID;
+    private int _id;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "sptText")
-    private String sptText;
+    private String _text = "";
+
+    public String getText() {
+        return _text;
+    }
+
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptFirstYear")
-    private int sptFirstYear;
+    private int _firstYear;
+
+    public int getFirstYear() {
+        return _firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this._firstYear = firstYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ">
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptLastYear")
-    private int sptLastYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeID")
-    private List<KGPListServiceProvision> kGPListServiceProvisionList;
+    private int _lastYear;
+
+    public int getLastYear() {
+        return _lastYear;
+    }
+
+    public void setLastYear(int lastYear) {
+        this._lastYear = lastYear;
+    }
+    //</editor-fold>
+    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeID")
+//    private List<KGPListServiceProvision> kGPListServiceProvisionList;
 
     public KGPListServiceProvisionType() {
     }
 
-    public KGPListServiceProvisionType(Integer sptID) {
-        this.sptID = sptID;
+    public KGPListServiceProvisionType(int sptID) {
+        this._id = sptID;
     }
 
-    public KGPListServiceProvisionType(Integer sptID, String sptText, int sptFirstYear, int sptLastYear) {
-        this.sptID = sptID;
-        this.sptText = sptText;
-        this.sptFirstYear = sptFirstYear;
-        this.sptLastYear = sptLastYear;
+    public KGPListServiceProvisionType(int sptID, String sptText, int sptFirstYear, int sptLastYear) {
+        this._id = sptID;
+        this._text = sptText;
+        this._firstYear = sptFirstYear;
+        this._lastYear = sptLastYear;
     }
 
-    public Integer getSptID() {
-        return sptID;
-    }
-
-    public void setSptID(Integer sptID) {
-        this.sptID = sptID;
-    }
-
-    public String getSptText() {
-        return sptText;
-    }
-
-    public void setSptText(String sptText) {
-        this.sptText = sptText;
-    }
-
-    public int getSptFirstYear() {
-        return sptFirstYear;
-    }
-
-    public void setSptFirstYear(int sptFirstYear) {
-        this.sptFirstYear = sptFirstYear;
-    }
-
-    public int getSptLastYear() {
-        return sptLastYear;
-    }
-
-    public void setSptLastYear(int sptLastYear) {
-        this.sptLastYear = sptLastYear;
-    }
-
-    @XmlTransient
-    public List<KGPListServiceProvision> getKGPListServiceProvisionList() {
-        return kGPListServiceProvisionList;
-    }
-
-    public void setKGPListServiceProvisionList(List<KGPListServiceProvision> kGPListServiceProvisionList) {
-        this.kGPListServiceProvisionList = kGPListServiceProvisionList;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (sptID != null ? sptID.hashCode() : 0);
+        int hash = 7;
+        hash = 47 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 47 * hash + Objects.hashCode(this._text);
+        hash = 47 * hash + this._firstYear;
+        hash = 47 * hash + this._lastYear;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListServiceProvisionType)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListServiceProvisionType)) {
             return false;
         }
-        KGPListServiceProvisionType other = (KGPListServiceProvisionType) object;
-        if ((this.sptID == null && other.sptID != null) || (this.sptID != null && !this.sptID.equals(other.sptID))) {
+        final KGPListServiceProvisionType other = (KGPListServiceProvisionType) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
             return false;
         }
-        return true;
+        if (this._firstYear != other._firstYear) {
+            return false;
+        }
+        if (this._lastYear != other._lastYear) {
+            return false;
+        }
+        return Objects.equals(this._text, other._text);
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListServiceProvisionType[ sptID=" + sptID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListServiceProvisionType[ sptID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
