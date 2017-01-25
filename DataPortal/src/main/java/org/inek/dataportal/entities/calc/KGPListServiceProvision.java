@@ -6,14 +6,13 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,135 +23,189 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListServiceProvision", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListServiceProvision", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListServiceProvision.findAll", query = "SELECT k FROM KGPListServiceProvision k")})
 public class KGPListServiceProvision implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "spID")
-    private Integer spID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _partitionExternalAssignment">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "spPartitionExternalAssignment")
-    private String spPartitionExternalAssignment;
+    private String _partitionExternalAssignment = "";
+
+    public String getPartitionExternalAssignment() {
+        return _partitionExternalAssignment;
+    }
+
+    public void setPartitionExternalAssignment(String partitionExternalAssignment) {
+        this._partitionExternalAssignment = partitionExternalAssignment;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _note">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size(max = 2147483647)
     @Column(name = "spNote")
-    private String spNote;
+    private String _note = "";
+
+    public String getNote() {
+        return _note;
+    }
+
+    public void setNote(String note) {
+        this._note = note;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
     @Column(name = "spAmount")
-    private int spAmount;
-    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private PeppCalcBasics spBaseInformationID;
-    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
-    @ManyToOne(optional = false)
-    private KGPListProvidedType spProvidedTypeID;
-    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
-    @ManyToOne(optional = false)
-    private KGPListServiceProvisionType spServiceProvisionTypeID;
+    private int _amount;
+
+    public int getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(int amount) {
+        this._amount = amount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
+//    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Column(name = "spBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _providedTypeId">
+//    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
+//    @ManyToOne(optional = false)
+    @Column(name = "spProvidedTypeID")
+    private int _providedTypeId;
+
+    public int getProvidedTypeId() {
+        return _providedTypeId;
+    }
+
+    public void setProvidedTypeId(int providedTypeId) {
+        this._providedTypeId = providedTypeId;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _serviceProvisionTypeId">
+//    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
+//    @ManyToOne(optional = false)
+    @Column(name = "spServiceProvisionTypeID")
+    private int _serviceProvisionTypeId;
+
+    public int getServiceProvisionTypeId() {
+        return _serviceProvisionTypeId;
+    }
+
+    public void setServiceProvisionTypeId(int serviceProvisionTypeId) {
+        this._serviceProvisionTypeId = serviceProvisionTypeId;
+    }
+    //</editor-fold>
 
     public KGPListServiceProvision() {
     }
 
-    public KGPListServiceProvision(Integer spID) {
-        this.spID = spID;
+    public KGPListServiceProvision(int spID) {
+        this._id = spID;
     }
 
-    public KGPListServiceProvision(Integer spID, String spPartitionExternalAssignment, String spNote, int spAmount) {
-        this.spID = spID;
-        this.spPartitionExternalAssignment = spPartitionExternalAssignment;
-        this.spNote = spNote;
-        this.spAmount = spAmount;
+    public KGPListServiceProvision(int spID, String spPartitionExternalAssignment, String spNote, int spAmount) {
+        this._id = spID;
+        this._partitionExternalAssignment = spPartitionExternalAssignment;
+        this._note = spNote;
+        this._amount = spAmount;
     }
 
-    public Integer getSpID() {
-        return spID;
-    }
-
-    public void setSpID(Integer spID) {
-        this.spID = spID;
-    }
-
-    public String getSpPartitionExternalAssignment() {
-        return spPartitionExternalAssignment;
-    }
-
-    public void setSpPartitionExternalAssignment(String spPartitionExternalAssignment) {
-        this.spPartitionExternalAssignment = spPartitionExternalAssignment;
-    }
-
-    public String getSpNote() {
-        return spNote;
-    }
-
-    public void setSpNote(String spNote) {
-        this.spNote = spNote;
-    }
-
-    public int getSpAmount() {
-        return spAmount;
-    }
-
-    public void setSpAmount(int spAmount) {
-        this.spAmount = spAmount;
-    }
-
-    public PeppCalcBasics getSpBaseInformationID() {
-        return spBaseInformationID;
-    }
-
-    public void setSpBaseInformationID(PeppCalcBasics spBaseInformationID) {
-        this.spBaseInformationID = spBaseInformationID;
-    }
-
-    public KGPListProvidedType getSpProvidedTypeID() {
-        return spProvidedTypeID;
-    }
-
-    public void setSpProvidedTypeID(KGPListProvidedType spProvidedTypeID) {
-        this.spProvidedTypeID = spProvidedTypeID;
-    }
-
-    public KGPListServiceProvisionType getSpServiceProvisionTypeID() {
-        return spServiceProvisionTypeID;
-    }
-
-    public void setSpServiceProvisionTypeID(KGPListServiceProvisionType spServiceProvisionTypeID) {
-        this.spServiceProvisionTypeID = spServiceProvisionTypeID;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (spID != null ? spID.hashCode() : 0);
+        int hash = 5;
+        hash = 97 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 97 * hash + Objects.hashCode(this._partitionExternalAssignment);
+        hash = 97 * hash + Objects.hashCode(this._note);
+        hash = 97 * hash + this._amount;
+        hash = 97 * hash + this._baseInformationId;
+        hash = 97 * hash + this._providedTypeId;
+        hash = 97 * hash + this._serviceProvisionTypeId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListServiceProvision)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListServiceProvision)) {
             return false;
         }
-        KGPListServiceProvision other = (KGPListServiceProvision) object;
-        if ((this.spID == null && other.spID != null) || (this.spID != null && !this.spID.equals(other.spID))) {
+        final KGPListServiceProvision other = (KGPListServiceProvision) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
             return false;
         }
-        return true;
+        if (this._amount != other._amount) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (this._providedTypeId != other._providedTypeId) {
+            return false;
+        }
+        if (this._serviceProvisionTypeId != other._serviceProvisionTypeId) {
+            return false;
+        }
+        if (!Objects.equals(this._partitionExternalAssignment, other._partitionExternalAssignment)) {
+            return false;
+        }
+        return Objects.equals(this._note, other._note);
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListServiceProvision[ spID=" + spID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListServiceProvision[ spID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
