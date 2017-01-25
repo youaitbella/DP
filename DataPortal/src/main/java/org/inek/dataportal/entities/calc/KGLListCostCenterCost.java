@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -308,6 +309,17 @@ public class KGLListCostCenterCost implements Serializable {
         this._costCenterNumber = costCenterNumber;
     }
     // </editor-fold>
+    
+    @Transient
+    private KGLListCostCenterCost _prior;
+
+    public KGLListCostCenterCost getPrior() {
+        return _prior;
+    }
+
+    public void setPrior(KGLListCostCenterCost _prior) {
+        this._prior = _prior;
+    }
 
     public KGLListCostCenterCost() {
     }

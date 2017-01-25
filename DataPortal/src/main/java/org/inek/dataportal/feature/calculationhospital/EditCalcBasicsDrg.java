@@ -268,10 +268,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             add.setLabel(_calcFacade.findCalcContentText(add.getContentTextID()).getText());
             calcBasics.getNormalStationServiceDocumentations().add(add);
-            
-            calcBasics.getCostCenterCosts().clear();
-            calcBasics.getCostCenterCosts().add(new KGLListCostCenterCost());
         }
+        calcBasics.getCostCenterCosts().clear();
+        _priorCalcBasics.getCostCenterCosts().stream().map((ccc) -> {
+            KGLListCostCenterCost c = new KGLListCostCenterCost();
+            c.setPrior(ccc);
+            c.setCostCenterText(ccc.getCostCenterText());
+            c.setCostCenter(ccc.getCostCenter());
+            c.setDepartmentKey(ccc.getDepartmentKey());
+            return c;
+        }).forEachOrdered((c) -> {
+            calcBasics.getCostCenterCosts().add(c);
+        });
+        
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
@@ -282,6 +291,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             for (Iterator<DrgDelimitationFact> it = statement.getDelimitationFacts().iterator(); it.hasNext();) {
                 checkRequireInputsForDelimitationFact(it.next());
             }
+            _priorCalcBasics.getCostCenterCosts().stream().map((ccc) -> {
+                KGLListCostCenterCost c = new KGLListCostCenterCost();
+                c.setPrior(ccc);
+                return c;
+            }).forEachOrdered((c) -> {
+                statement.getCostCenterCosts().add(c);
+            });
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
             }
@@ -368,6 +384,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 calcBasics.getServiceProvisions().add(data);
             }
         }
+        
     }
 
     private void checkRequireInputsForDelimitationFact(DrgDelimitationFact df) {
