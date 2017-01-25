@@ -6,145 +6,173 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListHeaderText", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListHeaderText", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListHeaderText.findAll", query = "SELECT k FROM KGPListHeaderText k")})
 public class KGPListHeaderText implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "htID")
-    private Integer htID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _text">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(max = 300)
     @Column(name = "htText")
-    private String htText;
+    private String _text = "";
+
+    public String getText() {
+        return _text;
+    }
+
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "htFirstYear")
-    private int htFirstYear;
+    private int _firstYear;
+
+    public int getFirstYear() {
+        return _firstYear;
+    }
+
+    public void setFirstYear(int firstYear) {
+        this._firstYear = firstYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "htLastYear")
-    private int htLastYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ctHeaderTextID")
-    private List<KGPListContentText> kGPListContentTextList;
-    @JoinColumn(name = "htSheetID", referencedColumnName = "sID")
-    @ManyToOne(optional = false)
-    private KGPListSheet htSheetID;
+    private int _lastYear;
+
+    public int getLastYear() {
+        return _lastYear;
+    }
+
+    public void setLastYear(int lastYear) {
+        this._lastYear = lastYear;
+    }
+    //</editor-fold>
+    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ctHeaderTextID")
+//    private List<KGPListContentText> kGPListContentTextList;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _sheetId">
+//    @JoinColumn(name = "htSheetID", referencedColumnName = "sID")
+//    @ManyToOne(optional = false)
+    @Column(name = "htSheetID")
+    private int _sheetId;
+
+    public int getSheetId() {
+        return _sheetId;
+    }
+
+    public void setSheetId(int sheetId) {
+        this._sheetId = sheetId;
+    }
+    //</editor-fold>
 
     public KGPListHeaderText() {
     }
 
     public KGPListHeaderText(Integer htID) {
-        this.htID = htID;
+        this._id = htID;
     }
 
     public KGPListHeaderText(Integer htID, String htText, int htFirstYear, int htLastYear) {
-        this.htID = htID;
-        this.htText = htText;
-        this.htFirstYear = htFirstYear;
-        this.htLastYear = htLastYear;
+        this._id = htID;
+        this._text = htText;
+        this._firstYear = htFirstYear;
+        this._lastYear = htLastYear;
     }
 
-    public Integer getHtID() {
-        return htID;
-    }
-
-    public void setHtID(Integer htID) {
-        this.htID = htID;
-    }
-
-    public String getHtText() {
-        return htText;
-    }
-
-    public void setHtText(String htText) {
-        this.htText = htText;
-    }
-
-    public int getHtFirstYear() {
-        return htFirstYear;
-    }
-
-    public void setHtFirstYear(int htFirstYear) {
-        this.htFirstYear = htFirstYear;
-    }
-
-    public int getHtLastYear() {
-        return htLastYear;
-    }
-
-    public void setHtLastYear(int htLastYear) {
-        this.htLastYear = htLastYear;
-    }
-
-    @XmlTransient
-    public List<KGPListContentText> getKGPListContentTextList() {
-        return kGPListContentTextList;
-    }
-
-    public void setKGPListContentTextList(List<KGPListContentText> kGPListContentTextList) {
-        this.kGPListContentTextList = kGPListContentTextList;
-    }
-
-    public KGPListSheet getHtSheetID() {
-        return htSheetID;
-    }
-
-    public void setHtSheetID(KGPListSheet htSheetID) {
-        this.htSheetID = htSheetID;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (htID != null ? htID.hashCode() : 0);
+        int hash = 7;
+        hash = 23 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 23 * hash + Objects.hashCode(this._text);
+        hash = 23 * hash + this._firstYear;
+        hash = 23 * hash + this._lastYear;
+        hash = 23 * hash + this._sheetId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListHeaderText)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListHeaderText)) {
             return false;
         }
-        KGPListHeaderText other = (KGPListHeaderText) object;
-        if ((this.htID == null && other.htID != null) || (this.htID != null && !this.htID.equals(other.htID))) {
+        final KGPListHeaderText other = (KGPListHeaderText) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._firstYear != other._firstYear) {
+            return false;
+        }
+        if (this._lastYear != other._lastYear) {
+            return false;
+        }
+        if (this._sheetId != other._sheetId) {
+            return false;
+        }
+        if (!Objects.equals(this._text, other._text)) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListHeaderText[ htID=" + htID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListHeaderText[ htID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
