@@ -6,14 +6,11 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,138 +23,192 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGPListMedInfra", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListMedInfra.findAll", query = "SELECT k FROM KGPListMedInfra k")})
 public class KGPListMedInfra implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "miID")
-    private Integer miID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
     @Basic(optional = false)
     @NotNull
     @Column(name = "miCostTypeID")
-    private int miCostTypeID;
+    private int _costTypeId;
+
+    public int getCostTypeId() {
+        return _costTypeId;
+    }
+
+    public void setCostTypeId(int costTypeId) {
+        this._costTypeId = costTypeId;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "miCostCenterNumber")
-    private String miCostCenterNumber;
+    private String _costCenterNumber = "";
+
+    public String getCostCenterNumber() {
+        return _costCenterNumber;
+    }
+
+    public void setCostCenterNumber(String costCenterNumber) {
+        this._costCenterNumber = costCenterNumber;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "miCostCenterText")
-    private String miCostCenterText;
+    private String _costCenterText = "";
+    
+    public String getCostCenterText() {
+        return _costCenterText;
+    }
+
+    public void setCostCenterText(String costCenterText) {
+        this._costCenterText = costCenterText;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "miKeyUsed")
-    private String miKeyUsed;
+    private String _keyUsed = "";
+
+    public String getKeyUsed() {
+        return _keyUsed;
+    }
+
+    public void setKeyUsed(String keyUsed) {
+        this._keyUsed = keyUsed;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Basic(optional = false)
     @NotNull
     @Column(name = "miAmount")
-    private int miAmount;
-    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
-    @ManyToOne(optional = false)
-    private PeppCalcBasics miBaseInformationID;
+    private int _amount;
+
+    public int getAmount() {
+        return _amount;
+    }
+
+    public void setAmount(int amount) {
+        this._amount = amount;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
+//    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
+//    @ManyToOne(optional = false)
+    @Column(name = "miBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
 
     public KGPListMedInfra() {
     }
 
-    public KGPListMedInfra(Integer miID) {
-        this.miID = miID;
+    public KGPListMedInfra(int miID) {
+        this._id = miID;
     }
 
-    public KGPListMedInfra(Integer miID, int miCostTypeID, String miCostCenterNumber, String miCostCenterText, String miKeyUsed, int miAmount) {
-        this.miID = miID;
-        this.miCostTypeID = miCostTypeID;
-        this.miCostCenterNumber = miCostCenterNumber;
-        this.miCostCenterText = miCostCenterText;
-        this.miKeyUsed = miKeyUsed;
-        this.miAmount = miAmount;
+    public KGPListMedInfra(int miID, int miCostTypeID, String miCostCenterNumber, String miCostCenterText, String miKeyUsed, int miAmount) {
+        this._id = miID;
+        this._costTypeId = miCostTypeID;
+        this._costCenterNumber = miCostCenterNumber;
+        this._costCenterText = miCostCenterText;
+        this._keyUsed = miKeyUsed;
+        this._amount = miAmount;
     }
 
-    public Integer getMiID() {
-        return miID;
-    }
-
-    public void setMiID(Integer miID) {
-        this.miID = miID;
-    }
-
-    public int getMiCostTypeID() {
-        return miCostTypeID;
-    }
-
-    public void setMiCostTypeID(int miCostTypeID) {
-        this.miCostTypeID = miCostTypeID;
-    }
-
-    public String getMiCostCenterNumber() {
-        return miCostCenterNumber;
-    }
-
-    public void setMiCostCenterNumber(String miCostCenterNumber) {
-        this.miCostCenterNumber = miCostCenterNumber;
-    }
-
-    public String getMiCostCenterText() {
-        return miCostCenterText;
-    }
-
-    public void setMiCostCenterText(String miCostCenterText) {
-        this.miCostCenterText = miCostCenterText;
-    }
-
-    public String getMiKeyUsed() {
-        return miKeyUsed;
-    }
-
-    public void setMiKeyUsed(String miKeyUsed) {
-        this.miKeyUsed = miKeyUsed;
-    }
-
-    public int getMiAmount() {
-        return miAmount;
-    }
-
-    public void setMiAmount(int miAmount) {
-        this.miAmount = miAmount;
-    }
-
-    public PeppCalcBasics getMiBaseInformationID() {
-        return miBaseInformationID;
-    }
-
-    public void setMiBaseInformationID(PeppCalcBasics miBaseInformationID) {
-        this.miBaseInformationID = miBaseInformationID;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (miID != null ? miID.hashCode() : 0);
+        int hash = 5;
+        hash = 97 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 97 * hash + this._costTypeId;
+        hash = 97 * hash + Objects.hashCode(this._costCenterNumber);
+        hash = 97 * hash + Objects.hashCode(this._costCenterText);
+        hash = 97 * hash + Objects.hashCode(this._keyUsed);
+        hash = 97 * hash + this._amount;
+        hash = 97 * hash + this._baseInformationId;
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListMedInfra)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListMedInfra)) {
             return false;
         }
-        KGPListMedInfra other = (KGPListMedInfra) object;
-        if ((this.miID == null && other.miID != null) || (this.miID != null && !this.miID.equals(other.miID))) {
+        final KGPListMedInfra other = (KGPListMedInfra) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._costTypeId != other._costTypeId) {
+            return false;
+        }
+        if (this._amount != other._amount) {
+            return false;
+        }
+        if (this._baseInformationId != other._baseInformationId) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterNumber, other._costCenterNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
+            return false;
+        }
+        if (!Objects.equals(this._keyUsed, other._keyUsed)) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListMedInfra[ miID=" + miID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListMedInfra[ miID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
