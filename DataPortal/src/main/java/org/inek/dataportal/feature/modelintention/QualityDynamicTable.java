@@ -5,7 +5,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.helper.Utils;
 
-public class QualityDynamicTable extends DynamicTable {
+public class QualityDynamicTable extends DynamicTable<Quality> {
     private final int _typeId;
 
     public QualityDynamicTable(ModelIntention modelIntention, List<Quality> list, int typeId) {
@@ -24,8 +24,7 @@ public class QualityDynamicTable extends DynamicTable {
     }
 
     @Override
-    protected boolean isEmptyEntry(Object entry) {
-        Quality quality = (Quality) entry;
+    protected boolean isEmptyEntry(Quality quality) {
         return Utils.isNullOrEmpty(quality.getIndicator()) && Utils.isNullOrEmpty(quality.getDescription());
     }
 
