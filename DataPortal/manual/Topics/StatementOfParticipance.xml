@@ -8,6 +8,74 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Teilnahmeerklärung geben Sie organisatorische Informationen zu Ihrer Kalkulationsteilnahme an. Sofern Sie mit dem InEK eine Kalkulationsvereinbarung getroffen haben und an der freiwilligen Kalkulation teilnehmen, geben Sie hier an, für welche Kalkulationsarten Sie teilnehmen. Sofern Ihr Haus im Rahmen der </text><text styleclass="Normal" style="font-style:italic;" translate="true">Vereinbarung zur Erhöhung der Repräsentativität der Kalkulation</text><text styleclass="Normal" translate="true"> ausgewählt wurde, sind die Kalkulationsarten gesetzt. Der Dialog zur Teilnahmeerklärung unterscheidet sich daher ein wenig. Im Folgenden wird zunächst der Dialog im Rahmen der freiwilligen Teilnahme erläutert. Im Anschluss werden nur die Abweichungen zu diesem Standard-Dialog erklärt.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie - beispielsweise in einem Verbund - für mehrere Häuser arbeiten und im InEK als Ansprechpartner hinterlegt sind, erhalten Sie nach Klick auf [ neue Teilnahmeerklärung ] die folgende, leere Teilnahmeerklärung.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SoP01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Teilnahmeerklärung ohne IK</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hier wählen Sie aus der Liste </text><text styleclass="Normal" style="font-weight:bold;" translate="true">IK</text><text styleclass="Normal" translate="true"> das gewünschte IK. Soweit beim InEK bereits Daten hinterlegt sind, werden diese nach Auswahl des IKs geladen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Können Sie entsprechend Ihren Daten jedoch nur für ein IK eine Teilnahmeerklärung erstellen, so wird das Kennzeichen automatisch eingetragen. Daten, soweit bei InEK hinterlegt, werden automatisch eingetragen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Die Befüllung mit den beim InEK hinterlegten Daten dient Ihrem Komfort. Bitte überprüfen Sie diese Daten und aktualisieren sie, falls erforderlich, bevor Sie diese an das InEK senden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind im InEK noch keine (Vorjahres-) Daten hinterlegt, so sind im Dialog weder Kalkulationsbereiche noch Ansprechpartner angegeben. Bitte geben Sie die Daten entsprechend dem Dialog an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SoP02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> leere Teilnahmeerklärung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie zunächst an, für welche Bereiche Sie an der Kostenkalkulation teilnehmen möchten. Bitte geben Sie für die DRG- wie die PSY-Kalkulation möglichst eine gleichlautende Erklärung ab, sofern in Ihrem Haus Patienten aus beiden Bereichen behandelt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abhängig von den Bereichen, an denen Sie teilnehmen, können Sie bei den Ansprechpartnern angeben, für welchen Bereich die jeweilige Person zuständig ist. Hierzu dienen die Ankreuzfelder in der jeweiligen Ansprechpartner-Zeile. Eine Person kann für mehrere Bereich als Ansprechpartner markiert werden. Je Bereich ist mindestens ein Ansprechpartner anzugeben, maximal drei.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ Zeile zufügen ]</text><text styleclass="Normal" translate="true"> können Sie weitere Zeilen zur Angabe von Ansprechpartnern zufügen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Sie auf externe Unterstützung, z.B. einer Unternehmensberatung, zurückgreifen, geben Sie bei Externe Unterstützung </text><text styleclass="Normal" style="font-style:italic;" translate="true">Ja</text><text styleclass="Normal" translate="true"> an. Damit werden automatisch weitere Eingabefelder eingeblendet, die Sie entsprechend der Maske füllen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SoP03.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Abfrage zur externen Unterstützung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf der Seite </text><text styleclass="Normal" style="font-style:italic;" translate="true">Erklärungen</text><text styleclass="Normal" translate="true"> sind weitere Erklärungen(KVM sowie Überlieger) &#160;zur DRG- bzw. PSY-Kalkulation erforderlich. Die entsprechenden Bereiche sind in der Maske nur sichtbar, wenn Sie an der betreffenden Kalkulation teilnehmen. Bitte füllen Sie die Daten entsprechend den Maskenfeldern aus.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SoP04.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Erklärungen zur DRG- bzw. PSY-Kalkulation</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ihre Eingaben können Sie jederzeit </text><text styleclass="Button" translate="true">[ speichern ]</text><text styleclass="Normal" translate="true">. Ein Wechsel zwischen den Registerseiten ist ohne Speichern möglich. Sofern Sie Ihre Eingaben verwerfen möchten, verlassen Sie den Dialog bitte ohne zu speichern, z.B. durch Anwahl einer beliebigen Funktion in der linken Navigationsleiste.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie die Teilnahmeerklärung vollständig befüllt und geprüft haben, können Sie diese </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true">. Danach ist die Teilnahmeerklärung nicht mehr änderbar; eine erneute Lieferung ist jedoch möglich.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nachdem Sie die Teilnahmeerklärung an das InEK gesendet haben, zeigt das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> die Daten zusammengefasst in einer Druckansicht an. Bei Bedarf können Sie dies drucken. Die Druckansicht können Sie jederzeit aus der Liste der Dokumente über das Drucker-Symbol aufrufen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SoP05.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Liste der Dokumente</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereits an das InEK gesendete Teilnahmeerklärungen können Sie jederzeit aufrufen, um die Daten im Detail zu sichten. In diesem Dialog ist eine direkte Änderung der Daten nicht möglich.Im Fehlerfall können Sie jedoch eine berichtigte Kopie der Teilnahmeerklärung erzeugen. Bereits übermittelte Daten haben anstelle der Speichern-Schaltfläche eine mit der Beschriftung </text><text styleclass="Normal" style="font-style:italic;" translate="true">Datensatz ändern</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Sop06.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Schaltfläche Datensatz ändern</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Klicken Sie auf </text><text styleclass="Button" translate="true">[ Datensatz ändern ]</text><text styleclass="Normal" translate="true">, um eine Kopie des angewählten Datensatzes, hier der Teilnahmeerklärung zu erzeugen. Diese Kopie kann dann korrigiert und erneut an das InEK gesendet werden. Die bereits gesendeten Daten bleiben unveränderbar erhalten. In der Liste der übermittelten Daten kann eine Teilnahmeerklärung bei mehrfachem Senden entsprechend oft auftauchen. Sie können diese anhand des Sendezeitpunkts unterscheiden. Jede Sendung überschreibt beim InEK vorherige Daten, so dass die letzte Sendung maßgeblich ist.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Abweichende Erfassung für Häuser, die im Rahmen der</text><text styleclass="Heading3" style="font-style:italic;" translate="true"> Vereinbarung zur Erhöhung der Repräsentativität der Kalkulation</text><text styleclass="Heading3" translate="true"> ausgewählt wurden</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für Häuser die zur Erhöhung der Repräsentativität ausgelost wurden, ist die Teilnahme verpflichtend. Insofern entfallen in der Eingabemaske die Möglichkeiten, für die einzelnen Bereiche die Teilnahme auszuwählen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Sollten Sie über die Verpflichtung hinaus an anderen Kalkulationsbereichen freiwillig teilnehmen wollen, so setzen Sie sich bitte mit dem InEK in Verbindung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für die ausgelosten Häuser stehen im ersten Jahr zwei Kalkulationsvarianten zur Auswahl, namentlich die</text></para>
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">vereinfachte Kalkulation</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Probekalkulation</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kalkulationsart bestimmt, welche weitere Funktionalität zur Verfügung steht</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SoP07.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Auswahl Kalkulationsart</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Falle der vereinfachten Kalkulation sind lediglich die Daten der Seite Krankenhaus (Ansprechpartner, Externe Unterstützung) zu füllen. Erfassungsmasken für Kalkulationsgrundlagen etc. stehen im Datenportal nicht zur Verfügung. Stattdessen sind die sogenannten </text><text styleclass="Normal" style="font-style:italic;" translate="true">Strukturinformationen</text><text styleclass="Normal" translate="true"> an das InEK zu übermitteln. Hierzu werden die entsprechenden Häuser vom InEK gesondert informiert.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> entspricht die Erfassung der Daten einer Probekalkulation im Wesentlichen der der freiwilligen Kalkulationsteilnahme. Bei der Teilnahmeerklärung werden daher zusätzlich wie oben beschrieben die Daten zu KVM und Überliegern abgefragt.</text></para>
   </body>
 </topic>
