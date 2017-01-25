@@ -6,120 +6,135 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListPsyPVTypes", catalog = "DataPortalDev", schema = "calc")
+@Table(name = "KGPListPsyPVTypes", schema = "calc")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "KGPListPsyPVTypes.findAll", query = "SELECT k FROM KGPListPsyPVTypes k")})
 public class KGPListPsyPVTypes implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "pptID")
-    private Integer pptID;
+    private int _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        this._id = id;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _charID">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
+    @Size(max = 5)
     @Column(name = "pptCharID")
-    private String pptCharID;
+    private String _charID = "";
+
+    public String getCharID() {
+        return _charID;
+    }
+
+    public void setCharID(String charID) {
+        this._charID = charID;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _text">
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "pptText")
-    private String pptText;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sscMappingPsyPV")
-    private List<KGPListStationServiceCost> kGPListStationServiceCostList;
+    private String _text = "";
+
+    public String getText() {
+        return _text;
+    }
+
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sscMappingPsyPV")
+//    private List<KGPListStationServiceCost> kGPListStationServiceCostList;
 
     public KGPListPsyPVTypes() {
     }
 
-    public KGPListPsyPVTypes(Integer pptID) {
-        this.pptID = pptID;
+    public KGPListPsyPVTypes(int pptID) {
+        this._id = pptID;
     }
 
-    public KGPListPsyPVTypes(Integer pptID, String pptCharID, String pptText) {
-        this.pptID = pptID;
-        this.pptCharID = pptCharID;
-        this.pptText = pptText;
+    public KGPListPsyPVTypes(int pptID, String pptCharID, String pptText) {
+        this._id = pptID;
+        this._charID = pptCharID;
+        this._text = pptText;
     }
 
-    public Integer getPptID() {
-        return pptID;
-    }
-
-    public void setPptID(Integer pptID) {
-        this.pptID = pptID;
-    }
-
-    public String getPptCharID() {
-        return pptCharID;
-    }
-
-    public void setPptCharID(String pptCharID) {
-        this.pptCharID = pptCharID;
-    }
-
-    public String getPptText() {
-        return pptText;
-    }
-
-    public void setPptText(String pptText) {
-        this.pptText = pptText;
-    }
-
-    @XmlTransient
-    public List<KGPListStationServiceCost> getKGPListStationServiceCostList() {
-        return kGPListStationServiceCostList;
-    }
-
-    public void setKGPListStationServiceCostList(List<KGPListStationServiceCost> kGPListStationServiceCostList) {
-        this.kGPListStationServiceCostList = kGPListStationServiceCostList;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (pptID != null ? pptID.hashCode() : 0);
+        int hash = 3;
+        hash = 41 * hash + this._id;
+        if (this._id != -1) {
+            return hash;
+        }
+        hash = 41 * hash + Objects.hashCode(this._charID);
+        hash = 41 * hash + Objects.hashCode(this._text);
         return hash;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KGPListPsyPVTypes)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof KGPListPsyPVTypes)) {
             return false;
         }
-        KGPListPsyPVTypes other = (KGPListPsyPVTypes) object;
-        if ((this.pptID == null && other.pptID != null) || (this.pptID != null && !this.pptID.equals(other.pptID))) {
+        final KGPListPsyPVTypes other = (KGPListPsyPVTypes) obj;
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+        if (this._id != other._id) {
+            return false;
+        }
+        if (!Objects.equals(this._charID, other._charID)) {
+            return false;
+        }
+        if (!Objects.equals(this._text, other._text)) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListPsyPVTypes[ pptID=" + pptID + " ]";
+        return "org.inek.dataportal.entities.calc.KGPListPsyPVTypes[ pptID=" + _id + " ]";
     }
+    //</editor-fold>
     
 }
