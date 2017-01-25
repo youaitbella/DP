@@ -17,7 +17,7 @@
             <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
             <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
             <br/>
-            <h:selectOneMenu styleClass="col06em"
+            <h:selectOneMenu styleClass="col08em"
                              rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"
                              id="ikMulti"
                              title="#{msg.titleIK}"
@@ -30,7 +30,7 @@
                 <f:ajax event="change" listener="#{editStatementOfParticipance.ikChanged}" render="@all :logout:remaining msgMultiIk"/>
             </h:selectOneMenu>
 
-            <h:inputText styleClass="col06em" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1 or editStatementOfParticipance.statement.id ge 0}"/>
+            <h:inputText styleClass="col07em" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1 or editStatementOfParticipance.statement.id ge 0}"/>
 
             <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
 

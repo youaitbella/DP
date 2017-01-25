@@ -886,6 +886,10 @@ select:active, select:focus{
     width: 7em;
 }
 
+.col08em{
+    width: 8em;
+}
+
 .col10em{
     width: 10em;
 }
