@@ -29,7 +29,7 @@ public class KGPListProvidedType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -46,7 +46,7 @@ public class KGPListProvidedType implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _text">
     @Basic(optional = false)
     @NotNull
     @Size(max = 200)
@@ -62,7 +62,7 @@ public class KGPListProvidedType implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ptFirstYear")
@@ -77,7 +77,7 @@ public class KGPListProvidedType implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ptLastYear")
