@@ -608,7 +608,7 @@ public class EditModelIntention extends AbstractEditController {
 
     private CostDynamicTable _costTable;
 
-    public DynamicTable getCostTable() {
+    public CostDynamicTable getCostTable() {
         if (_costTable == null) {
             _costTable = new CostDynamicTable(getModelIntention());
         }
