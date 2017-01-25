@@ -81,7 +81,7 @@ public class KGPListStationDepartment implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "seAlternative")
+    @Column(name = "seBaseInformationID")
     private int _baseInformationId;
 
     public int getBaseInformationId() {
