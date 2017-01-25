@@ -220,21 +220,21 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
@@ -316,7 +316,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return !_calcFacade.existActiveStatementOfParticipance(_statement.getIk());

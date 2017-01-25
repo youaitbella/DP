@@ -52,7 +52,7 @@ public class CalcHospitalList {
     // </editor-fold>
 
     public boolean isNewStatementOfParticipanceAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceCreateEnabled)) {
             return false;
         }
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
@@ -75,7 +75,7 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsDrgAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
@@ -88,7 +88,7 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsPeppAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsPsyCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
