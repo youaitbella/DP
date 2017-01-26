@@ -4,7 +4,7 @@ import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.helper.Utils;
 
-public class AcademicSupervisionDynamicTable extends DynamicTable {
+public class AcademicSupervisionDynamicTable extends DynamicTable<AcademicSupervision> {
 
     public AcademicSupervisionDynamicTable(ModelIntention modelIntention) {
         super(modelIntention, modelIntention.getAcademicSupervisions());
@@ -20,8 +20,7 @@ public class AcademicSupervisionDynamicTable extends DynamicTable {
     }
 
     @Override
-    protected boolean isEmptyEntry(Object entry) {
-        AcademicSupervision supervision = (AcademicSupervision) entry;
+    protected boolean isEmptyEntry(AcademicSupervision supervision) {
         return Utils.isNullOrEmpty(supervision.getContractor()) && Utils.isNullOrEmpty(supervision.getRemitter());
     }
 

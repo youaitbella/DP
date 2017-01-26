@@ -3,7 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import org.inek.dataportal.entities.modelintention.Adjustment;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 
-public class AdjustmentDynamicTable extends DynamicTable {
+public class AdjustmentDynamicTable extends DynamicTable<Adjustment> {
 
     public AdjustmentDynamicTable(ModelIntention modelIntention) {
         super(modelIntention, modelIntention.getAdjustments());
@@ -19,8 +19,7 @@ public class AdjustmentDynamicTable extends DynamicTable {
     }
 
     @Override
-    protected boolean isEmptyEntry(Object entry) {
-        Adjustment adjustment = (Adjustment) entry;
+    protected boolean isEmptyEntry(Adjustment adjustment) {
         return adjustment.getAdjustmentTypeId() == 0l && adjustment.getDateFrom() == null && adjustment.getDateTo() == null;
     }
 

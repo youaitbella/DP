@@ -3,7 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 
-public class AgreedPatientsDynamicTable extends DynamicTable {
+public class AgreedPatientsDynamicTable extends DynamicTable<AgreedPatients> {
 
     public AgreedPatientsDynamicTable(ModelIntention modelIntention) {
         super(modelIntention, modelIntention.getAgreedPatients());
@@ -19,8 +19,7 @@ public class AgreedPatientsDynamicTable extends DynamicTable {
     }
 
     @Override
-    protected boolean isEmptyEntry(Object entry) {
-        AgreedPatients agreedPatients = (AgreedPatients) entry;
+    protected boolean isEmptyEntry(AgreedPatients agreedPatients) {
         return agreedPatients.getPatientsFrom() == null && agreedPatients.getPatientsTo()== null;
     }
 

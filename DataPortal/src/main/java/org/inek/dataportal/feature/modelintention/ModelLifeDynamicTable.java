@@ -3,7 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.ModelLife;
 
-public class ModelLifeDynamicTable extends DynamicTable {
+public class ModelLifeDynamicTable extends DynamicTable<ModelLife> {
 
     public ModelLifeDynamicTable(ModelIntention modelIntention) {
         super(modelIntention, modelIntention.getModelLifes());
@@ -19,8 +19,7 @@ public class ModelLifeDynamicTable extends DynamicTable {
     }
 
     @Override
-    protected boolean isEmptyEntry(Object entry) {
-        ModelLife modelLife = (ModelLife) entry;
+    protected boolean isEmptyEntry(ModelLife modelLife) {
         return modelLife.getStartDate() == null && modelLife.getMonthDuration() == null;
     }
 
