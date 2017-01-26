@@ -275,6 +275,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             c.setPrior(ccc);
             c.setCostCenterText(ccc.getCostCenterText());
             c.setCostCenter(ccc.getCostCenter());
+            c.setPriorId(ccc.getPriorId());
             c.setDepartmentKey(ccc.getDepartmentKey());
             return c;
         }).forEachOrdered((c) -> {
@@ -291,13 +292,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             for (Iterator<DrgDelimitationFact> it = statement.getDelimitationFacts().iterator(); it.hasNext();) {
                 checkRequireInputsForDelimitationFact(it.next());
             }
-            _priorCalcBasics.getCostCenterCosts().stream().map((ccc) -> {
-                KGLListCostCenterCost c = new KGLListCostCenterCost();
-                c.setPrior(ccc);
-                return c;
-            }).forEachOrdered((c) -> {
-                statement.getCostCenterCosts().add(c);
-            });
+            for (Iterator<KGLListCostCenterCost> it = _priorCalcBasics.getCostCenterCosts().iterator(); it.hasNext();) {
+                KGLListCostCenterCost ccc = it.next();
+                statement.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
+                    c.setPrior(ccc);
+                });
+            }
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
             }

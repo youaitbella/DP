@@ -356,144 +356,144 @@
                     nicht med. Infrastruktur
                 </td>
             </tr>
-            <c:forEach items="#{editCalcBasicsDrg.calcBasics.costCenterCosts}" var="x" varStatus="loop">
-                <tr>
-                    <td>
-                        <h:commandLink styleClass="colIcon">
-                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteCostCenterCosts(x)}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                    <inek:InputNumberWithMessage value="#{x.costCenterNumber}"  renderElement=""/>
-                    </td>
-                    <td>
-                    <h:inputText value="#{x.costCenterText}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                    </td>
-                    <td>
-                    <h:inputText value="#{x.departmentKey}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                    </td>
-                    <td>
-                    <h:inputText value="#{x.departmentAssignment}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                    </td>
-                    <td>
-                    <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="calc-field-#{loop.index}:text sumBeds:text"/>
-                    </td>
-                    <td>
-                    <inek:InputNumberWithMessage value="#{x.careDays}"  renderElement="calc-field-#{loop.index}:text"/>
-                    </td>
-                    <td>
-                    <inek:InputNumberWithMessage value="#{x.pprMinutes}"/>
-                    </td>
-                    <td>
-                    <inek:InputNumberWithMessage value="#{x.pprWeight}"  renderElement="sumAddPpr:text"/>
-                    </td>
-                    <td>
-                    <inek:InputNumberWithMessage title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
-                                                styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
-                                                 id="calc-field-#{loop.index}" disabled="true" 
-                                                 value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}" 
-                                                 renderElement="@this :logout:remaining" isInt="false"
-                                                 pattern="0.00"/>
-                    </td>
-                    <td>
-                    <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.medicalServiceCnt : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.medicalServiceCnt}"  renderElement="diff-msc-#{loop.index} sumMedicalService:text" isInt="false"/>
-                    <h:outputLabel  id="diff-msc-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceCnt, x.medicalServiceCnt)}" />
-                    </td>
-                    <td>
-                    <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.nursingServiceCnt : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.nursingServiceCnt}"  renderElement="diff-nsc-#{loop.index} sumNurseService:text" isInt="false"/>
-                    <h:outputLabel  id="diff-nsc-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceCnt, x.nursingServiceCnt)}" />
-                    </td>
-                    <td>
+            <ui:repeat id="tbl-cont" value="#{editCalcBasicsDrg.calcBasics.costCenterCosts}" var="x" varStatus="loop">
+                    <tr>
+                        <td>
+                            <h:commandLink styleClass="colIcon">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteCostCenterCosts(x)}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.costCenterNumber}"  renderElement=""/>
+                        </td>
+                        <td>
+                        <h:inputText value="#{x.costCenterText}" >
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                        </td>
+                        <td>
+                        <h:inputText value="#{x.departmentKey}" >
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                        </td>
+                        <td>
+                        <h:inputText value="#{x.departmentAssignment}" >
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="calc-field-#{loop.index}:text sumBeds:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.careDays}"  renderElement="calc-field-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.pprMinutes}"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.pprWeight}"  renderElement="sumAddPpr:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
+                                                    styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
+                                                     id="calc-field-#{loop.index}" disabled="true" 
+                                                     value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}" 
+                                                     renderElement="@this :logout:remaining" isInt="false"
+                                                     pattern="0.00"/>
+                        </td>
+                        <td>
                         <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.functionalServiceCnt : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.functionalServiceCnt}"  renderElement="diff-fsc-#{loop.index} sumFuncService:text" isInt="false"/>
-                    <h:outputLabel  id="diff-fsc-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceCnt, x.functionalServiceCnt)}" />
-                    </td>
-                    <td>
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.medicalServiceCnt : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.medicalServiceCnt}"  renderElement="diff-msc-#{loop.index} sumMedicalService:text" isInt="false"/>
+                        <h:outputLabel  id="diff-msc-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceCnt, x.medicalServiceCnt)}" />
+                        </td>
+                        <td>
                         <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.medicalServiceAmount : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} sumMedicalService2:text"/>
-                    <h:outputLabel  id="diff-msa-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceAmount, x.medicalServiceAmount)}" />
-                    </td>
-                    <td>
-                         <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.nursingServiceAmount : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} sumNurseService2:text"/>
-                    <h:outputLabel  id="diff-nsa-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceAmount, x.nursingServiceAmount)}" />
-                    </td>
-                    <td>
-                        <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.functionalServiceAmount : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.functionalServiceAmount}"  renderElement="diff-fsa-#{loop.index} sumFuncService2:text"/>
-                    <h:outputLabel  id="diff-fsa-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceAmount, x.functionalServiceAmount)}" />
-                    </td>
-                    <td>
-                        <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.overheadsMedicine : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.overheadsMedicine}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
-                    <h:outputLabel  id="diff-oa-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicine, x.overheadsMedicine)}" />
-                    </td>
-                    <td>
-                        <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.overheadsMedicalGoods : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.overheadsMedicalGoods}"  renderElement="diff-omg-#{loop.index} sumShareMedicineStuff:text"/>
-                    <h:outputLabel  id="diff-omg-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicalGoods, x.overheadsMedicalGoods)}" />
-                    </td>
-                    <td>
-                        <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} sumMedInfra:text"/>
-                    <h:outputLabel  id="diff-mic-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalInfrastructureCost, x.medicalInfrastructureCost)}" />
-                    </td>
-                    <td>
-                        <h:outputLabel styleClass="prior" 
-                                   title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                                   value="#{x.prior != null ? x.prior.nonMedicalInfrastructureCost : ''}" />
-                    <inek:InputNumberWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} sumNonMedInfra:text"/>
-                    <h:outputLabel  id="diff-nmic-#{loop.index}"
-                                    styleClass="prior diff" 
-                                    value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nonMedicalInfrastructureCost, x.nonMedicalInfrastructureCost)}" />
-                    </td>
-                </tr>
-            </c:forEach>
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.nursingServiceCnt : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.nursingServiceCnt}"  renderElement="diff-nsc-#{loop.index} sumNurseService:text" isInt="false"/>
+                        <h:outputLabel  id="diff-nsc-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceCnt, x.nursingServiceCnt)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.functionalServiceCnt : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.functionalServiceCnt}"  renderElement="diff-fsc-#{loop.index} sumFuncService:text" isInt="false"/>
+                        <h:outputLabel  id="diff-fsc-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceCnt, x.functionalServiceCnt)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.medicalServiceAmount : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} sumMedicalService2:text"/>
+                        <h:outputLabel  id="diff-msa-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceAmount, x.medicalServiceAmount)}" />
+                        </td>
+                        <td>
+                             <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.nursingServiceAmount : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} sumNurseService2:text"/>
+                        <h:outputLabel  id="diff-nsa-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceAmount, x.nursingServiceAmount)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.functionalServiceAmount : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.functionalServiceAmount}"  renderElement="diff-fsa-#{loop.index} sumFuncService2:text"/>
+                        <h:outputLabel  id="diff-fsa-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceAmount, x.functionalServiceAmount)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.overheadsMedicine : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.overheadsMedicine}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
+                        <h:outputLabel  id="diff-oa-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicine, x.overheadsMedicine)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.overheadsMedicalGoods : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.overheadsMedicalGoods}"  renderElement="diff-omg-#{loop.index} sumShareMedicineStuff:text"/>
+                        <h:outputLabel  id="diff-omg-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicalGoods, x.overheadsMedicalGoods)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} sumMedInfra:text"/>
+                        <h:outputLabel  id="diff-mic-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalInfrastructureCost, x.medicalInfrastructureCost)}" />
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="prior" 
+                                       title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
+                                       value="#{x.prior != null ? x.prior.nonMedicalInfrastructureCost : ''}" />
+                        <inek:InputNumberWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} sumNonMedInfra:text"/>
+                        <h:outputLabel  id="diff-nmic-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nonMedicalInfrastructureCost, x.nonMedicalInfrastructureCost)}" />
+                        </td>
+                    </tr>
+            </ui:repeat>>
             <tr>
                 <td colspan="2">Summen</td>
                 <td colspan="3"></td>
@@ -539,7 +539,7 @@
             <tr>
                 <td colspan="20">
                     <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" render="@all :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
+                        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
                     </h:commandLink>
                 </td>
             </tr>
