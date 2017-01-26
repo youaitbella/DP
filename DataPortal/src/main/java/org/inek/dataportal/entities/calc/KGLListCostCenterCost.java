@@ -310,6 +310,17 @@ public class KGLListCostCenterCost implements Serializable {
     }
     // </editor-fold>
     
+    @Column(name = "cccPriorID")
+    private int _priorId = 0;
+
+    public int getPriorId() {
+        return _priorId;
+    }
+
+    public void setPriorId(int _priorId) {
+        this._priorId = _priorId;
+    }
+    
     @Transient
     private KGLListCostCenterCost _prior;
 
