@@ -150,7 +150,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 statement.setPsyCalc(domain.contains("PSY"));
                 statement.setClinicalDistributionModelPsy(psyKvm.equals("T") ? 1 : 0);
                 statement.setMultiyearPsy(Integer.parseInt(psyMultiyear));
-                statement.setInvCalc(domain.contains("INF"));
+                statement.setInvCalc(domain.contains("INV"));
                 statement.setTpgCalc(domain.contains("TPG"));
                 statement.setObdCalc(domain.contains("OBD"));
             }
