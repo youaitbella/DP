@@ -419,9 +419,9 @@ public class CertMail implements Serializable {
                 if(!_mailer.sendMailFrom(mt.getFrom(), emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement))
                     throw new Exception("Fehler bei Mailversand!");
                 createEmailLogEntry(version, mt, emailAddress);
-                _emailSentInfoDataTable.add(new Triple<String, String, String>(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
+                _emailSentInfoDataTable.add(new Triple<>(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
             } catch (Exception ex) {
-                _emailSentInfoDataTable.add(new Triple<String, String, String>(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
+                _emailSentInfoDataTable.add(new Triple<>(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
             }
         }
         return "";
