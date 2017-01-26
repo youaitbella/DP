@@ -153,7 +153,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "order by 2, 4, 5, 8 desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
-        List<CalcHospitalInfo> infos = query.getResultList();
+        @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();
         return infos;
     }
 
@@ -171,7 +171,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.KGPBaseInformation\n"
                 + "where biAccountId" + accountCond;
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
@@ -189,7 +190,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.KGPBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year;
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     /**
@@ -217,7 +219,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	) \n"
                 + "	and sopId is null";
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik) {
@@ -237,7 +240,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
                 + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
         Query query = getEntityManager().createNativeQuery(sql);
-        return query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> result = query.getResultList();
+        return result;
     }
 
     public List<CalcContact> retrieveCurrentContacts(int ik) {
@@ -256,7 +260,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         List<CalcContact> contacts = new Vector<>();
-        List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         for (Object[] obj : objects) {
             CalcContact contact = new CalcContact();
             contact.setGender((int) obj[0]);
@@ -491,7 +495,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year) {
@@ -513,7 +518,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Header and content texts">
@@ -614,12 +620,37 @@ public class CalcFacade extends AbstractDataAccess {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CalcBasics PSY">
+    public PeppCalcBasics retrievePriorCalcBasics(PeppCalcBasics calcBasics) {
+        String jpql = "select c from PeppCalcBasics c where c._ik = :ik and c._dataYear = :year";
+        TypedQuery<PeppCalcBasics> query = getEntityManager().createQuery(jpql, PeppCalcBasics.class);
+        query.setParameter("ik", calcBasics.getIk());
+        query.setParameter("year", calcBasics.getDataYear() - 1);
+        try {
+            PeppCalcBasics priorCalcBasics = query.getSingleResult();
+            getEntityManager().detach(priorCalcBasics);
+            return priorCalcBasics;
+        } catch (Exception ex) {
+            return new PeppCalcBasics();
+        }
+    }
+
     public PeppCalcBasics findCalcBasicsPepp(int id) {
         return findFresh(PeppCalcBasics.class, id);
     }
     
-    public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PeppCalcBasics saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<PeppCalcBasics>> violations = validator.validate(calcBasics);
+        for (ConstraintViolation<PeppCalcBasics> violation : violations) {
+            System.out.println(violation.getMessage());
+        }
+
+        if (calcBasics.getId() == -1) {
+            persist(calcBasics);
+            return calcBasics;
+        }
+
+        return merge(calcBasics);
     }
 
     public void delete(PeppCalcBasics calcBasics) {

@@ -117,7 +117,7 @@ public class DocumentUpload {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
-    private List<Account> _accounts = Collections.EMPTY_LIST;
+    private List<Account> _accounts = Collections.emptyList();
     
     public List<Account> getAccounts() {
         return _accounts;

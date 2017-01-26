@@ -20,16 +20,16 @@ public class DocumentationUtilTest {
     public void testGetDocumentation() {
         System.out.println("getDocumentation");
         Object o = new TestEntity();
-        List<KeyValueLevel> expResult = new ArrayList<>();
-        expResult.add(new KeyValueLevel("Name", "myName", 0));
-        expResult.add(new KeyValueLevel("Anzahl", "100", 0));
-        expResult.add(new KeyValueLevel("DateTime", "01.01.2015 10:20", 0));
-        expResult.add(new KeyValueLevel("DateOnly", "01.01.2015", 0));
-        List<KeyValueLevel> expSubResult = new ArrayList<>();
-        expSubResult.add(new KeyValueLevel("FirstName", "Firstname", 1));
-        expSubResult.add(new KeyValueLevel("LastName", "Lastname", 1));
-        expResult.add(new KeyValueLevel("Persons (1)", expSubResult, 1));
-        expResult.add(new KeyValueLevel("Persons (2)", expSubResult, 1));
+        List<KeyValueLevel<?, ?>> expResult = new ArrayList<>();
+        expResult.add(new KeyValueLevel<>("Name", "myName", 0));
+        expResult.add(new KeyValueLevel<>("Anzahl", "100", 0));
+        expResult.add(new KeyValueLevel<>("DateTime", "01.01.2015 10:20", 0));
+        expResult.add(new KeyValueLevel<>("DateOnly", "01.01.2015", 0));
+        List<KeyValueLevel<?, ?>> expSubResult = new ArrayList<>();
+        expSubResult.add(new KeyValueLevel<>("FirstName", "Firstname", 1));
+        expSubResult.add(new KeyValueLevel<>("LastName", "Lastname", 1));
+        expResult.add(new KeyValueLevel<>("Persons (1)", expSubResult, 1));
+        expResult.add(new KeyValueLevel<>("Persons (2)", expSubResult, 1));
         List<KeyValueLevel> result = DocumentationUtil.getDocumentation(o);
         assertEquals(expResult, result);
     }

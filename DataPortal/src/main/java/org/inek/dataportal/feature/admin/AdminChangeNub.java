@@ -35,7 +35,7 @@ public class AdminChangeNub {
     @Inject NubRequestFacade _nubFacade;
     private int _ik;
     private Account _account;
-    private List<AccountInfo> _accountInfos = Collections.EMPTY_LIST;
+    private List<AccountInfo> _accountInfos = Collections.emptyList();
 
     public List<AccountInfo> getAccountInfos() {
         return _accountInfos;

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+        <h:outputStylesheet name="css/fileuploader.css"/>
+
+        <h:form id="calcBasiscPepp" prependId="false" enctype="multipart/form-data">
+            <h1><h:commandLink value="#{msg.lblCalcBasicPepp} #{msg.lblYearData} #{editCalcBasicsDrg.calcBasics.dataYear}" 
+                               action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+
+            <div class="tab">
+                <ul class="tab">
+                    <li class="activetab">
+                    <h:selectOneMenu value="#{editCalcBasicsPepp.activeTopicKey}">
+                        <f:selectItems value="#{editCalcBasicsPepp.visibleTopics}" var="t" 
+                                       itemLabel="#{t.title}" itemValue="#{t.key}"
+                                       />
+                        <f:ajax event="change" render="edit :logout:remaining"/> 
+                    </h:selectOneMenu>
+                    </li>
+                </ul>
+            </div>
+
+            <h:panelGroup id="edit" class="edit">
+
+                <div class="narrowToolBar">
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnPriorPage}"
+                                   disabled="#{!editCalcBasicsPepp.priorTopic}"
+                                   actionListener="#{editCalcBasicsPepp.activatePriorTopic()}">
+                        <f:ajax render="@form"/>                        
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="button"
+                                   value="#{msg.btnNextPage}"
+                                   disabled="#{!editCalcBasicsPepp.nextTopic}"
+                                   actionListener="#{editCalcBasicsPepp.activateNextTopic()}">
+                        <f:ajax render="@form"/>                        
+                    </h:commandLink>
+                </div>
+
+                <ui:include src="#{editCalcBasicsDrg.activeTopic.outcome}"/>
+
+                <div class="toolBar">
+                    <div>
+                        <h:commandLink styleClass="button"
+                                       value="#{msg.btnPriorPage}"
+                                       disabled="#{!editCalcBasicsPepp.priorTopic}"
+                                       actionListener="#{editCalcBasicsPepp.activatePriorTopic()}">
+                            <f:ajax render="@form"/>                        
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="button"
+                                       value="#{msg.btnNextPage}"
+                                       disabled="#{!editCalcBasicsPepp.nextTopic}"
+                                       actionListener="#{editCalcBasicsPepp.activateNextTopic()}">
+                            <f:ajax render="@form"/>                        
+                        </h:commandLink>
+                    </div>
+                    <div>
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editCalcBasicsPepp.save}"
+                                       value="#{msg.btnSave}"
+                                       immediate="true"
+                                       rendered="#{!editCalcBasicsPepp.readOnly}">
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="sendButton"
+                                       action="#{editCalcBasicsPepp.requestApproval}"
+                                       value="#{msg.btnRequestApproval}"
+                                       rendered="#{editCalcBasicsPepp.approvalRequestEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmRequestApproval/>
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="sendButton"
+                                       action="#{editCalcBasicsPepp.seal}"
+                                       value="#{msg.btnSaveAndClose}"
+                                       rendered="#{editCalcBasicsPepp.sealEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmSeal/>
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editCalcBasicsPepp.take}"
+                                       value="#{msg.btnTake}"
+                                       immediate="true"
+                                       rendered="#{editCalcBasicsPepp.takeEnabled}"
+                                       onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                        </h:commandLink>
+
+
+                    </div>
+
+                    <!-- for testing purpose only-->
+                    <h:commandLink styleClass="button"
+                                   action="#{editCalcBasicsPepp.exportTest}"
+                                   value="Test Export (nur zur Entwicklung)"
+                                   immediate="true"
+                                   rendered="#{!editCalcBasicsPepp.readOnly}">
+                    </h:commandLink>
+
+                </div>
+
+            </h:panelGroup>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+

@@ -9,7 +9,7 @@ import org.inek.dataportal.facades.AbstractFacade;
  * @author muellermi
  */
 @Stateless
-public class ContacTypeFacade extends AbstractFacade{
+public class ContacTypeFacade extends AbstractFacade<ContactType> {
 
     public ContacTypeFacade() {
         super(ContactType.class);

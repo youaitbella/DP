@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+        <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+        <br/>
+        <h:selectOneMenu styleClass="col08em"
+                         rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.iks.size() gt 1 and editCalcBasicsDrg.calcBasics.id eq -1}"
+                         id="ikMulti"
+                         title="#{msg.titleIK}"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.ik}"
+                         hideNoSelectionOption="true" >
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{editCalcBasicsDrg.iks}"/>
+            <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+            <f:ajax event="change" listener="#{editCalcBasicsDrg.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
+        </h:selectOneMenu>
+
+        <h:inputText styleClass="col07em" readonly="true" value="#{editCalcBasicsDrg.calcBasics.ik}" rendered="#{editCalcBasicsDrg.readOnly or editCalcBasicsDrg.iks.size() le 1 or editCalcBasicsDrg.calcBasics.id ge 0}"/>
+
+        <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editCalcBasicsDrg.hospitalInfo}"/>
+
+        <br/>
+        <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.iks.size() gt 1}"/>
+    </div>
+
+    <hr/>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="correctionNote">
+            Bei Bedarf: Zusätzliche Information an das InEK, z.B. Begründung für eine Korrekturlieferung (stichwortartig)
+        </h:outputLabel><br/>
+        <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.correctionNote}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>
+
+</ui:composition>
+

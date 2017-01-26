@@ -25,7 +25,7 @@ public class TrashMailFacade extends AbstractFacade<TrashMail> {
     public boolean exists(String domain) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<TrashMail> cq = cb.createQuery(TrashMail.class);
-        Root request = cq.from(TrashMail.class);
+        Root<TrashMail> request = cq.from(TrashMail.class);
         cq.select(request).where(cb.equal(request.get("_domain"), domain));
         return getEntityManager().createQuery(cq).getResultList().size() > 0;
         

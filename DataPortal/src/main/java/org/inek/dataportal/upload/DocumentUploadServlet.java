@@ -24,7 +24,7 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException, IllegalArgumentException {
         HttpSession session = httpUtil.getRequest().getSession();
-        Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+        @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
         DocumentUpload docUpload = FeatureScopedContextHolder.Instance.getBean(DocumentUpload.class, map);
 

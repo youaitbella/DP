@@ -150,7 +150,7 @@ public class NubMethodInfoController implements Serializable {
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="Search tokens">    
-    List<String> _searchTokens = Collections.EMPTY_LIST;
+    List<String> _searchTokens = Collections.emptyList();
 
     public String getFilter() {
         return obtainFilter(_searchTokens);
@@ -163,7 +163,7 @@ public class NubMethodInfoController implements Serializable {
     public void setFilter(String filter) {
         List<String> searchTokens;
         if (filter == null || filter.isEmpty()) {
-            searchTokens = Collections.EMPTY_LIST;
+            searchTokens = Collections.emptyList();
         } else {
             searchTokens = Arrays.asList(filter.split(" ")).stream().filter(t -> !t.isEmpty()).map(t -> t.toLowerCase()).collect(Collectors.toList());
         }
