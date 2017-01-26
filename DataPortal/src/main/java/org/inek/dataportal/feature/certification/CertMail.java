@@ -53,7 +53,7 @@ public class CertMail implements Serializable {
     private String _attachement = "";
     private UIComponent _previewButton;
     private Triple<String, String, String> _emailSentInformation = new Triple<>();
-    private List<Triple> _emailSentInfoDataTable = new ArrayList<>();
+    private List<Triple<String, String, String>> _emailSentInfoDataTable = new ArrayList<>();
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Email receiver lists - fields.">
@@ -419,9 +419,9 @@ public class CertMail implements Serializable {
                 if(!_mailer.sendMailFrom(mt.getFrom(), emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement))
                     throw new Exception("Fehler bei Mailversand!");
                 createEmailLogEntry(version, mt, emailAddress);
-                _emailSentInfoDataTable.add(new Triple(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
+                _emailSentInfoDataTable.add(new Triple<String, String, String>(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
             } catch (Exception ex) {
-                _emailSentInfoDataTable.add(new Triple(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
+                _emailSentInfoDataTable.add(new Triple<String, String, String>(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
             }
         }
         return "";
@@ -533,7 +533,7 @@ public class CertMail implements Serializable {
         this._previewButton = _previewButton;
     }
 
-    public List<Triple> getEmailSentSuccess() {
+    public List<Triple<String, String, String>> getEmailSentSuccess() {
         return _emailSentInfoDataTable;
     }
     
