@@ -131,7 +131,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public List<InsuranceNubMethodInfo> getNubMethodInfos() {
         if (_notice.getHospitalIk() < 0 && _notice.getYear() < 0) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         if (_nubInfos == null) {
             _nubInfos = _insuranceFacade.getNubMethodInfos(_notice.getHospitalIk(), _notice.getYear());
