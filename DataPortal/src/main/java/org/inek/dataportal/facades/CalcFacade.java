@@ -153,7 +153,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
                 + "order by 2, 4, 5, 8 desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
-        List<CalcHospitalInfo> infos = query.getResultList();
+        @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();
         return infos;
     }
 
@@ -171,7 +171,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.KGPBaseInformation\n"
                 + "where biAccountId" + accountCond;
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
@@ -189,7 +190,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "from calc.KGPBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year;
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     /**
@@ -217,7 +219,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "	) \n"
                 + "	and sopId is null";
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik) {
@@ -237,7 +240,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
                 + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
         Query query = getEntityManager().createNativeQuery(sql);
-        return query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> result = query.getResultList();
+        return result;
     }
 
     public List<CalcContact> retrieveCurrentContacts(int ik) {
@@ -256,7 +260,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         List<CalcContact> contacts = new Vector<>();
-        List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         for (Object[] obj : objects) {
             CalcContact contact = new CalcContact();
             contact.setGender((int) obj[0]);
@@ -491,7 +495,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year) {
@@ -513,7 +518,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "			and sopIk = biIk\n"
                 + "	)";
         Query query = getEntityManager().createNativeQuery(sql);
-        return new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Header and content texts">
