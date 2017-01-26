@@ -38,7 +38,7 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
                 + "from dbo.account "
                 + "join usr.Cooperation on acId = coAccountId2 "
                 + "where coAccountId1 = ?1";
-        List<Account> accounts = getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
+        @SuppressWarnings("unchecked") List<Account> accounts = getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
         return accounts;
     }
 
@@ -63,7 +63,7 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
         }
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Cooperation> cq = cb.createQuery(Cooperation.class);
-        Root request = cq.from(Cooperation.class);
+        Root<Cooperation> request = cq.from(Cooperation.class);
         Predicate criteria = cb.conjunction();
         criteria = cb.and(criteria, cb.equal(request.get("_accountId1"), partner1Id));
         criteria = cb.and(criteria, cb.equal(request.get("_accountId2"), partner2Id));
