@@ -108,7 +108,8 @@ public class CalcHospitalList {
 
     public String newCalculationBasicsPepp() {
         destroyFeatureBeans();
-        return Pages.StatementOfParticipanceEditAddress.URL();  // todo
+        //return Pages.StatementOfParticipanceEditAddress.URL();  // todo
+        return Pages.CalcPeppEdit.RedirectURL();  // todo
     }
 
     public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {

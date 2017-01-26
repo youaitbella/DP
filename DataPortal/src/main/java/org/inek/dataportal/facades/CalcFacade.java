@@ -620,12 +620,37 @@ public class CalcFacade extends AbstractDataAccess {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CalcBasics PSY">
+    public PeppCalcBasics retrievePriorCalcBasics(PeppCalcBasics calcBasics) {
+        String jpql = "select c from PeppCalcBasics c where c._ik = :ik and c._dataYear = :year";
+        TypedQuery<PeppCalcBasics> query = getEntityManager().createQuery(jpql, PeppCalcBasics.class);
+        query.setParameter("ik", calcBasics.getIk());
+        query.setParameter("year", calcBasics.getDataYear() - 1);
+        try {
+            PeppCalcBasics priorCalcBasics = query.getSingleResult();
+            getEntityManager().detach(priorCalcBasics);
+            return priorCalcBasics;
+        } catch (Exception ex) {
+            return new PeppCalcBasics();
+        }
+    }
+
     public PeppCalcBasics findCalcBasicsPepp(int id) {
         return findFresh(PeppCalcBasics.class, id);
     }
     
-    public void saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PeppCalcBasics saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<PeppCalcBasics>> violations = validator.validate(calcBasics);
+        for (ConstraintViolation<PeppCalcBasics> violation : violations) {
+            System.out.println(violation.getMessage());
+        }
+
+        if (calcBasics.getId() == -1) {
+            persist(calcBasics);
+            return calcBasics;
+        }
+
+        return merge(calcBasics);
     }
 
     public void delete(PeppCalcBasics calcBasics) {

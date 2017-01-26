@@ -25,14 +25,15 @@
                        >
             <f:param name="id" value="new"/>
         </h:link>
-
-        <h:commandLink styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
-                       action="#{calcHospitalList.newStatementOfParticipance}"
-                       immediate="true"
+        
+        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcPeppEdit}"
                        value="#{msg.btnNewCalculationBasicsPepp}"
-                       disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}">
+                       disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
+                       >
             <f:param name="id" value="new"/>
-        </h:commandLink>
+        </h:link>
+
 
     </div>
     <div jsf:rendered="#{not applicationTools.isEnabled('IsStatemenOfParticipanceCreateEnabled') and not applicationTools.isEnabled('IsCalationBasicsDrgCreateEnabled') and not applicationTools.isEnabled('IsCalationBasicsPsyCreateEnabled')}">
