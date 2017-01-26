@@ -2,7 +2,6 @@ package org.inek.dataportal.feature.peppproposal;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
@@ -15,7 +14,6 @@ import org.inek.dataportal.helper.Utils;
  *
  * @author muellermi
  */
-@SessionScoped
 public class PeppProposalController extends AbstractFeatureController {
 
     private List<PeppProposalDocument> _documents;

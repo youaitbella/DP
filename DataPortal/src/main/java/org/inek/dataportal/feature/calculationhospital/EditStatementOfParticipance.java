@@ -77,7 +77,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         } else if (id.toString().equals("new")) {
-            if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+            if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
@@ -85,7 +85,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         } else {
             _statement = loadStatementOfParticipance(id);
         }
-        ensureContacts(_statement);
         enableDisableStatementPage();
     }
 
@@ -160,7 +159,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
 
         statement.setContacts(_calcFacade.retrieveCurrentContacts(ik));
-        ensureContacts(statement);
         return statement;
     }
 
@@ -174,10 +172,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public List<CalcContact> getContacts() {
+        ensureContacts(_statement);
         return _statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList());
     }
 
     public List<CalcContact> getConsultants() {
+        ensureContacts(_statement);
         return _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
     }
     // </editor-fold>
@@ -220,21 +220,21 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
@@ -316,7 +316,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return !_calcFacade.existActiveStatementOfParticipance(_statement.getIk());
@@ -386,6 +386,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         if (statement.isWithConsultant()) {
             checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "sop:consultantCompany", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
+        }
+        if(statement.isConsultantSendMail()){
             List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
             if (consultantContacts.isEmpty() || consultantContacts.get(0).isEmpty()) {
                 applyMessageValues(message, "lblNeedContactConsultant", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
@@ -396,6 +398,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
+            checkField(message, statement.getMultiyearDrg(), 1, 4,
+                    "lblQuestionOverlayer", "sop:multiyearDrg",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearDrg() == 4 && statement.getMultiyearDrgText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
@@ -404,6 +409,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (statement.isPsyCalc() && (!statement.isObligatory() || statement.getObligatoryCalcType() == 2)) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
+            checkField(message, statement.getMultiyearPsy(), 1, 4,
+                    "lblQuestionOverlayer", "sop:multiyearPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearPsy() == 4 && statement.getMultiyearPsyText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");

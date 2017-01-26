@@ -35,7 +35,7 @@
         </h:commandLink>
 
     </div>
-    <div jsf:rendered="#{not applicationTools.isEnabled('IsCalationBasicsCreateEnabled')}">
+    <div jsf:rendered="#{not applicationTools.isEnabled('IsStatemenOfParticipanceCreateEnabled') and not applicationTools.isEnabled('IsCalationBasicsDrgCreateEnabled') and not applicationTools.isEnabled('IsCalationBasicsPsyCreateEnabled')}">
         <h:outputText value="#{msg.msgNoRecordCreatable}" />
     </div>
 

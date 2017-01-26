@@ -554,6 +554,49 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
         return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
+    
+    public List<Double> getCostCenterCostsSums() {
+        List<Double> l = new ArrayList<>();
+        Integer sumBeds = 0;
+        Integer sumPprWeight = 0;
+        Double sumMedicalService = 0.0;
+        Double sumNurseService = 0.0;
+        Double sumFuncService = 0.0;
+        Integer sumMedicalService2 = 0;
+        Integer sumNurseService2 = 0;
+        Integer sumFuncService2 = 0;
+        Integer sumSharedMedicineCost = 0;
+        Integer sumSharedMedStuffCost = 0;
+        Integer sumMedInfra = 0;
+        Integer sumNonMedInfra = 0;
+        for(KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
+            sumBeds += c.getBedCnt();
+            sumPprWeight += c.getPprWeight();
+            sumMedicalService += c.getMedicalServiceCnt();
+            sumNurseService += c.getNursingServiceCnt();
+            sumFuncService += c.getFunctionalServiceCnt();
+            sumMedicalService2 += c.getMedicalServiceAmount();
+            sumNurseService2 += c.getNursingServiceAmount();
+            sumFuncService2 += c.getFunctionalServiceAmount();
+            sumSharedMedicineCost += c.getOverheadsMedicine();
+            sumSharedMedStuffCost += c.getOverheadsMedicalGoods();
+            sumMedInfra += c.getMedicalInfrastructureCost();
+            sumNonMedInfra += c.getNonMedicalInfrastructureCost();
+        }
+        l.add((double)sumBeds);
+        l.add((double)sumPprWeight);
+        l.add(sumMedicalService);
+        l.add(sumNurseService);
+        l.add(sumFuncService);
+        l.add((double)sumMedicalService2);
+        l.add((double)sumNurseService2);
+        l.add((double)sumFuncService2);
+        l.add((double)sumSharedMedicineCost);
+        l.add((double)sumSharedMedStuffCost);
+        l.add((double)sumMedInfra);
+        l.add((double)sumNonMedInfra);
+        return l;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public DrgCalcBasics getCalcBasics() {
@@ -663,21 +706,21 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());

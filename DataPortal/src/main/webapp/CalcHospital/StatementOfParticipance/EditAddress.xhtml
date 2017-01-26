@@ -84,6 +84,7 @@
                     <h:outputLabel value="Das Krankenhaus wird für das Datenjahr #{editStatementOfParticipance.statement.dataYear} eine "/>
                     <h:selectOneMenu id="calcType"
                                      required="true"
+                                     readonly="#{editStatementOfParticipance.readOnly}"
                                      requiredMessage="#{msg.msgValueNeeded}"
                                      value="#{editStatementOfParticipance.statement.obligatoryCalcType}"
                                      hideNoSelectionOption="true">
