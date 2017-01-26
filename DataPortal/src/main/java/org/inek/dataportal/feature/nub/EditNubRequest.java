@@ -446,7 +446,7 @@ public class EditNubRequest extends AbstractEditController {
     private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
         if (_nubRequest.isSealed()) {
             // sealed by partner. By definition this is the new version and there are no differences
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
         differencesPartner.remove("_status");

@@ -37,7 +37,7 @@ public class CertUploadServlet extends AbstractUploadServlet {
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         HttpSession session = httpUtil.getRequest().getSession();
-        Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+        @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
         CertCertification certBean = FeatureScopedContextHolder.Instance.getBean(CertCertification.class, map);
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class, map);

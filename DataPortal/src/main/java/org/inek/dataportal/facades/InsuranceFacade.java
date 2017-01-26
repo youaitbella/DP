@@ -129,7 +129,8 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "where (prIk = " + ik + " or nppProxyIk = " + ik + ") and prYear = " + year + " and prStatus between 20 and 21 "
                 + "order by prDatenportalId";
         Query query = getEntityManager().createNativeQuery(sql, InsuranceNubMethodInfo.class);
-        return query.getResultList();
+        @SuppressWarnings("unchecked") List<InsuranceNubMethodInfo> result = query.getResultList();
+        return result;
     }
 
     public boolean existsNubRequest(int requestId, int hospitalIk, int year) {

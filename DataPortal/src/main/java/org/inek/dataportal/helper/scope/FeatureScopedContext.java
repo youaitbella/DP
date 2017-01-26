@@ -5,6 +5,7 @@
 package org.inek.dataportal.helper.scope;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import javax.enterprise.context.spi.Context;
 import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
@@ -18,7 +19,7 @@ public class FeatureScopedContext implements Context, Serializable {
     private FeatureScopedContextHolder _contextHolder = FeatureScopedContextHolder.Instance;
 
     @Override
-    public Class getScope() {
+    public Class<? extends Annotation> getScope() {
         return FeatureScoped.class;
     }
 
