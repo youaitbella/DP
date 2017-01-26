@@ -14,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -44,15 +45,15 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     public List<ModelIntention> findAll(Set<Integer> accountIds, DataSet dataSet, UserSet userSet) {
         if (userSet == UserSet.AllUsers) {
             if (!_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
-                return Collections.EMPTY_LIST;
+                return Collections.emptyList();
             }
         } else if (accountIds.isEmpty()) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<ModelIntention> cq = cb.createQuery(ModelIntention.class);
-        Root request = cq.from(ModelIntention.class);
+        Root<ModelIntention> request = cq.from(ModelIntention.class);
         Predicate status;
         Order order;
         if (dataSet == DataSet.AllOpen) {
@@ -80,7 +81,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     
     public List<ModelIntention> findAll(int accountId) {
         String sql = "SELECT m FROM ModelIntention m WHERE m._accountId = :accountId ORDER BY m._id DESC";
-        Query query = getEntityManager().createQuery(sql, ModelIntention.class);
+        TypedQuery<ModelIntention> query = getEntityManager().createQuery(sql, ModelIntention.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
