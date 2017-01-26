@@ -147,7 +147,7 @@ public class DocumentationUtil {
             }
         }
         String value = translate(rawValue, doc);
-        subList.add(new KeyValueLevel(name, value, 1));
+        subList.add(new KeyValueLevel<>(name, value, 1));
     }
 
     private void addDoc(String name, Object rawValue, Documentation doc, int level) {

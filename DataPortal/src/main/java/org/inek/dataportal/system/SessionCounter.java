@@ -33,7 +33,7 @@ public class SessionCounter implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
         HttpSession session = event.getSession();
-        Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+        @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
         FeatureScopedContextHolder.Instance.destroyAllBeansExcept(map, "");
         _logger.log(Level.INFO, "Session destroyed");
