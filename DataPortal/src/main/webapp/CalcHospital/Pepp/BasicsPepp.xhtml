@@ -13,25 +13,25 @@
         <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
         <br/>
         <h:selectOneMenu styleClass="col08em"
-                         rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.iks.size() gt 1 and editCalcBasicsDrg.calcBasics.id eq -1}"
+                         rendered="#{!editCalcBasicsPepp.readOnly and editCalcBasicsPepp.iks.size() gt 1 and editCalcBasicsPepp.calcBasics.id eq -1}"
                          id="ikMulti"
                          title="#{msg.titleIK}"
                          required="true"
                          requiredMessage="#{msg.msgValueNeeded}"
-                         value="#{editCalcBasicsDrg.calcBasics.ik}"
+                         value="#{editCalcBasicsPepp.calcBasics.ik}"
                          hideNoSelectionOption="true" >
             <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{editCalcBasicsDrg.iks}"/>
+            <f:selectItems value="#{editCalcBasicsPepp.iks}"/>
             <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-            <f:ajax event="change" listener="#{editCalcBasicsDrg.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
+            <f:ajax event="change" listener="#{editCalcBasicsPepp.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
         </h:selectOneMenu>
 
-        <h:inputText styleClass="col07em" readonly="true" value="#{editCalcBasicsDrg.calcBasics.ik}" rendered="#{editCalcBasicsDrg.readOnly or editCalcBasicsDrg.iks.size() le 1 or editCalcBasicsDrg.calcBasics.id ge 0}"/>
+        <h:inputText styleClass="col07em" readonly="true" value="#{editCalcBasicsPepp.calcBasics.ik}" rendered="#{editCalcBasicsPepp.readOnly or editCalcBasicsPepp.iks.size() le 1 or editCalcBasicsPepp.calcBasics.id ge 0}"/>
 
-        <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editCalcBasicsDrg.hospitalInfo}"/>
+        <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editCalcBasicsPepp.hospitalInfo}"/>
 
         <br/>
-        <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.iks.size() gt 1}"/>
+        <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editCalcBasicsPepp.readOnly and editCalcBasicsPepp.iks.size() gt 1}"/>
     </div>
 
     <hr/>
@@ -40,7 +40,7 @@
         <h:outputLabel styleClass="label" for="correctionNote">
             Bei Bedarf: Zusätzliche Information an das InEK, z.B. Begründung für eine Korrekturlieferung (stichwortartig)
         </h:outputLabel><br/>
-        <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.correctionNote}">
+        <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.correctionNote}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>
