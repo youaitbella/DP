@@ -11,6 +11,7 @@
         <cc:attribute name="value"/>
         <cc:attribute name="valueText"/>
         <cc:attribute name="readonly" default="false"/>
+        <cc:attribute name="disabled" default="false"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -25,7 +26,8 @@
 
                 <h:selectOneMenu id="overlayer" 
                                  styleClass="inputwide"
-                                 readonly="#{readonly}"
+                                 readonly="#{cc.attrs.readonly}"
+                                 disabled="#{cc.attrs.disabled}"
                                  title="#{msg.lblQuestionOverlayer}"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"

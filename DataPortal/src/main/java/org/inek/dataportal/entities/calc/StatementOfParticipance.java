@@ -245,7 +245,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ClinicalDistributionModelPsy">
     @Column(name = "sopCdmPsy")
-    @Documentation(name = "KVM PSY", omitOnValues = "-1;0", translateValue = "1=lblStatementSingleCostAttributionPsy")
+    @Documentation(name = "KVM PSY", omitOnValues = "-1", translateValue = "0=Nein;1=Ja")
     private int _clinicalDistributionModelPsy = -1;
 
     public int getClinicalDistributionModelPsy() {

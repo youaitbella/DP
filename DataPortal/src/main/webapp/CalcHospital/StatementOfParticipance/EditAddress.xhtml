@@ -140,15 +140,15 @@
                         <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
                                                  value="#{editStatementOfParticipance.statement.consultantSendMail}" 
                                                  readonly="#{editStatementOfParticipance.readOnly}"
-                                                 labelStyle="col45em"/>
+                                                 labelStyle="col45em"
+                                                 renderElement="@form"/>
                     </div>
 
                     <calc:CalcContactTable id="contactConsultant"
                                            value="#{editStatementOfParticipance.consultants}" 
-                                           readonly="#{editStatementOfParticipance.readOnly}"
+                                           readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.statement.consultantSendMail}"
                                            queryDomain="false"
                                            enableDelete="false"/>
-
                 </div>
 
             </h:panelGroup>

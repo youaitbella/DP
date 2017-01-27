@@ -253,6 +253,25 @@ public class EditStatementOfParticipance extends AbstractEditController {
      * @return
      */
     public String seal() {
+        for(CalcContact cc : _statement.getContacts()) {
+            if(cc.isConsultant())
+                continue;
+            if(!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
+                _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\nJedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
+                return "";
+            }
+        }
+        
+        if(!_statement.isDrgCalc()) {
+            _statement.setClinicalDistributionModelDrg(-1);
+            _statement.setMultiyearDrg(0);
+        }
+        if(!_statement.isPsyCalc()) {
+            _statement.setClinicalDistributionModelPsy(-1);
+            _statement.setMultiyearPsy(0);
+        }
+            
+        
         populateDefaultsForUnreachableFields();
         if (!statementIsComplete()) {
             return getActiveTopic().getOutcome();
@@ -407,7 +426,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
 
         if (statement.isPsyCalc() && (!statement.isObligatory() || statement.getObligatoryCalcType() == 2)) {
-            checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
+            checkField(message, statement.getClinicalDistributionModelPsy(), 0, 1,
                     "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             checkField(message, statement.getMultiyearPsy(), 1, 4,

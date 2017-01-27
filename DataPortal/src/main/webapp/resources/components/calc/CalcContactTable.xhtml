@@ -41,11 +41,11 @@
             <h:column>
                 <f:facet name="header">#{msg.lblSalutation}</f:facet>
                 <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
-                                 required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                                 required="true" requiredMessage="#{msg.msgChooseEntryShort}" disabled="#{cc.attrs.readonly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItem itemLabel="#{msg.salutationFemale}" itemValue="1"/>
                     <f:selectItem itemLabel="#{msg.salutationMale}" itemValue="2"/>
-                    <f:ajax event="blur" render="@this msgContactGender :logout:remaining"/>
+                    <f:ajax event="change" render="@this msgContactGender :logout:remaining"/>
                 </h:selectOneMenu>
                 <h:message for="cbxGender" id="msgContactGender" errorClass="errorMessage"/>
             </h:column>
