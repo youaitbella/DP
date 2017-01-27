@@ -31,7 +31,7 @@
         }
     </style>
 
-    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.radiologyLaboratories}" 
+<!--    <h:dataTable value="# {editCalcBasicsDrg.calcBasics.radiologyLaboratories}" 
                      var="item" 
                      width="100%"
                      rowClasses="row1, row2"
@@ -43,8 +43,8 @@
                 <h:outputText value=""/>
             </f:facet>
             <h:commandLink>
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteLaboratory(item)}"/>
+                <h:graphicImage alt="# {msg.btnDelete}" name="Icon/small/delete.png" title="# {msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.deleteLaboratory(item)}"/>
             </h:commandLink>
         </h:column>
         
@@ -52,7 +52,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
             </f:facet>
-            <h:inputText styleClass="inputshort" value="#{item.costCenterID}" >
+            <h:inputText styleClass="inputshort" value="# {item.costCenterID}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -62,7 +62,7 @@
                 <h:outputLabel value="Name Kostenstelle"/><br/>
                 <h:outputLabel value="(aussagekräftiger Name)"/>
             </f:facet>
-            <h:inputText value="#{item.costCenterText}" >
+            <h:inputText value="# {item.costCenterText}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -73,27 +73,27 @@
             </f:facet>
             
             <h:outputLabel value="Hauskatalog" for="serviceHome" />&nbsp;
-            <h:selectBooleanCheckbox id="serviceHome" value="#{item.serviceDocHome}">
+            <h:selectBooleanCheckbox id="serviceHome" value="# {item.serviceDocHome}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
             
             <h:outputLabel value="DKG-NT" for="serviceDocDKG" /> &nbsp;
-            <h:selectBooleanCheckbox id="serviceDocDKG" value="#{item.serviceDocDKG}">
+            <h:selectBooleanCheckbox id="serviceDocDKG" value="# {item.serviceDocDKG}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
             
             <h:outputLabel value="EBM" for="EBM" /> &nbsp;
-            <h:selectBooleanCheckbox id="EBM" value="#{item.serviceDocEBM}">
+            <h:selectBooleanCheckbox id="EBM" value="# {item.serviceDocEBM}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
             
             <h:outputLabel value="GOÄ" for="serviceDocGOA" /> &nbsp;
-            <h:selectBooleanCheckbox id="serviceDocGOA" value="#{item.serviceDocGOA}">
+            <h:selectBooleanCheckbox id="serviceDocGOA" value="# {item.serviceDocGOA}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
             
             <h:outputLabel value="Sonstige" for="serviceDocDif" /> &nbsp;
-            <h:selectBooleanCheckbox id="serviceDocDif" value="#{item.serviceDocDif}">
+            <h:selectBooleanCheckbox id="serviceDocDif" value="# {item.serviceDocDif}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox>
         </h:column>
@@ -102,7 +102,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Beschreibung"/>
             </f:facet>
-            <h:inputTextarea rendered="#{item.serviceDocDif}" class="areaWideHigh" value="#{item.description}" >
+            <h:inputTextarea rendered="# {item.serviceDocDif}" class="areaWideHigh" value="# {item.description}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputTextarea>
         </h:column>
@@ -112,7 +112,7 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText value="#{item.serviceVolumePre}" >
+            <h:inputText value="# {item.serviceVolumePre}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -122,7 +122,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText value="#{item.amountPre}" >
+            <h:inputText value="# {item.amountPre}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -132,15 +132,15 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText value="#{item.amountPost}" >
+            <h:inputText value="# {item.amountPost}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
     </h:dataTable>
     
-    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addLaboratory()}"/>
-    </h:commandLink>
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="# {msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.addLaboratory()}"/>
+    </h:commandLink>-->
     
 </ui:composition>
 
