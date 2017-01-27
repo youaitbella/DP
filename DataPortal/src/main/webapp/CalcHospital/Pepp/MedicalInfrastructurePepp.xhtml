@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<!--
+    
+    <h2 title="#{msg.titleMedicalInfrastructure}">#{msg. lblCalcMedicalInfrastructure}</h2>
+-->
+
+  <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
+        
+    <table cellspacing="6">
+        <thead>
+        <th>Gleichungsverfahren</th>
+        <th>Stufenleiterverfahren</th>
+        <th>Anbauverfahren</th>
+        <th>Sonstige Vorgehensweise</th>
+        </thead>
+        <tr>
+            <td style="text-align: center;">
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.approximationMethodMedInfra}">
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+            <td style="text-align: center;">
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.stepladderMethodMedInfra}">
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+            <td style="text-align: center;">
+                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.extensionMethodMedInfra}">
+                    <f:ajax event="change" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+            <td style="text-align: center;">
+            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
+                    <f:ajax event="change" render="@form description :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </td>
+        </tr>
+        <tbody>
+
+        </tbody>
+    </table>
+      
+    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
+        <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
+        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>    
+    
+    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  
+    
+    <!--170 = nicht med. Infra-->
+    <h:dataTable  headerClass="list-header" id="nonMedInfras"
+                  value="#{editCalcBasicsDrg.getMedInfra(170)}" var="item" width="100%" rowClasses="row1, row2" 
+                  columnClasses=""
+                  rendered="true"
+                  >
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Nummer der "/>
+                <h:outputText value="Kostenstelle"/>
+            </f:facet>
+                <h:inputText value="#{item.costCenterNumber}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+
+                <h:column>
+            <f:facet name="header">
+                <h:outputText value="Name der "/>
+                <h:outputText value="Kostenstelle"/>
+            </f:facet>
+                <h:inputText value="#{item.costCenterText}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+        
+                <h:column>
+            <f:facet name="header">
+                <h:outputText value="Verwendeter "/>
+                <h:outputText value="Schlüssel"/>
+            </f:facet>
+                    <h:inputText value="#{item.keyUsed}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+        
+                <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kostenvolumen vor Durchführung der IBLV"/><br/>
+                <h:outputText value="und vor Abgrenzung nicht kalkulationsrelevanter Kosten"/>
+            </f:facet>
+            <h:inputText value="#{item.amount}" styleClass="inputwide" required="true">
+                <f:ajax render="@this :logout:remaining"/>
+            </h:inputText>
+        </h:column>
+    </h:dataTable>
+
+    <!--180 = nicht med. Infra-->
+    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra(170)}"/>
+    </h:commandLink>   
+
+
+</ui:composition>
+

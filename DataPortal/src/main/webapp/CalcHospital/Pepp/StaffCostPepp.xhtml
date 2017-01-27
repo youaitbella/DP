@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
+
+    <h2>#{"Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung"}</h2>
+
+    <style>
+        .col1 {
+            width: 130px;
+        }
+        .col2 {
+            width: auto;
+        }
+        .col3 {
+            width: auto;
+        }
+        .col4{
+            width: auto;
+        }
+        .col5{
+            width: auto;
+        }
+        .col6{
+            width: auto;
+        }
+        .col7{
+            width: auto;
+        }
+        .col8{
+            width: auto;
+        }
+        .col9{
+            max-width: auto;
+        }
+        .col10{
+            max-width: auto;
+        }
+        #personalAccountings th{
+            text-align: center;
+        }
+        #personalAccountings th:first-child{
+            text-align: left;
+        }
+    </style>
+    
+   <h:dataTable  id="personalAccountings"
+                 value="#{editCalcBasicsDrg.calcBasics.personalAccountings}" var="item" width="100%" rowClasses="row1, row2" 
+                  columnClasses="col1, col2 centered, col3 centered, col4 centered, col5 centered, col6 centered, col7 centered, col8 centered, col9 centered, col10 centered"
+                  rendered="true"
+                  >
+
+       <h:column>
+           <f:facet name="header" class="centered">
+                <h:outputText value="Kostenartengruppe"/>
+            </f:facet>
+            <h:outputLabel value="#{editCalcBasicsDrg.getCostTypeText(item.costTypeID)}" />
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="mitar. Zeiterfassung" title="mitarbeiterbezogene Zeiterfassung"/>
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.staffRecording}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Stellenplan- auswertung"/>
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.staffEvaluation}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Dienstplan- auswertung" />
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.serviceEvaluation}">
+                <f:ajax event="change" render="@this :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+        
+       <h:column>
+            <f:facet name="header">
+                <h:outputText value="Leistungs- statistiken*"/>
+            </f:facet>
+           <h:selectBooleanCheckbox value="#{item.serviceStatistic}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+       
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Experten- schätzung*"/>
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{item.expertRating}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+       
+       <h:column>
+            <f:facet name="header">
+                <h:outputText value="Sonstige*"/>
+            </f:facet>
+           <h:selectBooleanCheckbox value="#{item.other}">
+                <f:ajax event="change" render="@form description :logout:remaining" />
+            </h:selectBooleanCheckbox>
+        </h:column>
+
+        <h:column>
+           <f:facet name="header">
+                <h:outputText value="Kostenvolumen Vorjahr"/>
+            </f:facet>
+            <h:inputText readonly="true" style="width: 75%; text-align: right;" value="#{item.priorCostAmount}" />
+        </h:column>
+       
+        <h:column>
+           <f:facet name="header">
+                <h:outputText value="Kostenvolumen"/>
+            </f:facet>
+            <h:inputText style="width: 75%; text-align:right;" value="#{item.amount}">
+              <f:ajax event="blur" render="@this diff :logout:remaining" />
+           </h:inputText>
+        </h:column>
+       
+        <h:column>
+           <f:facet name="header">
+                <h:outputText value="Absolute Abweichung"/>
+            </f:facet>
+            <h:inputText id="diff" readonly="true" style="width: 75%; text-align: right;" value="#{item.amount - item.priorCostAmount}" />
+        </h:column>
+       
+    </h:dataTable>
+    
+    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.renderPersonalAccountingDescription()}" >
+        <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
+        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.personalAccountingDescription}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>
+    
+</ui:composition>
+
