@@ -75,6 +75,17 @@ public enum Pages {
     CalcPeppEdit("/CalcHospital/Pepp/EditPepp"),
     CalcPeppBasics("/CalcHospital/Pepp/BasicsPepp"),
     CalcPeppBasicExplanation("/CalcHospital/Pepp/BasicExplanationPepp"),
+    CalcPeppExternalServiceProvision("/CalcHospital/Pepp/ExternalServiceProvisionPepp"),
+    CalcPeppTherapyScope("/CalcHospital/Pepp/TherapyPepp"),
+    CalcPeppRadiology("/CalcHospital/Pepp/RadiologyPepp"),
+    CalcPeppLaboratory("/CalcHospital/Pepp/LaboratoryPepp"),
+    CalcPeppDiagnosticScope("/CalcHospital/Pepp/DiagnosticScopePepp"),
+    CalcPeppTherapeuticScope("/CalcHospital/Pepp/TherapeuticScopePepp"),
+    CalcPeppPatientAdmission("/CalcHospital/Pepp/PatientAdmissionPepp"),
+    CalcPeppStation("/CalcHospital/Pepp/StationPepp"),
+    CalcPeppMedicalInfrastructure("/CalcHospital/Pepp/MedicalInfrastructurePepp"),
+    CalcPeppNonMedicalInfrastructure("/CalcHospital/Pepp/NonMedicalInfrastructurePepp"),
+    CalcPeppStaffCost("/CalcHospital/Pepp/StaffCostPepp"),
     
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),

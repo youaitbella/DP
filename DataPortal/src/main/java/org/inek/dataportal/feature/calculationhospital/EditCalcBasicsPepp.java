@@ -216,6 +216,18 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     protected void addTopics() {
         addTopic("lblFrontPage", Pages.CalcPeppBasics.URL());
         addTopic("lblBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
+        addTopic("lblCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
+        addTopic("lblCalcTherapyScope", Pages.CalcPeppTherapyScope.URL());
+        addTopic("lblCalcRadiology", Pages.CalcPeppRadiology.URL());
+        addTopic("lblCalcLaboratory", Pages.CalcPeppLaboratory.URL());
+        addTopic("lblCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
+        addTopic("lblCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
+        addTopic("lblCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
+        addTopic("lblCalcStation", Pages.CalcPeppStation.URL());
+        addTopic("lblCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
+        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
+        addTopic("lblCalcStaffCost", Pages.CalcPeppStaffCost.URL());
+
 //        addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
 //        //addTopic("lblCalcOperation", Pages.CalcDrgOperation.URL());
 //        //addTopic("lblCalcAnaestesia", Pages.CalcDrgAnaestesia.URL());
