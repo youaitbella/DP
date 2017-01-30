@@ -130,6 +130,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 }
             }
         }
+        for (Iterator<KGLListCostCenterCost> it = _priorCalcBasics.getCostCenterCosts().iterator(); it.hasNext();) {
+                KGLListCostCenterCost ccc = it.next();
+                _calcBasics.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
+                    c.setPrior(ccc);
+                });
+            }
     }
 
     public void ikChanged() {
@@ -291,12 +297,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             statement.setDescNonMedicalInfra(!statement.getOtherMethodNonMedInfra().isEmpty());
             for (Iterator<DrgDelimitationFact> it = statement.getDelimitationFacts().iterator(); it.hasNext();) {
                 checkRequireInputsForDelimitationFact(it.next());
-            }
-            for (Iterator<KGLListCostCenterCost> it = _priorCalcBasics.getCostCenterCosts().iterator(); it.hasNext();) {
-                KGLListCostCenterCost ccc = it.next();
-                statement.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
-                    c.setPrior(ccc);
-                });
             }
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;

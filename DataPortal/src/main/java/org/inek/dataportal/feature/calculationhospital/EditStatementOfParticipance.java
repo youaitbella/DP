@@ -253,12 +253,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
      * @return
      */
     public String seal() {
-        for(CalcContact cc : _statement.getContacts()) {
-            if(cc.isConsultant())
-                continue;
-            if(!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
-                _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\nJedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
-                return "";
+        if(!_statement.isObligatory()) {
+            for(CalcContact cc : _statement.getContacts()) {
+                if(cc.isConsultant())
+                    continue;
+                if(!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
+                    _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\nJedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
+                    return "";
+                }
             }
         }
         

@@ -44,7 +44,7 @@
             <div class="inputPart" jsf:rendered="#{cc.attrs.value eq 4}">
                 <h:outputLabel for="alternative" value="#{msg.lblDescriptionOfAlternative}" styleClass="label element100"/>
                 <h:message for="alternative" id="msgAlternative" styleClass="errorMessage"/>
-                <h:inputTextarea id="alternative" value="#{cc.attrs.valueText}" readonly="#{cc.attrs.readonly}" styleClass="inputwide areaLow">
+                <h:inputTextarea id="alternative" value="#{cc.attrs.valueText}" readonly="#{cc.attrs.readonly}" disabled="#{cc.attrs.disabled}" styleClass="inputwide areaLow">
                     <f:ajax render="@this :logout:remaining msgAlternative"/>
                 </h:inputTextarea>
             </div>
