@@ -343,7 +343,7 @@ public class StatementOfParticipance implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ConsultantSendMail">
     @Column(name = "sopConsultantSendMail")
-    @Documentation(key = "Berater in Mailversand aufnehmen", omitOnValues = "false")
+    @Documentation(name = "Berater in Mailversand aufnehmen", omitOnValues = "false")
     private boolean _consultantSendMail;
 
     public boolean isConsultantSendMail() {

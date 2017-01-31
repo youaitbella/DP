@@ -87,7 +87,7 @@ public class KGLListCostCenterCost implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
     @Size(max = 4)
     @Column(name = "cccDepartmentAssignment")
-    private String _departmentAssignment;
+    private String _departmentAssignment = "";
 
     public String getDepartmentAssignment() {
         return _departmentAssignment;
