@@ -288,7 +288,7 @@ wird diese mit den dynamischen Anteilen parametrisiert ("prepared statement"), u
 
 #### 6.5.1 <a name="KGLTables"></a>[Datenbanktabellen KGL] (KGLTables.md)
 
-
+#### 6.5.2 <a name="KGPTables"></a>[Datenbanktabellen KGP] (KGPTables.md)
 
 ### 6.6	DropBox
 
