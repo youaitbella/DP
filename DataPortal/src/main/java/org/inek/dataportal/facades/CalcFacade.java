@@ -210,6 +210,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)) or acMail like '%inek-drg.de' \n"
+                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 or acMail like '%inek-drg.de' \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0\n"
@@ -218,7 +220,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		union \n"
                 + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "	) \n"
-                + "	and sopId is null";
+                + "	and sopId is null \n"
+                + "     and r2.mcrRoleId is null";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;

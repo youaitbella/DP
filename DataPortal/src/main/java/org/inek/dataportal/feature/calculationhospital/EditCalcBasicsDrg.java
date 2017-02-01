@@ -132,7 +132,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         for (Iterator<KGLListCostCenterCost> it = _priorCalcBasics.getCostCenterCosts().iterator(); it.hasNext();) {
                 KGLListCostCenterCost ccc = it.next();
-                _calcBasics.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
+                calcBasics.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
                     c.setPrior(ccc);
                 });
             }
