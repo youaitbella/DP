@@ -719,13 +719,13 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListStationDepartment> _kgpStationDepartmentList = new Vector<>();
+    private List<KGPListStationAlternative> _kgpStationDepartmentList = new Vector<>();
 
-    public List<KGPListStationDepartment> getKgpStationDepartmentList() {
+    public List<KGPListStationAlternative> getKgpStationDepartmentList() {
         return _kgpStationDepartmentList;
     }
 
-    public void setKgpStationDepartmentList(List<KGPListStationDepartment> kgpStationDepartmentList) {
+    public void setKgpStationDepartmentList(List<KGPListStationAlternative> kgpStationDepartmentList) {
         this._kgpStationDepartmentList = kgpStationDepartmentList;
     }
     // </editor-fold>
@@ -749,16 +749,17 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "dfBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListDelimitationFact> _kgpDelimitationFactList = new Vector<>();
+    private List<KGPListDelimitationFact> _delimitationFacts = new Vector<>();
 
-    public List<KGPListDelimitationFact> getKgpDelimitationFactList() {
-        return _kgpDelimitationFactList;
+    public List<KGPListDelimitationFact> getDelimitationFacts() {
+        return _delimitationFacts;
     }
 
-    public void setKgpDelimitationFactList(List<KGPListDelimitationFact> kgpDelimitationFactList) {
-        this._kgpDelimitationFactList = kgpDelimitationFactList;
+    public void setDelimitationFacts(List<KGPListDelimitationFact> delimitationFacts) {
+        this._delimitationFacts = delimitationFacts;
     }
     // </editor-fold>
+    
     
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpDocumentsList">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "doBaseInformationID")
@@ -775,6 +776,19 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property List locations">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
+    private List<KGLListLocation> _locations = new Vector<>();
+
+    public List<KGLListLocation> getLocations() {
+        return _locations;
+    }
+
+    public void setLocations(List<KGLListLocation> locations) {
+        this._locations = locations;
+    }
+    //</editor-fold>
 
     
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
