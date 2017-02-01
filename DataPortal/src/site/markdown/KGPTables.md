@@ -39,6 +39,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
+||||||
 |Leistungsdokumentation|Therapeutischer Bereich||KGPListTherapy||
 |||thCostCenterID||Kostenstellen Gruppe|
 |||thCostCenterText||Leistungsinhalt der Kostenstelle|
@@ -56,6 +57,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||thPersonalCostCt3b||Personalkosten KoArtGr 3b|
 |||thServiceUnitsCt3c||Summe Leistungseinheiten KoArtGr 3c|
 |||thPersonalCostCt3c||Personalkosten KoArtGr 3c|
+||||||
 |Leistungsdokumentation|Radiologie + Laboratorien||KGPListRadiologyLaboratory||
 |||Kostenstelle||rlCostCenterID|
 |||Nummer der Kostenstelle||rlCostCenterNumber|
@@ -66,6 +68,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Leistungsdokumentation GOÄ||rlServiceDocGOA|
 |||Leistungsdokumentation sonstige*||rlServiceDocDif|
 |||Beschreibung||rlDescription|
+||||||
 |Leistungsdokumentation|KST 11-13||KGPListCostCenter||
 |||Kostenstelle||ccCostCenterID|
 |||Nummer der Kostenstelle||ccCostCenterNumber|
