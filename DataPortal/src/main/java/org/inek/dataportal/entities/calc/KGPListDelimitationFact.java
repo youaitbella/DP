@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,7 +29,7 @@ public class KGPListDelimitationFact implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -44,7 +46,7 @@ public class KGPListDelimitationFact implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property used">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfUsed")
@@ -59,7 +61,7 @@ public class KGPListDelimitationFact implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property personalCost">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfPersonalCost")
@@ -74,22 +76,22 @@ public class KGPListDelimitationFact implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property materialCost">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfMaterialcost")
-    private int _materialcost;
+    private int _materialCost;
 
-    public int getMaterialcost() {
-        return _materialcost;
+    public int getMaterialCost() {
+        return _materialCost;
     }
 
-    public void setMaterialcost(int materialcost) {
-        this._materialcost = materialcost;
+    public void setMaterialCost(int materialcost) {
+        this._materialCost = materialcost;
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Basic(optional = false)
     @NotNull
     @Column(name = "dfInfraCost")
@@ -104,7 +106,7 @@ public class KGPListDelimitationFact implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property baseInformationId">
     @Column(name = "dfBaseInformationID")
     private int _baseInformationId;
 
@@ -117,7 +119,7 @@ public class KGPListDelimitationFact implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property contentTextId">
     @Column(name = "dfContentTextID")
     private int _contentTextId;
 
@@ -130,6 +132,19 @@ public class KGPListDelimitationFact implements Serializable {
     }
     //</editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property ContentText">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "dfContentTextId")
+    private DrgContentText _contentText;
+
+    public DrgContentText getContentText() {
+        return _contentText;
+    }
+
+    public void setContentText(DrgContentText contentText) {
+        _contentText = contentText;
+    }
+    // </editor-fold>
 
     public KGPListDelimitationFact() {
     }
@@ -142,7 +157,7 @@ public class KGPListDelimitationFact implements Serializable {
         this._id = dfID;
         this._used = dfUsed;
         this._personalCost = dfPersonalCost;
-        this._materialcost = dfMaterialcost;
+        this._materialCost = dfMaterialcost;
         this._infraCost = dfInfraCost;
     }
 
@@ -156,7 +171,7 @@ public class KGPListDelimitationFact implements Serializable {
         }
         hash = 29 * hash + (this._used ? 1 : 0);
         hash = 29 * hash + this._personalCost;
-        hash = 29 * hash + this._materialcost;
+        hash = 29 * hash + this._materialCost;
         hash = 29 * hash + this._infraCost;
         hash = 29 * hash + this._baseInformationId;
         hash = 29 * hash + this._contentTextId;
@@ -184,7 +199,7 @@ public class KGPListDelimitationFact implements Serializable {
         if (this._personalCost != other._personalCost) {
             return false;
         }
-        if (this._materialcost != other._materialcost) {
+        if (this._materialCost != other._materialCost) {
             return false;
         }
         if (this._infraCost != other._infraCost) {

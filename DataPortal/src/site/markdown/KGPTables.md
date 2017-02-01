@@ -85,12 +85,12 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Stichwortartig Kriterien Pflegetage||biIntensiveCriteriaBullets|
 |||Stichwortartig Verfahren zur Verrechnung der Kosten||biIntensiveMethodBullets|
 ||||||
-|Normalstation|Alternativverfahren||KGPListStationAlternative||
+|Stationärer Bereich|Alternativverfahren||KGPListStationAlternative||
 |||Fachabteilung||saDepartmentKey|
 |||FAB Schlüssel 301||saDepartmentName|
 |||Alternativverfahren||saAlternative|
 ||||||
-|Normalstation|Leistungsdaten und Kosten ind KstGr 21||KGPListStationServiceCost||
+|Stationärer Bereich|Leistungsdaten und Kosten in KstGr 21||KGPListStationServiceCost||
 |||Kostenstelle||sscCostCenterID|
 |||Nummer der Kostenstelle||sscCostCenterNumber|
 |||Station||sscStation|
@@ -121,14 +121,16 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Stufenleiterverfahren||biStepladderMethodMedInfra|
 |||Anbauverfahren||biExtensionMethodMedInfra|
 |||Sonstige Vorgehensweise||biOtherMethodMedInfra|
+||||||
 |Nicht Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodNonMedInfra|
 |||Stufenleiterverfahren||biStepladderMethodNonMedInfra|
 |||Anbauverfahren||biExtensionMethodNonMedInfra|
 |||Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
+||||||
 |Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGPListMedInfra||
 |||Kostenartengruppe||miCostTypeID|
-|||Nummer der Kostenstelle||miCostCenter|
+|||Nummer der Kostenstelle||miCostCenterNumber|
 |||Name der Kostenstelle||miCostCenterText|
 |||Verwendeter Schlüssel||miKeyUsed|
 |||Kostenvolumen||miAmount|
