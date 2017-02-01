@@ -48,6 +48,19 @@ public class KGPListLocation implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
+    @Column(name = "lBaseInformationID")
+    private int _baseInformationId;
+
+    public int getBaseInformationId() {
+        return _baseInformationId;
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property _location">
     @Basic(optional = false)
     @NotNull
