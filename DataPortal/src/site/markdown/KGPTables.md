@@ -39,11 +39,26 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
-|Leistungsdokumentation(Therapeutischer Bereich)|||KGPListTherapy||
-|||thxxxx||thxxxx|
-|Leistungsdokumentation(Radiologie + Laboratorien)|||KGPListRadiologyLaboratory||
-|||Kostenartengruppe||rlCostTypeID|
+|Leistungsdokumentation|Therapeutischer Bereich||KGPListTherapy||
+|||thCostCenterID||Kostenstellen Gruppe|
+|||thCostCenterText||Leistungsinhalt der Kostenstelle|
+|||thExternalService||externe Leistungserbringung|
+|||thKeyUsed||verwendeter Leistungsschlüssel|
+|||thServiceUnitsCt1||Summe Leistungseinheiten KoArtGr 1|
+|||thPersonalCostCt1||Personalkosten KoArtGr 1|
+|||thServiceUnitsCt2||Summe Leistungseinheiten KoArtGr 2|
+|||thPersonalCostCt2||Personalkosten KoArtGr 2|
+|||thServiceUnitsCt3||Summe Leistungseinheiten KoArtGr 3|
+|||thPersonalCostCt3||Personalkosten KoArtGr 3|
+|||thServiceUnitsCt3a||Summe Leistungseinheiten KoArtGr 3a|
+|||thPersonalCostCt3a||Personalkosten KoArtGr 3a|
+|||thServiceUnitsCt3b||Summe Leistungseinheiten KoArtGr 3b|
+|||thPersonalCostCt3b||Personalkosten KoArtGr 3b|
+|||thServiceUnitsCt3c||Summe Leistungseinheiten KoArtGr 3c|
+|||thPersonalCostCt3c||Personalkosten KoArtGr 3c|
+|Leistungsdokumentation|Radiologie + Laboratorien||KGPListRadiologyLaboratory||
 |||Kostenstelle||rlCostCenterID|
+|||Nummer der Kostenstelle||rlCostCenterNumber|
 |||Name Kostenstelle||rlCostCenterText|
 |||Leistungsdokumentation Hauskatalog*||rlServiceDocHome|
 |||Leistungsdokumentation DKG-NT||rlServiceDocDKG|
@@ -51,18 +66,15 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Leistungsdokumentation GOÄ||rlServiceDocGOA|
 |||Leistungsdokumentation sonstige*||rlServiceDocDif|
 |||Beschreibung||rlDescription|
-|||Leistungsvolumen vor Abgrenzung||rlServiceVolumePre|
-|||Kostenvolumen vor Abgrenzung||rlAmountPre|
-|||Leistungsvolumen nach Abgrenzung||rlServiceVolumePost|
-|||Kostenvolumen nach Abgrenzung||rlAmountPost|
-|Leistungsdokumentation (KST 11-13)|||KGPListCostCenter||
+|Leistungsdokumentation|KST 11-13||KGPListCostCenter||
 |||Kostenstelle||ccCostCenterID|
-|||Name Kostenstelle||ccCostCenterText|
+|||Nummer der Kostenstelle||ccCostCenterNumber|
+|||Name der Kostenstelle||ccCostCenterText|
 |||Kostenvolumen||ccAmount|
 |||Anzahl zugeordenter Vollkräfte…||ccFullVigorCnt|
 |||Leistungsschlüssel||ccServiceKey|
 |||Beschreibung Leistungsschlüssel||ccServiceKeyDescription|
-|||Summe Leistungsschlüssel||ccServiceSum|
+|||Summe Leistungseinheiten||ccServiceSum|
 ||||||
 |Normalstation|||KGPBaseInformation||
 |||Ärzte freie Mitarbeit||biNormalFreelancing|
