@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -42,6 +43,7 @@ import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
+import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -426,6 +428,27 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
+    public int priorProvisionAmount(KGPListServiceProvision current) {
+        Optional<KGPListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
+        if (prior.isPresent()) {
+            return prior.get().getAmount();
+        }
+        return 0;
+    }
+
+    public void addServiceProvision() {
+        int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getServiceProvisionType().getSequence()).max().orElse(0);
+        KGPListServiceProvision data = new KGPListServiceProvision();
+        data.setBaseInformationId(_calcBasics.getId());
+        data.getServiceProvisionType().setSequence(++seq);
+        _calcBasics.getServiceProvisions().add(data);
+    }
+
+    public void deleteServiceProvision(KGPListServiceProvision item) {
+        _calcBasics.getServiceProvisions().remove(item);
+    }
+    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Operation">
     public void checkOption(AjaxBehaviorEvent event){
