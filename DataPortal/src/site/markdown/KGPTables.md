@@ -5,16 +5,22 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |Grundlagen|Grundlagen||KGPBaseInformation||
 |||Summe kalkulationsrelevanter Kosten (EUR)||biSumCalcCost|
 |||Fälle vollstationär||biCaseInStationCnt|
+|||Fälle vollstationär Psychosomatik||biCaseInStationCntPsy|
+|||Pflegetage vollstationär||biCareDaysInStationCnt|
+|||Pflegetage vollstationär Psychosomatik||biCareDaysInStationCntPsy|
 |||Fälle teilstationär||biCasePartialStationCnt|
+|||Fälle teilstationär Psychosomatik||biCasePartialStationCntPsy|
 |||Berechnungstage teilstationär||biDaysPartialStation|
+|||Berechnungstage teilstationär Psychosomatik||biDaysPartialStationPsy|
 |||Begleitpersonen||biPatientEscort|
 |||rein vorstationär||biPreStation|
 |||Betten (DRG-Bereich)||biBeds|
 |||Anzahl teilstationäre Plätze (DRG-Bereich)||biPartialCnt|
 |||Anzahl Standorte||biLocationCnt|
 |||Differenzierter Versorgungsvertrag||biDifLocationSupply|
-|||BesondereEinrichtung||biSpecialUnit|
-|||Zentren und Schwerpunkte||biCentralFocus|
+|||Einzelkostenzuordnung für Arzneimittel||biMedicineCostMapping|
+|||Wurden Patienten gerichtlich untergebracht?||biCourtPlacement|
+|||Daten in ergänzende Datenbereitstellung aufbereiten||biAdditionalDataAllocation|
 ||||||
 |Grundlagen|Entlassender Standort||KGPListLocation||
 |||Entlassender Standort||lLocation|
@@ -27,12 +33,9 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
 ||||||
-|Leistungsdokumentation (ext. Lei)|||||
-|||Bereich|KGPListServiceProvisionType|sptText|
-|||wird nicht erbracht|KGPListServiceProvision|spNotProvided|
-|||keine Fremdvergabe||spNoExternalAssignment|
-|||vollständige Fremdvergabe||spFullExternalAssignment|
-|||teilweise Fremdvergabe||spPartialExternalAssignment|
+|Leistungsdokumentation|(Externe) Leistungserbringung||KGPListServiceProvision||
+|||Bereiche||spServiceProvisionTypeID|
+|||wird nicht erbracht / keine Fremdvergabe / vollständige Fremdvergabe / teilweise Fremdvergabe||spProvidedTypeID|
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
