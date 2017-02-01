@@ -15,31 +15,18 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Differenzierter Versorgungsvertrag||biDifLocationSupply|
 |||BesondereEinrichtung||biSpecialUnit|
 |||Zentren und Schwerpunkte||biCentralFocus|
+||||||
 |Grundlagen|Entlassender Standort||KGPListLocation||
 |||Entlassender Standort||lLocation|
 |||Nummer||lLocationNo|
-|Grundlagen|Besondere Einrichtung||KGPListSpecialUnit||
-|||Art der BE||suType|
-|||Fallzahl||suCaseCnt|
-|||Kostenvolumen||suCost|
-|Grundlagen|Zentren und Schwerpunkte||KGPListCentralFocus||
-|||Bezeichnung||cfText|
-|||Fallzahl||cfCaseCnt|
-|||Personalkosten||cfPersonalCost|
-|||Sachkosten||cfMaterialcost|
-|||Infrastrukturkosten||cfInfraCost|
-|||Vereinbartes Entgelt||cfRemunerationAmount|
-|||Entgeltschlüssel||cfRemunerationKey|
+||||||
 |Grundlagen|Berücksichtigte Abgrenzungstatbestände||KGPListDelimitationFact||
 |||Text (Label)||dfContentTextID|
 |||bitte markieren||dfUsed|
 |||Personalkosten||dfPersonalCost|
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
-|Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGPBaseInformation|biNeonatLvl|
-|Neonatologie|Qualifikationen gem. Richtlinie||KGPNeonatData||
-|||Qualifikation||ndContentTextID|
-|||Erfüllt (Datum)/Anzahl/Kosten||ndData|
+||||||
 |Leistungsdokumentation (ext. Lei)|||||
 |||Bereich|KGPListServiceProvisionType|sptText|
 |||wird nicht erbracht|KGPListServiceProvision|spNotProvided|
@@ -49,75 +36,8 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
-|Leistungsdokumentation (OP + AN)|Leistungsdokumentation||KGPOpAn||
-|||Wie viele Zentral-OPs hat das Krankenhaus?||oaCentralOPCnt|
-|||Personalbindungszeit ÄD (OP)||oaStaffBindingMsOP|
-|||Personalbindungszeit FD (OP)||oaStaffBindingFsOP|
-|||SNZ ÄD (OP)||oaMedicalServiceSnzOP|
-|||SNZ FD (OP)||oaFunctionalServiceSnzOP|
-|||SNZ Alternative (OP)||oaDescriptionSnzOP|
-|||Rüstzeit ÄD (OP)||oaMedicalServiceRzOP|
-|||Rüstzeit FD (OP)||oaFunctionalServiceRzOP|
-|||Rüstzeit Alternative (OP)||oaDescriptionRzOP|
-|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle ÄD (OP)||oaMedicalServiceAmountOP|
-|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD (OP)||oaFunctionalServiceAmountOP|
-|||Personalbindungszeit ÄD (AN)||oaStaffBindingMsAN|
-|||Personalbindungszeit FD (AN)||oaStaffBindingFsAN|
-|||SNZ ÄD (AN)||oaMedicalServiceSnzAN|
-|||SNZ FD (AN)||oaFunctionalServiceSnzAN|
-|||SNZ Alternative (AN)||oaDescriptionSnzAN|
-|||Rüstzeit ÄD (AN)||oaMedicalServiceRzAN|
-|||Rüstzeit FD (AN)||oaFunctionalServiceRzAN|
-|||Rüstzeit Alternative (AN)||oaDescriptionRzAN|
-|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle ÄD (AN)||oaMedicalServiceAmountAN|
-|||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD (AN)||oaFunctionalServiceAmountAN|
-||||||
-|Leistungsdokumentation (OP + Kreißsaal)|Top 3 ambulante Leistungen / Top 5 Geburtshilfen||KGPListKstTop||
-|||Kostenstelle||ktCostCenterID|
-|||Bezeichnung||ktText|
-|||Fallzahl||ktCaseCnt|
-|||Erlösvolumen||ktAmount|
-|||abgegr. Kostenvolumen||ktDelimitationAmount|
-|||Rang||ktRank|
-|Leistungsdokumentation (Kreißsaal Gynäkologie)|Kreißsaal/Gynäkologie||KGPBaseInformation||
-|||Das Krankenhaus erbringt Leistungen im Bereich der Gynäkologie.||biGynecology|
-|||Das Krankenhaus erbringt Leistungen im Bereich Geburtshilfe.||biObstetrical|
-|||Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden||biDeliveryRoomHours|
-|||davon für vorgeburtliche Kreißsaalaufenthalte||biDeliveryRoomPreBirthHabitationCnt|
-|||Anzahl vollstationär geborener Kinder ||biDeliveryRoomInstationBirthCnt|
-|||Aufenthaltszeiten der Patientin im Kreißsaal||biNoDeliveryRoomHabitation|
-|||Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich||biDeliveryRoomOrganizationalStructure|
-|Leistungsdokumentation (Kardiologie)|||KGPBaseInformation||
-|||Das Krankenhaus erbringt Leistungen im Bereich der Kardiologie.||biCardiology|
-|||Anzahl kardiologischer Eingriffsräume||biCardiologyRoomCnt|
-|||Wieviele kalkulationsrelevante Fälle werden dort behandelt?||biCardiologyCaseCnt|
-|Leistungsdokumentation (Endoskopie)|||KGPBaseInformation||
-|||Das Krankenhaus erbringt Leistungen im Bereich der Endoskopie.||biEndoscopy|
-|||Anzahl endoskopischer Eingriffsräume||biEndoscopyRoomCnt|
-|||Wieviele kalkulationsrelevante Fälle werden dort behandelt?||biEndoscopyCaseCnt|
-|MHI-Richtlinie|||KGPBaseInformation||
-|||Das Krankenhaus führt minimalinvasive Herzklappeninterventionen durch||biMinimalValvularIntervention|
-|||Erfüllungsgrad||biMviFulfilled|
-|||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMviGuidelineAspired|
-|Leistungsdokumentation (Kreißsaal)|Geburtshilfe/Gynäkologie||KGPListObstetricsGynecology||
-|||Kostenstelle||ogCostCenterText|
-|||Zuordnung Kostenstellengruppe||ogCostTypeID|
-|||Ärztlicher Dienst||ogMedicalServiceCnt|
-|||davon: Belegärzte||ogAttendingDoctorCnt|
-|||Pflegedienst||ogNursingServiceCnt|
-|||Funktionsdienst (ohne Hebammen)||ogFunctionalServiceCnt|
-|||Hebammen||ogMidwifeCnt|
-|||davon: Beleg-Hebammen||ogAttendingMidwifeCnt|
-|Leistungsdokumentation(Endoskopie)|endoskopischen Bereiche die nicht den Leistungsschlüssel "Eingriffszeit" verwenden||KGPListEndoscopyDifferential||
-|||Bereich||edDivision|
-|||Leistungsschlüssel||edActivityKey|
-|Leistungsdokumentation(Radiologie)|Ausgewählte Leistungen||KGPRadiologyService||
-|||Bezeichnung||rsContentTextID|
-|||OPS||rsOpsCode|
-|||Kosten pro Leistung||rsServiceCost|
-|||Fallzahl stationär||rsCaseCntStationary|
-|||Fallzahl ambulant||rsCaseCntAmbulant|
-|||abgegr. Kostenvolumen ambulant||rsAmbulantAmount|
+|Leistungsdokumentation(Therapeutischer Bereich)|||KGPListTherapy||
+|||thxxxx||thxxxx|
 |Leistungsdokumentation(Radiologie + Laboratorien)|||KGPListRadiologyLaboratory||
 |||Kostenartengruppe||rlCostTypeID|
 |||Kostenstelle||rlCostCenterID|
@@ -140,15 +60,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Leistungsschlüssel||ccServiceKey|
 |||Beschreibung Leistungsschlüssel||ccServiceKeyDescription|
 |||Summe Leistungsschlüssel||ccServiceSum|
-|PK-Verrechnung|Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung||KGPPersonalAccounting||
-|||Kostenartengruppe||paCostTypeID|
-|||Mitarbeiterbezogene Zeiterfassung||paStaffRecording|
-|||Stellenplanauswertung||paStaffEvaluation|
-|||Dienstplanauswertung||paServiceEvaluation|
-|||Leistungsstatistiken||paServiceStatistic|
-|||Expertenschätzung||paExpertRating|
-|||Sonstige||paOther|
-|||Kostenvolumen||paAmount|
+||||||
 |Normalstation|||KGPBaseInformation||
 |||Ärzte freie Mitarbeit||biNormalFreelancing|
 |||Honorarverträge||biFeeContract|
@@ -195,6 +107,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Gemeinkosten Sachbedarf||cccOverheadsMedicalGoods|
 |||Kosten MedInfra||cccMedicalInfrastructureCost|
 |||Kosten nicht MedInfra||cccNonMedicalInfrastructureCost|
+||||||
 |Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodMedInfra|
 |||Stufenleiterverfahren||biStepladderMethodMedInfra|
@@ -211,38 +124,16 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Name der Kostenstelle||miCostCenterText|
 |||Verwendeter Schlüssel||miKeyUsed|
 |||Kostenvolumen||miAmount|
-|Intensiv_Stroke (Intensiv)|||KGPBaseInformation||
-|||Intensivbetten||biIntensiveBed|
-|Intensiv_Stroke (Stroke Unit)|||KGPBaseInformation||
-|||Intensivbetten Schlaganfall||biIntensiveStrokeBed|
-|Intensiv_Stroke|||KGPListIntensivStroke||
-|||IntensivTyp zur Unterscheidung Intensiv/Stroke||isIntensiveType|
-|||Nummer Kostenstelle||isCostCenterID|
-|||Name Kostenstelle||isCostCenterText|
-|||FAB Schlüssel||isDepartmentKey|
-|||Belegung: FAB||isDepartmentAssignment|
-|||Anzahl Betten||isBedCnt|
-|||Anzahl Fälle||isCaseCnt|
-|||OPS 8-980||isOPS8980|
-|||OPS 8-98f||isOPS898f|
-|||OPS 8-981 (Stroke)||isOPS8981|
-|||OPS 8-98b (Stroke)||isOPS898b|
-|||Mindestmerkmale Zeitabschnitt||isMinimumCriteriaPeriod|
-|||Summe gew. Intensiv Std.||isIntensivHoursWeighted|
-|||Summe ungew. Intensiv Std.||isIntensivHoursNotweighted|
-|||Gewichtungsfaktor Min.||isWeightMinimum|
-|||Gewichtungsfaktor Max.||isWeightMaximum|
-|||Gewichtungsfaktor Erläuterung||isWeightDescription|
-|||Anzahl VK ÄD||isMedicalServiceCnt|
-|||Anzahl VK PD||isNursingServiceCnt|
-|||Anzahl VK FD||isFunctionalServiceCnt|
-|||Kosten ÄD||isMedicalServiceCost|
-|||Kosten PD||isNursingServiceCost|
-|||Kosten FD||isFunctionalServiceCost|
-|||Gemeinkosten Arzneimittel||isOverheadsMedicine|
-|||Gemeinkosten med. Sachbedarf||isOverheadsMedicalGoods|
-|||Kosten med. Infra||isMedicalInfrastructureCost|
-|||Kosten nicht med. Infra||isNonMedicalInfrastructureCost|
+||||||
+|PK-Verrechnung|Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung||KGPPersonalAccounting||
+|||Kostenartengruppe||paCostTypeID|
+|||Mitarbeiterbezogene Zeiterfassung||paStaffRecording|
+|||Stellenplanauswertung||paStaffEvaluation|
+|||Dienstplanauswertung||paServiceEvaluation|
+|||Leistungsstatistiken||paServiceStatistic|
+|||Expertenschätzung||paExpertRating|
+|||Sonstige||paOther|
+|||Kostenvolumen||paAmount|
 
 
 [Zurück zum Hauptdokument](DataPortal.md#KGPTables)
