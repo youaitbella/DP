@@ -91,6 +91,36 @@ public class KGPListHeaderText implements Serializable {
         this._lastYear = lastYear;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property _seq">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "htSeq")
+    private int _seq;
+
+    public int getSeq() {
+        return _seq;
+    }
+
+    public void setSeq(int seq) {
+        this._seq = seq;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property _type">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "htType")
+    private int _type;
+
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int type) {
+        this._type = type;
+    }
+    //</editor-fold>
     
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ctHeaderTextID")
 //    private List<KGPListContentText> kGPListContentTextList;
