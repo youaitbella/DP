@@ -79,52 +79,42 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Beschreibung Leistungsschlüssel||ccServiceKeyDescription|
 |||Summe Leistungseinheiten||ccServiceSum|
 ||||||
-|Normalstation|||KGPBaseInformation||
-|||Ärzte freie Mitarbeit||biNormalFreelancing|
-|||Honorarverträge||biFeeContract|
-|||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
-|||Erfassung PKMS Normalstation und KIS-Integration/Manuell||biPKMSRecording|
-|||Sonstiges||biPKMSOther|
-|Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGPPKMSAlternative||
-|||Fachabteilung||paDepartment|
-|||FAB Schlüssel 301||paDepartmentKey|
-|||Alternativverfahren||paAlternative|
-|Normalstation|Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a||KGPNormalStationServiceDocumentation||
-|||Ja/Nein||nssUsed|
-|||Fachabteilung||nssDepartment|
-|||FAB Schlüssel 301||nssDepartmentKey|
-|||Alternativverfahren||nssAlternative|
-|Normalstation|Ärzte in freier Mitarbeit||KGPNormalFreelancer||
-|||Bereich||nfDivision|
-|||AnzahlVK||nfFullVigorCnt|
-|||Kostenvolumen||nfAmount|
-|||KoArtGr 1||nfCostType1|
-|||KoArtGr 6c||nfCostType6c|
-|Normalstation|Honorarverträge||KGPNormalFeeContract||
-|||Bereich||nfcDivision|
-|||FAB Schlüssel 301||nfcDepartmentKey|
-|||Anzahl Fälle||nfcCaseCnt|
-|||abgegr. Kostenvolumen||nfcAmount|
-|Normalstation|Kosten KstGr 1||KGPListCostCenterCost||
-|||Nummer der Kostenstelle||cccCostCenter|
-|||Name der Kostenstelle||cccCostCenterText|
-|||Zugeordnete Kostenstellengruppe||cccCostTypeID|
-|||FAB Schlüssel 301||cccDepartmentKey|
-|||Belegung: FAB||cccDepartmentAssignment|
-|||Bettenzahl||cccBedCnt|
-|||Pflegetage||cccCareDays|
-|||PPR-Minuten||cccPPRMinutes|
-|||zusätzliche Gewichtung PPR||cccPPRWeight|
-|||Anz. VK ÄD||cccMedicalServiceCnt|
-|||Anz. VK PD||cccNursingServiceCnt|
-|||Anz. VK FD||cccFunctionalServiceCnt|
-|||Kosten ÄD||cccMedicalServiceAmount|
-|||Kosten PD||cccNursingServiceAmount|
-|||Kosten FD||cccFunctionalServiceAmount|
-|||Gemeinkosten Arzneimittel||cccOverheadsMedicine|
-|||Gemeinkosten Sachbedarf||cccOverheadsMedicalGoods|
-|||Kosten MedInfra||cccMedicalInfrastructureCost|
-|||Kosten nicht MedInfra||cccNonMedicalInfrastructureCost|
+|Stationärer Bereich|||KGPBaseInformation||
+|||Leistungsdokumentation gem. BIM||biBimAll|
+|||Ausnahmegenehmigung für das Datenjahr (Kommentar)||biIntensiveExceptionalPermission|
+|||Stichwortartig Kriterien Pflegetage||biIntensiveCriteriaBullets|
+|||Stichwortartig Verfahren zur Verrechnung der Kosten||biIntensiveMethodBullets|
+||||||
+|Normalstation|Alternativverfahren||KGPListStationAlternative||
+|||Fachabteilung||saDepartmentKey|
+|||FAB Schlüssel 301||saDepartmentName|
+|||Alternativverfahren||saAlternative|
+||||||
+|Normalstation|Leistungsdaten und Kosten ind KstGr 21||KGPListStationServiceCost||
+|||Kostenstelle||sscCostCenterID|
+|||Nummer der Kostenstelle||sscCostCenterNumber|
+|||Station||sscStation|
+|||Eindeutige Zuordnung nach Psych-PV||sscMappingPsyPV|
+|||Anzahl Betten||sscBedCnt|
+|||Bettenführende Aufnahmestation||sscReceivingStation|
+|||Summe Pflegetage Regelbehandlung||sscRegularCareDays|
+|||Summe Gewichtungspunkte Regelbehandlung||sscRegularWeight|
+|||Summe Pflegetage Intensiv||sscIntensiveCareDays|
+|||Summe Gewichtungspunkte Intensiv||sscIntensiveWeight|
+|||Anzahl VK ÄD||sscMedicalServiceCnt|
+|||Anzahl VK PD||sscNursingServiceCnt|
+|||Anzahl VK Psychologen||sscPsychologistCnt|
+|||Anzahl VK Sozialarbeiter||sscSocialWorkerCnt|
+|||Anzahl VK Spezialtherapeuten||sscSpecialTherapistCnt|
+|||Anzahl VK FD||sscFunctionalServiceCnt|
+|||Kosten ÄD||sscMedicalServiceAmount|
+|||Kosten PD||sscNursingServiceAmount|
+|||Kosten Psychologen||sscPsychologistAmount|
+|||Kosten Sozialarbeiter||sscSocialWorkerAmount|
+|||Kosten Spezialtherapeuten||sscSpecialTherapistAmount|
+|||Kosten FD||sscFunctionalServiceAmount|
+|||Kosten med. Infra.||sscMedicalInfrastructureAmount|
+|||Kosten nicht med. Infra.||sscNonMedicalInfrastructureAmount|
 ||||||
 |Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodMedInfra|
