@@ -1,8 +1,8 @@
-Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpassung KGL DJ2016\Übergabe an EDV
+Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpassung KGP DJ2016\Übergabe an EDV
 
 |Blatt|Tabelle|Spalte|Tabelle DB|Spalte DB|
 |---|---|---|---|---|
-|Grundlagen|Grundlagen||KGLBaseInformation||
+|Grundlagen|Grundlagen||KGPBaseInformation||
 |||Summe kalkulationsrelevanter Kosten (EUR)||biSumCalcCost|
 |||Fälle vollstationär||biCaseInStationCnt|
 |||Fälle teilstationär||biCasePartialStationCnt|
@@ -15,14 +15,14 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Differenzierter Versorgungsvertrag||biDifLocationSupply|
 |||BesondereEinrichtung||biSpecialUnit|
 |||Zentren und Schwerpunkte||biCentralFocus|
-|Grundlagen|Entlassender Standort||KGLListLocation||
+|Grundlagen|Entlassender Standort||KGPListLocation||
 |||Entlassender Standort||lLocation|
 |||Nummer||lLocationNo|
-|Grundlagen|Besondere Einrichtung||KGLListSpecialUnit||
+|Grundlagen|Besondere Einrichtung||KGPListSpecialUnit||
 |||Art der BE||suType|
 |||Fallzahl||suCaseCnt|
 |||Kostenvolumen||suCost|
-|Grundlagen|Zentren und Schwerpunkte||KGLListCentralFocus||
+|Grundlagen|Zentren und Schwerpunkte||KGPListCentralFocus||
 |||Bezeichnung||cfText|
 |||Fallzahl||cfCaseCnt|
 |||Personalkosten||cfPersonalCost|
@@ -30,26 +30,26 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Infrastrukturkosten||cfInfraCost|
 |||Vereinbartes Entgelt||cfRemunerationAmount|
 |||Entgeltschlüssel||cfRemunerationKey|
-|Grundlagen|Berücksichtigte Abgrenzungstatbestände||KGLListDelimitationFact||
+|Grundlagen|Berücksichtigte Abgrenzungstatbestände||KGPListDelimitationFact||
 |||Text (Label)||dfContentTextID|
 |||bitte markieren||dfUsed|
 |||Personalkosten||dfPersonalCost|
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
-|Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGLBaseInformation|biNeonatLvl|
-|Neonatologie|Qualifikationen gem. Richtlinie||KGLNeonatData||
+|Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGPBaseInformation|biNeonatLvl|
+|Neonatologie|Qualifikationen gem. Richtlinie||KGPNeonatData||
 |||Qualifikation||ndContentTextID|
 |||Erfüllt (Datum)/Anzahl/Kosten||ndData|
 |Leistungsdokumentation (ext. Lei)|||||
-|||Bereich|KGLListServiceProvisionType|sptText|
-|||wird nicht erbracht|KGLListServiceProvision|spNotProvided|
+|||Bereich|KGPListServiceProvisionType|sptText|
+|||wird nicht erbracht|KGPListServiceProvision|spNotProvided|
 |||keine Fremdvergabe||spNoExternalAssignment|
 |||vollständige Fremdvergabe||spFullExternalAssignment|
 |||teilweise Fremdvergabe||spPartialExternalAssignment|
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
-|Leistungsdokumentation (OP + AN)|Leistungsdokumentation||KGLOpAn||
+|Leistungsdokumentation (OP + AN)|Leistungsdokumentation||KGPOpAn||
 |||Wie viele Zentral-OPs hat das Krankenhaus?||oaCentralOPCnt|
 |||Personalbindungszeit ÄD (OP)||oaStaffBindingMsOP|
 |||Personalbindungszeit FD (OP)||oaStaffBindingFsOP|
@@ -72,14 +72,14 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle ÄD (AN)||oaMedicalServiceAmountAN|
 |||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD (AN)||oaFunctionalServiceAmountAN|
 ||||||
-|Leistungsdokumentation (OP + Kreißsaal)|Top 3 ambulante Leistungen / Top 5 Geburtshilfen||KGLListKstTop||
+|Leistungsdokumentation (OP + Kreißsaal)|Top 3 ambulante Leistungen / Top 5 Geburtshilfen||KGPListKstTop||
 |||Kostenstelle||ktCostCenterID|
 |||Bezeichnung||ktText|
 |||Fallzahl||ktCaseCnt|
 |||Erlösvolumen||ktAmount|
 |||abgegr. Kostenvolumen||ktDelimitationAmount|
 |||Rang||ktRank|
-|Leistungsdokumentation (Kreißsaal Gynäkologie)|Kreißsaal/Gynäkologie||KGLBaseInformation||
+|Leistungsdokumentation (Kreißsaal Gynäkologie)|Kreißsaal/Gynäkologie||KGPBaseInformation||
 |||Das Krankenhaus erbringt Leistungen im Bereich der Gynäkologie.||biGynecology|
 |||Das Krankenhaus erbringt Leistungen im Bereich Geburtshilfe.||biObstetrical|
 |||Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden||biDeliveryRoomHours|
@@ -87,19 +87,19 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Anzahl vollstationär geborener Kinder ||biDeliveryRoomInstationBirthCnt|
 |||Aufenthaltszeiten der Patientin im Kreißsaal||biNoDeliveryRoomHabitation|
 |||Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich||biDeliveryRoomOrganizationalStructure|
-|Leistungsdokumentation (Kardiologie)|||KGLBaseInformation||
+|Leistungsdokumentation (Kardiologie)|||KGPBaseInformation||
 |||Das Krankenhaus erbringt Leistungen im Bereich der Kardiologie.||biCardiology|
 |||Anzahl kardiologischer Eingriffsräume||biCardiologyRoomCnt|
 |||Wieviele kalkulationsrelevante Fälle werden dort behandelt?||biCardiologyCaseCnt|
-|Leistungsdokumentation (Endoskopie)|||KGLBaseInformation||
+|Leistungsdokumentation (Endoskopie)|||KGPBaseInformation||
 |||Das Krankenhaus erbringt Leistungen im Bereich der Endoskopie.||biEndoscopy|
 |||Anzahl endoskopischer Eingriffsräume||biEndoscopyRoomCnt|
 |||Wieviele kalkulationsrelevante Fälle werden dort behandelt?||biEndoscopyCaseCnt|
-|MHI-Richtlinie|||KGLBaseInformation||
+|MHI-Richtlinie|||KGPBaseInformation||
 |||Das Krankenhaus führt minimalinvasive Herzklappeninterventionen durch||biMinimalValvularIntervention|
 |||Erfüllungsgrad||biMviFulfilled|
 |||Erfüllt im kommenden Datenjahr die notwendigen Anforderungen||biMviGuidelineAspired|
-|Leistungsdokumentation (Kreißsaal)|Geburtshilfe/Gynäkologie||KGLListObstetricsGynecology||
+|Leistungsdokumentation (Kreißsaal)|Geburtshilfe/Gynäkologie||KGPListObstetricsGynecology||
 |||Kostenstelle||ogCostCenterText|
 |||Zuordnung Kostenstellengruppe||ogCostTypeID|
 |||Ärztlicher Dienst||ogMedicalServiceCnt|
@@ -108,17 +108,17 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Funktionsdienst (ohne Hebammen)||ogFunctionalServiceCnt|
 |||Hebammen||ogMidwifeCnt|
 |||davon: Beleg-Hebammen||ogAttendingMidwifeCnt|
-|Leistungsdokumentation(Endoskopie)|endoskopischen Bereiche die nicht den Leistungsschlüssel "Eingriffszeit" verwenden||KGLListEndoscopyDifferential||
+|Leistungsdokumentation(Endoskopie)|endoskopischen Bereiche die nicht den Leistungsschlüssel "Eingriffszeit" verwenden||KGPListEndoscopyDifferential||
 |||Bereich||edDivision|
 |||Leistungsschlüssel||edActivityKey|
-|Leistungsdokumentation(Radiologie)|Ausgewählte Leistungen||KGLRadiologyService||
+|Leistungsdokumentation(Radiologie)|Ausgewählte Leistungen||KGPRadiologyService||
 |||Bezeichnung||rsContentTextID|
 |||OPS||rsOpsCode|
 |||Kosten pro Leistung||rsServiceCost|
 |||Fallzahl stationär||rsCaseCntStationary|
 |||Fallzahl ambulant||rsCaseCntAmbulant|
 |||abgegr. Kostenvolumen ambulant||rsAmbulantAmount|
-|Leistungsdokumentation(Radiologie + Laboratorien)|||KGLListRadiologyLaboratory||
+|Leistungsdokumentation(Radiologie + Laboratorien)|||KGPListRadiologyLaboratory||
 |||Kostenartengruppe||rlCostTypeID|
 |||Kostenstelle||rlCostCenterID|
 |||Name Kostenstelle||rlCostCenterText|
@@ -132,7 +132,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Kostenvolumen vor Abgrenzung||rlAmountPre|
 |||Leistungsvolumen nach Abgrenzung||rlServiceVolumePost|
 |||Kostenvolumen nach Abgrenzung||rlAmountPost|
-|Leistungsdokumentation (KST 11-13)|||KGLListCostCenter||
+|Leistungsdokumentation (KST 11-13)|||KGPListCostCenter||
 |||Kostenstelle||ccCostCenterID|
 |||Name Kostenstelle||ccCostCenterText|
 |||Kostenvolumen||ccAmount|
@@ -140,7 +140,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Leistungsschlüssel||ccServiceKey|
 |||Beschreibung Leistungsschlüssel||ccServiceKeyDescription|
 |||Summe Leistungsschlüssel||ccServiceSum|
-|PK-Verrechnung|Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung||KGLPersonalAccounting||
+|PK-Verrechnung|Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung||KGPPersonalAccounting||
 |||Kostenartengruppe||paCostTypeID|
 |||Mitarbeiterbezogene Zeiterfassung||paStaffRecording|
 |||Stellenplanauswertung||paStaffEvaluation|
@@ -149,33 +149,33 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Expertenschätzung||paExpertRating|
 |||Sonstige||paOther|
 |||Kostenvolumen||paAmount|
-|Normalstation|||KGLBaseInformation||
+|Normalstation|||KGPBaseInformation||
 |||Ärzte freie Mitarbeit||biNormalFreelancing|
 |||Honorarverträge||biFeeContract|
 |||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
 |||Erfassung PKMS Normalstation und KIS-Integration/Manuell||biPKMSRecording|
 |||Sonstiges||biPKMSOther|
-|Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGLPKMSAlternative||
+|Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGPPKMSAlternative||
 |||Fachabteilung||paDepartment|
 |||FAB Schlüssel 301||paDepartmentKey|
 |||Alternativverfahren||paAlternative|
-|Normalstation|Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a||KGLNormalStationServiceDocumentation||
+|Normalstation|Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a||KGPNormalStationServiceDocumentation||
 |||Ja/Nein||nssUsed|
 |||Fachabteilung||nssDepartment|
 |||FAB Schlüssel 301||nssDepartmentKey|
 |||Alternativverfahren||nssAlternative|
-|Normalstation|Ärzte in freier Mitarbeit||KGLNormalFreelancer||
+|Normalstation|Ärzte in freier Mitarbeit||KGPNormalFreelancer||
 |||Bereich||nfDivision|
 |||AnzahlVK||nfFullVigorCnt|
 |||Kostenvolumen||nfAmount|
 |||KoArtGr 1||nfCostType1|
 |||KoArtGr 6c||nfCostType6c|
-|Normalstation|Honorarverträge||KGLNormalFeeContract||
+|Normalstation|Honorarverträge||KGPNormalFeeContract||
 |||Bereich||nfcDivision|
 |||FAB Schlüssel 301||nfcDepartmentKey|
 |||Anzahl Fälle||nfcCaseCnt|
 |||abgegr. Kostenvolumen||nfcAmount|
-|Normalstation|Kosten KstGr 1||KGLListCostCenterCost||
+|Normalstation|Kosten KstGr 1||KGPListCostCenterCost||
 |||Nummer der Kostenstelle||cccCostCenter|
 |||Name der Kostenstelle||cccCostCenterText|
 |||Zugeordnete Kostenstellengruppe||cccCostTypeID|
@@ -195,27 +195,27 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Gemeinkosten Sachbedarf||cccOverheadsMedicalGoods|
 |||Kosten MedInfra||cccMedicalInfrastructureCost|
 |||Kosten nicht MedInfra||cccNonMedicalInfrastructureCost|
-|Med Infra|Gewähltes Verfahren||KGLBaseInformation||
+|Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodMedInfra|
 |||Stufenleiterverfahren||biStepladderMethodMedInfra|
 |||Anbauverfahren||biExtensionMethodMedInfra|
 |||Sonstige Vorgehensweise||biOtherMethodMedInfra|
-|Nicht Med Infra|Gewähltes Verfahren||KGLBaseInformation||
+|Nicht Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren||biApproximationMethodNonMedInfra|
 |||Stufenleiterverfahren||biStepladderMethodNonMedInfra|
 |||Anbauverfahren||biExtensionMethodNonMedInfra|
 |||Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
-|Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGLListMedInfra||
+|Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGPListMedInfra||
 |||Kostenartengruppe||miCostTypeID|
 |||Nummer der Kostenstelle||miCostCenter|
 |||Name der Kostenstelle||miCostCenterText|
 |||Verwendeter Schlüssel||miKeyUsed|
 |||Kostenvolumen||miAmount|
-|Intensiv_Stroke (Intensiv)|||KGLBaseInformation||
+|Intensiv_Stroke (Intensiv)|||KGPBaseInformation||
 |||Intensivbetten||biIntensiveBed|
-|Intensiv_Stroke (Stroke Unit)|||KGLBaseInformation||
+|Intensiv_Stroke (Stroke Unit)|||KGPBaseInformation||
 |||Intensivbetten Schlaganfall||biIntensiveStrokeBed|
-|Intensiv_Stroke|||KGLListIntensivStroke||
+|Intensiv_Stroke|||KGPListIntensivStroke||
 |||IntensivTyp zur Unterscheidung Intensiv/Stroke||isIntensiveType|
 |||Nummer Kostenstelle||isCostCenterID|
 |||Name Kostenstelle||isCostCenterText|
@@ -245,4 +245,4 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Kosten nicht med. Infra||isNonMedicalInfrastructureCost|
 
 
-[Zurück zum Hauptdokument](DataPortal.md#KGLTables)
+[Zurück zum Hauptdokument](DataPortal.md#KGPTables)
