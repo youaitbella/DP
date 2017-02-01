@@ -6,18 +6,13 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -51,7 +46,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _text">
     @Basic(optional = false)
     @NotNull
     @Size(max = 300)
@@ -67,7 +62,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctFirstYear")
@@ -82,7 +77,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctLastYear")
@@ -97,7 +92,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _decimalCnt">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctDecimalCnt")
@@ -112,7 +107,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _seq">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctSeq")
@@ -127,7 +122,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _headerTextID">
 //    @JoinColumn(name = "ctHeaderTextID", referencedColumnName = "htID")
 //    @ManyToOne(optional = false)
     @Column(name = "ctHeaderTextID")
@@ -142,7 +137,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _contentTextId">
     @Column(name = "dfContentTextID")
     private int _contentTextId;
 
@@ -155,6 +150,19 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property _contentTextId">
+    @Column(name = "ctDiffAsPercent")
+    private boolean _diffAsPercent;
+
+    public boolean isDiffAsPercent() {
+        return _diffAsPercent;
+    }
+
+    public void setDiffAsPercent(boolean diffAsPercent) {
+        this._diffAsPercent = diffAsPercent;
+    }
+    //</editor-fold>
+    
     public KGPListContentText() {
     }
 
