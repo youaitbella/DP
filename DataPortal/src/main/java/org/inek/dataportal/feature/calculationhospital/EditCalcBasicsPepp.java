@@ -39,7 +39,9 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -449,6 +451,25 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return ct.getText();
         }
         return "Unbekannte Kostenartengruppe";
+    }
+    
+    public KGPListDelimitationFact getPriorDelimitationFact(int contentTextId) {
+        for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+            if (df.getContentTextId() == contentTextId) {
+                return df;
+            }
+        }
+        return new KGPListDelimitationFact();
+    }
+
+    public void addLocation() {
+        KGLListLocation loc = new KGLListLocation();
+        loc.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getLocations().add(loc);
+    }
+
+    public void deleteLocation(KGLListLocation loc) {
+        _calcBasics.getLocations().remove(loc);
     }
 
 }
