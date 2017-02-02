@@ -15,7 +15,7 @@
     <h2 title="# {msg.titleMedicalInfrastructure}"># {msg. lblCalcMedicalInfrastructure}</h2>
 -->
 
-<!--  <h2># {"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
+  <h2># {"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
         
     <table cellspacing="6">
         <thead>
@@ -26,22 +26,22 @@
         </thead>
         <tr>
             <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.approximationMethodMedInfra}">
+        <h:selectBooleanCheckbox value="#{editCalcBasicsPepp.calcBasics.approximationMethodMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
             <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.stepladderMethodMedInfra}">
+                <h:selectBooleanCheckbox value="#{editCalcBasicsPepp.calcBasics.stepladderMethodMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
             <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.extensionMethodMedInfra}">
+                <h:selectBooleanCheckbox value="#{editCalcBasicsPepp.calcBasics.extensionMethodMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
             <td style="text-align: center;">
-            <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
+            <h:selectBooleanCheckbox value="#{editCalcBasicsPepp.calcBasics.descMedicalInfra}" >
                     <f:ajax event="change" render="@form description :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
@@ -50,7 +50,8 @@
 
         </tbody>
     </table>
-      
+
+  <!--
     <div class="inputPart" jsf:rendered="# {editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
         <h:inputTextarea id="description" styleClass="areaWideHigh" value="# {editCalcBasicsDrg.calcBasics.otherMethodMedInfra}">
