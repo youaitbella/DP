@@ -167,6 +167,20 @@ public class KGPListServiceProvision implements Serializable {
         this._domain = domain;
     }
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
+    @Column(name = "spSequence")
+    private int _sequence;
+
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
+    }
+    
+    //</editor-fold>
 
     public KGPListServiceProvision() {
     }
