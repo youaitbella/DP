@@ -24,6 +24,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
@@ -593,10 +594,20 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfraDesc">
+    @Transient
+    private boolean _hasDescMedicalInfra = false;
+
+    public boolean isDescMedicalInfra() {
+        return _hasDescMedicalInfra;
+    }
+
+    public void setDescMedicalInfra(boolean _hasDesc) {
+        this._hasDescMedicalInfra = _hasDesc;
+    }
+    //</editor-fold>
+        
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodNonMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Size(max = 2147483647)
     @Column(name = "biOtherMethodNonMedInfra")
     private String _otherMethodNonMedInfra = "";
 
@@ -608,6 +619,21 @@ public class PeppCalcBasics implements Serializable {
         this._otherMethodNonMedInfra = otherMethodNonMedInfra;
     }
     // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfraDesc">
+    @Transient
+    private boolean _hasDescNonMedicalInfra = false;
+
+    public boolean isDescNonMedicalInfra() {
+        return _hasDescNonMedicalInfra;
+    }
+
+    public void setDescNonMedicalInfra(boolean _hasDesc) {
+        this._hasDescNonMedicalInfra = _hasDesc;
+    }
+    //</editor-fold>
+    
+    
     
     // <editor-fold defaultstate="collapsed" desc="Property _personalAccountingDescription">
     @Basic(optional = false)
@@ -655,18 +681,18 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpServiceProvisionList">
+    // <editor-fold defaultstate="collapsed" desc="Property List _serviceProvisions">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListServiceProvision> _kgpServiceProvisionList = new Vector<>();
+    private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
-    public List<KGPListServiceProvision> getKgpServiceProvisionList() {
-        return _kgpServiceProvisionList;
+    public List<KGPListServiceProvision> getServiceProvisions() {
+        return _serviceProvisions;
     }
 
-    public void setKgpServiceProvisionList(List<KGPListServiceProvision> kgpServiceProvisionList) {
-        this._kgpServiceProvisionList = kgpServiceProvisionList;
+    public void setServiceProvisions(List<KGPListServiceProvision> serviceProvisions) {
+        this._serviceProvisions = serviceProvisions;
     }
     // </editor-fold>
     

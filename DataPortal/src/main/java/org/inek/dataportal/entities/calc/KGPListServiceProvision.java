@@ -13,7 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -135,6 +138,33 @@ public class KGPListServiceProvision implements Serializable {
 
     public void setServiceProvisionTypeId(int serviceProvisionTypeId) {
         this._serviceProvisionTypeId = serviceProvisionTypeId;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property KGLListServiceProvisionType">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "spServiceProvisionTypeID")
+    private KGPListServiceProvisionType _serviceProvisionType;
+
+    public KGPListServiceProvisionType getServiceProvisionType() {
+        return _serviceProvisionType;
+    }
+
+    public void setServiceProvisionType(KGPListServiceProvisionType serviceProvisionType) {
+        _serviceProvisionType = serviceProvisionType;
+    }
+    // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
+    @Transient
+    private String _domain;
+    
+    public String getDomain() {
+        return _domain;
+    }
+    
+    public void setDomain(String domain) {
+        this._domain = domain;
     }
     //</editor-fold>
 

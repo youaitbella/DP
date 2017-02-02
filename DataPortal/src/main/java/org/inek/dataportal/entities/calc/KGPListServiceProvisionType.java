@@ -29,7 +29,7 @@ public class KGPListServiceProvisionType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -46,7 +46,7 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _text">
     @Basic(optional = false)
     @NotNull
     @Size(max = 200)
@@ -62,7 +62,7 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptFirstYear")
@@ -77,7 +77,7 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ">
+    //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
     @Basic(optional = false)
     @NotNull
     @Column(name = "sptLastYear")
@@ -89,6 +89,21 @@ public class KGPListServiceProvisionType implements Serializable {
 
     public void setLastYear(int lastYear) {
         this._lastYear = lastYear;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _sequence">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "sptSequence")
+    private int _sequence;
+
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
     }
     //</editor-fold>
     
