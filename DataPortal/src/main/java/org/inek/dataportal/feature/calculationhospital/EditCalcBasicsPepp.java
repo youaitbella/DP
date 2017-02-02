@@ -137,10 +137,19 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
 
         // MedicalInfrastructure
+        calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
         calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
         calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
+       
+        
+        // NonMedicalInfrastructure
+        calcBasics.setDescNonMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
+        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
+        calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
+        calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
+        calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
         
         
     }
