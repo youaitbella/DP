@@ -10,8 +10,281 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h2>todo: Therapeutischer Bereich</h2>
+    <h2>#{msg.lblCalcTherapyScope}</h2>
     
+        <style>
+        #tbl {
+            margin-top: 20px;
+        }
+        #tbl tr:first-child td {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        #tbl td {
+            background-color: #7F9BAF;
+            font-weight: bold;
+            color: white;
+            padding: 2px 6px 2px 6px;
+        }
+        
+        #tbl input {
+            width: 100px;
+        }
+        
+        .red {
+            color: red;
+        }
+        
+        .prior {
+            width: 100%;
+            text-align: right;
+            display: inline-block;
+        }
+        
+        .diff {
+            color: #043358;
+        }
+       
+    </style>
 
+<div style="overflow-x: scroll;">
+        <table id="tbl">
+            <tr>
+                <td></td>
+                <td class="" colspan="2"></td>
+                <td colspan="2">externe Leistungs- erbringung</td>
+                <td colspan="1"></td>
+                <td colspan="2">KoArtG 1</td>
+                <td colspan="2">KoArtG 3a</td>
+                <td colspan="2">KoArtG 2</td>
+                <td colspan="2">KoArtG 3b</td>
+                <td colspan="2">KoArtG 3c</td>
+                <td colspan="2">KoArtG 3</td>
+                <td colspan="6">Personalkosten je Leistungseinheit</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="">
+                    KSt.- Gruppe
+                </td>
+                <td class="">
+                    Leistungsinhalt der Kostenstelle
+                </td>
+                <td class="">
+                   voll- ständig 
+                </td>
+                <td class="">
+                    teil- weise
+                </td>
+                <td class="">
+                    verwendeter Leistungs- schlüssel (z.B. Minuten, DKG-NT)
+                </td>
+                <td class="">
+                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="">
+                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="">
+                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="">
+                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="">
+                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="">
+                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td>
+                    KoArtG 1
+                </td>
+                <td>
+                    KoArtG 3a
+                </td>
+                <td>
+                    KoArtG 2
+                </td>
+                <td>
+                    KoArtG 3b
+                </td>
+                <td>
+                    KoArtG 3c
+                </td>
+                <td>
+                    KoArtG 3
+                </td>
+            </tr>
+            
+            <ui:repeat id="tbl-cont" value="#{editCalcBasicsPepp.calcBasics.therapies}" var="x" varStatus="loop">
+                    <tr>
+                        <td>
+                            <h:commandLink styleClass="colIcon">
+                                <h:graphicImage alt="# {msg.btnDelete}" name="Icon/small/delete.png" title="# {msg.btnDelete}" value=""/>
+                                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.deleteCostCenterCosts(x)}"/>
+                            </h:commandLink>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.costCenterId}"  renderElement=""/>
+                        </td>
+                        <td>
+                        <h:inputText value="#{x.costCenterText}" >
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                        </td>
+                        <td>
+                        <h:inputText value="# {x.departmentKey}" >
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                        </td>
+                        <td>
+                        <h:inputText value="# {x.departmentAssignment}" >
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                        </td>
+                        <td>
+                        <inek:InputTextWithMessage value="#{x.keyUsed}"  />
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt1}"  renderElement="calc-field-1-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.personalCostCt1}"  renderElement="calc-field-1-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="calc-field-3a-# {loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.personalCostCt3a}"  renderElement="calc-field-3a-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt2}"  renderElement="calc-field-2-# {loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.personalCostCt2}"  renderElement="calc-field-2-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="calc-field-3b-# {loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.personalCostCt3b}"  renderElement="calc-field-3b-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="calc-field-3c-# {loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.personalCostCt3c}"  renderElement="calc-field-3c-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3}"  renderElement="calc-field-3-# {loop.index}:text"/>
+                        </td>
+                        <td>
+                        <inek:InputNumberWithMessage value="#{x.personalCostCt3}"  renderElement="calc-field-3-#{loop.index}:text"/>
+                        </td>
+                        <td>
+                        <h:outputLabel  id="calc-field-1-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+                        </td>
+                        <td>
+                        <h:outputLabel  id="calc-field-3a-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
+                        </td>
+                        <td>
+                        <h:outputLabel  id="calc-field-2-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
+                        </td>
+                        <td>
+                        <h:outputLabel  id="calc-field-3b-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
+                        </td>
+                        <td>
+                        <h:outputLabel  id="calc-field-3c-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
+                        </td>
+                        <td>
+                        <h:outputLabel  id="calc-field-3-#{loop.index}"
+                                        styleClass="prior diff" 
+                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
+                        </td>
+                            
+                    </tr>
+            </ui:repeat>>
+<!--            <tr>
+                <td colspan="2">Summen</td>
+                <td colspan="3"></td>
+                <td>
+            <inek:InputNumberWithMessage id="sumBeds" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(0)}" disabled="true" />
+                </td>
+                <td colspan="2"></td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumAddPpr" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(1)}" disabled="true" />
+                </td>
+                <td></td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumMedicalService" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(2)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumNurseService" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(3)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumFuncService" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(4)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumMedicalService2" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(5)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumNurseService2" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(6)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumFuncService2" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(7)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumShareMedicine" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(8)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumShareMedicineStuff" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(9)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumMedInfra" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(10)}" disabled="true" />
+                </td>
+                <td>
+                    <inek:InputNumberWithMessage id="sumNonMedInfra" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(11)}" disabled="true" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="20">
+                    <h:commandLink id="addButton4" styleClass="addButton inputPart" value="# {msg.btnAddEntry}">
+                        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="# {editCalcBasicsDrg.addCostCenterCosts()}"/>
+                    </h:commandLink>
+                </td>
+            </tr>
+            -->
+        </table>
+    </div>
+    
 </ui:composition>
 
