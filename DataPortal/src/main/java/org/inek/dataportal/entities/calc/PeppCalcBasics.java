@@ -726,18 +726,18 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpTherapyList">
+    // <editor-fold defaultstate="collapsed" desc="Property List _therapies">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "thBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "thBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListTherapy> _kgpTherapyList = new Vector<>();
+    private List<KGPListTherapy> _therapies = new Vector<>();
 
-    public List<KGPListTherapy> getKgpTherapyList() {
-        return _kgpTherapyList;
+    public List<KGPListTherapy> getTherapies() {
+        return _therapies;
     }
 
-    public void setKgpTherapyList(List<KGPListTherapy> kgpTherapyList) {
-        this._kgpTherapyList = kgpTherapyList;
+    public void setTherapies(List<KGPListTherapy> kgpTherapyList) {
+        this._therapies = kgpTherapyList;
     }
     // </editor-fold>
     
