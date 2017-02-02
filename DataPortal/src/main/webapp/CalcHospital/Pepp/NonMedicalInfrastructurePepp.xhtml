@@ -46,17 +46,18 @@
         </tbody>
     </table>
 
-<!--
-    
-    <div class="inputPart" jsf:rendered="# {editCalcBasicsDrg.calcBasics.descNonMedicalInfra}" >
+    <div class="inputPart" jsf:rendered="#{editCalcBasicsPepp.calcBasics.descNonMedicalInfra}" >
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-        <h:inputTextarea id="description" styleClass="areaWideHigh" value="# {editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}">
+        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.otherMethodNonMedInfra}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>    
+
+
     
-    <h2># {"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur"}</h2>  
-    
+    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur"}</h2>  
+  
+    <!--  
     180 = nicht med. Infra
     <h:dataTable  headerClass="list-header" id="nonMedInfras"
                   value="# {editCalcBasicsDrg.getMedInfra(180)}" var="item" width="100%" rowClasses="row1, row2" 

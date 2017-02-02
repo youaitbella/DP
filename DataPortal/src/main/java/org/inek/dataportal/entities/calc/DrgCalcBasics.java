@@ -1138,6 +1138,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List locations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
+    @OrderBy(value = "_locationNo")
     private List<KGLListLocation> _locations = new Vector<>();
 
     public List<KGLListLocation> getLocations() {
