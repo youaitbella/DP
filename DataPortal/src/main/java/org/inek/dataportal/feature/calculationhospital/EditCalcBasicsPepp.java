@@ -44,6 +44,7 @@ import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
+import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -142,6 +143,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
         calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
         
+        preloadServiceProvision(calcBasics);
         
     }
 
@@ -203,6 +205,40 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
     }
 
+    private void preloadServiceProvision(PeppCalcBasics calcBasics) {
+        calcBasics.getServiceProvisions().clear();
+        List<KGPListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypesPepp(calcBasics.getDataYear(), true);
+
+        int seq = 0;
+
+        // always populate mandatory entries
+        for (KGPListServiceProvisionType provisionType : provisionTypes) {
+            KGPListServiceProvision data = new KGPListServiceProvision();
+            data.setBaseInformationId(calcBasics.getId());
+            data.setServiceProvisionType(provisionType);
+            data.setServiceProvisionTypeId(provisionType.getId());
+            //data.setSequence(++seq);
+            calcBasics.getServiceProvisions().add(data);
+        }
+
+        // get prior values and additional entries
+        for (KGPListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
+            Optional<KGPListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId()== prior.getServiceProvisionTypeId()).findAny();
+            if (currentOpt.isPresent()) {
+                KGPListServiceProvision current = currentOpt.get();
+                current.setProvidedTypeId(prior.getProvidedTypeId());
+            } else {
+                KGPListServiceProvision data = new KGPListServiceProvision();
+                data.setBaseInformationId(calcBasics.getId());
+                data.setServiceProvisionType(prior.getServiceProvisionType());
+                data.setServiceProvisionTypeId(prior.getServiceProvisionTypeId());
+                data.setProvidedTypeId(prior.getProvidedTypeId());
+                //data.setSequence(++seq);
+                calcBasics.getServiceProvisions().add(data);
+            }
+        }
+        
+    }
 
 
     public List<String> getDelimitationFactsSubTitles() {
