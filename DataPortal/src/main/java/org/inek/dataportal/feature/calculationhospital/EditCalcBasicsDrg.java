@@ -159,20 +159,22 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Special units
+        /*
         calcBasics.getSpecialUnits().clear();
         for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
             specialUnit.setId(-1);
             specialUnit.setBaseInformationId(calcBasics.getId());
             calcBasics.getSpecialUnits().add(specialUnit);
-        }
+        } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
 
         // Central focuses
+        /*
         calcBasics.getCentralFocuses().clear();
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             centralFocus.setId(-1);
             centralFocus.setBaseInformationID(calcBasics.getId());
             calcBasics.getCentralFocuses().add(centralFocus);
-        }
+        } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
 
         // Delimitation facts
         calcBasics.getNormalFreelancers().clear();
