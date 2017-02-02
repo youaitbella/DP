@@ -22,6 +22,7 @@
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
+    <div>
     <cc:implementation>
 
         <h:dataTable value="#{cc.attrs.value}" 
@@ -72,9 +73,11 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblMail}</f:facet>
-                <inek:InputTextWithMessage id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth">
+                <h:inputText id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth">
                     <f:validator validatorId="EmailValidator" for="contactMail"/>
-                </inek:InputTextWithMessage>
+                    <f:ajax event="blur" render="@form :logout:remaining" />
+                </h:inputText>
+                <h:message for="contactMail" id="msgContactMail" errorClass="errorMessage"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
@@ -109,7 +112,10 @@
 
         </h:dataTable>
         
-        <h:outputText rendered="true" value="Test" />
+        <h:panelGroup id="info-email" rendered="#{editStatementOfParticipance.emailInfo.length() > 0}">
+            <h:outputText escape="false" value="#{editStatementOfParticipance.emailInfo}"/>
+        </h:panelGroup>
 
     </cc:implementation>
+    </div>
 </html>

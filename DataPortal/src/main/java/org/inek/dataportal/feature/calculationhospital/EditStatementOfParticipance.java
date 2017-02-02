@@ -38,6 +38,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -60,6 +61,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
     @Inject private CustomerFacade _customerFacade;
+    @Inject private AccountFacade _accFacade;
 
     private StatementOfParticipance _statement;
 
@@ -191,6 +193,25 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public void enableDisableStatementPage() {
         boolean enable = !_statement.isObligatory() || _statement.getObligatoryCalcType() > 1;
         findTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name()).setVisible(enable);
+    }
+    
+    public String getEmailInfo() {
+        String info = "";
+        boolean first = true;
+        for(CalcContact cc : _statement.getContacts()) {
+            if(!_accFacade.existsMail(cc.getMail()) && cc.getMail().length() > 0) {
+                if(first) {
+                    info = "<b>Hinweis:</b> Die angegebene/n E-Mailadresse/n ist/sind noch nicht im InEK-Datenportal registriert: ";
+                    info += "<u>"+cc.getMail()+"</u>";
+                    first = false;
+                    continue;
+                }
+                info += ", <u>" + cc.getMail()+"</u>";
+            }
+        }
+        if(info.length() > 0)
+            info += ".<br/>";
+        return info;
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -519,6 +540,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        if(_sessionController.getAccount().getEmail().endsWith("@inek-drg.de"))
+            iks = _sessionController.getAccount().getFullIkList();
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }
