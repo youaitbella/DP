@@ -226,7 +226,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             data.setBaseInformationId(calcBasics.getId());
             data.setServiceProvisionType(provisionType);
             data.setServiceProvisionTypeId(provisionType.getId());
-            //data.setSequence(++seq);
+            data.setSequence(++seq);
             calcBasics.getServiceProvisions().add(data);
         }
 
@@ -242,7 +242,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 data.setServiceProvisionType(prior.getServiceProvisionType());
                 data.setServiceProvisionTypeId(prior.getServiceProvisionTypeId());
                 data.setProvidedTypeId(prior.getProvidedTypeId());
-                //data.setSequence(++seq);
+                data.setSequence(++seq);
                 calcBasics.getServiceProvisions().add(data);
             }
         }
@@ -483,10 +483,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void addServiceProvision() {
-        int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getServiceProvisionType().getSequence()).max().orElse(0);
+        int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getSequence()).max().orElse(0);
         KGPListServiceProvision data = new KGPListServiceProvision();
         data.setBaseInformationId(_calcBasics.getId());
-        data.getServiceProvisionType().setSequence(++seq);
+        data.setServiceProvisionTypeId(-1);
+        data.setSequence(++seq);
         _calcBasics.getServiceProvisions().add(data);
     }
 
@@ -511,6 +512,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return "";
         }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
+    }
+
+    public String calcRatio(int nominator, int denominator) {
+        if (denominator == 0) {
+            return "";
+        }
+        return "" + Math.round(nominator * 1d / denominator);
     }
 
     public String getCostTypeText(int costTypeId) {
