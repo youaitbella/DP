@@ -40,6 +40,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -566,6 +567,17 @@ public class CalcFacade extends AbstractDataAccess {
             jpql += " and pt._firstYear > 1900";
         }
         TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
+        query.setParameter("year", year);
+        return query.getResultList();
+    }
+
+    public List<KGPListServiceProvisionType> retrieveServiceProvisionTypesPepp(int year, boolean mandatoryOnly) {
+        String jpql = "select pt from KGPListServiceProvisionType pt "
+                + "where pt._firstYear <= :year and pt._lastYear >= :year ";
+        if (mandatoryOnly) {
+            jpql += " and pt._firstYear > 1900";
+        }
+        TypedQuery<KGPListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGPListServiceProvisionType.class);
         query.setParameter("year", year);
         return query.getResultList();
     }
