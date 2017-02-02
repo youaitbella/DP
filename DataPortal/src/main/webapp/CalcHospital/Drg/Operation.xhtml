@@ -148,7 +148,7 @@
         </h:panelGroup>
 
 
-        <h4><h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle"/></h4>
+        <h4><h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle (SNZ * GZF + RZ)"/></h4>
 
         <div class="inputPart">
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
@@ -186,7 +186,7 @@
                      columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
             <h:column>
                 <f:facet name="header">#{msg.lblNotation}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.text}"/>
+                <inek:InputTextWithMessage value="#{item.text}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblCaseCount}</f:facet>
