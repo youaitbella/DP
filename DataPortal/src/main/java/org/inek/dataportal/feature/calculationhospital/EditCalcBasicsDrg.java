@@ -168,22 +168,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
 
         // Central focuses
-        /*
         calcBasics.getCentralFocuses().clear();
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             centralFocus.setId(-1);
             centralFocus.setBaseInformationID(calcBasics.getId());
+            centralFocus.setCaseCnt(0);
+            centralFocus.setInfraCost(0);
+            centralFocus.setMaterialcost(0);
+            centralFocus.setRemunerationAmount(0);
+            centralFocus.setRemunerationKey("");
+            centralFocus.setPersonalCost(0);
             calcBasics.getCentralFocuses().add(centralFocus);
-        } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
+        }
 
         // Delimitation facts
         calcBasics.getNormalFreelancers().clear();
         for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             df.setId(-1);
             df.setBaseInformationId(calcBasics.getId());
-            checkRequireInputsForDelimitationFact(df);
             calcBasics.getDelimitationFacts().add(df);
         }
+        checkRequireInputsForDelimitationFact(_priorCalcBasics);
 
         // Personal Accounting
         calcBasics.getPersonalAccountings().clear();
@@ -297,9 +302,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             int id = Integer.parseInt(idObject);
             DrgCalcBasics statement = _calcFacade.findCalcBasicsDrg(id);
             statement.setDescNonMedicalInfra(!statement.getOtherMethodNonMedInfra().isEmpty());
-            for (Iterator<DrgDelimitationFact> it = statement.getDelimitationFacts().iterator(); it.hasNext();) {
-                checkRequireInputsForDelimitationFact(it.next());
-            }
+            checkRequireInputsForDelimitationFact(statement);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 return statement;
             }
@@ -389,10 +392,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         
     }
 
-    private void checkRequireInputsForDelimitationFact(DrgDelimitationFact df) {
-        int id = df.getContentText().getId();
-        if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
-            df.setRequireInputs(true);
+    private void checkRequireInputsForDelimitationFact(DrgCalcBasics calcBasic) {
+        for(DrgDelimitationFact df : calcBasic.getDelimitationFacts()) {
+            int id = df.getContentText().getId();
+            if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
+                df.setRequireInputs(true);
+            }
         }
     }
 
@@ -656,6 +661,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        checkRequireInputsForDelimitationFact(_calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
