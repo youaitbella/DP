@@ -23,6 +23,7 @@ import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.insurance.InsuranceController;
+import org.inek.dataportal.feature.specificfunction.SpecificFunctionController;
 
 /**
  *
@@ -59,6 +60,8 @@ public class FeatureFactory {
                 return new InsuranceController(sessionController);
             case CALCULATION_HOSPITAL:
                 return new CalcHospitalController(sessionController);
+            case SPECIFIC_FUNCTION:
+                return new SpecificFunctionController(sessionController);
         }
         throw new IllegalArgumentException("no such controller");
     }
