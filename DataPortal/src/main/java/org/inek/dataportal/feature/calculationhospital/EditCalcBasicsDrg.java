@@ -857,7 +857,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics">
+    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics / therapy / patient admission">
     public void addCostCenter(int costCenterId) {
         KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);
         _calcBasics.getCostCenters().add(item);

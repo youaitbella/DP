@@ -21,11 +21,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -33,6 +36,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -40,7 +44,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
-import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
@@ -525,6 +529,86 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
     // </editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics / therapy / patient admission">
+    public void addCostCenter(int costCenterId) {
+        KGPListCostCenter item = new KGPListCostCenter(_calcBasics.getId(), costCenterId);
+        _calcBasics.getCostCenters().add(item);
+    }
+
+    public void deleteCostCenter(KGPListCostCenter item) {
+        _calcBasics.getCostCenters().remove(item);
+    }
+
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _file = file;
+    }
+
+    private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+    
+    public void downloadTemplate(){
+        Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
+    }
+    
+    private String _importMessage = "";
+
+    public String getImportMessage() {
+        return _importMessage;
+    }
+
+    @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
+
+    public void uploadNotices() {
+        try {
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                CostCenterDataImporterPepp itemImporter = _importProvider.get();
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.equals(HeadLine)) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                _importMessage = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessage);
+                _showJournal = false;
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    public void toggleJournal() {
+        _showJournal = !_showJournal;
+    }
+
+    private boolean _showJournal = false;
+
+    public boolean isShowJournal() {
+        return _showJournal;
+    }
+
+    public void setShowJournal(boolean showJournal) {
+        this._showJournal = showJournal;
+    }
+    //</editor-fold>
 
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {

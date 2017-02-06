@@ -693,18 +693,18 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpCostCenterList">
+    // <editor-fold defaultstate="collapsed" desc="Property List _costCenters">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListCostCenter> _kgpCostCenterList = new Vector<>();
+    private List<KGPListCostCenter> _costCenters = new Vector<>();
 
-    public List<KGPListCostCenter> getKgpCostCenterList() {
-        return _kgpCostCenterList;
+    public List<KGPListCostCenter> getCostCenters() {
+        return _costCenters;
     }
 
-    public void setKgpCostCenterList(List<KGPListCostCenter> kgpCostCenterList) {
-        this._kgpCostCenterList = kgpCostCenterList;
+    public void setCostCenters(List<KGPListCostCenter> costCenters) {
+        this._costCenters = costCenters;
     }
     // </editor-fold>
     

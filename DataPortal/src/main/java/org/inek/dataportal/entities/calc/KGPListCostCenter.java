@@ -13,12 +13,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.calc.iface.ListCostCenter;
 
 /**
  *
@@ -27,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGPListCostCenter", schema = "calc")
 @XmlRootElement
-public class KGPListCostCenter implements Serializable {
+public class KGPListCostCenter implements Serializable, ListCostCenter {
 
     private static final long serialVersionUID = 1L;
     
@@ -48,18 +47,18 @@ public class KGPListCostCenter implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterID">
+    //<editor-fold defaultstate="collapsed" desc="Property _costCenterId">
     @Basic(optional = false)
     @NotNull
     @Column(name = "ccCostCenterID")
-    private int _costCenterID;
+    private int _costCenterId;
 
-    public int getCostCenterID() {
-        return _costCenterID;
+    public int getCostCenterId() {
+        return _costCenterId;
     }
 
-    public void setCostCenterID(int costCenterID) {
-        this._costCenterID = costCenterID;
+    public void setCostCenterId(int costCenterId) {
+        this._costCenterId = costCenterId;
     }
     //</editor-fold>
     
@@ -171,16 +170,16 @@ public class KGPListCostCenter implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
     @Column(name = "ccBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
     
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
     
@@ -192,18 +191,11 @@ public class KGPListCostCenter implements Serializable {
         this._id = ccID;
     }
 
-    public KGPListCostCenter(Integer ccID, int ccCostCenterID, int ccCostCenterNumber, String ccCostCenterText, int ccAmount, double ccFullVigorCnt, String ccServiceKey, String ccServiceKeyDescription, double ccServiceSum) {
-        this._id = ccID;
-        this._costCenterID = ccCostCenterID;
-        this._costCenterNumber = ccCostCenterNumber;
-        this._costCenterText = ccCostCenterText;
-        this._amount = ccAmount;
-        this._fullVigorCnt = ccFullVigorCnt;
-        this._serviceKey = ccServiceKey;
-        this._serviceKeyDescription = ccServiceKeyDescription;
-        this._serviceSum = ccServiceSum;
+    public KGPListCostCenter(int baseInformationId, int costCenterId) {
+        _baseInformationId = baseInformationId;
+        _costCenterId = costCenterId;
     }
-
+    
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
@@ -212,7 +204,7 @@ public class KGPListCostCenter implements Serializable {
         if (this._id != -1) {
             return hash;
         }
-        hash = 79 * hash + this._costCenterID;
+        hash = 79 * hash + this._costCenterId;
         hash = 79 * hash + this._costCenterNumber;
         hash = 79 * hash + Objects.hashCode(this._costCenterText);
         hash = 79 * hash + this._amount;
@@ -220,7 +212,7 @@ public class KGPListCostCenter implements Serializable {
         hash = 79 * hash + Objects.hashCode(this._serviceKey);
         hash = 79 * hash + Objects.hashCode(this._serviceKeyDescription);
         hash = 79 * hash + (int) (Double.doubleToLongBits(this._serviceSum) ^ (Double.doubleToLongBits(this._serviceSum) >>> 32));
-        hash = 79 * hash + this._baseInformationID;
+        hash = 79 * hash + this._baseInformationId;
         return hash;
     }
     
@@ -239,7 +231,7 @@ public class KGPListCostCenter implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._costCenterID != other._costCenterID) {
+        if (this._costCenterId != other._costCenterId) {
             return false;
         }
         if (this._costCenterNumber != other._costCenterNumber) {
@@ -254,7 +246,7 @@ public class KGPListCostCenter implements Serializable {
         if (Double.doubleToLongBits(this._serviceSum) != Double.doubleToLongBits(other._serviceSum)) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (!Objects.equals(this._costCenterText, other._costCenterText)) {
