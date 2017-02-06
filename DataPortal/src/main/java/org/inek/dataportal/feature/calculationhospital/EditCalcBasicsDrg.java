@@ -321,7 +321,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<KGLListRadiologyLaboratory> getLaboratories() {
         List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
         for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if(rl.getCostCenterID() == 10)
+            if(rl.getCostTypeID() == 10)
                 rls.add(rl);
         }
         return rls;
@@ -477,6 +477,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void addLaboratory() {
         KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
         rl.setBaseInformationID(_calcBasics.getId());
+        rl.setCostTypeID(10);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
 
