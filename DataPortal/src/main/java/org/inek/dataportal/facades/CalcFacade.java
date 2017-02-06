@@ -41,6 +41,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -677,9 +678,21 @@ public class CalcFacade extends AbstractDataAccess {
             return calcBasics;
         }
 
+        saveCostCenterDataPepp(calcBasics);
         return merge(calcBasics);
     }
 
+    private void saveCostCenterDataPepp(PeppCalcBasics calcBasics) {
+        for (KGPListCostCenter item : calcBasics.getCostCenters()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
+    
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);
     }
