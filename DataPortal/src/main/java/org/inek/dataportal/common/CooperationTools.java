@@ -399,6 +399,10 @@ public class CooperationTools implements Serializable {
         return r -> r.getCooperativeRight().canReadSealed();
     }
 
+    public static Predicate<CooperationRight> canWriteAlways() {
+        return r -> r.getCooperativeRight().canWriteAlways();
+    }
+
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Account account = _sessionController.getAccount();
         Set<Integer> ids = new LinkedHashSet<>();
