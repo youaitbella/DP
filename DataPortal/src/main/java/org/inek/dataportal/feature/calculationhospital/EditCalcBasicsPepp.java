@@ -44,9 +44,11 @@ import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
+import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListLocation;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
-import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -556,12 +558,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void addLocation() {
-        KGLListLocation loc = new KGLListLocation();
+        KGPListLocation loc = new KGPListLocation();
         loc.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getLocations().add(loc);
     }
 
-    public void deleteLocation(KGLListLocation loc) {
+    public void deleteLocation(KGPListLocation loc) {
         _calcBasics.getLocations().remove(loc);
     }
 
@@ -604,4 +606,18 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return sumAmount;
     }
     
+    public List<KGPListTherapy> getTherapies(int costCenterId) {
+        return _calcBasics.getTherapies().stream().filter(t -> t.getCostCenterId() == costCenterId).collect(Collectors.toList());
+    }
+            
+    public void deleteTherapy(KGPListTherapy item) {
+        _calcBasics.getTherapies().remove(item);
+    }
+            
+    public void addTherapyCost(int costCenterId) {
+        KGPListTherapy result = new KGPListTherapy();
+        result .setCostCenterId(costCenterId);
+        result.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getTherapies().add(result);
+    }
 }

@@ -451,8 +451,8 @@
             <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                 <f:ajax event="change" render="@form :logout:remaining delimit-content" />
             </h:selectBooleanCheckbox>
-            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
+            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
             <h:outputLabel value="#{msg.lblDevitation}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
         </div>
 
@@ -469,12 +469,6 @@
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true"/>
-                <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true"/>
-                <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true"/>
-            </h:column>
-
-            <h:column rendered="#{x.used and x.requireInputs}">
                 <inek:InputNumberWithMessage id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}"
                                              styleClass="col06em" required="true" renderElement="@this diff-personal :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
@@ -485,6 +479,12 @@
                                              styleClass="col06em" required="true" renderElement="@this diff-infra :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
                 <h:message for="data" id="msgData" styleClass="errorMessage"/>
+            </h:column>
+            
+            <h:column rendered="#{x.used and x.requireInputs}">
+                <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true"/>
+                <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true"/>
+                <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">

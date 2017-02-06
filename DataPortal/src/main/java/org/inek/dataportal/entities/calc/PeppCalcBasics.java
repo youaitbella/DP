@@ -802,13 +802,13 @@ public class PeppCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List locations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
-    private List<KGLListLocation> _locations = new Vector<>();
+    private List<KGPListLocation> _locations = new Vector<>();
 
-    public List<KGLListLocation> getLocations() {
+    public List<KGPListLocation> getLocations() {
         return _locations;
     }
 
-    public void setLocations(List<KGLListLocation> locations) {
+    public void setLocations(List<KGPListLocation> locations) {
         this._locations = locations;
     }
     //</editor-fold>

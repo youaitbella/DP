@@ -11,8 +11,8 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h2>#{msg.lblCalcTherapyScope}</h2>
-    
-        <style>
+
+    <style>
         #tbl {
             margin-top: 20px;
         }
@@ -26,34 +26,47 @@
             color: white;
             padding: 2px 6px 2px 6px;
         }
-        
-        #tbl input {
+
+        #tbl {
             width: 100px;
         }
-        
+
         .red {
             color: red;
         }
-        
+
         .prior {
             width: 100%;
             text-align: right;
             display: inline-block;
         }
-        
+
         .diff {
             color: #043358;
         }
-       
+        .col100px {
+            min-width: 100px;
+        }
+        .col90px {
+            min-width: 90px;
+        }
+        .col80px {
+            min-width: 80px;
+        }
+        .col70px {
+            min-width: 70px;
+        }
+        .col60px {
+            min-width: 60px;
+        }
+
     </style>
 
-<div style="overflow-x: scroll;">
+    <div style="overflow-x: scroll;">
         <table id="tbl">
             <tr>
                 <td></td>
-                <td class="" colspan="2"></td>
-                <td colspan="2">externe Leistungs- erbringung</td>
-                <td colspan="1"></td>
+                <td class="" colspan="4"></td>
                 <td colspan="2">KoArtG 1</td>
                 <td colspan="2">KoArtG 3a</td>
                 <td colspan="2">KoArtG 2</td>
@@ -67,224 +80,509 @@
                 <td class="">
                     KSt.- Gruppe
                 </td>
-                <td class="">
+                <td class="col80px">
                     Leistungsinhalt der Kostenstelle
                 </td>
                 <td class="">
-                   voll- ständig 
+                    Leistungserbringung 
                 </td>
-                <td class="">
-                    teil- weise
-                </td>
-                <td class="">
+                <td class="col80px">
                     verwendeter Leistungs- schlüssel (z.B. Minuten, DKG-NT)
                 </td>
-                <td class="">
-                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
                 </td>
                 <td class="">
                     Personal- kosten
                 </td>
-                <td class="">
-                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
                 </td>
                 <td class="">
                     Personal- kosten
                 </td>
-                <td class="">
-                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
                 </td>
                 <td class="">
                     Personal- kosten
                 </td>
-                <td class="">
-                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
                 </td>
                 <td class="">
                     Personal- kosten
                 </td>
-                <td class="">
-                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
                 </td>
                 <td class="">
                     Personal- kosten
                 </td>
-                <td class="">
-                    Summe Leistungs- einheiten (z.B. Summe Minuten, Summe Punkte)
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
                 </td>
                 <td class="">
                     Personal- kosten
                 </td>
-                <td>
+                <td class="col60px">
                     KoArtG 1
                 </td>
-                <td>
+                <td class="col60px">
                     KoArtG 3a
                 </td>
-                <td>
+                <td class="col60px">
                     KoArtG 2
                 </td>
-                <td>
+                <td class="col60px">
                     KoArtG 3b
                 </td>
-                <td>
+                <td class="col60px">
                     KoArtG 3c
                 </td>
-                <td>
+                <td class="col60px">
                     KoArtG 3
                 </td>
             </tr>
-            
-            <ui:repeat id="tbl-cont" value="#{editCalcBasicsPepp.calcBasics.therapies}" var="x" varStatus="loop">
-                    <tr>
-                        <td>
-                            <h:commandLink styleClass="colIcon">
-                                <h:graphicImage alt="# {msg.btnDelete}" name="Icon/small/delete.png" title="# {msg.btnDelete}" value=""/>
-                                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.deleteCostCenterCosts(x)}"/>
-                            </h:commandLink>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.costCenterId}"  renderElement=""/>
-                        </td>
-                        <td>
-                        <h:inputText value="#{x.costCenterText}" >
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputText>
-                        </td>
-                        <td>
-                        <h:inputText value="# {x.departmentKey}" >
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputText>
-                        </td>
-                        <td>
-                        <h:inputText value="# {x.departmentAssignment}" >
-                            <f:ajax event="blur" render="@this :logout:remaining" />
-                        </h:inputText>
-                        </td>
-                        <td>
-                        <inek:InputTextWithMessage value="#{x.keyUsed}"  />
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt1}"  renderElement="calc-field-1-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.personalCostCt1}"  renderElement="calc-field-1-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="calc-field-3a-# {loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.personalCostCt3a}"  renderElement="calc-field-3a-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt2}"  renderElement="calc-field-2-# {loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.personalCostCt2}"  renderElement="calc-field-2-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="calc-field-3b-# {loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.personalCostCt3b}"  renderElement="calc-field-3b-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="calc-field-3c-# {loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.personalCostCt3c}"  renderElement="calc-field-3c-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3}"  renderElement="calc-field-3-# {loop.index}:text"/>
-                        </td>
-                        <td>
-                        <inek:InputNumberWithMessage value="#{x.personalCostCt3}"  renderElement="calc-field-3-#{loop.index}:text"/>
-                        </td>
-                        <td>
-                        <h:outputLabel  id="calc-field-1-#{loop.index}"
-                                        styleClass="prior diff" 
-                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
-                        </td>
-                        <td>
-                        <h:outputLabel  id="calc-field-3a-#{loop.index}"
-                                        styleClass="prior diff" 
-                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
-                        </td>
-                        <td>
-                        <h:outputLabel  id="calc-field-2-#{loop.index}"
-                                        styleClass="prior diff" 
-                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
-                        </td>
-                        <td>
-                        <h:outputLabel  id="calc-field-3b-#{loop.index}"
-                                        styleClass="prior diff" 
-                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
-                        </td>
-                        <td>
-                        <h:outputLabel  id="calc-field-3c-#{loop.index}"
-                                        styleClass="prior diff" 
-                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
-                        </td>
-                        <td>
-                        <h:outputLabel  id="calc-field-3-#{loop.index}"
-                                        styleClass="prior diff" 
-                                        value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
-                        </td>
-                            
-                    </tr>
-            </ui:repeat>>
-<!--            <tr>
-                <td colspan="2">Summen</td>
-                <td colspan="3"></td>
-                <td>
-            <inek:InputNumberWithMessage id="sumBeds" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(0)}" disabled="true" />
-                </td>
-                <td colspan="2"></td>
-                <td>
-                    <inek:InputNumberWithMessage id="sumAddPpr" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(1)}" disabled="true" />
-                </td>
-                <td></td>
-                <td>
-                    <inek:InputNumberWithMessage id="sumMedicalService" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(2)}" disabled="true" />
+
+            <ui:repeat id="tbl-cont1" value="#{editCalcBasicsPepp.getTherapies(23)}" var="x" varStatus="loop">
+                <tr id="row">
+                    <td>
+                <h:commandLink styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteTherapy(x)}"/>
+                </h:commandLink>
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumNurseService" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(3)}" disabled="true" />
+                <h:outputLabel value="#{x.costCenterId}" />
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumFuncService" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(4)}" disabled="true" />
+                <h:inputText value="#{x.costCenterText}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumMedicalService2" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(5)}" disabled="true" />
+                 <h:selectOneMenu id="externalProvision"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{x.externalService}" 
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+            </h:selectOneMenu>                
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumNurseService2" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(6)}" disabled="true" />
+                <inek:InputTextWithMessage value="#{x.keyUsed}"  />
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumFuncService2" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(7)}" disabled="true" />
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt1}"  renderElement="tbl-cont1:#{loop.index}:calc-field-1"/>
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumShareMedicine" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(8)}" disabled="true" />
+                <inek:InputNumberWithMessage value="#{x.personalCostCt1}"  renderElement="tbl-cont1:#{loop.index}:calc-field-1"/>
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumShareMedicineStuff" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(9)}" disabled="true" />
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3a"/>
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumMedInfra" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(10)}" disabled="true" />
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3a}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3a"/>
                 </td>
                 <td>
-                    <inek:InputNumberWithMessage id="sumNonMedInfra" value="# {editCalcBasicsDrg.getCostCenterCostsSums().get(11)}" disabled="true" />
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt2}"  renderElement="tbl-cont1:#{loop.index}:calc-field-2"/>
                 </td>
-            </tr>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt2}"  renderElement="tbl-cont1:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3b}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3c}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3}"  renderElement="tbl-cont1:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <h:outputLabel id="calc-field-1"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+                
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3a"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-2"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3b"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3c"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
+                </td>
+
+                </tr>
+            </ui:repeat>
             <tr>
-                <td colspan="20">
-                    <h:commandLink id="addButton4" styleClass="addButton inputPart" value="# {msg.btnAddEntry}">
-                        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="# {editCalcBasicsDrg.addCostCenterCosts()}"/>
-                    </h:commandLink>
+                <td colspan="23">
+            <h:commandLink id="addButtonTherapyPsycho" styleClass="addButton inputPart" value="#{msg.btnAddTherapyPsycho}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(23)}"/>
+            </h:commandLink>
+            </td>
+            </tr>
+            
+            
+            <ui:repeat id="tbl-cont2" value="#{editCalcBasicsPepp.getTherapies(24)}" var="x" varStatus="loop">
+                <tr>
+                    <td>
+                <h:commandLink styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteTherapy(x)}"/>
+                </h:commandLink>
+                </td>
+                <td>
+                <h:outputLabel value="#{x.costCenterId}"  />
+                </td>
+                <td>
+                <h:inputText value="#{x.costCenterText}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+                </td>
+                <td>
+                 <h:selectOneMenu id="externalProvision"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{x.externalService}" 
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+            </h:selectOneMenu>                
+                </td>
+                <td>
+                <inek:InputTextWithMessage value="#{x.keyUsed}"  />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt1}"  renderElement="tbl-cont2:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt1}"  renderElement="tbl-cont2:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3a}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt2}"  renderElement="tbl-cont2:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt2}"  renderElement="tbl-cont2:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3b}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3c}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3}"  renderElement="tbl-cont2:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-1"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3a"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-2"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3b"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3c"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
+                </td>
+
+                </tr>
+            </ui:repeat>
+            <tr>
+                <td colspan="23">
+                                    <h:commandLink id="addButtonTheapyPhysical" styleClass="addButton inputPart" value="#{msg.btnAddTherapyPhysical}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(24)}"/>
+            </h:commandLink>
                 </td>
             </tr>
-            -->
+
+            
+            <ui:repeat id="tbl-cont3" value="#{editCalcBasicsPepp.getTherapies(25)}" var="x" varStatus="loop">
+                <tr>
+                    <td>
+                <h:commandLink styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteTherapy(x)}"/>
+                </h:commandLink>
+                </td>
+                <td>
+                <h:outputLabel value="#{x.costCenterId}"  />
+                </td>
+                <td>
+                <h:inputText value="#{x.costCenterText}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+                </td>
+                <td>
+                 <h:selectOneMenu id="externalProvision"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{x.externalService}" 
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+            </h:selectOneMenu>                
+                </td>
+                <td>
+                <inek:InputTextWithMessage value="#{x.keyUsed}"  />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt1}"  renderElement="tbl-cont3:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt1}"  renderElement="tbl-cont3:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3a}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt2}"  renderElement="tbl-cont3:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt2}"  renderElement="tbl-cont3:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3b}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3c}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3}"  renderElement="tbl-cont3:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-1"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3a"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-2"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3b"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3c"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
+                </td>
+
+                </tr>
+            </ui:repeat>
+            <tr>
+                <td colspan="23">
+                        <h:commandLink id="addButtonTherapyErgo" styleClass="addButton inputPart" value="#{msg.btnAddTherapyErgo}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(25)}"/>
+            </h:commandLink>
+        </td>
+        </tr>
+        
+        
+            <ui:repeat id="tbl-cont4" value="#{editCalcBasicsPepp.getTherapies(26)}" var="x" varStatus="loop">
+                <tr>
+                    <td>
+                <h:commandLink styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteTherapy(x)}"/>
+                </h:commandLink>
+                </td>
+                <td>
+                <h:outputLabel value="#{x.costCenterId}"  />
+                </td>
+                <td>
+                <h:inputText value="#{x.costCenterText}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+                </td>
+                <td>
+                 <h:selectOneMenu id="externalProvision"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{x.externalService}" 
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+            </h:selectOneMenu>                
+                </td>
+                <td>
+                <inek:InputTextWithMessage value="#{x.keyUsed}"  />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt1}"  renderElement="tbl-cont4:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt1}"  renderElement="tbl-cont4:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3a}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt2}"  renderElement="tbl-cont4:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt2}"  renderElement="tbl-cont4:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3b}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3c}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.serviceUnitsCt3}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{x.personalCostCt3}"  renderElement="tbl-cont4:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-1"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3a"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-2"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3b"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3c"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
+                </td>
+
+                </tr>
+            </ui:repeat>
+            <tr>
+                <td colspan="23">
+            <h:commandLink id="addButtonTherapyOther" styleClass="addButton inputPart" value="#{msg.btnAddTherapyOther}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(26)}"/>
+            </h:commandLink>
+
+            </td>
+            </tr>
         </table>
     </div>
-    
+
 </ui:composition>
 
