@@ -311,6 +311,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return newCalcBasicsDrg();
     }
+    
+    public List<KGLListRadiologyLaboratory> getLaboratories() {
+        List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
+        for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if(rl.getCostCenterID() == 10)
+                rls.add(rl);
+        }
+        return rls;
+    }
 
     private DrgCalcBasics newCalcBasicsDrg() {
         Account account = _sessionController.getAccount();
