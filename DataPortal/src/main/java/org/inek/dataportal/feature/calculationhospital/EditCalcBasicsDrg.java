@@ -112,11 +112,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (id.equals("new")) {
             _calcBasics = newCalcBasicsDrg();
         } else if (Utils.isInteger(id)) {
-            _calcBasics = loadCalcBasicsDrg(id);
+            DrgCalcBasics calcBasics = loadCalcBasicsDrg(id);
+            if (calcBasics.getId() == -1) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
+            _calcBasics = calcBasics;
             retrievePriorData(_calcBasics);
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
-            return;
         }
     }
 
@@ -131,11 +135,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
         for (Iterator<KGLListCostCenterCost> it = _priorCalcBasics.getCostCenterCosts().iterator(); it.hasNext();) {
-                KGLListCostCenterCost ccc = it.next();
-                calcBasics.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
-                    c.setPrior(ccc);
-                });
-            }
+            KGLListCostCenterCost ccc = it.next();
+            calcBasics.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
+                c.setPrior(ccc);
+            });
+        }
     }
 
     public void ikChanged() {
@@ -166,7 +170,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             specialUnit.setBaseInformationId(calcBasics.getId());
             calcBasics.getSpecialUnits().add(specialUnit);
         } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
-
         // Central focuses
         calcBasics.getCentralFocuses().clear();
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
@@ -183,7 +186,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // Delimitation facts
         calcBasics.getNormalFreelancers().clear();
-        for(DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+        for (DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             df.setId(-1);
             df.setBaseInformationId(calcBasics.getId());
             calcBasics.getDelimitationFacts().add(df);
@@ -217,12 +220,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNormalFreelancers().add(nf);
         }
         calcBasics.getNormalFeeContracts().clear();
-        for(KGLNormalFeeContract fc : _priorCalcBasics.getNormalFeeContracts()) {
+        for (KGLNormalFeeContract fc : _priorCalcBasics.getNormalFeeContracts()) {
             fc.setId(-1);
             fc.setBaseInformationID(calcBasics.getId());
             calcBasics.getNormalFeeContracts().add(fc);
         }
-        
+
         // ServiceProvision
         preloadServiceProvision(calcBasics);
 
@@ -263,15 +266,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
         calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
         calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
-        
+
         // NormalStationServiceDocumentation
         calcBasics.getNormalStationServiceDocumentations().clear();
-        for(DrgContentText ct : getNormalWardServiceDocHeaders()) {
+        for (DrgContentText ct : getNormalWardServiceDocHeaders()) {
             KGLNormalStationServiceDocumentation add = new KGLNormalStationServiceDocumentation();
             add.setContentTextID(ct.getId());
             add.setBaseInformationID(calcBasics.getId());
-            for(KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
-                if(add.getContentTextID() == addPrior.getContentTextID()) {
+            for (KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
+                if (add.getContentTextID() == addPrior.getContentTextID()) {
                     add.setAlternative(addPrior.getAlternative());
                     add.setDepartment(addPrior.getDepartment());
                     add.setDepartmentKey(addPrior.getDepartmentKey());
@@ -294,22 +297,25 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }).forEachOrdered((c) -> {
             calcBasics.getCostCenterCosts().add(c);
         });
-        
+
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
-        try {
-            int id = Integer.parseInt(idObject);
-            DrgCalcBasics statement = _calcFacade.findCalcBasicsDrg(id);
-            statement.setDescNonMedicalInfra(!statement.getOtherMethodNonMedInfra().isEmpty());
-            checkRequireInputsForDelimitationFact(statement);
-            if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
-                return statement;
-            }
-        } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+        int id = Integer.parseInt(idObject);
+        DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(id);
+        if (hasSufficientRights(calcBasics)) {
+            calcBasics.setDescNonMedicalInfra(!calcBasics.getOtherMethodNonMedInfra().isEmpty());
+            checkRequireInputsForDelimitationFact(calcBasics);
+            return calcBasics;
         }
-        return newCalcBasicsDrg();
+        return new DrgCalcBasics();
+    }
+
+    private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
+        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+            return true;
+        }
+        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
     
     public List<KGLListRadiologyLaboratory> getLaboratories() {
@@ -398,11 +404,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 calcBasics.getServiceProvisions().add(data);
             }
         }
-        
+
     }
 
     private void checkRequireInputsForDelimitationFact(DrgCalcBasics calcBasic) {
-        for(DrgDelimitationFact df : calcBasic.getDelimitationFacts()) {
+        for (DrgDelimitationFact df : calcBasic.getDelimitationFacts()) {
             int id = df.getContentText().getId();
             if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
                 df.setRequireInputs(true);
@@ -442,14 +448,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         su.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getSpecialUnits().add(su);
     }
-    
+
     public void addCostCenterCosts() {
         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
         ccc.setBaseInformationId(_calcBasics.getId());
         ccc.setId(-1);
         _calcBasics.getCostCenterCosts().add(ccc);
     }
-    
+
     public void deleteCostCenterCosts(KGLListCostCenterCost x) {
         _calcBasics.getCostCenterCosts().remove(x);
     }
@@ -484,37 +490,37 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         mif.setCostTypeID(costType);
         _calcBasics.getMedInfras().add(mif);
     }
-    
+
     public void addFreelancer() {
         KGLNormalFreelancer nf = new KGLNormalFreelancer();
         nf.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getNormalFreelancers().add(nf);
     }
-    
+
     public void deleteFreelancer(KGLNormalFreelancer nf) {
         _calcBasics.getNormalFreelancers().remove(nf);
     }
-    
+
     public void addFeeContract() {
         KGLNormalFeeContract fc = new KGLNormalFeeContract();
         fc.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getNormalFeeContracts().add(fc);
     }
-    
+
     public void addPkmsService() {
         KGLPKMSAlternative pkmsAlt = new KGLPKMSAlternative();
         pkmsAlt.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getPkmsAlternatives().add(pkmsAlt);
     }
-    
+
     public void deletePkmsService(KGLPKMSAlternative item) {
         _calcBasics.getPkmsAlternatives().remove(item);
     }
-    
+
     public void deleteFeeContract(KGLNormalFeeContract fc) {
         _calcBasics.getNormalFeeContracts().remove(fc);
     }
-    
+
     public List<KGLListMedInfra> getMedInfra(int costType) {
         List<KGLListMedInfra> tmp = new ArrayList<>();
         _calcBasics.getMedInfras().stream().filter((mi) -> (mi.getCostTypeID() == costType)).forEachOrdered((mi) -> {
@@ -566,11 +572,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
         _calcBasics.getIntensivStrokes().remove(item);
     }
-    
+
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
         return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
-    
+
     public List<Double> getCostCenterCostsSums() {
         List<Double> l = new ArrayList<>();
         Integer sumBeds = 0;
@@ -585,7 +591,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Integer sumSharedMedStuffCost = 0;
         Integer sumMedInfra = 0;
         Integer sumNonMedInfra = 0;
-        for(KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
+        for (KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
             sumBeds += c.getBedCnt();
             sumPprWeight += c.getPprWeight();
             sumMedicalService += c.getMedicalServiceCnt();
@@ -599,18 +605,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             sumMedInfra += c.getMedicalInfrastructureCost();
             sumNonMedInfra += c.getNonMedicalInfrastructureCost();
         }
-        l.add((double)sumBeds);
-        l.add((double)sumPprWeight);
+        l.add((double) sumBeds);
+        l.add((double) sumPprWeight);
         l.add(sumMedicalService);
         l.add(sumNurseService);
         l.add(sumFuncService);
-        l.add((double)sumMedicalService2);
-        l.add((double)sumNurseService2);
-        l.add((double)sumFuncService2);
-        l.add((double)sumSharedMedicineCost);
-        l.add((double)sumSharedMedStuffCost);
-        l.add((double)sumMedInfra);
-        l.add((double)sumNonMedInfra);
+        l.add((double) sumMedicalService2);
+        l.add((double) sumNurseService2);
+        l.add((double) sumFuncService2);
+        l.add((double) sumSharedMedicineCost);
+        l.add((double) sumSharedMedStuffCost);
+        l.add((double) sumMedInfra);
+        l.add((double) sumNonMedInfra);
         return l;
     }
 
@@ -857,15 +863,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Operation">
-    public void checkOption(AjaxBehaviorEvent event){
-        HtmlSelectOneMenu component =  (HtmlSelectOneMenu) event.getComponent();
-        if (component.getValue().equals(3)){
+    public void checkOption(AjaxBehaviorEvent event) {
+        HtmlSelectOneMenu component = (HtmlSelectOneMenu) event.getComponent();
+        if (component.getValue().equals(3)) {
             //_sessionController.setScript("alert('Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.')");
             Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
         }
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics / therapy / patient admission">
     public void addCostCenter(int costCenterId) {
         KGLListCostCenter item = new KGLListCostCenter(_calcBasics.getId(), costCenterId);
@@ -887,11 +893,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
-    
-    public void downloadTemplate(){
+
+    public void downloadTemplate() {
         Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
-    
+
     private String _importMessage = "";
 
     public String getImportMessage() {
@@ -1016,7 +1022,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         List<KGLListIntensivStroke> result = new ArrayList<>();
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         List<KGLListIntensivStroke> priorIntensivStrokes = _priorCalcBasics.getIntensivStrokes();
-        
+
         Comparator<KGLListIntensivStroke> comp = (i1, i2) -> {
             if (i1.getDepartmentKey().equals(i2.getDepartmentKey())) {
                 return i1.getDepartmentKey().compareTo(i2.getDepartmentKey());
@@ -1024,15 +1030,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 return i1.getCostCenterID() - i2.getCostCenterID();
             }
         };
-        
+
         intensivStrokes.sort(comp);
         priorIntensivStrokes.sort(comp);
-        
+
         diffIntensivStrokeValues(intensivStrokes, priorIntensivStrokes, comp, result);
-        
+
         return result;
     }
-    
+
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
             return "";
@@ -1040,16 +1046,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
     }
 
-    public int getMedInfraSum(int type){
+    public int getMedInfraSum(int type) {
         int sumAmount = 0;
-        for(KGLListMedInfra m : _calcBasics.getMedInfras()) {
-            if(m.getCostTypeID()== type){
-                sumAmount += m.getAmount();    
+        for (KGLListMedInfra m : _calcBasics.getMedInfras()) {
+            if (m.getCostTypeID() == type) {
+                sumAmount += m.getAmount();
             }
-        }   
+        }
         return sumAmount;
     }
-    
+
     public String getCostTypeText(int costTypeId) {
         CostType ct = _costTypeFacade.find(costTypeId);
         if (ct != null) {
@@ -1067,11 +1073,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return false;
     }
 
-    private void diffIntensivStrokeValues(List<KGLListIntensivStroke> intensivStrokes, 
-            List<KGLListIntensivStroke> priorIntensivStrokes, 
+    private void diffIntensivStrokeValues(List<KGLListIntensivStroke> intensivStrokes,
+            List<KGLListIntensivStroke> priorIntensivStrokes,
             Comparator<KGLListIntensivStroke> comp,
             List<KGLListIntensivStroke> result) {
-        
+
         int i = 0;
         for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
             while (i < priorIntensivStrokes.size() && comp.compare(intensivStroke, priorIntensivStrokes.get(i)) > 0) {
@@ -1089,7 +1095,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private KGLListIntensivStroke createDiffIntensivStrokeRight(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
         KGLListIntensivStroke result = new KGLListIntensivStroke();
-        
+
         result.setBaseInformationId(oldVal.getBaseInformationId());
         result.setIntensiveType(oldVal.getIntensiveType());
         result.setCostCenterID(oldVal.getCostCenterID());
@@ -1118,13 +1124,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.setOverheadMedicalGoods(newVal.getOverheadMedicalGoods() - oldVal.getOverheadMedicalGoods());
         result.setMedicalInfrastructureCost(newVal.getMedicalInfrastructureCost() - oldVal.getMedicalInfrastructureCost());
         result.setNonMedicalInfrastructureCost(newVal.getNonMedicalInfrastructureCost() - oldVal.getNonMedicalInfrastructureCost());
-        
+
         return result;
     }
-    
+
     private KGLListIntensivStroke createDiffIntensivStrokeLeft(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
         KGLListIntensivStroke result = new KGLListIntensivStroke();
-        
+
         result.setBaseInformationId(newVal.getBaseInformationId());
         result.setIntensiveType(newVal.getIntensiveType());
         result.setCostCenterID(newVal.getCostCenterID());
@@ -1153,7 +1159,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.setOverheadMedicalGoods(newVal.getOverheadMedicalGoods() - oldVal.getOverheadMedicalGoods());
         result.setMedicalInfrastructureCost(newVal.getMedicalInfrastructureCost() - oldVal.getMedicalInfrastructureCost());
         result.setNonMedicalInfrastructureCost(newVal.getNonMedicalInfrastructureCost() - oldVal.getNonMedicalInfrastructureCost());
-        
+
         return result;
     }
+
 }

@@ -199,7 +199,7 @@ public class CalcHospitalList {
             case 1:
                 return Pages.CalcDrgEdit.RedirectURL();
             case 2:
-                return Pages.StatementOfParticipanceEditAddress.URL();
+                return Pages.CalcPeppEdit.URL();
         }
         return "";
     }
