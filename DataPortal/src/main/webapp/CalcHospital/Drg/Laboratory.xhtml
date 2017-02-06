@@ -53,7 +53,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
             </f:facet>
-            <h:inputText styleClass="inputshort" value="#{item.costCenterID}" >
+            <h:inputText styleClass="inputshort" value="#{item.costCenterNumber}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>

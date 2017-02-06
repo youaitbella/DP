@@ -99,7 +99,7 @@ public class CalcHospitalList {
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasiscs(calcFunct, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasics(calcFunct, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
             Account account = _sessionController.getAccount();
             boolean isAllowed = possibleIks.contains(account.getIK())
                     || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));

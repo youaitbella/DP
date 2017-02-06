@@ -78,7 +78,8 @@ public class CalcContact implements Serializable {
     }
 
     public void setTitle(String title) {
-        _title = title;
+        // When loading from ICMT a string might be null. Thus we check every string value here and replace null by an empty string.
+        _title = title == null ? "" : title;
     }
     // </editor-fold>
 
@@ -93,7 +94,7 @@ public class CalcContact implements Serializable {
     }
 
     public void setFirstName(String firstName) {
-        _firstName = firstName;
+        _firstName = firstName == null ? "" : firstName;
     }
     // </editor-fold>
 
@@ -108,7 +109,7 @@ public class CalcContact implements Serializable {
     }
 
     public void setLastName(String lastName) {
-        _lastName = lastName;
+        _lastName = lastName == null ? "" : lastName;
     }
     // </editor-fold>
 
@@ -123,7 +124,7 @@ public class CalcContact implements Serializable {
     }
 
     public void setPhone(String phone) {
-        _phone = phone;
+        _phone = phone == null ? "" : phone;
     }
     // </editor-fold>
 
@@ -138,7 +139,7 @@ public class CalcContact implements Serializable {
     }
 
     public void setMail(String mail) {
-        _mail = mail;
+        _mail = mail == null ? "" : mail;
     }
     // </editor-fold>
 

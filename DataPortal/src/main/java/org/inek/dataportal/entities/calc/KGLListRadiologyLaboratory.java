@@ -64,21 +64,6 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="CostTypeID">
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rlCostTypeID")
-    private int _costTypeID;
-    
-    public int getCostTypeID() {
-        return _costTypeID;
-    }
-
-    public void setCostTypeID(int rlCostTypeID) {
-        this._costTypeID = rlCostTypeID;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlCostCenterID")
     private int _costCenterID;
     
@@ -88,6 +73,21 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     public void setCostCenterID(int rlCostCenterID) {
         this._costCenterID = rlCostCenterID;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rlCostCenterNumber")
+    private int _costCenterNumber;
+    
+    public int getCostCenterNumber() {
+        return _costCenterNumber;
+    }
+
+    public void setCostCenterNumber(int rlCostCenterNumber) {
+        this._costCenterNumber = rlCostCenterNumber;
     }
     // </editor-fold>
 
@@ -275,8 +275,8 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, int serviceVolumePre, int amountPre, int serviceVolumePost, int amountPost) {
         this._id = id; 
         this._baseInformationID = baseInformationID;
-        this._costTypeID = costTypeID;
-        this._costCenterID = costCenterID;
+        this._costCenterID = costTypeID;
+        this._costCenterNumber = costCenterID;
         this._serviceDocHome = serviceDocHome;
         this._serviceDocDKG = serviceDocDKG;
         this._serviceDocEBM = serviceDocEBM;
@@ -297,8 +297,8 @@ public class KGLListRadiologyLaboratory implements Serializable {
         if (this._id != -1) return hash;
         
         hash = 43 * hash + this._baseInformationID;
-        hash = 43 * hash + this._costTypeID;
         hash = 43 * hash + this._costCenterID;
+        hash = 43 * hash + this._costCenterNumber;
         hash = 43 * hash + Objects.hashCode(this._costCenterText);
         hash = 43 * hash + (this._serviceDocHome ? 1 : 0);
         hash = 43 * hash + (this._serviceDocDKG ? 1 : 0);
@@ -334,10 +334,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
         if (this._baseInformationID != other._baseInformationID) {
             return false;
         }
-        if (this._costTypeID != other._costTypeID) {
+        if (this._costCenterID != other._costCenterID) {
             return false;
         }
-        if (this._costCenterID != other._costCenterID) {
+        if (this._costCenterNumber != other._costCenterNumber) {
             return false;
         }
         if (this._serviceDocHome != other._serviceDocHome) {

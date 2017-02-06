@@ -485,7 +485,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
+    public Set<Integer> obtainIks4NewBasics(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
             return obtainIks4NewBasiscsDrg(accountIds, year);
         }
@@ -502,7 +502,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
-                + "	and sopIsDrg=1\n"
+                + "	and sopIsDrg = 1\n"
+                + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
                 + "	and not exists (\n"
                 + "		select 1\n"
@@ -525,7 +526,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
-                + "	and sopIsPsy=1\n"
+                + "	and sopIsPsy = 1\n"
+                + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
                 + "	and not exists (\n"
                 + "		select 1\n"
