@@ -477,7 +477,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public List<SelectItem> getIks() {
         Set<Integer> ids = new HashSet<>();
         ids.add(_sessionController.getAccountId());
-        Set<Integer> iks = _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, ids, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, ids, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (_calcBasics != null && _calcBasics.getIk() > 0) {
             iks.add(_calcBasics.getIk());
         }

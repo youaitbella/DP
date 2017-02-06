@@ -485,7 +485,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
+    public Set<Integer> obtainIks4NewBasics(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
             return obtainIks4NewBasiscsDrg(accountIds, year);
         }
