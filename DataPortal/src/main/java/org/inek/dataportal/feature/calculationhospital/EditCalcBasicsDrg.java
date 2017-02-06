@@ -1025,6 +1025,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
     }
 
+    public int getMedInfraSum(int type){
+        int sumAmount = 0;
+        for(KGLListMedInfra m : _calcBasics.getMedInfras()) {
+            if(m.getCostTypeID()== type){
+                sumAmount += m.getAmount();    
+            }
+        }   
+        return sumAmount;
+    }
+    
     public String getCostTypeText(int costTypeId) {
         CostType ct = _costTypeFacade.find(costTypeId);
         if (ct != null) {

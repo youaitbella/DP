@@ -43,8 +43,10 @@ import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
+import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -151,6 +153,18 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
         calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
         calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
+     
+        // Personal Accounting
+        calcBasics.getKgpPersonalAccountingList().clear();
+        for (KGPPersonalAccounting pa : _priorCalcBasics.getKgpPersonalAccountingList()) {
+            pa.setId(-1);
+            pa.setBaseInformationId(calcBasics.getId());
+            pa.setPriorCostAmount(pa.getAmount());
+            pa.setAmount(0);
+            calcBasics.getKgpPersonalAccountingList().add(pa);
+        }
+        ensurePersonalAccountingData(calcBasics);
+        
         
         preloadServiceProvision(calcBasics);
         
@@ -186,14 +200,17 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return calcBasics;
     }
 
-    private void ensurePersonalAccountingData(DrgCalcBasics calcBasics) {
-        if (calcBasics.getPersonalAccountings().size() == 3) {
+    private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
+        if (calcBasics.getKgpPersonalAccountingList().size() == 3) {
             return;
         }
 
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
+        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(110, 0));
+        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(120, 0));
+        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(130, 0));
+        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(131, 0));
+        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(132, 0));
+        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(133, 0));
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -548,4 +565,43 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getLocations().remove(loc);
     }
 
+    public List<KGPListMedInfra> getMedInfra(int costType) {
+        List<KGPListMedInfra> tmp = new ArrayList<>();
+        _calcBasics.getKgpMedInfraList().stream().filter((mi) -> (mi.getCostTypeId() == costType)).forEachOrdered((mi) -> {
+            tmp.add(mi);
+        });
+        return tmp;
+    }
+    
+        public void addMedInfra(int costType) {
+        KGPListMedInfra mif = new KGPListMedInfra();
+        mif.setBaseInformationId(_calcBasics.getId());
+        mif.setCostTypeId(costType);
+        _calcBasics.getKgpMedInfraList().add(mif);
+    }
+        
+        
+    public void deleteMedInfra(KGPListMedInfra mif) {
+        _calcBasics.getKgpMedInfraList().remove(mif);
+    }
+    
+    public boolean renderPersonalAccountingDescription() {
+        for (KGPPersonalAccounting pa : _calcBasics.getKgpPersonalAccountingList()) {
+            if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public int getMedInfraSum(int type){
+        int sumAmount = 0;
+        for(KGPListMedInfra m : _calcBasics.getKgpMedInfraList()) {
+            if(m.getCostTypeId()== type){
+                sumAmount += m.getAmount();    
+            }
+        }   
+        return sumAmount;
+    }
+    
 }

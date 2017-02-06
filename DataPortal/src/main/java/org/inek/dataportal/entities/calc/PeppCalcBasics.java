@@ -633,7 +633,19 @@ public class PeppCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    
+    // <editor-fold defaultstate="collapsed" desc="Property List _kgpMedInfraList">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")  
+    private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
+
+    public List<KGPListMedInfra> getKgpMedInfraList() {
+        return _kgpMedInfraList;
+    }
+
+    public void setKgpMedInfraList(List<KGPListMedInfra> kgpMedInfraList) {
+        this._kgpMedInfraList = kgpMedInfraList;
+    }
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property _personalAccountingDescription">
     @Basic(optional = false)
@@ -648,21 +660,6 @@ public class PeppCalcBasics implements Serializable {
 
     public void setPersonalAccountingDescription(String personalAccountingDescription) {
         this._personalAccountingDescription = personalAccountingDescription;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpMedInfraList">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "miBaseInformationID")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
-
-    public List<KGPListMedInfra> getKgpMedInfraList() {
-        return _kgpMedInfraList;
-    }
-
-    public void setKgpMedInfraList(List<KGPListMedInfra> kgpMedInfraList) {
-        this._kgpMedInfraList = kgpMedInfraList;
     }
     // </editor-fold>
     

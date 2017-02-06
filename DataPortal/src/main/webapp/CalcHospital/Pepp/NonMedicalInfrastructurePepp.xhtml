@@ -57,72 +57,61 @@
     
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur"}</h2>  
   
-    <!--  
-    180 = nicht med. Infra
-    <h:dataTable  headerClass="list-header" id="nonMedInfras"
-                  value="# {editCalcBasicsDrg.getMedInfra(180)}" var="item" width="100%" rowClasses="row1, row2" 
-                  columnClasses=""
-                  rendered="true"
-                  >
-
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value=""/>
-            </f:facet>
-            <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="# {msg.btnDelete}" name="Icon/small/delete.png" title="# {msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.deleteMedInfra(item)}"/>
-                <cb:confirmDelete/>
-            </h:commandLink>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Nummer der "/>
-                <h:outputText value="Kostenstelle"/>
-            </f:facet>
-                <h:inputText value="# {item.costCenterNumber}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-
-                <h:column>
-            <f:facet name="header">
-                <h:outputText value="Name der "/>
-                <h:outputText value="Kostenstelle"/>
-            </f:facet>
-                <h:inputText value="# {item.costCenterText}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-        
-                <h:column>
-            <f:facet name="header">
-                <h:outputText value="Verwendeter "/>
-                <h:outputText value="Schlüssel"/>
-            </f:facet>
-                    <h:inputText value="# {item.keyUsed}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-        
-                <h:column>
-            <f:facet name="header">
-                <h:outputText value="Kostenvolumen vor Durchführung der IBLV"/><br/>
-                <h:outputText value="und vor Abgrenzung nicht kalkulationsrelevanter Kosten"/>
-            </f:facet>
-            <h:inputText value="# {item.amount}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-    </h:dataTable>
-
-    180 = nicht med. Infra
-    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="# {msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.addMedInfra(180)}"/>
-    </h:commandLink>   -->
-                    
-           
+    
+    <!--  180 = nicht med. Infra-->
+    <table>
+        <tr>
+            <th style="width: 16px;"></th>
+            <th>Nummer der Kostenstelle</th>
+            <th>Name der Kostenstelle</th>
+            <th>Verwendeter Schlüssel</th>
+            <th>Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten</th>
+        </tr>
+        <ui:repeat value="#{editCalcBasicsPepp.getMedInfra(180)}" var="item" varStatus="loop">
+            <tr>
+                <td>
+                    <h:commandLink styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteMedInfra(item)}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </td>
+                <td style="width: 15%;">
+                    <h:inputText value="#{item.costCenterNumber}" styleClass="inputwide" required="true">
+                        <f:ajax render="@this :logout:remaining"/>
+                    </h:inputText>
+                </td>
+                <td style="width: 30%">
+                    <h:inputText value="#{item.costCenterText}" styleClass="inputwide" required="true">
+                        <f:ajax render="@this :logout:remaining"/>
+                    </h:inputText>
+                </td>
+                <td style="width: 25%;">
+                    <h:inputText value="#{item.keyUsed}" styleClass="inputwide" required="true">
+                        <f:ajax render="@this :logout:remaining"/>
+                    </h:inputText>
+                </td>
+                <td>
+                    <h:inputText value="#{item.amount}" styleClass="inputwide" required="true">
+                        <f:ajax render="@this :logout:remaining :sumMed"/>
+                    </h:inputText>
+                </td>
+            </tr>
+        </ui:repeat>
+        <tr>
+            <td colspan="4">
+                <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
+            </td> 
+            <td>
+            <h:inputText disabled="true" id="sumMed" value="#{editCalcBasicsPepp.getMedInfraSum(180)}"/>
+            </td>
+        </tr>
+    </table>
+    
+    <!--180 = nicht med. Infra-->
+    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addMedInfra(180)}"/>
+    </h:commandLink>    
         
 </ui:composition>
 

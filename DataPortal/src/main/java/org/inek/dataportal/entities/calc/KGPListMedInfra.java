@@ -143,13 +143,14 @@ public class KGPListMedInfra implements Serializable {
         this._id = miID;
     }
 
-    public KGPListMedInfra(int miID, int miCostTypeID, String miCostCenterNumber, String miCostCenterText, String miKeyUsed, int miAmount) {
+    public KGPListMedInfra(int miID, int miCostTypeID, String miCostCenterNumber, String miCostCenterText, String miKeyUsed, int miAmount, int baseInfo) {
         this._id = miID;
         this._costTypeId = miCostTypeID;
         this._costCenterNumber = miCostCenterNumber;
         this._costCenterText = miCostCenterText;
         this._keyUsed = miKeyUsed;
         this._amount = miAmount;
+        this._baseInformationId = baseInfo;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

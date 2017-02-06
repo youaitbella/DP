@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -179,14 +180,30 @@ public class KGPPersonalAccounting implements Serializable {
     }
     //</editor-fold>
 
-    public KGPPersonalAccounting() {
+    @Transient
+    private int priorCostAmount;
+
+    public int getPriorCostAmount() {
+        return priorCostAmount;
     }
 
+    public void setPriorCostAmount(int priorCostAmount) {
+        this.priorCostAmount = priorCostAmount;
+    }
+    
+    public KGPPersonalAccounting() {
+    }
+   
     public KGPPersonalAccounting(int paID) {
         this._id = paID;
     }
 
-    public KGPPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
+    public KGPPersonalAccounting(int costTypeId, int prior) {
+        this._costTypeId = costTypeId;
+        this.priorCostAmount = prior;
+    }
+    
+    public KGPPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount, int paBaseInfoID) {
         this._id = paID;
         this._costTypeId = paCostTypeID;
         this._staffRecording = paStaffRecording;
@@ -196,6 +213,7 @@ public class KGPPersonalAccounting implements Serializable {
         this._expertRating = paExpertRating;
         this._other = paOther;
         this._amount = paAmount;
+        this._baseInformationId = paBaseInfoID;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
