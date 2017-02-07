@@ -141,6 +141,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 c.setPrior(ccc);
             });
         }
+        _calcBasics.setNoDeliveryRoomHabitation(_priorCalcBasics.isNoDeliveryRoomHabitation());
     }
 
     public void ikChanged() {
@@ -205,7 +206,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         ensurePersonalAccountingData(calcBasics);
 
-        // Laboratory
+        // Radiology & Laboratory
         calcBasics.getRadiologyLaboratories().clear();
         for (KGLListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
             rl.setId(-1);
@@ -323,6 +324,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
         for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
             if(rl.getCostCenterID()== 10)
+                rls.add(rl);
+        }
+        return rls;
+    }
+    
+    public List<KGLListRadiologyLaboratory> getRadiologies() {
+        List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
+        for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if(rl.getCostCenterID() == 9)
                 rls.add(rl);
         }
         return rls;
@@ -479,6 +489,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
         rl.setBaseInformationID(_calcBasics.getId());
         rl.setCostCenterID(10);
+        _calcBasics.getRadiologyLaboratories().add(rl);
+    }
+    
+    public void addRadiology() {
+        KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
+        rl.setBaseInformationID(_calcBasics.getId());
+        rl.setCostCenterID(9);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
 

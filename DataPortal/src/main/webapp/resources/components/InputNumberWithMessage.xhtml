@@ -32,7 +32,9 @@
                          readonly="#{cc.attrs.readonly}"
                          disabled="#{cc.attrs.disabled}"
                          required="#{cc.attrs.required}"
-                         requiredMessage="#{msg.msgValueNeeded}">
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         validatorMessage="#{null}"
+                         >
                 <f:ajax event="blur" render="@this #{cc.attrs.renderElement} :logout:remaining message"/>
                 <f:convertNumber rendered="#{cc.attrs.pattern.length() eq 0}"/>
                 <f:convertNumber rendered="#{cc.attrs.pattern.length() gt 0}" pattern="#{cc.attrs.pattern}"/>

@@ -53,8 +53,16 @@
         </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}"/>
-
-        <h:inputTextarea id="txtStructure" styleClass="areaHuge" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}" 
+        
+        <br/>
+        <h:outputLabel styleClass="label50" value="Bei vorgeburtlichen Fällen fielen im Datenjahr 2016 keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>
+        <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.noDeliveryRoomHabitation}">
+            <f:ajax event="change" render="@this :logout:remaining" />
+        </h:selectBooleanCheckbox>
+        
+        <br/>
+        <h:outputLabel styleClass="label" value="Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich:"></h:outputLabel>
+        <h:inputTextarea id="txtStructure" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}" 
                          rendered="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt == 0}" >
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
@@ -65,7 +73,7 @@
                      value="#{editCalcBasicsDrg.calcBasics.obstetricsGynecologies}" 
                      var ="obstretic"
                      width="100%"
-                     columnClasses="colIcon, col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column id="colDeleteId">
@@ -91,8 +99,8 @@
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{obstretic.costTypeId}" 
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="eine aus 1,4,6,11,12,13" itemValue="#{0}" noSelectionOption="true"/>
+                                 hideNoSelectionOption="true" 
+                                 styleClass="inputshort">
                     <f:selectItem itemLabel="1" itemValue="#{1}"/>
                     <f:selectItem itemLabel="4" itemValue="#{4}"/>
                     <f:selectItem itemLabel="6" itemValue="#{6}"/>
@@ -147,7 +155,7 @@
                      value="#{editCalcBasicsDrg.priorCalcBasics.obstetricsGynecologies}" 
                      var ="prevObstretic"
                      width="100%"
-                     columnClasses="col20em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column>
@@ -162,8 +170,9 @@
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{prevObstretic.costTypeId}" 
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="eine aus 1,4,6,11,12,13" itemValue="#{0}" noSelectionOption="true"/>
+                                 hideNoSelectionOption="true"
+                                 styleClass="inputshort"
+                                 >
                     <f:selectItem itemLabel="1" itemValue="#{1}"/>
                     <f:selectItem itemLabel="4" itemValue="#{4}"/>
                     <f:selectItem itemLabel="6" itemValue="#{6}"/>
