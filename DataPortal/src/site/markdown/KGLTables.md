@@ -85,7 +85,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden||biDeliveryRoomHours|
 |||davon für vorgeburtliche Kreißsaalaufenthalte||biDeliveryRoomPreBirthHabitationCnt|
 |||Anzahl vollstationär geborener Kinder ||biDeliveryRoomInstationBirthCnt|
-|||Aufenthaltszeiten der Patientin im Kreißsaal||biNoDeliveryRoomHabitation|
+|||Bei vorgeburtlichen Fällen keine Aufenthaltszeiten der Patientin im Kreißsaal||biNoDeliveryRoomHabitation|
 |||Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich||biDeliveryRoomOrganizationalStructure|
 |Leistungsdokumentation (Kardiologie)|||KGLBaseInformation||
 |||Das Krankenhaus erbringt Leistungen im Bereich der Kardiologie.||biCardiology|
