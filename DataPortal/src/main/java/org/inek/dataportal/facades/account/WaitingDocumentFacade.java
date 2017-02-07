@@ -60,10 +60,12 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         return query.getResultList();
     }
 
-    @Schedule(hour = "2", minute = "15", info = "once a day")
+    @Schedule(hour = "2", minute = "30", info = "once a day")
     // for test: @Schedule(hour = "*", minute = "*/1", info = "once a minute")
     private void startDeleteOldDocuments() {
+        _logger.log(Level.INFO, "Start deleting old documents");
         deleteOldDocuments();
+        _logger.log(Level.INFO, "Finished deleting old documents");
     }
     
     @Asynchronous
