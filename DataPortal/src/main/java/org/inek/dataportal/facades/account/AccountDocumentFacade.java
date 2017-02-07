@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -51,15 +52,15 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         if (accountId >= 0) {
             query.setParameter("accountId", accountId);
         }
-        if (!filter.isEmpty()){
+        if (!filter.isEmpty()) {
             int numFilter;
-            try{
+            try {
                 numFilter = Integer.parseInt(filter);
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 numFilter = -999;
             }
             query.setParameter("numFilter", numFilter);
-            query.setParameter("filter", "%" +filter + "%");
+            query.setParameter("filter", "%" + filter + "%");
         }
         query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
         //dumpSql(query);
@@ -102,16 +103,18 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     @Schedule(hour = "2", minute = "15", info = "once a day")
-    // for test: @Schedule(hour = "*", minute = "*/1", info = "once a minute")
+    //@Schedule(hour = "*", minute = "*/1", info = "once a minute")
+    private void scheduleSweepOldDocuments() {
+        sweepOldDocuments();
+    }
+    
+    @Asynchronous
     private void sweepOldDocuments() {
-        String sql = "SELECT p FROM AccountDocument p WHERE p._validUntil < :date";
+        _logger.log(Level.INFO, "Sweeping old documents");
+        String sql = "DELETE FROM AccountDocument d WHERE d._validUntil < :date";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
-        @SuppressWarnings("unchecked") List<AccountDocument> docs = query.getResultList();
-        for (AccountDocument doc : docs) {
-            _logger.log(Level.WARNING, "Delete old document {0} of account {1}", new Object[]{doc.getName(), doc.getAccountId()});
-            remove(doc);
-        }
+        query.executeUpdate();
     }
 
     public AccountDocument save(AccountDocument accountDocument) {

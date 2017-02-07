@@ -169,7 +169,7 @@ public class KGPPersonalAccounting implements Serializable {
 //    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "paBaseInformationID")
-    private int _baseInformationId;
+    private int _baseInformationId = -1;
 
     public int getBaseInformationId() {
         return _baseInformationId;

@@ -88,7 +88,8 @@ public class CostCenterDataImporterPepp {
         try{
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
-            item.setCostCenterNumber(nf.parse(dataString).intValue());
+            int val = nf.parse(dataString).intValue();
+            item.setCostCenterNumber(val);
         } catch (ParseException ex) {
             throw new IllegalArgumentException("[Nummer der Kostenstelle] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
@@ -98,7 +99,11 @@ public class CostCenterDataImporterPepp {
         try{
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
-            item.setAmount(nf.parse(dataString).intValue());
+            int val = nf.parse(dataString).intValue();
+            if (val < 0){
+                 throw new IllegalArgumentException("[Kostenvolumen] Wert darf nicht kleiner 0 sein: " + dataString);
+            }
+            item.setAmount(val);
         } catch (ParseException ex) {
             throw new IllegalArgumentException("[Kostenvolumen] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
@@ -107,8 +112,12 @@ public class CostCenterDataImporterPepp {
     private void tryImportFullVigorCnt(KGPListCostCenter item, String dataString) {
         try{
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            item.setFullVigorCnt(nf.parse(dataString).doubleValue());
+            nf.setParseIntegerOnly(false);
+            double val = nf.parse(dataString).doubleValue();
+            if (val < 0){
+                 throw new IllegalArgumentException("[Anzahl VK ÄD] Wert darf nicht kleiner 0 sein: " + dataString);
+            }
+            item.setFullVigorCnt(val);
         } catch (ParseException ex) {
             throw new IllegalArgumentException("[Anzahl VK ÄD] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
@@ -118,7 +127,11 @@ public class CostCenterDataImporterPepp {
         try{
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
-            item.setServiceSum(nf.parse(dataString).intValue());
+            int val = nf.parse(dataString).intValue();
+            if (val < 0){
+                 throw new IllegalArgumentException("[Summe der Leistungseinheiten] Wert darf nicht kleiner 0 sein: " + dataString);
+            }
+            item.setServiceSum(val);
         } catch (ParseException ex) {
             throw new IllegalArgumentException("[Summe der Leistungseinheiten] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }

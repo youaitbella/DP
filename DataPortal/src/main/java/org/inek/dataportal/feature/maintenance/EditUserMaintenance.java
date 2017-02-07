@@ -123,13 +123,7 @@ public class EditUserMaintenance extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        _logger.log(Level.WARNING, "Init EditUserMaintenance");
         initOrResetData();
-    }
-
-    @PreDestroy
-    private void destroy() {
-        _logger.log(Level.WARNING, "Destroy EditUserMaintenance");
     }
 
     private void initOrResetData() {
