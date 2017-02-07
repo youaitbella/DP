@@ -741,7 +741,7 @@ public class PeppCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpStationDepartmentList">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "saBaseInformationID", referencedColumnName = "biID")  
     private List<KGPListStationAlternative> _kgpStationDepartmentList = new Vector<>();
 
     public List<KGPListStationAlternative> getKgpStationDepartmentList() {

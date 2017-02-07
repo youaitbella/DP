@@ -168,7 +168,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter {
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
     @Column(name = "ccBaseInformationID")
-    private int _baseInformationId;
+    private int _baseInformationId = -1;
 
     @Override
     public int getBaseInformationId() {

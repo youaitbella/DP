@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListStationAlternive", schema = "calc")
+@Table(name = "KGPListStationAlternative", schema = "calc")
 @XmlRootElement
 public class KGPListStationAlternative implements Serializable {
 
