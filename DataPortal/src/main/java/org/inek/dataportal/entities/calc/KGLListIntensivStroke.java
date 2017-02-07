@@ -487,6 +487,13 @@ public class KGLListIntensivStroke implements Serializable {
     }
     // </editor-fold>
     
+    public String calcUtilization() {
+        if (getBedCnt()== 0) {
+            return "";
+        }
+        return Math.round(1000d * getIntensivHoursNotweighted() / (365 * 24 * getBedCnt())) / 10d + "%";
+    }
+
     public KGLListIntensivStroke() {
     }
 
