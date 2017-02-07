@@ -558,6 +558,30 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().remove(item);
     }
     
+    public Optional<KGLListIntensivStroke> getPriorIntensivStroke(KGLListIntensivStroke item) {
+        return _priorCalcBasics.getIntensivStrokes().stream()
+                .filter(i -> i.getCostCenterID() == item.getCostCenterID())
+                .findAny();
+    }
+    
+    public int getSumIntensivStrokeWeighted() {
+        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
+        int result = 0;
+        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+            result += intensivStroke.getIntensivHoursWeighted();
+        }
+        return result;
+    }
+
+    public int getSumIntensivStrokeNotWeighted() {
+        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
+        int result = 0;
+        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+            result += intensivStroke.getIntensivHoursNotweighted();
+        }
+        return result;
+    }
+            
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
         return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
@@ -1030,7 +1054,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
     }
-
+    
     public int getMedInfraSum(int type){
         int sumAmount = 0;
         for(KGLListMedInfra m : _calcBasics.getMedInfras()) {
