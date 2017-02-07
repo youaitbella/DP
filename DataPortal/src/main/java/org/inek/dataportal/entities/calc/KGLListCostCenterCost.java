@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -23,11 +22,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLListCostCenterCost", schema = "calc")
-@XmlRootElement
 public class KGLListCostCenterCost implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public KGLListCostCenterCost() {
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -285,7 +286,7 @@ public class KGLListCostCenterCost implements Serializable {
 //    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "cccBaseInformationID")
-    private int _baseInformationId;
+    private int _baseInformationId = -1;
 
     public int getBaseInformationId() {
         return _baseInformationId;
@@ -330,35 +331,6 @@ public class KGLListCostCenterCost implements Serializable {
 
     public void setPrior(KGLListCostCenterCost _prior) {
         this._prior = _prior;
-    }
-
-    public KGLListCostCenterCost() {
-    }
-
-    public KGLListCostCenterCost(int cccID) {
-        this._id = cccID;
-    }
-
-    public KGLListCostCenterCost(int costCenterID, String costCenterText, String departmentKey, String departmentAssignment, int bedCnt, int careDays, int pprMinutes, double medicalServiceCnt, double nursingServiceCnt, double functionalServiceCnt, int medicalServiceAmount, int nursingServiceAmount, int functionalServiceAmount, int overheadsMedicine, int overheadsMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId, int costCenterNumber) {
-        this._costCenterID = costCenterID;
-        this._costCenterText = costCenterText;
-        this._departmentKey = departmentKey;
-        this._departmentAssignment = departmentAssignment;
-        this._bedCnt = bedCnt;
-        this._careDays = careDays;
-        this._pprMinutes = pprMinutes;
-        this._medicalServiceCnt = medicalServiceCnt;
-        this._nursingServiceCnt = nursingServiceCnt;
-        this._functionalServiceCnt = functionalServiceCnt;
-        this._medicalServiceAmount = medicalServiceAmount;
-        this._nursingServiceAmount = nursingServiceAmount;
-        this._functionalServiceAmount = functionalServiceAmount;
-        this._overheadsMedicine = overheadsMedicine;
-        this._overheadsMedicalGoods = overheadsMedicalGoods;
-        this._medicalInfrastructureCost = medicalInfrastructureCost;
-        this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
-        this._baseInformationId = baseInformationId;
-        this._costCenterNumber = costCenterNumber;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

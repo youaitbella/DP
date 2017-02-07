@@ -20,7 +20,6 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import org.inek.dataportal.entities.admin.Log_;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.CalcContact;
@@ -41,6 +40,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -485,7 +485,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    public Set<Integer> obtainIks4NewBasiscs(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
+    public Set<Integer> obtainIks4NewBasics(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
             return obtainIks4NewBasiscsDrg(accountIds, year);
         }
@@ -502,7 +502,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
-                + "	and sopIsDrg=1\n"
+                + "	and sopIsDrg = 1\n"
+                + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
                 + "	and not exists (\n"
                 + "		select 1\n"
@@ -525,7 +526,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
-                + "	and sopIsPsy=1\n"
+                + "	and sopIsPsy = 1\n"
+                + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
                 + "	and not exists (\n"
                 + "		select 1\n"
@@ -677,9 +679,21 @@ public class CalcFacade extends AbstractDataAccess {
             return calcBasics;
         }
 
+        saveCostCenterDataPepp(calcBasics);
         return merge(calcBasics);
     }
 
+    private void saveCostCenterDataPepp(PeppCalcBasics calcBasics) {
+        for (KGPListCostCenter item : calcBasics.getCostCenters()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
+    
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);
     }

@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import org.inek.dataportal.entities.calc.iface.ListCostCenter;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "KGLListCostCenter", schema = "calc")
-public class KGLListCostCenter implements Serializable {
+public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,10 +32,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -44,10 +47,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccCostCenterID")
     private int _costCenterId;
 
+    @Override
     public int getCostCenterId() {
         return _costCenterId;
     }
 
+    @Override
     public void setCostCenterId(int costCenterId) {
         this._costCenterId = costCenterId;
     }
@@ -57,10 +62,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccCostCenterNumber")
     private int _costCenterNumber;
 
+    @Override
     public int getCostCenterNumber() {
         return _costCenterNumber;
     }
 
+    @Override
     public void setCostCenterNumber(int costCenterNumber) {
         this._costCenterNumber = costCenterNumber;
     }
@@ -71,10 +78,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccCostCenterText")
     private String _costCenterText = "";
 
+    @Override
     public String getCostCenterText() {
         return _costCenterText;
     }
 
+    @Override
     public void setCostCenterText(String costCenterText) {
         this._costCenterText = costCenterText;
     }
@@ -85,10 +94,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccAmount")
     private int _amount;
 
+    @Override
     public int getAmount() {
         return _amount;
     }
 
+    @Override
     public void setAmount(int amount) {
         this._amount = amount;
     }
@@ -98,10 +109,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccFullVigorCnt")
     private double _fullVigorCnt;
 
+    @Override
     public double getFullVigorCnt() {
         return _fullVigorCnt;
     }
 
+    @Override
     public void setFullVigorCnt(double fullVigorCnt) {
         this._fullVigorCnt = fullVigorCnt;
     }
@@ -112,10 +125,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccServiceKey")
     private String _serviceKey = "";
 
+    @Override
     public String getServiceKey() {
         return _serviceKey;
     }
 
+    @Override
     public void setServiceKey(String serviceKey) {
         this._serviceKey = serviceKey;
     }
@@ -125,10 +140,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccServiceKeyDescription")
     private String _serviceKeyDescription = "";
 
+    @Override
     public String getServiceKeyDescription() {
         return _serviceKeyDescription;
     }
 
+    @Override
     public void setServiceKeyDescription(String serviceKeyDescription) {
         this._serviceKeyDescription = serviceKeyDescription;
     }
@@ -138,10 +155,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccServiceSum")
     private double _serviceSum;
 
+    @Override
     public double getServiceSum() {
         return _serviceSum;
     }
 
+    @Override
     public void setServiceSum(double serviceSum) {
         this._serviceSum = serviceSum;
     }
@@ -153,10 +172,12 @@ public class KGLListCostCenter implements Serializable {
     @Column(name = "ccBaseInformationID")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }

@@ -6,6 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
     
     <style>
@@ -31,7 +32,7 @@
         }
     </style>
 
-    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.radiologyLaboratories}" 
+    <h:dataTable value="#{editCalcBasicsDrg.laboratories}" 
                      var="item" 
                      width="100%"
                      rowClasses="row1, row2"
@@ -52,7 +53,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
             </f:facet>
-            <h:inputText styleClass="inputshort" value="#{item.costCenterID}" >
+            <h:inputText styleClass="inputshort" value="#{item.costCenterNumber}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -113,7 +114,7 @@
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
             <h:inputText value="#{item.serviceVolumePre}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
+                <f:ajax event="blur" render="@this point-value:text :logout:remaining" />
             </h:inputText>
         </h:column>
         
@@ -123,7 +124,7 @@
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
             <h:inputText value="#{item.amountPre}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
+                <f:ajax event="blur" render="@this point-value:text :logout:remaining" />
             </h:inputText>
         </h:column>
         
@@ -135,6 +136,13 @@
             <h:inputText value="#{item.amountPost}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Punktwert"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
         </h:column>
     </h:dataTable>
     

@@ -484,7 +484,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _nubRequest != null && _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isRejectedNub() {

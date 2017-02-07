@@ -21,11 +21,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -33,14 +36,16 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
+import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
-import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
@@ -86,7 +91,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     private PeppCalcBasics _priorCalcBasics;
-    
+
     public PeppCalcBasics getCalcBasics() {
         return _calcBasics;
     }
@@ -96,7 +101,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private PeppCalcBasics _calcBasics;
-    
+
     public PeppCalcBasics getPriorCalcBasics() {
         return _priorCalcBasics;
     }
@@ -114,10 +119,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             _calcBasics = newCalcBasicsPepp();
         } else if (Utils.isInteger(id)) {
             _calcBasics = loadCalcBasicsPepp(id);
+            PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
+            if (calcBasics.getId() == -1) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
+            _calcBasics = calcBasics;
             retrievePriorData(_calcBasics);
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
-            return;
         }
     }
 
@@ -147,15 +157,14 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
         calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
         calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
-       
-        
+
         // NonMedicalInfrastructure
         calcBasics.setDescNonMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
         calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
         calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
         calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
         calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
-     
+
         // Personal Accounting
         calcBasics.getKgpPersonalAccountingList().clear();
         for (KGPPersonalAccounting pa : _priorCalcBasics.getKgpPersonalAccountingList()) {
@@ -166,23 +175,25 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             calcBasics.getKgpPersonalAccountingList().add(pa);
         }
         ensurePersonalAccountingData(calcBasics);
-        
-        
+
         preloadServiceProvision(calcBasics);
-        
+
     }
 
     private PeppCalcBasics loadCalcBasicsPepp(String idObject) {
-        try {
-            int id = Integer.parseInt(idObject);
-            PeppCalcBasics statement = _calcFacade.findCalcBasicsPepp(id);
-            if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
-                return statement;
-            }
-        } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+        int id = Integer.parseInt(idObject);
+        PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(id);
+        if (hasSufficientRights(calcBasics)) {
+            return calcBasics;
         }
-        return newCalcBasicsPepp();
+        return new PeppCalcBasics();
+    }
+
+    private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
+        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+            return true;
+        }
+        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
@@ -251,7 +262,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         // get prior values and additional entries
         for (KGPListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
-            Optional<KGPListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId()== prior.getServiceProvisionTypeId()).findAny();
+            Optional<KGPListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
             if (currentOpt.isPresent()) {
                 KGPListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeId(prior.getProvidedTypeId());
@@ -265,9 +276,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 calcBasics.getServiceProvisions().add(data);
             }
         }
-        
-    }
 
+    }
 
     public List<String> getDelimitationFactsSubTitles() {
         List<String> tmp = new ArrayList<>();
@@ -276,9 +286,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         tmp.add("Infrastrukturkosten");
         return tmp;
     }
-
-    
-
 
     @Override
     protected void addTopics() {
@@ -469,9 +476,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
-        Set<Integer> ids = new HashSet<>();
-        ids.add(_sessionController.getAccountId());
-        Set<Integer> iks = _calcFacade.obtainIks4NewBasiscs(CalcHospitalFunction.CalculationBasicsDrg, ids, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (_calcBasics != null && _calcBasics.getIk() > 0) {
             iks.add(_calcBasics.getIk());
         }
@@ -516,15 +522,95 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Operation">
-    public void checkOption(AjaxBehaviorEvent event){
-        HtmlSelectOneMenu component =  (HtmlSelectOneMenu) event.getComponent();
-        if (component.getValue().equals(3)){
+    public void checkOption(AjaxBehaviorEvent event) {
+        HtmlSelectOneMenu component = (HtmlSelectOneMenu) event.getComponent();
+        if (component.getValue().equals(3)) {
             //_sessionController.setScript("alert('Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.')");
             Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
         }
     }
     // </editor-fold>
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Tab Diagnostics / therapy / patient admission">
+    public void addCostCenter(int costCenterId) {
+        KGPListCostCenter item = new KGPListCostCenter(_calcBasics.getId(), costCenterId);
+        _calcBasics.getCostCenters().add(item);
+    }
+
+    public void deleteCostCenter(KGPListCostCenter item) {
+        _calcBasics.getCostCenters().remove(item);
+    }
+
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _file = file;
+    }
+
+    private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+
+    public void downloadTemplate() {
+        Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
+    }
+
+    private String _importMessage = "";
+
+    public String getImportMessage() {
+        return _importMessage;
+    }
+
+    @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
+
+    public void uploadNotices() {
+        try {
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                CostCenterDataImporterPepp itemImporter = _importProvider.get();
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.equals(HeadLine)) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                _importMessage = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessage);
+                _showJournal = false;
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    public void toggleJournal() {
+        _showJournal = !_showJournal;
+    }
+
+    private boolean _showJournal = false;
+
+    public boolean isShowJournal() {
+        return _showJournal;
+    }
+
+    public void setShowJournal(boolean showJournal) {
+        this._showJournal = showJournal;
+    }
+    //</editor-fold>
 
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
@@ -547,7 +633,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         return "Unbekannte Kostenartengruppe";
     }
-    
+
     public KGPListDelimitationFact getPriorDelimitationFact(int contentTextId) {
         for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             if (df.getContentTextId() == contentTextId) {
@@ -574,19 +660,18 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         });
         return tmp;
     }
-    
-        public void addMedInfra(int costType) {
+
+    public void addMedInfra(int costType) {
         KGPListMedInfra mif = new KGPListMedInfra();
         mif.setBaseInformationId(_calcBasics.getId());
         mif.setCostTypeId(costType);
         _calcBasics.getKgpMedInfraList().add(mif);
     }
-        
-        
+
     public void deleteMedInfra(KGPListMedInfra mif) {
         _calcBasics.getKgpMedInfraList().remove(mif);
     }
-    
+
     public boolean renderPersonalAccountingDescription() {
         for (KGPPersonalAccounting pa : _calcBasics.getKgpPersonalAccountingList()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
@@ -595,28 +680,28 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         return false;
     }
-    
-    public int getMedInfraSum(int type){
+
+    public int getMedInfraSum(int type) {
         int sumAmount = 0;
-        for(KGPListMedInfra m : _calcBasics.getKgpMedInfraList()) {
-            if(m.getCostTypeId()== type){
-                sumAmount += m.getAmount();    
+        for (KGPListMedInfra m : _calcBasics.getKgpMedInfraList()) {
+            if (m.getCostTypeId() == type) {
+                sumAmount += m.getAmount();
             }
-        }   
+        }
         return sumAmount;
     }
-    
+
     public List<KGPListTherapy> getTherapies(int costCenterId) {
         return _calcBasics.getTherapies().stream().filter(t -> t.getCostCenterId() == costCenterId).collect(Collectors.toList());
     }
-            
+
     public void deleteTherapy(KGPListTherapy item) {
         _calcBasics.getTherapies().remove(item);
     }
-            
+
     public void addTherapyCost(int costCenterId) {
         KGPListTherapy result = new KGPListTherapy();
-        result .setCostCenterId(costCenterId);
+        result.setCostCenterId(costCenterId);
         result.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getTherapies().add(result);
     }
