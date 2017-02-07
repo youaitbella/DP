@@ -112,7 +112,7 @@ public class CostCenterDataImporter {
     private void tryImportFullVigorCnt(KGLListCostCenter item, String dataString) {
         try{
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
+            nf.setParseIntegerOnly(false);
             double val = nf.parse(dataString).doubleValue();
             if (val < 0){
                  throw new IllegalArgumentException("[Anzahl VK ÄD] Wert darf nicht kleiner 0 sein: " + dataString);
