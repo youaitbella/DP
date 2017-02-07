@@ -129,7 +129,7 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.serviceVolumePost}" renderElement="point-value:text"/>
+            <inek:InputNumberWithMessage value="#{item.serviceVolumePost}" renderElement="point-value2:text"/>
         </h:column>
         
         <h:column>
@@ -137,7 +137,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amountPost}" />
+            <inek:InputNumberWithMessage value="#{item.amountPost}" renderElement="point-value2:text"/>
         </h:column>
         
         <h:column>
@@ -151,7 +151,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Punktwert (Nach)"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage id="point-value" value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}" readonly="true" pattern="0.0"/>
+            <inek:InputNumberWithMessage id="point-value2" value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}" readonly="true" pattern="0.0"/>
         </h:column>
     </h:dataTable>
     
