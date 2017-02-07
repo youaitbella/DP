@@ -51,6 +51,7 @@ import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListLocation;
+import org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
@@ -704,5 +705,21 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         result.setCostCenterId(costCenterId);
         result.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getTherapies().add(result);
+    }
+    
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboritories(int costCenter) {
+        return _calcBasics.getRadiologyLaboratories().stream()
+                .filter(r -> r.getCostCenterId() == costCenter)
+                .collect(Collectors.toList());
+    }
+    public void deleteRadiologyLaboratory(KGPListRadiologyLaboratory item) {
+        _calcBasics.getRadiologyLaboratories().remove(item);
+    }
+    
+    public void addRadiologyLaboratoy(int costCenter) {
+        KGPListRadiologyLaboratory item = new KGPListRadiologyLaboratory();
+        item.setCostCenterId(costCenter);
+        item.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getRadiologyLaboratories().add(item);
     }
 }

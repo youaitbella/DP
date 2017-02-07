@@ -753,18 +753,18 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpRadiologyLaboratoryList">
+    // <editor-fold defaultstate="collapsed" desc="Property List _radiologyLaboratories">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListRadiologyLaboratory> _kgpRadiologyLaboratoryList = new Vector<>();
+    private List<KGPListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
-    public List<KGPListRadiologyLaboratory> getKgpRadiologyLaboratoryList() {
-        return _kgpRadiologyLaboratoryList;
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories() {
+        return _radiologyLaboratories;
     }
 
-    public void setKgpRadiologyLaboratoryList(List<KGPListRadiologyLaboratory> kgpRadiologyLaboratoryList) {
-        this._kgpRadiologyLaboratoryList = kgpRadiologyLaboratoryList;
+    public void setRadiologyLaboratories(List<KGPListRadiologyLaboratory> radiologyLaboratories) {
+        this._radiologyLaboratories = radiologyLaboratories;
     }
     // </editor-fold>
     

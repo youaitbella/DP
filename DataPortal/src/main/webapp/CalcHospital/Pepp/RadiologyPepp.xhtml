@@ -6,8 +6,78 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+    <h:dataTable value="#{editCalcBasicsPepp.getRadiologyLaboritories(9)}" var="item"
+                     styleClass="marginTop" width="100%"
+                     columnClasses="colIcon, col05em number, colValue, colValue, colValue" rowClasses="row1, row2">
+
+            <h:column>
+                <f:facet name="header">
+                    <h:graphicImage alt="" name="Icon/small/information.png" title="Platzieren Sie den Mauszeiger auf eine Spaltenüberschrift, um zusätzliche Informationen zu erhalten."/>
+                </f:facet>
+                <h:commandLink action="#{editCalcBasicsPepp.deleteRadiologyLaboratory(item)}" immediate="true" rendered="#{!editCalcBasicsPepp.readOnly}">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Nummer" title="Nummer der Kostenstelle"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100 number" value="#{item.costCenterNumber}" readonly="#{editCalcBasicsPepp.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bezeichnung" title="Aussagekräfiger Name"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterText}" readonly="#{editCalcBasicsPepp.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Leistungsdokumentation" 
+                                                      title="Bitte geben Sie an, nach welchem Schlüssel Sie im Rahmen der Kostenträgerrechnung Kosten auf die Patienten verteilen. Bitte berücksichtigen Sie die Kostenstellen der Radiologie nach den Vorgaben des Handbuchs zur Kalkulation von Behandlungskosten Version 1.0 (Anlage 6)."/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="Feld nachfragen" renderElement="result" readonly="#{editCalcBasicsPepp.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Beschreibung" title="Bei Anwendung eines Hauskatalogs oder bei der Angabe 'Sonstiges' ist zwingend eine kurze Beschreibung (des Vorgehens) anzugeben."/>
+                </f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.description}" readonly="#{editCalcBasicsPepp.readOnly}"/>
+            </h:column>
+
+
+        </h:dataTable>
+
+        <h:panelGroup rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
+            <h:commandLink id="addButton" styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+                           rendered="#{!editCalcBasicsPepp.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addRadiologyLaboratoy(9)}"/>
+            </h:commandLink>
+
+<!--            <div class="uploadFile inlineBlock marginRight">
+                <h:inputFile styleClass="hiddenFile" id="file" value="# {editCalcBasicsPepp.file}" >
+                    <f:ajax listener="# {editCalcBasicsPepp.uploadNotices()}" render="@all"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Kostenstellengruppen 11-13"/>
+                </div>
+            </div>
+            
+            <h:commandLink styleClass="button" value="Download Musterdatei" action="# {editCalcBasicsPepp.downloadTemplate}" immediate="true"/>
+
+            <h:commandLink rendered="# {editCalcBasicsPepp.importMessage.length() gt 0}" 
+                           styleClass="button"
+                           value="# {msg.btnJournal} &nbsp; # {editCalcBasicsPepp.showJournal ? '˄' : '˅'}" 
+                           actionListener="# {editCalcBasicsPepp.toggleJournal}">
+                <f:ajax render="journal :logout:remaining"/>
+            </h:commandLink>
+
+            <h:inputTextarea id="journal" rendered="# {editCalcBasicsPepp.importMessage.length() gt 0 and editCalcBasicsPepp.showJournal}" 
+                             value="# {editCalcBasicsPepp.importMessage}"
+                             readonly="true"
+                             styleClass="element100 # {editCalcBasicsPepp.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>-->
+        </h:panelGroup>
 
 </ui:composition>
 
