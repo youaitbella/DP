@@ -113,9 +113,7 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText value="#{item.serviceVolumePre}" >
-                <f:ajax event="blur" render="@this point-value:text :logout:remaining" />
-            </h:inputText>
+            <inek:InputNumberWithMessage renderElement="point-value:text" value="#{item.serviceVolumePre}" />
         </h:column>
         
         <h:column>
@@ -123,9 +121,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText value="#{item.amountPre}" >
-                <f:ajax event="blur" render="@this point-value:text :logout:remaining" />
-            </h:inputText>
+            <inek:InputNumberWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
         </h:column>
         
         <h:column>
@@ -133,9 +129,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <h:inputText value="#{item.amountPost}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
+            <inek:InputNumberWithMessage value="#{item.amountPost}" />
         </h:column>
         
         <h:column>
