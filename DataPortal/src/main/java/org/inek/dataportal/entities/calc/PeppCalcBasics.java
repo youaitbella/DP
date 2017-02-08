@@ -20,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -666,7 +667,8 @@ public class PeppCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpPersonalAccountingList">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+    @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _kgpPersonalAccountingList = new Vector<>();
 
     public List<KGPPersonalAccounting> getKgpPersonalAccountingList() {
