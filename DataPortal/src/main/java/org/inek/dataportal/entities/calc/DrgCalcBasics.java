@@ -758,10 +758,8 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
-    @Min(0)
     private boolean _intensiveBed;
 
     public boolean isIntensiveBed() {
@@ -775,7 +773,6 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="strokeBed">
     @Column(name = "biStrokeBed")
-    @Min(0)
     private boolean _strokeBed;
 
     public boolean isStrokeBed() {
