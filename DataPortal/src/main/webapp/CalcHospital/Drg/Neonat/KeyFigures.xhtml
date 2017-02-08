@@ -26,7 +26,8 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
-                <inek:InputNumberWithMessage value="#{data.data}" styleClassComponent="col06em"/>
+                <inek:InputNumberWithMessage value="#{data.data}" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount eq 0}"/>
+                <inek:InputNumberWithMessage value="#{data.data}" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount gt 0}" isInt="false" pattern="#,##0.0"/>
             </h:column>
 
             <h:column>

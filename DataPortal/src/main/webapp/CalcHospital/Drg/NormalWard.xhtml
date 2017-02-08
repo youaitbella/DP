@@ -155,7 +155,7 @@
             <f:facet name="header">
                 Dokumentation
             </f:facet>
-            <inek:BooleanRadioButton value="#{item.used}" label="#{item.label}" renderElement="@form :logout:remaining" />
+            <inek:BooleanRadioButton value="#{item.used}" label="#{item.label eq '' ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
         </h:column>
         
         <h:column>
@@ -493,7 +493,7 @@
                                         value="#{editCalcBasicsDrg.calcPercentualDiff(x.prior.nonMedicalInfrastructureCost, x.nonMedicalInfrastructureCost)}" />
                         </td>
                     </tr>
-            </ui:repeat>>
+            </ui:repeat>
             <tr>
                 <td colspan="2">Summen</td>
                 <td colspan="3"></td>

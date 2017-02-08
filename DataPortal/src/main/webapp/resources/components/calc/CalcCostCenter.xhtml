@@ -48,7 +48,7 @@
                 <f:facet name="header">
                     <h:outputLabel value="VK ÄD" title="Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{cc.attrs.backingBean.readOnly}" isInt="false" pattern="#,##0.0"/>
             </h:column>
 
             <h:column>
@@ -96,7 +96,7 @@
                            styleClass="button"
                            value="#{msg.btnJournal} &nbsp; #{cc.attrs.backingBean.showJournal ? '˄' : '˅'}" 
                            actionListener="#{cc.attrs.backingBean.toggleJournal}">
-                <f:ajax render="journal :logout:remaining"/>
+                <f:ajax render="@this journal :logout:remaining"/>
             </h:commandLink>
 
             <h:inputTextarea id="journal" rendered="#{cc.attrs.backingBean.importMessage.length() gt 0 and cc.attrs.backingBean.showJournal}" 
