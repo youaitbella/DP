@@ -42,6 +42,7 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -465,7 +466,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
     
-        private void savePersonalAccounting(DrgCalcBasics calcBasics) {
+    private void savePersonalAccounting(DrgCalcBasics calcBasics) {
         for (KGLPersonalAccounting item : calcBasics.getPersonalAccountings()) {
             if (item.getId() == -1) {
                 persist(item);
@@ -693,6 +694,16 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
+    
+    private void savePersonalAccountingPePP(PeppCalcBasics calcBasics) {
+        for (KGPPersonalAccounting item : calcBasics.getKgpPersonalAccountingList()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
     
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);

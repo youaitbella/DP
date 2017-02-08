@@ -10,6 +10,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import org.inek.dataportal.helper.Utils;
 
 /**
  * This class is instantiated at application level.
@@ -40,6 +41,16 @@ public class CalcBasicsStaticData {
        items.add(new SelectItem(10, "ab Oktober"));
        items.add(new SelectItem(11, "ab November"));
        items.add(new SelectItem(12, "ab Dezember"));
+       return items;
+   } 
+
+    public List<SelectItem> getNeonatLevelItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(0, Utils.getMessage("lblNotAvailable")));
+       items.add(new SelectItem(1, "Level 1: Versorgungsstufe I: Perinatalzentrum"));
+       items.add(new SelectItem(2, "Level 2: Versorgungsstufe II: Perinatalzentrum"));
+       items.add(new SelectItem(3, "Level 3: Versorgungsstufe III: Perinataler Schwerpunkt"));
+       items.add(new SelectItem(4, "Level 4: Versorgungsstufe IV: Geburtsklinik"));
        return items;
    } 
 

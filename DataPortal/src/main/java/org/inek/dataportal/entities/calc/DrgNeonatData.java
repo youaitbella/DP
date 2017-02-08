@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,13 +83,13 @@ public class DrgNeonatData implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Data">
-    @Column(name = "ndData")
-    private int _data = 0;  
-    public int getData() {
+    @Column(name = "ndData", precision=10, scale=1)
+    private BigDecimal _data = new BigDecimal(0);  
+    public BigDecimal getData() {
         return _data;
     }
 
-    public void setData(int data) {
+    public void setData(BigDecimal data) {
         _data = data;
     }
     // </editor-fold>
@@ -102,7 +103,6 @@ public class DrgNeonatData implements Serializable {
         hash = 53 * hash + this._calcBasicsId;
         hash = 53 * hash + this._contentTextId;
         hash = 53 * hash + Objects.hashCode(this._contentText);
-        hash = 53 * hash + this._data;
         return hash;
     }
 
@@ -128,9 +128,6 @@ public class DrgNeonatData implements Serializable {
             return false;
         }
         if (this._contentTextId != other._contentTextId) {
-            return false;
-        }
-        if (this._data != other._data) {
             return false;
         }
         return Objects.equals(this._contentText, other._contentText);

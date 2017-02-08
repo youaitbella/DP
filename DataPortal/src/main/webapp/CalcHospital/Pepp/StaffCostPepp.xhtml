@@ -48,6 +48,9 @@
         #personalAccountings th:first-child{
             text-align: left;
         }
+        sup{
+            font-size: 9px;
+        }
     </style>
 
    <h:dataTable  id="personalAccountings"
@@ -65,7 +68,7 @@
 
         <h:column>
             <f:facet name="header">
-                <h:outputText value="mitar. Zeiterfassung" title="mitarbeiterbezogene Zeiterfassung"/>
+                <h:outputText value="mitarbeiterbez. Zeiterfassung" title="mitarbeiterbezogene Zeiterfassung"/>
             </f:facet>
             <h:selectBooleanCheckbox value="#{item.staffRecording}">
                 <f:ajax event="change" render="@this :logout:remaining" />
@@ -92,7 +95,7 @@
         
        <h:column>
             <f:facet name="header">
-                <h:outputText value="Leistungs- statistiken*"/>
+                <h:outputText value="Leistungs- statistiken"/><sup>1</sup>
             </f:facet>
            <h:selectBooleanCheckbox value="#{item.serviceStatistic}">
                 <f:ajax event="change" render="@form :logout:remaining" />
@@ -101,7 +104,7 @@
        
         <h:column>
             <f:facet name="header">
-                <h:outputText value="Experten- schätzung*"/>
+                <h:outputText value="Experten- schätzung"/><sup>1</sup>
             </f:facet>
             <h:selectBooleanCheckbox value="#{item.expertRating}">
                 <f:ajax event="change" render="@form :logout:remaining" />
@@ -110,7 +113,7 @@
        
        <h:column>
             <f:facet name="header">
-                <h:outputText value="Sonstige*"/>
+                <h:outputText value="Sonstige"/><sup>1</sup>
             </f:facet>
            <h:selectBooleanCheckbox value="#{item.other}">
                 <f:ajax event="change" render="@form description :logout:remaining" />
@@ -119,35 +122,32 @@
 
         <h:column>
            <f:facet name="header">
-                <h:outputText value="Kostenvolumen Vorjahr"/>
+                <h:outputText value="Kostenvolumen"/>
             </f:facet>
-            <h:inputText readonly="true" style="width: 75%; text-align: right;" value="#{item.priorCostAmount}" />
+            <inek:InputNumberWithMessage value="#{item.amount}" renderElement=":personalAccountings:#{editCalcBasicsPepp.calcBasics.kgpPersonalAccountingList.indexOf(item)}:diff:text" />
         </h:column>
        
         <h:column>
            <f:facet name="header">
-                <h:outputText value="Kostenvolumen"/>
+                <h:outputText value="Kostenvolumen Vorjahr"/>
             </f:facet>
-            <h:inputText style="width: 75%; text-align:right;" value="#{item.amount}">
-              <f:ajax event="blur" render="@this diff :logout:remaining" />
-           </h:inputText>
+            <inek:InputNumberWithMessage readonly="true" value="#{item.priorCostAmount}" />
         </h:column>
-       
+      
         <h:column>
            <f:facet name="header">
                 <h:outputText value="Absolute Abweichung"/>
             </f:facet>
-            <h:inputText id="diff" readonly="true" style="width: 75%; text-align: right;" value="#{item.amount - item.priorCostAmount}" />
+            <inek:InputNumberWithMessage readonly="true" value="#{item.amount - item.priorCostAmount}" id="diff"/>
         </h:column>
        
     </h:dataTable>
     
     <div class="inputPart" jsf:rendered="#{editCalcBasicsPepp.renderPersonalAccountingDescription()}" >
-        <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
+        <h:outputLabel styleClass="label" for="description" value="Erläuterung bzgl. Datengrundlage, Vorgehen und Kostenvolumen"/><sup>1</sup><br/>
         <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.personalAccountingDescription}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>
     
 </ui:composition>
-
