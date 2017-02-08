@@ -1204,5 +1204,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         return result;
     }
-
+    
+    public String getContentText(int id) {
+        return _calcFacade.findCalcContentText(id).getText();
+    }
 }
