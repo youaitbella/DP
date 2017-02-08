@@ -60,20 +60,20 @@ public class KGLListIntensivStroke implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "isCostCenterID")
-    private int _costCenterID;
-    
-    public int getCostCenterID() {
-        return _costCenterID;
-    }
-
-    public void setCostCenterID(int costCenterID) {
-        this._costCenterID = costCenterID;
-    }
-    // </editor-fold>
+//    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
+//    @Basic(optional = false)
+//    @NotNull
+//    @Column(name = "isCostCenterID")
+//    private int _costCenterID;
+//    
+//    public int getCostCenterID() {
+//        return _costCenterID;
+//    }
+//
+//    public void setCostCenterID(int costCenterID) {
+//        this._costCenterID = costCenterID;
+//    }
+//    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Basic(optional = false)
@@ -91,21 +91,21 @@ public class KGLListIntensivStroke implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
-    @Basic(optional = false)
-    @NotNull
-    @Size(max = 4)
-    @Column(name = "isDepartmentKey")
-    private String _departmentKey = "";
-    
-    public String getDepartmentKey() {
-        return _departmentKey;
-    }
-
-    public void setDepartmentKey(String departmentKey) {
-        this._departmentKey = departmentKey;
-    }
-    // </editor-fold>
+//    // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
+//    @Basic(optional = false)
+//    @NotNull
+//    @Size(max = 4)
+//    @Column(name = "isDepartmentKey")
+//    private String _departmentKey = "";
+//    
+//    public String getDepartmentKey() {
+//        return _departmentKey;
+//    }
+//
+//    public void setDepartmentKey(String departmentKey) {
+//        this._departmentKey = departmentKey;
+//    }
+//    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
     @Basic(optional = false)
@@ -501,9 +501,9 @@ public class KGLListIntensivStroke implements Serializable {
         this._id = isID;
     }
 
-    public KGLListIntensivStroke(int intensiveType, int costCenterID, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId) {
+    public KGLListIntensivStroke(int intensiveType, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId) {
         this._intensiveType = intensiveType;
-        this._costCenterID = costCenterID;
+        //this._costCenterID = costCenterID;
         this._bedCnt = bedCnt;
         this._caseCnt = caseCnt;
         this._ops8980 = ops8980;
@@ -534,9 +534,9 @@ public class KGLListIntensivStroke implements Serializable {
         if (this._id != -1) return hash;
         
         hash = 79 * hash + this._intensiveType;
-        hash = 79 * hash + this._costCenterID;
+//        hash = 79 * hash + this._costCenterID;
         hash = 79 * hash + Objects.hashCode(this._costCenterText);
-        hash = 79 * hash + Objects.hashCode(this._departmentKey);
+//        hash = 79 * hash + Objects.hashCode(this._departmentKey);
         hash = 79 * hash + Objects.hashCode(this._departmentAssignment);
         hash = 79 * hash + this._bedCnt;
         hash = 79 * hash + this._caseCnt;
@@ -582,9 +582,9 @@ public class KGLListIntensivStroke implements Serializable {
         if (this._intensiveType != other._intensiveType) {
             return false;
         }
-        if (this._costCenterID != other._costCenterID) {
-            return false;
-        }
+//        if (this._costCenterID != other._costCenterID) {
+//            return false;
+//        }
         if (this._bedCnt != other._bedCnt) {
             return false;
         }
@@ -639,9 +639,9 @@ public class KGLListIntensivStroke implements Serializable {
         if (!Objects.equals(this._costCenterText, other._costCenterText)) {
             return false;
         }
-        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
-            return false;
-        }
+//        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
+//            return false;
+//        }
         if (!Objects.equals(this._departmentAssignment, other._departmentAssignment)) {
             return false;
         }

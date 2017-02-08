@@ -135,13 +135,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 }
             }
         }
-        for (Iterator<KGLListCostCenterCost> it = _priorCalcBasics.getCostCenterCosts().iterator(); it.hasNext();) {
-            KGLListCostCenterCost ccc = it.next();
-            calcBasics.getCostCenterCosts().stream().filter((c) -> (c.getPriorId() == ccc.getPriorId())).forEachOrdered((c) -> {
-                c.setPrior(ccc);
-            });
+        for (KGLListCostCenterCost ccc : _priorCalcBasics.getCostCenterCosts()) {
+            calcBasics.getCostCenterCosts().stream()
+                    .filter((c) -> (c.getPriorId() == ccc.getPriorId()))
+                    .forEachOrdered((c) -> {
+                        c.setPrior(ccc);
+                    });
         }
-        _calcBasics.setNoDeliveryRoomHabitation(_priorCalcBasics.isNoDeliveryRoomHabitation());
+        calcBasics.setNoDeliveryRoomHabitation(_priorCalcBasics.isNoDeliveryRoomHabitation());
     }
 
     public void ikChanged() {
@@ -592,11 +593,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().remove(item);
     }
     
-    public Optional<KGLListIntensivStroke> getPriorIntensivStroke(KGLListIntensivStroke item) {
-        return _priorCalcBasics.getIntensivStrokes().stream()
-                .filter(i -> i.getCostCenterID() == item.getCostCenterID())
-                .findAny();
-    }
+//    public Optional<KGLListIntensivStroke> getPriorIntensivStroke(KGLListIntensivStroke item) {
+//        return _priorCalcBasics.getIntensivStrokes().stream()
+//                .filter(i -> i.getCostCenterID() == item.getCostCenterID())
+//                .findAny();
+//    }
     
     public int getSumIntensivStrokeWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
@@ -1060,26 +1061,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getObstetricsGynecologies().add(item);
     }
 
-    public List<KGLListIntensivStroke> getIntensivStrokeDiffList() {
-        List<KGLListIntensivStroke> result = new ArrayList<>();
-        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
-        List<KGLListIntensivStroke> priorIntensivStrokes = _priorCalcBasics.getIntensivStrokes();
-
-        Comparator<KGLListIntensivStroke> comp = (i1, i2) -> {
-            if (i1.getDepartmentKey().equals(i2.getDepartmentKey())) {
-                return i1.getDepartmentKey().compareTo(i2.getDepartmentKey());
-            } else {
-                return i1.getCostCenterID() - i2.getCostCenterID();
-            }
-        };
-
-        intensivStrokes.sort(comp);
-        priorIntensivStrokes.sort(comp);
-
-        diffIntensivStrokeValues(intensivStrokes, priorIntensivStrokes, comp, result);
-
-        return result;
-    }
+//    public List<KGLListIntensivStroke> getIntensivStrokeDiffList() {
+//        List<KGLListIntensivStroke> result = new ArrayList<>();
+//        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
+//        List<KGLListIntensivStroke> priorIntensivStrokes = _priorCalcBasics.getIntensivStrokes();
+//
+//        Comparator<KGLListIntensivStroke> comp = (i1, i2) -> {
+//            if (i1.getDepartmentKey().equals(i2.getDepartmentKey())) {
+//                return i1.getDepartmentKey().compareTo(i2.getDepartmentKey());
+//            } else {
+//                return i1.getCostCenterID() - i2.getCostCenterID();
+//            }
+//        };
+//
+//        intensivStrokes.sort(comp);
+//        priorIntensivStrokes.sort(comp);
+//
+//        diffIntensivStrokeValues(intensivStrokes, priorIntensivStrokes, comp, result);
+//
+//        return result;
+//    }
 
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
@@ -1115,94 +1116,94 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return false;
     }
 
-    private void diffIntensivStrokeValues(List<KGLListIntensivStroke> intensivStrokes,
-            List<KGLListIntensivStroke> priorIntensivStrokes,
-            Comparator<KGLListIntensivStroke> comp,
-            List<KGLListIntensivStroke> result) {
+//    private void diffIntensivStrokeValues(List<KGLListIntensivStroke> intensivStrokes,
+//            List<KGLListIntensivStroke> priorIntensivStrokes,
+//            Comparator<KGLListIntensivStroke> comp,
+//            List<KGLListIntensivStroke> result) {
+//
+//        int i = 0;
+//        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+//            while (i < priorIntensivStrokes.size() && comp.compare(intensivStroke, priorIntensivStrokes.get(i)) > 0) {
+//                result.add(createDiffIntensivStrokeRight(new KGLListIntensivStroke(), priorIntensivStrokes.get(i)));
+//                i++;
+//            }
+//            if (i < priorIntensivStrokes.size() && comp.compare(intensivStroke, priorIntensivStrokes.get(i)) == 0) {
+//                result.add(createDiffIntensivStrokeLeft(intensivStroke, priorIntensivStrokes.get(i)));
+//                i++;
+//            } else {
+//                result.add(createDiffIntensivStrokeLeft(intensivStroke, new KGLListIntensivStroke()));
+//            }
+//        }
+//    }
 
-        int i = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            while (i < priorIntensivStrokes.size() && comp.compare(intensivStroke, priorIntensivStrokes.get(i)) > 0) {
-                result.add(createDiffIntensivStrokeRight(new KGLListIntensivStroke(), priorIntensivStrokes.get(i)));
-                i++;
-            }
-            if (i < priorIntensivStrokes.size() && comp.compare(intensivStroke, priorIntensivStrokes.get(i)) == 0) {
-                result.add(createDiffIntensivStrokeLeft(intensivStroke, priorIntensivStrokes.get(i)));
-                i++;
-            } else {
-                result.add(createDiffIntensivStrokeLeft(intensivStroke, new KGLListIntensivStroke()));
-            }
-        }
-    }
-
-    private KGLListIntensivStroke createDiffIntensivStrokeRight(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
-        KGLListIntensivStroke result = new KGLListIntensivStroke();
-
-        result.setBaseInformationId(oldVal.getBaseInformationId());
-        result.setIntensiveType(oldVal.getIntensiveType());
-        result.setCostCenterID(oldVal.getCostCenterID());
-        result.setCostCenterText(oldVal.getCostCenterText());
-        result.setDepartmentKey(oldVal.getDepartmentKey());
-        result.setDepartmentAssignment(oldVal.getDepartmentAssignment());
-        result.setBedCnt(newVal.getBedCnt() - oldVal.getBedCnt());
-        result.setCaseCnt(newVal.getCaseCnt() - oldVal.getCaseCnt());
-        result.setOps8980(newVal.getOps8980() ^ oldVal.getOps8980());
-        result.setOps898f(newVal.getOps898f() ^ oldVal.getOps898f());
-        result.setOps8981(newVal.getOps8981() ^ oldVal.getOps8981());
-        result.setOps898b(newVal.getOps898b() ^ oldVal.getOps898b());
-        result.setMinimumCriteriaPeriod(oldVal.getMinimumCriteriaPeriod());
-        result.setIntensivHoursWeighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursWeighted());
-        result.setIntensivHoursNotweighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursNotweighted());
-        result.setWeightMinimum(newVal.getWeightMinimum() - oldVal.getWeightMinimum());
-        result.setWeightMaximum(newVal.getWeightMaximum() - oldVal.getWeightMaximum());
-        result.setWeightDescription(oldVal.getWeightDescription());
-        result.setMedicalServiceCnt(newVal.getMedicalServiceCnt() - oldVal.getMedicalServiceCnt());
-        result.setNursingServiceCnt(newVal.getNursingServiceCnt() - oldVal.getNursingServiceCnt());
-        result.setFunctionalServiceCnt(newVal.getFunctionalServiceCnt() - oldVal.getFunctionalServiceCnt());
-        result.setMedicalServiceCost(newVal.getMedicalServiceCost() - oldVal.getMedicalServiceCost());
-        result.setNursingServiceCost(newVal.getNursingServiceCost() - oldVal.getNursingServiceCost());
-        result.setFunctionalServiceCost(newVal.getFunctionalServiceCost() - oldVal.getFunctionalServiceCost());
-        result.setOverheadsMedicine(newVal.getOverheadsMedicine() - oldVal.getOverheadsMedicine());
-        result.setOverheadMedicalGoods(newVal.getOverheadMedicalGoods() - oldVal.getOverheadMedicalGoods());
-        result.setMedicalInfrastructureCost(newVal.getMedicalInfrastructureCost() - oldVal.getMedicalInfrastructureCost());
-        result.setNonMedicalInfrastructureCost(newVal.getNonMedicalInfrastructureCost() - oldVal.getNonMedicalInfrastructureCost());
-
-        return result;
-    }
-
-    private KGLListIntensivStroke createDiffIntensivStrokeLeft(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
-        KGLListIntensivStroke result = new KGLListIntensivStroke();
-
-        result.setBaseInformationId(newVal.getBaseInformationId());
-        result.setIntensiveType(newVal.getIntensiveType());
-        result.setCostCenterID(newVal.getCostCenterID());
-        result.setCostCenterText(newVal.getCostCenterText());
-        result.setDepartmentKey(newVal.getDepartmentKey());
-        result.setDepartmentAssignment(newVal.getDepartmentAssignment());
-        result.setBedCnt(newVal.getBedCnt() - oldVal.getBedCnt());
-        result.setCaseCnt(newVal.getCaseCnt() - oldVal.getCaseCnt());
-        result.setOps8980(newVal.getOps8980() ^ oldVal.getOps8980());
-        result.setOps898f(newVal.getOps898f() ^ oldVal.getOps898f());
-        result.setOps8981(newVal.getOps8981() ^ oldVal.getOps8981());
-        result.setOps898b(newVal.getOps898b() ^ oldVal.getOps898b());
-        result.setMinimumCriteriaPeriod(newVal.getMinimumCriteriaPeriod());
-        result.setIntensivHoursWeighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursWeighted());
-        result.setIntensivHoursNotweighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursNotweighted());
-        result.setWeightMinimum(newVal.getWeightMinimum() - oldVal.getWeightMinimum());
-        result.setWeightMaximum(newVal.getWeightMaximum() - oldVal.getWeightMaximum());
-        result.setWeightDescription(newVal.getWeightDescription());
-        result.setMedicalServiceCnt(newVal.getMedicalServiceCnt() - oldVal.getMedicalServiceCnt());
-        result.setNursingServiceCnt(newVal.getNursingServiceCnt() - oldVal.getNursingServiceCnt());
-        result.setFunctionalServiceCnt(newVal.getFunctionalServiceCnt() - oldVal.getFunctionalServiceCnt());
-        result.setMedicalServiceCost(newVal.getMedicalServiceCost() - oldVal.getMedicalServiceCost());
-        result.setNursingServiceCost(newVal.getNursingServiceCost() - oldVal.getNursingServiceCost());
-        result.setFunctionalServiceCost(newVal.getFunctionalServiceCost() - oldVal.getFunctionalServiceCost());
-        result.setOverheadsMedicine(newVal.getOverheadsMedicine() - oldVal.getOverheadsMedicine());
-        result.setOverheadMedicalGoods(newVal.getOverheadMedicalGoods() - oldVal.getOverheadMedicalGoods());
-        result.setMedicalInfrastructureCost(newVal.getMedicalInfrastructureCost() - oldVal.getMedicalInfrastructureCost());
-        result.setNonMedicalInfrastructureCost(newVal.getNonMedicalInfrastructureCost() - oldVal.getNonMedicalInfrastructureCost());
-
-        return result;
-    }
+//    private KGLListIntensivStroke createDiffIntensivStrokeRight(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
+//        KGLListIntensivStroke result = new KGLListIntensivStroke();
+//
+//        result.setBaseInformationId(oldVal.getBaseInformationId());
+//        result.setIntensiveType(oldVal.getIntensiveType());
+//        result.setCostCenterID(oldVal.getCostCenterID());
+//        result.setCostCenterText(oldVal.getCostCenterText());
+//        result.setDepartmentKey(oldVal.getDepartmentKey());
+//        result.setDepartmentAssignment(oldVal.getDepartmentAssignment());
+//        result.setBedCnt(newVal.getBedCnt() - oldVal.getBedCnt());
+//        result.setCaseCnt(newVal.getCaseCnt() - oldVal.getCaseCnt());
+//        result.setOps8980(newVal.getOps8980() ^ oldVal.getOps8980());
+//        result.setOps898f(newVal.getOps898f() ^ oldVal.getOps898f());
+//        result.setOps8981(newVal.getOps8981() ^ oldVal.getOps8981());
+//        result.setOps898b(newVal.getOps898b() ^ oldVal.getOps898b());
+//        result.setMinimumCriteriaPeriod(oldVal.getMinimumCriteriaPeriod());
+//        result.setIntensivHoursWeighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursWeighted());
+//        result.setIntensivHoursNotweighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursNotweighted());
+//        result.setWeightMinimum(newVal.getWeightMinimum() - oldVal.getWeightMinimum());
+//        result.setWeightMaximum(newVal.getWeightMaximum() - oldVal.getWeightMaximum());
+//        result.setWeightDescription(oldVal.getWeightDescription());
+//        result.setMedicalServiceCnt(newVal.getMedicalServiceCnt() - oldVal.getMedicalServiceCnt());
+//        result.setNursingServiceCnt(newVal.getNursingServiceCnt() - oldVal.getNursingServiceCnt());
+//        result.setFunctionalServiceCnt(newVal.getFunctionalServiceCnt() - oldVal.getFunctionalServiceCnt());
+//        result.setMedicalServiceCost(newVal.getMedicalServiceCost() - oldVal.getMedicalServiceCost());
+//        result.setNursingServiceCost(newVal.getNursingServiceCost() - oldVal.getNursingServiceCost());
+//        result.setFunctionalServiceCost(newVal.getFunctionalServiceCost() - oldVal.getFunctionalServiceCost());
+//        result.setOverheadsMedicine(newVal.getOverheadsMedicine() - oldVal.getOverheadsMedicine());
+//        result.setOverheadMedicalGoods(newVal.getOverheadMedicalGoods() - oldVal.getOverheadMedicalGoods());
+//        result.setMedicalInfrastructureCost(newVal.getMedicalInfrastructureCost() - oldVal.getMedicalInfrastructureCost());
+//        result.setNonMedicalInfrastructureCost(newVal.getNonMedicalInfrastructureCost() - oldVal.getNonMedicalInfrastructureCost());
+//
+//        return result;
+//    }
+//
+//    private KGLListIntensivStroke createDiffIntensivStrokeLeft(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
+//        KGLListIntensivStroke result = new KGLListIntensivStroke();
+//
+//        result.setBaseInformationId(newVal.getBaseInformationId());
+//        result.setIntensiveType(newVal.getIntensiveType());
+//        result.setCostCenterID(newVal.getCostCenterID());
+//        result.setCostCenterText(newVal.getCostCenterText());
+//        result.setDepartmentKey(newVal.getDepartmentKey());
+//        result.setDepartmentAssignment(newVal.getDepartmentAssignment());
+//        result.setBedCnt(newVal.getBedCnt() - oldVal.getBedCnt());
+//        result.setCaseCnt(newVal.getCaseCnt() - oldVal.getCaseCnt());
+//        result.setOps8980(newVal.getOps8980() ^ oldVal.getOps8980());
+//        result.setOps898f(newVal.getOps898f() ^ oldVal.getOps898f());
+//        result.setOps8981(newVal.getOps8981() ^ oldVal.getOps8981());
+//        result.setOps898b(newVal.getOps898b() ^ oldVal.getOps898b());
+//        result.setMinimumCriteriaPeriod(newVal.getMinimumCriteriaPeriod());
+//        result.setIntensivHoursWeighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursWeighted());
+//        result.setIntensivHoursNotweighted(newVal.getIntensivHoursNotweighted() - oldVal.getIntensivHoursNotweighted());
+//        result.setWeightMinimum(newVal.getWeightMinimum() - oldVal.getWeightMinimum());
+//        result.setWeightMaximum(newVal.getWeightMaximum() - oldVal.getWeightMaximum());
+//        result.setWeightDescription(newVal.getWeightDescription());
+//        result.setMedicalServiceCnt(newVal.getMedicalServiceCnt() - oldVal.getMedicalServiceCnt());
+//        result.setNursingServiceCnt(newVal.getNursingServiceCnt() - oldVal.getNursingServiceCnt());
+//        result.setFunctionalServiceCnt(newVal.getFunctionalServiceCnt() - oldVal.getFunctionalServiceCnt());
+//        result.setMedicalServiceCost(newVal.getMedicalServiceCost() - oldVal.getMedicalServiceCost());
+//        result.setNursingServiceCost(newVal.getNursingServiceCost() - oldVal.getNursingServiceCost());
+//        result.setFunctionalServiceCost(newVal.getFunctionalServiceCost() - oldVal.getFunctionalServiceCost());
+//        result.setOverheadsMedicine(newVal.getOverheadsMedicine() - oldVal.getOverheadsMedicine());
+//        result.setOverheadMedicalGoods(newVal.getOverheadMedicalGoods() - oldVal.getOverheadMedicalGoods());
+//        result.setMedicalInfrastructureCost(newVal.getMedicalInfrastructureCost() - oldVal.getMedicalInfrastructureCost());
+//        result.setNonMedicalInfrastructureCost(newVal.getNonMedicalInfrastructureCost() - oldVal.getNonMedicalInfrastructureCost());
+//
+//        return result;
+//    }
 
 }
