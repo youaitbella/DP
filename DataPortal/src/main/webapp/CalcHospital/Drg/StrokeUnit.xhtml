@@ -10,7 +10,24 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+    <h2>#{msg.lblCalcStrokeUnit}</h2>
 
+    <inek:BooleanRadioButton label="#{msg.lblHospitalHasIntensiveBeds}" 
+                             value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
+                             labelStyle="label40"
+                             renderElement="@form :logout:remaining">
+    </inek:BooleanRadioButton>
+    <br/>
+    <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
+    <h:outputLabel id="sumIntNotWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}"/>
+    <br/>
+    <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumWeighted}"/>
+    <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}"/>
+
+    <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
+        
+        <calc:IntensivStroke id="intStroke" isIntensiv="#{false}" backingBean="#{editCalcBasicsDrg}"/>
+    </div>
 
 </ui:composition>
 
