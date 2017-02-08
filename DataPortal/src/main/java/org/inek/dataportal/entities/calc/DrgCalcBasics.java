@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -157,6 +158,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
+    @Min(0)
     private int _sumCalcCost;
 
     public int getSumCalcCost() {
@@ -170,6 +172,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="caseInStationCnt">
     @Column(name = "biCaseInStationCnt")
+    @Min(0)
     private int _caseInStationCnt;
 
     public int getCaseInStationCnt() {
@@ -183,6 +186,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
     @Column(name = "biCasePartialStationCnt")
+    @Min(0)
     private int _casePartialStationCnt;
 
     public int getCasePartialStationCnt() {
@@ -196,6 +200,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="daysPartialStation">
     @Column(name = "biDaysPartialStation")
+    @Min(0)
     private int _daysPartialStation;
 
     public int getDaysPartialStation() {
@@ -209,6 +214,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="patientEscort">
     @Column(name = "biPatientEscort")
+    @Min(0)
     private int _patientEscort;
 
     public int getPatientEscort() {
@@ -222,6 +228,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="preStation">
     @Column(name = "biPreStation")
+    @Min(0)
     private int _preStation;
 
     public int getPreStation() {
@@ -235,6 +242,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="beds">
     @Column(name = "biBeds")
+    @Min(0)
     private int _beds;
 
     public int getBeds() {
@@ -248,6 +256,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="partialCnt">
     @Column(name = "biPartialCnt")
+    @Min(0)
     private int _partialCnt;
 
     public int getPartialCnt() {
@@ -261,6 +270,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="locationCnt">
     @Column(name = "biLocationCnt")
+    @Min(0)
     private int _locationCnt;
 
     public int getLocationCnt() {
@@ -365,6 +375,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomPreBirthHabitationCnt">
     @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
+    @Min(0)
     private int _deliveryRoomPreBirthHabitationCnt;
 
     public int getDeliveryRoomPreBirthHabitationCnt() {
@@ -378,6 +389,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomInstationBirthCnt">
     @Column(name = "biDeliveryRoomInstationBirthCnt")
+    @Min(0)
     private int _deliveryRoomInstationBirthCnt;
 
     public int getDeliveryRoomInstationBirthCnt() {
@@ -444,6 +456,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="cardiologyRoomCnt">
     @Column(name = "biCardiologyRoomCnt")
+    @Min(0)
     private int _cardiologyRoomCnt;
 
     public int getCardiologyRoomCnt() {
@@ -457,6 +470,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="cardiologyCaseCnt">
     @Column(name = "biCardiologyCaseCnt")
+    @Min(0)
     private int _cardiologyCaseCnt;
 
     public int getCardiologyCaseCnt() {
@@ -483,6 +497,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyRoomCnt">
     @Column(name = "biEndoscopyRoomCnt")
+    @Min(0)
     private int _endoscopyRoomCnt;
 
     public int getEndoscopyRoomCnt() {
@@ -496,6 +511,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyCaseCnt">
     @Column(name = "biEndoscopyCaseCnt")
+    @Min(0)
     private int _endoscopyCaseCnt;
 
     public int getEndoscopyCaseCnt() {
@@ -587,6 +603,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="pkmsCaseCnt">
     @Column(name = "biPKMSCaseCnt")
+    @Min(0)
     private int _pkmsCaseCnt;
 
     public int getPkmsCaseCnt() {
@@ -741,7 +758,6 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
     private boolean _intensiveBed;
@@ -770,6 +786,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="_intensiveHoursWeighted">
     @Column(name = "biIntensiveHoursWeighted")
+    @Min(0)
     private int _intensiveHoursWeighted;
 
     public int getIntensiveHoursWeighted() {
@@ -783,6 +800,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="_intensiveHoursNotWeighted">
     @Column(name = "biIntensiveHoursNotWeighted")
+    @Min(0)
     private int _intensiveHoursNotWeighted;
 
     public int getIntensiveHoursNotWeighted() {
@@ -796,6 +814,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="_strokeHoursWeighted">
     @Column(name = "biStrokeHoursWeighted")
+    @Min(0)
     private int _strokeHoursWeighted;
 
     public int getStrokeHoursWeighted() {
@@ -809,6 +828,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="_strokeHoursNotWeighted">
     @Column(name = "biStrokeHoursNotWeighted")
+    @Min(0)
     private int _strokeHoursNotWeighted;
     
     public int getStrokeHoursNotWeighted() {

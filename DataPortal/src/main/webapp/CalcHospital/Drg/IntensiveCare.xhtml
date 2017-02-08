@@ -123,9 +123,7 @@
                     <inek:InputNumberWithMessage value="# {varIntensiv.costCenterID}"  renderElement=""/>
                     </td>-->
                     <td>
-                    <h:inputText value="#{x.costCenterText}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputTextWithMessage id="costCenterText1" value="#{x.costCenterText}" renderElement="tbl-cont:#{loop.index}:costCenterText2:text"/>
                     </td>
 <!--                    <td>
                     <h:inputText value="# {x.departmentKey}" >
@@ -133,9 +131,7 @@
                     </h:inputText>
                     </td>-->
                     <td>
-                    <h:inputText value="#{x.departmentAssignment}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputTextWithMessage id="department1" value="#{x.departmentAssignment}" renderElement="tbl-cont:#{loop.index}:department2:text"/>
                     </td>
                     <td>
                     <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="tbl-cont:#{loop.index}:utilization"/>
@@ -250,14 +246,10 @@
                     </h:commandLink>
                     </td>
                     <td>
-                    <h:inputText value="#{x.costCenterText}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputTextWithMessage id="costCenterText2" value="#{x.costCenterText}" renderElement="tbl-int1:#{loop.index}:costCenterText1:text"/>
                     </td>
                     <td>
-                    <h:inputText value="#{x.departmentAssignment}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputTextWithMessage id="department2" value="#{x.departmentAssignment}" renderElement="tbl-int1:#{loop.index}:department1:text"/>
                     </td>
 
 
@@ -266,11 +258,12 @@
                                                value="#{x.medicalServiceCnt}" rendered="true"
                                                title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
                                                styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
+                                               renderElement="tbl-cont:#{loop.index}:costPerMedical"
                                                />
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.nursingServiceCnt}" rendered="true"/>
+                                                   value="#{x.nursingServiceCnt}" rendered="true" renderElement="tbl-cont:#{loop.index}:costPerNursing"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
@@ -278,41 +271,41 @@
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.medicalServiceCost}" rendered="true"/>
+                                               value="#{x.medicalServiceCost}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost tbl-cont:#{loop.index}:costPerNursing"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.nursingServiceCost}" rendered="true"/>
+                                                   value="#{x.nursingServiceCost}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost tbl-cont:#{loop.index}:costPerNursing"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.functionalServiceCost}" rendered="true"/>
+                                                   value="#{x.functionalServiceCost}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost"/>
                     </td>
                     <td>
                    <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.overheadsMedicine}" rendered="true"/>
+                                                   value="#{x.overheadsMedicine}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.overheadMedicalGoods}" rendered="true"/>
+                                                   value="#{x.overheadMedicalGoods}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost"/>
                     </td>
                     <td>
                      <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.medicalInfrastructureCost}" rendered="true"/>
+                                                   value="#{x.medicalInfrastructureCost}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.nonMedicalInfrastructureCost}" rendered="true"/>
+                                                   value="#{x.nonMedicalInfrastructureCost}" rendered="true" renderElement="tbl-cont:#{loop.index}:overallCost"/>
                     </td>
                     <td>
-                    <h:outputLabel styleClass="label" value="#{x.overallCost}" rendered="true"/>
+                    <h:outputLabel id="overallCost" styleClass="label" value="#{x.overallCost}" rendered="true"/>
                     </td>
                     <td>
-                    <h:outputLabel style="element100" styleClass="element100" 
+                    <h:outputLabel id="costPerMedical" style="element100" styleClass="element100" 
                                                   value="#{x.costPerMedicalVK}" rendered="true"/>
                     </td>
                     <td>
-                    <h:outputLabel style="element100" styleClass="element100" 
+                    <h:outputLabel id="costPerNursing" style="element100" styleClass="element100" 
                                                                    value="#{x.costPerNursingVK}" rendered="true"/>
                     </td>
                     
