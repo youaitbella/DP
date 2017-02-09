@@ -635,6 +635,61 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
+    
+    private static final String HeadLineIntensiv = 
+                            "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-980_erfüllt;"
+                        + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
+                        + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
+                        + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
+                        + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
+                        + "Kosten_med_Infra;Kosten_nicht_med_Infra";
+
+
+    public void downloadTemplateIntensiv() {
+        Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
+    }
+
+    private String _importMessageIntensiv = "";
+
+    public String getImportMessageIntensiv() {
+        return _importMessageIntensiv;
+    }
+
+    @Inject private Instance<IntensivDataImporter> _importIntensivProvider;
+
+    public void uploadNoticesIntensiv() {
+        try {
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                IntensivDataImporter itemImporter = _importIntensivProvider.get();
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.equals(HeadLineIntensiv)) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                _importMessageIntensiv = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessageIntensiv);
+                _showJournal = false;
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    
             
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
         return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
