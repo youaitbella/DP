@@ -5,22 +5,12 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -318,21 +308,23 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
-    
+
     public List<KGLListRadiologyLaboratory> getLaboratories() {
         List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
-        for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if(rl.getCostCenterID()== 10)
+        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if (rl.getCostCenterID() == 10) {
                 rls.add(rl);
+            }
         }
         return rls;
     }
-    
+
     public List<KGLListRadiologyLaboratory> getRadiologies() {
         List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
-        for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if(rl.getCostCenterID() == 9)
+        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if (rl.getCostCenterID() == 9) {
                 rls.add(rl);
+            }
         }
         return rls;
     }
@@ -505,7 +497,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         rl.setCostCenterID(10);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
-    
+
     public void addRadiology() {
         KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
         rl.setBaseInformationID(_calcBasics.getId());
@@ -611,13 +603,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
         _calcBasics.getIntensivStrokes().remove(item);
     }
-    
+
 //    public Optional<KGLListIntensivStroke> getPriorIntensivStroke(KGLListIntensivStroke item) {
 //        return _priorCalcBasics.getIntensivStrokes().stream()
 //                .filter(i -> i.getCostCenterID() == item.getCostCenterID())
 //                .findAny();
 //    }
-    
     public int getSumIntensivStrokeWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         int result = 0;
@@ -805,38 +796,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return Pages.Error.URL();
     }
 
-    public void exportTest() throws IOException {
-        createTransferFile(_calcBasics);
+    public void createTransferFile() {
+        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
     }
 
-    private void createTransferFile(DrgCalcBasics calcBasics) {
-        File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
-        File file;
-        Date ts;
-        do {
-            ts = Calendar.getInstance().getTime();
-            file = new File(dir, "Transfer" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".txt");
-        } while (file.exists());
-
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
-            if (_sessionController.getAccount().isReportViaPortal()) {
-                pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
-            }
-            pw.println("From=" + _sessionController.getAccount().getEmail());
-            pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
-            pw.println("Subject=KGL_" + calcBasics.getIk());
-
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            String json = mapper.writeValueAsString(calcBasics);
-            pw.println("Content=" + json);
-
-            pw.flush();
-        } catch (FileNotFoundException | JsonProcessingException ex) {
-            throw new IllegalStateException(ex);
-        } finally {
-        }
-    }
 
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
@@ -1155,7 +1118,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 //
 //        return result;
 //    }
-
     public String calcPercentualDiff(int priorValue, int currentValue) {
         if (priorValue == 0) {
             return "";
@@ -1196,7 +1158,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return false;
     }
-    
+
     public String getContentText(int id) {
         return _calcFacade.findCalcContentText(id).getText();
     }
@@ -1228,7 +1190,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 //            }
 //        }
 //    }
-
 //    private KGLListIntensivStroke createDiffIntensivStrokeRight(KGLListIntensivStroke newVal, KGLListIntensivStroke oldVal) {
 //        KGLListIntensivStroke result = new KGLListIntensivStroke();
 //
