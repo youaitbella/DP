@@ -117,16 +117,12 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Kosten nicht med. Infra.||sscNonMedicalInfrastructureAmount|
 ||||||
 |Med Infra|Gewähltes Verfahren||KGPBaseInformation||
-|||Gleichungsverfahren||biApproximationMethodMedInfra|
-|||Stufenleiterverfahren||biStepladderMethodMedInfra|
-|||Anbauverfahren||biExtensionMethodMedInfra|
-|||Sonstige Vorgehensweise||biOtherMethodMedInfra|
+|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
+|||Erläuterung Sonstige Vorgehensweise||biOtherMethodMedInfra|
 ||||||
 |Nicht Med Infra|Gewähltes Verfahren||KGPBaseInformation||
-|||Gleichungsverfahren||biApproximationMethodNonMedInfra|
-|||Stufenleiterverfahren||biStepladderMethodNonMedInfra|
-|||Anbauverfahren||biExtensionMethodNonMedInfra|
-|||Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
+|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodNonMedInfra|
+|||Erläuterung Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
 ||||||
 |Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGPListMedInfra||
 |||Kostenartengruppe||miCostTypeID|
