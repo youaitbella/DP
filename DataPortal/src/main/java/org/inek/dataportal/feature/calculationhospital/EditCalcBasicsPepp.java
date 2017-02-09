@@ -156,25 +156,19 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
 
-        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
-        calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
-        calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
-        calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
-
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
+        //calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
-        calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
-        calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
-        calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
-
+        calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
+        
         // NonMedicalInfrastructure
         calcBasics.setDescNonMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
+        //calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
         calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
-        calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
-        calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
-        calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
-
+        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
+        
+        
         // Personal Accounting
         calcBasics.getKgpPersonalAccountingList().clear();
         for (KGPPersonalAccounting pa : _priorCalcBasics.getKgpPersonalAccountingList()) {
@@ -194,6 +188,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         int id = Integer.parseInt(idObject);
         PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(id);
         if (hasSufficientRights(calcBasics)) {
+            calcBasics.setDescNonMedicalInfra(!calcBasics.getOtherMethodNonMedInfra().isEmpty());
             return calcBasics;
         }
         return new PeppCalcBasics();
@@ -211,13 +206,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-//        calcBasics.getMedInfras().add(new KGLListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
-//        calcBasics.getMedInfras().add(new KGLListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
+       // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
+       // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
 
         if (getIks().size() == 1) {
             calcBasics.setIk((int) getIks().get(0).getValue());
         }
-//        ensureNeonateData(calcBasics);
+
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
         return calcBasics;

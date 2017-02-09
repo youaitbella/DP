@@ -489,95 +489,37 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property _approximationMethodMedInfra">
+       
+    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Basic(optional = false)
     @NotNull
-    @Column(name = "biApproximationMethodMedInfra")
-    private boolean _approximationMethodMedInfra;
+    @Column(name = "biIBLVMethodMedInfra")
+    private int _iblvMethodMedInfra;
 
-    public boolean isApproximationMethodMedInfra() {
-        return _approximationMethodMedInfra;
+    public int getIblvMethodMedInfra() {
+        return _iblvMethodMedInfra;
     }
 
-    public void setApproximationMethodMedInfra(boolean approximationMethodMedInfra) {
-        this._approximationMethodMedInfra = approximationMethodMedInfra;
+    public void setIblvMethodMedInfra(int iblvMethodMedInfra) {
+        this._iblvMethodMedInfra = iblvMethodMedInfra;
     }
-    // </editor-fold>
+    //</editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property _stepladderMethodMedInfra">
+    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodNonMedInfra">
     @Basic(optional = false)
     @NotNull
-    @Column(name = "biStepladderMethodMedInfra")
-    private boolean _stepladderMethodMedInfra;
+    @Column(name = "biIBLVMethodNonMedInfra")
+    private int _iblvMethodNonMedInfra;
 
-    public boolean isStepladderMethodMedInfra() {
-        return _stepladderMethodMedInfra;
+    public int getIblvMethodNonMedInfra() {
+        return _iblvMethodNonMedInfra;
     }
 
-    public void setStepladderMethodMedInfra(boolean stepladderMethodMedInfra) {
-        this._stepladderMethodMedInfra = stepladderMethodMedInfra;
+    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
+        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
     }
-    // </editor-fold>
+    //</editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property _extensionMethodMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biExtensionMethodMedInfra")
-    private boolean _extensionMethodMedInfra;
-
-    public boolean isExtensionMethodMedInfra() {
-        return _extensionMethodMedInfra;
-    }
-
-    public void setExtensionMethodMedInfra(boolean extensionMethodMedInfra) {
-        this._extensionMethodMedInfra = extensionMethodMedInfra;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property _approximationMethodNonMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biApproximationMethodNonMedInfra")
-    private boolean _approximationMethodNonMedInfra;
-
-    public boolean isApproximationMethodNonMedInfra() {
-        return _approximationMethodNonMedInfra;
-    }
-
-    public void setApproximationMethodNonMedInfra(boolean approximationMethodNonMedInfra) {
-        this._approximationMethodNonMedInfra = approximationMethodNonMedInfra;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property _stepladderMethodNonMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biStepladderMethodNonMedInfra")
-    private boolean _stepladderMethodNonMedInfra;
-
-    public boolean isStepladderMethodNonMedInfra() {
-        return _stepladderMethodNonMedInfra;
-    }
-
-    public void setStepladderMethodNonMedInfra(boolean stepladderMethodNonMedInfra) {
-        this._stepladderMethodNonMedInfra = stepladderMethodNonMedInfra;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property _extensionMethodNonMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biExtensionMethodNonMedInfra")
-    private boolean _extensionMethodNonMedInfra;
-
-    public boolean isExtensionMethodNonMedInfra() {
-        return _extensionMethodNonMedInfra;
-    }
-
-    public void setExtensionMethodNonMedInfra(boolean extensionMethodNonMedInfra) {
-        this._extensionMethodNonMedInfra = extensionMethodNonMedInfra;
-    }
-    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
     @Basic(optional = false)
