@@ -741,11 +741,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return Pages.Error.URL();
     }
 
-    public void createTransferFile() {
-        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
-    }
-
-
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
     }
@@ -797,6 +792,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
+        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
+        
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());

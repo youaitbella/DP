@@ -352,10 +352,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return Pages.Error.URL();
     }
 
-    public void exportTest() throws IOException {
-        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
-    }
-
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
     }
@@ -407,6 +403,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
 
+        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
+        
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
