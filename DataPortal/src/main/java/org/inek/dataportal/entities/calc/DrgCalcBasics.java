@@ -673,6 +673,19 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
+    @Column(name = "biOtherMethodNonMedInfra")
+    private String _otherMethodNonMedInfra = "";
+
+    public String getOtherMethodNonMedInfra() {
+        return _otherMethodNonMedInfra;
+    }
+
+    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
+        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="_hasDescMedicalInfra">
     @Transient
     private boolean _hasDescMedicalInfra = false;
