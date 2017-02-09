@@ -32,9 +32,8 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" styleClass="col06em">
-                    <f:convertNumber/>
-                </h:outputLabel>
+                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount eq 0}"/>
+                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount gt 0}" isInt="false" pattern="#,##0.0"/>
             </h:column>
 
             <h:column>
