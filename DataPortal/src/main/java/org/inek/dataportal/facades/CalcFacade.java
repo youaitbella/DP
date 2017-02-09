@@ -28,6 +28,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
+import org.inek.dataportal.entities.calc.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
@@ -40,6 +41,7 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
@@ -341,7 +343,17 @@ public class CalcFacade extends AbstractDataAccess {
         savePersonalAccounting(calcBasics);
         saveObstetricsGynecologies(calcBasics);
         saveCostCenterCosts(calcBasics);
+        saveRadioServices(calcBasics);
         return merge(calcBasics);
+    }
+    
+    private void saveRadioServices(DrgCalcBasics calcBasics) {
+        for(KGLRadiologyService rs : calcBasics.getRadiologyServices()) {
+            if(rs.getId() == -1)
+                persist(rs);
+            else
+                merge(rs);
+        }
     }
     
     private void saveCostCenterCosts(DrgCalcBasics calcBasic) {
@@ -394,6 +406,13 @@ public class CalcFacade extends AbstractDataAccess {
         String jpql = "select pt from KGLListServiceProvisionType pt where pt._text = :text";
         TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
         query.setParameter("text", text);
+        return query.getSingleResult();
+    }
+    
+    public KGLListContentTextOps findOpsCodeByContentTextId(int contextTextId) {
+        String jpql = "select cto from KGLListContentTextOps cto where cto._contentTextId = :id";
+        TypedQuery<KGLListContentTextOps> query = getEntityManager().createQuery(jpql, KGLListContentTextOps.class);
+        query.setParameter("id", contextTextId);
         return query.getSingleResult();
     }
 

@@ -23,9 +23,8 @@
                          value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
                          hideNoSelectionOption="true" 
                          style="width: 100%;">
-            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-            <f:ajax event="change" render="@this :logout:remaining iblvFulFillment medInfraMethodDescription"/>
+            <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
+            <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
     </h:selectOneMenu>      
   
 <!--    <table cellspacing="6">
@@ -61,13 +60,13 @@
 
         </tbody>
     </table>-->
-      
-<div id="medInfraMethodDescription" class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}" >
-        <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}">
-            <f:ajax event="blur" render="@this :logout:remaining" />
-        </h:inputTextarea>
-    </div>    
+    
+<h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
+    <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
+    <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}">
+        <f:ajax event="blur" render="@this :logout:remaining" />
+    </h:inputTextarea>
+</h:panelGroup>    
     
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  
     
