@@ -195,16 +195,12 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Gemeinkosten Sachbedarf||cccOverheadsMedicalGoods|
 |||Kosten MedInfra||cccMedicalInfrastructureCost|
 |||Kosten nicht MedInfra||cccNonMedicalInfrastructureCost|
-|Med Infra|Gewähltes Verfahren||KGLBaseInformation||
-|||Gleichungsverfahren||biApproximationMethodMedInfra|
-|||Stufenleiterverfahren||biStepladderMethodMedInfra|
-|||Anbauverfahren||biExtensionMethodMedInfra|
-|||Sonstige Vorgehensweise||biOtherMethodMedInfra|
+|Med Infra|Gewähltes Verfahren IBLV||KGLBaseInformation||
+|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
+|||Erläuterung Sonstige Vorgehensweise||biOtherMethodMedInfra|
 |Nicht Med Infra|Gewähltes Verfahren||KGLBaseInformation||
-|||Gleichungsverfahren||biApproximationMethodNonMedInfra|
-|||Stufenleiterverfahren||biStepladderMethodNonMedInfra|
-|||Anbauverfahren||biExtensionMethodNonMedInfra|
-|||Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
+|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodNonMedInfra|
+|||Erläuterung Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
 |Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGLListMedInfra||
 |||Kostenartengruppe||miCostTypeID|
 |||Nummer der Kostenstelle||miCostCenter|
