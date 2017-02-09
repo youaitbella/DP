@@ -6,52 +6,34 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"                
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
     <!--
         <h2 #{msg.titleNonMedicalInfrastructure} title="#{msg.lblNonMedicalInfrastructure}"></h2>
     -->    
     <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
         
-    <table cellspacing="6">
-        <thead>
-        <th>Gleichungsverfahren</th>
-        <th>Stufenleiterverfahren</th>
-        <th>Anbauverfahren</th>
-        <th>Sonstige Vorgehensweise</th>
-        </thead>
-        <tr>
-            <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.approximationMethodNonMedInfra}">
-                    <f:ajax event="change" render="@this :logout:remaining" />
-                </h:selectBooleanCheckbox>
-            </td>
-            <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.stepladderMethodNonMedInfra}">
-                    <f:ajax event="change" render="@this :logout:remaining" />
-                </h:selectBooleanCheckbox>
-            </td>
-            <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.extensionMethodNonMedInfra}">
-                    <f:ajax event="change" render="@this :logout:remaining" />
-                </h:selectBooleanCheckbox>
-            </td>
-            <td style="text-align: center;">
-            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.descNonMedicalInfra}" >
-                    <f:ajax event="change" render="@form description :logout:remaining" />
-                </h:selectBooleanCheckbox>
-            </td>
-        </tr>
-        <tbody>
-
-        </tbody>
-    </table>
-      
-    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.descNonMedicalInfra}" >
+  <h:selectOneMenu id="iblvFulFillment"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
+                         hideNoSelectionOption="true" 
+                         style="width: 100%;"
+                         disabled="true">
+            <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
+            <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
+    </h:selectOneMenu>      
+    
+  <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 3}"
+                   value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf." 
+                   />
+    
+    <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodNonMedInfra}">
+        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}" disabled="true">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
-    </div>    
+    </h:panelGroup>    
     
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur"}</h2>  
     
@@ -75,24 +57,16 @@
                     </h:commandLink>
                 </td>
                 <td style="width: 15%;">
-                    <h:inputText value="#{item.costCenterNumber}" styleClass="inputwide" required="true">
-                        <f:ajax render="@this :logout:remaining"/>
-                    </h:inputText>
+                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
                 </td>
                 <td style="width: 30%">
-                    <h:inputText value="#{item.costCenterText}" styleClass="inputwide" required="true">
-                        <f:ajax render="@this :logout:remaining"/>
-                    </h:inputText>
+                    <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
                 </td>
                 <td style="width: 25%;">
-                    <h:inputText value="#{item.keyUsed}" styleClass="inputwide" required="true">
-                        <f:ajax render="@this :logout:remaining"/>
-                    </h:inputText>
+                    <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
                 </td>
                 <td>
-                    <h:inputText value="#{item.amount}" styleClass="inputwide" required="true">
-                        <f:ajax render="@this :logout:remaining :sumMed"/>
-                    </h:inputText>
+                <inek:InputNumberWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="sumMed:text"/>
                 </td>
             </tr>
         </ui:repeat>
@@ -101,7 +75,7 @@
                 <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
             </td> 
             <td>
-            <h:inputText disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(180)}"/>
+            <inek:InputNumberWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(180)}"/>
             </td>
         </tr>
     </table>
