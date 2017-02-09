@@ -16,8 +16,19 @@
 -->
 
   <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
-        
-    <table cellspacing="6">
+  
+  <h:selectOneMenu id="iblvFulFillment"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
+                         hideNoSelectionOption="true" 
+                         style="width: 100%;">
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+            <f:ajax event="change" render="@this :logout:remaining iblvFulFillment medInfraMethodDescription"/>
+    </h:selectOneMenu>      
+  
+<!--    <table cellspacing="6">
         <thead>
         <th>Gleichungsverfahren</th>
         <th>Stufenleiterverfahren</th>
@@ -26,22 +37,22 @@
         </thead>
         <tr>
             <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.approximationMethodMedInfra}">
+                <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.approximationMethodMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
             <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.stepladderMethodMedInfra}">
+                <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.stepladderMethodMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
             <td style="text-align: center;">
-                <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.extensionMethodMedInfra}">
+                <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.extensionMethodMedInfra}">
                     <f:ajax event="change" render="@this :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
             <td style="text-align: center;">
-            <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
+            <h:selectBooleanCheckbox value="# {editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
                     <f:ajax event="change" render="@form description :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </td>
@@ -49,9 +60,9 @@
         <tbody>
 
         </tbody>
-    </table>
+    </table>-->
       
-    <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.descMedicalInfra}" >
+<div id="medInfraMethodDescription" class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}" >
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
         <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}">
             <f:ajax event="blur" render="@this :logout:remaining" />
