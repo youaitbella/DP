@@ -10,13 +10,13 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="isIntensiv"/>
+        <cc:attribute name="isIntensiv" />
         <cc:attribute name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h2>Intensiv Datenjahr #{cc.attrs.backingBean.calcBasics.dataYear}</h2>
+        <h2>Intensiv #{cc.attrs.isIntensiv ? "" : "Stroke"} Datenjahr #{cc.attrs.backingBean.calcBasics.dataYear}</h2>
         <style>
             #tbl {
                 margin-top: 20px;
@@ -69,10 +69,10 @@
                         Anzahl Fälle
                     </td>
                     <td class="">
-                        Mindestmerkmale OPS 8-980 erfüllt
+                        Mindestmerkmale #{cc.attrs.isIntensiv ? "OPS 8-980" : "OPS 8-981"} erfüllt
                     </td>
                     <td class="">
-                        Mindestmerkmale OPS 8-98f erfüllt
+                        Mindestmerkmale #{cc.attrs.isIntensiv ? "OPS 8-98f" : "OPS 8-98b"} erfüllt
                     </td>
                     <td class="">
                         Mindest-merkmale nur erfüllt im Zeitabschnitt:
@@ -174,7 +174,7 @@
             </h:commandLink>
         </div>
 
-        <h2>Personal Intensiv Datenjahr #{cc.attrs.backingBean.calcBasics.dataYear}</h2>
+        <h2>Personal Intensiv #{cc.attrs.isIntensiv ? "" : "Stroke"} Datenjahr #{cc.attrs.backingBean.calcBasics.dataYear}</h2>
         <div style="overflow-x: scroll;">
             <table id='tbl'>
                 <tr>
