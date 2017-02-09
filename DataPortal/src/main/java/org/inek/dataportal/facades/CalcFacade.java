@@ -41,7 +41,9 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
+import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
@@ -341,7 +343,17 @@ public class CalcFacade extends AbstractDataAccess {
         savePersonalAccounting(calcBasics);
         saveObstetricsGynecologies(calcBasics);
         saveCostCenterCosts(calcBasics);
+        saveRadioServices(calcBasics);
         return merge(calcBasics);
+    }
+    
+    private void saveRadioServices(DrgCalcBasics calcBasics) {
+        for(KGLRadiologyService rs : calcBasics.getRadiologyServices()) {
+            if(rs.getId() == -1)
+                persist(rs);
+            else
+                merge(rs);
+        }
     }
     
     private void saveCostCenterCosts(DrgCalcBasics calcBasic) {
@@ -689,6 +701,8 @@ public class CalcFacade extends AbstractDataAccess {
         }
 
         saveCostCenterDataPepp(calcBasics);
+        savePersonalAccountingPePP(calcBasics);
+        saveMedInfraPePP(calcBasics);
         return merge(calcBasics);
     }
 
@@ -705,6 +719,16 @@ public class CalcFacade extends AbstractDataAccess {
     
     private void savePersonalAccountingPePP(PeppCalcBasics calcBasics) {
         for (KGPPersonalAccounting item : calcBasics.getKgpPersonalAccountingList()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+    
+    private void saveMedInfraPePP(PeppCalcBasics calcBasics) {
+        for (KGPListMedInfra item : calcBasics.getKgpMedInfraList()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
