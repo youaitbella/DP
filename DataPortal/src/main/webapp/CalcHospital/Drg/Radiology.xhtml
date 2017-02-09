@@ -160,6 +160,37 @@
         </h:column>
     </h:dataTable>
     
+    <br/>
+    
+    <table id="radioServicesTable">
+        <tr>
+            <th>Ausgewählte Leistung</th>
+            <th>OPS</th>
+            <th>Kosten pro Leistung</th>
+            <th>Fallzahl stationär</th>
+            <th>Fallzahl ambulant</th>
+            <th>abgegr. Kosten-volumen (€) ambulant</th>
+        </tr>
+        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
+            <tr>
+                <td>#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
+                <td>TODO</td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.serviceCost}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.caseCntStationary}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.caseCntAmbulant}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.ambulantAmount}" />
+                </td>
+            </tr>
+        </ui:repeat>
+    </table>
+    
     <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addRadiology()}"/>
     </h:commandLink>

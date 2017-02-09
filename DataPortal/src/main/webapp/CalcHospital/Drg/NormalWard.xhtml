@@ -155,7 +155,7 @@
             <f:facet name="header">
                 Dokumentation
             </f:facet>
-            <inek:BooleanRadioButton value="#{item.used}" label="#{item.label eq '' ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
+            <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
         </h:column>
         
         <h:column>

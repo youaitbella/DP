@@ -17,10 +17,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -69,6 +66,7 @@ import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -351,6 +349,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.setIk((int) getIks().get(0).getValue());
         }
         ensureNeonateData(calcBasics);
+        ensureRadiologyServiceData(calcBasics);
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
         return calcBasics;
@@ -364,6 +363,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
+    }
+    
+    private void ensureRadiologyServiceData(DrgCalcBasics calcBasics) {
+        for(DrgContentText ct : _calcFacade.findAllCalcContentTexts()) {
+            if(ct.getHeaderTextId() == 12) {
+                KGLRadiologyService rs = new KGLRadiologyService();
+                rs.setRsContentTextID(ct.getId());
+                // TODO: set OPS code
+            }
+        }
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -383,7 +392,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNeonateData().add(data);
         }
     }
-
+    
     private void preloadServiceProvision(DrgCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
@@ -1118,6 +1127,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public String getContentText(int id) {
         return _calcFacade.findCalcContentText(id).getText();
+    }
+    
+    private KGLRadiologyService getPriorRadiologyService(int contentTextId) {
+        for(KGLRadiologyService rs : _priorCalcBasics.getRadiologyServices()) {
+            if(rs.getRsContentTextID() == contentTextId)
+                return rs;
+        }
+        return null;
     }
 
 //    private void diffIntensivStrokeValues(List<KGLListIntensivStroke> intensivStrokes,
