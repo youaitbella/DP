@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -628,42 +630,33 @@ public class DrgCalcBasics implements Serializable {
     }    
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="approximationMethodMedInfra">
-    @Column(name = "biApproximationMethodMedInfra")
-    private boolean _approximationMethodMedInfra;
+    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biIBLVMethodMedInfra")
+    private int _iblvMethodMedInfra;
 
-    public boolean isApproximationMethodMedInfra() {
-        return _approximationMethodMedInfra;
+    public int getIblvMethodMedInfra() {
+        return _iblvMethodMedInfra;
     }
 
-    public void setApproximationMethodMedInfra(boolean approximationMethodMedInfra) {
-        this._approximationMethodMedInfra = approximationMethodMedInfra;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="stepladderMethodMedInfra">
-    @Column(name = "biStepladderMethodMedInfra")
-    private boolean _stepladderMethodMedInfra;
-
-    public boolean isStepladderMethodMedInfra() {
-        return _stepladderMethodMedInfra;
-    }
-
-    public void setStepladderMethodMedInfra(boolean stepladderMethodMedInfra) {
-        this._stepladderMethodMedInfra = stepladderMethodMedInfra;
+    public void setIblvMethodMedInfra(int iblvMethodMedInfra) {
+        this._iblvMethodMedInfra = iblvMethodMedInfra;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="extensionMethodMedInfra">
-    @Column(name = "biExtensionMethodMedInfra")
-    private boolean _extensionMethodMedInfra;
+    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "biIBLVMethodNonMedInfra")
+    private int _iblvMethodNonMedInfra;
 
-    public boolean isExtensionMethodMedInfra() {
-        return _extensionMethodMedInfra;
+    public int getIblvMethodNonMedInfra() {
+        return _iblvMethodNonMedInfra;
     }
 
-    public void setExtensionMethodMedInfra(boolean extensionMethodMedInfra) {
-        this._extensionMethodMedInfra = extensionMethodMedInfra;
+    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
+        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
     }
     //</editor-fold>
 
@@ -680,7 +673,7 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfraDesc">
+    //<editor-fold defaultstate="collapsed" desc="_hasDescMedicalInfra">
     @Transient
     private boolean _hasDescMedicalInfra = false;
 
@@ -693,59 +686,8 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
         
-    //<editor-fold defaultstate="collapsed" desc="approximationMethodNonMedInfra">
-    @Column(name = "biApproximationMethodNonMedInfra")
-    private boolean _approximationMethodNonMedInfra;
 
-    public boolean isApproximationMethodNonMedInfra() {
-        return _approximationMethodNonMedInfra;
-    }
-
-    public void setApproximationMethodNonMedInfra(boolean approximationMethodNonMedInfra) {
-        this._approximationMethodNonMedInfra = approximationMethodNonMedInfra;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="stepladderMethodNonMedInfra">
-    @Column(name = "biStepladderMethodNonMedInfra")
-    private boolean _stepladderMethodNonMedInfra;
-
-    public boolean isStepladderMethodNonMedInfra() {
-        return _stepladderMethodNonMedInfra;
-    }
-
-    public void setStepladderMethodNonMedInfra(boolean stepladderMethodNonMedInfra) {
-        this._stepladderMethodNonMedInfra = stepladderMethodNonMedInfra;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="extensionMethodNonMedInfra">
-    @Column(name = "biExtensionMethodNonMedInfra")
-    private boolean _extensionMethodNonMedInfra;
-
-    public boolean isExtensionMethodNonMedInfra() {
-        return _extensionMethodNonMedInfra;
-    }
-
-    public void setExtensionMethodNonMedInfra(boolean extensionMethodNonMedInfra) {
-        this._extensionMethodNonMedInfra = extensionMethodNonMedInfra;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
-    @Column(name = "biOtherMethodNonMedInfra")
-    private String _otherMethodNonMedInfra = "";
-
-    public String getOtherMethodNonMedInfra() {
-        return _otherMethodNonMedInfra;
-    }
-
-    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
-        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfraDesc">
+    //<editor-fold defaultstate="collapsed" desc="_hasDescNonMedicalInfra">
     @Transient
     private boolean _hasDescNonMedicalInfra = false;
 
