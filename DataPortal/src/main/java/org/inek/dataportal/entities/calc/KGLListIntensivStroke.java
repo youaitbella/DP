@@ -454,7 +454,7 @@ public class KGLListIntensivStroke implements Serializable {
         this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
     }
     //</editor-fold>
-
+    
     public int getOverallCost() {
         return _medicalServiceCost + _nursingServiceCost + _functionalServiceCost + _overheadsMedicine 
                 + _overheadMedicalGoods + _medicalInfrastructureCost + _nonMedicalInfrastructureCost;

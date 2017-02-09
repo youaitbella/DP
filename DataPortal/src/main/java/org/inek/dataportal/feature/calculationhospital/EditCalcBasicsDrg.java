@@ -259,18 +259,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         });
 
         // NonMedicalInfrastructure
-        calcBasics.setDescNonMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
+        calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
         calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
-        calcBasics.setApproximationMethodNonMedInfra(_priorCalcBasics.isApproximationMethodNonMedInfra());
-        calcBasics.setStepladderMethodNonMedInfra(_priorCalcBasics.isStepladderMethodNonMedInfra());
-        calcBasics.setExtensionMethodNonMedInfra(_priorCalcBasics.isExtensionMethodNonMedInfra());
+        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
 
         // MedicalInfrastructure
-        calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
+        calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
-        calcBasics.setApproximationMethodMedInfra(_priorCalcBasics.isApproximationMethodMedInfra());
-        calcBasics.setStepladderMethodMedInfra(_priorCalcBasics.isStepladderMethodMedInfra());
-        calcBasics.setExtensionMethodMedInfra(_priorCalcBasics.isExtensionMethodMedInfra());
+        calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
 
         // NormalStationServiceDocumentation
         calcBasics.getNormalStationServiceDocumentations().clear();
