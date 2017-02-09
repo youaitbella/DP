@@ -36,6 +36,8 @@
             margin-right: 30px;
         }
     </style>
+    
+    <h2>Kostenstellengruppe 9 (Radiologie)</h2>
 
     <h:dataTable value="#{editCalcBasicsDrg.radiologies}" 
                      var="item" 
@@ -160,21 +162,49 @@
         </h:column>
     </h:dataTable>
     
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addRadiology()}"/>
+    </h:commandLink>
+    
+    <br/>
+    
+    <h2>Radiologie Leistungen</h2>
+    
+    <style>
+        #radioServicesTable {
+            overflow-x: scroll;
+        }
+        .underlined-col {
+            border-bottom: solid 1px #043358;
+        }
+        .border-right-col {
+            border-right: solid 1px #043358;
+        }
+    </style>
+    
     <br/>
     
     <table id="radioServicesTable">
+        <tr>
+            <td class="underlined-col border-right-col" colspan="6"><b>#{editCalcBasicsDrg.calcBasics.dataYear}</b></td>
+            <td class="underlined-col border-right-col" colspan="4"><b>#{editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
+        </tr>
         <tr>
             <th>Ausgewählte Leistung</th>
             <th>OPS</th>
             <th>Kosten pro Leistung</th>
             <th>Fallzahl stationär</th>
             <th>Fallzahl ambulant</th>
-            <th>abgegr. Kosten-volumen (€) ambulant</th>
+            <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th>
+            <th>Kosten pro Leistung</th>
+            <th>Fallzahl stationär</th>
+            <th>Fallzahl ambulant</th>
+            <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th>
         </tr>
         <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
             <tr>
-                <td>#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
-                <td>TODO</td>
+                <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
+                <td class="underlined-col">#{item.opsCode}</td>
                 <td>
                 <inek:InputNumberWithMessage value="#{item.serviceCost}" />
                 </td>
@@ -187,13 +217,29 @@
                 <td>
                 <inek:InputNumberWithMessage value="#{item.ambulantAmount}" />
                 </td>
+                <td>
+                <inek:InputNumberWithMessage 
+                    readonly="true"
+                    value="#{editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).serviceCost}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage 
+                    readonly="true"
+                    value="#{editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).caseCntStationary}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage 
+                    readonly="true"
+                    value="#{editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).caseCntAmbulant}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage 
+                    readonly="true"
+                    value="#{editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).ambulantAmount}" />
+                </td>
             </tr>
         </ui:repeat>
     </table>
-    
-    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addRadiology()}"/>
-    </h:commandLink>
     
 </ui:composition>
 

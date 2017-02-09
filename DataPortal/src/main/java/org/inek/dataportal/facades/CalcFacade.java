@@ -28,6 +28,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
+import org.inek.dataportal.entities.calc.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
@@ -393,6 +394,13 @@ public class CalcFacade extends AbstractDataAccess {
         String jpql = "select pt from KGLListServiceProvisionType pt where pt._text = :text";
         TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
         query.setParameter("text", text);
+        return query.getSingleResult();
+    }
+    
+    public KGLListContentTextOps findOpsCodeByContentTextId(int contextTextId) {
+        String jpql = "select cto from KGLListContentTextOps cto where cto._contentTextId = :id";
+        TypedQuery<KGLListContentTextOps> query = getEntityManager().createQuery(jpql, KGLListContentTextOps.class);
+        query.setParameter("id", contextTextId);
         return query.getSingleResult();
     }
 

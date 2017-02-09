@@ -52,6 +52,7 @@ import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLDocument;
+import org.inek.dataportal.entities.calc.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
@@ -373,7 +374,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             if(ct.getHeaderTextId() == 12) {
                 KGLRadiologyService rs = new KGLRadiologyService();
                 rs.setRsContentTextID(ct.getId());
-                // TODO: set OPS code
+                KGLListContentTextOps ops = _calcFacade.findOpsCodeByContentTextId(ct.getId());
+                if(ops != null)
+                    rs.setOpsCode(ops.getOpsCode());
+                calcBasics.getRadiologyServices().add(rs);
             }
         }
     }
@@ -1145,12 +1149,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _calcFacade.findCalcContentText(id).getText();
     }
     
-    private KGLRadiologyService getPriorRadiologyService(int contentTextId) {
+    public KGLRadiologyService getPriorRadiologyService(int contentTextId) {
         for(KGLRadiologyService rs : _priorCalcBasics.getRadiologyServices()) {
             if(rs.getRsContentTextID() == contentTextId)
                 return rs;
         }
-        return null;
+        return new KGLRadiologyService();
     }
 
 //    private void diffIntensivStrokeValues(List<KGLListIntensivStroke> intensivStrokes,
