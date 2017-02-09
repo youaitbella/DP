@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.specialfunction;
+package org.inek.dataportal.entities.specificfunction;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +15,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "RequestMaster", schema = "calc")
-public class RequestMaster implements Serializable {
+public class SpecificFunctionRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -262,10 +262,10 @@ public class RequestMaster implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof RequestMaster)) {
+        if (!(object instanceof SpecificFunctionRequest)) {
             return false;
         }
-        RequestMaster other = (RequestMaster) object;
+        SpecificFunctionRequest other = (SpecificFunctionRequest) object;
         
         return _id == other._id;
     }

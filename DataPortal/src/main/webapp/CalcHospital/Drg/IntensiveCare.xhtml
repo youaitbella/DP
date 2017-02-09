@@ -27,8 +27,10 @@
     <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}"/>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
-
-        <h2>Intensiv Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
+        
+        <calc:IntensivStroke id="intStroke" isIntensiv="#{true}" backingBean="#{editCalcBasicsDrg}"/>
+        
+<!--        <h2>Intensiv Datenjahr # {editCalcBasicsDrg.calcBasics.dataYear}</h2>
         <style>
             #tbl {
                 margin-top: 20px;
@@ -111,86 +113,82 @@
                         Erläuterung
                     </td>
                 </tr>
-                <ui:repeat id="tbl-int1" value="#{editCalcBasicsDrg.calcBasics.intensivStrokes}" var="x" varStatus="loop">
+                <ui:repeat id="tbl-int1" value="# {editCalcBasicsDrg.calcBasics.intensivStrokes}" var="x" varStatus="loop">
                     <tr>
                         <td>
                     <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
+                        <h:graphicImage alt="# {msg.btnDelete}" name="Icon/small/delete.png" title="# {msg.btnDelete}" value=""/>
+                        <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
                     </h:commandLink>
                     </td>
-<!--                    <td>
-                    <inek:InputNumberWithMessage value="# {varIntensiv.costCenterID}"  renderElement=""/>
-                    </td>-->
                     <td>
-                    <h:inputText value="#{x.costCenterText}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputNumberWithMessage value="# {varIntensiv.costCenterID}"  renderElement=""/>
                     </td>
-<!--                    <td>
+                    <td>
+                    <inek:InputTextWithMessage id="costCenterText1" value="# {x.costCenterText}" renderElement="tbl-cont:# {loop.index}:costCenterText2:text"/>
+                    </td>
+                    <td>
                     <h:inputText value="# {x.departmentKey}" >
                         <f:ajax event="blur" render="@this :logout:remaining" />
                     </h:inputText>
-                    </td>-->
-                    <td>
-                    <h:inputText value="#{x.departmentAssignment}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="tbl-cont:#{loop.index}:utilization"/>
+                    <inek:InputTextWithMessage id="department1" value="# {x.departmentAssignment}" renderElement="tbl-cont:# {loop.index}:department2:text"/>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.caseCnt}"  renderElement="calc-field-#{loop.index}:text"/>
+                    <inek:InputNumberWithMessage value="# {x.bedCnt}"  renderElement="tbl-cont:# {loop.index}:utilization"/>
                     </td>
                     <td>
-                    <inek:Checkbox value="#{x.ops8980}" renderElement="tbl-cont:#{loop.index}:medServCnt:text"/>
+                    <inek:InputNumberWithMessage value="# {x.caseCnt}"  renderElement="calc-field-# {loop.index}:text"/>
                     </td>
                     <td>
-                    <inek:Checkbox value="#{x.ops898f}"  renderElement="tbl-cont:#{loop.index}:medServCnt:text"/>
+                    <inek:Checkbox value="# {x.ops8980}" renderElement="tbl-cont:# {loop.index}:medServCnt:text"/>
+                    </td>
+                    <td>
+                    <inek:Checkbox value="# {x.ops898f}"  renderElement="tbl-cont:# {loop.index}:medServCnt:text"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                               value="#{x.minimumCriteriaPeriod}" rendered="true"/>
+                                               value="# {x.minimumCriteriaPeriod}" rendered="true"/>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.intensivHoursWeighted}"  renderElement="diff-msc-#{loop.index} sumIntWeighted" isInt="false"/>
+                    <inek:InputNumberWithMessage value="# {x.intensivHoursWeighted}"  renderElement="diff-msc-# {loop.index} sumIntWeighted" isInt="false"/>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.intensivHoursNotweighted}"  renderElement="tbl-cont:#{loop.index}:utilization sumIntNotWeighted" isInt="false"/>
+                    <inek:InputNumberWithMessage value="# {x.intensivHoursNotweighted}"  renderElement="tbl-cont:# {loop.index}:utilization sumIntNotWeighted" isInt="false"/>
                     </td>
                     <td>
-                    <h:outputLabel id="utilization" value="#{x.calcUtilization()}" 
-                                   title="#{x.bedCnt > 0 and (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt)) lt 0.3 ? 'Der Wert ist unter 30.0%!' : ''}" 
-                                   styleClass="#{x.bedCnt > 0 and (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt)) lt 0.3 ? 'red' : ''}"
+                    <h:outputLabel id="utilization" value="# {x.calcUtilization()}" 
+                                   title="# {x.bedCnt > 0 and (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt)) lt 0.3 ? 'Der Wert ist unter 30.0%!' : ''}" 
+                                   styleClass="# {x.bedCnt > 0 and (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt)) lt 0.3 ? 'red' : ''}"
                                    />
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.weightMinimum}"  renderElement="tbl-cont:#{loop.index}:spreizung" readonly="false"/>
+                    <inek:InputNumberWithMessage value="# {x.weightMinimum}"  renderElement="tbl-cont:# {loop.index}:spreizung" readonly="false"/>
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.weightMaximum}"  renderElement="tbl-cont:#{loop.index}:spreizung" readonly="false"/>
+                    <inek:InputNumberWithMessage value="# {x.weightMaximum}"  renderElement="tbl-cont:# {loop.index}:spreizung" readonly="false"/>
                     </td>
                     <td>
                     <h:outputLabel id="spreizung" 
-                                   value="#{x.weightMinimum != 0 ? x.weightMaximum / x.weightMinimum : ''}"
-                                   title="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'Spreizung >= 6 ist nicht Handbuchkonform!' : ''}" 
-                                   styleClass="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'red' : ''}"
+                                   value="# {x.weightMinimum != 0 ? x.weightMaximum / x.weightMinimum : ''}"
+                                   title="# {x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'Spreizung >= 6 ist nicht Handbuchkonform!' : ''}" 
+                                   styleClass="# {x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'red' : ''}"
                                    />
                     </td>
                     <td>
-                    <inek:InputNumberWithMessage value="#{x.weightDescription}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
+                    <inek:InputNumberWithMessage value="# {x.weightDescription}"  renderElement="diff-oa-# {loop.index} sumShareMedicine:text"/>
                     </td>
                     </tr>
                 </ui:repeat>
             </table>
-            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                           rendered="#{!editCalcBasicsDrg.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addIntensivStroke(true)}"/>
+            <h:commandLink id="addButton" styleClass="addButton inputPart" value="# {msg.btnAddEntry}"
+                           rendered="# {!editCalcBasicsDrg.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.addIntensivStroke(true)}"/>
             </h:commandLink>
         </div>
 
-        <h2>Personal Intensiv Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
+        <h2>Personal Intensiv Datenjahr # {editCalcBasicsDrg.calcBasics.dataYear}</h2>
         <div style="overflow-x: scroll;">
             <table id='tbl'>
                 <tr>
@@ -241,89 +239,86 @@
                         Kostensatz je VK PD
                     </td>
                 </tr>
-                <ui:repeat id="tbl-cont" value="#{editCalcBasicsDrg.calcBasics.intensivStrokes}" var="x" varStatus="loop">
+                <ui:repeat id="tbl-cont" value="# {editCalcBasicsDrg.calcBasics.intensivStrokes}" var="x" varStatus="loop">
                     <tr>
                         <td>
                     <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
+                        <h:graphicImage alt="# {msg.btnDelete}" name="Icon/small/delete.png" title="# {msg.btnDelete}" value=""/>
+                        <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
                     </h:commandLink>
                     </td>
                     <td>
-                    <h:inputText value="#{x.costCenterText}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputTextWithMessage id="costCenterText2" value="# {x.costCenterText}" renderElement="tbl-int1:# {loop.index}:costCenterText1:text"/>
                     </td>
                     <td>
-                    <h:inputText value="#{x.departmentAssignment}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
+                    <inek:InputTextWithMessage id="department2" value="# {x.departmentAssignment}" renderElement="tbl-int1:# {loop.index}:department1:text"/>
                     </td>
 
 
                     <td>
                     <inek:InputTextWithMessage id='medServCnt' styleClassComponent="element100"  
-                                               value="#{x.medicalServiceCnt}" rendered="true"
-                                               title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
-                                               styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
+                                               value="# {x.medicalServiceCnt}" rendered="true"
+                                               title='# {(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
+                                               styleClass='# {(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
+                                               renderElement="tbl-cont:# {loop.index}:costPerMedical"
                                                />
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.nursingServiceCnt}" rendered="true"/>
+                                                   value="# {x.nursingServiceCnt}" rendered="true" renderElement="tbl-cont:# {loop.index}:costPerNursing"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.functionalServiceCnt}" rendered="true"/>
+                                                   value="# {x.functionalServiceCnt}" rendered="true"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.medicalServiceCost}" rendered="true"/>
+                                               value="# {x.medicalServiceCost}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost tbl-cont:# {loop.index}:costPerNursing"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.nursingServiceCost}" rendered="true"/>
+                                                   value="# {x.nursingServiceCost}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost tbl-cont:# {loop.index}:costPerNursing"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.functionalServiceCost}" rendered="true"/>
+                                                   value="# {x.functionalServiceCost}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost"/>
                     </td>
                     <td>
                    <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.overheadsMedicine}" rendered="true"/>
+                                                   value="# {x.overheadsMedicine}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.overheadMedicalGoods}" rendered="true"/>
+                                                   value="# {x.overheadMedicalGoods}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost"/>
                     </td>
                     <td>
                      <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.medicalInfrastructureCost}" rendered="true"/>
+                                                   value="# {x.medicalInfrastructureCost}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                   value="#{x.nonMedicalInfrastructureCost}" rendered="true"/>
+                                                   value="# {x.nonMedicalInfrastructureCost}" rendered="true" renderElement="tbl-cont:# {loop.index}:overallCost"/>
                     </td>
                     <td>
-                    <h:outputLabel styleClass="label" value="#{x.overallCost}" rendered="true"/>
+                    <h:outputLabel id="overallCost" styleClass="label" value="# {x.overallCost}" rendered="true"/>
                     </td>
                     <td>
-                    <h:outputLabel style="element100" styleClass="element100" 
-                                                  value="#{x.costPerMedicalVK}" rendered="true"/>
+                    <h:outputLabel id="costPerMedical" style="element100" styleClass="element100" 
+                                                  value="# {x.costPerMedicalVK}" rendered="true"/>
                     </td>
                     <td>
-                    <h:outputLabel style="element100" styleClass="element100" 
-                                                                   value="#{x.costPerNursingVK}" rendered="true"/>
+                    <h:outputLabel id="costPerNursing" style="element100" styleClass="element100" 
+                                                                   value="# {x.costPerNursingVK}" rendered="true"/>
                     </td>
                     
                     </tr>
                 </ui:repeat>
             </table>
-            <h:commandLink id="addButtonPersonal" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                           rendered="#{!editCalcBasicsDrg.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addIntensivStroke(true)}"/>
+            <h:commandLink id="addButtonPersonal" styleClass="addButton inputPart" value="# {msg.btnAddEntry}"
+                           rendered="# {!editCalcBasicsDrg.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsDrg.addIntensivStroke(true)}"/>
             </h:commandLink>
-        </div>
+        </div>-->
 
 
 

@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -585,6 +588,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.remove(differential);
     }
 
+    public List<KGLListIntensivStroke> getIntensivStroke(boolean getIntensiv) {
+        return _calcBasics.getIntensivStrokes().stream()
+                .filter(i -> getIntensiv ? i.getIntensiveType() == 1 : i.getIntensiveType() == 2)
+                .collect(Collectors.toList());
+    }
+    
     public List<KGLListIntensivStroke> addIntensivStroke(boolean isIntensiv) {
         List<KGLListIntensivStroke> result = _calcBasics.getIntensivStrokes();
         KGLListIntensivStroke item = new KGLListIntensivStroke();
@@ -1044,18 +1053,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .collect(Collectors.toList());
     }
 
-    public int priorData(int textId) {
-        int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
+    public BigDecimal priorData(int textId) {
+        BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
         return priorValue;
     }
 
     public String diffData(int textId) {
         DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
-        int priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(0);
+        BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
         if (data.getContentText().isDiffAsPercent()) {
             return calcPercentualDiff(priorValue, data.getData());
         }
-        return "" + (data.getData() - priorValue);
+        return "" + (data.getData().subtract(priorValue));
     }
     // </editor-fold>    
 
@@ -1096,6 +1105,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return "";
         }
         return Math.round(1000d * (currentValue - priorValue) / priorValue) / 10d + "%";
+    }
+
+    public String calcPercentualDiff(BigDecimal priorValue, BigDecimal currentValue) {
+        if (priorValue.doubleValue() == 0) {
+            return "";
+        }
+        return (currentValue.subtract(priorValue)).divide(priorValue).multiply(new BigDecimal(100)).setScale(1, RoundingMode.HALF_UP) + "%";
     }
 
     public int getMedInfraSum(int type) {
