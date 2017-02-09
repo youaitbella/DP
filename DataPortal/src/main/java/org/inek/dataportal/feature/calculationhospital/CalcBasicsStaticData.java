@@ -107,4 +107,12 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
+    public List<SelectItem> getIbvlTypeItem() {
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "Gleichungsverfahren"));
+       items.add(new SelectItem(2, "Stufenleiterverfahren"));
+       items.add(new SelectItem(3, "Anbauverfahren*"));
+       items.add(new SelectItem(0, "sonstige Vorgehensweise"));
+       return items;
+    }
 }
