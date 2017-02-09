@@ -73,7 +73,7 @@ public class StreamHelper {
         }
     }
 
-    public void copyStream(InputStream is, OutputStream os) throws IOException {
+    public static void copyStream(InputStream is, OutputStream os) throws IOException {
         byte[] buff = new byte[BufLen];
         int count;
         while ((count = is.read(buff)) != -1) {
