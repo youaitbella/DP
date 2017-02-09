@@ -15,7 +15,7 @@
     <h2>#{msg.lblCalcIntensiveCare}</h2>
 
     <inek:BooleanRadioButton label="#{msg.lblHospitalHasIntensiveBeds}" 
-                             value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
+                             value="#{editCalcBasicsDrg.calcBasics.intensiveBed}"
                              labelStyle="label40"
                              renderElement="@form :logout:remaining">
     </inek:BooleanRadioButton>
@@ -26,7 +26,7 @@
     <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumWeighted}"/>
     <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}"/>
 
-    <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
+    <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.intensiveBed}">
         
         <calc:IntensivStroke id="intStroke" isIntensiv="#{true}" backingBean="#{editCalcBasicsDrg}"/>
         
