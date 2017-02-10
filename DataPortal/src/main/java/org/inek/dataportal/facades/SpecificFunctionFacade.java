@@ -48,7 +48,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return query.getResultList();
     }
     
-    public void delete(SpecificFunctionRequest statement) {
+    public void deleteSpecificFunctionRequest(SpecificFunctionRequest statement) {
         remove(statement);
     }
 

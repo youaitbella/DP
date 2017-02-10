@@ -158,6 +158,7 @@ public enum Pages {
     //
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
     SpecificFunctionSummary("/SpecificFunction/SpecificFunctionSummary"),
+    SpecificFunctionEditRequest("/SpecificFunction/EditRequest"),
 
     //
     NotAllowed("/common/NotAllowed"),
