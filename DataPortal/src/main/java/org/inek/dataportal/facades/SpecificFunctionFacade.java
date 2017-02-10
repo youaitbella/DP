@@ -5,8 +5,11 @@
  */
 package org.inek.dataportal.facades;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
@@ -28,25 +31,52 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
 
-    public List<SpecificFunctionRequest> listSpecificFunctionRequest(int accountId) {
-        String sql = "SELECT s FROM SpecificFunctionRequest sop WHERE s._accountId = :accountId ORDER BY s._id DESC";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(sql, SpecificFunctionRequest.class);
+    public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId) {
+        String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId ORDER BY s._id DESC";
+        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
 
+    public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId and s._dataYear = year and s._status between :statusLow and :statusHigh ORDER BY s._id DESC";
+        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("year", year);
+        query.setParameter("statusLow", statusLow.getValue());
+        query.setParameter("statusHigh", statusHigh.getValue());
+        return query.getResultList();
+    }
+    
     public void delete(SpecificFunctionRequest statement) {
         remove(statement);
     }
 
     public boolean existActiveSpecificFunctionRequest(int ik) {
-        String jpql = "select c from SpecificFunctionRequest c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
+        String jpql = "select s from SpecificFunctionRequest s where s._ik = :ik and s._dataYear = :year and s._statusId < 10";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("ik", ik);
         query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         return query.getResultList().size() == 1;
     }
 
+    public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = year and s._status between :statusLow and :statusHigh";
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("year", year);
+        query.setParameter("statusLow", statusLow.getValue());
+        query.setParameter("statusHigh", statusHigh.getValue());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
+    }
+
+    public Set<Integer> getCalcYears(Set<Integer> accountIds) {
+        String jpql = "select s._dataYear from SpecificFunctionRequest s where s._accountId in :accountIds and s._status >= 10";
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("accountIds", accountIds);
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
+    }
     
     public SpecificFunctionRequest saveSpecificFunctionRequest(SpecificFunctionRequest request) {
         if (request.getStatus() == WorkflowStatus.Unknown) {
@@ -63,5 +93,6 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return merge(request);
     }
     // </editor-fold>
+
   
 }
