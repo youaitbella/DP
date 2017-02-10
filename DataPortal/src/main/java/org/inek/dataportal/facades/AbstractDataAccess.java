@@ -40,6 +40,7 @@ public abstract class AbstractDataAccess {
             // EJB wont populate any exection up to a caller. It allways forces a rollback.
             // To check for those kind of problems, we log it and re-throw the exception
             _logger.log(Level.SEVERE, ex.getMessage());
+           //_logger.log(Level.SEVERE, ex.getStackTrace().toString());
             throw ex;
         }
     }

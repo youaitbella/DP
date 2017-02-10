@@ -94,7 +94,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Basic(optional = false)
     @NotNull
-    @Size(max = 50)
+    @Size(max = 200)
     @Column(name = "rlCostCenterText")
     private String _costCenterText = "";
     
