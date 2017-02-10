@@ -6,11 +6,16 @@
 package org.inek.dataportal.feature.specificfunction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +23,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -46,6 +52,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     private String _script;
     private SpecificFunctionRequest _request;
+
+    public SpecificFunctionRequest getRequest() {
+        return _request;
+    }
+
+    public void setRequest(SpecificFunctionRequest request) {
+        this._request = request;
+    }
 
     // </editor-fold>
     @PostConstruct
@@ -158,7 +172,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
      * @return
      */
     public String seal() {
-        if (!statementIsComplete()) {
+        if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
 
@@ -175,13 +189,13 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return "";
     }
 
-    private boolean statementIsComplete() {
+    private boolean requestIsComplete() {
         // todo
         return true;
     }
 
     public String requestApproval() {
-        if (!statementIsComplete()) {
+        if (!requestIsComplete()) {
             return null;
         }
         _request.setStatus(WorkflowStatus.ApprovalRequested);
@@ -199,5 +213,28 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
         return "";
     }
+    
+    public void ikChanged() {
+    }
+
+    public List<SelectItem> getIks() {
+        Set<Integer> iks = new HashSet<>();
+        if (_request != null && _request.getIk() > 0) {
+            iks.add(_request.getIk());
+        }
+        Account account = _sessionController.getAccount();
+        if (account.getIK() > 0){
+        iks.add(account.getIK());
+        }
+        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
+            iks.add(additionalIK.getIK());
+        }
+        List<SelectItem> items = new ArrayList<>();
+        for (int ik : iks) {
+            items.add(new SelectItem(ik));
+        }
+        return items;
+    }
+    
     // </editor-fold>
 }

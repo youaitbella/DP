@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+
+        <h:form id="specificFuntion" prependId="false" enctype="multipart/form-data">
+            <h1><h:commandLink value="#{msg.lblSpecificFunction}" 
+                               action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" immediate="true"/></h1>
+
+            <div class="inputPart">
+                <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
+                <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+                <br/>
+                <h:selectOneMenu styleClass="col08em"
+                                 rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1 and editSpecificFunction.request.id eq -1}"
+                                 id="ikMulti"
+                                 title="#{msg.titleIK}"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{editSpecificFunction.request.ik}"
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{editSpecificFunction.iks}"/>
+                    <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+                    <f:ajax event="change" listener="#{editSpecificFunction.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
+                </h:selectOneMenu>
+
+                <h:inputText styleClass="col07em" readonly="true" value="#{editSpecificFunction.request.ik}" rendered="#{editSpecificFunction.readOnly or editSpecificFunction.iks.size() le 1 or editSpecificFunction.request.id ge 0}"/>
+
+                <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editSpecificFunction.hospitalInfo}"/>
+
+                <br/>
+                <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1}"/>
+            </div>
+
+            <hr/>
+
+
+            <div class="toolBar">
+                <div>
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.save}"
+                                   value="#{msg.btnSave}"
+                                   immediate="true"
+                                   rendered="#{!editSpecificFunction.readOnly}">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editSpecificFunction.requestApproval}"
+                                   value="#{msg.btnRequestApproval}"
+                                   rendered="#{editSpecificFunction.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editSpecificFunction.seal}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editSpecificFunction.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editSpecificFunction.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
+
+
+                </div>
+
+            </div>
+
+            </h:panelGroup>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+

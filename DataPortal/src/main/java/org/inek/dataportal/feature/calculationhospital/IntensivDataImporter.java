@@ -106,6 +106,9 @@ public class IntensivDataImporter {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
             int val = nf.parse(data).intValue();
+            if (val < 0){
+                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
             bind.accept(item, val);
         } catch (ParseException ex) {
             throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);

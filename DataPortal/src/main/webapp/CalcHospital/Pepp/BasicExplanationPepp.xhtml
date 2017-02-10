@@ -517,7 +517,7 @@
                     <h:outputText value="Entlassender Standort"/><br/>
                     <h:outputText value="(aussagekräftiger Name)"/>
                 </f:facet>
-                <h:inputText value="# {item.location}" styleClass="inputwide" required="true">
+                <h:inputText value="#{item.location}" styleClass="inputwide" required="true">
                     <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
@@ -526,7 +526,7 @@
                 <f:facet name="header">
                     <h:outputText value="Nummer"/>
                 </f:facet>
-                <h:inputText value="# {item.locationNo}" styleClass="inputwide" required="true">
+                <h:inputText value="#{item.locationNo}" styleClass="inputwide" required="true">
                     <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
@@ -675,11 +675,13 @@
     
         <br/><br/>
     -->
+        <h2>Berücksichtigte Abgrenzungstatbestände</h2>
+
         <ui:repeat value="#{editCalcBasicsPepp.calcBasics.delimitationFacts}" var="x" varStatus="status">
     
             <div class="inputPart">
-                <h:outputLabel value="# {x.contentText.text}" styleClass="blockElement" style="width: calc(100% - 22em);"/> &nbsp;
-                <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="# {x.used}" >
+                <h:outputLabel value="#{x.contentText.text}" styleClass="blockElement" style="width: calc(100% - 22em);"/> &nbsp;
+                <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                     <f:ajax event="change" render="@form :logout:remaining delimit-content" />
                 </h:selectBooleanCheckbox>
 <!--                <h:outputLabel value="# {editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="# {x.used and x.requireInputs}"/>

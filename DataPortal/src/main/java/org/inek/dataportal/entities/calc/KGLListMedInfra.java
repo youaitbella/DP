@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 /**
@@ -99,6 +100,7 @@ public class KGLListMedInfra implements Serializable {
     @Column(name = "miAmount")
     private int _amount;
 
+    @Min(0)
     public int getAmount() {
         return _amount;
     }
