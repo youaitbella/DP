@@ -144,7 +144,7 @@
     </h:dataTable>
     
     <div class="inputPart" jsf:rendered="#{editCalcBasicsDrg.renderPersonalAccountingDescription()}" >
-        <h:outputLabel styleClass="label" for="description" value="Erläuterung bzgl. Datengrundlage, Vorgehen und Kostenvolumen"/><sup>1</sup><br/>
+        <sup>1</sup><h:outputLabel styleClass="label" for="description" value="Erläuterung bzgl. Datengrundlage, Vorgehen und Kostenvolumen"/><br/>
         <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.personalAccountingDescription}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>

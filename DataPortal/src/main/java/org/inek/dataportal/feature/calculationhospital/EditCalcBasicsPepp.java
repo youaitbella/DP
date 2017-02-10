@@ -219,7 +219,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
-        if (calcBasics.getKgpPersonalAccountingList().size() == 3) {
+        if (calcBasics.getKgpPersonalAccountingList().size() == 6) {
             return;
         }
 
