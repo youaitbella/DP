@@ -157,17 +157,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
 
         // MedicalInfrastructure
-        calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
+        calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodMedInfra().isEmpty());
         //calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
-        
-        // NonMedicalInfrastructure
-        calcBasics.setDescNonMedicalInfra(!_priorCalcBasics.getOtherMethodNonMedInfra().isEmpty());
-        //calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
-        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
-        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
-        
         
         // Personal Accounting
         calcBasics.getKgpPersonalAccountingList().clear();
@@ -188,7 +181,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         int id = Integer.parseInt(idObject);
         PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(id);
         if (hasSufficientRights(calcBasics)) {
-            calcBasics.setDescNonMedicalInfra(!calcBasics.getOtherMethodNonMedInfra().isEmpty());
+            calcBasics.setDescMedicalInfra(!calcBasics.getOtherMethodMedInfra().isEmpty());
             return calcBasics;
         }
         return new PeppCalcBasics();
