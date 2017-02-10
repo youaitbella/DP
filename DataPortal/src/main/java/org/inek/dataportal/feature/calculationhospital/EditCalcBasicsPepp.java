@@ -451,7 +451,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-        Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (_calcBasics != null && _calcBasics.getIk() > 0) {
             iks.add(_calcBasics.getIk());
         }
