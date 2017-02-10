@@ -407,22 +407,71 @@ public class KGPListStationServiceCost implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Property _mappingPsyPV">
-//    @JoinColumn(name = "sscMappingPsyPV", referencedColumnName = "pptID")
-//    @ManyToOne(optional = false)
-    @Column(name = "sscMappingPsyPV")
-    private int _mappingPsyPV;
-    
-    public int getMappingPsyPV() {
-        return _mappingPsyPV;
+        
+    //<editor-fold defaultstate="collapsed" desc="Property _generalMapping">
+    @Column(name = "sscGeneralMapping")
+    private boolean _generalMapping;
+
+    public boolean isGeneralMapping() {
+        return _generalMapping;
     }
 
-    public void setMappingPsyPV(int mappingPsyPV) {
-        this._mappingPsyPV = mappingPsyPV;
+    public void setGeneralMapping(boolean generalMapping) {
+        this._generalMapping = generalMapping;
     }
     //</editor-fold>
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Property _addictionMapping">
+    @Column(name = "sscAddictionMapping")
+    private boolean _addictionMapping;
+
+    public boolean isAddictionMapping() {
+        return _addictionMapping;
+    }
+
+    public void setAddictionMapping(boolean addictionMapping) {
+        this._addictionMapping = addictionMapping;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property _gerontoPsyMapping">
+    @Column(name = "sscGerontoPsyMapping")
+    private boolean _gerontoPsyMapping;
+
+    public boolean isGerontoPsyMapping() {
+        return _gerontoPsyMapping;
+    }
+
+    public void setGerontoPsyMapping(boolean gerontoPsyMapping) {
+        this._gerontoPsyMapping = gerontoPsyMapping;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property _childYouthMapping">
+    @Column(name = "sscChildYouthMapping")
+    private boolean _childYouthMapping;
+
+    public boolean isChildYouthMapping() {
+        return _childYouthMapping;
+    }
+
+    public void setChildYouthMapping(boolean childYouthMapping) {
+        this._childYouthMapping = childYouthMapping;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property _psychosomaticMapping">
+    @Column(name = "sscPsychosomaticMapping")
+    private boolean _psychosomaticMapping;
+
+    public boolean isPsychosomaticMapping() {
+        return _psychosomaticMapping;
+    }
+
+    public void setPsychosomaticMapping(boolean psychosomaticMapping) {
+        this._psychosomaticMapping = psychosomaticMapping;
+    }
+    //</editor-fold>
 
     public KGPListStationServiceCost() {
     }
@@ -462,38 +511,42 @@ public class KGPListStationServiceCost implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 79 * hash + this._id;
+        hash = 59 * hash + this._id;
         if (this._id != -1) {
             return hash;
         }
-        hash = 79 * hash + this._costCenterID;
-        hash = 79 * hash + this._costCenterNumber;
-        hash = 79 * hash + Objects.hashCode(this._station);
-        hash = 79 * hash + this._bedCnt;
-        hash = 79 * hash + (this._receivingStation ? 1 : 0);
-        hash = 79 * hash + this._regularCareDays;
-        hash = 79 * hash + this._regularWeight;
-        hash = 79 * hash + this._intensiveCareDays;
-        hash = 79 * hash + this._intensiveWeight;
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._medicalServiceCnt) ^ (Double.doubleToLongBits(this._medicalServiceCnt) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._nursingServiceCnt) ^ (Double.doubleToLongBits(this._nursingServiceCnt) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._psychologistCnt) ^ (Double.doubleToLongBits(this._psychologistCnt) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._socialWorkerCnt) ^ (Double.doubleToLongBits(this._socialWorkerCnt) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._specialTherapistCnt) ^ (Double.doubleToLongBits(this._specialTherapistCnt) >>> 32));
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._functionalServiceCnt) ^ (Double.doubleToLongBits(this._functionalServiceCnt) >>> 32));
-        hash = 79 * hash + this._medicalServiceAmount;
-        hash = 79 * hash + this._nursingServiceAmount;
-        hash = 79 * hash + this._psychologistAmount;
-        hash = 79 * hash + this._socialWorkerAmount;
-        hash = 79 * hash + this._specialTherapistAmount;
-        hash = 79 * hash + this._functionalServiceAmount;
-        hash = 79 * hash + this._medicalInfrastructureAmount;
-        hash = 79 * hash + this._nonMedicalInfrastructureAmount;
-        hash = 79 * hash + this._baseInformationID;
-        hash = 79 * hash + this._mappingPsyPV;
+        hash = 59 * hash + this._costCenterID;
+        hash = 59 * hash + this._costCenterNumber;
+        hash = 59 * hash + Objects.hashCode(this._station);
+        hash = 59 * hash + this._bedCnt;
+        hash = 59 * hash + (this._receivingStation ? 1 : 0);
+        hash = 59 * hash + this._regularCareDays;
+        hash = 59 * hash + this._regularWeight;
+        hash = 59 * hash + this._intensiveCareDays;
+        hash = 59 * hash + this._intensiveWeight;
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._medicalServiceCnt) ^ (Double.doubleToLongBits(this._medicalServiceCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._nursingServiceCnt) ^ (Double.doubleToLongBits(this._nursingServiceCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._psychologistCnt) ^ (Double.doubleToLongBits(this._psychologistCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._socialWorkerCnt) ^ (Double.doubleToLongBits(this._socialWorkerCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._specialTherapistCnt) ^ (Double.doubleToLongBits(this._specialTherapistCnt) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._functionalServiceCnt) ^ (Double.doubleToLongBits(this._functionalServiceCnt) >>> 32));
+        hash = 59 * hash + this._medicalServiceAmount;
+        hash = 59 * hash + this._nursingServiceAmount;
+        hash = 59 * hash + this._psychologistAmount;
+        hash = 59 * hash + this._socialWorkerAmount;
+        hash = 59 * hash + this._specialTherapistAmount;
+        hash = 59 * hash + this._functionalServiceAmount;
+        hash = 59 * hash + this._medicalInfrastructureAmount;
+        hash = 59 * hash + this._nonMedicalInfrastructureAmount;
+        hash = 59 * hash + this._baseInformationID;
+        hash = 59 * hash + (this._generalMapping ? 1 : 0);
+        hash = 59 * hash + (this._addictionMapping ? 1 : 0);
+        hash = 59 * hash + (this._gerontoPsyMapping ? 1 : 0);
+        hash = 59 * hash + (this._childYouthMapping ? 1 : 0);
+        hash = 59 * hash + (this._psychosomaticMapping ? 1 : 0);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -578,13 +631,27 @@ public class KGPListStationServiceCost implements Serializable {
         if (this._baseInformationID != other._baseInformationID) {
             return false;
         }
-        if (this._mappingPsyPV != other._mappingPsyPV) {
+        if (this._generalMapping != other._generalMapping) {
             return false;
         }
-        return Objects.equals(this._station, other._station);
+        if (this._addictionMapping != other._addictionMapping) {
+            return false;
+        }
+        if (this._gerontoPsyMapping != other._gerontoPsyMapping) {
+            return false;
+        }
+        if (this._childYouthMapping != other._childYouthMapping) {
+            return false;
+        }
+        if (this._psychosomaticMapping != other._psychosomaticMapping) {
+            return false;
+        }
+        if (!Objects.equals(this._station, other._station)) {
+            return false;
+        }
+        return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListStationServiceCost[ sscID=" + _id + " ]";
