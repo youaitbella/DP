@@ -33,6 +33,33 @@ public class SpecificFunctionRequest implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="dataYear">
+    @Column(name = "rmDataYear")
+    private int _dataYear;
+
+    public int getDataYear() {
+        return _dataYear;
+    }
+
+    public void setDataYear(int dataYear) {
+        this._dataYear = dataYear;
+    }
+    //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Name">
+    @Column(name = "rmName")
+    private String _name = "";
+
+    @Size(max = 10)
+    public String getName() {
+        return _name;
+    }
+
+    public void setName(String name) {
+        _name = name == null ? "" : name;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Code">
     @Column(name = "rmCode")
     private String _code = "";
