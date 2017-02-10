@@ -96,7 +96,7 @@
                            styleClass="button"
                            value="#{msg.btnJournal} &nbsp; #{cc.attrs.backingBean.showJournal ? '˄' : '˅'}" 
                            actionListener="#{cc.attrs.backingBean.toggleJournal}">
-                <f:ajax render="@this journal :logout:remaining"/>
+                <f:ajax render="@form journal :logout:remaining"/>
             </h:commandLink>
 
             <h:inputTextarea id="journal" rendered="#{cc.attrs.backingBean.importMessage.length() gt 0 and cc.attrs.backingBean.showJournal}" 

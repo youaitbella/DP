@@ -302,7 +302,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
-        createTransferFile(_statement);
+        
+        //createTransferFile(_statement);
 
         if (isValidId(_statement.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

@@ -352,39 +352,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return Pages.Error.URL();
     }
 
-    public void exportTest() throws IOException {
-        createTransferFile(_calcBasics);
-    }
-
-    private void createTransferFile(PeppCalcBasics calcBasics) {
-        File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
-        File file;
-        Date ts;
-        do {
-            ts = Calendar.getInstance().getTime();
-            file = new File(dir, "Transfer" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".txt");
-        } while (file.exists());
-
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
-            if (_sessionController.getAccount().isReportViaPortal()) {
-                pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
-            }
-            pw.println("From=" + _sessionController.getAccount().getEmail());
-            pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
-            pw.println("Subject=KGL_" + calcBasics.getIk());
-
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            String json = mapper.writeValueAsString(calcBasics);
-            pw.println("Content=" + json);
-
-            pw.flush();
-        } catch (FileNotFoundException | JsonProcessingException ex) {
-            throw new IllegalStateException(ex);
-        } finally {
-        }
-    }
-
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
     }
@@ -436,6 +403,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
 
+        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
+        
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
