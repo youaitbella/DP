@@ -54,6 +54,8 @@ import org.inek.dataportal.entities.calc.KGPListLocation;
 import org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGPListStationAlternative;
+import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
@@ -678,6 +680,26 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         result.setCostCenterId(costCenterId);
         result.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getTherapies().add(result);
+    }
+    
+    public void addStationAlternative() {
+        KGPListStationAlternative sa = new KGPListStationAlternative();
+        sa.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getKgpStationDepartmentList().add(sa);
+    }
+    
+    public void deleteStationAlternative(KGPListStationAlternative sa) {
+        _calcBasics.getKgpStationDepartmentList().remove(sa);
+    }
+    
+    public void addStationServiceCost() {
+        KGPListStationServiceCost sc = new KGPListStationServiceCost();
+        sc.setBaseInformationID(_calcBasics.getId());
+        _calcBasics.getKgpStationServiceCostList().add(sc);
+    }
+    
+    public void deleteStationServiceCost(KGPListStationServiceCost item) {
+        _calcBasics.getKgpStationServiceCostList().remove(item);
     }
     
     public List<KGPListRadiologyLaboratory> getRadiologyLaboritories(int costCenter) {
