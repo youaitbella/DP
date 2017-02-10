@@ -505,20 +505,20 @@ public class PeppCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodNonMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biIBLVMethodNonMedInfra")
-    private int _iblvMethodNonMedInfra;
-
-    public int getIblvMethodNonMedInfra() {
-        return _iblvMethodNonMedInfra;
-    }
-
-    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
-        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
-    }
-    //</editor-fold>
+//    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodNonMedInfra">
+//    @Basic(optional = false)
+//    @NotNull
+//    @Column(name = "biIBLVMethodNonMedInfra")
+//    private int _iblvMethodNonMedInfra;
+//
+//    public int getIblvMethodNonMedInfra() {
+//        return _iblvMethodNonMedInfra;
+//    }
+//
+//    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
+//        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
+//    }
+//    //</editor-fold>
     
     
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
@@ -550,18 +550,18 @@ public class PeppCalcBasics implements Serializable {
     }
     //</editor-fold>
         
-    // <editor-fold defaultstate="collapsed" desc="Property _otherMethodNonMedInfra">
-    @Column(name = "biOtherMethodNonMedInfra")
-    private String _otherMethodNonMedInfra = "";
-
-    public String getOtherMethodNonMedInfra() {
-        return _otherMethodNonMedInfra;
-    }
-
-    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
-        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
-    }
-    // </editor-fold>
+//    // <editor-fold defaultstate="collapsed" desc="Property _otherMethodNonMedInfra">
+//    @Column(name = "biOtherMethodNonMedInfra")
+//    private String _otherMethodNonMedInfra = "";
+//
+//    public String getOtherMethodNonMedInfra() {
+//        return _otherMethodNonMedInfra;
+//    }
+//
+//    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
+//        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
+//    }
+//    // </editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfraDesc">
     @Transient

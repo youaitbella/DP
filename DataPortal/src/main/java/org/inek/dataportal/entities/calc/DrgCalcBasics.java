@@ -645,20 +645,20 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biIBLVMethodNonMedInfra")
-    private int _iblvMethodNonMedInfra;
-
-    public int getIblvMethodNonMedInfra() {
-        return _iblvMethodNonMedInfra;
-    }
-
-    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
-        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
-    }
-    //</editor-fold>
+//    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
+//    @Basic(optional = false)
+//    @NotNull
+//    @Column(name = "biIBLVMethodNonMedInfra")
+//    private int _iblvMethodNonMedInfra;
+//
+//    public int getIblvMethodNonMedInfra() {
+//        return _iblvMethodNonMedInfra;
+//    }
+//
+//    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
+//        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
+//    }
+//    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
@@ -673,18 +673,18 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
-    @Column(name = "biOtherMethodNonMedInfra")
-    private String _otherMethodNonMedInfra = "";
-
-    public String getOtherMethodNonMedInfra() {
-        return _otherMethodNonMedInfra;
-    }
-
-    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
-        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
-    }
-    //</editor-fold>
+//    //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfra">
+//    @Column(name = "biOtherMethodNonMedInfra")
+//    private String _otherMethodNonMedInfra = "";
+//
+//    public String getOtherMethodNonMedInfra() {
+//        return _otherMethodNonMedInfra;
+//    }
+//
+//    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
+//        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
+//    }
+//    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="_hasDescMedicalInfra">
     @Transient
@@ -700,18 +700,18 @@ public class DrgCalcBasics implements Serializable {
     //</editor-fold>
         
 
-    //<editor-fold defaultstate="collapsed" desc="_hasDescNonMedicalInfra">
-    @Transient
-    private boolean _hasDescNonMedicalInfra = false;
-
-    public boolean isDescNonMedicalInfra() {
-        return _hasDescNonMedicalInfra;
-    }
-
-    public void setDescNonMedicalInfra(boolean _hasDesc) {
-        this._hasDescNonMedicalInfra = _hasDesc;
-    }
-    //</editor-fold>
+//    //<editor-fold defaultstate="collapsed" desc="_hasDescNonMedicalInfra">
+//    @Transient
+//    private boolean _hasDescNonMedicalInfra = false;
+//
+//    public boolean isDescNonMedicalInfra() {
+//        return _hasDescNonMedicalInfra;
+//    }
+//
+//    public void setDescNonMedicalInfra(boolean _hasDesc) {
+//        this._hasDescNonMedicalInfra = _hasDesc;
+//    }
+//    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
@@ -739,61 +739,61 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="_intensiveHoursWeighted">
-    @Column(name = "biIntensiveHoursWeighted")
-    @Min(0)
-    private int _intensiveHoursWeighted;
-
-    public int getIntensiveHoursWeighted() {
-        return _intensiveHoursWeighted;
-    }
-
-    public void setIntensiveHoursWeighted(int intensiveHoursWeighted) {
-        this._intensiveHoursWeighted = intensiveHoursWeighted;
-    }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="_intensiveHoursNotWeighted">
-    @Column(name = "biIntensiveHoursNotWeighted")
-    @Min(0)
-    private int _intensiveHoursNotWeighted;
-
-    public int getIntensiveHoursNotWeighted() {
-        return _intensiveHoursNotWeighted;
-    }
-
-    public void setIntensiveHoursNotWeighted(int intensiveHoursNotWeighted) {
-        this._intensiveHoursNotWeighted = intensiveHoursNotWeighted;
-    }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="_strokeHoursWeighted">
-    @Column(name = "biStrokeHoursWeighted")
-    @Min(0)
-    private int _strokeHoursWeighted;
-
-    public int getStrokeHoursWeighted() {
-        return _strokeHoursWeighted;
-    }
-
-    public void setStrokeHoursWeighted(int strokeHoursWeighted) {
-        this._strokeHoursWeighted = strokeHoursWeighted;
-    }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="_strokeHoursNotWeighted">
-    @Column(name = "biStrokeHoursNotWeighted")
-    @Min(0)
-    private int _strokeHoursNotWeighted;
-    
-    public int getStrokeHoursNotWeighted() {
-        return _strokeHoursNotWeighted;
-    }
-
-    public void setStrokeHoursNotWeighted(int strokeHoursNotWeighted) {
-        this._strokeHoursNotWeighted = strokeHoursNotWeighted;
-    }
-    //</editor-fold>
+//    //<editor-fold defaultstate="collapsed" desc="_intensiveHoursWeighted">
+//    @Column(name = "biIntensiveHoursWeighted")
+//    @Min(0)
+//    private int _intensiveHoursWeighted;
+//
+//    public int getIntensiveHoursWeighted() {
+//        return _intensiveHoursWeighted;
+//    }
+//
+//    public void setIntensiveHoursWeighted(int intensiveHoursWeighted) {
+//        this._intensiveHoursWeighted = intensiveHoursWeighted;
+//    }
+//    //</editor-fold>
+//    
+//    //<editor-fold defaultstate="collapsed" desc="_intensiveHoursNotWeighted">
+//    @Column(name = "biIntensiveHoursNotWeighted")
+//    @Min(0)
+//    private int _intensiveHoursNotWeighted;
+//
+//    public int getIntensiveHoursNotWeighted() {
+//        return _intensiveHoursNotWeighted;
+//    }
+//
+//    public void setIntensiveHoursNotWeighted(int intensiveHoursNotWeighted) {
+//        this._intensiveHoursNotWeighted = intensiveHoursNotWeighted;
+//    }
+//    //</editor-fold>
+//    
+//    //<editor-fold defaultstate="collapsed" desc="_strokeHoursWeighted">
+//    @Column(name = "biStrokeHoursWeighted")
+//    @Min(0)
+//    private int _strokeHoursWeighted;
+//
+//    public int getStrokeHoursWeighted() {
+//        return _strokeHoursWeighted;
+//    }
+//
+//    public void setStrokeHoursWeighted(int strokeHoursWeighted) {
+//        this._strokeHoursWeighted = strokeHoursWeighted;
+//    }
+//    //</editor-fold>
+//    
+//    //<editor-fold defaultstate="collapsed" desc="_strokeHoursNotWeighted">
+//    @Column(name = "biStrokeHoursNotWeighted")
+//    @Min(0)
+//    private int _strokeHoursNotWeighted;
+//    
+//    public int getStrokeHoursNotWeighted() {
+//        return _strokeHoursNotWeighted;
+//    }
+//
+//    public void setStrokeHoursNotWeighted(int strokeHoursNotWeighted) {
+//        this._strokeHoursNotWeighted = strokeHoursNotWeighted;
+//    }
+//    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

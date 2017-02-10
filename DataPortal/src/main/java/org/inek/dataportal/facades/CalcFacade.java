@@ -43,8 +43,11 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
+import org.inek.dataportal.entities.calc.KGPListLocation;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
+import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -699,13 +702,36 @@ public class CalcFacade extends AbstractDataAccess {
             persist(calcBasics);
             return calcBasics;
         }
-
+        
+        saveLocationsPepp(calcBasics);
+        saveServiceProvisionsPepp(calcBasics);
+        saveTherapyPepp(calcBasics);
         saveCostCenterDataPepp(calcBasics);
         savePersonalAccountingPePP(calcBasics);
         saveMedInfraPePP(calcBasics);
         return merge(calcBasics);
     }
+    
+    private void saveLocationsPepp(PeppCalcBasics calcBasics) {
+        for (KGPListLocation location : calcBasics.getLocations()) {
+            if (location.getId() == -1) {
+                persist(location);
+            } else {
+                merge(location);
+            }
+        }
+    }
 
+    private void saveServiceProvisionsPepp(PeppCalcBasics calcBasics) {
+        for (KGPListServiceProvision serviceProvision : calcBasics.getServiceProvisions()) {
+            if (serviceProvision.getId() == -1) {
+                persist(serviceProvision);
+            } else {
+                merge(serviceProvision);
+            }
+        }
+    }
+    
     private void saveCostCenterDataPepp(PeppCalcBasics calcBasics) {
         for (KGPListCostCenter item : calcBasics.getCostCenters()) {
             if (item.getId() == -1) {
@@ -716,6 +742,15 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
+    private void saveTherapyPepp(PeppCalcBasics calcBasics) {
+        for (KGPListTherapy therapy : calcBasics.getTherapies()) {
+            if (therapy.getId() == -1) {
+                persist(therapy);
+            } else {
+                merge(therapy);
+            }
+        }
+    }
     
     private void savePersonalAccountingPePP(PeppCalcBasics calcBasics) {
         for (KGPPersonalAccounting item : calcBasics.getKgpPersonalAccountingList()) {

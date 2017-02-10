@@ -249,9 +249,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         });
 
         // NonMedicalInfrastructure
-        calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
-        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
-        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
+//        calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
+//        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
+//        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
 
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
@@ -295,7 +295,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         int id = Integer.parseInt(idObject);
         DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(id);
         if (hasSufficientRights(calcBasics)) {
-            calcBasics.setDescNonMedicalInfra(!calcBasics.getOtherMethodNonMedInfra().isEmpty());
+//            calcBasics.setDescNonMedicalInfra(!calcBasics.getOtherMethodNonMedInfra().isEmpty());
             checkRequireInputsForDelimitationFact(calcBasics);
             return calcBasics;
         }
@@ -648,9 +648,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Inject private Instance<IntensivDataImporter> _importIntensivProvider;
 
+    private Part _fileIntensivCare;
+
+    public Part getFileIntensivCare() {
+        return _fileIntensivCare;
+    }
+
+    public void setFileIntensivCare(Part file) {
+        _fileIntensivCare = file;
+    }
+    
     public void uploadNoticesIntensiv() {
         try {
-            if (_file != null) {
+            if (_fileIntensivCare != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
                 // Thus, we read with the system default
@@ -660,7 +670,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 // By intention it fails for other charcters
                 // Alternative: implement a library which guesses th correct character set and read properly
                 // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
+                Scanner scanner = new Scanner(_fileIntensivCare.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
                 }
