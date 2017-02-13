@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -473,6 +474,15 @@ public class KGPListStationServiceCost implements Serializable {
     }
     //</editor-fold>
 
+    @Transient
+    public String getUtilization() {
+        if (_bedCnt == 0) {
+            return "";
+        }
+        double result = Math.round((_regularCareDays + _intensiveCareDays) * 1000.0d / (_bedCnt * 365)) / 10d;
+        return "" + result + "%";
+    }
+    
     public KGPListStationServiceCost() {
     }
 
