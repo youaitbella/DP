@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  * @author muellermi
  */
 @Entity
-@Table(name = "RequestAgreedCenter", schema = "calc")
+@Table(name = "RequestAgreedCenter", schema = "spf")
 public class RequestAgreedCenter implements Serializable {
     private static final long serialVersionUID = 1L;
 
