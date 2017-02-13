@@ -13,13 +13,24 @@
 
     <ui:define name="content">
         <div class="paddingElement">
-        #{specificFunctionRequestTreeHandler.refreshNodes()}
+            
+            <h1>#{msg.lblSpecificFunction}</h1>
 
-        <spf:RequestNode parentNode="#{specificFunctionRequestTreeHandler.accountNode}" isSealed="false" 
-                              showDelete="true" showSelectBox="false"
-                              rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
+            #{specificFunctionRequestTreeHandler.refreshNodes()}
 
-            Hier demnächst #{msg.lblSpecificFunction}
+            <spf:RequestNode parentNode="#{specificFunctionRequestTreeHandler.accountNode}" isSealed="false" 
+                             showDelete="true" showSelectBox="false"
+                             rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
+
+            <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
+                           action="#{specificFunctionRequestList.newRequest()}"
+                           immediate="true"
+                           value="#{msg.btnNewSpecificFunctionRequest}"
+                           disabled="#{!specificFunctionRequestList.newAllowed}"
+                           >
+                <f:param name="id" value="new"/>
+            </h:commandLink>
+
         </div>
 
     </ui:define>

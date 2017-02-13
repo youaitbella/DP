@@ -16,10 +16,18 @@
         #{specificFunctionRequestTreeHandler.refreshNodes()}
 
         <spf:RequestNode parentNode="#{specificFunctionRequestTreeHandler.accountNode}" isSealed="false" 
-                              showDelete="true" showSelectBox="false"
-                              rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
+                         showDelete="true" showSelectBox="false"
+                         rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
 
-        Hier demnächst #{msg.lblSpecificFunction}
+        <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
+                       action="#{specificFunctionRequestList.newRequest()}"
+                       immediate="true"
+                       value="#{msg.btnNewSpecificFunctionRequest}"
+                       disabled="#{!specificFunctionRequestList.newAllowed}"
+                       >
+            <f:param name="id" value="new"/>
+        </h:commandLink>
+
     </div>
 </ui:composition>
 
