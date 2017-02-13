@@ -43,7 +43,7 @@ public class SpecificFunctionRequestList {
         return _appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestCreateEnabled);
     }
 
-    public String newStatementOfParticipance() {
+    public String newRequest() {
         destroyFeatureBeans();
         return Pages.SpecificFunctionEditRequest.URL();
     }
@@ -56,14 +56,14 @@ public class SpecificFunctionRequestList {
     }
 
 
-    public String printHospitalInfo(SpecificFunctionRequest request) {
+    public String print(SpecificFunctionRequest request) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
         Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(request));
         return Pages.PrintView.URL();
     }
 
-    public void deleteHospitalInfo(SpecificFunctionRequest request) {
+    public void delete(SpecificFunctionRequest request) {
         if (request == null) {
             // might be deleted by somebody else
             return;

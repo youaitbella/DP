@@ -12,22 +12,22 @@
 
     <h2>Anwendung des Betreuungsintensitätsmodells (einheitliches Betreuungsintensitätsmodell, veröffentlicht am 28.11.2012)</h2><br/>
     <inek:BooleanRadioButton id="bimAll" value="#{editCalcBasicsPepp.calcBasics.bimAll}" label="Leistungsdokumentation gem. einheitlichem BIM liegen in allen PSY-Fachabteilungen und Stationen vor:" labelStyle="label"/>
-    
+
     <div class="inputPart">
         <span class="label">Kommentar:<sup style="font-size: 9px;">1</sup></span><br/>
         <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}" styleClass="areaMiddleLow" /><br/>
         <span class="label"><sup style="font-size: 10px;">1: Bitte tragen Sie hier auch ein, falls eine Ausnahmegenehmigung für das Datenjahr vorliegt</sup></span>
     </div>
-    
+
     <hr/>
-    
+
     <div class="inputPart">
         <span class="label">Leistungsdokumentation gem. einheitlichem BIM liegen in den folgenden Fachabteilungen nicht oder nur teilweise vor, als Alternativverfahren wird angewendet:</span><br/>
         <h:dataTable  headerClass="list-header"
                       value="#{editCalcBasicsPepp.calcBasics.kgpStationDepartmentList}" var="item" width="100%" rowClasses="row1, row2" 
-                  columnClasses="colIcon, col20, col60"
-                  rendered="true"
-                  >
+                      columnClasses="colIcon, col20, col60"
+                      rendered="true"
+                      >
             <h:column>
                 <f:facet name="header">
                     <h:outputText value=""/>
@@ -57,18 +57,23 @@
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationAlternative()}"/>
         </h:commandLink>
     </div>
-    
+
     <hr/>
-    
+
     <br/>
     <span class="label">Bitte füllen Sie die nachfolgenden Tabellen für alle Stationen aus, bei Bedarf können die Tabellen durch das Anfügen zusätzlicher Zeilen verlängert werden.</span> <br/><br/>
-    
+
     <style>
         .col-border-right {
             border-right: solid 1px #56748a;
         }
         .col-border-bottom {
             border-bottom: solid 1px #56748a;
+        }
+
+        input[type=checkbox] {
+            float: right;
+            margin-right: 30px;
         }
     </style>
     
@@ -93,36 +98,82 @@
             <td class="centered col-border-right col-border-bottom">Summe Gewichtungspunkte**</td>
             <td></td>
         </tr>
-        <ui:repeat value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item">
+        <ui:repeat id="tblNormInt" value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item" varStatus="loop">
             <tr>
                 <td>
-                    <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
-                    </h:commandLink>
-                </td>
-                <td>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
+            </h:commandLink>
+            </td>
+            <td>
             <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
-                </td>
-                <td>
-                <inek:InputTextWithMessage value="#{item.station}" />
-                </td>
-                <td>
-                    #{item.m}
-                </td>
+            </td>
+            <td>
+            <inek:InputTextWithMessage value="#{item.station}" />
+            </td>
+            <td>
+            <h:outputLabel value="A" for="psychPV_a" />&nbsp;
+            <h:selectBooleanCheckbox id="psychPV_a" value="#{item.generalMapping}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox> <br/>
+
+            <h:outputLabel value="S" for="psychPV_s" /> &nbsp;
+            <h:selectBooleanCheckbox id="psychPV_s" value="#{item.addictionMapping}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox> <br/>
+
+            <h:outputLabel value="G" for="psychPV_g" /> &nbsp;
+            <h:selectBooleanCheckbox id="psychPV_g" value="#{item.gerontoPsyMapping}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox><br/>
+
+            <h:outputLabel value="KJP" for="psychPV_kjp" /> &nbsp;
+            <h:selectBooleanCheckbox id="psychPV_kjp" value="#{item.childYouthMapping}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox><br/>
+
+            <h:outputLabel value="P" for="psychPV_p" /> &nbsp;
+            <h:selectBooleanCheckbox id="psychPV_p" value="#{item.psychosomaticMapping}">
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectBooleanCheckbox>
+
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.bedCnt}" isInt="true" renderElement="tblNormInt:#{loop.index}:utilization"/>
+            </td>
+            <td>
+            <h:selectBooleanCheckbox value="#{item.receivingStation}"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.regularCareDays}" renderElement="tblNormInt:#{loop.index}:utilization"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.regularWeight}" />
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.intensiveCareDays}" renderElement="tblNormInt:#{loop.index}:utilization"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.intensiveWeight}"/>                
+            </td>
+            <td>
+            <h:outputLabel id="utilization" value="#{item.getUtilization()}" />                
+            </td>
             </tr>
+                        
         </ui:repeat>
         <tr>
             <td colspan="10">
-                <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
-                </h:commandLink>
-            </td>
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
+        </h:commandLink>
+        </td>
         </tr>
     </table>
-    
+
     <hr/>
-    
+
     <table id="table2">
         <tr>
             <td></td>
@@ -143,48 +194,48 @@
         <ui:repeat value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item">
             <tr>
                 <td>
-                    <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
-                    </h:commandLink>
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
+            </h:commandLink>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+            </td>
+            <td>
+            <inek:InputTextWithMessage value="#{item.station}" />
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}" />
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.nursingServiceCnt}"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.psychologistCnt}"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.socialWorkerCnt}"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.specialTherapistCnt}"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.functionalServiceCnt}"/>
+            </td>
             </tr>
         </ui:repeat>
         <tr>
             <td colspan="8">
-                <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
-                </h:commandLink>
-            </td>
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
+        </h:commandLink>
+        </td>
         </tr>
     </table>
-    
+
     <hr/>
-    
+
     <table id="table3">
         <tr>
             <td></td>
@@ -207,49 +258,49 @@
         <ui:repeat value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item">
             <tr>
                 <td>
-                    <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
-                    </h:commandLink>
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                    
-                </td>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
+            </h:commandLink>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+            </td>
+            <td>
+            <inek:InputTextWithMessage value="#{item.station}" />
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.medicalServiceAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.nursingServiceAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.psychologistAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.socialWorkerAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.specialTherapistAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.functionalServiceAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.medicalInfrastructureAmount}" isInt="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.nonMedicalInfrastructureAmount}" isInt="true"/>
+            </td>
             </tr>
         </ui:repeat>
         <tr>
             <td colspan="10">
-                <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
-                </h:commandLink>
-            </td>
+        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
+        </h:commandLink>
+        </td>
         </tr>
     </table>
 

@@ -77,7 +77,7 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsDrgAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
@@ -90,7 +90,7 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsPeppAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsPsyCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);

@@ -139,21 +139,21 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());

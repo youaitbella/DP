@@ -14,7 +14,7 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "RequestMaster", schema = "calc")
+@Table(name = "RequestMaster", schema = "spf")
 public class SpecificFunctionRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -115,7 +115,7 @@ public class SpecificFunctionRequest implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
-    @Column(name = "biStatusId")
+    @Column(name = "rmStatusId")
     private int _statusId;
 
     public int getStatusId() {

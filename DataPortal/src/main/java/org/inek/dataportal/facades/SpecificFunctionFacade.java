@@ -39,7 +39,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId and s._dataYear = year and s._status between :statusLow and :statusHigh ORDER BY s._id DESC";
+        String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("accountId", accountId);
         query.setParameter("year", year);
@@ -61,7 +61,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = year and s._status between :statusLow and :statusHigh";
+        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = year and s._statusId between :statusLow and :statusHigh";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
@@ -71,7 +71,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> getCalcYears(Set<Integer> accountIds) {
-        String jpql = "select s._dataYear from SpecificFunctionRequest s where s._accountId in :accountIds and s._status >= 10";
+        String jpql = "select s._dataYear from SpecificFunctionRequest s where s._accountId in :accountIds and s._statusId >= 10";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("accountIds", accountIds);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
