@@ -31,7 +31,7 @@
     
     <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}">
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.otherMethodMedInfra}" disabled="true">
+        <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.otherMethodMedInfra}" disabled="true" required="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </h:panelGroup>    
