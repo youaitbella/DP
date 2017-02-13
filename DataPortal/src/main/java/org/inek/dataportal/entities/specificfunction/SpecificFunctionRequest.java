@@ -22,7 +22,7 @@ public class SpecificFunctionRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rmId")
-    private int _id;
+    private int _id = -1;
 
     public int getId() {
         return _id;

@@ -19,14 +19,14 @@
                          showDelete="true" showSelectBox="false"
                          rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
 
-        <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
-                       action="#{specificFunctionRequestList.newRequest()}"
-                       immediate="true"
-                       value="#{msg.btnNewSpecificFunctionRequest}"
-                       disabled="#{!specificFunctionRequestList.newAllowed}"
-                       >
-            <f:param name="id" value="new"/>
-        </h:commandLink>
+            <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
+                           action="#{specificFunctionRequestList.newRequest()}"
+                           immediate="true"
+                           value="#{msg.btnNewSpecificFunctionRequest}"
+                           disabled="#{!specificFunctionRequestList.newAllowed}"
+                           >
+                <f:param name="id" value="new"/>
+            </h:commandLink>
 
     </div>
 </ui:composition>

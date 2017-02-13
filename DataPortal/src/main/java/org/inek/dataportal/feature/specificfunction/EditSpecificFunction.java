@@ -24,11 +24,13 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.SpecificFunctionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -48,6 +50,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject private CustomerFacade _customerFacade;
     @Inject ApplicationTools _appTools;
 
     private String _script;
@@ -234,6 +237,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             items.add(new SelectItem(ik));
         }
         return items;
+    }
+    
+    public String getHospitalInfo() {
+        Customer c = _customerFacade.getCustomerByIK(_request.getIk());
+        if (c == null || c.getName() == null) {
+            return "";
+        }
+        return c.getName() + ", " + c.getTown();
     }
     
     // </editor-fold>
