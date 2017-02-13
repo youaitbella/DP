@@ -94,7 +94,6 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Kostenstelle||sscCostCenterID|
 |||Nummer der Kostenstelle||sscCostCenterNumber|
 |||Station||sscStation|
-|||Eindeutige Zuordnung nach Psych-PV||sscMappingPsyPV|
 |||Anzahl Betten||sscBedCnt|
 |||Bettenführende Aufnahmestation||sscReceivingStation|
 |||Summe Pflegetage Regelbehandlung||sscRegularCareDays|
@@ -115,6 +114,11 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Kosten FD||sscFunctionalServiceAmount|
 |||Kosten med. Infra.||sscMedicalInfrastructureAmount|
 |||Kosten nicht med. Infra.||sscNonMedicalInfrastructureAmount|
+|||Zuordnung Psych-PV - Allgemeinpsychiatrie||sscGeneralMapping|
+|||Zuordnung Psych-PV - Sucht||sscAddictionMapping|
+|||Zuordnung Psych-PV - Gerontopsychiatrie||sscGerontoPsyMapping|
+|||Zuordnung Psych-PV - Kinder und Jugendpsychiatrie||sscChildYouthMapping|
+|||Zuordnung Psych-PV - Psychosomatik||sscPsychosomaticMapping|
 ||||||
 |Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
