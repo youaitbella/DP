@@ -67,8 +67,8 @@ public class ApplicationTools {
         return isEnabled(key);
     }
 
-    public boolean isEnabled(Feature key) {
-        return _config.readBool(key);
+    public boolean isFeatureEnabled(Feature feature) {
+        return _config.readBool(feature);
     }
 
     public String readConfig(ConfigKey key) {

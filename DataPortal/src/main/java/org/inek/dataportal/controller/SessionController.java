@@ -348,7 +348,7 @@ public class SessionController implements Serializable {
         for (AccountFeature accFeature : _account.getFeatures()) {
             hasMaintenance |= accFeature.getFeature() == Feature.USER_MAINTENANCE;
             hasDocument |= accFeature.getFeature() == Feature.DOCUMENTS;
-            if (_appTools.isEnabled(accFeature.getFeature()) && (accFeature.getFeatureState() == FeatureState.SIMPLE || accFeature.getFeatureState() == FeatureState.APPROVED)) {
+            if (_appTools.isFeatureEnabled(accFeature.getFeature()) && (accFeature.getFeatureState() == FeatureState.SIMPLE || accFeature.getFeatureState() == FeatureState.APPROVED)) {
                 features.put(accFeature.getSequence(), accFeature.getFeature());
             }
         }
