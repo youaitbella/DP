@@ -118,7 +118,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Zuordnung Psych-PV - Sucht||sscAddictionMapping|
 |||Zuordnung Psych-PV - Gerontopsychiatrie||sscGerontoPsyMapping|
 |||Zuordnung Psych-PV - Kinder und Jugendpsychiatrie||sscChildYouthMapping|
-|||Zuordnung Psych-PV Psychosomatik||sscPsychosomaticMapping|
+|||Zuordnung Psych-PV - Psychosomatik||sscPsychosomaticMapping|
 ||||||
 |Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
