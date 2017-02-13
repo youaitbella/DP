@@ -198,6 +198,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public String getEmailInfo() {
         String info = "";
         boolean first = true;
+        if(_statement == null)
+            return "";
         for(CalcContact cc : _statement.getContacts()) {
             if(!_accFacade.existsMail(cc.getMail()) && cc.getMail().length() > 0) {
                 if(first) {
@@ -285,6 +287,15 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
         
+        if(_statement.isObligatory()) {
+            if(_statement.getObligatoryCalcType() == 2) {
+                _statement.setDrgCalc(true);
+                _statement.setPsyCalc(true);
+            } else {
+                _statement.setDrgCalc(false);
+                _statement.setPsyCalc(false);
+            }
+        }
         if(!_statement.isDrgCalc()) {
             _statement.setClinicalDistributionModelDrg(-1);
             _statement.setMultiyearDrg(0);
@@ -301,6 +312,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
+        
+        for(StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
+            sop.setStatus(WorkflowStatus.Retired);
+            _calcFacade.saveStatementOfParticipance(sop);
+        }
+        
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
         
         //createTransferFile(_statement);

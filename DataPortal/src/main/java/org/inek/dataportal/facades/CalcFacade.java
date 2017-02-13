@@ -89,6 +89,13 @@ public class CalcFacade extends AbstractDataAccess {
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
+    
+    public List<StatementOfParticipance> listStatementOfParticipanceByIk(int ik) {
+        String sql = "SELECT sop FROM StatementOfParticipance sop WHERE sop._ik = :ik ORDER BY sop._id DESC";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(sql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        return query.getResultList();
+    }
 
     public void delete(StatementOfParticipance statement) {
         remove(statement);
@@ -525,7 +532,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
-                + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopStatusId = " + WorkflowStatus.Provided.getValue()+ "\n" //+ " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
                 + "	and sopIsDrg = 1\n"
                 + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
@@ -549,7 +556,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
                 + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
-                + "	and sopStatusId between " + WorkflowStatus.Provided.getValue() + " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopStatusId = " + WorkflowStatus.Provided.getValue() + "\n" // and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
                 + "	and sopIsPsy = 1\n"
                 + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
