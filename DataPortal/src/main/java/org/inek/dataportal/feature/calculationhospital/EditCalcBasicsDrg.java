@@ -153,9 +153,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
         calcBasics.getLocations().clear();
         for (KGLListLocation location : _priorCalcBasics.getLocations()) {
-            location.setId(-1);
-            location.setBaseInformationId(calcBasics.getId());
-            calcBasics.getLocations().add(location);
+            KGLListLocation loc = new KGLListLocation();
+            loc.setId(-1);
+            loc.setBaseInformationId(calcBasics.getId());
+            loc.setLocation(location.getLocation());
+            loc.setLocationNo(location.getLocationNo());
+            calcBasics.getLocations().add(loc);
         }
 
         // Special units
@@ -169,15 +172,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         // Central focuses
         calcBasics.getCentralFocuses().clear();
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
-            centralFocus.setId(-1);
-            centralFocus.setBaseInformationID(calcBasics.getId());
-            centralFocus.setCaseCnt(0);
-            centralFocus.setInfraCost(0);
-            centralFocus.setMaterialcost(0);
-            centralFocus.setRemunerationAmount(0);
-            centralFocus.setRemunerationKey("");
-            centralFocus.setPersonalCost(0);
-            calcBasics.getCentralFocuses().add(centralFocus);
+            KGLListCentralFocus cf = new KGLListCentralFocus();
+            cf.setId(-1);
+            cf.setBaseInformationID(calcBasics.getId());
+            cf.setCaseCnt(0);
+            cf.setInfraCost(0);
+            cf.setMaterialcost(0);
+            cf.setRemunerationAmount(0);
+            cf.setRemunerationKey("");
+            cf.setPersonalCost(0);
+            calcBasics.getCentralFocuses().add(cf);
         }
 
         // Delimitation facts
@@ -193,34 +197,66 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // Personal Accounting
         calcBasics.getPersonalAccountings().clear();
-        for (KGLPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
+        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            KGLPersonalAccounting pa = new KGLPersonalAccounting();
             pa.setId(-1);
             pa.setBaseInformationID(calcBasics.getId());
-            pa.setPriorCostAmount(pa.getAmount());
+            pa.setPriorCostAmount(ppa.getAmount());
             pa.setAmount(0);
+            pa.setCostTypeID(ppa.getCostTypeID());
+            pa.setExpertRating(ppa.isExpertRating());
+            pa.setOther(ppa.isOther());
+            pa.setServiceEvaluation(ppa.isServiceEvaluation());
+            pa.setServiceStatistic(ppa.isServiceStatistic());
+            pa.setStaffEvaluation(ppa.isStaffEvaluation());
+            pa.setStaffRecording(ppa.isStaffRecording());
             calcBasics.getPersonalAccountings().add(pa);
         }
         ensurePersonalAccountingData(calcBasics);
 
         // Radiology & Laboratory
         calcBasics.getRadiologyLaboratories().clear();
-        for (KGLListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
+        for (KGLListRadiologyLaboratory prl : _priorCalcBasics.getRadiologyLaboratories()) {
+            KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
             rl.setId(-1);
             rl.setBaseInformationID(calcBasics.getId());
+            rl.setAmountPost(prl.getAmountPost());
+            rl.setAmountPre(prl.getAmountPre());
+            rl.setCostCenterID(prl.getCostCenterID());
+            rl.setCostCenterNumber(prl.getCostCenterNumber());
+            rl.setCostCenterText(prl.getCostCenterText());
+            rl.setDescription(prl.getDescription());
+            rl.setServiceDocDKG(prl.isServiceDocDKG());
+            rl.setServiceDocDif(prl.isServiceDocDif());
+            rl.setServiceDocEBM(prl.isServiceDocEBM());
+            rl.setServiceDocGOA(prl.isServiceDocGOA());
+            rl.setServiceDocHome(prl.isServiceDocHome());
+            rl.setServiceVolumePost(prl.getServiceVolumePost());
+            rl.setServiceVolumePre(prl.getServiceVolumePre());
             calcBasics.getRadiologyLaboratories().add(rl);
         }
 
         // Normal Ward
         calcBasics.getNormalFreelancers().clear();
-        for (KGLNormalFreelancer nf : _priorCalcBasics.getNormalFreelancers()) {
+        for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
+            KGLNormalFreelancer nf = new KGLNormalFreelancer();
             nf.setId(-1);
             nf.setBaseInformationID(calcBasics.getId());
+            nf.setAmount(pnf.getAmount());
+            nf.setCostType1(pnf.isCostType1());
+            nf.setCostType6c(pnf.isCostType6c());
+            nf.setDivision(pnf.getDivision());
+            nf.setFullVigorCnt(pnf.getFullVigorCnt());
             calcBasics.getNormalFreelancers().add(nf);
         }
         calcBasics.getNormalFeeContracts().clear();
-        for (KGLNormalFeeContract fc : _priorCalcBasics.getNormalFeeContracts()) {
+        for (KGLNormalFeeContract pfc : _priorCalcBasics.getNormalFeeContracts()) {
+            KGLNormalFeeContract fc = new KGLNormalFeeContract();
             fc.setId(-1);
             fc.setBaseInformationID(calcBasics.getId());
+            fc.setCaseCnt(pfc.getCaseCnt());
+            fc.setDivision(pfc.getDivision());
+            fc.setDepartmentKey(pfc.getDepartmentKey());
             calcBasics.getNormalFeeContracts().add(fc);
         }
 
@@ -310,6 +346,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+    }
+    
+    public boolean disableRadiologyServiceCheckboxes(KGLListRadiologyLaboratory rl) {
+        return rl.isServiceDocDKG() || rl.isServiceDocDif() || rl.isServiceDocEBM() || rl.isServiceDocGOA() || rl.isServiceDocHome();
     }
 
     public List<KGLListRadiologyLaboratory> getLaboratories() {
