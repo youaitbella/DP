@@ -9,13 +9,17 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 >
 
+    <h2 style="margin-top: 1em;"></h2>
     <inek:LabeledCheckbox label="Für unser Haus liegt für das Budgetjahr 2016 bereits eine Vereinbarung gem. § 5 Abs. 3 KHEntgG vor" 
-                          value="#{editSpecificFunction.request.hasAgreement}"/>
+                          styleClassComponent="marginTop01em"
+                          value="#{editSpecificFunction.request.hasAgreement}"
+                          renderElement="@form"/>
 
     <h:dataTable value="#{editSpecificFunction.request.requestAgreedCenters}" var="item"
+                 rendered="#{editSpecificFunction.request.hasAgreement}"
                  styleClass="marginTop" width="100%"
                  rowClasses="row1, row2"
-                 columnClasses="colValue, col07em, col07em">
+                 columnClasses="colIcon, colValue, col07em, col07em">
 
         <h:column>
             <f:facet name="header">
@@ -44,8 +48,8 @@
 
     </h:dataTable>
 
-    <h:commandLink id="addButton" styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
-                   rendered="#{!editSpecificFunction.readOnly}">
+    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+                   rendered="#{editSpecificFunction.request.hasAgreement and !editSpecificFunction.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunction.addAgreedCenter()}"/>
     </h:commandLink>
 

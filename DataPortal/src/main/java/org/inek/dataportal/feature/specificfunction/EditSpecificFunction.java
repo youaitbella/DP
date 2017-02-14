@@ -65,8 +65,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     public void setRequest(SpecificFunctionRequest request) {
         this._request = request;
     }
-
     // </editor-fold>
+    
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -115,6 +115,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return request;
     }
 
+    public List<SelectItem> getTypeItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
+       items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
+       return items;
+   } 
+
+    
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
         return _sessionController.isMyAccount(_request.getAccountId(), false);
@@ -257,8 +265,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
     
     public void addProjectedCenter(){
-        RequestProjectedCenter center = new RequestProjectedCenter();
-        center.setRequestMasterId(_request.getId());
+        RequestProjectedCenter center = new RequestProjectedCenter(_request.getId());
         _request.getRequestProjectedCenters().add(center);
     }
     
@@ -267,8 +274,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
     
     public void addAgreedCenter(){
-        RequestAgreedCenter center = new RequestAgreedCenter();
-        center.setRequestMasterId(_request.getId());
+        RequestAgreedCenter center = new RequestAgreedCenter(_request.getId());
         _request.getRequestAgreedCenters().add(center);
     }
     

@@ -258,6 +258,9 @@ public class SpecificFunctionRequest implements Serializable {
 
     
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
+        if (_requestProjectedCenters.isEmpty()){
+            _requestProjectedCenters.add(new RequestProjectedCenter(_id));
+        }
         return _requestProjectedCenters;
     }
 
@@ -273,6 +276,9 @@ public class SpecificFunctionRequest implements Serializable {
 
     
     public List<RequestAgreedCenter> getRequestAgreedCenters() {
+        if (_requestAgreedCenters.isEmpty()){
+            _requestAgreedCenters.add(new RequestAgreedCenter(_id));
+        }
         return _requestAgreedCenters;
     }
 
