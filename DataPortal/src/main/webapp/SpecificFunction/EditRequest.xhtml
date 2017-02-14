@@ -36,32 +36,10 @@
 
                 <inek:LabeledText label="#{msg.lblNotation}" value="#{editSpecificFunction.request.name}" singleLine="true" styleClassLabel="label10" styleClass="element80"/>
 
-                <div class="inputPart">
-                    <h:outputLabel styleClass="label10" for="ikMulti" value="#{msg.lblIkShort}:"/>
-
-                    <h:selectOneMenu styleClass="col08em"
-                                     rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1 and editSpecificFunction.request.id le 0}"
-                                     id="ikMulti"
-                                     title="#{msg.titleIK}"
-                                     required="true"
-                                     requiredMessage="#{msg.msgValueNeeded}"
-                                     value="#{editSpecificFunction.request.ik}"
-                                     hideNoSelectionOption="true" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                        <f:selectItems value="#{editSpecificFunction.iks}"/>
-                        <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-                        <f:ajax event="change" listener="#{editSpecificFunction.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
-                    </h:selectOneMenu>
-
-                    <h:inputText styleClass="col07em" readonly="true" value="#{editSpecificFunction.request.ik}" rendered="#{editSpecificFunction.readOnly or editSpecificFunction.iks.size() le 1 or editSpecificFunction.request.id gt 0}"/>
-
-                    <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editSpecificFunction.hospitalInfo}"/>
-
-                    <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
-
-                    <br/>
-                    <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1}"/>
-                </div>
+                <inek:MultiIk value="#{editSpecificFunction.request.ik}" 
+                              ikList="#{editSpecificFunction.iks}"
+                              readonly="#{editSpecificFunction.readOnly}" 
+                              isFixed="#{editSpecificFunction.request.id gt 0}"/>
 
                 <h2>#{msg.lblContactPerson}</h2>
 

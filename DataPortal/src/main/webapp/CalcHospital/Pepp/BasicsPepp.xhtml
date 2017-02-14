@@ -5,34 +5,16 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
-    <div class="inputPart">
-        <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
-        <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
-        <br/>
-        <h:selectOneMenu styleClass="col08em"
-                         rendered="#{!editCalcBasicsPepp.readOnly and editCalcBasicsPepp.iks.size() gt 1 and editCalcBasicsPepp.calcBasics.id eq -1}"
-                         id="ikMulti"
-                         title="#{msg.titleIK}"
-                         required="true"
-                         requiredMessage="#{msg.msgValueNeeded}"
-                         value="#{editCalcBasicsPepp.calcBasics.ik}"
-                         hideNoSelectionOption="true" >
-            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{editCalcBasicsPepp.iks}"/>
-            <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-            <f:ajax event="change" listener="#{editCalcBasicsPepp.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
-        </h:selectOneMenu>
-
-        <h:inputText styleClass="col07em" readonly="true" value="#{editCalcBasicsPepp.calcBasics.ik}" rendered="#{editCalcBasicsPepp.readOnly or editCalcBasicsPepp.iks.size() le 1 or editCalcBasicsPepp.calcBasics.id ge 0}"/>
-
-        <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editCalcBasicsPepp.hospitalInfo}"/>
-
-        <br/>
-        <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editCalcBasicsPepp.readOnly and editCalcBasicsPepp.iks.size() gt 1}"/>
-    </div>
+    <inek:MultiIk value="#{editCalcBasicsPepp.calcBasics.ik}" 
+                  ikList="#{editCalcBasicsPepp.iks}"
+                  listener="#{editCalcBasicsPepp.ikChanged}" 
+                  readonly="#{editCalcBasicsPepp.readOnly}" 
+                  isFixed="#{editCalcBasicsPepp.calcBasics.id gt 0}">
+    </inek:MultiIk>
 
     <hr/>
 

@@ -52,7 +52,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
-    @Inject private CustomerFacade _customerFacade;
     @Inject ApplicationTools _appTools;
 
     private String _script;
@@ -254,14 +253,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             items.add(new SelectItem(ik));
         }
         return items;
-    }
-    
-    public String getHospitalInfo() {
-        Customer c = _customerFacade.getCustomerByIK(_request.getIk());
-        if (c == null || c.getName() == null) {
-            return "";
-        }
-        return c.getName() + ", " + c.getTown();
     }
     
     public void addProjectedCenter(){

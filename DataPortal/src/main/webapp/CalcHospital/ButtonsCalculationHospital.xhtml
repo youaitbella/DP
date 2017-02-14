@@ -20,17 +20,33 @@
 
         <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsDrgAllowed ? '' : 'buttonDisabled'}"
                 outcome="#{sessionTools.pages.CalcDrgEdit}"
-                       value="#{msg.btnNewCalculationBasicsDrg}"
-                       disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}"
-                       >
+                value="#{msg.btnNewCalculationBasicsDrg}"
+                disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}"
+                >
             <f:param name="id" value="new"/>
         </h:link>
-        
+
         <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
                 outcome="#{sessionTools.pages.CalcPeppEdit}"
-                       value="#{msg.btnNewCalculationBasicsPepp}"
-                       disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
-                       >
+                value="#{msg.btnNewCalculationBasicsPepp}"
+                disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
+                >
+            <f:param name="id" value="new"/>
+        </h:link>
+
+        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsDrgAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcDistModelDrg}"
+                value="#{msg.btnNewDistModelDrg}"
+                disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}"
+                >
+            <f:param name="id" value="new"/>
+        </h:link>
+
+        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcDistModelPepp}"
+                value="#{msg.btnNewDistModelPepp}"
+                disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
+                >
             <f:param name="id" value="new"/>
         </h:link>
 

@@ -86,6 +86,9 @@ public enum Pages {
     CalcPeppMedicalInfrastructure("/CalcHospital/Pepp/MedicalInfrastructurePepp"),
     CalcPeppNonMedicalInfrastructure("/CalcHospital/Pepp/NonMedicalInfrastructurePepp"),
     CalcPeppStaffCost("/CalcHospital/Pepp/StaffCostPepp"),
+    // clinical distribution model
+    CalcDistModelDrg("/CalcHospital/EditDistModelDrg"),
+    CalcDistModelPepp("/CalcHospital/EditDistModelPepp"),
     
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
