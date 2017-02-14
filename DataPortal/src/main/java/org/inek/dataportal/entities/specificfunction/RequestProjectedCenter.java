@@ -31,7 +31,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
-    @Column(name = "racRequestMasterId")
+    @Column(name = "rpcRequestMasterId")
     private int _requestMasterId = -1;
     public int getRequestMasterId() {
         return _requestMasterId;

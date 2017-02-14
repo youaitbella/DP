@@ -61,7 +61,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = year and s._statusId between :statusLow and :statusHigh";
+        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
