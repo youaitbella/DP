@@ -513,6 +513,12 @@ div#wrapper {
     font-weight: bold;
 }
 
+.label10 {
+    font-weight: bold;
+    display:inline-block;
+    width: 10%;
+}
+
 .label15 {
     font-weight: bold;
     display:inline-block;

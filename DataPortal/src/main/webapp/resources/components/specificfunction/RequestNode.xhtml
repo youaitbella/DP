@@ -55,7 +55,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:link outcome="#{specificFunctionRequestList.edit(node.specificFunctionRequest.type)}">
+                <h:link outcome="#{specificFunctionRequestList.edit()}">
                     <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
                     <h:graphicImage alt="Status" name="Icon/small/#{node.specificFunctionRequest.status.icon}" 
                                     title="#{node.specificFunctionRequest.status.description}" value=""
@@ -69,7 +69,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('IK')}" render="specificFunctionRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:link outcome="#{specificFunctionRequestList.edit(node.specificFunctionRequest.type)}"
+                <h:link outcome="#{specificFunctionRequestList.edit()}"
                                value="#{node.specificFunctionRequest.ik}" >
                     <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
                 </h:link>
@@ -81,7 +81,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('date')}" render="specificFunctionRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:link outcome="#{specificFunctionRequestList.edit(node.specificFunctionRequest.type)}"
+                <h:link outcome="#{specificFunctionRequestList.edit()}"
                                value="#{sessionTools.formatDate(node.specificFunctionRequest.lastChanged, 'dd.MM.yyyy HH:mm')}" >
                     <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
                 </h:link>
@@ -93,7 +93,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="specificFunctionRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:link outcome="#{specificFunctionRequestList.edit(node.specificFunctionRequest.type)}"
+                <h:link outcome="#{specificFunctionRequestList.edit()}"
                                value="#{node.specificFunctionRequest.name}">
                     <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
                 </h:link>

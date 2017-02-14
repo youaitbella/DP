@@ -102,8 +102,8 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
     }
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
-        accountIds = _specificFunctionFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
+        accountIds = _specificFunctionFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -124,10 +124,10 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
     }
 
     private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         Set<Integer> years = _specificFunctionFacade.getCalcYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        int targetYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
@@ -141,7 +141,7 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
     }
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         accountIds = _specificFunctionFacade.checkAccountsForYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
@@ -184,7 +184,7 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
+            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
             if (!achievedRight.canReadSealed()){
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
@@ -200,12 +200,12 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
             statusLow = WorkflowStatus.New;
             statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
+            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
             statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
                     : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
             statusHigh = achievedRight.canReadAlways() || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
-        return _specificFunctionFacade.obtainSpecificFunctionRequests(partnerId, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionRequests(partnerId, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), statusLow, statusHigh);
     }
 
     @Override
@@ -261,8 +261,8 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
         // todo
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
         List<String> keys = null;
-        Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
-        Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
+        Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
+        Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
         Utils.getFlash().put("printContentKeys", keys);
         Utils.getFlash().put("printContent", documents);
         return Pages.PrintMultipleView.URL();

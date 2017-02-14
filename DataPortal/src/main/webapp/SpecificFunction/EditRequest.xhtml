@@ -7,45 +7,67 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 >
 
     <ui:define name="content">
 
         <h:form id="specificFuntion" prependId="false" enctype="multipart/form-data">
-            <h1><h:commandLink value="#{msg.lblSpecificFunction}" 
+            <h1><h:commandLink value="#{msg.lblSpecificFunction}" styleClass="marginTop01em"
                                action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" immediate="true"/></h1>
 
-            <div class="inputPart">
-                <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
-                <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
-                <br/>
-                <h:selectOneMenu styleClass="col08em"
-                                 rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1 and editSpecificFunction.request.id eq -1}"
-                                 id="ikMulti"
-                                 title="#{msg.titleIK}"
-                                 required="true"
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editSpecificFunction.request.ik}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editSpecificFunction.iks}"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
-                    <f:ajax event="change" listener="#{editSpecificFunction.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
-                </h:selectOneMenu>
+            <div class="edit">
+                <inek:LabeledText label="#{msg.lblNotation}" value="#{editSpecificFunction.request.name}" singleLine="true" styleClassLabel="label10" styleClass="element80"/>
 
-                <h:inputText styleClass="col07em" readonly="true" value="#{editSpecificFunction.request.ik}" rendered="#{editSpecificFunction.readOnly or editSpecificFunction.iks.size() le 1 or editSpecificFunction.request.id ge 0}"/>
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label10" for="ikMulti" value="#{msg.lblIkShort}:"/>
 
-                <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editSpecificFunction.hospitalInfo}"/>
+                    <h:selectOneMenu styleClass="col08em"
+                                     rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1 and editSpecificFunction.request.id le 0}"
+                                     id="ikMulti"
+                                     title="#{msg.titleIK}"
+                                     required="true"
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     value="#{editSpecificFunction.request.ik}"
+                                     hideNoSelectionOption="true" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                        <f:selectItems value="#{editSpecificFunction.iks}"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
+                        <f:ajax event="change" listener="#{editSpecificFunction.ikChanged}" render="@form :logout:remaining msgMultiIk"/>
+                    </h:selectOneMenu>
 
-                <br/>
-                <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1}"/>
-            </div>
+                    <h:inputText styleClass="col07em" readonly="true" value="#{editSpecificFunction.request.ik}" rendered="#{editSpecificFunction.readOnly or editSpecificFunction.iks.size() le 1 or editSpecificFunction.request.id gt 0}"/>
 
-            <hr/>
+                    <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editSpecificFunction.hospitalInfo}"/>
+
+                    <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+
+                    <br/>
+                    <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editSpecificFunction.readOnly and editSpecificFunction.iks.size() gt 1}"/>
+                </div>
+
+                <h2>#{msg.lblContactPerson}</h2>
+
+                <h:panelGroup styleClass="element100 marginTop01em">
+                    <h:outputLabel styleClass="label10" for="cbxGender" value="#{msg.lblSalutation}"/>
+                    <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editSpecificFunction.request.gender}"
+                                     required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                        <f:selectItems value="#{sessionTools.genderItems}"/>
+                        <f:ajax event="blur" render="@this msgGender"/>
+                    </h:selectOneMenu>
+                    <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
+                </h:panelGroup>
+                <inek:LabeledText label="#{msg.lblTitle}" value="#{editSpecificFunction.request.title}" singleLine="true" styleClassLabel="label10" styleClass="element50"/>
+                <inek:LabeledText label="#{msg.lblFirstName}" value="#{editSpecificFunction.request.firstName}" singleLine="true" styleClassLabel="label10"/>
+                <inek:LabeledText label="#{msg.lblLastName}" value="#{editSpecificFunction.request.lastName}" singleLine="true" styleClassLabel="label10"/>
+                <inek:LabeledText label="#{msg.lblPhone}" value="#{editSpecificFunction.request.phone}" singleLine="true" styleClassLabel="label10"/>
+                <inek:LabeledText label="#{msg.lblMail}" value="#{editSpecificFunction.request.mail}" singleLine="true" styleClassLabel="label10"/>
+
+                <ui:include src="ProjectedCenters.xhtml"/>
+                <ui:include src="AgreedCenters.xhtml"/>
 
 
-            <div class="toolBar">
-                <div>
+                <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editSpecificFunction.save}"
                                    value="#{msg.btnSave}"
@@ -77,11 +99,8 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
 
-
                 </div>
-
             </div>
-
         </h:form>
 
     </ui:define>
