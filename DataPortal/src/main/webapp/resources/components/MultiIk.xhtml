@@ -10,8 +10,10 @@
         <cc:attribute name="ikList"/>
         <cc:attribute name="isFixed"/>
         <cc:attribute name="value"/>
+        <cc:attribute name="listener" method-signature="void listener()"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="renderElement" default="@this"/>
+        <cc:actionSource name="ikMulti"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -31,6 +33,7 @@
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                         <f:selectItems value="#{cc.attrs.ikList}"/>
                         <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining msgMultiIk"/>
+                        <f:ajax event="change" listener="#{cc.attrs.listener}" render="@form :logout:remaining msgMultiIk" />
                     </h:selectOneMenu>
 
                     <h:inputText styleClass="col07em" readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.ikList.size() le 1 or cc.attrs.isFixed}"/>
