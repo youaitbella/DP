@@ -15,10 +15,18 @@ import javax.validation.constraints.Size;
 public class RequestProjectedCenter implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public RequestProjectedCenter() {
+    }
+
+    public RequestProjectedCenter(int masterId) {
+        _requestMasterId = masterId;
+    }
+
+    
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "racId")
+    @Column(name = "rpcId")
     private int _id;
 
     public int getId() {
