@@ -36,7 +36,21 @@
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Leistungsdokumentation" 
                                                       title="Bitte geben Sie an, nach welchem Schlüssel Sie im Rahmen der Kostenträgerrechnung Kosten auf die Patienten verteilen. Bitte berücksichtigen Sie die Kostenstellen der Radiologie nach den Vorgaben des Handbuchs zur Kalkulation von Behandlungskosten Version 1.0 (Anlage 6)."/></f:facet>
-                <inek:InputTextWithMessage styleClass="element100" value="Feld nachfragen" renderElement="result" readonly="#{editCalcBasicsPepp.readOnly}"/>
+                <h:selectOneMenu id="servicDocType"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{item.serviceDocType}" 
+                             hideNoSelectionOption="true"
+                             style="colValue">
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItem itemLabel="#{msg.lblServiceDocHome}" itemValue="#{1}"/>
+                <f:selectItem itemLabel="#{msg.lblServiceDocDKG}" itemValue="#{2}"/>
+                <f:selectItem itemLabel="#{msg.lblServiceDocEBM}" itemValue="#{3}"/>
+                <f:selectItem itemLabel="#{msg.lblServiceDocGOA}" itemValue="#{4}"/>
+                <f:selectItem itemLabel="#{msg.lblServiceDocOther}" itemValue="#{5}"/>
+                <f:ajax event="change" render="@form :logout:remaining servicDocType"/>
+            </h:selectOneMenu>
+
             </h:column>
 
             <h:column>

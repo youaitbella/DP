@@ -45,6 +45,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
@@ -121,7 +122,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (id.equals("new")) {
             _calcBasics = newCalcBasicsPepp();
         } else if (Utils.isInteger(id)) {
-            _calcBasics = loadCalcBasicsPepp(id);
             PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
             if (calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -145,6 +145,33 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
         }
         
+        for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
+            df.setId(-1);
+            df.setBaseInformationId(calcBasics.getId());
+            calcBasics.getDelimitationFacts().add(df);
+        }
+        checkRequireInputsForDelimitationFact(_priorCalcBasics);
+        
+        for (KGPListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
+            KGPListRadiologyLaboratory nrl = new KGPListRadiologyLaboratory(-1);
+            nrl.setBaseInformationId(calcBasics.getId());
+            nrl.setCostCenterId(rl.getCostCenterId());
+            nrl.setCostCenterNumber(rl.getCostCenterNumber());
+            nrl.setCostCenterText(rl.getCostCenterText());
+            nrl.setServiceDocType(rl.getServiceDocType());
+            nrl.setDescription(rl.getDescription());
+            calcBasics.getRadiologyLaboratories().add(nrl);
+        }
+
+    }
+    
+    private void checkRequireInputsForDelimitationFact(PeppCalcBasics calcBasic) {
+        for (KGPListDelimitationFact df : calcBasic.getDelimitationFacts()) {
+            int id = df.getContentText().getId();
+            if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
+                df.setRequireInputs(true);
+            }
+        }
     }
 
     public void ikChanged() {

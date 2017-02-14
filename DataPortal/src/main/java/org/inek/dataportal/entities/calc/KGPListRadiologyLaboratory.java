@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -164,6 +165,37 @@ public class KGPListRadiologyLaboratory implements Serializable {
 
     public void setServiceDocDif(boolean serviceDocDif) {
         this._serviceDocDif = serviceDocDif;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property _serviceDocType">
+    @Transient
+    private int _serviceDocType;
+
+    public int getServiceDocType() {
+        int result = 0;
+        if (_serviceDocHome) { return 1; }
+        if (_serviceDocDKG) { return 2; }
+        if (_serviceDocEBM) { return 3; }
+        if (_serviceDocGOA) { return 4; }
+        if (_serviceDocDif) { return 5; }
+        
+        return result;
+    }
+
+    public void setServiceDocType(int type) {
+        _serviceDocHome = _serviceDocDKG = _serviceDocEBM = _serviceDocGOA = _serviceDocDif = false;
+        switch (type) {
+            case 0: break;
+            case 1: _serviceDocHome = true; break;
+            case 2: _serviceDocDKG = true; break;
+            case 3: _serviceDocEBM = true; break;
+            case 4: _serviceDocGOA = true; break;
+            case 5: _serviceDocDif = true; break;
+            default : ;
+        }
+        
+        this._serviceDocType = type;
     }
     //</editor-fold>
     

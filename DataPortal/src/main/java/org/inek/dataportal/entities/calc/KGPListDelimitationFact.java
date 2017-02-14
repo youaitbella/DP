@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -143,6 +144,19 @@ public class KGPListDelimitationFact implements Serializable {
 
     public void setContentText(DrgContentText contentText) {
         _contentText = contentText;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property requireInputs">
+    @Transient
+    private boolean _requireInputs = false;
+
+    public boolean isRequireInputs() {
+        return _requireInputs;
+    }
+
+    public void setRequireInputs(boolean _requireInputs) {
+        this._requireInputs = _requireInputs;
     }
     // </editor-fold>
 

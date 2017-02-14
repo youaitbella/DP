@@ -98,7 +98,7 @@
             <td class="centered col-border-right col-border-bottom">Summe Gewichtungspunkte**</td>
             <td></td>
         </tr>
-        <ui:repeat id="tblNormInt" value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item" varStatus="loop">
+        <ui:repeat id="tblNormInt1" value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item" varStatus="loop">
             <tr>
                 <td>
             <h:commandLink styleClass="colIcon">
@@ -107,10 +107,10 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+            <inek:InputNumberWithMessage value="#{item.costCenterNumber}" id="cstnmb" renderElement="tblNormInt2:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.station}" />
+            <inek:InputTextWithMessage value="#{item.station}" id="station" renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
             <h:outputLabel value="A" for="psychPV_a" />&nbsp;
@@ -140,19 +140,19 @@
 
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.bedCnt}" isInt="true" renderElement="tblNormInt:#{loop.index}:utilization"/>
+            <inek:InputNumberWithMessage value="#{item.bedCnt}" isInt="true" renderElement="tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
             <h:selectBooleanCheckbox value="#{item.receivingStation}"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.regularCareDays}" renderElement="tblNormInt:#{loop.index}:utilization"/>
+            <inek:InputNumberWithMessage value="#{item.regularCareDays}" renderElement="tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
             <inek:InputNumberWithMessage value="#{item.regularWeight}" />
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.intensiveCareDays}" renderElement="tblNormInt:#{loop.index}:utilization"/>
+            <inek:InputNumberWithMessage value="#{item.intensiveCareDays}" renderElement="tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
             <inek:InputNumberWithMessage value="#{item.intensiveWeight}"/>                
@@ -191,7 +191,7 @@
             <td class="centered col-border-right col-border-bottom">Spezialtherapeuten</td>
             <td class="centered col-border-right col-border-bottom">med.-techn. Dienst/Funktionsdienst</td>
         </tr>
-        <ui:repeat value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item">
+        <ui:repeat id="tblNormInt2" value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item" varStatus="loop">
             <tr>
                 <td>
             <h:commandLink styleClass="colIcon">
@@ -200,10 +200,10 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+            <inek:InputNumberWithMessage id="cstnmb" value="#{item.costCenterNumber}" renderElement="tblNormInt1:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.station}" />
+            <inek:InputTextWithMessage id="station" value="#{item.station}" renderElement="tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
             <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}" />
@@ -255,7 +255,7 @@
             <td class="centered col-border-right col-border-bottom">med. Infrastruktur</td>
             <td class="centered col-border-right col-border-bottom">nicht med. Infrastruktur</td>
         </tr>
-        <ui:repeat value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item">
+        <ui:repeat id="tblNormInt3" value="#{editCalcBasicsPepp.calcBasics.kgpStationServiceCostList}" var="item" varStatus="loop">
             <tr>
                 <td>
             <h:commandLink styleClass="colIcon">
@@ -264,10 +264,10 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.costCenterNumber}"/>
+            <inek:InputNumberWithMessage id="cstnmb" value="#{item.costCenterNumber}" renderElement="tblNormInt1:#{loop.index}:cstnmb:text tblNormInt2:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.station}" />
+            <inek:InputTextWithMessage id="station" value="#{item.station}" renderElement="tblNormInt1:#{loop.index}:station:text tblNormInt2:#{loop.index}:station:text"/>
             </td>
             <td>
             <inek:InputNumberWithMessage value="#{item.medicalServiceAmount}" isInt="true"/>
