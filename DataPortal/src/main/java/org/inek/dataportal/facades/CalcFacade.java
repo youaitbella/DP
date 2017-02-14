@@ -45,6 +45,7 @@ import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListLocation;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
+import org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
@@ -716,6 +717,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveCostCenterDataPepp(calcBasics);
         savePersonalAccountingPePP(calcBasics);
         saveMedInfraPePP(calcBasics);
+        saveRadiologyLaboratories(calcBasics);
         return merge(calcBasics);
     }
     
@@ -771,6 +773,16 @@ public class CalcFacade extends AbstractDataAccess {
     
     private void saveMedInfraPePP(PeppCalcBasics calcBasics) {
         for (KGPListMedInfra item : calcBasics.getKgpMedInfraList()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+    
+    private void saveRadiologyLaboratories(PeppCalcBasics calcBasics) {
+        for (KGPListRadiologyLaboratory item : calcBasics.getRadiologyLaboratories()) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
