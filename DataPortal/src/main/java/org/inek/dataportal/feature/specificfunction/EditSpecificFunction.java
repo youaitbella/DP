@@ -25,6 +25,8 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.icmt.Customer;
+import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
+import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -63,8 +65,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     public void setRequest(SpecificFunctionRequest request) {
         this._request = request;
     }
-
     // </editor-fold>
+    
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -96,16 +98,31 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _cooperationTools.isAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
     }
     
     private SpecificFunctionRequest newSpecificFunctionRequest() {
         Account account = _sessionController.getAccount();
-        SpecificFunctionRequest calcBasics = new SpecificFunctionRequest();
-        calcBasics.setAccountId(account.getId());
-        return calcBasics;
+        SpecificFunctionRequest request = new SpecificFunctionRequest();
+        request.setAccountId(account.getId());
+        request.setGender(account.getGender());
+        request.setTitle(account.getTitle());
+        request.setFirstName(account.getFirstName());
+        request.setLastName(account.getLastName());
+        request.setPhone(account.getPhone());
+        request.setMail(account.getEmail());
+        request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        return request;
     }
 
+    public List<SelectItem> getTypeItems(){
+       List<SelectItem> items = new ArrayList<>();
+       items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
+       items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
+       return items;
+   } 
+
+    
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
         return _sessionController.isMyAccount(_request.getAccountId(), false);
@@ -247,5 +264,22 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return c.getName() + ", " + c.getTown();
     }
     
+    public void addProjectedCenter(){
+        RequestProjectedCenter center = new RequestProjectedCenter(_request.getId());
+        _request.getRequestProjectedCenters().add(center);
+    }
+    
+    public void deleteProjectedCenter(RequestProjectedCenter center){
+        _request.getRequestProjectedCenters().remove(center);
+    }
+    
+    public void addAgreedCenter(){
+        RequestAgreedCenter center = new RequestAgreedCenter(_request.getId());
+        _request.getRequestAgreedCenters().add(center);
+    }
+    
+    public void deleteAgreedCenter(RequestAgreedCenter center){
+        _request.getRequestAgreedCenters().remove(center);
+    }
     // </editor-fold>
 }

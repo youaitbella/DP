@@ -326,6 +326,7 @@ public class Utils {
             case CALCULATION_HOSPITAL:
                 // here the target year is the data year which might be in the past
                 return LocalDateTime.now().getYear() - (LocalDateTime.now().getMonthValue() < 9 ? 1 : 0);
+            case SPECIFIC_FUNCTION:
             case NUB:
             default:
                 return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 9 ? 1 : 0);

@@ -28,7 +28,7 @@
         <cc:editableValueHolder name="#{cc.id}" targets="idText"/>
         <div class="#{cc.attrs.styleClassComponent}">
             <h:panelGroup style="display: inline-block; width: 100%;" rendered="#{!cc.attrs.singleLine}">
-                <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText"/>
+                <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText" title="#{cc.attrs.title}"/>
                 <h:message for="idText" id="msgText" styleClass="errorMessage"/>
             </h:panelGroup>
             <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText" rendered="#{cc.attrs.singleLine}"/>
@@ -42,6 +42,7 @@
             </h:inputText>
             <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.readonly}"
                            styleClass="#{cc.attrs.styleClass}"
+                           title="#{cc.attrs.title}" 
                            value="#{cc.attrs.value}"/>
             <h:message for="idText" id="msgText2" styleClass="errorMessage" rendered="#{cc.attrs.singleLine}"/>
         </div>

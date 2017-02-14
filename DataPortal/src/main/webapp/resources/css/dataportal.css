@@ -513,6 +513,12 @@ div#wrapper {
     font-weight: bold;
 }
 
+.label10 {
+    font-weight: bold;
+    display:inline-block;
+    width: 10%;
+}
+
 .label15 {
     font-weight: bold;
     display:inline-block;
@@ -555,6 +561,8 @@ div#wrapper {
     width: 60%;
 }
 
+.element12em,
+.element100-12em,
 .element15,
 .element20,
 .element25,
@@ -568,6 +576,14 @@ div#wrapper {
 .elementRight70{
     box-sizing: border-box;
     display:inline-block;
+}
+
+.element12em{
+    width: 12em;
+}
+
+.element100-12em{
+    width: calc(100% - 12em);
 }
 
 .element15 {

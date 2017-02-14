@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -180,13 +181,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Delimitation facts
-        calcBasics.getNormalFreelancers().clear();
-        for (DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
-            df.setId(-1);
+        calcBasics.getDelimitationFacts().clear();
+        for(DrgContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+            DrgDelimitationFact df = new DrgDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
+            df.setContentTextId(ct.getId());
+            df.setContentText(ct);
             calcBasics.getDelimitationFacts().add(df);
         }
-        checkRequireInputsForDelimitationFact(_priorCalcBasics);
+        checkRequireInputsForDelimitationFact(calcBasics);
 
         // Personal Accounting
         calcBasics.getPersonalAccountings().clear();
@@ -1136,7 +1139,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (priorValue.doubleValue() == 0) {
             return "";
         }
-        return (currentValue.subtract(priorValue)).divide(priorValue).multiply(new BigDecimal(100)).setScale(1, RoundingMode.HALF_UP) + "%";
+        MathContext mc = new MathContext(2);
+        return (currentValue.subtract(priorValue)).divide(priorValue, mc).multiply(new BigDecimal(100)).setScale(1, RoundingMode.HALF_UP) + "%";
     }
 
     public int getMedInfraSum(int type) {

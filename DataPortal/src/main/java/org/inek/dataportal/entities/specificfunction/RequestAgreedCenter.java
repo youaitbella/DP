@@ -13,7 +13,15 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "RequestAgreedCenter", schema = "spf")
 public class RequestAgreedCenter implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
+    public RequestAgreedCenter() {
+    }
+
+    public RequestAgreedCenter(int masterId) {
+        _requestMasterId = masterId;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -33,6 +41,7 @@ public class RequestAgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
     @Column(name = "racRequestMasterId")
     private int _requestMasterId = -1;
+
     public int getRequestMasterId() {
         return _requestMasterId;
     }
@@ -87,7 +96,7 @@ public class RequestAgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id > 0){
+        if (_id > 0) {
             return _id;
         }
         int hash = 7;
@@ -111,7 +120,7 @@ public class RequestAgreedCenter implements Serializable {
             return false;
         }
         final RequestAgreedCenter other = (RequestAgreedCenter) obj;
-        if (_id > 0 || other._id > 0){
+        if (_id > 0 || other._id > 0) {
             return _id == other._id;
         }
         if (this._requestMasterId != other._requestMasterId) {
@@ -131,5 +140,5 @@ public class RequestAgreedCenter implements Serializable {
         return "RequestAgreedCenter[id=" + _id + "]";
     }
     // </editor-fold>
-    
+
 }

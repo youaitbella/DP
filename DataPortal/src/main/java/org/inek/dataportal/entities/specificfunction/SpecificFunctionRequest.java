@@ -50,7 +50,7 @@ public class SpecificFunctionRequest implements Serializable {
     @Column(name = "rmName")
     private String _name = "";
 
-    @Size(max = 10)
+    @Size(max = 250)
     public String getName() {
         return _name;
     }
@@ -253,11 +253,14 @@ public class SpecificFunctionRequest implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property RequestProjectedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
+    @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "rmId")
     private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
     
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
+        if (_requestProjectedCenters.isEmpty()){
+            _requestProjectedCenters.add(new RequestProjectedCenter(_id));
+        }
         return _requestProjectedCenters;
     }
 
@@ -273,6 +276,9 @@ public class SpecificFunctionRequest implements Serializable {
 
     
     public List<RequestAgreedCenter> getRequestAgreedCenters() {
+        if (_requestAgreedCenters.isEmpty()){
+            _requestAgreedCenters.add(new RequestAgreedCenter(_id));
+        }
         return _requestAgreedCenters;
     }
 

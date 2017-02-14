@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                >
+
+    <h2 style="margin-top: 1em;"></h2>
+    <inek:LabeledCheckbox label="Wir beabsichtigen über die Vereinbarung von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu verhandeln" 
+                          styleClassComponent="marginTop01em"
+                          value="#{editSpecificFunction.request.willNegotiate}"
+                          renderElement="@form"/>
+
+    <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center"
+               rendered="#{editSpecificFunction.request.willNegotiate}">
+        <div class="rectangle">
+            <div class="inputPart">
+                <h:commandLink rendered="#{!editSpecificFunction.readOnly}">
+                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                    <cb:confirmDelete/>
+                    <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunction.deleteProjectedCenter(center)}"/>
+                </h:commandLink>
+            </div>
+
+            <inek:LabeledText label="Zentrumszuschlag für" 
+                              title="Zentrumszuschlag für (Art des Zentrums)"
+                              value="#{center.center}" 
+                              styleClassLabel="label element12em" 
+                              styleClass="element100-12em"
+                              singleLine="true"/>
+            <inek:LabeledText label="Standort"
+                              title="Angabe des Standortes bei nach Standorten differenziertem Versorgungsauftrag gemäß Krankenhausplan des Landes; sobald verfügbar (spätestens ab 01.01.2020) Angabe des Standort-Kennzeichens nach § 293 Absatz 6 SGB V." 
+                              value="#{center.location}" 
+                              styleClassLabel="label element12em" 
+                              styleClass="element100-12em"
+                              singleLine="true"/>
+            <inek:LabeledText label="Besondere Aufgaben"
+                              title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                              value="#{center.specialFunction}" 
+                              styleClassLabel="label element12em" 
+                              styleClass="element100-12em"
+                              singleLine="true"/>
+            <inek:LabeledText label="Anzahl Patienten (ca.)"
+                              title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
+                              value="#{center.estimatedPatientCount}" 
+                              styleClassLabel="label element12em" 
+                              styleClass="col04em number"                              
+                              singleLine="true"/>
+
+            <div class="marginTop">
+                <h:outputLabel for="type" value="Ausweisung und Festsetzung der besonderen Aufgaben" styleClass="label marginRight"/>
+                <h:selectOneMenu id="type"
+                                 title="Bitte angeben"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{center.type}"
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{editSpecificFunction.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgType"/>
+                </h:selectOneMenu>
+                <h:message for="type" id="msgType" styleClass="errorMessage"/>
+            </div>
+
+        </div>
+    </ui:repeat>
+
+
+    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+                   rendered="#{editSpecificFunction.request.willNegotiate and !editSpecificFunction.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunction.addProjectedCenter()}"/>
+    </h:commandLink>
+
+</ui:composition>
+
