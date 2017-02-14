@@ -12,8 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 
 @Named @ApplicationScoped
@@ -91,4 +93,14 @@ public class ApplicationTools {
     }
     // </editor-fold>
 
+    @Inject private CustomerFacade _customerFacade;
+    
+    public String retrieveHospitalInfo(int ik) {
+        Customer c = _customerFacade.getCustomerByIK(ik);
+        if (c == null || c.getName() == null) {
+            return "";
+        }
+        return c.getName() + ", " + c.getTown();
+    }
+    
 }
