@@ -36,7 +36,7 @@
 
                 <inek:LabeledText label="#{msg.lblNotation}" value="#{editSpecificFunction.request.name}" singleLine="true" styleClassLabel="label10" styleClass="element80"/>
 
-                <inek:MultiIk id="ThisShallBeTheIK" value="#{editSpecificFunction.request.ik}" 
+                <inek:MultiIk id="ikMulti" value="#{editSpecificFunction.request.ik}" 
                               ikList="#{editSpecificFunction.iks}"
                               readonly="#{editSpecificFunction.readOnly}" 
                               isFixed="#{editSpecificFunction.request.id gt 0}"/>
@@ -52,11 +52,11 @@
                     </h:selectOneMenu>
                     <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                 </h:panelGroup>
-                <inek:LabeledText label="#{msg.lblTitle}" value="#{editSpecificFunction.request.title}" singleLine="true" styleClassLabel="label10" styleClass="element50"/>
-                <inek:LabeledText label="#{msg.lblFirstName}" value="#{editSpecificFunction.request.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" id="xxxxx"/>
-                <inek:LabeledText label="#{msg.lblLastName}" value="#{editSpecificFunction.request.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
-                <inek:LabeledText label="#{msg.lblPhone}" value="#{editSpecificFunction.request.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
-                <inek:LabeledText label="#{msg.lblMail}" value="#{editSpecificFunction.request.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
+                <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editSpecificFunction.request.title}" singleLine="true" styleClassLabel="label10" styleClass="element50"/>
+                <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editSpecificFunction.request.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
+                <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editSpecificFunction.request.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
+                <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editSpecificFunction.request.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
+                <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editSpecificFunction.request.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true"/>
 
                 <ui:include src="ProjectedCenters.xhtml"/>
                 <ui:include src="AgreedCenters.xhtml"/>

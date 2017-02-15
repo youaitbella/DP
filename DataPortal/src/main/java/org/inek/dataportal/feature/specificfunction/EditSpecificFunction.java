@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +25,6 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
@@ -32,10 +32,10 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.SpecificFunctionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -137,9 +137,11 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public String save() {
+        removeEmptyCenters();
         setModifiedInfo();
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
-
+        addCentersIfMissing();
+        
         if (isValidId(_request.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -194,7 +196,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!requestIsComplete()) {
             return getActiveTopic().getOutcome();
         }
-
+        removeEmptyCenters();
         _request.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
@@ -209,8 +211,65 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private boolean requestIsComplete() {
-        // todo
-        return true;
+        MessageContainer message = composeMissingFieldsMessage(_request);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            //setActiveTopic(message.getTopic());
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
+    }
+
+    public MessageContainer composeMissingFieldsMessage(SpecificFunctionRequest request) {
+        MessageContainer message = new MessageContainer();
+
+        String ik = request.getIk() < 0 ? "" : "" + request.getIk();
+        checkField(message, ik, "lblIK", "specificFuntion:ikMulti");
+        checkField(message, request.getFirstName(), "lblFirstName", "specificFuntion:firstName");
+        checkField(message, request.getLastName(), "lblFirstName", "specificFuntion:lastName");
+        checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
+        checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
+
+        for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
+            checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
+            checkField(message, center.getSpecialFunction(), "Bitte besondere Aufgaben angeben", "");
+            checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
+            checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Bitte besondere Aufgaben angeben", "");
+        }
+        
+        for (RequestAgreedCenter center : request.getRequestAgreedCenters()) {
+            checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
+            checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
+            checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag angeben", "");
+        }
+                
+        return message;
+    }
+
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId) {
+        if (Utils.isNullOrEmpty(value)) {
+            applyMessageValues(message, msgKey, elementId);
+        }
+    }
+
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+        if (value == null
+                || minValue != null && value < minValue
+                || maxValue != null && value > maxValue) {
+            applyMessageValues(message, msgKey, elementId);
+        }
+    }
+
+    private void applyMessageValues(MessageContainer message, String msgKey, String elementId) {
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
+        if (message.getTopic().isEmpty()) {
+            message.setTopic("");
+            message.setElementId(elementId);
+        }
     }
 
     public String requestApproval() {
@@ -273,4 +332,38 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _request.getRequestAgreedCenters().remove(center);
     }
     // </editor-fold>
+
+    private void removeEmptyCenters() {
+        removeEmptyProjectedCenters();
+        removeEmptyAgreedCenters();
+    }
+
+    private void removeEmptyProjectedCenters() {
+        Iterator<RequestProjectedCenter> iter = _request.getRequestProjectedCenters().iterator();
+        while (iter.hasNext()){
+            RequestProjectedCenter center = iter.next();
+            if (center.isEmpty()){
+                iter.remove();
+            }
+        }
+    }
+
+    private void removeEmptyAgreedCenters() {
+        Iterator<RequestAgreedCenter> iter = _request.getRequestAgreedCenters().iterator();
+        while (iter.hasNext()){
+            RequestAgreedCenter center = iter.next();
+            if (center.isEmpty()){
+                iter.remove();
+            }
+        }
+    }
+
+    private void addCentersIfMissing() {
+        if (_request.getRequestProjectedCenters().isEmpty()){
+            addProjectedCenter();
+        }
+        if (_request.getRequestAgreedCenters().isEmpty()){
+            addAgreedCenter();
+        }
+    }
 }
