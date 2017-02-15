@@ -36,7 +36,7 @@
             </h:panelGroup>
             <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText" rendered="#{cc.attrs.singleLine}"/>
             <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
-                         styleClass="number #{cc.attrs.styleClass} #{cc.attrs.required ? 'required' : ''}" 
+                         styleClass="number #{cc.attrs.styleClass} #{cc.attrs.required ? ' required ' : ''}" 
                          value="#{cc.attrs.value}" 
                          title="#{cc.attrs.title}" 
                          readonly="#{cc.attrs.readonly}"

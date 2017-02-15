@@ -38,6 +38,7 @@
 
                 <inek:MultiIk id="ikMulti" value="#{editSpecificFunction.request.ik}" 
                               ikList="#{editSpecificFunction.iks}"
+                              listener="#{editSpecificFunction.ikChanged}" 
                               readonly="#{editSpecificFunction.readOnly}" 
                               isFixed="#{editSpecificFunction.request.id gt 0}"/>
 

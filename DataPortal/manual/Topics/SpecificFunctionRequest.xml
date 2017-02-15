@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Information durch das Krankenhaus</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Information durch das Krankenhaus</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Möchten Sie für Ihr Krankenhaus eine Information an das InEK zu übermitteln, dass für besondere Aufgaben entsprechende Zuschläge auf der Ortsebene verhandelt werden sollen, so benötigen Sie die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besondere Aufgaben</text><text styleclass="Normal" translate="true">. Um diese nutzen zu können, markieren Sie im Dialog </text><text styleclass="Normal" style="font-style:italic;" translate="true">Stammdatenpflege, Funktionen</text><text styleclass="Normal" translate="true"> die gleichlautende Funktion. Damit stoßen Sie einen Freigabeprozess an. Nach Prüfung durch das InEK erhalten Sie eine entsprechende Nachricht. Sobald die Funktion für Sie freigeschaltet ist, steht diese in der linken Navigationsleiste wie auch in der Übersicht zur Verfügung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um eine neuen Information zu erfassen klicken Sie auf die Schaltfläche </text><text styleclass="Button" translate="true">[ neue Information ]</text><text styleclass="Normal" translate="true">.</text></para>
+  </body>
+</topic>

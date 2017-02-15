@@ -293,6 +293,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
     
     public void ikChanged() {
+        System.out.println("IK changed");
+        // dummy listener
     }
 
     public List<SelectItem> getIks() {

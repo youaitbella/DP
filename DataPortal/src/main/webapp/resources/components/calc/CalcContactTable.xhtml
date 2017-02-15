@@ -41,7 +41,7 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblSalutation}</f:facet>
-                <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
+                <h:selectOneMenu styleClass="inputshort required " id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
                                  required="true" requiredMessage="#{msg.msgChooseEntryShort}" disabled="#{cc.attrs.readonly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItem itemLabel="#{msg.salutationFemale}" itemValue="1"/>
@@ -73,7 +73,7 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblMail}</f:facet>
-                <h:inputText id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth">
+                <h:inputText id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth required ">
                     <f:validator validatorId="EmailValidator" for="contactMail"/>
                     <f:ajax event="blur" render="@form :logout:remaining" />
                 </h:inputText>
