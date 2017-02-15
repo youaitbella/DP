@@ -63,7 +63,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Code">
     @Column(name = "rmCode")
-    @Documentation(key = "lblSystemMark")
+    @Documentation(key = "lblContractKey")
     private String _code = "";
 
     @Size(max = 10)

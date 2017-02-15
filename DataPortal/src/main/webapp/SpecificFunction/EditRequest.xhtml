@@ -21,7 +21,7 @@
                                   readonly="true"
                                   singleLine="true"
                                   displayAsLabel="true"
-                                  label="#{msg.lblSystemMark}" 
+                                  label="#{msg.lblContractKey}" 
                                   value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editModelIntention.modelIntention.code.length() gt 0
                                            ? editSpecificFunction.request.code 
                                            : msg.lblNotGrantedYet}" />
@@ -29,7 +29,7 @@
                                   readonly="#{not sessionController.isInekUser('SPECIFIC_FUNCTION')}"
                                   singleLine="true"
                                   displayAsLabel="true"
-                                  label="#{msg.lblSystemMark}" 
+                                  label="#{msg.lblContractKey}" 
                                   value="#{editSpecificFunction.request.code}" />
 
                 <h2 style="margin-bottom: 1em;"></h2>
