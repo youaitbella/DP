@@ -42,6 +42,7 @@ import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
+import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListLocation;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
@@ -650,6 +651,20 @@ public class CalcFacade extends AbstractDataAccess {
     public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
         String jpql = "select ct from DrgContentText ct where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
         TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
+        query.setParameter("year", year);
+        query.setParameter("headerIds", headerIds);
+        return query.getResultList();
+    }
+    
+    public List<KGPListContentText> retrieveContentTextsPepp(int headerId, int year) {
+        List<Integer> headerIds = new ArrayList<>();
+        headerIds.add(headerId);
+        return retrieveContentTextsPepp(headerIds, year);
+    }
+
+    public List<KGPListContentText> retrieveContentTextsPepp(List<Integer> headerIds, int year) {
+        String jpql = "select ct from KGPListContentText ct where ct._headerTextID in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._seq";
+        TypedQuery<KGPListContentText> query = getEntityManager().createQuery(jpql, KGPListContentText.class);
         query.setParameter("year", year);
         query.setParameter("headerIds", headerIds);
         return query.getResultList();

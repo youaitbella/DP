@@ -35,13 +35,13 @@ public class KGPListContentText implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ctID")
-    private Integer _id = -1;
+    private int _id = -1;
 
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
@@ -137,20 +137,7 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property _contentTextId">
-    @Column(name = "dfContentTextID")
-    private int _contentTextId;
-
-    public int getContentTextId() {
-        return _contentTextId;
-    }
-
-    public void setContentTextId(int contentTextId) {
-        this._contentTextId = contentTextId;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property _contentTextId">
+    //<editor-fold defaultstate="collapsed" desc="Property _diffAsPercent">
     @Column(name = "ctDiffAsPercent")
     private boolean _diffAsPercent;
 
@@ -166,11 +153,11 @@ public class KGPListContentText implements Serializable {
     public KGPListContentText() {
     }
 
-    public KGPListContentText(Integer ctID) {
+    public KGPListContentText(int ctID) {
         this._id = ctID;
     }
 
-    public KGPListContentText(Integer ctID, String ctText, int ctFirstYear, int ctLastYear, int ctDecimalCnt, int ctSeq) {
+    public KGPListContentText(int ctID, String ctText, int ctFirstYear, int ctLastYear, int ctDecimalCnt, int ctSeq) {
         this._id = ctID;
         this._text = ctText;
         this._firstYear = ctFirstYear;
@@ -193,7 +180,6 @@ public class KGPListContentText implements Serializable {
         hash = 29 * hash + this._decimalCnt;
         hash = 29 * hash + this._seq;
         hash = 29 * hash + this._headerTextID;
-        hash = 29 * hash + this._contentTextId;
         return hash;
     }
     
@@ -225,9 +211,6 @@ public class KGPListContentText implements Serializable {
             return false;
         }
         if (this._headerTextID != other._headerTextID) {
-            return false;
-        }
-        if (this._contentTextId != other._contentTextId) {
             return false;
         }
         if (!Objects.equals(this._text, other._text)) {

@@ -136,13 +136,13 @@ public class KGPListDelimitationFact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "dfContentTextId")
-    private DrgContentText _contentText;
+    private KGPListContentText _contentText;
 
-    public DrgContentText getContentText() {
+    public KGPListContentText getContentText() {
         return _contentText;
     }
 
-    public void setContentText(DrgContentText contentText) {
+    public void setContentText(KGPListContentText contentText) {
         _contentText = contentText;
     }
     // </editor-fold>

@@ -48,6 +48,7 @@ import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
@@ -168,7 +169,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     private void checkRequireInputsForDelimitationFact(PeppCalcBasics calcBasic) {
         for (KGPListDelimitationFact df : calcBasic.getDelimitationFacts()) {
             int id = df.getContentText().getId();
-            if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
+            if (id == 1 || id == 2 || id == 5 || id == 6 || id == 15 || id == 16) {
                 df.setRequireInputs(true);
             }
         }
@@ -303,6 +304,17 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 calcBasics.getServiceProvisions().add(data);
             }
         }
+        
+        calcBasics.getDelimitationFacts().clear();
+        for(KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, Calendar.getInstance().get(Calendar.YEAR))) {
+            KGPListDelimitationFact df = new KGPListDelimitationFact();
+            df.setBaseInformationId(calcBasics.getId());
+            df.setContentTextId(ct.getId());
+            df.setContentText(ct);
+            df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
+            calcBasics.getDelimitationFacts().add(df);
+        }
+        checkRequireInputsForDelimitationFact(calcBasics);
 
     }
 

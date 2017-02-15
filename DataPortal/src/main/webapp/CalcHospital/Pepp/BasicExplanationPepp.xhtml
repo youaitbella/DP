@@ -677,19 +677,16 @@
     -->
         <h2>Berücksichtigte Abgrenzungstatbestände</h2>
 
-        <ui:repeat value="#{editCalcBasicsPepp.calcBasics.delimitationFacts}" var="x" varStatus="status">
+        <ui:repeat value="#{editCalcBasicsPepp.calcBasics.delimitationFacts}" var="x" varStatus="status" id="uival">
     
             <div class="inputPart">
                 <h:outputLabel value="#{x.contentText.text}" styleClass="blockElement" style="width: calc(100% - 22em);"/> &nbsp;
                 <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                     <f:ajax event="change" render="@form :logout:remaining delimit-content" />
                 </h:selectBooleanCheckbox>
-<!--                <h:outputLabel value="# {editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="# {x.used and x.requireInputs}"/>
-                <h:outputLabel value="# {editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="# {x.used and x.requireInputs}"/>
-                <h:outputLabel value="# {msg.lblDevitation}" styleClass="blockElement" style="width: 6em;" rendered="# {x.used and x.requireInputs}"/>-->
-                <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used}"/>
-                <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used}"/>
-                <h:outputLabel value="# {msg.lblDevitation}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used}"/>
+                <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
+                <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
+                <h:outputLabel value="#{msg.lblDevitation}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
             </div>
     
             <h:dataTable value="#{editCalcBasicsPepp.delimitationFactsSubTitles}" 
@@ -698,51 +695,49 @@
                          width="100%"
                          rowClasses="row1, row2"
                          columnClasses="colValue, col05em number, col05em number, col05em number"
-                         styleClass="marginTop">
+                         styleClass="marginTop"
+                         id="tblsubval"
+                         >
     
                 <h:column>
-<!--                    <h:outputLabel rendered="# {x.requireInputs}" value="# {data}"/>-->
-                    <h:outputLabel rendered="true" value="#{data}"/>
+                    <h:outputLabel rendered="#{x.requireInputs}" value="#{data}"/>
                 </h:column>
     
-<!--                <h:column rendered="# {x.used and x.requireInputs}">-->
-                <h:column rendered="#{x.used}">
-                    <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true"/>
-                    <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true"/>
-                    <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true"/>
-                </h:column>
-    
-<!--                <h:column rendered="# {x.used and x.requireInputs}">-->
-                <h:column rendered="#{x.used}">
+                <h:column rendered="#{x.used and x.requireInputs}">
                     <inek:InputNumberWithMessage id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}"
-                                                 styleClass="col06em" required="true" renderElement="@this diff-personal :logout:remaining"
+                                                 styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:0:diff-personal:text :logout:remaining"
                                                  disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
                     <inek:InputNumberWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
-                                                 styleClass="col06em" required="true" renderElement="@this diff-material :logout:remaining"
+                                                 styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:1:diff-material:text :logout:remaining"
                                                  />
                     <inek:InputNumberWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{x.infraCost}"
-                                                 styleClass="col06em" required="true" renderElement="@this diff-infra :logout:remaining"
+                                                 styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:2:diff-infra:text :logout:remaining"
                                                  disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
                     <h:message for="data" id="msgData" styleClass="errorMessage"/>
                 </h:column>
     
-<!--                <h:column rendered="# {x.used and x.requireInputs}">-->
-                <h:column rendered="#{x.used}">
-                    <h:panelGrid id="diff-personal" style="margin: 0; padding : 0;">
-                        <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
+                <h:column rendered="#{x.used and x.requireInputs}">
+                    <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true" required="true"/>
+                    <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true" required="true"/>
+                    <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true" required="true"/>
+                </h:column>
+    
+                <h:column rendered="#{x.used and x.requireInputs}">
+                        <inek:InputNumberWithMessage id="diff-personal"
+                                                     rendered="#{data eq 'Personalkosten'}" 
+                                                     value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
                                                      styleClass="col06em"
                                                      disabled="true"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="diff-material" style="margin: 0; padding : 0;">
-                        <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
+                        <inek:InputNumberWithMessage id="diff-material"
+                                                     rendered="#{data eq 'Sachkosten'}" 
+                                                     value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
                                                      styleClass="col06em"
                                                      disabled="true"/>
-                    </h:panelGrid>
-                    <h:panelGrid id="diff-infra" style="margin: 0; padding : 0;">
-                        <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
+                        <inek:InputNumberWithMessage id="diff-infra"
+                                                     rendered="#{data eq 'Infrastrukturkosten'}" 
+                                                     value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
                                                      styleClass="col06em"
                                                      disabled="true"/>
-                    </h:panelGrid>
                 </h:column>
             </h:dataTable>
         </ui:repeat>
