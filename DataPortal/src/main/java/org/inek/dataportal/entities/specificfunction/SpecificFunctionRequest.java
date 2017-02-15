@@ -35,6 +35,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "rmDataYear")
+    @Documentation(key = "lblYearData")
     private int _dataYear;
 
     public int getDataYear() {
@@ -62,6 +63,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Code">
     @Column(name = "rmCode")
+    @Documentation(key = "lblContractKey")
     private String _code = "";
 
     @Size(max = 10)
@@ -76,6 +78,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Ik">
     @Column(name = "rmIK")
+    @Documentation(key = "lblIK")
     private int _ik;
 
     public int getIk() {
@@ -102,6 +105,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "rmLastChanged")
+    @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _lastChanged;
 
@@ -126,6 +130,7 @@ public class SpecificFunctionRequest implements Serializable {
         this._statusId = statusId;
     }
 
+    @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -254,6 +259,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property RequestProjectedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "rmId")
+    @Documentation(name = "geplante Vereinbarung")
     private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
     
@@ -272,6 +278,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
+    @Documentation(name = "vorliegende Vereinbarung")
     private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
 
     

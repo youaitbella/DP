@@ -28,14 +28,14 @@
             <h:inputText id="text" 
                          value="#{cc.attrs.value}" 
                          title="#{cc.attrs.title}"
-                         styleClass="number #{cc.attrs.styleClass}"                          
+                         styleClass="number #{cc.attrs.styleClass} #{cc.attrs.required ? ' required ' : ''}"                          
                          readonly="#{cc.attrs.readonly}"
                          disabled="#{cc.attrs.disabled}"
                          required="#{cc.attrs.required}"
                          requiredMessage="#{msg.msgValueNeeded}"
                          validatorMessage="#{null}"
                          >
-                <f:ajax event="blur" render="@this #{cc.attrs.renderElement} :logout:remaining message"/>
+                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message"/>
                 <f:convertNumber rendered="#{cc.attrs.pattern.length() eq 0}"/>
                 <f:convertNumber rendered="#{cc.attrs.pattern.length() gt 0}" pattern="#{cc.attrs.pattern}"/>
                 <f:validateLongRange rendered="#{cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>

@@ -24,7 +24,7 @@
             <h:inputText id="text" 
                          value="#{cc.attrs.value}" 
                          title="#{cc.attrs.title}"
-                         styleClass="#{cc.attrs.styleClass}"                          
+                         styleClass="#{cc.attrs.styleClass} #{cc.attrs.required ? ' required ' : ''}"                          
                          readonly="#{cc.attrs.readonly}"
                          disabled="#{cc.attrs.disabled}"
                          required="#{cc.attrs.required}"

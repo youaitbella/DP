@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -27,7 +28,7 @@ public class RequestAgreedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "racId")
-    private int _id;
+    private int _id = -1;
 
     public int getId() {
         return _id;
@@ -53,6 +54,7 @@ public class RequestAgreedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Center">
     @Column(name = "racCenter")
+    @Documentation(name = "Art des Zentrums")
     private String _center = "";
 
     @Size(max = 250)
@@ -67,6 +69,7 @@ public class RequestAgreedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property RemunerationKey">
     @Column(name = "racRemunerationKey")
+    @Documentation(key = "lblRemunerationCode")
     private String _remunerationKey = "";
 
     @Size(max = 10)
@@ -81,9 +84,10 @@ public class RequestAgreedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Amount">
     @Column(name = "racAmount")
-    @Min(1)
+    @Documentation(name = "Betrag")
     private int _amount;
 
+    @Min(1)
     public int getAmount() {
         return _amount;
     }
@@ -140,5 +144,9 @@ public class RequestAgreedCenter implements Serializable {
         return "RequestAgreedCenter[id=" + _id + "]";
     }
     // </editor-fold>
+
+    public boolean isEmpty() {
+        return _id <= 0 && _center.isEmpty() && _remunerationKey.isEmpty() && _amount == 0;
+    }
 
 }

@@ -1,5 +1,6 @@
 package org.inek.dataportal.common;
 
+import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
@@ -21,7 +22,6 @@ public class LifeCycleListener implements PhaseListener {
         UIViewRoot root = event.getFacesContext().getViewRoot();
         if (root != null && event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
             markRequired(root, root);
-
         }
     }
 
@@ -39,79 +39,75 @@ public class LifeCycleListener implements PhaseListener {
             if (child instanceof HtmlOutputLabel) {
                 HtmlOutputLabel label = (HtmlOutputLabel) child;
                 String targetId = label.getNamingContainer().getClientId() + ":" + label.getFor();
-                UIComponent target = root.findComponent(targetId);
+                UIComponent target = parent.findComponent(targetId);
                 if (target instanceof UIInput) {
                     UIInput input = (UIInput) target;
                     markRequired(label, input.isRequired());
-// *** see comment below ***  markRequired(input, input.isRequired());
-                    String title = label.getValue().toString().trim();
-                    int colonPos = title.lastIndexOf(":");
-                    if (colonPos == title.length() - 1){
-                        title = title.substring(0, colonPos);
-                    }
-                    setTitle(input, title);
+                    // markRequired(input, input.isRequired());  // do not handle here, because there might be elements without label
                 }
-            }
-            if (child instanceof UIInput) {
+            } else if (child instanceof UIInput) {
                 // there might be some required elements without label, thus we handle them here
                 UIInput input = (UIInput) child;
                 markRequired(input, input.isRequired());
-                
+
+            } else {
+                markRequired(root, child);
             }
-            markRequired(root, child);
+        }
+        UIComponent composition = parent.getFacet("javax.faces.component.COMPOSITE_FACET_NAME");
+        if (composition != null) {
+// sadly it seems, that the composition contains an "empty" template of the component only.
+// thus, marking required dos not work properly 
+//            markRequired(root, composition);
         }
     }
 
     private void markRequired(UIComponent field, boolean required) {
-
+        // This methods looks a bit ugly, doing the same for different components.
+        // Sadly, these components do not have the styleClass property in a parent class. 
+        // Thus polymorphism is not available :(
         if (field instanceof HtmlOutputLabel) {
             HtmlOutputLabel element = (HtmlOutputLabel) field;
-            element.setStyleClass(updateStyle(element.getStyleClass(), required));
+            String oldStyle = element.getStyleClass();
+            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+                return;
+            }
+            element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlInputText) {
             HtmlInputText element = (HtmlInputText) field;
-            element.setStyleClass(updateStyle(element.getStyleClass(), required));
+            String oldStyle = element.getStyleClass();
+            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+                return;
+            }
+            element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlInputTextarea) {
             HtmlInputTextarea element = (HtmlInputTextarea) field;
-            element.setStyleClass(updateStyle(element.getStyleClass(), required));
+            String oldStyle = element.getStyleClass();
+            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+                return;
+            }
+            element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlInputSecret) {
             HtmlInputSecret element = (HtmlInputSecret) field;
-            element.setStyleClass(updateStyle(element.getStyleClass(), required));
+            String oldStyle = element.getStyleClass();
+            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+                return;
+            }
+            element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlSelectOneMenu) {
             HtmlSelectOneMenu element = (HtmlSelectOneMenu) field;
-            element.setStyleClass(updateStyle(element.getStyleClass(), required));
+            String oldStyle = element.getStyleClass();
+            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+                return;
+            }
+            element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlSelectOneRadio) {
             HtmlSelectOneRadio element = (HtmlSelectOneRadio) field;
-            element.setStyleClass(updateStyle(element.getStyleClass(), required));
-        }
-    }
-
-    private void setTitle(UIComponent field, String title) {
-
-        if (field instanceof HtmlInputText) {
-            HtmlInputText element = (HtmlInputText) field;
-            if (element.getTitle() == null){
-                element.setTitle(title);
+            String oldStyle = element.getStyleClass();
+            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+                return;
             }
-        } else if (field instanceof HtmlInputTextarea) {
-            HtmlInputTextarea element = (HtmlInputTextarea) field;
-            if (element.getTitle() == null){
-                element.setTitle(title);
-            }
-        } else if (field instanceof HtmlInputSecret) {
-            HtmlInputSecret element = (HtmlInputSecret) field;
-            if (element.getTitle() == null){
-                element.setTitle(title);
-            }
-        } else if (field instanceof HtmlSelectOneMenu) {
-            HtmlSelectOneMenu element = (HtmlSelectOneMenu) field;
-            if (element.getTitle() == null){
-                element.setTitle(title);
-            }
-        } else if (field instanceof HtmlSelectOneRadio) {
-            HtmlSelectOneRadio element = (HtmlSelectOneRadio) field;
-            if (element.getTitle() == null){
-                element.setTitle(title);
-            }
+            element.setStyleClass(updateStyle(oldStyle, required));
         }
     }
 
@@ -123,26 +119,4 @@ public class LifeCycleListener implements PhaseListener {
         return newStyle;
     }
 
-    private void markLabels4Required(UIComponent root, UIComponent parent) {
-        //todo: replace by css approach
-        String marker = " *";
-        for (UIComponent child : parent.getChildren()) {
-            if (child instanceof HtmlOutputLabel) {
-                HtmlOutputLabel label = (HtmlOutputLabel) child;
-                String targetId = label.getNamingContainer().getClientId() + ":" + label.getFor();
-                UIComponent target = root.findComponent(targetId);
-                if (target instanceof UIInput) {
-                    UIInput input = (UIInput) target;
-                    String labelText = label.getValue().toString();
-                    if (input.isRequired() && !labelText.endsWith(marker)) {
-                        label.setValue(labelText + marker);
-                    }
-                    if (!input.isRequired() && labelText.endsWith(marker)) {
-                        label.setValue(labelText.substring(0, labelText.length() - marker.length()));
-                    }
-                }
-            }
-            markLabels4Required(root, child);
-        }
-    }
 }

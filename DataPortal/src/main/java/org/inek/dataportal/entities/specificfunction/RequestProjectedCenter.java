@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -27,7 +28,7 @@ public class RequestProjectedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rpcId")
-    private int _id;
+    private int _id = -1;
 
     public int getId() {
         return _id;
@@ -52,6 +53,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Center">
     @Column(name = "rpcCenter")
+    @Documentation(name = "Art des Zentrums")
     private String _center = "";
 
     @Size(max = 250)
@@ -66,6 +68,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Location">
     @Column(name = "rpcLocation")
+    @Documentation(name = "Standort")
     private String _location = "";
 
     @Size(max = 250)
@@ -80,6 +83,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property SpecialFunction">
     @Column(name = "rpcSpecialFunction")
+    @Documentation(name = "Besondere Aufgaben")
     private String _specialFunction = "";
 
     @Size(max = 500)
@@ -92,22 +96,24 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Type">
-    @Column(name = "rpcType")
-    private int _type;
+    // <editor-fold defaultstate="collapsed" desc="Property TypeId">
+    @Column(name = "rpcTypeId")
+    @Documentation(name = "Ausweisung und Festsetzung", translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
+    private int _typeId;
 
     @Min(0)
-    public int getType() {
-        return _type;
+    public int getTypeId() {
+        return _typeId;
     }
 
-    public void setType(int type) {
-        _type = type;
+    public void setTypeId(int typeId) {
+        _typeId = typeId;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property EstimatedPatientCount">
     @Column(name = "rpcEstimatedPatientCount")
+    @Documentation(name = "Anzahl Patienten (ca.)")
     private int _estimatedPatientCount;
 
     @Min(0)
@@ -131,7 +137,7 @@ public class RequestProjectedCenter implements Serializable {
         hash = 97 * hash + Objects.hashCode(this._center);
         hash = 97 * hash + Objects.hashCode(this._location);
         hash = 97 * hash + Objects.hashCode(this._specialFunction);
-        hash = 97 * hash + this._type;
+        hash = 97 * hash + this._typeId;
         hash = 97 * hash + this._estimatedPatientCount;
         return hash;
     }
@@ -155,7 +161,7 @@ public class RequestProjectedCenter implements Serializable {
         if (this._requestMasterId != other._requestMasterId) {
             return false;
         }
-        if (this._type != other._type) {
+        if (this._typeId != other._typeId) {
             return false;
         }
         if (this._estimatedPatientCount != other._estimatedPatientCount) {
@@ -178,6 +184,10 @@ public class RequestProjectedCenter implements Serializable {
         return "RequestProjectedCenter[id=" + _id + "]";
     }
     // </editor-fold>
+
+    public boolean isEmpty() {
+        return _id <=0 && _center.isEmpty() && _location.isEmpty() && _specialFunction.isEmpty() && _typeId == 0 && _estimatedPatientCount == 0;
+    }
     
 }
 

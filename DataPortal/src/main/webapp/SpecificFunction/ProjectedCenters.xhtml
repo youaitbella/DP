@@ -29,6 +29,7 @@
             <inek:LabeledText label="Zentrumszuschlag für" 
                               title="Zentrumszuschlag für (Art des Zentrums)"
                               value="#{center.center}" 
+                              required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
                               singleLine="true"/>
@@ -41,12 +42,14 @@
             <inek:LabeledText label="Besondere Aufgaben"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                               value="#{center.specialFunction}" 
+                              required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
                               singleLine="true"/>
             <inek:LabeledText label="Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
+                              required="true"
                               styleClassLabel="label element12em" 
                               styleClass="col04em number"                              
                               singleLine="true"/>
@@ -57,7 +60,7 @@
                                  title="Bitte angeben"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{center.type}"
+                                 value="#{center.typeId}"
                                  hideNoSelectionOption="true" >
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{editSpecificFunction.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>

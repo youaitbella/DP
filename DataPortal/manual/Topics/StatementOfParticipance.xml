@@ -54,7 +54,7 @@
     <para styleclass="Image Caption"><image src="Sop06.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Schaltfläche Datensatz ändern</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Klicken Sie auf </text><text styleclass="Button" translate="true">[ Datensatz ändern ]</text><text styleclass="Normal" translate="true">, um eine Kopie des angewählten Datensatzes, hier der Teilnahmeerklärung zu erzeugen. Diese Kopie kann dann korrigiert und erneut an das InEK gesendet werden. Die bereits gesendeten Daten bleiben unveränderbar erhalten. In der Liste der übermittelten Daten kann eine Teilnahmeerklärung bei mehrfachem Senden entsprechend oft auftauchen. Sie können diese anhand des Sendezeitpunkts unterscheiden. Jede Sendung überschreibt beim InEK vorherige Daten, so dass die letzte Sendung maßgeblich ist.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Klicken Sie auf </text><text styleclass="Button" translate="true">[ Datensatz ändern ]</text><text styleclass="Normal" translate="true">, um eine Kopie des angewählten Datensatzes, hier der Teilnahmeerklärung zu erzeugen. Diese Kopie kann dann korrigiert und erneut an das InEK gesendet werden. Mit erneutem Senden wird die vorher an das InEK gesendete Teilnahmeerklärung als &quot;zurückgezogen&quot; markiert. Ansonsten bleiben die bereits gesendeten Daten unveränderbar erhalten. In der Liste der übermittelten Daten kann eine Teilnahmeerklärung bei mehrfachem Senden entsprechend oft auftauchen. Sie können diese anhand des Sendezeitpunkts unterscheiden. Jede Sendung überschreibt beim InEK vorherige Daten, so dass die letzte Sendung maßgeblich ist.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Abweichende Erfassung für Häuser, die im Rahmen der</text><text styleclass="Heading3" style="font-style:italic;" translate="true"> Vereinbarung zur Erhöhung der Repräsentativität der Kalkulation</text><text styleclass="Heading3" translate="true"> ausgewählt wurden</text></para>
@@ -64,7 +64,7 @@
     <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Sollten Sie über die Verpflichtung hinaus an anderen Kalkulationsbereichen freiwillig teilnehmen wollen, so setzen Sie sich bitte mit dem InEK in Verbindung.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Für die ausgelosten Häuser stehen im ersten Jahr zwei Kalkulationsvarianten zur Auswahl, namentlich die</text></para>
-    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">vereinfachte Kalkulation</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Probekalkulation</text></li>
     </list>

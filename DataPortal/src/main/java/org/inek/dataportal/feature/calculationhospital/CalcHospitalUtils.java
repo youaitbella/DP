@@ -58,7 +58,7 @@ public class CalcHospitalUtils {
             ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
             StreamHelper.copyStream(is, compressedOut);
 
-            String dataFileName = type + ik + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
+            String dataFileName = type + ik + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".json";
             compressedOut.putNextEntry(new ZipEntry(dataFileName));
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);

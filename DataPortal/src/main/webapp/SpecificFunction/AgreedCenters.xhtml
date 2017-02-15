@@ -33,17 +33,17 @@
 
         <h:column>
             <f:facet name="header"><h:outputLabel value="Zentrumszuschlag für" title="Bitte geben Sie die Art / Bezeichnung des Zentrums an"/></f:facet>
-            <inek:InputTextWithMessage styleClass="element100" value="#{item.center}" readonly="#{editSpecificFunction.readOnly}"/>
+            <inek:InputTextWithMessage styleClass="element100" value="#{item.center}" readonly="#{editSpecificFunction.readOnly}" required="true"/>
         </h:column>
 
         <h:column>
-            <f:facet name="header"><h:outputLabel value="Entgeltschlüssel" title="Bitte geben Sie den Entgeltschlüssel Ihrer Vereinbarung an"/></f:facet>
-            <inek:InputTextWithMessage styleClass="element100" value="#{item.remunerationKey}" readonly="#{editSpecificFunction.readOnly}"/>
+            <f:facet name="header"><h:outputLabel value="#{msg.lblRemunerationCode}" title="Bitte geben Sie den Entgeltschlüssel Ihrer Vereinbarung an"/></f:facet>
+            <inek:InputTextWithMessage styleClass="element100" value="#{item.remunerationKey}" readonly="#{editSpecificFunction.readOnly}" required="true"/>
         </h:column>
 
         <h:column>
             <f:facet name="header"><h:outputLabel value="Betrag" title="Bitte geben Sie den vereinbarten Betrag an"/></f:facet>
-            <inek:InputTextWithMessage styleClass="element100" value="#{item.amount}" readonly="#{editSpecificFunction.readOnly}"/>
+            <inek:InputTextWithMessage styleClass="element100" value="#{item.amount}" readonly="#{editSpecificFunction.readOnly}" required="true"/>
         </h:column>
 
     </h:dataTable>
