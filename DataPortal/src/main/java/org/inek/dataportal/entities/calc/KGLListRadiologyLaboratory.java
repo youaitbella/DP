@@ -268,6 +268,28 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public KGLListRadiologyLaboratory() {
     }
 
+    /**
+     * copy all values but id and baseInformationId will default to -1
+     * @param source value to copy
+     */
+    public KGLListRadiologyLaboratory(KGLListRadiologyLaboratory source) {
+        _id = -1;
+        _baseInformationID = -1;
+        this._costCenterID = source._costCenterID;
+        this._costCenterNumber = source._costCenterNumber;
+        this._serviceDocHome = source._serviceDocHome;
+        this._serviceDocDKG = source._serviceDocDKG;
+        this._serviceDocEBM = source._serviceDocEBM;
+        this._serviceDocGOA = source._serviceDocGOA;
+        this._serviceDocDif = source._serviceDocDif;
+        this._serviceVolumePre = source._serviceVolumePre;
+        this._amountPre = source._amountPre;
+        this._serviceVolumePost = source._serviceVolumePost;
+        this._amountPost = source._amountPost;
+        this._costCenterText = source._costCenterText;
+        this._description = source._description;
+    }
+    
     public KGLListRadiologyLaboratory(int rlID) {
         this._id = rlID;
     }
@@ -375,7 +397,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory[ rlID=" + _id + " ]";
