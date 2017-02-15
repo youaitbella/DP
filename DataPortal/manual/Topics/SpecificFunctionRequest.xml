@@ -8,6 +8,32 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Möchten Sie für Ihr Krankenhaus eine Information an das InEK zu übermitteln, dass für besondere Aufgaben entsprechende Zuschläge auf der Ortsebene verhandelt werden sollen, so benötigen Sie die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besondere Aufgaben</text><text styleclass="Normal" translate="true">. Um diese nutzen zu können, markieren Sie im Dialog </text><text styleclass="Normal" style="font-style:italic;" translate="true">Stammdatenpflege, Funktionen</text><text styleclass="Normal" translate="true"> die gleichlautende Funktion. Damit stoßen Sie einen Freigabeprozess an. Nach Prüfung durch das InEK erhalten Sie eine entsprechende Nachricht. Sobald die Funktion für Sie freigeschaltet ist, steht diese in der linken Navigationsleiste wie auch in der Übersicht zur Verfügung.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um eine neuen Information zu erfassen klicken Sie auf die Schaltfläche </text><text styleclass="Button" translate="true">[ neue Information ]</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Image Caption"><image src="SpecificFunctionList.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich Besondere Aufgaben (leere Liste)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um eine neuen Information zu erfassen klicken Sie auf die Schaltfläche </text><text styleclass="Button" translate="true">[ neue Information ]</text><text styleclass="Normal" translate="true">. Sie erhalten den Dialog zur Erfassung der neuen Information. Im Wesentlichen sind dort Informationen zum Krankenhaus mit Ansprechpartner, die Art der Zentren, für die über die Vereinbarung von Zuschlägen verhandelt werden soll, sowie eventuell bereits vorliegende Vereinbarungen einzutragen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SpecificFunction01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Dialog zur Erfassung der Information über Besondere Aufgaben</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das erste Feld, </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Vertragskennzeichen</text><text styleclass="Normal" translate="true"> kann von Ihnen nicht befüllt werden. Hier wird das Vertragskennzeichen nach Vergabe durch das InEK angezeigt. Sofern Sie nur für ein Krankenhaus arbeiten, ist das Feld </text><text styleclass="Normal" style="font-weight:bold;" translate="true">IK</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> automatisch befüllt. Arbeiten Sie dagegen für mehrere Häuser, müssen Sie das gewünscht IK auswählen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Die Felder zum </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Ansprechpartner</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> werden automatisch anhand Ihrer Stammdaten befüllt. Hier sind nur dann Eingaben erforderlich, falls Sie einen anderen Ansprechpartner anlegen möchten. Das InEK empfiehlt, nur solche Ansprechpartner anzugeben, die auch im </text><var styleclass="Normal" style="font-weight:normal;">&lt;%TITLE%&gt;</var><text styleclass="Normal" style="font-weight:normal;" translate="true"> registriert sind.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Sobald Sie eines der beiden Ankreuzfelder (&quot;CheckBoxen&quot;) für beabsichtigte bzw. vorliegende Vereinbarungen markieren, öffnet sich ein entsprechender Bereich, der Ihnen die weitere Eingab von Daten ermöglicht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SpecificFunction02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabebereich geplante Vereinbarung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SpecificFunction03.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabebereich vorliegende Vereinbarungen</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Geben Sie in beiden Bereichen die Daten entsprechend der Dialogbeschriftung an. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> Sie die Daten jederzeit zwischendurch.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> sendet die Daten zur weiteren Bearbeitung an das InEK. In diesem Zusammenhang erfolgt vorab eine Prüfung, ob alle Pflichtfelder gefüllt sind. Wenn Sie die Daten an das InEK gesendet haben ist eine Änderung nicht mehr möglich.</text></para>
   </body>
 </topic>

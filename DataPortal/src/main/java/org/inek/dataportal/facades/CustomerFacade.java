@@ -35,6 +35,7 @@ public class CustomerFacade extends AbstractFacade<Customer> {
             String ikString = "" + ik;
             if (ikString.length() == 9 && (ikString.startsWith("222222") || ikString.startsWith("70"))) {
                 customer.setName("Test-IK");
+                customer.setTown("Musterort");
             }
             return customer;
         }
