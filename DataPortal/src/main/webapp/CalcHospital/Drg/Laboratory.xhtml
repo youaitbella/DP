@@ -79,27 +79,27 @@
             </f:facet>
             
             <h:outputLabel value="Hauskatalog" for="serviceHome" />&nbsp;
-            <h:selectBooleanCheckbox id="serviceHome" value="#{item.serviceDocHome}">
+            <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocHome}" id="serviceHome" value="#{item.serviceDocHome}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
             
             <h:outputLabel value="DKG-NT" for="serviceDocDKG" /> &nbsp;
-            <h:selectBooleanCheckbox id="serviceDocDKG" value="#{item.serviceDocDKG}">
+            <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocDKG}" id="serviceDocDKG" value="#{item.serviceDocDKG}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
             
             <h:outputLabel value="EBM" for="EBM" /> &nbsp;
-            <h:selectBooleanCheckbox id="EBM" value="#{item.serviceDocEBM}">
+            <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocEBM}" id="EBM" value="#{item.serviceDocEBM}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
             
             <h:outputLabel value="GOÄ" for="serviceDocGOA" /> &nbsp;
-            <h:selectBooleanCheckbox id="serviceDocGOA" value="#{item.serviceDocGOA}">
+            <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocGOA}" id="serviceDocGOA" value="#{item.serviceDocGOA}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
             
             <h:outputLabel value="Sonstige" for="serviceDocDif" /> &nbsp;
-            <h:selectBooleanCheckbox id="serviceDocDif" value="#{item.serviceDocDif}">
+            <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocDif}" id="serviceDocDif" value="#{item.serviceDocDif}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox>
         </h:column>
