@@ -61,7 +61,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="CostTypeID">
+    // <editor-fold defaultstate="collapsed" desc="costCenterID">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlCostCenterID")
@@ -76,7 +76,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
+    // <editor-fold defaultstate="collapsed" desc="costCenterNumber">
     @Basic(optional = false)
     @NotNull
     @Column(name = "rlCostCenterNumber")
