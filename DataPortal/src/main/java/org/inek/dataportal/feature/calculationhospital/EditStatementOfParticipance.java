@@ -571,14 +571,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return items;
     }
 
-    public String getHospitalInfo() {
-        Customer c = _customerFacade.getCustomerByIK(_statement.getIk());
-        if (c == null || c.getName() == null) {
-            return "";
-        }
-        return c.getName() + ", " + c.getTown();
-    }
-
     public void ikChanged() {
         if (_statement.getId() == -1) {
             // paranoid check. usually the ik cannot be changed, once the statement is stored

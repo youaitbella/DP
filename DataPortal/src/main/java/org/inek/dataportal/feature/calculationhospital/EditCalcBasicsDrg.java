@@ -920,13 +920,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return items;
     }
 
-    public String getHospitalInfo() {
-        Customer c = _customerFacade.getCustomerByIK(_calcBasics.getIk());
-        if (c == null || c.getName() == null) {
-            return "";
-        }
-        return c.getName() + ", " + c.getTown();
-    }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
