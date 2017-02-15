@@ -13,30 +13,12 @@
 
         <h2>#{msg.lblHospital}</h2>
 
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" for="ikMulti" value="#{msg.lblIkShort}:"/>
-            <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
-            <br/>
-            <h:selectOneMenu styleClass="col08em"
-                             rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"
-                             id="ikMulti"
-                             title="#{msg.titleIK}"
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{editStatementOfParticipance.statement.ik}"
-                             hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                <f:selectItems value="#{editStatementOfParticipance.iks}"/>
-                <f:ajax event="change" listener="#{editStatementOfParticipance.ikChanged}" render="@all :logout:remaining msgMultiIk"/>
-            </h:selectOneMenu>
-
-            <h:inputText styleClass="col07em" readonly="true" value="#{editStatementOfParticipance.statement.ik}" rendered="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.iks.size() le 1 or editStatementOfParticipance.statement.id ge 0}"/>
-
-            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{editStatementOfParticipance.hospitalInfo}"/>
-
-            <br/>
-            <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!editStatementOfParticipance.readOnly and editStatementOfParticipance.iks.size() gt 1 and editStatementOfParticipance.statement.id eq -1}"/>
-        </div>
+        <inek:MultiIk value="#{editStatementOfParticipance.statement.ik}" 
+                      ikList="#{editStatementOfParticipance.iks}"
+                      listener="#{editStatementOfParticipance.ikChanged}" 
+                      readonly="#{editStatementOfParticipance.readOnly}" 
+                      isFixed="#{editStatementOfParticipance.statement.id gt 0}">
+        </inek:MultiIk>
 
         <div jsf:rendered="#{editStatementOfParticipance.statement.ik > 0}" class="marginTop01em">
             <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatory}">
