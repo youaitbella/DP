@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 /**
@@ -74,11 +75,11 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Size(max = 50)
     @Column(name = "ccCostCenterText")
     private String _costCenterText = "";
 
     @Override
+    @Size(max = 50)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -95,6 +96,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     private int _amount;
 
     @Override
+    @Min(0)
     public int getAmount() {
         return _amount;
     }
@@ -110,6 +112,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     private double _fullVigorCnt;
 
     @Override
+    @Min(0)
     public double getFullVigorCnt() {
         return _fullVigorCnt;
     }
@@ -121,11 +124,11 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKey">
-    @Size(max = 50)
     @Column(name = "ccServiceKey")
     private String _serviceKey = "";
 
     @Override
+    @Size(max = 50)
     public String getServiceKey() {
         return _serviceKey;
     }
@@ -156,6 +159,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     private double _serviceSum;
 
     @Override
+    @Min(0)
     public double getServiceSum() {
         return _serviceSum;
     }
