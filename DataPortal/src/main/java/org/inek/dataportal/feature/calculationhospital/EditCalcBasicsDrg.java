@@ -139,8 +139,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void ikChanged() {
+        _logger.info("start ikChanged");
         retrievePriorData(_calcBasics);
         preloadData(_calcBasics);
+        _logger.info("end ikChanged");
     }
 
     private void preloadData(DrgCalcBasics calcBasics) {
@@ -947,6 +949,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
+        _logger.info("start getIks");
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (_calcBasics != null && _calcBasics.getIk() > 0) {
@@ -957,6 +960,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (int ik : iks) {
             items.add(new SelectItem(ik));
         }
+        _logger.info("end getIks");
         return items;
     }
 

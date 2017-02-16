@@ -114,10 +114,21 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void setPriorCalcBasics(PeppCalcBasics priorCalcBasics) {
         this._priorCalcBasics = priorCalcBasics;
     }
+    
+    private List<SelectItem> _cachedIks;
+    
+    public List<SelectItem> getCachedIks() {
+        return _cachedIks;
+    }
+    
+    public void setCachedIks(List<SelectItem> iks) {
+        _cachedIks = iks;
+    }
     // </editor-fold>
 
     @PostConstruct
     private void init() {
+        _logger.info("start init EditCalcBasicPepp");
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
         if (id.equals("new")) {
@@ -126,6 +137,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
             if (calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
+                _logger.info("end init EditCalcBasicPepp");
                 return;
             }
             _calcBasics = calcBasics;
@@ -133,6 +145,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
+        _logger.info("end init EditCalcBasicPepp");
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -176,8 +189,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void ikChanged() {
+        _logger.info("start ikChanged");
         retrievePriorData(_calcBasics);
         preloadData(_calcBasics);
+        _logger.info("end ikChanged");
     }
 
     private void preloadData(PeppCalcBasics calcBasics) {
@@ -225,19 +240,21 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
+        _logger.info("start newCalcBasicsPepp");
         Account account = _sessionController.getAccount();
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-       // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
-       // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
-
-        if (getIks().size() == 1) {
-            calcBasics.setIk((int) getIks().get(0).getValue());
+        // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
+        // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
+        setCachedIks(getIks());
+        if (getCachedIks().size() == 1) {
+            calcBasics.setIk((int) getCachedIks().get(0).getValue());
         }
 
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
+        _logger.info("end newCalcBasicsPepp");
         return calcBasics;
     }
 
@@ -484,6 +501,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
+        _logger.info("start getIks");
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         if (_calcBasics != null && _calcBasics.getIk() > 0) {
@@ -494,6 +512,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         for (int ik : iks) {
             items.add(new SelectItem(ik));
         }
+        _logger.info("end getIks");
         return items;
     }
 
