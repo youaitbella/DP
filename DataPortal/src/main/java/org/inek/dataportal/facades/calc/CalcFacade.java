@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.facades;
+package org.inek.dataportal.facades.calc;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +26,7 @@ import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListContentTextOps;
@@ -56,6 +57,7 @@ import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -66,87 +68,7 @@ import org.inek.dataportal.helper.Utils;
 @Transactional
 public class CalcFacade extends AbstractDataAccess {
 
-    // <editor-fold defaultstate="collapsed" desc="Statement of participance">
-    public StatementOfParticipance findStatementOfParticipance(int id) {
-        return findFresh(StatementOfParticipance.class, id);
-    }
-
-    public StatementOfParticipance retrievePriorStatementOfParticipance(int ik, int year) {
-        String jpql = "select c from StatementOfParticipance c where c._ik = :ik and c._dataYear = :year";
-        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
-        query.setParameter("ik", ik);
-        query.setParameter("year", year - 1);
-        try {
-            StatementOfParticipance statement = query.getSingleResult();
-            getEntityManager().detach(statement);
-            return statement;
-        } catch (Exception ex) {
-            return new StatementOfParticipance();
-        }
-    }
-
-    public List<StatementOfParticipance> listStatementsOfParticipance(int accountId) {
-        String sql = "SELECT sop FROM StatementOfParticipance sop WHERE sop._accountId = :accountId ORDER BY sop._id DESC";
-        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(sql, StatementOfParticipance.class);
-        query.setParameter("accountId", accountId);
-        return query.getResultList();
-    }
-    
-    public List<StatementOfParticipance> listStatementOfParticipanceByIk(int ik) {
-        String sql = "SELECT sop FROM StatementOfParticipance sop WHERE sop._ik = :ik ORDER BY sop._id DESC";
-        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(sql, StatementOfParticipance.class);
-        query.setParameter("ik", ik);
-        return query.getResultList();
-    }
-
-    public void delete(StatementOfParticipance statement) {
-        remove(statement);
-    }
-
-    public boolean existActiveStatementOfParticipance(int ik) {
-        String jpql = "select c from StatementOfParticipance c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
-        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
-        query.setParameter("ik", ik);
-        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        return query.getResultList().size() == 1;
-    }
-
-    
-    public StatementOfParticipance saveStatementOfParticipance(StatementOfParticipance statementOfParticipance) {
-        if (statementOfParticipance.getStatus() == WorkflowStatus.Unknown) {
-            statementOfParticipance.setStatus(WorkflowStatus.New);
-        }
-
-        removeEmptyContacts(statementOfParticipance);
-
-        if (statementOfParticipance.getId() == -1) {
-            persist(statementOfParticipance);
-            return statementOfParticipance;
-        }
-        // whilst persist stores all contacts of the list,
-        // merge only stores the first new contact (and replaces the other new by a copy of the first)
-        // this seems to be a bug?
-        // workarround: separately persist all new contacts before
-        for (CalcContact contact : statementOfParticipance.getContacts()) {
-            contact.setStatementOfParticipanceId(statementOfParticipance.getId());
-            if (contact.getId() < 0) {
-                persist(contact);
-            }
-        }
-        StatementOfParticipance statement = merge(statementOfParticipance);
-        return statement;
-    }
-
-    public void removeEmptyContacts(StatementOfParticipance statement) {
-        List<CalcContact> contacts = statement.getContacts();
-        for (int i = contacts.size() - 1; i >= 0; i--) {
-            CalcContact contact = contacts.get(i);
-            if (contact.isEmpty()) {
-                contacts.remove(i);
-            }
-        }
-    }
-
+    // <editor-fold defaultstate="collapsed" desc="CalcHospital commons">
     public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         Set<Integer> accountIds = new HashSet<>();
         accountIds.add(accountId);
@@ -213,6 +135,127 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Statement of participance">
+    public StatementOfParticipance findStatementOfParticipance(int id) {
+        return findFresh(StatementOfParticipance.class, id);
+    }
+
+    public StatementOfParticipance retrievePriorStatementOfParticipance(int ik, int year) {
+        String jpql = "select c from StatementOfParticipance c where c._ik = :ik and c._dataYear = :year";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", year - 1);
+        try {
+            StatementOfParticipance statement = query.getSingleResult();
+            getEntityManager().detach(statement);
+            return statement;
+        } catch (Exception ex) {
+            return new StatementOfParticipance();
+        }
+    }
+
+    public List<StatementOfParticipance> listStatementsOfParticipance(int accountId) {
+        String sql = "SELECT sop FROM StatementOfParticipance sop WHERE sop._accountId = :accountId ORDER BY sop._id DESC";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(sql, StatementOfParticipance.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
+    
+    public List<StatementOfParticipance> listStatementOfParticipanceByIk(int ik) {
+        String sql = "SELECT sop FROM StatementOfParticipance sop WHERE sop._ik = :ik ORDER BY sop._id DESC";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(sql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        return query.getResultList();
+    }
+
+    public void delete(StatementOfParticipance statement) {
+        remove(statement);
+    }
+
+    public boolean existActiveStatementOfParticipance(int ik) {
+        String jpql = "select c from StatementOfParticipance c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        return query.getResultList().size() == 1;
+    }
+
+    
+    public StatementOfParticipance saveStatementOfParticipance(StatementOfParticipance statementOfParticipance) {
+        if (statementOfParticipance.getStatus() == WorkflowStatus.Unknown) {
+            statementOfParticipance.setStatus(WorkflowStatus.New);
+        }
+
+        removeEmptyContacts(statementOfParticipance);
+        saveStatementOfParticipanceForIcmt(statementOfParticipance);
+        
+        if (statementOfParticipance.getId() == -1) {
+            persist(statementOfParticipance);
+            return statementOfParticipance;
+        }
+        // whilst persist stores all contacts of the list,
+        // merge only stores the first new contact (and replaces the other new by a copy of the first)
+        // this seems to be a bug?
+        // workarround: separately persist all new contacts before
+        for (CalcContact contact : statementOfParticipance.getContacts()) {
+            contact.setStatementOfParticipanceId(statementOfParticipance.getId());
+            if (contact.getId() < 0) {
+                persist(contact);
+            }
+        }
+        StatementOfParticipance statement = merge(statementOfParticipance);
+        return statement;
+    }
+
+    public void removeEmptyContacts(StatementOfParticipance statement) {
+        List<CalcContact> contacts = statement.getContacts();
+        for (int i = contacts.size() - 1; i >= 0; i--) {
+            CalcContact contact = contacts.get(i);
+            if (contact.isEmpty()) {
+                contacts.remove(i);
+            }
+        }
+    }
+
+    public void saveStatementOfParticipanceForIcmt(StatementOfParticipance participance){
+        performInsertStatementOfParticipance(participance.getIk(), participance.isDrgCalc(), 1, "Drg");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isPsyCalc(), 3, "Psy");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isInvCalc(), 4, "Inv");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isTpgCalc(), 5, "Tpg");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isObligatory(), 6, "Obligatory");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isObdCalc(), 7, "Obd");
+    }   
+    
+    public void performInsertStatementOfParticipance(int ik, boolean value, int calcType, String field){
+                //insert CalcAgreement - Vereinbarung
+        String sql = "insert into CallCenterDB.dbo.ccCalcAgreement (caCustomerId, caHasAgreement, caIsInactive, caCalcTypeId) \n"
+                +     "select distinct cuid, 1 agr, 0 inactive, 1 calctype \n"
+                +     "from calc.StatementOfParticipance \n"
+                +     "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                +     "left join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
+                +     "where 1=1 \n"
+                +     "and sopIs" + field + " = 1 \n"
+                +     "and caHasAgreement is null \n"
+                +     "and sopIk = " + ik + "\n\n"
+                //insert CalcInformation - Teilnahme
+                +    "insert into CallCenterDB.dbo.ccCalcInformation (ciCalcAgreementId, ciDataYear, ciParticipation) \n"
+                +    "select caID, (select max(dyDataYear) from CallCenterDB.dbo.ccDataYear) datayear, 1 parti \n"
+                +    "from calc.StatementOfParticipance \n"
+                +    "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                +    "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
+                +    "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId \n"
+                +    "where 1=1 \n"
+                +    "and sopIs" + field + " = 1 \n"
+                +    "and caHasAgreement = 1 \n" 
+                +    "and sopIk = " + ik + "\n"
+                +    "and ciCalcAgreementId is null";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
+    
     /**
      * Check, whether the customers assigned to the account iks have an
      * agreement and the account is a well known contact (2) An IK is only

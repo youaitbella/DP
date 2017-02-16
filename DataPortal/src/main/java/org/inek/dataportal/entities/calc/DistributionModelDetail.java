@@ -1,12 +1,9 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -15,7 +12,15 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "DistributionModelDetail", schema = "calc")
 public class DistributionModelDetail implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
+    public DistributionModelDetail() {
+    }
+
+    public DistributionModelDetail(int masterId) {
+        _masterId = masterId;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -58,7 +63,7 @@ public class DistributionModelDetail implements Serializable {
         _article = article;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property CostCenterId">
     @Column(name = "dmdCostCenterId")
     private int _costCenterId;
@@ -202,7 +207,7 @@ public class DistributionModelDetail implements Serializable {
         _noteProcCode = noteProcCode;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property NoteDiagCode">
     @Column(name = "dmdNoteDiagCode")
     private String _noteDiagCode = "";
@@ -216,7 +221,7 @@ public class DistributionModelDetail implements Serializable {
         _noteDiagCode = noteDiagCode;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property NoteGroupResult">
     @Column(name = "dmdNoteGroupResult")
     private String _noteGroupResult = "";
@@ -230,7 +235,7 @@ public class DistributionModelDetail implements Serializable {
         _noteGroupResult = noteGroupResult;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property NoteOtherCode">
     @Column(name = "dmdNoteOtherCode")
     private String _noteOtherCode = "";
@@ -244,7 +249,7 @@ public class DistributionModelDetail implements Serializable {
         _noteOtherCode = noteOtherCode;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property ApprovalNote">
     @Column(name = "dmdApprovalNote")
     private String _approvalNote = "";
@@ -258,10 +263,11 @@ public class DistributionModelDetail implements Serializable {
         _approvalNote = approvalNote;
     }
     // </editor-fold>
-    
+
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id > 0){
+        if (_id > 0) {
             return _id;
         }
         int hash = 3;
@@ -273,7 +279,6 @@ public class DistributionModelDetail implements Serializable {
         return hash;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -286,7 +291,7 @@ public class DistributionModelDetail implements Serializable {
             return false;
         }
         final DistributionModelDetail other = (DistributionModelDetail) obj;
-        if (_id > 0){
+        if (_id > 0) {
             return _id == other._id;
         }
         if (this._id != other._id) {
@@ -312,5 +317,25 @@ public class DistributionModelDetail implements Serializable {
         return "DistributionModelDetail[id=" + _id + "]";
     }
     // </editor-fold>
-    
+
+    public boolean isEmpty() {
+        return _id <= 0
+                && _article.isEmpty()
+                && _costCenterId <= 0
+                && _costTypeId <= 0
+                && _countCases <= 0
+                && _countCaredays <= 0
+                && _costVolume <= 0
+                && !_useProcCode
+                && !_useDiagCode
+                && !_useGroupResult
+                && !_useOtherCode
+                && !_approved
+                && _noteProcCode.isEmpty()
+                && _noteDiagCode.isEmpty()
+                && _noteGroupResult.isEmpty()
+                && _noteOtherCode.isEmpty()
+                && _approvalNote.isEmpty();
+    }
+
 }
