@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -281,27 +282,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // neonat
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
+        //calcBasics.getNeonateData().clear();
         int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
-        /*_priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
+        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
             Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
             if (optDat.isPresent()) {
-                optDat.get().setData(old.getData());
+                DrgContentText dc = _calcFacade.findCalcContentText(optDat.get().getContentTextId());
+                if(dc.getHeaderTextId() == 2)
+                    optDat.get().setData(new BigDecimal(old.getData().intValue()));
+                else
+                    optDat.get().setData(old.getData());
             }
-        });*/
-        calcBasics.getNeonateData().clear();
-        for(DrgContentText ct : _calcFacade.retrieveContentTexts(headerId, Calendar.getInstance().get(Calendar.YEAR)))  {
-            DrgNeonatData nd = new DrgNeonatData();
-            nd.setCalcBasicsId(calcBasics.getId());
-            nd.setId(-1);
-            nd.setContentTextId(ct.getId());
-            nd.setContentText(_calcFacade.findCalcContentText(ct.getId()));
-            for(DrgNeonatData pnd : _priorCalcBasics.getNeonateData()) {
-                if(pnd.getContentTextId() != nd.getContentTextId())
-                    continue;
-                nd.setData(pnd.getData());
-            }
-            calcBasics.getNeonateData().add(nd);
-        }
+        });
 
         // NonMedicalInfrastructure
 //        calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
