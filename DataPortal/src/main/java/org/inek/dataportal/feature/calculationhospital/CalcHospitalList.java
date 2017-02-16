@@ -83,6 +83,22 @@ public class CalcHospitalList {
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
 
+    public boolean isNewDistributionModelDrgAllowed() {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelDrgCreateEnabled)) {
+            return false;
+        }
+        // toodo return determineButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelDrg);
+        return true;
+    }
+
+    public boolean isNewDistributionModelPeppAllowed() {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelPeppCreateEnabled)) {
+            return false;
+        }
+        //todo return determineButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelPepp);
+        return true;
+    }
+
     public String newCalculationBasicsDrg() {
         destroyFeatureBeans();
 

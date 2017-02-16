@@ -293,8 +293,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
     
     public void ikChanged() {
-        System.out.println("IK changed");
-        // dummy listener
+        // dummy listener, used by component MultiIk - do not delete
     }
 
     public List<SelectItem> getIks() {

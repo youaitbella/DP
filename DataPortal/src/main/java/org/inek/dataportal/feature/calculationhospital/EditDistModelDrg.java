@@ -43,7 +43,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @ViewScoped
-public class EditDistModelDrg extends AbstractEditController implements Serializable{
+public class EditDistModelDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger _logger = Logger.getLogger("EditDistributionModel");
@@ -56,16 +56,15 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
     private String _script;
     private DistributionModel _model;
 
-    public DistributionModel getRequest() {
+    public DistributionModel getModel() {
         return _model;
     }
 
-    public void setRequest(DistributionModel model) {
+    public void setModel(DistributionModel model) {
         this._model = model;
     }
     // </editor-fold>
-    
-    
+
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -99,7 +98,7 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
-    
+
     private DistributionModel newDistributionModel() {
         Account account = _sessionController.getAccount();
         DistributionModel request = new DistributionModel();
@@ -108,7 +107,6 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
         return request;
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
         return _sessionController.isMyAccount(_model.getAccountId(), false);
@@ -128,7 +126,7 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
         setModifiedInfo();
         _model = _calcFacade.saveDistributionModel(_model);
         addDetailIfMissing();
-        
+
         if (isValidId(_model.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -221,7 +219,7 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
             checkField(message, detail.getArticle(), "Bitte Artikel angeben", "");
             // todo
         }
-                
+
         return message;
     }
 
@@ -266,57 +264,58 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
         _model = _calcFacade.saveDistributionModel(_model);
         return "";
     }
-    
+
     public void ikChanged() {
-        System.out.println("IK changed");
-        // dummy listener
+        // dummy listener, used by component MultiIk - do not delete
     }
 
-    public List<SelectItem> getIks() {
-        Set<Integer> iks = new HashSet<>();
-        if (_model != null && _model.getIk() > 0) {
-            iks.add(_model.getIk());
+    private List<SelectItem> _ikItems;
+
+    public List<SelectItem> getIkItems() {
+        if (_ikItems == null) {
+            Set<Integer> iks = new HashSet<>();
+            if (_model != null && _model.getIk() > 0) {
+                iks.add(_model.getIk());
+            }
+            Account account = _sessionController.getAccount();
+            if (account.getIK() > 0) {
+                iks.add(account.getIK());
+            }
+            for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
+                iks.add(additionalIK.getIK());
+            }
+            _ikItems = new ArrayList<>();
+            for (int ik : iks) {
+                _ikItems.add(new SelectItem(ik));
+            }
         }
-        Account account = _sessionController.getAccount();
-        if (account.getIK() > 0){
-        iks.add(account.getIK());
-        }
-        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-            iks.add(additionalIK.getIK());
-        }
-        List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
-        }
-        return items;
+        return _ikItems;
     }
-    
-    public void addDetail(){
+
+    public void addDetail() {
         DistributionModelDetail detail = new DistributionModelDetail(_model.getId());
         _model.getDetails().add(detail);
     }
-    
-    public void deleteDetail(DistributionModelDetail detail){
+
+    public void deleteDetail(DistributionModelDetail detail) {
         _model.getDetails().remove(detail);
     }
-    
-    // </editor-fold>
 
+    // </editor-fold>
     private void removeEmptyCenters() {
         Iterator<DistributionModelDetail> iter = _model.getDetails().iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             DistributionModelDetail detail = iter.next();
-            if (detail.isEmpty()){
+            if (detail.isEmpty()) {
                 iter.remove();
             }
         }
     }
 
     private void addDetailIfMissing() {
-        if (_model.getDetails().isEmpty()){
+        if (_model.getDetails().isEmpty()) {
             _model.getDetails().add(new DistributionModelDetail(_model.getId()));
         }
     }
 
 }
-

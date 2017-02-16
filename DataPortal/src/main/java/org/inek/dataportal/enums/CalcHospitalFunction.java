@@ -12,5 +12,7 @@ package org.inek.dataportal.enums;
 public enum CalcHospitalFunction {
     StatementOfParticipance,
     CalculationBasicsDrg,
-    CalculationBasicsPepp
+    CalculationBasicsPepp,
+    ClinicalDistributionModelDrg,
+    ClinicalDistributionModelPepp
 }

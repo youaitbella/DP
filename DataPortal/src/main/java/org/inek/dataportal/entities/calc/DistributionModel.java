@@ -33,6 +33,20 @@ public class DistributionModel implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Type">
+    @Column(name = "dmmType")
+    @Documentation(name = "KVM", translateValue = "0=DRG;1=PEPP")
+    private int _type;
+
+    public int getType() {
+        return _type;
+    }
+
+    public void setType(int type) {
+        _type = type;
+    }
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "dmmDataYear")
     private int _dataYear;
@@ -106,21 +120,6 @@ public class DistributionModel implements Serializable {
         _statusId = status.getValue();
     }
     //</editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property Title">
-    @Column(name = "dmmType")
-    @Documentation(key = "lblTitle", omitOnEmpty = true)
-    private String _type = " ";
-
-    @Size(max = 1)
-    public String getType() {
-        return _type;
-    }
-
-    public void setType(String type) {
-        _type = type;
-    }
-    // </editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property List Details">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
