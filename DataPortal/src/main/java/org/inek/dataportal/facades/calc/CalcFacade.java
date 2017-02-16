@@ -46,6 +46,7 @@ import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
+import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListLocation;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory;
