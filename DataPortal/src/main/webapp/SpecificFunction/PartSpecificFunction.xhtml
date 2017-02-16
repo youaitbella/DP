@@ -13,7 +13,7 @@
         <h:commandLink action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" value="#{msg.lblSpecificFunction}" immediate="true"/>
     </h2>
     <div class="paddingElement">
-        #{specificFunctionRequestTreeHandler.refreshNodes()}
+        #{specificFunctionRequestTreeHandler.accountNode.refresh()}
 
         <spf:RequestNode parentNode="#{specificFunctionRequestTreeHandler.accountNode}" isSealed="false" 
                          showDelete="true" showSelectBox="false"
