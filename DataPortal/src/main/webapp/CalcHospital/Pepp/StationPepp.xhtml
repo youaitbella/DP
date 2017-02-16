@@ -113,30 +113,31 @@
             <inek:InputTextWithMessage value="#{item.station}" id="station" renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
-            <h:outputLabel value="A" for="psychPV_a" />&nbsp;
-            <h:selectBooleanCheckbox id="psychPV_a" value="#{item.generalMapping}">
+            <inek:InputTextWithMessage value="#{item.psyPvMapping}" id="psyPvMapping" />
+<!--            <h:outputLabel value="A" for="psychPV_a" />&nbsp;
+            <h:selectBooleanCheckbox id="psychPV_a" value="# {item.generalMapping}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
 
             <h:outputLabel value="S" for="psychPV_s" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_s" value="#{item.addictionMapping}">
+            <h:selectBooleanCheckbox id="psychPV_s" value="# {item.addictionMapping}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
 
             <h:outputLabel value="G" for="psychPV_g" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_g" value="#{item.gerontoPsyMapping}">
+            <h:selectBooleanCheckbox id="psychPV_g" value="# {item.gerontoPsyMapping}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
 
             <h:outputLabel value="KJP" for="psychPV_kjp" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_kjp" value="#{item.childYouthMapping}">
+            <h:selectBooleanCheckbox id="psychPV_kjp" value="# {item.childYouthMapping}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
 
             <h:outputLabel value="P" for="psychPV_p" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_p" value="#{item.psychosomaticMapping}">
+            <h:selectBooleanCheckbox id="psychPV_p" value="# {item.psychosomaticMapping}">
                 <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox>
+            </h:selectBooleanCheckbox>-->
 
             </td>
             <td>

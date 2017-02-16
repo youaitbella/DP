@@ -643,7 +643,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (denominator == 0) {
             return "";
         }
-        return "" + Math.round(nominator * 1d / denominator);
+        return "" + Math.round(nominator * 100d / denominator) / 100d;
     }
 
     public String getCostTypeText(int costTypeId) {

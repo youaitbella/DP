@@ -6,6 +6,9 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -474,7 +477,42 @@ public class KGPListStationServiceCost implements Serializable {
     }
     //</editor-fold>
 
-    @Transient
+    //<editor-fold defaultstate="collapsed" desc="Property _psyPvMapping">
+    @Column(name = "sscPsyPvMapping")
+    private String _psyPvMapping;
+
+    public String getPsyPvMapping() {
+        StringBuilder sb = new StringBuilder();
+
+        if (_generalMapping) { sb.append("A; "); }
+        if (_addictionMapping) { sb.append("S; "); }
+        if (_gerontoPsyMapping) { sb.append("G; "); }
+        if (_childYouthMapping) { sb.append("KJP; "); }
+        if (_psychosomaticMapping) { sb.append("P; "); }
+        
+        if (sb.length() > 0) {
+            sb.delete(sb.length()-2, sb.length());
+        }
+        return sb.toString();
+    }
+
+    public void setPsyPvMapping(String psyPvMapping) {
+        List<String> vals = Arrays.asList(psyPvMapping.split(";"));
+        _generalMapping = _addictionMapping = _gerontoPsyMapping = _childYouthMapping = _psychosomaticMapping = false;
+        for (String val : vals) {
+            switch (val.trim().toUpperCase()) {
+                case "A": _generalMapping = true; break;
+                case "S": _addictionMapping = true; break;
+                case "G": _gerontoPsyMapping = true; break;
+                case "KJP": _childYouthMapping = true; break;
+                case "P": _psychosomaticMapping = true; break;
+                default: ;
+            } 
+        }
+        this._psyPvMapping = getPsyPvMapping();
+    }
+    //</editor-fold>
+
     public String getUtilization() {
         if (_bedCnt == 0) {
             return "";
