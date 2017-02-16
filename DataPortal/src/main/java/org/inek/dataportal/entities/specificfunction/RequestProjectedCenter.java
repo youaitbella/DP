@@ -34,7 +34,7 @@ public class RequestProjectedCenter implements Serializable {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
     // </editor-fold>

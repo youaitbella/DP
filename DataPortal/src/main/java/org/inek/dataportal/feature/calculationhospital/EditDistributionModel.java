@@ -43,7 +43,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @ViewScoped
-public class EditDistModelDrg extends AbstractEditController implements Serializable {
+public class EditDistributionModel extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger _logger = Logger.getLogger("EditDistributionModel");
@@ -69,8 +69,13 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
+        String type = "" + params.get("type");
+        if (id.equals("new") && !type.equals("0") && !type.equals("1")){
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+        }
         if (id.equals("new")) {
-            _model = newDistributionModel();
+            _model = newDistributionModel(type);
         } else if (Utils.isInteger(id)) {
             DistributionModel model = loadDistributionModel(id);
             if (model.getId() == -1) {
@@ -99,12 +104,13 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
-    private DistributionModel newDistributionModel() {
+    private DistributionModel newDistributionModel(String type) {
+        DistributionModel model = new DistributionModel();
         Account account = _sessionController.getAccount();
-        DistributionModel request = new DistributionModel();
-        request.setAccountId(account.getId());
-        request.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        return request;
+        model.setAccountId(account.getId());
+        model.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        model.setType(type.equals("0") ? 0 : 1);
+        return model;
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -272,6 +278,7 @@ public class EditDistModelDrg extends AbstractEditController implements Serializ
     private List<SelectItem> _ikItems;
 
     public List<SelectItem> getIkItems() {
+        // todo: get correct IK list, depending on type
         if (_ikItems == null) {
             Set<Integer> iks = new HashSet<>();
             if (_model != null && _model.getIk() > 0) {
