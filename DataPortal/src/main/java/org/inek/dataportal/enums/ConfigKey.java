@@ -22,6 +22,8 @@ public enum ConfigKey {
     IsCalculationBasicsPsySendEnabled(false),
     IsSpecificFunctionRequestCreateEnabled(false),
     IsSpecificFunctionRequestSendEnabled(false),
+    IsDistributionModelDrgCreateEnabled(false), 
+    IsDistributionModelPeppCreateEnabled(false),
     DataServiceClientVersion("20160101.3"),
     ApplicationURL("https://daten.inek.org"),
     FolderRoot("//vFileserver01/company$/EDV/Datenportal/"),
