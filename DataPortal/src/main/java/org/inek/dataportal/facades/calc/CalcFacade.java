@@ -120,7 +120,8 @@ public class CalcFacade extends AbstractDataAccess {
         }
 
         removeEmptyContacts(statementOfParticipance);
-
+        saveStatementOfParticipanceForIcmt(statementOfParticipance);
+        
         if (statementOfParticipance.getId() == -1) {
             persist(statementOfParticipance);
             return statementOfParticipance;
@@ -149,6 +150,43 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
+    public void saveStatementOfParticipanceForIcmt(StatementOfParticipance participance){
+        performInsertStatementOfParticipance(participance.getIk(), participance.isDrgCalc(), 1, "Drg");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isPsyCalc(), 3, "Psy");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isInvCalc(), 4, "Inv");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isTpgCalc(), 5, "Tpg");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isObligatory(), 6, "Obligatory");
+        performInsertStatementOfParticipance(participance.getIk(), participance.isObdCalc(), 7, "Obd");
+    }   
+    
+    public void performInsertStatementOfParticipance(int ik, boolean value, int calcType, String field){
+                //insert CalcAgreement - Vereinbarung
+        String sql = "insert into CallCenterDB.dbo.ccCalcAgreement (caCustomerId, caHasAgreement, caIsInactive, caCalcTypeId) \n"
+                +     "select distinct cuid, 1 agr, 0 inactive, 1 calctype \n"
+                +     "from calc.StatementOfParticipance \n"
+                +     "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                +     "left join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
+                +     "where 1=1 \n"
+                +     "and sopIs" + field + " = 1 \n"
+                +     "and caHasAgreement is null \n"
+                +     "and sopIk = " + ik + "\n\n"
+                //insert CalcInformation - Teilnahme
+                +    "insert into CallCenterDB.dbo.ccCalcInformation (ciCalcAgreementId, ciDataYear, ciParticipation) \n"
+                +    "select caID, (select max(dyDataYear) from CallCenterDB.dbo.ccDataYear) datayear, 1 parti \n"
+                +    "from calc.StatementOfParticipance \n"
+                +    "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                +    "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
+                +    "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId \n"
+                +    "where 1=1 \n"
+                +    "and sopIs" + field + " = 1 \n"
+                +    "and caHasAgreement = 1 \n" 
+                +    "and sopIk = " + ik + "\n"
+                +    "and ciCalcAgreementId is null";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
+    
     public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         Set<Integer> accountIds = new HashSet<>();
         accountIds.add(accountId);
