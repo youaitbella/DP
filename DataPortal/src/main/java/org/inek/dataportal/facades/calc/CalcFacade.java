@@ -851,11 +851,4 @@ public class CalcFacade extends AbstractDataAccess {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="clinical distribution model">
-    public DistributionModel findDistributionModel(int id) {
-        return findFresh(DistributionModel.class, id);
-    }
-    // </editor-fold>
-
-
 }
