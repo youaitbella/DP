@@ -114,11 +114,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Kosten FD||sscFunctionalServiceAmount|
 |||Kosten med. Infra.||sscMedicalInfrastructureAmount|
 |||Kosten nicht med. Infra.||sscNonMedicalInfrastructureAmount|
-|||Zuordnung Psych-PV - Allgemeinpsychiatrie||sscGeneralMapping|
-|||Zuordnung Psych-PV - Sucht||sscAddictionMapping|
-|||Zuordnung Psych-PV - Gerontopsychiatrie||sscGerontoPsyMapping|
-|||Zuordnung Psych-PV - Kinder und Jugendpsychiatrie||sscChildYouthMapping|
-|||Zuordnung Psych-PV - Psychosomatik||sscPsychosomaticMapping|
+|||Zuordnung Psych-PV - Allgemeinpsychiatrie, Sucht, Kinder und Jugendpsychiatrie, Gerontopsychiatrie, Psychosomatik||sscPsyPvMapping|
 ||||||
 |Med Infra|Gewähltes Verfahren||KGPBaseInformation||
 |||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
