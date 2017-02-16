@@ -2,6 +2,8 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -119,6 +121,21 @@ public class DistributionModel implements Serializable {
         _type = type;
     }
     // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property List Details">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "dmdMasterId", referencedColumnName = "dmmID")
+    private List<DistributionModelDetail> _details = new Vector<>();
+
+    public List<DistributionModelDetail> getDetails() {
+        return _details;
+    }
+
+    public void setDetails(List<DistributionModelDetail> details) {
+        this._details = details;
+    }
+    //</editor-fold>
+    
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
