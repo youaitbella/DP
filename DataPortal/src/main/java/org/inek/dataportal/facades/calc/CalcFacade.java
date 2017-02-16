@@ -68,6 +68,75 @@ import org.inek.dataportal.helper.Utils;
 @Transactional
 public class CalcFacade extends AbstractDataAccess {
 
+    // <editor-fold defaultstate="collapsed" desc="CalcHospital commons">
+    public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        Set<Integer> accountIds = new HashSet<>();
+        accountIds.add(accountId);
+        return getListCalcInfo(accountIds, year, statusLow, statusHigh);
+    }
+
+    public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
+        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
+        String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + "union\n"
+                + "select biId as Id, 1 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name, biLastChanged as LastChanged\n"
+                + "from calc.KGLBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "union\n"
+                + "select biId as Id, 2 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name, biLastChanged as LastChanged\n"
+                + "from calc.KGPBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "order by 2, 4, 5, 8 desc";
+        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
+        @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();
+        return infos;
+    }
+
+    public Set<Integer> getCalcYears(Set<Integer> accountIds) {
+        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
+        String sql = "select sopDataYear as DataYear\n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopAccountId" + accountCond + "\n"
+                + "union\n"
+                + "select biDataYear as DataYear\n"
+                + "from calc.KGLBaseInformation\n"
+                + "where biAccountId" + accountCond + "\n"
+                + "union\n"
+                + "select biDataYear as DataYear\n"
+                + "from calc.KGPBaseInformation\n"
+                + "where biAccountId" + accountCond;
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
+    }
+
+    public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
+        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
+        String sql = "select sopAccountId as AccountId\n"
+                + "from calc.StatementOfParticipance\n"
+                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + "union\n"
+                + "select biAccountId as AccountId\n"
+                + "from calc.KGLBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "union\n"
+                + "select biAccountId as AccountId\n"
+                + "from calc.KGPBaseInformation\n"
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year;
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        return result;
+    }
+
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Statement of participance">
     public StatementOfParticipance findStatementOfParticipance(int id) {
         return findFresh(StatementOfParticipance.class, id);
@@ -187,72 +256,6 @@ public class CalcFacade extends AbstractDataAccess {
         query.executeUpdate();
     }
     
-    public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        Set<Integer> accountIds = new HashSet<>();
-        accountIds.add(accountId);
-        return getListCalcInfo(accountIds, year, statusLow, statusHigh);
-    }
-
-    public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
-        String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
-                + "from calc.StatementOfParticipance\n"
-                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
-                + "union\n"
-                + "select biId as Id, 1 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name, biLastChanged as LastChanged\n"
-                + "from calc.KGLBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
-                + "union\n"
-                + "select biId as Id, 2 as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name, biLastChanged as LastChanged\n"
-                + "from calc.KGPBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
-                + "order by 2, 4, 5, 8 desc";
-        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
-        @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();
-        return infos;
-    }
-
-    public Set<Integer> getCalcYears(Set<Integer> accountIds) {
-        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String sql = "select sopDataYear as DataYear\n"
-                + "from calc.StatementOfParticipance\n"
-                + "where sopAccountId" + accountCond + "\n"
-                + "union\n"
-                + "select biDataYear as DataYear\n"
-                + "from calc.KGLBaseInformation\n"
-                + "where biAccountId" + accountCond + "\n"
-                + "union\n"
-                + "select biDataYear as DataYear\n"
-                + "from calc.KGPBaseInformation\n"
-                + "where biAccountId" + accountCond;
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
-        return result;
-    }
-
-    public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
-        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String sql = "select sopAccountId as AccountId\n"
-                + "from calc.StatementOfParticipance\n"
-                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
-                + "union\n"
-                + "select biAccountId as AccountId\n"
-                + "from calc.KGLBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
-                + "union\n"
-                + "select biAccountId as AccountId\n"
-                + "from calc.KGPBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year;
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
-        return result;
-    }
-
     /**
      * Check, whether the customers assigned to the account iks have an
      * agreement and the account is a well known contact (2) An IK is only

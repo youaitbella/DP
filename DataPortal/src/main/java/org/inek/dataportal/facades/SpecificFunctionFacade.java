@@ -25,7 +25,6 @@ import org.inek.dataportal.helper.Utils;
 @Transactional
 public class SpecificFunctionFacade extends AbstractDataAccess {
 
-    // <editor-fold defaultstate="collapsed" desc="SpecificFunctionRequest">
     public SpecificFunctionRequest findSpecificFunctionRequest(int id) {
         return findFresh(SpecificFunctionRequest.class, id);
     }
@@ -92,7 +91,5 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         
         return merge(request);
     }
-    // </editor-fold>
-
   
 }

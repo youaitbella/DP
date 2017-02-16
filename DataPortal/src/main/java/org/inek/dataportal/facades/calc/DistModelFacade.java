@@ -8,6 +8,7 @@ package org.inek.dataportal.facades.calc;
 import javax.enterprise.context.RequestScoped;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.calc.DistributionModel;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 
 /**
@@ -22,8 +23,19 @@ public class DistModelFacade extends AbstractDataAccess{
         return findFresh(DistributionModel.class, id);
     }
 
-    public DistributionModel saveDistributionModel(DistributionModel _model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DistributionModel saveDistributionModel(DistributionModel model) {
+        if (model.getStatus() == WorkflowStatus.Unknown) {
+            model.setStatus(WorkflowStatus.New);
+        }
+
+        if (model.getId() == -1) {
+            persist(model);
+            return model;
+        }
+        
+        //todo: save lists
+        
+        return merge(model);
     }
     
 }
