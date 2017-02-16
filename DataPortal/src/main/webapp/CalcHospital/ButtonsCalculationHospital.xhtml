@@ -34,20 +34,22 @@
             <f:param name="id" value="new"/>
         </h:link>
 
-        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsDrgAllowed ? '' : 'buttonDisabled'}"
-                outcome="#{sessionTools.pages.CalcDistModelDrg}"
+        <h:link styleClass="bigButton #{calcHospitalList.newDistributionModelDrgAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcDistributionModel}"
                 value="#{msg.btnNewDistModelDrg}"
-                disabled="#{!calcHospitalList.newCalculationBasicsDrgAllowed}"
+                disabled="#{!calcHospitalList.newDistributionModelDrgAllowed}"
                 >
             <f:param name="id" value="new"/>
+            <f:param name="type" value="0"/>
         </h:link>
 
-        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
-                outcome="#{sessionTools.pages.CalcDistModelPepp}"
+        <h:link styleClass="bigButton #{calcHospitalList.newDistributionModelPeppAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcDistributionModel}"
                 value="#{msg.btnNewDistModelPepp}"
-                disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
+                disabled="#{!calcHospitalList.newDistributionModelPeppAllowed}"
                 >
             <f:param name="id" value="new"/>
+            <f:param name="type" value="1"/>
         </h:link>
 
 

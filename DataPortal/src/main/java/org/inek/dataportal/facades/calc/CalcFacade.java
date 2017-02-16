@@ -92,6 +92,11 @@ public class CalcFacade extends AbstractDataAccess {
                 + " '" + Utils.getMessage("lblCalculationBasicsPepp") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGPBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "union\n"
+                + "select dmmId as Id, 3 + dmmType as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
+                + "from calc.DistributionModelMaster\n"
+                + "where dmmStatusId" + statusCond + " and dmmAccountId" + accountCond + " and dmmDataYear = " + year + "\n"
                 + "order by 2, 4, 5, 8 desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();
@@ -110,7 +115,11 @@ public class CalcFacade extends AbstractDataAccess {
                 + "union\n"
                 + "select biDataYear as DataYear\n"
                 + "from calc.KGPBaseInformation\n"
-                + "where biAccountId" + accountCond;
+                + "where biAccountId" + accountCond + "\n"
+                + "union\n"
+                + "select dmmDataYear as DataYear\n"
+                + "from calc.DistributionModelMaster\n"
+                + "where dmmAccountId" + accountCond;
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
@@ -129,7 +138,11 @@ public class CalcFacade extends AbstractDataAccess {
                 + "union\n"
                 + "select biAccountId as AccountId\n"
                 + "from calc.KGPBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year;
+                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "union\n"
+                + "select dmmAccountId as AccountId\n"
+                + "from calc.DistributionModelMaster\n"
+                + "where dmmStatusId" + statusCond + " and dmmAccountId" + accountCond + " and dmmDataYear = " + year;
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
