@@ -570,6 +570,7 @@ div#wrapper {
 .element33,
 .element40,
 .element50,
+.element60,
 .element70,
 .element80,
 .element100,
@@ -612,6 +613,10 @@ div#wrapper {
 
 .element50 {
     width: 50%;
+}
+
+.element60 {
+    width: 60%;
 }
 
 .element70 {
