@@ -32,14 +32,14 @@ public class DistributionModelDetail implements Serializable {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Property MasterId">
     @Column(name = "dmdMasterId")
-    private int _masterId;
+    private int _masterId = -1;
 
     public int getMasterId() {
         return _masterId;

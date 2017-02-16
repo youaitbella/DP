@@ -216,6 +216,9 @@ public class CalcHospitalList {
                 return Pages.CalcDrgEdit.RedirectURL();
             case 2:
                 return Pages.CalcPeppEdit.URL();
+            case 3:
+            case 4:
+                return Pages.CalcDistributionModel.URL();
         }
         return "";
     }

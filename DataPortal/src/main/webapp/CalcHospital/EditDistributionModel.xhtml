@@ -17,47 +17,49 @@
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
 
             <div class="edit">
-                <h1>Klinisches Verteilmodel DRG</h1>
+                <h2>#{msg.lblClinicalDistributionModel} #{editDistributionModel.model.type eq 0 ? 'DRG' : 'PEPP'}</h2>
 
-                <inek:MultiIk value="#{editDistModelDrg.model.ik}" 
-                              ikList="#{editDistModelDrg.ikItems}"
-                              listener="#{editDistModelDrg.ikChanged}" 
-                              readonly="#{editDistModelDrg.readOnly}" 
-                              isFixed="#{editDistModelDrg.model.id gt 0}">
+                <inek:MultiIk value="#{editDistributionModel.model.ik}" 
+                              ikList="#{editDistributionModel.ikItems}"
+                              listener="#{editDistributionModel.ikChanged}" 
+                              readonly="#{editDistributionModel.readOnly}" 
+                              isFixed="#{editDistributionModel.model.id gt 0}">
                 </inek:MultiIk>
 
                 <hr/>
 
+                <ui:include src="DistributionModelDetails.xhtml"/>
+                
                 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editDistModelDrg.save}"
+                                   action="#{editDistributionModel.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editDistModelDrg.readOnly}">
+                                   rendered="#{!editDistributionModel.readOnly}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editDistModelDrg.requestApproval}"
+                                   action="#{editDistributionModel.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editDistModelDrg.approvalRequestEnabled}"
+                                   rendered="#{editDistributionModel.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editDistModelDrg.seal}"
+                                   action="#{editDistributionModel.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editDistModelDrg.sealEnabled}"
+                                   rendered="#{editDistributionModel.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editDistModelDrg.take}"
+                                   action="#{editDistributionModel.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"
-                                   rendered="#{editDistModelDrg.takeEnabled}"
+                                   rendered="#{editDistributionModel.takeEnabled}"
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
 

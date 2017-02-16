@@ -114,13 +114,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void setPriorCalcBasics(PeppCalcBasics priorCalcBasics) {
         this._priorCalcBasics = priorCalcBasics;
     }
-    
+
     private List<SelectItem> _cachedIks;
-    
+
     public List<SelectItem> getCachedIks() {
         return _cachedIks;
     }
-    
+
     public void setCachedIks(List<SelectItem> iks) {
         _cachedIks = iks;
     }
@@ -150,7 +150,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
-        
+
         for (KGPPersonalAccounting ppa : _priorCalcBasics.getKgpPersonalAccountingList()) {
             for (KGPPersonalAccounting pa : calcBasics.getKgpPersonalAccountingList()) {
                 if (ppa.getCostTypeId() == pa.getCostTypeId()) {
@@ -158,14 +158,14 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 }
             }
         }
-        
+
         for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             df.setId(-1);
             df.setBaseInformationId(calcBasics.getId());
             calcBasics.getDelimitationFacts().add(df);
         }
         checkRequireInputsForDelimitationFact(_priorCalcBasics);
-        
+
         for (KGPListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
             KGPListRadiologyLaboratory nrl = new KGPListRadiologyLaboratory(-1);
             nrl.setBaseInformationId(calcBasics.getId());
@@ -178,7 +178,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
 
     }
-    
+
     private void checkRequireInputsForDelimitationFact(PeppCalcBasics calcBasic) {
         for (KGPListDelimitationFact df : calcBasic.getDelimitationFacts()) {
             int id = df.getContentText().getId();
@@ -206,7 +206,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         //calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
-        
+
         // Personal Accounting
         calcBasics.getKgpPersonalAccountingList().clear();
         for (KGPPersonalAccounting pa : _priorCalcBasics.getKgpPersonalAccountingList()) {
@@ -321,9 +321,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 calcBasics.getServiceProvisions().add(data);
             }
         }
-        
+
         calcBasics.getDelimitationFacts().clear();
-        for(KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, Calendar.getInstance().get(Calendar.YEAR))) {
+        for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, Calendar.getInstance().get(Calendar.YEAR))) {
             KGPListDelimitationFact df = new KGPListDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());
@@ -455,7 +455,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
 
         CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
-        
+
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
@@ -500,24 +500,25 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    public List<SelectItem> getIks() {
-        _logger.info("start getIks");
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-        Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        if (_calcBasics != null && _calcBasics.getIk() > 0) {
-            iks.add(_calcBasics.getIk());
-        }
+    List<SelectItem> _ikItems;
 
-        List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
+    public List<SelectItem> getIks() {
+        if (_ikItems == null) {
+            Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            if (_calcBasics != null && _calcBasics.getIk() > 0) {
+                iks.add(_calcBasics.getIk());
+            }
+
+            _ikItems = new ArrayList<>();
+            for (int ik : iks) {
+                _ikItems.add(new SelectItem(ik));
+            }
         }
-        _logger.info("end getIks");
-        return items;
+        return _ikItems;
     }
 
     // </editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGPListServiceProvision current) {
         Optional<KGPListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
@@ -725,36 +726,37 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         result.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getTherapies().add(result);
     }
-    
+
     public void addStationAlternative() {
         KGPListStationAlternative sa = new KGPListStationAlternative();
         sa.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getKgpStationDepartmentList().add(sa);
     }
-    
+
     public void deleteStationAlternative(KGPListStationAlternative sa) {
         _calcBasics.getKgpStationDepartmentList().remove(sa);
     }
-    
+
     public void addStationServiceCost() {
         KGPListStationServiceCost sc = new KGPListStationServiceCost();
         sc.setBaseInformationID(_calcBasics.getId());
         _calcBasics.getKgpStationServiceCostList().add(sc);
     }
-    
+
     public void deleteStationServiceCost(KGPListStationServiceCost item) {
         _calcBasics.getKgpStationServiceCostList().remove(item);
     }
-    
+
     public List<KGPListRadiologyLaboratory> getRadiologyLaboritories(int costCenter) {
         return _calcBasics.getRadiologyLaboratories().stream()
                 .filter(r -> r.getCostCenterId() == costCenter)
                 .collect(Collectors.toList());
     }
+
     public void deleteRadiologyLaboratory(KGPListRadiologyLaboratory item) {
         _calcBasics.getRadiologyLaboratories().remove(item);
     }
-    
+
     public void addRadiologyLaboratoy(int costCenter) {
         KGPListRadiologyLaboratory item = new KGPListRadiologyLaboratory();
         item.setCostCenterId(costCenter);

@@ -188,7 +188,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // Delimitation facts
         calcBasics.getDelimitationFacts().clear();
-        for(DrgContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
             DrgDelimitationFact df = new DrgDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());
@@ -293,7 +293,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 //        calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
 //        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
 //        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
-
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
@@ -349,7 +348,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
-    
+
     public boolean disableRadiologyServiceCheckboxes(KGLListRadiologyLaboratory rl) {
         return rl.isServiceDocDKG() || rl.isServiceDocDif() || rl.isServiceDocEBM() || rl.isServiceDocGOA() || rl.isServiceDocHome();
     }
@@ -401,16 +400,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
     }
-    
+
     private void ensureRadiologyServiceData(DrgCalcBasics calcBasics) {
-        for(DrgContentText ct : _calcFacade.findAllCalcContentTexts()) {
-            if(ct.getHeaderTextId() == 12) {
+        for (DrgContentText ct : _calcFacade.findAllCalcContentTexts()) {
+            if (ct.getHeaderTextId() == 12) {
                 KGLRadiologyService rs = new KGLRadiologyService();
                 rs.setRsBaseInformationID(calcBasics.getId());
                 rs.setRsContentTextID(ct.getId());
                 KGLListContentTextOps ops = _calcFacade.findOpsCodeByContentTextId(ct.getId());
-                if(ops != null)
+                if (ops != null) {
                     rs.setOpsCode(ops.getOpsCode());
+                }
                 calcBasics.getRadiologyServices().add(rs);
             }
         }
@@ -433,7 +433,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNeonateData().add(data);
         }
     }
-    
+
     private void preloadServiceProvision(DrgCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
@@ -631,7 +631,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .filter(i -> getIntensiv ? i.getIntensiveType() == 1 : i.getIntensiveType() == 2)
                 .collect(Collectors.toList());
     }
-    
+
     public List<KGLListIntensivStroke> addIntensivStroke(boolean isIntensiv) {
         List<KGLListIntensivStroke> result = _calcBasics.getIntensivStrokes();
         KGLListIntensivStroke item = new KGLListIntensivStroke();
@@ -671,15 +671,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
-    
-    private static final String HeadLineIntensiv = 
-                            "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-980_erfüllt;"
-                        + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
-                        + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
-                        + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
-                        + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
-                        + "Kosten_med_Infra;Kosten_nicht_med_Infra";
 
+    private static final String HeadLineIntensiv
+            = "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-980_erfüllt;"
+            + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
+            + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
+            + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
+            + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
+            + "Kosten_med_Infra;Kosten_nicht_med_Infra";
 
     public void downloadTemplateIntensiv() {
         Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
@@ -702,7 +701,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void setFileIntensivCare(Part file) {
         _fileIntensivCare = file;
     }
-    
+
     public void uploadNoticesIntensiv() {
         try {
             if (_fileIntensivCare != null) {
@@ -735,8 +734,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    
-            
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
         return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
@@ -903,7 +900,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
         CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
-        
+
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
@@ -948,24 +945,25 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    public List<SelectItem> getIks() {
-        _logger.info("start getIks");
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-        Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        if (_calcBasics != null && _calcBasics.getIk() > 0) {
-            iks.add(_calcBasics.getIk());
-        }
+    List<SelectItem> _ikItems;
 
-        List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
+    public List<SelectItem> getIks() {
+        if (_ikItems == null) {
+            Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            if (_calcBasics != null && _calcBasics.getIk() > 0) {
+                iks.add(_calcBasics.getIk());
+            }
+
+            _ikItems = new ArrayList<>();
+            for (int ik : iks) {
+                _ikItems.add(new SelectItem(ik));
+            }
         }
-        _logger.info("end getIks");
-        return items;
+        return _ikItems;
     }
 
     // </editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeID() == current.getServiceProvisionTypeID()).findAny();
@@ -1210,11 +1208,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public String getContentText(int id) {
         return _calcFacade.findCalcContentText(id).getText();
     }
-    
+
     public KGLRadiologyService getPriorRadiologyService(int contentTextId) {
-        for(KGLRadiologyService rs : _priorCalcBasics.getRadiologyServices()) {
-            if(rs.getRsContentTextID() == contentTextId)
+        for (KGLRadiologyService rs : _priorCalcBasics.getRadiologyServices()) {
+            if (rs.getRsContentTextID() == contentTextId) {
                 return rs;
+            }
         }
         return new KGLRadiologyService();
     }
