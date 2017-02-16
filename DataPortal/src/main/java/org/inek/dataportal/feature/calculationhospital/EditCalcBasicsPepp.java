@@ -393,7 +393,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
-
+        
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";

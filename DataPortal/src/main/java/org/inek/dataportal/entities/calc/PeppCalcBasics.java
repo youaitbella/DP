@@ -29,6 +29,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
+import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -37,7 +38,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
  */
 @Entity
 @Table(name = "KGPBaseInformation", schema = "calc")
-public class PeppCalcBasics implements Serializable {
+public class PeppCalcBasics implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
 

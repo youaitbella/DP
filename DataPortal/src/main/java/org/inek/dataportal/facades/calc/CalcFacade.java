@@ -6,6 +6,7 @@
 package org.inek.dataportal.facades.calc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,7 @@ import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
+import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.Feature;
@@ -782,38 +784,25 @@ public class CalcFacade extends AbstractDataAccess {
             return calcBasics;
         }
         
-        saveLocationsPepp(calcBasics);
-        saveServiceProvisionsPepp(calcBasics);
-        saveTherapyPepp(calcBasics);
-        saveCostCenterDataPepp(calcBasics);
-        savePersonalAccountingPePP(calcBasics);
-        saveMedInfraPePP(calcBasics);
-        saveRadiologyLaboratories(calcBasics);
+        saveIdList(calcBasics.getLocations());
+        saveIdList(calcBasics.getServiceProvisions());
+        saveIdList(calcBasics.getTherapies());
+        saveIdList(calcBasics.getCostCenters());
+        saveIdList(calcBasics.getKgpPersonalAccountingList());
+        saveIdList(calcBasics.getKgpMedInfraList());
+        saveIdList(calcBasics.getRadiologyLaboratories());
+        
+//        saveServiceProvisionsPepp(calcBasics);
+//        saveTherapyPepp(calcBasics);
+//        saveCostCenterDataPepp(calcBasics);
+//        savePersonalAccountingPePP(calcBasics);
+//        saveMedInfraPePP(calcBasics);
+//        saveRadiologyLaboratories(calcBasics);
         return merge(calcBasics);
     }
     
-    private void saveLocationsPepp(PeppCalcBasics calcBasics) {
-        for (KGPListLocation location : calcBasics.getLocations()) {
-            if (location.getId() == -1) {
-                persist(location);
-            } else {
-                merge(location);
-            }
-        }
-    }
-
-    private void saveServiceProvisionsPepp(PeppCalcBasics calcBasics) {
-        for (KGPListServiceProvision serviceProvision : calcBasics.getServiceProvisions()) {
-            if (serviceProvision.getId() == -1) {
-                persist(serviceProvision);
-            } else {
-                merge(serviceProvision);
-            }
-        }
-    }
-    
-    private void saveCostCenterDataPepp(PeppCalcBasics calcBasics) {
-        for (KGPListCostCenter item : calcBasics.getCostCenters()) {
+    private void saveIdList(List<? extends IdValue> list) {
+        for (IdValue item : list) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
@@ -822,45 +811,6 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    private void saveTherapyPepp(PeppCalcBasics calcBasics) {
-        for (KGPListTherapy therapy : calcBasics.getTherapies()) {
-            if (therapy.getId() == -1) {
-                persist(therapy);
-            } else {
-                merge(therapy);
-            }
-        }
-    }
-    
-    private void savePersonalAccountingPePP(PeppCalcBasics calcBasics) {
-        for (KGPPersonalAccounting item : calcBasics.getKgpPersonalAccountingList()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-    
-    private void saveMedInfraPePP(PeppCalcBasics calcBasics) {
-        for (KGPListMedInfra item : calcBasics.getKgpMedInfraList()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-    
-    private void saveRadiologyLaboratories(PeppCalcBasics calcBasics) {
-        for (KGPListRadiologyLaboratory item : calcBasics.getRadiologyLaboratories()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
     
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);

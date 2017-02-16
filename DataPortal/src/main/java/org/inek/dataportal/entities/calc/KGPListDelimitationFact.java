@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
  *
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGPListDelimitationFact", schema = "calc")
 @XmlRootElement
-public class KGPListDelimitationFact implements Serializable {
+public class KGPListDelimitationFact implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
     
