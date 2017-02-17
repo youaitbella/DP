@@ -20,7 +20,7 @@ body {
 .container { 
     border: 2px solid #7F9BAF; 
     width: 100%; 
-    overflow-y: scroll;
+    overflow: auto;
 }
 
 .container10em { 
