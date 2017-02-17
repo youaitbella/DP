@@ -287,11 +287,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
             Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
             if (optDat.isPresent()) {
-                DrgContentText dc = _calcFacade.findCalcContentText(optDat.get().getContentTextId());
-                if(dc.getHeaderTextId() == 2)
-                    optDat.get().setData(new BigDecimal(old.getData().intValue()));
-                else
-                    optDat.get().setData(old.getData());
+                optDat.get().setData(old.getData());
             }
         });
 
