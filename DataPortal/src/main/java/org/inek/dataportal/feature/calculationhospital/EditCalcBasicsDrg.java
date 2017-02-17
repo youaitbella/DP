@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -281,11 +282,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // neonat
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
+        //calcBasics.getNeonateData().clear();
         int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
         _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
             Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
             if (optDat.isPresent()) {
-                optDat.get().setData(old.getData());
+                DrgContentText dc = _calcFacade.findCalcContentText(optDat.get().getContentTextId());
+                if(dc.getHeaderTextId() == 2)
+                    optDat.get().setData(new BigDecimal(old.getData().intValue()));
+                else
+                    optDat.get().setData(old.getData());
             }
         });
 
@@ -1102,7 +1108,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<DrgHeaderText> getHeaders(int type) {
-        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, type);
+        return _calcFacade.retrieveHeaderTexts(Calendar.getInstance().get(Calendar.YEAR), 20, type);
     }
 
     public List<DrgContentText> retrieveContentTexts(int headerId) {
