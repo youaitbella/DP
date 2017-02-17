@@ -718,6 +718,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "dfBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationID", referencedColumnName = "biID")  
+    @OrderBy(value = "_contentTextId")
     private List<KGPListDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<KGPListDelimitationFact> getDelimitationFacts() {
