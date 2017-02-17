@@ -124,6 +124,7 @@ public class DistributionModel implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List Details">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dmdMasterId", referencedColumnName = "dmmID")
+    @OrderBy(value = "_id")
     private List<DistributionModelDetail> _details = new Vector<>();
 
     public List<DistributionModelDetail> getDetails() {
