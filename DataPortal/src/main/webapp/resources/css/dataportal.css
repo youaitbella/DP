@@ -16,6 +16,17 @@ body {
     text-align: left;
 }
 
+.container10em,
+.container { 
+    border: 2px solid #7F9BAF; 
+    width: 100%; 
+    overflow-y: scroll;
+}
+
+.container10em { 
+    height: 10em; 
+}
+
 * {
     font-family: 'Arial Unicode MS', Arial, Verdana, sans-serif, Georgia, Helvetica, Geneva;
     font-size: 1em;
