@@ -66,7 +66,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostCenterId">
     @Column(name = "dmdCostCenterId")
-    private int _costCenterId;
+    private int _costCenterId = -1;
 
     public int getCostCenterId() {
         return _costCenterId;
@@ -79,7 +79,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostTypeId">
     @Column(name = "dmdCostTypeId")
-    private int _costTypeId;
+    private int _costTypeId = -1;
 
     public int getCostTypeId() {
         return _costTypeId;

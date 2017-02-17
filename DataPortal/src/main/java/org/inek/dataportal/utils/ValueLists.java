@@ -2,6 +2,8 @@ package org.inek.dataportal.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -36,67 +38,65 @@ public class ValueLists {
     @Inject CostTypeFacade _costTypeFacade;
     @Inject AdjustmentTypeFacade _adjustmentTypeFacade;
 
-    List<SelectItem> _costCenters;
-    public List<SelectItem> getCostCenters() {
-        ensureCostCenters();
-        return _costCenters;
+    @PostConstruct
+    private void init() {
+        loadCostCenters();
+
     }
 
-    private void ensureCostCenters() {
-        if (_costCenters == null) {
-            List<CostCenter> costCenters = _costCenterFacade.findAll();
-            _costCenters = new ArrayList<>();
-            SelectItem emptyItem = new SelectItem(-1, "");
-            emptyItem.setNoSelectionOption(true);
-            _costCenters.add(emptyItem);
-            for (CostCenter costCenter : costCenters) {
-                if (costCenter.getIsPsy()) {
-                    _costCenters.add(new SelectItem(costCenter.getId(), costCenter.getCharId() + " " + costCenter.getText()));
-                }
-            }
-        }
+    List<CostCenter> _costCenters;
+    List<CostType> _costTypes;
+
+    private void loadCostCenters() {
+        _costCenters = _costCenterFacade.findAll();
+        _costTypes = _costTypeFacade.findAll();
+    }
+
+    public List<SelectItem> getCostCenters(boolean includeTotal) {
+        return _costCenters.stream()
+                .filter(c -> includeTotal || c.getId() > 0)
+                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
+                .collect(Collectors.toList());
+    }
+
+    public List<SelectItem> getCostCentersDrg(boolean includeTotal) {
+        return _costCenters.stream()
+                .filter(c -> c.getIsDrg())
+                .filter(c -> includeTotal || c.getId() > 0)
+                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText(), c.getText()))
+                .collect(Collectors.toList());
+    }
+
+    public List<SelectItem> getCostCentersPsy(boolean includeTotal) {
+        return _costCenters.stream()
+                .filter(c -> c.getIsDrg())
+                .filter(c -> includeTotal || c.getId() > 0)
+                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
+                .collect(Collectors.toList());
     }
 
     public int getCostCenterId(String charId) {
-        ensureCostCenters();
-        for (SelectItem item : _costCenters) {
-            if (item.getLabel().startsWith(charId.toLowerCase() + " ")) {
-                return (int) item.getValue();
-            }
-        }
-        return -1;
+        return _costCenters.stream().filter(c -> c.getCharId().equals(charId)).mapToInt(c -> c.getId()).findAny().orElse(-1);
     }
 
-    List<SelectItem> _costTypes;
-    public synchronized List<SelectItem> getCostTypes() {
-        ensureCostTypes();
-        return _costTypes;
-    }
-
-    private void ensureCostTypes() {
-        if (_costTypes == null) {
-            List<CostType> costTypes = _costTypeFacade.findAll();
-            _costTypes = new ArrayList<>();
-            SelectItem emptyItem = new SelectItem(-1, "");
-            emptyItem.setNoSelectionOption(true);
-            _costTypes.add(emptyItem);
-            for (CostType costType : costTypes) {
-                _costTypes.add(new SelectItem(costType.getId(), costType.getCharId() + " " + costType.getText()));
-            }
-        }
+    /**
+     * get all cost types include or exclude the total ("Randsumme")
+     * @param includeTotal
+     * @return 
+     */
+    public List<SelectItem> getCostTypes(boolean includeTotal) {
+        return _costTypes.stream()
+                .filter(c -> includeTotal || c.getId() > 0)
+                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
+                .collect(Collectors.toList());
     }
 
     public int getCostTypeId(String charId) {
-        ensureCostTypes();
-        for (SelectItem item : _costTypes) {
-            if (item.getLabel().startsWith(charId.toLowerCase() + " ")) {
-                return (int) item.getValue();
-            }
-        }
-        return -1;
+        return _costTypes.stream().filter(c -> c.getCharId().equals(charId)).mapToInt(c -> c.getId()).findAny().orElse(-1);
     }
 
     List<SelectItem> _adjustmentTypes;
+
     public synchronized List<SelectItem> getAdjustmentTypes() {
         ensureAdjustmentTypes();
         return _adjustmentTypes;

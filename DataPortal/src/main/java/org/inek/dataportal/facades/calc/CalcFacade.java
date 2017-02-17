@@ -266,8 +266,18 @@ public class CalcFacade extends AbstractDataAccess {
                 +    "and sopIs" + field + " = 1 \n"
                 +    "and caHasAgreement = 1 \n" 
                 +    "and sopIk = " + ik + "\n"
-                +    "and ciCalcAgreementId is null";
-
+                +    "and ciCalcAgreementId is null \n\n"
+                //update if participation is already set
+                +    "update a \n"
+                +    "set ciParticipation = sopIs" + field + " \n"
+                +    "from calc.StatementOfParticipance \n"
+                +    "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                +    "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
+                +    "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId \n"
+                +    "where 1=1 \n"
+                +    "and caHasAgreement = 1 \n"
+                +    "and sopIk = " + ik;
+        
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
     }

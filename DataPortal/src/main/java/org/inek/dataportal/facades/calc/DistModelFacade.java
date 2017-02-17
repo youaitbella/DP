@@ -8,6 +8,7 @@ package org.inek.dataportal.facades.calc;
 import javax.enterprise.context.RequestScoped;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.calc.DistributionModel;
+import org.inek.dataportal.entities.calc.DistributionModelDetail;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 
@@ -33,7 +34,13 @@ public class DistModelFacade extends AbstractDataAccess{
             return model;
         }
         
-        //todo: save lists
+        for (DistributionModelDetail detail : model.getDetails()) {
+            if (detail.getId() < 0){
+                persist (detail);
+            }else{
+                merge (detail);
+            }
+        }
         
         return merge(model);
     }
