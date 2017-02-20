@@ -854,6 +854,18 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "leaBaseInformationId", referencedColumnName = "biId")
+    private List<KGLListEndoscopyAmbulant> _endoscopyAmbulant = new Vector<>();
+
+    public List<KGLListEndoscopyAmbulant> getEndoscopyAmbulant() {
+        return _endoscopyAmbulant;
+    }
+
+    public void setEndoscopyAmbulant(List<KGLListEndoscopyAmbulant> _endoscopyAmbulant) {
+        this._endoscopyAmbulant = _endoscopyAmbulant;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Property List normalFeeContracts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")

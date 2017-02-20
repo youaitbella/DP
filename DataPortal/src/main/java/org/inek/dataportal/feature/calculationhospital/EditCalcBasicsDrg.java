@@ -46,6 +46,7 @@ import org.inek.dataportal.entities.calc.KGLDocument;
 import org.inek.dataportal.entities.calc.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
+import org.inek.dataportal.entities.calc.KGLListEndoscopyAmbulant;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.KGLListLocation;
@@ -619,6 +620,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
+    
+    public List<SelectItem> getEndoscopyAmbulantTypes() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(-1, "Bitte wählen..."));
+        items.add(new SelectItem(1, "DGVS"));
+        items.add(new SelectItem(2, "Leistungszeit"));
+        items.add(new SelectItem(3, "Punktesystem"));
+        items.add(new SelectItem(4, "Sonstige"));
+        return items;
+    }
 
     public List<KGLListEndoscopyDifferential> addEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
@@ -626,6 +637,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
         return result;
+    }
+    
+    public void addEndoscopyAmbulant() {
+        KGLListEndoscopyAmbulant a = new KGLListEndoscopyAmbulant();
+        a.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getEndoscopyAmbulant().add(a);
+    }
+    
+    public void deleteEndoscopyAmbulant(KGLListEndoscopyAmbulant a) {
+        _calcBasics.getEndoscopyAmbulant().remove(a);
     }
 
     public void deleteEndoscopyDifferential(KGLListEndoscopyDifferential differential) {

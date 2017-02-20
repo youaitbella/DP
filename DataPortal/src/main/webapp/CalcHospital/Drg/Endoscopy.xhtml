@@ -64,13 +64,20 @@
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
     </h:commandLink>
     
-    <table>
+    <style>
+        #endoAmbu td {
+            vertical-align: top;
+        }
+    </style>
+    
+    <table id="endoAmbu" class="marginTop">
         <tr>
+            <th></th>
             <th>
                 Ambulante Leistungen im endoskopischen Bereich
             </th>
             <th>
-                Leistungsschlüssel<sup>1</sup>
+                Leistungsschlüssel
             </th>
             <th>
                 Anzahl erbrachter amb. Leistungen
@@ -88,7 +95,50 @@
                 abgegr. Kostenvolumen nicht med.Infrastruktur
             </th>
         </tr>
+        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.endoscopyAmbulant}" var="item">
+            <tr>
+                <td>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyAmbulant(item)}" 
+                           rendered="true"
+                           immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </td>
+                <td>
+            <inek:InputTextWithMessage value="#{item.ambulantService}" />
+                </td>
+                <td>
+                <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide">
+                    <f:selectItems value="#{editCalcBasicsDrg.endoscopyAmbulantTypes}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
+                </h:selectOneMenu>
+                <h:inputTextarea rendered="#{item.serviceKey == 4}" required="true" styleClass="inputwide" value="#{item.miscText}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputTextarea>
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.numServices}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.costVolumeMedical}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.costVolumeFunction}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.costVolumeMedInfra}" />
+                </td>
+                <td>
+                <inek:InputNumberWithMessage value="#{item.costVolumeNonMedInfra}" />
+                </td>
+            </tr>
+        </ui:repeat>
     </table>
+    
+    <h:commandLink id="addButton2" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyAmbulant()}"/>
+    </h:commandLink>
     
 </ui:composition>
 

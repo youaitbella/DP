@@ -1437,3 +1437,7 @@ th {
 .circleGreen {
     background: radial-gradient(circle at top left, white 0%, green 100%);
 }
+
+sup {
+    font-size: 9px;
+}
