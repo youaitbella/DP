@@ -9,13 +9,18 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 >
 
+    <h:selectBooleanCheckbox value="#{editDistributionModel.showWide}">
+        <f:ajax render="details"/>
+    </h:selectBooleanCheckbox>
+    <h:outputLabel value="breite Ansicht" styleClass="marginLeft"/>
+    
     <div class="container">
 
         <h:dataTable id="details"
                      value="#{editDistributionModel.model.details}" var="item"
-                     styleClass="marginTop" style="width: 200em;"
+                     styleClass="marginTop" style="width: #{editDistributionModel.showWide ? '200em' : '100%'};"
                      rowClasses="row1, row2"
-                     columnClasses="colIcon, colValue, col05em, col05em, #{editDistributionModel.model.type eq 1 ? 'col4em, ' : ''} col4em, col3em, colValue, col3em, colValue, col3em, colValue, col3em, colValue, col3em, colValue">
+                     columnClasses="colIcon, colValue, col05em, col05em, #{editDistributionModel.model.type eq 1 ? 'col4em, ' : ''} col04em, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue">
 
             <h:column>
                 <f:facet name="header">
@@ -65,7 +70,7 @@
                 <inek:InputTextWithMessage value="#{item.countCaredays}" readonly="#{editDistributionModel.readOnly}" required="true"/>
             </h:column>
 
-            <h:column>
+            <h:column class="col4em">
                 <f:facet name="header"><h:outputLabel value="Fallzahl" title="Anzahl Fälle"/></f:facet>
                 <inek:InputNumberWithMessage value="#{item.countCases}" readonly="#{editDistributionModel.readOnly}" required="true"/>
             </h:column>
@@ -82,7 +87,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="ICD" title="Verteilung basiert auf Diagnosencode (ICD)"/></f:facet>
-                <inek:Checkbox value="#{item.useDiagCode}" readonly="#{editDistributionModel.readOnly}" renderElement="details"/>
+                <inek:Checkbox value="#{item.useDiagCode}" readonly="#{editDistributionModel.readOnly}" renderElement="details" styleClass="col03em"/>
             </h:column>
 
             <h:column rendered="#{editDistributionModel.model.details.stream().anyMatch(d -> d.isUseDiagCode())}">
@@ -93,7 +98,7 @@
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{editDistributionModel.model.type eq 0 ? 'DRG' : 'PEPP'}" 
                                                       title="Verteilung basiert auf Fallgruppierung (#{editDistributionModel.model.type eq 0 ? 'DRG' : 'PEPP'})"/></f:facet>
-                <inek:Checkbox value="#{item.useGroupResult}" readonly="#{editDistributionModel.readOnly}" renderElement="details"/>
+                <inek:Checkbox value="#{item.useGroupResult}" readonly="#{editDistributionModel.readOnly}" renderElement="details" styleClass="col03em"/>
             </h:column>
 
             <h:column rendered="#{editDistributionModel.model.details.stream().anyMatch(d -> d.isUseGroupResult())}">
@@ -103,7 +108,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="sonstiger Schlüssel" title="Verteilung basiert auf einem sonstigen Schlüssel - bitte erläutern"/></f:facet>
-                <inek:Checkbox value="#{item.useOtherCode}" readonly="#{editDistributionModel.readOnly}" renderElement="details"/>
+                <inek:Checkbox value="#{item.useOtherCode}" readonly="#{editDistributionModel.readOnly}" renderElement="details" styleClass="col03em"/>
             </h:column>
 
             <h:column rendered="#{editDistributionModel.model.details.stream().anyMatch(d -> d.isUseOtherCode())}">
@@ -112,8 +117,8 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header"><h:outputLabel value="genehmnigt" title="Das InEK hat die geplante Kostenverteilung geprüft und genehmigt"/></f:facet>
-                <inek:Checkbox value="#{item.approved}" readonly="#{editDistributionModel.readOnly or not sessionController.isInekUser('CALCULATION_HOSPITAL')}"/>
+                <f:facet name="header"><h:outputLabel value="genehmigt" title="Das InEK hat die geplante Kostenverteilung geprüft und genehmigt"/></f:facet>
+                <inek:Checkbox value="#{item.approved}" readonly="#{editDistributionModel.readOnly or not sessionController.isInekUser('CALCULATION_HOSPITAL')}" styleClass="col03em"/>
             </h:column>
 
             <h:column>

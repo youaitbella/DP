@@ -63,6 +63,17 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public void setModel(DistributionModel model) {
         this._model = model;
     }
+    
+    private boolean _showWide = false;
+
+    public boolean isShowWide() {
+        return _showWide;
+    }
+
+    public void setShowWide(boolean showWide) {
+        this._showWide = showWide;
+    }
+    
     // </editor-fold>
 
     @PostConstruct
