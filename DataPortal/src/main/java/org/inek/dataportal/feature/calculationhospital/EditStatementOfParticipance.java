@@ -221,6 +221,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isReadOnly() {
+        if (_cooperationTools == null || _statement == null){
+            return true;
+        }
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
     }
 
