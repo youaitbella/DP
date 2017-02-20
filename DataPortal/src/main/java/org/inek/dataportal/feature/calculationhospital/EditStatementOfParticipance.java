@@ -576,9 +576,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         Account account = _sessionController.getAccount();
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
         Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
-        if (testMode && _sessionController.getAccount().getEmail().endsWith("@inek-drg.de")) {
-            iks = _sessionController.getAccount().getFullIkList();
-        }
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }

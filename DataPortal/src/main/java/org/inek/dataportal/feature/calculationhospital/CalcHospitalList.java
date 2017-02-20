@@ -61,8 +61,6 @@ public class CalcHospitalList {
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
-            if(testMode && _sessionController.getAccount().getEmail().endsWith("@inek-drg.de"))
-                iks = _sessionController.getAccount().getFullIkList();
             _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
