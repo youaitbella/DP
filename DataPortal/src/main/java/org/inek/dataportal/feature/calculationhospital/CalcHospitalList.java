@@ -18,6 +18,7 @@ import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
@@ -28,6 +29,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.calc.DistModelFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -46,8 +48,9 @@ public class CalcHospitalList {
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
+    @Inject private DistModelFacade _distModelFacade;
     @Inject private AccountFacade _accountFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     private final Map<CalcHospitalFunction, Boolean> _allowedButtons = new HashMap<>();
     // </editor-fold>
 
@@ -56,8 +59,9 @@ public class CalcHospitalList {
             return false;
         }
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
-            Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-            if(_sessionController.getAccount().getEmail().endsWith("@inek-drg.de"))
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            if(testMode && _sessionController.getAccount().getEmail().endsWith("@inek-drg.de"))
                 iks = _sessionController.getAccount().getFullIkList();
             _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
@@ -87,18 +91,29 @@ public class CalcHospitalList {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelDrgCreateEnabled)) {
             return false;
         }
-        // toodo return determineButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelDrg);
-        return true;
+        return determineDistModelButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelDrg);
     }
 
     public boolean isNewDistributionModelPeppAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelPeppCreateEnabled)) {
             return false;
         }
-        //todo return determineButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelPepp);
-        return true;
+        return determineDistModelButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelPepp);
     }
 
+    private boolean determineDistModelButtonAllowed(CalcHospitalFunction calcFunct) {
+        if (!_allowedButtons.containsKey(calcFunct)) {
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Account account = _sessionController.getAccount();
+            boolean isAllowed = possibleIks.contains(account.getIK())
+                    || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
+            _allowedButtons.put(calcFunct, isAllowed);
+        }
+        return _allowedButtons.get(calcFunct);
+    }
+
+    
     public String newCalculationBasicsDrg() {
         destroyFeatureBeans();
 
@@ -115,7 +130,8 @@ public class CalcHospitalList {
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasics(calcFunct, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasics(calcFunct, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
             Account account = _sessionController.getAccount();
             boolean isAllowed = possibleIks.contains(account.getIK())
                     || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
@@ -169,6 +185,10 @@ public class CalcHospitalList {
             case 2:
                 deleteCalculationBasicsPepp(hospitalInfo);
                 break;
+            case 3:
+            case 4:
+                deleteDistributionModel(hospitalInfo);
+                break;
         }
         return "";
     }
@@ -204,6 +224,16 @@ public class CalcHospitalList {
             _calcFacade.saveCalcBasicsPepp(calcBasics);
         } else {
             _calcFacade.delete(calcBasics);
+        }
+    }
+
+    private void deleteDistributionModel(CalcHospitalInfo hospitalInfo) {
+        DistributionModel model = _distModelFacade.findDistributionModel(hospitalInfo.getId());
+        if (model.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
+            model.setStatus(WorkflowStatus.Retired);
+            _distModelFacade.saveDistributionModel(model);
+        } else {
+            _distModelFacade.deleteDistributionModel(model);
         }
     }
 

@@ -8,7 +8,6 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -64,7 +63,6 @@ import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.common.CostType;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -952,7 +950,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
             Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }
