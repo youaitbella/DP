@@ -491,7 +491,7 @@
     </div>
 
     <div class="inputPart">
-        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
+        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor?"  
                                  renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.difLocationSupply}" labelStyle="label"/>
     </div>
 
@@ -540,10 +540,17 @@
     
     <h2>Weitere Informationen</h2>
     <h:outputLabel styleClass="label" value="Einzelkosten Arzneimittel" /><br/>
-    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?" value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}"/><br/>
+    <inek:BooleanRadioButton label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?"  
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}" labelStyle="label element60"/><br/>
+
+<!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?" value="# {editCalcBasicsPepp.calcBasics.medicineCostMapping}"/><br/>-->
     <h:outputLabel styleClass="label" value="Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung" />
-    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}"/>
-    <inek:LabeledCheckbox styleClassLabel="label element60" label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?" value="#{editCalcBasicsPepp.calcBasics.additionalDataAllocation}"/>
+    <inek:BooleanRadioButton label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?"  
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}" labelStyle="label element60"/>
+<!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?" value="# {editCalcBasicsPepp.calcBasics.courtPlacement}"/>-->
+    <inek:BooleanRadioButton label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?"  
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.additionalDataAllocation}" labelStyle="label element60"/>
+<!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?" value="# {editCalcBasicsPepp.calcBasics.additionalDataAllocation}"/>-->
     
     <h2>Berücksichtigte Abgrenzungstatbestände</h2>
 
