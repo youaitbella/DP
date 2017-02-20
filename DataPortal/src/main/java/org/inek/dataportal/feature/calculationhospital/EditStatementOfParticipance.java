@@ -193,6 +193,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public void enableDisableStatementPage() {
         boolean enable = !_statement.isObligatory() || _statement.getObligatoryCalcType() > 1;
         findTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name()).setVisible(enable);
+        updateObligatorySetting();
     }
 
     public String getEmailInfo() {
@@ -291,13 +292,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
 
         if (_statement.isObligatory()) {
-            if (_statement.getObligatoryCalcType() == 2) {
-                _statement.setDrgCalc(true);
-                _statement.setPsyCalc(true);
-            } else {
-                _statement.setDrgCalc(false);
-                _statement.setPsyCalc(false);
-            }
+            updateObligatorySetting();
         }
         if (!_statement.isDrgCalc()) {
             _statement.setClinicalDistributionModelDrg(-1);
@@ -335,6 +330,25 @@ public class EditStatementOfParticipance extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    private void updateObligatorySetting() {
+        if (_statement.getObligatoryCalcType() == 2) {
+            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(_statement.getIk());
+            if (currentData.size() == 1) {
+                Object[] obj = currentData.get(0);
+                String domain = (String) obj[0];
+                boolean isDrg = (boolean) obj[5];
+                boolean isPsy = (boolean) obj[6];
+                if (domain.contains("obligatory")) {
+                    _statement.setDrgCalc(isDrg);
+                    _statement.setPsyCalc(isPsy);
+                }
+            }
+        } else {
+            _statement.setDrgCalc(false);
+            _statement.setPsyCalc(false);
+        }
     }
 
     private void populateDefaultsForUnreachableFields() {
