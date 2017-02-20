@@ -800,6 +800,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getTherapies());
         saveIdList(calcBasics.getCostCenters());
         saveIdList(calcBasics.getKgpPersonalAccountingList());
+        saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
         

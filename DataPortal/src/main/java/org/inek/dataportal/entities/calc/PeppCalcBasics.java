@@ -654,18 +654,18 @@ public class PeppCalcBasics implements Serializable, IdValue {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpStationServiceCostList">
+    // <editor-fold defaultstate="collapsed" desc="Property List _stationServiceCosts">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "sscBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")  
-    private List<KGPListStationServiceCost> _kgpStationServiceCostList = new Vector<>();
+    private List<KGPListStationServiceCost> _stationServiceCosts = new Vector<>();
 
-    public List<KGPListStationServiceCost> getKgpStationServiceCostList() {
-        return _kgpStationServiceCostList;
+    public List<KGPListStationServiceCost> getStationServiceCosts() {
+        return _stationServiceCosts;
     }
 
-    public void setKgpStationServiceCostList(List<KGPListStationServiceCost> kgpStationServiceCostList) {
-        this._kgpStationServiceCostList = kgpStationServiceCostList;
+    public void setStationServiceCosts(List<KGPListStationServiceCost> kgpStationServiceCostList) {
+        this._stationServiceCosts = kgpStationServiceCostList;
     }
     // </editor-fold>
     

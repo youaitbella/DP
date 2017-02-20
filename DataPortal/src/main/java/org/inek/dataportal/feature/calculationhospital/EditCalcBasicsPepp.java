@@ -724,11 +724,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void addStationServiceCost() {
         KGPListStationServiceCost sc = new KGPListStationServiceCost();
         sc.setBaseInformationID(_calcBasics.getId());
-        _calcBasics.getKgpStationServiceCostList().add(sc);
+        _calcBasics.getStationServiceCosts().add(sc);
     }
 
     public void deleteStationServiceCost(KGPListStationServiceCost item) {
-        _calcBasics.getKgpStationServiceCostList().remove(item);
+        _calcBasics.getStationServiceCosts().remove(item);
     }
 
     public List<KGPListRadiologyLaboratory> getRadiologyLaboritories(int costCenter) {
