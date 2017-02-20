@@ -107,7 +107,7 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.costCenterNumber}" id="cstnmb" renderElement="@this tblNormInt2:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
+            <inek:InputNumberWithMessage value="#{item.costCenterNumber}" pattern="0" id="cstnmb" renderElement="@this tblNormInt2:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
             <inek:InputTextWithMessage value="#{item.station}" id="station" renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
@@ -203,7 +203,7 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputNumberWithMessage id="cstnmb" value="#{item.costCenterNumber}" renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
+            <inek:InputNumberWithMessage id="cstnmb" value="#{item.costCenterNumber}" pattern="0" renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
             <inek:InputTextWithMessage id="station" value="#{item.station}" renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
@@ -267,7 +267,7 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputNumberWithMessage id="cstnmb" value="#{item.costCenterNumber}" renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt2:#{loop.index}:cstnmb:text"/>
+            <inek:InputNumberWithMessage id="cstnmb" value="#{item.costCenterNumber}" pattern="0" renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt2:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
             <inek:InputTextWithMessage id="station" value="#{item.station}" renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt2:#{loop.index}:station:text"/>

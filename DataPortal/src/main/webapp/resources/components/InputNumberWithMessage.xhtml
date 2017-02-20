@@ -18,7 +18,8 @@
         <cc:attribute name="isInt" default="true"/>
         <cc:attribute name="minimum" default="0"/>
         <cc:attribute name="maximum" default="999999999"/>
-        <cc:attribute name="pattern" default=""/>
+        <cc:attribute name="pattern" default="#,##0.##"/>
+        <cc:attribute name="validatorMessage" default="ausserhalb des gültigen Bereichs"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -33,7 +34,7 @@
                          disabled="#{cc.attrs.disabled}"
                          required="#{cc.attrs.required}"
                          requiredMessage="#{msg.msgValueNeeded}"
-                         validatorMessage="#{null}"
+                         validatorMessage="#{cc.attrs.validatorMessage}"
                          >
                 <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message"/>
                 <f:convertNumber rendered="#{cc.attrs.pattern.length() eq 0}"/>
