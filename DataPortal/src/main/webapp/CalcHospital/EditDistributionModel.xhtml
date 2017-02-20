@@ -19,7 +19,7 @@
             <div class="edit">
                 <h2>#{msg.lblClinicalDistributionModel} #{editDistributionModel.model.type eq 0 ? 'DRG' : 'PEPP'}</h2>
                 <br/>
-                <h:outputLabel value="Bitte vervollständigen Sie Ihre Angaben zum Klinischen Verteilungsmodell (KVM) bis spätestens zum 10. März #{editDistributionModel.model.dataYear}." styleClass="label"/>
+                <h:outputLabel value="Bitte vervollständigen Sie Ihre Angaben zum Klinischen Verteilungsmodell (KVM) bis spätestens zum 10. März #{editDistributionModel.model.dataYear}." styleClass="label marginBottom"/>
                 <br/>
                 <inek:MultiIk value="#{editDistributionModel.model.ik}" 
                               ikList="#{editDistributionModel.ikItems}"
