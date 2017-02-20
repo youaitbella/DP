@@ -6,6 +6,7 @@ package org.inek.dataportal.enums;
  */
 public enum ConfigKey {
 
+    TestMode(false),
     IsNubCreateEnabled(false),
     IsNubSendEnabled(false),
     RemindNubSeal(false),

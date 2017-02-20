@@ -27,6 +27,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DistributionModelDetail;
+import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -50,7 +51,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
-    @Inject private DistModelFacade _calcFacade;
+    @Inject private DistModelFacade _distModelFacade;
     @Inject ApplicationTools _appTools;
 
     private String _script;
@@ -63,7 +64,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public void setModel(DistributionModel model) {
         this._model = model;
     }
-    
+
     private boolean _showWide = false;
 
     public boolean isShowWide() {
@@ -73,17 +74,16 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public void setShowWide(boolean showWide) {
         this._showWide = showWide;
     }
-    
-    // </editor-fold>
 
+    // </editor-fold>
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
         String type = "" + params.get("type");
-        if (id.equals("new") && !type.equals("0") && !type.equals("1")){
-                Utils.navigate(Pages.NotAllowed.RedirectURL());
-                return;
+        if (id.equals("new") && !type.equals("0") && !type.equals("1")) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+            return;
         }
         if (id.equals("new")) {
             _model = newDistributionModel(type);
@@ -101,7 +101,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     private DistributionModel loadDistributionModel(String idObject) {
         int id = Integer.parseInt(idObject);
-        DistributionModel model = _calcFacade.findDistributionModel(id);
+        DistributionModel model = _distModelFacade.findDistributionModel(id);
         if (hasSufficientRights(model)) {
             return model;
         }
@@ -121,6 +121,10 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         model.setAccountId(account.getId());
         model.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         model.setType(type.equals("0") ? 0 : 1);
+        List<SelectItem> ikItems = getIkItems(model);
+        if (ikItems.size() == 1){
+            model.setIk((int) ikItems.get(0).getValue());
+        }
         return model;
     }
 
@@ -141,7 +145,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public String save() {
         removeEmptyCenters();
         setModifiedInfo();
-        _model = _calcFacade.saveDistributionModel(_model);
+        _model = _distModelFacade.saveDistributionModel(_model);
         addDetailIfMissing();
 
         if (isValidId(_model.getId())) {
@@ -201,7 +205,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         removeEmptyCenters();
         _model.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        _model = _calcFacade.saveDistributionModel(_model);
+        _model = _distModelFacade.saveDistributionModel(_model);
 
         if (isValidId(_model.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _model.getId());
@@ -268,7 +272,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         }
         _model.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
-        _model = _calcFacade.saveDistributionModel(_model);
+        _model = _distModelFacade.saveDistributionModel(_model);
         return "";
     }
 
@@ -278,7 +282,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         }
         _model.setAccountId(_sessionController.getAccountId());
         setModifiedInfo();
-        _model = _calcFacade.saveDistributionModel(_model);
+        _model = _distModelFacade.saveDistributionModel(_model);
         return "";
     }
 
@@ -289,22 +293,28 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     private List<SelectItem> _ikItems;
 
     public List<SelectItem> getIkItems() {
+        return getIkItems(_model);
+    }
+    
+    public List<SelectItem> getIkItems(DistributionModel model) {
         // todo: get correct IK list, depending on type
-        if (_ikItems == null) {
-            Set<Integer> iks = new HashSet<>();
-            if (_model != null && _model.getIk() > 0) {
-                iks.add(_model.getIk());
-            }
+        if (_ikItems == null && model != null) {
             Account account = _sessionController.getAccount();
-            if (account.getIK() > 0) {
-                iks.add(account.getIK());
+            CalcHospitalFunction calcFunct = model.getType() == 0 ? CalcHospitalFunction.ClinicalDistributionModelDrg : CalcHospitalFunction.ClinicalDistributionModelPepp;
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+
+            _ikItems = new ArrayList<>();
+            if (model.getIk() > 0) {
+                _ikItems.add(new SelectItem(model.getIk()));
+            }
+            if (account.getIK() > 0 && possibleIks.contains(account.getIK())) {
+                _ikItems.add(new SelectItem(account.getIK()));
             }
             for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-                iks.add(additionalIK.getIK());
-            }
-            _ikItems = new ArrayList<>();
-            for (int ik : iks) {
-                _ikItems.add(new SelectItem(ik));
+                if (possibleIks.contains(additionalIK.getIK())) {
+                    _ikItems.add(new SelectItem(additionalIK.getIK()));
+                }
             }
         }
         return _ikItems;

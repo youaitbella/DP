@@ -148,18 +148,10 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property requireInputs">
-    @Transient
-    private boolean _requireInputs = false;
-
     public boolean isRequireInputs() {
-        return _requireInputs;
+        int id = getContentText().getId();
+        return id == 1 || id == 2 || id == 5 || id == 6 || id == 15 || id == 16;
     }
-
-    public void setRequireInputs(boolean _requireInputs) {
-        this._requireInputs = _requireInputs;
-    }
-    // </editor-fold>
 
     public KGPListDelimitationFact() {
     }

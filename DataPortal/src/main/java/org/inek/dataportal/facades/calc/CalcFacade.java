@@ -6,7 +6,6 @@
 package org.inek.dataportal.facades.calc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +26,6 @@ import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListContentTextOps;
@@ -45,15 +43,7 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListContentText;
-import org.inek.dataportal.entities.calc.KGPListCostCenter;
-import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
-import org.inek.dataportal.entities.calc.KGPListLocation;
-import org.inek.dataportal.entities.calc.KGPListMedInfra;
-import org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory;
-import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
-import org.inek.dataportal.entities.calc.KGPListTherapy;
-import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -205,7 +195,6 @@ public class CalcFacade extends AbstractDataAccess {
         }
 
         removeEmptyContacts(statementOfParticipance);
-        saveStatementOfParticipanceForIcmt(statementOfParticipance);
         
         if (statementOfParticipance.getId() == -1) {
             persist(statementOfParticipance);
@@ -244,7 +233,7 @@ public class CalcFacade extends AbstractDataAccess {
         performInsertStatementOfParticipance(participance.getIk(), participance.isObdCalc(), 7, "Obd");
     }   
     
-    public void performInsertStatementOfParticipance(int ik, boolean value, int calcType, String field){
+    private void performInsertStatementOfParticipance(int ik, boolean value, int calcType, String field){
                 //insert CalcAgreement - Vereinbarung
         String sql = "insert into CallCenterDB.dbo.ccCalcAgreement (caCustomerId, caHasAgreement, caIsInactive, caCalcTypeId) \n"
                 +     "select distinct cuid, 1 agr, 0 inactive, 1 calctype \n"
@@ -291,12 +280,12 @@ public class CalcFacade extends AbstractDataAccess {
      * @param year
      * @return
      */
-    public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
+    public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year, boolean testMode) {
         String sql = "select distinct cuIK\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
-                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + "join dbo.Account on (cdDetails = acMail" + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)) \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 --or acMail like '%inek-drg.de' \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
@@ -587,21 +576,21 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    public Set<Integer> obtainIks4NewBasics(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year) {
+    public Set<Integer> obtainIks4NewBasics(CalcHospitalFunction calcFunct, Set<Integer> accountIds, int year, boolean testMode) {
         if (calcFunct == CalcHospitalFunction.CalculationBasicsDrg) {
-            return obtainIks4NewBasiscsDrg(accountIds, year);
+            return obtainIks4NewBasiscsDrg(accountIds, year, testMode);
         }
-        return obtainIks4NewBasiscsPepp(accountIds, year);
+        return obtainIks4NewBasiscsPepp(accountIds, year, testMode);
     }
 
-    private Set<Integer> obtainIks4NewBasiscsDrg(Set<Integer> accountIds, int year) {
+    private Set<Integer> obtainIks4NewBasiscsDrg(Set<Integer> accountIds, int year, boolean testMode) {
         String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select distinct sopIk \n"
                 + "from calc.StatementOfParticipance\n"
                 + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
-                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
+                + "join dbo.Account on (cdDetails = acMail" + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId = " + WorkflowStatus.Provided.getValue()+ "\n" //+ " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
                 + "	and sopIsDrg = 1\n"
@@ -618,14 +607,14 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
-    private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year) {
+    private Set<Integer> obtainIks4NewBasiscsPepp(Set<Integer> accountIds, int year, boolean testMode) {
         String accountList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select distinct sopIk \n"
                 + "from calc.StatementOfParticipance\n"
                 + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
-                + "join dbo.Account on (cdDetails = acMail or acMail like '%@inek-drg.de') and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
+                + "join dbo.Account on (cdDetails = acMail" + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId in (" + accountList + ")\n" // but let InEK staff test without this restriction
                 + "where sopAccountId in (" + accountList + ")\n"
                 + "	and sopStatusId = " + WorkflowStatus.Provided.getValue() + "\n" // and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
                 + "	and sopIsPsy = 1\n"
@@ -800,6 +789,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getTherapies());
         saveIdList(calcBasics.getCostCenters());
         saveIdList(calcBasics.getKgpPersonalAccountingList());
+        saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
         
