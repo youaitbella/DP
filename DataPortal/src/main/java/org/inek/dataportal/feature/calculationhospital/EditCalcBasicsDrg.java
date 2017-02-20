@@ -163,7 +163,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Special units
-        /*
+        /*        
         calcBasics.getSpecialUnits().clear();
         for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
             specialUnit.setId(-1);
@@ -171,7 +171,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getSpecialUnits().add(specialUnit);
         } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
         // Central focuses
+        
         calcBasics.getCentralFocuses().clear();
+        calcBasics.setCentralFocus(_priorCalcBasics.isCentralFocus());
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             KGLListCentralFocus cf = new KGLListCentralFocus();
             cf.setId(-1);
@@ -182,6 +184,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             cf.setRemunerationAmount(0);
             cf.setRemunerationKey("");
             cf.setPersonalCost(0);
+            cf.setText(centralFocus.getText());
             calcBasics.getCentralFocuses().add(cf);
         }
 
@@ -192,6 +195,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());
             df.setContentText(ct);
+            for(DrgDelimitationFact pdf : _priorCalcBasics.getDelimitationFacts()) {
+                if(df.getContentTextId() == pdf.getContentTextId())
+                    df.setUsed(pdf.isUsed());
+            }
             calcBasics.getDelimitationFacts().add(df);
         }
         checkRequireInputsForDelimitationFact(calcBasics);

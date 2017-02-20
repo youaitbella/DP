@@ -63,6 +63,32 @@
     <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
     </h:commandLink>
-
+    
+    <table>
+        <tr>
+            <th>
+                Ambulante Leistungen im endoskopischen Bereich
+            </th>
+            <th>
+                Leistungsschlüssel<sup>1</sup>
+            </th>
+            <th>
+                Anzahl erbrachter amb. Leistungen
+            </th>
+            <th>
+                abgegr. Kostenvolumen ÄD
+            </th>
+            <th>
+                abgegr. Kostenvolumen FD
+            </th>
+            <th>
+                abgegr. Kostenvolumen med. Infrastruktur
+            </th>
+            <th>
+                abgegr. Kostenvolumen nicht med.Infrastruktur
+            </th>
+        </tr>
+    </table>
+    
 </ui:composition>
 
