@@ -581,27 +581,27 @@
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputNumberWithMessage id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}"
+                <inek:InputNumberWithMessage id="data-personal" rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.personalCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:0:diff-personal:text :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
                 <inek:InputNumberWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:1:diff-material:text :logout:remaining"
                                              />
-                <inek:InputNumberWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{x.infraCost}"
+                <inek:InputNumberWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.infraCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:2:diff-infra:text :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
                 <h:message for="data" id="msgData" styleClass="errorMessage"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true" required="true"/>
+                <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true" required="true"/>
                 <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true" required="true"/>
-                <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true" required="true"/>
+                <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true" required="true"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
                 <inek:InputNumberWithMessage id="diff-personal"
-                                             rendered="#{data eq 'Personalkosten'}" 
+                                             rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" 
                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
                                              styleClass="col06em"
                                              disabled="true"/>
@@ -611,7 +611,7 @@
                                              styleClass="col06em"
                                              disabled="true"/>
                 <inek:InputNumberWithMessage id="diff-infra"
-                                             rendered="#{data eq 'Infrastrukturkosten'}" 
+                                             rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" 
                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
                                              styleClass="col06em"
                                              disabled="true"/>
