@@ -159,13 +159,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
         }
 
-//        for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
-//            df.setId(-1);
-//            df.setBaseInformationId(calcBasics.getId());
-//            calcBasics.getDelimitationFacts().add(df);
-//        }
-        checkRequireInputsForDelimitationFact(calcBasics);
-
         /*
         for (KGPListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
             KGPListRadiologyLaboratory nrl = new KGPListRadiologyLaboratory(-1);
@@ -178,15 +171,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             calcBasics.getRadiologyLaboratories().add(nrl);
         }
 */
-    }
-
-    private void checkRequireInputsForDelimitationFact(PeppCalcBasics calcBasic) {
-        for (KGPListDelimitationFact df : calcBasic.getDelimitationFacts()) {
-            int id = df.getContentText().getId();
-            if (id == 1 || id == 2 || id == 5 || id == 6 || id == 15 || id == 16) {
-                df.setRequireInputs(true);
-            }
-        }
     }
 
     public void ikChanged() {
@@ -332,7 +316,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
             calcBasics.getDelimitationFacts().add(df);
         }
-        checkRequireInputsForDelimitationFact(calcBasics);
 
     }
 
@@ -394,7 +377,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
-        checkRequireInputsForDelimitationFact(_calcBasics);
         
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
