@@ -14,14 +14,6 @@
               <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
             </task-config-group>
           </export-task>
-          <export-task name="Exportieren als HTM" format="HTM">
-            <task-config-group name="settings">
-              <task-config-value name="outputfile">..\web\manual\index.html</task-config-value>
-              <task-config-value name="skin">.\template\DataPortal.hmskin</task-config-value>
-              <task-config-value name="make3include">HTML</task-config-value>
-              <task-config-value name="make3status">*</task-config-value>
-            </task-config-group>
-          </export-task>
           <export-task name="Handbuch Grouperhersteller" format="PDF">
             <task-config-group name="settings">
               <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-DatenportalZerti.pdf</task-config-value>

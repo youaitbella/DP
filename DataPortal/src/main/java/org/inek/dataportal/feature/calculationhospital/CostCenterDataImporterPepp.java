@@ -68,11 +68,30 @@ public class CostCenterDataImporterPepp {
             item.setServiceKeyDescription(data[6]);
             tryImportServiceSum(item, data[7]);
             
+            if(itemExists(item)) {
+                _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
+                return;
+            }
+
             _calcBasics.getCostCenters().add(item);
         } catch (IllegalArgumentException ex) {
             _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + ex.getMessage();
             _errorCount++;
         }
+    }
+    private boolean itemExists(KGPListCostCenter item) {
+        for(KGPListCostCenter cc : _calcBasics.getCostCenters()) {
+            if( cc.getAmount() == item.getAmount() &&
+                cc.getCostCenterId() == item.getCostCenterId() &&
+                cc.getCostCenterNumber() == item.getCostCenterNumber() &&
+                cc.getCostCenterText().equals(item.getCostCenterText()) &&
+                cc.getFullVigorCnt() == item.getFullVigorCnt() &&
+                cc.getServiceKey().equals(item.getServiceKey()) &&
+                cc.getServiceKeyDescription().equals(item.getServiceKeyDescription()) &&
+                cc.getServiceSum() == item.getServiceSum())
+                return true;
+        }
+        return false;
     }
 
     private void tryImportCostCenterId(KGPListCostCenter item, String dataString) {

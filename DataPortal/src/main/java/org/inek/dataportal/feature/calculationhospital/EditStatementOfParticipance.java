@@ -106,6 +106,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
+                updateObligatorySetting(statement);
                 return statement;
             }
         } catch (NumberFormatException ex) {
@@ -220,6 +221,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isReadOnly() {
+        if (_cooperationTools == null || _statement == null) {
+            return true;
+        }
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
     }
 
@@ -290,15 +294,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
 
-        if (_statement.isObligatory()) {
-            if (_statement.getObligatoryCalcType() == 2) {
-                _statement.setDrgCalc(true);
-                _statement.setPsyCalc(true);
-            } else {
-                _statement.setDrgCalc(false);
-                _statement.setPsyCalc(false);
-            }
-        }
         if (!_statement.isDrgCalc()) {
             _statement.setClinicalDistributionModelDrg(-1);
             _statement.setMultiyearDrg(0);
@@ -335,6 +330,22 @@ public class EditStatementOfParticipance extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    private void updateObligatorySetting(StatementOfParticipance statement) {
+        if (statement.isObligatory()) {
+            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(statement.getIk());
+            if (currentData.size() == 1) {
+                Object[] obj = currentData.get(0);
+                String domain = (String) obj[0];
+                boolean isDrg = (boolean) obj[5];
+                boolean isPsy = (boolean) obj[6];
+                if (domain.contains("obligatory")) {
+                    statement.setDrgCalc(isDrg);
+                    statement.setPsyCalc(isPsy);
+                }
+            }
+        }
     }
 
     private void populateDefaultsForUnreachableFields() {
@@ -565,9 +576,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         Account account = _sessionController.getAccount();
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
         Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
-        if (testMode && _sessionController.getAccount().getEmail().endsWith("@inek-drg.de")) {
-            iks = _sessionController.getAccount().getFullIkList();
-        }
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }

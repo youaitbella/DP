@@ -18,7 +18,9 @@
 
             <div class="edit">
                 <h2>#{msg.lblClinicalDistributionModel} #{editDistributionModel.model.type eq 0 ? 'DRG' : 'PEPP'}</h2>
-
+                <br/>
+                <h:outputLabel value="Bitte vervollständigen Sie Ihre Angaben zum Klinischen Verteilungsmodell (KVM) bis spätestens zum 10. März #{editDistributionModel.model.dataYear}." styleClass="label marginBottom"/>
+                <br/>
                 <inek:MultiIk value="#{editDistributionModel.model.ik}" 
                               ikList="#{editDistributionModel.ikItems}"
                               listener="#{editDistributionModel.ikChanged}" 
@@ -63,6 +65,9 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
 
+                    <a href="/DataPortal/resources/manual/#{editDistributionModel.model.type == 0 ? 'Anlage 10 (DRG).pdf' : 'Anlage 10 (Psy).pdf'}" target="blank"  title="Anlage 10" class="bigButton">
+                        #{editDistributionModel.model.type == 0 ? 'Anlage 10 (DRG)' : 'Anlage 10 (Psy)'} ansehen.              
+                    </a>                
                 </div>
 
 

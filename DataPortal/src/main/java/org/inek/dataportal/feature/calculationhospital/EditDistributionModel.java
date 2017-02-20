@@ -97,6 +97,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
+        addDetailIfMissing();
     }
 
     private DistributionModel loadDistributionModel(String idObject) {
