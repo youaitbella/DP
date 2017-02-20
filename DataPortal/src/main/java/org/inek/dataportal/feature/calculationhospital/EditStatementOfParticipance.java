@@ -106,6 +106,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
             if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
+                updateObligatorySetting(statement);
                 return statement;
             }
         } catch (NumberFormatException ex) {
@@ -193,7 +194,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public void enableDisableStatementPage() {
         boolean enable = !_statement.isObligatory() || _statement.getObligatoryCalcType() > 1;
         findTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name()).setVisible(enable);
-        updateObligatorySetting();
     }
 
     public String getEmailInfo() {
@@ -221,7 +221,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isReadOnly() {
-        if (_cooperationTools == null || _statement == null){
+        if (_cooperationTools == null || _statement == null) {
             return true;
         }
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
@@ -294,9 +294,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
 
-        if (_statement.isObligatory()) {
-            updateObligatorySetting();
-        }
         if (!_statement.isDrgCalc()) {
             _statement.setClinicalDistributionModelDrg(-1);
             _statement.setMultiyearDrg(0);
@@ -335,22 +332,19 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return "";
     }
 
-    private void updateObligatorySetting() {
-        if (_statement.getObligatoryCalcType() == 2) {
-            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(_statement.getIk());
+    private void updateObligatorySetting(StatementOfParticipance statement) {
+        if (statement.isObligatory()) {
+            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(statement.getIk());
             if (currentData.size() == 1) {
                 Object[] obj = currentData.get(0);
                 String domain = (String) obj[0];
                 boolean isDrg = (boolean) obj[5];
                 boolean isPsy = (boolean) obj[6];
                 if (domain.contains("obligatory")) {
-                    _statement.setDrgCalc(isDrg);
-                    _statement.setPsyCalc(isPsy);
+                    statement.setDrgCalc(isDrg);
+                    statement.setPsyCalc(isPsy);
                 }
             }
-        } else {
-            _statement.setDrgCalc(false);
-            _statement.setPsyCalc(false);
         }
     }
 
