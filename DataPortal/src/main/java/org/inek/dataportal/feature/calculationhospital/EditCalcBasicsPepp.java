@@ -151,8 +151,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void retrievePriorData(PeppCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
 
-        for (KGPPersonalAccounting ppa : _priorCalcBasics.getKgpPersonalAccountingList()) {
-            for (KGPPersonalAccounting pa : calcBasics.getKgpPersonalAccountingList()) {
+        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
                 if (ppa.getCostTypeId() == pa.getCostTypeId()) {
                     pa.setPriorCostAmount(ppa.getAmount());
                 }
@@ -193,13 +193,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
 
         // Personal Accounting
-        calcBasics.getKgpPersonalAccountingList().clear();
-        for (KGPPersonalAccounting pa : _priorCalcBasics.getKgpPersonalAccountingList()) {
+        calcBasics.getPersonalAccountings().clear();
+        for (KGPPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
             pa.setId(-1);
             pa.setBaseInformationId(calcBasics.getId());
             pa.setPriorCostAmount(pa.getAmount());
             pa.setAmount(0);
-            calcBasics.getKgpPersonalAccountingList().add(pa);
+            calcBasics.getPersonalAccountings().add(pa);
         }
         ensurePersonalAccountingData(calcBasics);
 
@@ -244,16 +244,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
-        if (calcBasics.getKgpPersonalAccountingList().size() == 6) {
+        if (calcBasics.getPersonalAccountings().size() == 6) {
             return;
         }
 
-        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(110, 0));
-        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(120, 0));
-        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(130, 0));
-        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(131, 0));
-        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(132, 0));
-        calcBasics.getKgpPersonalAccountingList().add(new KGPPersonalAccounting(133, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(110, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(120, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(130, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(131, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(132, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(133, 0));
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -316,6 +316,25 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
             calcBasics.getDelimitationFacts().add(df);
         }
+
+        // Personal Accounting
+        calcBasics.getPersonalAccountings().clear();
+        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            KGPPersonalAccounting pa = new KGPPersonalAccounting();
+            pa.setId(-1);
+            pa.setBaseInformationId(calcBasics.getId());
+            pa.setPriorCostAmount(ppa.getAmount());
+            pa.setAmount(0);
+            pa.setCostTypeId(ppa.getCostTypeId());
+            pa.setExpertRating(ppa.isExpertRating());
+            pa.setOther(ppa.isOther());
+            pa.setServiceEvaluation(ppa.isServiceEvaluation());
+            pa.setServiceStatistic(ppa.isServiceStatistic());
+            pa.setStaffEvaluation(ppa.isStaffEvaluation());
+            pa.setStaffRecording(ppa.isStaffRecording());
+            calcBasics.getPersonalAccountings().add(pa);
+        }
+        ensurePersonalAccountingData(calcBasics);
 
     }
 
@@ -679,7 +698,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean renderPersonalAccountingDescription() {
-        for (KGPPersonalAccounting pa : _calcBasics.getKgpPersonalAccountingList()) {
+        for (KGPPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
                 return true;
             }

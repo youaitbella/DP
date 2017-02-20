@@ -607,19 +607,19 @@ public class PeppCalcBasics implements Serializable, IdValue {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpPersonalAccountingList">
+    // <editor-fold defaultstate="collapsed" desc="Property List _personalAccountings">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeId")
-    private List<KGPPersonalAccounting> _kgpPersonalAccountingList = new Vector<>();
+    private List<KGPPersonalAccounting> _personalAccountings = new Vector<>();
 
-    public List<KGPPersonalAccounting> getKgpPersonalAccountingList() {
-        return _kgpPersonalAccountingList;
+    public List<KGPPersonalAccounting> getPersonalAccountings() {
+        return _personalAccountings;
     }
 
-    public void setKgpPersonalAccountingList(List<KGPPersonalAccounting> kgpPersonalAccountingList) {
-        this._kgpPersonalAccountingList = kgpPersonalAccountingList;
+    public void setPersonalAccountings(List<KGPPersonalAccounting> kgpPersonalAccountingList) {
+        this._personalAccountings = kgpPersonalAccountingList;
     }
     // </editor-fold>
     
