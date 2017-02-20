@@ -130,7 +130,7 @@ public class DistModelFacade extends AbstractDataAccess {
     }
 
     public void deleteDistributionModel(DistributionModel model) {
-        getEntityManager().remove(model);
+        remove(model);
     }
 
 }
