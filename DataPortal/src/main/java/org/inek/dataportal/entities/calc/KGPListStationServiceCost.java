@@ -480,16 +480,16 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _psyPvMapping">
     @Column(name = "sscPsyPvMapping")
-    private String _psyPvMapping;
+    private String _psyPvMapping = "";
 
     public String getPsyPvMapping() {
         StringBuilder sb = new StringBuilder();
 
-        if (_generalMapping) { sb.append("A; "); }
-        if (_addictionMapping) { sb.append("S; "); }
-        if (_gerontoPsyMapping) { sb.append("G; "); }
-        if (_childYouthMapping) { sb.append("KJP; "); }
-        if (_psychosomaticMapping) { sb.append("P; "); }
+        if (_generalMapping) { sb.append("A, "); }
+        if (_addictionMapping) { sb.append("S, "); }
+        if (_gerontoPsyMapping) { sb.append("G, "); }
+        if (_childYouthMapping) { sb.append("KJP, "); }
+        if (_psychosomaticMapping) { sb.append("P, "); }
         
         if (sb.length() > 0) {
             sb.delete(sb.length()-2, sb.length());
@@ -498,7 +498,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
     }
 
     public void setPsyPvMapping(String psyPvMapping) {
-        List<String> vals = Arrays.asList(psyPvMapping.split(";"));
+        List<String> vals = Arrays.asList(psyPvMapping.split(","));
         _generalMapping = _addictionMapping = _gerontoPsyMapping = _childYouthMapping = _psychosomaticMapping = false;
         for (String val : vals) {
             switch (val.trim().toUpperCase()) {

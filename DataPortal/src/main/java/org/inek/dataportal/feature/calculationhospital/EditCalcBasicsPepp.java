@@ -394,6 +394,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        checkRequireInputsForDelimitationFact(_calcBasics);
         
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
