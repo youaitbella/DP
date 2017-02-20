@@ -21,7 +21,7 @@
     <cc:implementation>
         <cc:editableValueHolder name="#{cc.id}" targets="ikMulti"/>
                 <div class="inputPart">
-                    <h:outputLabel styleClass="label10 #{cc.attrs.required ? ' required ' : ''}" for="ikMulti" value="#{msg.lblIkShort}:"/>
+                    <h:outputLabel styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{msg.lblIkShort}:"/>
 
                     <h:selectOneMenu styleClass="col08em #{cc.attrs.required ? ' required ' : ''}"
                                      rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"
@@ -44,8 +44,8 @@
                     <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
 
                     <br/>
-                    <h:outputLabel styleClass="label10" value="" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1}"/>
-                    <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1}"/>
+                    <h:outputLabel styleClass="label10" value="" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
+                    <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
                 </div>
     </cc:implementation>
 </html>

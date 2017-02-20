@@ -13,7 +13,7 @@
     <ui:define name="content">
 
         <h:form id="distributionModel" prependId="false" enctype="multipart/form-data">
-            <h1><h:commandLink value="#{msg.nameCALCULATION_HOSPITAL}" 
+            <h1><h:commandLink value="#{msg.nameCALCULATION_HOSPITAL} #{msg.lblYearData} #{editDistributionModel.model.dataYear}"
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
 
             <div class="edit">

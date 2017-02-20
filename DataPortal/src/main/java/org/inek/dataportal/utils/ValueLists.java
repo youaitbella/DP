@@ -3,6 +3,7 @@ package org.inek.dataportal.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.faces.model.SelectItem;
@@ -53,23 +54,26 @@ public class ValueLists {
     }
 
     public List<SelectItem> getCostCenters(boolean includeTotal) {
-        return _costCenters.stream()
-                .filter(c -> includeTotal || c.getId() > 0)
-                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
-                .collect(Collectors.toList());
+        return getCostCenters(includeTotal, -1);
     }
 
     public List<SelectItem> getCostCentersDrg(boolean includeTotal) {
-        return _costCenters.stream()
-                .filter(c -> c.getIsDrg())
-                .filter(c -> includeTotal || c.getId() > 0)
-                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText(), c.getText()))
-                .collect(Collectors.toList());
+        return getCostCenters(includeTotal, 0);
     }
 
     public List<SelectItem> getCostCentersPsy(boolean includeTotal) {
-        return _costCenters.stream()
-                .filter(c -> c.getIsDrg())
+        return getCostCenters(includeTotal, 1);
+    }
+
+    public List<SelectItem> getCostCenters(boolean includeTotal, int remunerationDomain) {
+        Stream<CostCenter> stream = _costCenters.stream();
+        if (remunerationDomain == 0){
+            stream = stream.filter(c -> c.getIsDrg());
+        }
+        if (remunerationDomain == 1){
+            stream = stream.filter(c -> c.getIsPsy());
+        }
+        return stream        
                 .filter(c -> includeTotal || c.getId() > 0)
                 .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
                 .collect(Collectors.toList());

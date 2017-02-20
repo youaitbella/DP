@@ -46,7 +46,7 @@
                                   required="true"
                                   hideNoSelectionOption="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                    <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"/>
+                    <f:selectItems value="#{valueLists.getCostCenters(false, editDistributionModel.model.type)}"/>
                     <f:ajax/>
                 </h:selectOneMenu>
             </h:column>

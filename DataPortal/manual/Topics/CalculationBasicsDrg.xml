@@ -6,6 +6,16 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kalkulationsgrundlage DRG</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">- in Kürze verfügbar -</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für ein Haus eine Teilnahmeerklärung für den Bereich DRG (freiwillige Teilnahme bzw. Probekalkulation) an das InEK gesendet haben, können Sie für dieses Haus mittels </text><text styleclass="Button" translate="true">[ neue Kalg.Grundlage DRG ]</text><text styleclass="Normal" translate="true"> die Kalkulationsgrundlagen DRG erfassen. Haben Sie für das Haus die Kalkulationsgrundlagen bereits in Arbeit oder an das InEK gesendet, können Sie für dieses Haus keine neuen Kalkulationsgrundlagen mehr anlegen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalculationBasicsDrg01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Deckblatt Kalkulationsgrundlage DRG</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Dialog besteht aus mehreren Seiten. Aufgrund von Anzahl und Länge der Beschriftungen lassen sich diese Seiten nicht wie an anderer Stelle als Register-Reiter nebeneinander darstellen. Stattdessen können Sie im Reiter die Seiten mittels Auswahlbox direkt anwählen. Für eine sequenzielle Bearbeitung stehen Ihnen zusätzlich die Schaltflächen &#160;</text><text styleclass="Button" translate="true">[ &lt; vorherige Seite ]</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Button" translate="true">[ nächste Seite &gt; ]</text><text styleclass="Normal" translate="true"> zur Verfügung, jeweils oberhalb wie unterhalb des Eingabebereichs, so dass Sie diese auch bei längeren Dialogen bequem erreichen können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf dem Deckblatt ist das Instituts Kennzeichen (IK) vorbelegt oder kann aus einer Liste ausgewählt werden. Die Bedienung ist im Abschnitt Teilnahmeerklärung ausführlich beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei Bedarf können Sie über das Deckblatt zusätzliche Informationen an das InEK übermitteln.</text></para>
   </body>
 </topic>
