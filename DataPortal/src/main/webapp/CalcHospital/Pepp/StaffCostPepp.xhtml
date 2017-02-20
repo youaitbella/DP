@@ -54,7 +54,7 @@
     </style>
 
    <h:dataTable  id="personalAccountings"
-                 value="#{editCalcBasicsPepp.calcBasics.kgpPersonalAccountingList}" var="item" width="100%" rowClasses="row1, row2" 
+                 value="#{editCalcBasicsPepp.calcBasics.personalAccountings}" var="item" width="100%" rowClasses="row1, row2" 
                   columnClasses="col1, col2 centered, col3 centered, col4 centered, col5 centered, col6 centered, col7 centered, col8 centered, col9 centered, col10 centered"
                   rendered="true"
                   >
@@ -124,7 +124,7 @@
            <f:facet name="header">
                 <h:outputText value="Kostenvolumen"/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amount}" renderElement=":personalAccountings:#{editCalcBasicsPepp.calcBasics.kgpPersonalAccountingList.indexOf(item)}:diff:text" />
+            <inek:InputNumberWithMessage value="#{item.amount}" renderElement="@this :personalAccountings:#{editCalcBasicsPepp.calcBasics.personalAccountings.indexOf(item)}:diff:text" />
         </h:column>
        
         <h:column>
