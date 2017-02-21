@@ -135,9 +135,14 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk());
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk())
+                || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL);
     }
 
+    public boolean isInekEditable(){
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && _model != null && (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided);
+    }
+    
     @Override
     protected void addTopics() {
         addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());

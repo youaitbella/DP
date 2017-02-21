@@ -28,7 +28,7 @@
 
         <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
                 outcome="#{sessionTools.pages.CalcPeppEdit}"
-                value="#{msg.btnNewCalculationBasicsPepp}"
+                value="#{msg.btnNewCalculationBasicsPsy}"
                 disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
                 >
             <f:param name="id" value="new"/>
@@ -45,7 +45,7 @@
 
         <h:link styleClass="bigButton #{calcHospitalList.newDistributionModelPeppAllowed ? '' : 'buttonDisabled'}"
                 outcome="#{sessionTools.pages.CalcDistributionModel}"
-                value="#{msg.btnNewDistModelPepp}"
+                value="#{msg.btnNewDistModelPsy}"
                 disabled="#{!calcHospitalList.newDistributionModelPeppAllowed}"
                 >
             <f:param name="id" value="new"/>
