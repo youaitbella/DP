@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -52,6 +53,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Article">
     @Column(name = "dmdArticle")
+    @Documentation(name = "Artikel", rank = 100)
     private String _article = "";
 
     @Size(max = 250)
@@ -66,6 +68,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostCenterId">
     @Column(name = "dmdCostCenterId")
+    @Documentation(name = "KstStGr", rank = 105)
     private int _costCenterId = -1;
 
     public int getCostCenterId() {
@@ -79,6 +82,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostTypeId">
     @Column(name = "dmdCostTypeId")
+    @Documentation(name = "KstArtGr", rank = 110)
     private int _costTypeId = -1;
 
     public int getCostTypeId() {
@@ -92,6 +96,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CountCases">
     @Column(name = "dmdCountCases")
+    @Documentation(name = "Fallzahl", rank = 120)
     private int _countCases;
 
     public int getCountCases() {
@@ -105,6 +110,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CountCareDays">
     @Column(name = "dmdCountCareDays")
+    @Documentation(name = "Pflegetage", omitOnEmpty = true, rank = 115)
     private int _countCaredays;
 
     public int getCountCaredays() {
@@ -118,6 +124,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostVolume">
     @Column(name = "dmdCostVolume")
+    @Documentation(name = "Kostenvolumen", rank = 125)
     private int _costVolume;
 
     public int getCostVolume() {
@@ -131,6 +138,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseProcCode">
     @Column(name = "dmdUseProcCode")
+    @Documentation(name = "Verteilung über OPS", rank = 130)
     private boolean _useProcCode;
 
     public boolean isUseProcCode() {
@@ -144,6 +152,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseDiagCode">
     @Column(name = "dmdUseDiagCode")
+    @Documentation(name = "Verteilung über ICD", rank = 140)
     private boolean _useDiagCode;
 
     public boolean isUseDiagCode() {
@@ -157,6 +166,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseGroupResult">
     @Column(name = "dmdUseGroupResult")
+    @Documentation(name = "Verteilung über Gruppierung", rank = 150)
     private boolean _useGroupResult;
 
     public boolean isUseGroupResult() {
@@ -170,6 +180,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseOtherCode">
     @Column(name = "dmdUseOtherCode")
+    @Documentation(name = "Verteilung anderer Schlüssel", rank = 160)
     private boolean _useOtherCode;
 
     public boolean isUseOtherCode() {
@@ -183,6 +194,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Approved">
     @Column(name = "dmdApproved")
+    @Documentation(name = "Genemigung erteilt", rank = 170)
     private boolean _approved;
 
     public boolean isApproved() {
@@ -196,6 +208,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteProcCode">
     @Column(name = "dmdNoteProcCode")
+    @Documentation(name = "Anmerkung OPS", rank = 135)
     private String _noteProcCode = "";
 
     @Size(max = 500)
@@ -210,6 +223,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteDiagCode">
     @Column(name = "dmdNoteDiagCode")
+    @Documentation(name = "Anmerkung ICD", rank = 145)
     private String _noteDiagCode = "";
 
     @Size(max = 500)
@@ -224,6 +238,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteGroupResult">
     @Column(name = "dmdNoteGroupResult")
+    @Documentation(name = "Anmerkung Grupierung", rank = 155)
     private String _noteGroupResult = "";
 
     @Size(max = 500)
@@ -238,6 +253,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteOtherCode">
     @Column(name = "dmdNoteOtherCode")
+    @Documentation(name = "Anmerkung sonstiger Schlüssel", rank = 165)
     private String _noteOtherCode = "";
 
     @Size(max = 500)
@@ -252,6 +268,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ApprovalNote">
     @Column(name = "dmdApprovalNote")
+    @Documentation(name = "Bemerkung InEK", rank = 175)
     private String _approvalNote = "";
 
     @Size(max = 500)

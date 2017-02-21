@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -49,6 +48,7 @@ public class DistributionModel implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "dmmDataYear")
+    @Documentation(key = "lblYearData")
     private int _dataYear;
 
     public int getDataYear() {
@@ -62,6 +62,7 @@ public class DistributionModel implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Ik">
     @Column(name = "dmmIK")
+    @Documentation(key = "lblIK")
     private int _ik;
 
     public int getIk() {
@@ -88,6 +89,7 @@ public class DistributionModel implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "dmmLastChanged")
+    @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _lastChanged;
 
@@ -112,6 +114,7 @@ public class DistributionModel implements Serializable {
         this._statusId = statusId;
     }
 
+    @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -125,6 +128,7 @@ public class DistributionModel implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dmdMasterId", referencedColumnName = "dmmID")
     @OrderBy(value = "_id")
+    @Documentation(name = "Verteilungsmodell")
     private List<DistributionModelDetail> _details = new Vector<>();
 
     public List<DistributionModelDetail> getDetails() {

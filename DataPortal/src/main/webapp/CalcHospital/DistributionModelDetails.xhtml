@@ -20,7 +20,7 @@
                      value="#{editDistributionModel.model.details}" var="item"
                      styleClass="marginTop" style="width: #{editDistributionModel.showWide ? '200em' : '100%'};"
                      rowClasses="row1, row2"
-                     columnClasses="colIcon, colValue, col05em, col05em, #{editDistributionModel.model.type eq 1 ? 'col4em, ' : ''} col04em, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue">
+                     columnClasses="colIcon, colValue, col05em, col05em, #{editDistributionModel.model.type eq 1 ? 'col4em, ' : ''} col04em, col04em, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue">
 
             <h:column>
                 <f:facet name="header">
@@ -73,6 +73,11 @@
             <h:column class="col4em">
                 <f:facet name="header"><h:outputLabel value="Fallzahl" title="Anzahl Fälle"/></f:facet>
                 <inek:InputNumberWithMessage value="#{item.countCases}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+            </h:column>
+
+            <h:column class="col4em">
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen (€)"/></f:facet>
+                <inek:InputNumberWithMessage value="#{item.costVolume}" readonly="#{editDistributionModel.readOnly}" required="true"/>
             </h:column>
 
             <h:column>

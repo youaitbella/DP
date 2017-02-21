@@ -83,10 +83,10 @@ public class ValueLists {
     public List<SelectItem> getCostCentersCDM(int remunerationDomain) {
         Stream<CostCenter> stream = _costCenters.stream();
         if (remunerationDomain == 0) {
-            stream = stream.filter(c -> c.getIsDrg());
+            stream = stream.filter(c -> c.getIsDrg() || c.getCharId().equals("OV"));
         }
         if (remunerationDomain == 1) {
-            stream = stream.filter(c -> c.getIsPsy());
+            stream = stream.filter(c -> c.getIsPsy() || c.getCharId().equals("OV"));
         }
         return stream
                 .filter(c -> c.getId() >= 1 || c.getId() == -9)
