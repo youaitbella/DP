@@ -6,7 +6,7 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kalkulationsgrundlage DRG</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für ein Haus eine Teilnahmeerklärung für den Bereich DRG (freiwillige Teilnahme bzw. Probekalkulation) an das InEK gesendet haben, können Sie für dieses Haus mittels </text><text styleclass="Button" translate="true">[ neue Kalg.Grundlage DRG ]</text><text styleclass="Normal" translate="true"> die Kalkulationsgrundlagen DRG erfassen. Haben Sie für das Haus die Kalkulationsgrundlagen bereits in Arbeit oder an das InEK gesendet, können Sie für dieses Haus keine neuen Kalkulationsgrundlagen mehr anlegen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für ein Haus eine Teilnahmeerklärung für den Bereich DRG (freiwillige Teilnahme bzw. Probekalkulation) an das InEK gesendet haben, können Sie für dieses Haus mittels </text><text styleclass="Button" translate="true">[ neue Kalk.Grundlage DRG ]</text><text styleclass="Normal" translate="true"> die Kalkulationsgrundlagen DRG erfassen. Haben Sie für das Haus die Kalkulationsgrundlagen bereits in Arbeit oder an das InEK gesendet, können Sie für dieses Haus keine neuen Kalkulationsgrundlagen mehr anlegen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="CalculationBasicsDrg01.png" scale="100.00%" styleclass="Image Caption"></image></para>
@@ -14,8 +14,30 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Dialog besteht aus mehreren Seiten. Aufgrund von Anzahl und Länge der Beschriftungen lassen sich diese Seiten nicht wie an anderer Stelle als Register-Reiter nebeneinander darstellen. Stattdessen können Sie im Reiter die Seiten mittels Auswahlbox direkt anwählen. Für eine sequenzielle Bearbeitung stehen Ihnen zusätzlich die Schaltflächen &#160;</text><text styleclass="Button" translate="true">[ &lt; vorherige Seite ]</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Button" translate="true">[ nächste Seite &gt; ]</text><text styleclass="Normal" translate="true"> zur Verfügung, jeweils oberhalb wie unterhalb des Eingabebereichs, so dass Sie diese auch bei längeren Dialogen bequem erreichen können.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf dem Deckblatt ist das Instituts Kennzeichen (IK) vorbelegt oder kann aus einer Liste ausgewählt werden. Die Bedienung ist im Abschnitt Teilnahmeerklärung ausführlich beschrieben.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf dem Deckblatt ist das Institutionskennzeichen (IK) vorbelegt oder kann aus einer Liste ausgewählt werden. Die Bedienung ist im Abschnitt Teilnahmeerklärung ausführlich beschrieben.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei Bedarf können Sie über das Deckblatt zusätzliche Informationen an das InEK übermitteln.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kalkulationsgrundlage ist entsprechend der Dialogbeschriftung auszufüllen. Da dies in weiten Teilen selbsterklärend gestaltet wurde, werden im Folgenden nur ausgewählte Dialogteile detailliert dargestellt. Die genannten Überschriften entsprechen dabei den erwähnten Seiten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Erklärung Kalkulationsgrundlage</text></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Anzeige von Vorjahres und Vergleichswerten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nicht immer lassen sich Vorjahreswerte sinnvoll in die aktuellen Datenfelder übernehmen. So sind beispielsweise jedes Jahr unterschiedliche Kostenvolumen, Fallzahlen etc. zu erwarten, die sich in der Regel aber in vergleichbarer Größenordnung wie im Vorjahr bewegen. In solchen Fällen werden die Vorjahreswerte zum Vergleich nahe bei den Eingabefeldern angezeigt. Zwecks Plausibilisierung Ihrer Eingaben wird nach Eingabe die jeweilige Abweichung berechnet. Diese Angabe erfolgt je nach Datenfeld als prozentuale oder absolute Angabe. Die Abweichung gibt die Veränderung von altem Wert zu neuem Wert an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CostCalculationDrg01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Mengen der Kalkulationsgrundlage</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Mengeninformation bei der Erklärung zur Kalkulationsgrundlage sind ein Beispiel für die Plausibilisierung Ihrer Eingaben anhand von Vorjahreswerten. Die Spalte mit der Überschrift des aktuellen Jahrs (in der Abb. 2016) können Sie die aktuellen Werte erfassen, während die Spalten Vorjahr und Abweichung nicht editierbar sind. Hier werden zum Vergleich die Vorjahreswerte gezeigt sowie nach Eingabe eine aktuellen Wertes die Abweichung berechnet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Dynamische Listen</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">An diversen Stellen </text></para>
+    <para styleclass="Image Caption"><image src="CalculationBasicsDrg03.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Besondere Einrichtungen als Beispiel für eine dynamische Liste</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie angeben, dass eine entsprechende Vereinbarung besteht, wird eine Liste zur Erfassung </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
   </body>
 </topic>

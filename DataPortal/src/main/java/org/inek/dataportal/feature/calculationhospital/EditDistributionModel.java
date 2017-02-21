@@ -140,7 +140,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public boolean isInekEditable(){
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && _model != null && (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided);
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && _model != null && (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided);
     }
     
     @Override
@@ -314,7 +314,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             if (model.getIk() > 0) {
                 _ikItems.add(new SelectItem(model.getIk()));
             }
-            if (account.getIK() == null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
+            if (account.getIK() != null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
                 _ikItems.add(new SelectItem(account.getIK()));
             }
             for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
