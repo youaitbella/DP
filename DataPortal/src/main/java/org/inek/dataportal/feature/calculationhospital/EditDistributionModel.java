@@ -241,16 +241,19 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
         checkField(message, model.getIk(), 100000000, 99999999, "lblIK", "distributionModel:ikMulti");
 
+        int line =0;
         for (DistributionModelDetail detail : model.getDetails()) {
-            checkField(message, detail.getArticle(), "Bitte Artikel angeben", "distributionModel:details");
-            checkField(message, detail.getCostCenterId(), 1, 99, "Bitte Kostenstellengruppe wählen", "distributionModel:details");
-            checkField(message, detail.getCostTypeId(), 1, 99, "Bitte Kostenartengruppe wählen", "distributionModel:details");
+            line++;
+            checkField(message, detail.getArticle(), "Zeile " + line + ": Bitte Artikel angeben", "distributionModel:details");
+            checkField(message, detail.getCostCenterId(), 1, 999, "Zeile " + line + ": Bitte Kostenstellengruppe wählen", "distributionModel:details");
+            checkField(message, detail.getCostTypeId(), 1, 999, "Zeile " + line + ": Bitte Kostenartengruppe wählen", "distributionModel:details");
             if (_model.getType() == 1) {
-                checkField(message, detail.getCountCaredays(), 1, 999999, "Bitte Anzahl Pflegetage angeben", "distributionModel:details");
+                checkField(message, detail.getCountCaredays(), 1, 999999, "Zeile " + line + ": Bitte Anzahl Pflegetage angeben", "distributionModel:details");
             }
-            checkField(message, detail.getCountCases(), 1, 999999, "Bitte Fallzahl angeben", "distributionModel:details");
+            checkField(message, detail.getCountCases(), 1, 999999, "Zeile " + line + ": Bitte Fallzahl angeben", "distributionModel:details");
+            checkField(message, detail.getCostVolume(), 1, 999999, "Zeile " + line + ": Bitte Kostenvolumen angeben", "distributionModel:details");
             if (detail.isUseOtherCode()) {
-                checkField(message, detail.getNoteOtherCode(), "Verteilung über sonstigen Schlüssel bitte erläutern", "distributionModel:details");
+                checkField(message, detail.getNoteOtherCode(), "Zeile " + line + ": Verteilung über sonstigen Schlüssel bitte erläutern", "distributionModel:details");
             }
         }
 

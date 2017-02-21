@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
+import static org.inek.dataportal.enums.CalcHospitalFunction.CalculationBasicsDrg;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -33,6 +35,7 @@ import org.inek.dataportal.facades.calc.DistModelFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.KeyValueLevel;
 
 /**
  *
@@ -152,24 +155,42 @@ public class CalcHospitalList {
                 return printCalculationBasicsDrg(hospitalInfo);
             case 2:
                 return printCalculationBasicsPepp(hospitalInfo);
+            case 3:
+            case 4:
+                return printDistributionModel(hospitalInfo);
         }
         return "";
     }
 
     public String printStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
         StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
+        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(statement);
+        return preparePrintView(documentation);
+    }
+
+    private String preparePrintView(List<KeyValueLevel> documentation) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
         Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
-        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(statement));
+        Utils.getFlash().put("printContent", documentation);
         return Pages.PrintView.URL();
     }
 
     private String printCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
+        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(calcBasics);
+        return preparePrintView(documentation);
     }
 
     private String printCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
+        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(calcBasics);
+        return preparePrintView(documentation);
+    }
+
+    private String printDistributionModel(CalcHospitalInfo hospitalInfo) {
+        DistributionModel model = _distModelFacade.findDistributionModel(hospitalInfo.getId());
+        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(model);
+        return preparePrintView(documentation);
     }
 
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {

@@ -80,6 +80,20 @@ public class ValueLists {
                 .collect(Collectors.toList());
     }
 
+    public List<SelectItem> getCostCentersCDM(int remunerationDomain) {
+        Stream<CostCenter> stream = _costCenters.stream();
+        if (remunerationDomain == 0) {
+            stream = stream.filter(c -> c.getIsDrg() || c.getCharId().equals("OV"));
+        }
+        if (remunerationDomain == 1) {
+            stream = stream.filter(c -> c.getIsPsy() || c.getCharId().equals("OV"));
+        }
+        return stream
+                .filter(c -> c.getId() >= 1 || c.getId() == -9)
+                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
+                .collect(Collectors.toList());
+    }
+
     public int getCostCenterId(String charId) {
         return _costCenters.stream().filter(c -> c.getCharId().equals(charId)).mapToInt(c -> c.getId()).findAny().orElse(-1);
     }
