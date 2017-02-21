@@ -60,6 +60,7 @@ import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
+import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentationMinutes;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
@@ -559,6 +560,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteLaboratory(KGLListRadiologyLaboratory rl) {
         _calcBasics.getRadiologyLaboratories().remove(rl);
+    }
+    
+    public void addNormalStationServiceDocMinutes() {
+        KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
+        min.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getNormalStationServiceDocumentationMinutes().add(min);
+    }
+    
+    public void deleteNormalStationServiceDocMinutes(KGLNormalStationServiceDocumentationMinutes item) {
+        _calcBasics.getNormalStationServiceDocumentationMinutes().remove(item);
     }
 
     public void addMedInfra(int costType) {

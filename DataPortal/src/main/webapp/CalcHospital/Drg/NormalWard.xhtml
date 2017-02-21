@@ -139,50 +139,48 @@
     <table id="serviceCost">
         <tr>
             <th>Dokumentation</th>
-            <th></th>
         </tr>
-        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" varStatus="loop">
+        <c:forEach items="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" varStatus="loop">
             <tr>
-            <c:if test="#{item.contentTextID != 85}">
-                <td colspan="2">
-                    <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
-                </td>
-            </c:if>
-            <c:if test="#{item.contentTextID == 85}">
                 <td>
-                    <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
+                    <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@this @all :logout:remaining" />
+                    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}"
+                                 var="minutes"
+                                 width="100%"
+                                 rowClasses="row1, row2"
+                                 rendered="#{!item.used and item.contentTextID == 85}"
+                                 >
+                        <h:column>
+                            <h:commandLink styleClass="colIcon">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteNormalStationServiceDocMinutes(minutes)}"/>
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Fachabteilung</f:facet>
+                            <h:inputText styleClass="inputwide" value="#{minutes.department}" required="#{!item.used}">
+                                <f:ajax event="blur" render="@this :logout:remaining" />
+                            </h:inputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</f:facet>
+                            <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}" required="#{!item.used}">
+                                <f:ajax event="blur" render="@this :logout:remaining" />
+                            </h:inputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Alternativverfahren</f:facet>
+                            <h:inputText styleClass="inputwide" value="#{minutes.alternative}" required="#{!item.used}">
+                                <f:ajax event="blur" render="@this :logout:remaining" />
+                            </h:inputText>
+                        </h:column>
+                    </h:dataTable>
+                    <h:commandLink id="addButton5" rendered="#{!item.used and item.contentTextID == 85}" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addNormalStationServiceDocMinutes()}"/>
+                    </h:commandLink>
                 </td>
-                <td>
-                    <table id="minutesTable">
-                        <tr>
-                            <th>Fachabteilung</th>
-                            <th>FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</th>
-                            <th>Alternativverfahren</th>
-                        </tr>
-                        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}" var="minutes" varStatus="loop2">
-                            <tr>
-                                <td>
-                                    <h:inputText styleClass="inputwide" value="#{minutes.department}" required="#{!item.used}">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}" required="#{!item.used}">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                                <td>
-                                    <h:inputText styleClass="inputwide" value="#{item.alternative}" required="#{!item.used}">
-                                        <f:ajax event="blur" render="@this :logout:remaining" />
-                                    </h:inputText>
-                                </td>
-                            </tr>
-                        </ui:repeat>
-                    </table>
-                </td>
-            </c:if>
             </tr>
-        </ui:repeat>
+        </c:forEach>
     </table>
     
     <h2>Hochaufwendige Pflegeleistungen</h2>
