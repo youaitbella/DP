@@ -123,26 +123,26 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         model.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
         model.setType(type.equals("0") ? 0 : 1);
         List<SelectItem> ikItems = getIkItems(model);
-        if (ikItems.size() == 1){
+        if (ikItems.size() == 1) {
             model.setIk((int) ikItems.get(0).getValue());
         }
         return model;
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
+    public boolean isOwnModel() {
         return _sessionController.isMyAccount(_model.getAccountId(), false);
     }
 
     public boolean isReadOnly() {
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk())
-                || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL);
+                || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 
-    public boolean isInekEditable(){
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && _model != null && (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided);
+    public boolean isInekEditable() {
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && _model != null && (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided);
     }
-    
+
     @Override
     protected void addTopics() {
         addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
@@ -172,21 +172,21 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
@@ -205,8 +205,8 @@ public class EditDistributionModel extends AbstractEditController implements Ser
      * @return
      */
     public String seal() {
-        if (!requestIsComplete()) {
-            return getActiveTopic().getOutcome();
+        if (!modelIsComplete()) {
+            return "";
         }
         removeEmptyCenters();
         _model.setStatus(WorkflowStatus.Provided);
@@ -222,7 +222,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         return "";
     }
 
-    private boolean requestIsComplete() {
+    private boolean modelIsComplete() {
         MessageContainer message = composeMissingFieldsMessage(_model);
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
@@ -239,12 +239,19 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public MessageContainer composeMissingFieldsMessage(DistributionModel model) {
         MessageContainer message = new MessageContainer();
 
-        String ik = model.getIk() < 0 ? "" : "" + model.getIk();
-        checkField(message, ik, "lblIK", "specificFuntion:ikMulti");
+        checkField(message, model.getIk(), 100000000, 99999999, "lblIK", "distributionModel:ikMulti");
 
         for (DistributionModelDetail detail : model.getDetails()) {
-            checkField(message, detail.getArticle(), "Bitte Artikel angeben", "");
-            // todo
+            checkField(message, detail.getArticle(), "Bitte Artikel angeben", "distributionModel:details");
+            checkField(message, detail.getCostCenterId(), 1, 99, "Bitte Kostenstellengruppe wählen", "distributionModel:details");
+            checkField(message, detail.getCostTypeId(), 1, 99, "Bitte Kostenartengruppe wählen", "distributionModel:details");
+            if (_model.getType() == 1) {
+                checkField(message, detail.getCountCaredays(), 1, 999999, "Bitte Anzahl Pflegetage angeben", "distributionModel:details");
+            }
+            checkField(message, detail.getCountCases(), 1, 999999, "Bitte Fallzahl angeben", "distributionModel:details");
+            if (detail.isUseOtherCode()) {
+                checkField(message, detail.getNoteOtherCode(), "Verteilung über sonstigen Schlüssel bitte erläutern", "distributionModel:details");
+            }
         }
 
         return message;
@@ -273,7 +280,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public String requestApproval() {
-        if (!requestIsComplete()) {
+        if (!modelIsComplete()) {
             return null;
         }
         _model.setStatus(WorkflowStatus.ApprovalRequested);
@@ -301,7 +308,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public List<SelectItem> getIkItems() {
         return getIkItems(_model);
     }
-    
+
     public List<SelectItem> getIkItems(DistributionModel model) {
         // todo: get correct IK list, depending on type
         if (_ikItems == null && model != null) {
@@ -314,7 +321,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             if (model.getIk() > 0) {
                 _ikItems.add(new SelectItem(model.getIk()));
             }
-            if (account.getIK() == null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
+            if (account.getIK() != null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
                 _ikItems.add(new SelectItem(account.getIK()));
             }
             for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {

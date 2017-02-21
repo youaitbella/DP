@@ -23,6 +23,7 @@ public enum ConfigKey {
     IsCalculationBasicsPsySendEnabled(false),
     IsSpecificFunctionRequestCreateEnabled(false),
     IsSpecificFunctionRequestSendEnabled(false),
+    IsDistributionModelSendEnabled(false), 
     IsDistributionModelDrgCreateEnabled(false), 
     IsDistributionModelPeppCreateEnabled(false),
     DataServiceClientVersion("20160101.3"),

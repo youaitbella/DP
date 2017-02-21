@@ -6,8 +6,10 @@
 package org.inek.dataportal.facades.calc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -45,6 +47,7 @@ import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
+import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -52,6 +55,7 @@ import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.feature.calculationhospital.EditCalcBasicsPepp;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -186,7 +190,7 @@ public class CalcFacade extends AbstractDataAccess {
         TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
         query.setParameter("ik", ik);
         query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        return query.getResultList().size() == 1;
+        return !query.getResultList().isEmpty();
     }
 
     
@@ -762,6 +766,14 @@ public class CalcFacade extends AbstractDataAccess {
         }
         remove(calcBasics);
     }
+    
+    public boolean existActiveCalcBasicsDrg(int ik) {
+        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year and c._statusID < 10";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        return !query.getResultList().isEmpty();
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CalcBasics PSY">
@@ -803,14 +815,19 @@ public class CalcFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
+
+        Map<Integer, Integer> priorPersonalAccountingsAmount = new HashMap<>();
+        for (KGPPersonalAccounting ppa :  retrievePriorCalcBasics(calcBasics).getPersonalAccountings()) {
+            priorPersonalAccountingsAmount.put(ppa.getCostTypeId(), ppa.getAmount());
+        }
         
-//        saveServiceProvisionsPepp(calcBasics);
-//        saveTherapyPepp(calcBasics);
-//        saveCostCenterDataPepp(calcBasics);
-//        savePersonalAccountingPePP(calcBasics);
-//        saveMedInfraPePP(calcBasics);
-//        saveRadiologyLaboratories(calcBasics);
-        return merge(calcBasics);
+        PeppCalcBasics merged = merge(calcBasics);
+        for (KGPPersonalAccounting pa : merged.getPersonalAccountings()) {
+            if (priorPersonalAccountingsAmount.containsKey(pa.getCostTypeId())) {
+                pa.setPriorCostAmount(priorPersonalAccountingsAmount.get(pa.getCostTypeId()));
+            }
+        }
+        return merged;
     }
     
     private void saveIdList(List<? extends IdValue> list) {
