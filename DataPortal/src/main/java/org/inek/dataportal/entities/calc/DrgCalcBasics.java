@@ -953,6 +953,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NormalStationServiceDocumentations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
+    @OrderBy(value = "_contentTextID")
     private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations = new Vector<>();
     
     public List<KGLNormalStationServiceDocumentation> getNormalStationServiceDocumentations() {
