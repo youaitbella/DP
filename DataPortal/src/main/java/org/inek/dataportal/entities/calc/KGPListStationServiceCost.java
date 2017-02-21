@@ -6,21 +6,16 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -29,31 +24,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListStationServiceCost", schema = "calc")
-@XmlRootElement
 public class KGPListStationServiceCost implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscCostCenterID")
     private int _costCenterID;
 
@@ -65,10 +57,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._costCenterID = costCenterID;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscCostCenterNumber")
     private int _costCenterNumber;
 
@@ -80,10 +70,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._costCenterNumber = costCenterNumber;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _station">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "sscStation")
     private String _station = "";
@@ -96,10 +84,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._station = station;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _bedCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscBedCnt")
     private int _bedCnt;
 
@@ -111,10 +97,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._bedCnt = bedCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _receivingStation">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscReceivingStation")
     private boolean _receivingStation;
 
@@ -126,10 +110,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._receivingStation = receivingStation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _regularCareDays">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscRegularCareDays")
     private int _regularCareDays;
 
@@ -141,10 +123,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._regularCareDays = regularCareDays;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _regularWeight">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscRegularWeight")
     private int _regularWeight;
 
@@ -156,10 +136,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._regularWeight = regularWeight;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _intensiveCareDays">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscIntensiveCareDays")
     private int _intensiveCareDays;
 
@@ -171,10 +149,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._intensiveCareDays = intensiveCareDays;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _intensiveWeight">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscIntensiveWeight")
     private int _intensiveWeight;
 
@@ -186,11 +162,9 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._intensiveWeight = intensiveWeight;
     }
     //</editor-fold>
-    
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     //<editor-fold defaultstate="collapsed" desc="Property _medicalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscMedicalServiceCnt")
     private double _medicalServiceCnt;
 
@@ -202,10 +176,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._medicalServiceCnt = medicalServiceCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _nursingServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscNursingServiceCnt")
     private double _nursingServiceCnt;
 
@@ -217,10 +189,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._nursingServiceCnt = nursingServiceCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _psychologistCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscPsychologistCnt")
     private double _psychologistCnt;
 
@@ -232,10 +202,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._psychologistCnt = psychologistCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _socialWorkerCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscSocialWorkerCnt")
     private double _socialWorkerCnt;
 
@@ -247,10 +215,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._socialWorkerCnt = socialWorkerCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _specialTherapistCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscSpecialTherapistCnt")
     private double _specialTherapistCnt;
 
@@ -262,10 +228,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._specialTherapistCnt = specialTherapistCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _functionalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscFunctionalServiceCnt")
     private double _functionalServiceCnt;
 
@@ -277,10 +241,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._functionalServiceCnt = functionalServiceCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _medicalServiceAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscMedicalServiceAmount")
     private int _medicalServiceAmount;
 
@@ -292,10 +254,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._medicalServiceAmount = medicalServiceAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _nursingServiceAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscNursingServiceAmount")
     private int _nursingServiceAmount;
 
@@ -307,10 +267,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._nursingServiceAmount = nursingServiceAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _psychologistAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscPsychologistAmount")
     private int _psychologistAmount;
 
@@ -322,10 +280,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._psychologistAmount = psychologistAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _socialWorkerAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscSocialWorkerAmount")
     private int _socialWorkerAmount;
 
@@ -337,13 +293,11 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._socialWorkerAmount = socialWorkerAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _specialTherapistAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscSpecialTherapistAmount")
     private int _specialTherapistAmount;
-    
+
     public int getSpecialTherapistAmount() {
         return _specialTherapistAmount;
     }
@@ -352,10 +306,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._specialTherapistAmount = specialTherapistAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _functionalServiceAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscFunctionalServiceAmount")
     private int _functionalServiceAmount;
 
@@ -367,10 +319,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._functionalServiceAmount = functionalServiceAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _medicalInfrastructureAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscMedicalInfrastructureAmount")
     private int _medicalInfrastructureAmount;
 
@@ -382,10 +332,8 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._medicalInfrastructureAmount = medicalInfrastructureAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _nonMedicalInfrastructureAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sscNonMedicalInfrastructureAmount")
     private int _nonMedicalInfrastructureAmount;
 
@@ -397,7 +345,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._nonMedicalInfrastructureAmount = nonMedicalInfrastructureAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -412,7 +360,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._baseInformationID = baseInformationID;
     }
     //</editor-fold>
-        
+
     //<editor-fold defaultstate="collapsed" desc="Property _generalMapping">
     @Column(name = "sscGeneralMapping")
     private boolean _generalMapping;
@@ -485,14 +433,24 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
     public String getPsyPvMapping() {
         StringBuilder sb = new StringBuilder();
 
-        if (_generalMapping) { sb.append("A, "); }
-        if (_addictionMapping) { sb.append("S, "); }
-        if (_gerontoPsyMapping) { sb.append("G, "); }
-        if (_childYouthMapping) { sb.append("KJP, "); }
-        if (_psychosomaticMapping) { sb.append("P, "); }
-        
+        if (_generalMapping) {
+            sb.append("A, ");
+        }
+        if (_addictionMapping) {
+            sb.append("S, ");
+        }
+        if (_gerontoPsyMapping) {
+            sb.append("G, ");
+        }
+        if (_childYouthMapping) {
+            sb.append("KJP, ");
+        }
+        if (_psychosomaticMapping) {
+            sb.append("P, ");
+        }
+
         if (sb.length() > 0) {
-            sb.delete(sb.length()-2, sb.length());
+            sb.delete(sb.length() - 2, sb.length());
         }
         return sb.toString();
     }
@@ -502,13 +460,23 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         _generalMapping = _addictionMapping = _gerontoPsyMapping = _childYouthMapping = _psychosomaticMapping = false;
         for (String val : vals) {
             switch (val.trim().toUpperCase()) {
-                case "A": _generalMapping = true; break;
-                case "S": _addictionMapping = true; break;
-                case "G": _gerontoPsyMapping = true; break;
-                case "KJP": _childYouthMapping = true; break;
-                case "P": _psychosomaticMapping = true; break;
+                case "A":
+                    _generalMapping = true;
+                    break;
+                case "S":
+                    _addictionMapping = true;
+                    break;
+                case "G":
+                    _gerontoPsyMapping = true;
+                    break;
+                case "KJP":
+                    _childYouthMapping = true;
+                    break;
+                case "P":
+                    _psychosomaticMapping = true;
+                    break;
                 default: ;
-            } 
+            }
         }
         this._psyPvMapping = getPsyPvMapping();
     }
@@ -521,7 +489,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         double result = Math.round((_regularCareDays + _intensiveCareDays) * 1000.0d / (_bedCnt * 365)) / 10d;
         return "" + result + "%";
     }
-    
+
     public KGPListStationServiceCost() {
     }
 
@@ -706,5 +674,5 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         return "org.inek.dataportal.entities.calc.KGPListStationServiceCost[ sscID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

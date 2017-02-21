@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -25,31 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListHeaderText", schema = "calc")
-@XmlRootElement
 public class KGPListHeaderText implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "htID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "htText")
     private String _text = "";
@@ -62,10 +56,8 @@ public class KGPListHeaderText implements Serializable, IdValue {
         this._text = text;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "htFirstYear")
     private int _firstYear;
 
@@ -77,10 +69,8 @@ public class KGPListHeaderText implements Serializable, IdValue {
         this._firstYear = firstYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "htLastYear")
     private int _lastYear;
 
@@ -94,8 +84,6 @@ public class KGPListHeaderText implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _seq">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "htSeq")
     private int _seq;
 
@@ -109,8 +97,6 @@ public class KGPListHeaderText implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _type">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "htType")
     private int _type;
 
@@ -122,10 +108,9 @@ public class KGPListHeaderText implements Serializable, IdValue {
         this._type = type;
     }
     //</editor-fold>
-    
+
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ctHeaderTextID")
 //    private List<KGPListContentText> kGPListContentTextList;
-    
     //<editor-fold defaultstate="collapsed" desc="Property _sheetId">
 //    @JoinColumn(name = "htSheetID", referencedColumnName = "sID")
 //    @ManyToOne(optional = false)
@@ -169,7 +154,7 @@ public class KGPListHeaderText implements Serializable, IdValue {
         hash = 23 * hash + this._sheetId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -199,11 +184,11 @@ public class KGPListHeaderText implements Serializable, IdValue {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListHeaderText[ htID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -25,31 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListProvidedType", schema = "calc")
-@XmlRootElement
 public class KGPListProvidedType implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ptID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "ptText")
     private String _text = "";
@@ -62,10 +56,8 @@ public class KGPListProvidedType implements Serializable, IdValue {
         this._text = text;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ptFirstYear")
     private int _firstYear;
 
@@ -77,10 +69,8 @@ public class KGPListProvidedType implements Serializable, IdValue {
         this._firstYear = firstYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ptLastYear")
     private int _lastYear;
 
@@ -92,10 +82,9 @@ public class KGPListProvidedType implements Serializable, IdValue {
         this._lastYear = lastYear;
     }
     //</editor-fold>
-    
+
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spProvidedTypeID")
 //    private List<KGPListServiceProvision> kGPListServiceProvisionList;
-
     public KGPListProvidedType() {
     }
 
@@ -123,7 +112,7 @@ public class KGPListProvidedType implements Serializable, IdValue {
         hash = 97 * hash + this._lastYear;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -147,11 +136,11 @@ public class KGPListProvidedType implements Serializable, IdValue {
         }
         return Objects.equals(this._text, other._text);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListProvidedType[ ptID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

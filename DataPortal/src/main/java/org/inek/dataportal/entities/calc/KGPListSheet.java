@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -25,31 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListSheet", schema = "calc")
-@XmlRootElement
 public class KGPListSheet implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sID")
     private int _id;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _sheet">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "sSheet")
     private String _sheet = "";
@@ -62,14 +56,11 @@ public class KGPListSheet implements Serializable, IdValue {
         this._sheet = sheet;
     }
     //</editor-fold>
-    
+
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "htSheetID")
 //    private List<KGPListHeaderText> kGPListHeaderTextList;
-    
-    
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doSheetID")
 //    private List<KGPDocuments> kGPDocumentsList;
-
     public KGPListSheet() {
     }
 
@@ -93,7 +84,7 @@ public class KGPListSheet implements Serializable, IdValue {
         hash = 37 * hash + Objects.hashCode(this._sheet);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -111,11 +102,11 @@ public class KGPListSheet implements Serializable, IdValue {
         }
         return Objects.equals(this._sheet, other._sheet);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListSheet[ sID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,25 +26,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListProvidedType implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ptID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="text">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "ptText")
     private String _text = "";
@@ -59,10 +55,8 @@ public class KGLListProvidedType implements Serializable {
         this._text = text;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="firstYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ptFirstYear")
     private int _firstYear;
 
@@ -74,10 +68,8 @@ public class KGLListProvidedType implements Serializable {
         this._firstYear = firstYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="lastYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ptLastYear")
     private int _lastYear;
 
@@ -89,7 +81,7 @@ public class KGLListProvidedType implements Serializable {
         this._lastYear = lastYear;
     }
     //</editor-fold>
-        
+
     public KGLListProvidedType() {
     }
 
@@ -109,15 +101,17 @@ public class KGLListProvidedType implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + this._id;
-        
-        if (this._id != -1) return hash;
-        
+
+        if (this._id != -1) {
+            return hash;
+        }
+
         hash = 29 * hash + Objects.hashCode(this._text);
         hash = 29 * hash + this._firstYear;
         hash = 29 * hash + this._lastYear;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -130,9 +124,11 @@ public class KGLListProvidedType implements Serializable {
             return false;
         }
         final KGLListProvidedType other = (KGLListProvidedType) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
@@ -144,11 +140,11 @@ public class KGLListProvidedType implements Serializable {
         }
         return Objects.equals(this._text, other._text);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListProvidedType[ ptID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

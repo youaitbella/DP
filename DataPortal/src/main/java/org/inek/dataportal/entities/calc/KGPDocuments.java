@@ -7,19 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
@@ -34,28 +28,26 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
 public class KGPDocuments implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "doID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _name">
-    @Basic(optional = false)
-    @NotNull
-    @Size( max = 250)
+    @Size(max = 250)
     @Column(name = "doName")
     private String _name = "";
 
@@ -67,10 +59,8 @@ public class KGPDocuments implements Serializable, IdValue {
         this._name = name;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _content">
-    @Basic(optional = false)
-    @NotNull
     @Lob
     @Column(name = "doContent")
     private byte[] _content = new byte[0];
@@ -83,7 +73,7 @@ public class KGPDocuments implements Serializable, IdValue {
         this._content = content;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _aseInformationId">
 //    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -99,7 +89,7 @@ public class KGPDocuments implements Serializable, IdValue {
         this._aseInformationId = aseInformationId;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _sheetId">
 //    @JoinColumn(name = "doSheetID", referencedColumnName = "sID")
 //    @ManyToOne(optional = false)
@@ -124,13 +114,15 @@ public class KGPDocuments implements Serializable, IdValue {
     public int hashCode() {
         int hash = 3;
         hash = 73 * hash + this._id;
-        if (_id != -1) return hash;
+        if (_id != -1) {
+            return hash;
+        }
         hash = 73 * hash + Objects.hashCode(this._name);
         hash = 73 * hash + this._aseInformationId;
         hash = 73 * hash + this._sheetId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -157,12 +149,11 @@ public class KGPDocuments implements Serializable, IdValue {
         }
         return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPDocuments[ _ID=" + _id + " ]";
     }
 //</editor-fold>
-    
+
 }

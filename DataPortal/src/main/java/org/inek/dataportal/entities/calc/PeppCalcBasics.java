@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,9 +25,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.enums.WorkflowStatus;
 
@@ -48,10 +45,12 @@ public class PeppCalcBasics implements Serializable, IdValue {
     @Column(name = "biId")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
@@ -60,6 +59,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "biDataYear")
     private int _dataYear;
+
     public int getDataYear() {
         return _dataYear;
     }
@@ -72,6 +72,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // <editor-fold defaultstate="collapsed" desc="Property IK">
     @Column(name = "biIk")
     private int _ik;
+
     public int getIk() {
         return _ik;
     }
@@ -84,6 +85,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "biAccountId")
     private int _accountId;
+
     public int getAccountId() {
         return _accountId;
     }
@@ -92,11 +94,12 @@ public class PeppCalcBasics implements Serializable, IdValue {
         _accountId = accountId;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "biLastChanged")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _lastChanged =  Calendar.getInstance().getTime();
+    private Date _lastChanged = Calendar.getInstance().getTime();
+
     public Date getLastChanged() {
         return _lastChanged;
     }
@@ -105,10 +108,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         _lastChanged = lastChanged;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
     @Column(name = "biStatusId")
     private int _statusId;
+
     public int getStatusId() {
         return _statusId;
     }
@@ -116,7 +120,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     public void setStatusId(int statusId) {
         _statusId = statusId;
     }
-    
+
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -127,8 +131,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _deliveryType">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biDeliveryType")
     private short _deliveryType;
 
@@ -140,10 +142,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._deliveryType = deliveryType;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _correctionNote">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 500)
     @Column(name = "biCorrectionNote")
     private String _correctionNote = "";
@@ -156,10 +156,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._correctionNote = correctionNote;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _caseInStationCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biCaseInStationCnt")
     private int _caseInStationCnt;
 
@@ -171,10 +169,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._caseInStationCnt = caseInStationCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _caseInStationCntPsy">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biCaseInStationCntPsy")
     private int _caseInStationCntPsy;
 
@@ -186,10 +182,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._caseInStationCntPsy = caseInStationCntPsy;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _careDaysInStationCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biCareDaysInStationCnt")
     private int _careDaysInStationCnt;
 
@@ -201,10 +195,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._careDaysInStationCnt = careDaysInStationCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _careDaysInStationCntPsy">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biCareDaysInStationCntPsy")
     private int _careDaysInStationCntPsy;
 
@@ -216,11 +208,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._careDaysInStationCntPsy = careDaysInStationCntPsy;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _casePartialStationCnt">
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "biCasePartialStationCnt")    
+    @Column(name = "biCasePartialStationCnt")
     private int _casePartialStationCnt;
 
     public int getCasePartialStationCnt() {
@@ -231,10 +221,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._casePartialStationCnt = casePartialStationCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _casePartialStationCntPsy">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biCasePartialStationCntPsy")
     private int _casePartialStationCntPsy;
 
@@ -246,10 +234,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._casePartialStationCntPsy = casePartialStationCntPsy;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _daysPartialStation">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biDaysPartialStation")
     private int _daysPartialStation;
 
@@ -261,10 +247,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._daysPartialStation = daysPartialStation;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _daysPartialStationPsy">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biDaysPartialStationPsy")
     private int _daysPartialStationPsy;
 
@@ -276,10 +260,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._daysPartialStationPsy = daysPartialStationPsy;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _patientEscort">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biPatientEscort")
     private int _patientEscort;
 
@@ -291,10 +273,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._patientEscort = patientEscort;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _preStation">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biPreStation")
     private int _preStation;
 
@@ -306,10 +286,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._preStation = preStation;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _beds">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biBeds")
     private int _beds;
 
@@ -321,10 +299,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._beds = beds;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _partialCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biPartialCnt")
     private int _partialCnt;
 
@@ -336,10 +312,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._partialCnt = partialCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _sumCalcCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biSumCalcCost")
     private int _sumCalcCost;
 
@@ -351,10 +325,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._sumCalcCost = sumCalcCost;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _locationCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biLocationCnt")
     private int _locationCnt;
 
@@ -366,10 +338,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._locationCnt = locationCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _difLocationSupply">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biDifLocationSupply")
     private boolean _difLocationSupply;
 
@@ -381,10 +351,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._difLocationSupply = difLocationSupply;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _medicineCostMapping">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biMedicineCostMapping")
     private boolean _medicineCostMapping;
 
@@ -396,10 +364,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._medicineCostMapping = medicineCostMapping;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _courtPlacement">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biCourtPlacement")
     private boolean _courtPlacement;
 
@@ -411,10 +377,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._courtPlacement = courtPlacement;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _additionalDataAllocation">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biAdditionalDataAllocation")
     private boolean _additionalDataAllocation;
 
@@ -426,10 +390,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._additionalDataAllocation = additionalDataAllocation;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _bimAll">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biBimAll")
     private boolean _bimAll;
 
@@ -441,10 +403,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._bimAll = bimAll;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveExceptionalPermission">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "biIntensiveExceptionalPermission")
     private String _intensiveExceptionalPermission = "";
@@ -457,10 +417,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._intensiveExceptionalPermission = intensiveExceptionalPermission;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveCriteriaBullets">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "biIntensiveCriteriaBullets")
     private String _intensiveCriteriaBullets = "";
@@ -473,10 +431,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._intensiveCriteriaBullets = intensiveCriteriaBullets;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveMethodBullets">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "biIntensiveMethodBullets")
     private String _intensiveMethodBullets = "";
@@ -489,11 +445,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._intensiveMethodBullets = intensiveMethodBullets;
     }
     // </editor-fold>
-    
-       
+
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "biIBLVMethodMedInfra")
     private int _iblvMethodMedInfra;
 
@@ -505,10 +458,10 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._iblvMethodMedInfra = iblvMethodMedInfra;
     }
     //</editor-fold>
-    
+
 //    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodNonMedInfra">
-//    @Basic(optional = false)
-//    @NotNull
+//    
+//    
 //    @Column(name = "biIBLVMethodNonMedInfra")
 //    private int _iblvMethodNonMedInfra;
 //
@@ -520,11 +473,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
 //        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
 //    }
 //    //</editor-fold>
-    
-    
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "biOtherMethodMedInfra")
     private String _otherMethodMedInfra = "";
@@ -537,7 +486,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._otherMethodMedInfra = otherMethodMedInfra;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfraDesc">
     @Transient
     private boolean _hasDescMedicalInfra = false;
@@ -550,7 +499,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._hasDescMedicalInfra = _hasDesc;
     }
     //</editor-fold>
-        
+
 //    // <editor-fold defaultstate="collapsed" desc="Property _otherMethodNonMedInfra">
 //    @Column(name = "biOtherMethodNonMedInfra")
 //    private String _otherMethodNonMedInfra = "";
@@ -563,7 +512,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
 //        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
 //    }
 //    // </editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfraDesc">
     @Transient
     private boolean _hasDescNonMedicalInfra = false;
@@ -576,10 +524,10 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._hasDescNonMedicalInfra = _hasDesc;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpMedInfraList">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
     private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
 
     public List<KGPListMedInfra> getKgpMedInfraList() {
@@ -590,10 +538,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._kgpMedInfraList = kgpMedInfraList;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _personalAccountingDescription">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "biPersonalAccountingDescription")
     private String _personalAccountingDescription = "";
@@ -606,7 +552,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._personalAccountingDescription = personalAccountingDescription;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _personalAccountings">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -622,11 +568,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._personalAccountings = kgpPersonalAccountingList;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _serviceProvisions">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
     @OrderBy(value = "_sequence")
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
@@ -638,11 +584,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._serviceProvisions = serviceProvisions;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _costCenters">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")
     private List<KGPListCostCenter> _costCenters = new Vector<>();
 
     public List<KGPListCostCenter> getCostCenters() {
@@ -653,11 +599,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._costCenters = costCenters;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _stationServiceCosts">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "sscBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")
     private List<KGPListStationServiceCost> _stationServiceCosts = new Vector<>();
 
     public List<KGPListStationServiceCost> getStationServiceCosts() {
@@ -668,11 +614,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._stationServiceCosts = kgpStationServiceCostList;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _therapies">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "thBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "thBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "thBaseInformationID", referencedColumnName = "biID")
     private List<KGPListTherapy> _therapies = new Vector<>();
 
     public List<KGPListTherapy> getTherapies() {
@@ -683,11 +629,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._therapies = kgpTherapyList;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpStationDepartmentList">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "saBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "saBaseInformationID", referencedColumnName = "biID")
     private List<KGPListStationAlternative> _kgpStationDepartmentList = new Vector<>();
 
     public List<KGPListStationAlternative> getKgpStationDepartmentList() {
@@ -698,11 +644,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._kgpStationDepartmentList = kgpStationDepartmentList;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _radiologyLaboratories">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
     private List<KGPListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories() {
@@ -713,11 +659,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._radiologyLaboratories = radiologyLaboratories;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpDelimitationFactList">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "dfBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dfBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "dfBaseInformationID", referencedColumnName = "biID")
     @OrderBy(value = "_contentTextId")
     private List<KGPListDelimitationFact> _delimitationFacts = new Vector<>();
 
@@ -729,12 +675,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._delimitationFacts = delimitationFacts;
     }
     // </editor-fold>
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpDocumentsList">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "doBaseInformationID")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")  
+    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
     private List<KGPDocuments> _kgpDocumentsList = new Vector<>();
 
     public List<KGPDocuments> getKgpDocumentsList() {
@@ -745,7 +690,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._kgpDocumentsList = kgpDocumentsList;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property List locations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
@@ -760,9 +705,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     }
     //</editor-fold>
 
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -819,7 +762,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         return "org.inek.dataportal.entities.calc.BasicsPepp[ id=" + _id + " ]";
     }
     // </editor-fold>
-    
+
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
@@ -829,5 +772,4 @@ public class PeppCalcBasics implements Serializable, IdValue {
     public PeppCalcBasics() {
     }
 
-
-    }
+}

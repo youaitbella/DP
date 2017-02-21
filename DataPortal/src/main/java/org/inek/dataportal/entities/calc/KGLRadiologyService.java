@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLRadiologyService implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +41,8 @@ public class KGLRadiologyService implements Serializable {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _opsCode">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 10)
     @Column(name = "rsOpsCode")
     private String _opsCode = "";
@@ -59,10 +55,8 @@ public class KGLRadiologyService implements Serializable {
         this._opsCode = opsCode;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rsServiceCost")
     private int _serviceCost;
 
@@ -74,10 +68,8 @@ public class KGLRadiologyService implements Serializable {
         this._serviceCost = serviceCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _caseCntStationary">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rsCaseCntStationary")
     private int _caseCntStationary;
 
@@ -89,10 +81,8 @@ public class KGLRadiologyService implements Serializable {
         this._caseCntStationary = caseCntStationary;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _caseCntAmbulant">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rsCaseCntAmbulant")
     private int _caseCntAmbulant;
 
@@ -104,10 +94,8 @@ public class KGLRadiologyService implements Serializable {
         this._caseCntAmbulant = caseCntAmbulant;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _ambulantAmount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rsAmbulantAmount")
     private int _ambulantAmount;
 
@@ -119,12 +107,10 @@ public class KGLRadiologyService implements Serializable {
         this._ambulantAmount = abulantAmount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property rsBaseInformationID">
 //    @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rsBaseInformationID")
     private int rsBaseInformationID;
 
@@ -136,12 +122,10 @@ public class KGLRadiologyService implements Serializable {
         this.rsBaseInformationID = rsBaseInformationID;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property rsContentTextID">
 //    @JoinColumn(name = "rsContentTextID", referencedColumnName = "ctID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rsContentTextID")
     private int rsContentTextID;
 
@@ -153,7 +137,6 @@ public class KGLRadiologyService implements Serializable {
         this.rsContentTextID = rsContentTextID;
     }
     //</editor-fold>
-    
 
     public KGLRadiologyService() {
     }
@@ -188,7 +171,7 @@ public class KGLRadiologyService implements Serializable {
         hash = 71 * hash + this.rsContentTextID;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -236,5 +219,5 @@ public class KGLRadiologyService implements Serializable {
         return "org.inek.dataportal.entities.calc.KGLRadiologyService[ rsID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

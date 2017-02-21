@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,13 +26,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListRadiologyLaboratory implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rlID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
@@ -47,11 +45,9 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
 //    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlBaseInformationID")
     private int _baseInformationID;
-    
+
     public int getBaseInformationID() {
         return _baseInformationID;
     }
@@ -62,11 +58,9 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="costCenterID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlCostCenterID")
     private int _costCenterID;
-    
+
     public int getCostCenterID() {
         return _costCenterID;
     }
@@ -75,13 +69,11 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._costCenterID = rlCostCenterID;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="costCenterNumber">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlCostCenterNumber")
     private int _costCenterNumber;
-    
+
     public int getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -92,12 +84,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "rlCostCenterText")
     private String _costCenterText = "";
-    
+
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -108,8 +98,6 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocHome">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocHome")
     private boolean _serviceDocHome;
 
@@ -121,11 +109,8 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._serviceDocHome = serviceDocHome;
     }
     // </editor-fold>
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="serviceDocDKG">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocDKG")
     private boolean _serviceDocDKG;
 
@@ -137,11 +122,8 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._serviceDocDKG = serviceDocDKG;
     }
     // </editor-fold>
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="serviceDocEBM">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocEBM")
     private boolean _serviceDocEBM;
 
@@ -153,11 +135,8 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._serviceDocEBM = serviceDocEBM;
     }
     // </editor-fold>
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="serviceDocGOA">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocGOA")
     private boolean _serviceDocGOA;
 
@@ -169,11 +148,8 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._serviceDocGOA = serviceDocGOA;
     }
     // </editor-fold>
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="serviceDocDif">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocDif")
     private boolean _serviceDocDif;
 
@@ -185,16 +161,12 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._serviceDocDif = serviceDocDif;
     }
     // </editor-fold>
-    
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Description">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "rlDescription")
     private String _description = "";
-    
+
     public String getDescription() {
         return _description;
     }
@@ -205,11 +177,9 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ServiceVolumePre">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceVolumePre")
     private int _serviceVolumePre;
-    
+
     public int getServiceVolumePre() {
         return _serviceVolumePre;
     }
@@ -220,11 +190,9 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="AmountPre">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlAmountPre")
     private int _amountPre;
-    
+
     public int getAmountPre() {
         return _amountPre;
     }
@@ -233,13 +201,11 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._amountPre = rlAmountPre;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ServiceVolumePost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceVolumePost")
     private int _serviceVolumePost;
-    
+
     public int getServiceVolumePost() {
         return _serviceVolumePost;
     }
@@ -250,11 +216,9 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="AmountPost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlAmountPost")
     private int _amountPost;
-    
+
     public int getAmountPost() {
         return _amountPost;
     }
@@ -264,12 +228,12 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
-    
     public KGLListRadiologyLaboratory() {
     }
 
     /**
      * copy all values but id and baseInformationId will default to -1
+     *
      * @param source value to copy
      */
     public KGLListRadiologyLaboratory(KGLListRadiologyLaboratory source) {
@@ -289,13 +253,13 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._costCenterText = source._costCenterText;
         this._description = source._description;
     }
-    
+
     public KGLListRadiologyLaboratory(int rlID) {
         this._id = rlID;
     }
 
     public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, int serviceVolumePre, int amountPre, int serviceVolumePost, int amountPost) {
-        this._id = id; 
+        this._id = id;
         this._baseInformationID = baseInformationID;
         this._costCenterID = costTypeID;
         this._costCenterNumber = costCenterID;
@@ -315,9 +279,11 @@ public class KGLListRadiologyLaboratory implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 43 * hash + this._id;
-        
-        if (this._id != -1) return hash;
-        
+
+        if (this._id != -1) {
+            return hash;
+        }
+
         hash = 43 * hash + this._baseInformationID;
         hash = 43 * hash + this._costCenterID;
         hash = 43 * hash + this._costCenterNumber;
@@ -334,7 +300,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
         hash = 43 * hash + this._amountPost;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -347,9 +313,11 @@ public class KGLListRadiologyLaboratory implements Serializable {
             return false;
         }
         final KGLListRadiologyLaboratory other = (KGLListRadiologyLaboratory) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
@@ -403,5 +371,5 @@ public class KGLListRadiologyLaboratory implements Serializable {
         return "org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory[ rlID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

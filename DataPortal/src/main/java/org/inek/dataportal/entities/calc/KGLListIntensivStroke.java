@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,13 +26,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListIntensivStroke implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "isID")
     private int _id = -1;
-    
+
     public int getId() {
         return _id;
     }
@@ -45,11 +43,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="IntensiveType">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isIntensiveType")
     private int _intensiveType;
-    
+
     public int getIntensiveType() {
         return _intensiveType;
     }
@@ -60,8 +56,8 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
 //    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
-//    @Basic(optional = false)
-//    @NotNull
+//    
+//    
 //    @Column(name = "isCostCenterID")
 //    private int _costCenterID;
 //    
@@ -73,14 +69,11 @@ public class KGLListIntensivStroke implements Serializable {
 //        this._costCenterID = costCenterID;
 //    }
 //    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 50)
     @Column(name = "isCostCenterText")
     private String _costCenterText = "";
-    
+
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -91,8 +84,8 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
 //    // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
-//    @Basic(optional = false)
-//    @NotNull
+//    
+//    
 //    @Size(max = 4)
 //    @Column(name = "isDepartmentKey")
 //    private String _departmentKey = "";
@@ -105,14 +98,11 @@ public class KGLListIntensivStroke implements Serializable {
 //        this._departmentKey = departmentKey;
 //    }
 //    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 50)
     @Column(name = "isDepartmentAssignment")
     private String _departmentAssignment = "";
-    
+
     public String getDepartmentAssignment() {
         return _departmentAssignment;
     }
@@ -123,11 +113,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BedCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isBedCnt")
     private int _bedCnt;
-    
+
     public int getBedCnt() {
         return _bedCnt;
     }
@@ -138,11 +126,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CaseCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isCaseCnt")
     private int _caseCnt;
-    
+
     public int getCaseCnt() {
         return _caseCnt;
     }
@@ -153,11 +139,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="OPS8980">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isOPS8980")
     private boolean _ops8980;
-    
+
     public boolean getOps8980() {
         return _ops8980;
     }
@@ -168,11 +152,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="OPS898f">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isOPS898f")
     private boolean _ops898f;
-    
+
     public boolean getOps898f() {
         return _ops898f;
     }
@@ -181,13 +163,11 @@ public class KGLListIntensivStroke implements Serializable {
         this._ops898f = ops898f;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="OPS8981">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isOPS8981")
     private boolean _ops8981;
-    
+
     public boolean getOps8981() {
         return _ops8981;
     }
@@ -198,11 +178,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="OPS898b">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isOPS898b")
     private boolean _ops898b;
-    
+
     public boolean getOps898b() {
         return _ops898b;
     }
@@ -213,12 +191,10 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="MinimumPeriod">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isMinimumCriteriaPeriod")
     @Size(max = 100)
     private String _minimumCriteriaPeriod;
-    
+
     public String getMinimumCriteriaPeriod() {
         return _minimumCriteriaPeriod;
     }
@@ -229,11 +205,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="IntensivHoursWeighted">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isIntensivHoursWeighted")
     private int _intensivHoursWeighted;
-    
+
     public int getIntensivHoursWeighted() {
         return _intensivHoursWeighted;
     }
@@ -242,13 +216,11 @@ public class KGLListIntensivStroke implements Serializable {
         this._intensivHoursWeighted = intensivHoursWeighted;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="IntensivHoursNotweighted">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isIntensivHoursNotweighted")
     private int _intensivHoursNotweighted;
-    
+
     public int getIntensivHoursNotweighted() {
         return _intensivHoursNotweighted;
     }
@@ -259,11 +231,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="WeightMinimum">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isWeightMinimum")
     private double _weightMinimum;
-    
+
     public double getWeightMinimum() {
         return _weightMinimum;
     }
@@ -274,11 +244,9 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="WeightMaximum">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isWeightMaximum")
     private double _weightMaximum;
-    
+
     public double getWeightMaximum() {
         return _weightMaximum;
     }
@@ -289,12 +257,10 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="WeightDescription">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "isWeightDescription")
     private String _weightDescription = "";
-    
+
     public String getWeightDescription() {
         return _weightDescription;
     }
@@ -305,8 +271,6 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property medicalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isMedicalServiceCnt")
     private double _medicalServiceCnt;
 
@@ -320,8 +284,6 @@ public class KGLListIntensivStroke implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property nursingServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isNursingServiceCnt")
     private double _nursingServiceCnt;
 
@@ -335,8 +297,6 @@ public class KGLListIntensivStroke implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property functionalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isFunctionalServiceCnt")
     private double _functionalServiceCnt;
 
@@ -348,10 +308,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._functionalServiceCnt = functionalServiceCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property medicalServiceCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isMedicalServiceCost")
     private int _medicalServiceCost;
 
@@ -363,10 +321,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._medicalServiceCost = medicalServiceCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property nursingServiceCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isNursingServiceCost")
     private int _nursingServiceCost;
 
@@ -378,10 +334,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._nursingServiceCost = nursingServiceCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property functionalServiceCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isFunctionalServiceCost")
     private int _functionalServiceCost;
 
@@ -393,10 +347,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._functionalServiceCost = functionalServiceCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property overheadsMedicine">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isOverheadsMedicine")
     private int _overheadsMedicine;
 
@@ -408,10 +360,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._overheadsMedicine = overheadsMedicine;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property overheadMedicalGoods">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isOverheadsMedicalGoods")
     private int _overheadMedicalGoods;
 
@@ -423,10 +373,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._overheadMedicalGoods = overheadMedicalGoods;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property medicalInfrastructureCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isMedicalInfrastructureCost")
     private int _medicalInfrastructureCost;
 
@@ -438,10 +386,8 @@ public class KGLListIntensivStroke implements Serializable {
         this._medicalInfrastructureCost = medicalInfrastructureCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property nonMedicalInfrastructureCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isNonMedicalInfrastructureCost")
     private int _nonMedicalInfrastructureCost;
 
@@ -453,27 +399,29 @@ public class KGLListIntensivStroke implements Serializable {
         this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
     }
     //</editor-fold>
-    
+
     public int getOverallCost() {
-        return _medicalServiceCost + _nursingServiceCost + _functionalServiceCost + _overheadsMedicine 
+        return _medicalServiceCost + _nursingServiceCost + _functionalServiceCost + _overheadsMedicine
                 + _overheadMedicalGoods + _medicalInfrastructureCost + _nonMedicalInfrastructureCost;
     }
-    
+
     public Integer getCostPerMedicalVK() {
-        if (_medicalServiceCnt == 0) return null;
-        return (int)((double)_medicalServiceCost / _medicalServiceCnt);
+        if (_medicalServiceCnt == 0) {
+            return null;
+        }
+        return (int) ((double) _medicalServiceCost / _medicalServiceCnt);
     }
-    
+
     public Integer getCostPerNursingVK() {
-        if (_nursingServiceCnt == 0) return null;
-        return (int)((double)_nursingServiceCost / _nursingServiceCnt);
+        if (_nursingServiceCnt == 0) {
+            return null;
+        }
+        return (int) ((double) _nursingServiceCost / _nursingServiceCnt);
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
 //    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "isBaseInformationID")
     private int _baseInformationId;
 
@@ -485,9 +433,9 @@ public class KGLListIntensivStroke implements Serializable {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
-    
+
     public String calcUtilization() {
-        if (getBedCnt()== 0) {
+        if (getBedCnt() == 0) {
             return "";
         }
         return Math.round(1000d * getIntensivHoursNotweighted() / (365 * 24 * getBedCnt())) / 10d + "%";
@@ -529,9 +477,11 @@ public class KGLListIntensivStroke implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + this._id;
-        
-        if (this._id != -1) return hash;
-        
+
+        if (this._id != -1) {
+            return hash;
+        }
+
         hash = 79 * hash + this._intensiveType;
 //        hash = 79 * hash + this._costCenterID;
         hash = 79 * hash + Objects.hashCode(this._costCenterText);
@@ -559,7 +509,7 @@ public class KGLListIntensivStroke implements Serializable {
         hash = 79 * hash + Objects.hashCode(this._baseInformationId);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -572,9 +522,11 @@ public class KGLListIntensivStroke implements Serializable {
             return false;
         }
         final KGLListIntensivStroke other = (KGLListIntensivStroke) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
@@ -655,12 +607,11 @@ public class KGLListIntensivStroke implements Serializable {
         }
         return true;
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListIntensivStroke[ isID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -23,32 +20,29 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPPersonalAccounting",schema = "calc")
-@XmlRootElement
+@Table(name = "KGPPersonalAccounting", schema = "calc")
 public class KGPPersonalAccounting implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paCostTypeID")
     private int _costTypeId;
 
@@ -60,10 +54,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._costTypeId = costTypeId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _staffRecording">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paStaffRecording")
     private boolean _staffRecording;
 
@@ -75,10 +67,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._staffRecording = staffRecording;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _staffEvaluation">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paStaffEvaluation")
     private boolean _staffEvaluation;
 
@@ -90,10 +80,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._staffEvaluation = staffEvaluation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceEvaluation">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paServiceEvaluation")
     private boolean _serviceEvaluation;
 
@@ -105,10 +93,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._serviceEvaluation = serviceEvaluation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceStatistic">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paServiceStatistic")
     private boolean _serviceStatistic;
 
@@ -120,10 +106,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._serviceStatistic = serviceStatistic;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _expertRating">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paExpertRating")
     private boolean _expertRating;
 
@@ -135,10 +119,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._expertRating = expertRating;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _other">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paOther")
     private boolean _other;
 
@@ -150,10 +132,8 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._other = other;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paAmount")
     private int _amount;
 
@@ -165,7 +145,7 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._amount = amount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -191,10 +171,10 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
     public void setPriorCostAmount(int priorCostAmount) {
         this.priorCostAmount = priorCostAmount;
     }
-    
+
     public KGPPersonalAccounting() {
     }
-   
+
     public KGPPersonalAccounting(int paID) {
         this._id = paID;
     }
@@ -203,7 +183,7 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._costTypeId = costTypeId;
         this.priorCostAmount = prior;
     }
-    
+
     public KGPPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount, int paBaseInfoID) {
         this._id = paID;
         this._costTypeId = paCostTypeID;
@@ -236,7 +216,7 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         hash = 97 * hash + this._baseInformationId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -278,11 +258,11 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         }
         return this._baseInformationId == other._baseInformationId;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPPersonalAccounting[ paID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

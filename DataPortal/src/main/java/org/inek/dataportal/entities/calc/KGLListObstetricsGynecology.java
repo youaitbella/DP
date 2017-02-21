@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListObstetricsGynecology implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +43,10 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogCostCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "ogCostCenterText")
     private String _costCenterText = "";
-    
+
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -61,11 +57,9 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogMedicalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogMedicalServiceCnt")
     private double _medicalServiceCnt;
-    
+
     public double getMedicalServiceCnt() {
         return _medicalServiceCnt;
     }
@@ -74,13 +68,11 @@ public class KGLListObstetricsGynecology implements Serializable {
         this._medicalServiceCnt = medicalServiceCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ogAttendingDoctorCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogAttendingDoctorCnt")
     private double _attendingDoctorCnt;
-    
+
     public double getAttendingDoctorCnt() {
         return _attendingDoctorCnt;
     }
@@ -91,11 +83,9 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogNursingServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogNursingServiceCnt")
     private double _nursingServiceCnt;
-    
+
     public double getNursingServiceCnt() {
         return _nursingServiceCnt;
     }
@@ -106,11 +96,9 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogFunctionalServiceCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogFunctionalServiceCnt")
     private double _functionalServiceCnt;
-    
+
     public double getFunctionalServiceCnt() {
         return _functionalServiceCnt;
     }
@@ -121,11 +109,9 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogMidwifeCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogMidwifeCnt")
     private double _midwifeCnt;
-    
+
     public double getMidwifeCnt() {
         return _midwifeCnt;
     }
@@ -134,25 +120,21 @@ public class KGLListObstetricsGynecology implements Serializable {
         this._midwifeCnt = midwifeCnt;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ogAttendingMidwifeCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogAttendingMidwifeCnt")
     private double _attendingMidwifeCnt;
-    
+
     public double getAttendingMidwifeCnt() {
-        return this._attendingMidwifeCnt;        
+        return this._attendingMidwifeCnt;
     }
-    
+
     public void setAttendingMidwifeCnt(double attendingMidwifeCnt) {
-        this._attendingMidwifeCnt = attendingMidwifeCnt;        
+        this._attendingMidwifeCnt = attendingMidwifeCnt;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogCostTypeId">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogCostTypeID")
     private double _costTypeId;
 
@@ -162,17 +144,15 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     public void setCostTypeId(double costTypeId) {
         this._costTypeId = costTypeId;
-    }    
+    }
     // </editor-fold>
 
-   // <editor-fold defaultstate="collapsed" desc="ogBaseInformationID">
+    // <editor-fold defaultstate="collapsed" desc="ogBaseInformationID">
 //    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ogBaseInformationID")
     private int _baseInformationID;
-    
+
     public int getBaseInformationID() {
         return _baseInformationID;
     }
@@ -181,7 +161,7 @@ public class KGLListObstetricsGynecology implements Serializable {
         this._baseInformationID = baseInformationID;
     }
     // </editor-fold>
-    
+
     public KGLListObstetricsGynecology() {
     }
 
@@ -205,9 +185,11 @@ public class KGLListObstetricsGynecology implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 19 * hash + this._id;
-        
-        if (this._id != -1) return hash;
-        
+
+        if (this._id != -1) {
+            return hash;
+        }
+
         hash = 19 * hash + Objects.hashCode(this._costCenterText);
         hash = 19 * hash + (int) (Double.doubleToLongBits(this._medicalServiceCnt) ^ (Double.doubleToLongBits(this._medicalServiceCnt) >>> 32));
         hash = 19 * hash + (int) (Double.doubleToLongBits(this._attendingDoctorCnt) ^ (Double.doubleToLongBits(this._attendingDoctorCnt) >>> 32));
@@ -218,7 +200,7 @@ public class KGLListObstetricsGynecology implements Serializable {
         hash = 19 * hash + this._baseInformationID;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -231,9 +213,11 @@ public class KGLListObstetricsGynecology implements Serializable {
             return false;
         }
         final KGLListObstetricsGynecology other = (KGLListObstetricsGynecology) obj;
-        
-        if (this._id != -1 && this._id == other._id) return true;
-        
+
+        if (this._id != -1 && this._id == other._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }
@@ -260,11 +244,11 @@ public class KGLListObstetricsGynecology implements Serializable {
         }
         return Objects.equals(this._costCenterText, other._costCenterText);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListObstetricsGynecology[ ogID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

@@ -7,7 +7,6 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,9 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -28,31 +25,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListServiceProvision", schema = "calc")
-@XmlRootElement
 public class KGPListServiceProvision implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _partitionExternalAssignment">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 200)
     @Column(name = "spPartitionExternalAssignment")
     private String _partitionExternalAssignment = "";
@@ -65,10 +59,8 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         this._partitionExternalAssignment = partitionExternalAssignment;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _note">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "spNote")
     private String _note = "";
@@ -81,10 +73,8 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         this._note = note;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "spAmount")
     private int _amount;
 
@@ -96,7 +86,7 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         this._amount = amount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -111,7 +101,7 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _providedTypeId">
 //    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
 //    @ManyToOne(optional = false)
@@ -126,7 +116,7 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         this._providedTypeId = providedTypeId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceProvisionTypeId">
 //    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
@@ -155,20 +145,20 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         _serviceProvisionType = serviceProvisionType;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
     @Transient
     private String _domain;
-    
+
     public String getDomain() {
         return _domain;
     }
-    
+
     public void setDomain(String domain) {
         this._domain = domain;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
     @Column(name = "spSequence")
     private int _sequence;
@@ -180,9 +170,8 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     public void setSequence(int sequence) {
         this._sequence = sequence;
     }
-    
-    //</editor-fold>
 
+    //</editor-fold>
     public KGPListServiceProvision() {
     }
 
@@ -213,7 +202,7 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         hash = 97 * hash + this._serviceProvisionTypeId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -246,11 +235,11 @@ public class KGPListServiceProvision implements Serializable, IdValue {
         }
         return Objects.equals(this._note, other._note);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListServiceProvision[ spID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

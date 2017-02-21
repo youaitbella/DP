@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -26,31 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListDelimitationFact", schema = "calc")
-@XmlRootElement
 public class KGPListDelimitationFact implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dfID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property used">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dfUsed")
     private boolean _used;
 
@@ -62,10 +55,8 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         this._used = used;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property personalCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dfPersonalCost")
     private int _personalCost;
 
@@ -77,10 +68,8 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         this._personalCost = personalCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property materialCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dfMaterialcost")
     private int _materialCost;
 
@@ -92,10 +81,8 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         this._materialCost = materialcost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property infraCost">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dfInfraCost")
     private int _infraCost;
 
@@ -107,7 +94,7 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         this._infraCost = infraCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property baseInformationId">
     @Column(name = "dfBaseInformationID")
     private int _baseInformationId;
@@ -120,7 +107,7 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property contentTextId">
     @Column(name = "dfContentTextID")
     private int _contentTextId;
@@ -133,7 +120,7 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         this._contentTextId = contentTextId;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "dfContentTextId")
@@ -184,7 +171,7 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         hash = 29 * hash + this._contentTextId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -220,11 +207,11 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListDelimitationFact[ dfID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

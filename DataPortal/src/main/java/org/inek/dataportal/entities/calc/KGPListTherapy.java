@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -25,31 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListTherapy", schema = "calc")
-@XmlRootElement
 public class KGPListTherapy implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thCostCenterID")
     private int _costCenterId;
 
@@ -61,10 +55,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._costCenterId = costCenterId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "thCostCenterText")
     private String _costCenterText = "";
@@ -77,10 +69,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._costCenterText = costCenterText;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _externalService">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thExternalService")
     private int _externalService;
 
@@ -92,10 +82,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._externalService = externalService;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 50)
     @Column(name = "thKeyUsed")
     private String _keyUsed = "";
@@ -108,10 +96,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._keyUsed = keyUsed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt1">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thServiceUnitsCt1")
     private int _serviceUnitsCt1;
 
@@ -123,10 +109,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._serviceUnitsCt1 = serviceUnitsCt1;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt1">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thPersonalCostCt1")
     private int _personalCostCt1;
 
@@ -138,10 +122,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._personalCostCt1 = personalCostCt1;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt2">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thServiceUnitsCt2")
     private int _serviceUnitsCt2;
 
@@ -153,10 +135,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._serviceUnitsCt2 = serviceUnitsCt2;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt2">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thPersonalCostCt2")
     private int _personalCostCt2;
 
@@ -168,10 +148,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._personalCostCt2 = personalCostCt2;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thServiceUnitsCt3")
     private int _serviceUnitsCt3;
 
@@ -183,10 +161,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._serviceUnitsCt3 = serviceUnitsCt3;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thPersonalCostCt3")
     private int _personalCostCt3;
 
@@ -198,10 +174,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._personalCostCt3 = personalCostCt3;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3a">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thServiceUnitsCt3a")
     private int _serviceUnitsCt3a;
 
@@ -213,10 +187,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._serviceUnitsCt3a = serviceUnitsCt3a;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3a">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thPersonalCostCt3a")
     private int _personalCostCt3a;
 
@@ -228,10 +200,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._personalCostCt3a = personalCostCt3a;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3b">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thServiceUnitsCt3b")
     private int _serviceUnitsCt3b;
 
@@ -243,10 +213,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._serviceUnitsCt3b = serviceUnitsCt3b;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3b">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thPersonalCostCt3b")
     private int _personalCostCt3b;
 
@@ -258,10 +226,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._personalCostCt3b = personalCostCt3b;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3c">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thServiceUnitsCt3c")
     private int _serviceUnitsCt3c;
 
@@ -273,10 +239,8 @@ public class KGPListTherapy implements Serializable, IdValue {
         this._serviceUnitsCt3c = serviceUnitsCt3c;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3c">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "thPersonalCostCt3c")
     private int _personalCostCt3c;
 
@@ -287,9 +251,8 @@ public class KGPListTherapy implements Serializable, IdValue {
     public void setPersonalCostCt3c(int personalCostCt3c) {
         this._personalCostCt3c = personalCostCt3c;
     }
-    
+
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "thBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -359,7 +322,7 @@ public class KGPListTherapy implements Serializable, IdValue {
         hash = 47 * hash + this._baseInformationId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -425,12 +388,11 @@ public class KGPListTherapy implements Serializable, IdValue {
         }
         return Objects.equals(this._keyUsed, other._keyUsed);
     }
-    
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListTherapy[ thID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

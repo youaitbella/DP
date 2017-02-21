@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -25,31 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListStationAlternative", schema = "calc")
-@XmlRootElement
 public class KGPListStationAlternative implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "saID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _departmentName">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 50)
     @Column(name = "saDepartmentName")
     private String _departmentName = "";
@@ -62,10 +56,8 @@ public class KGPListStationAlternative implements Serializable, IdValue {
         this._departmentName = departmentName;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _alternative">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "saAlternative")
     private String _alternative = "";
@@ -78,7 +70,7 @@ public class KGPListStationAlternative implements Serializable, IdValue {
         this._alternative = alternative;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -93,7 +85,7 @@ public class KGPListStationAlternative implements Serializable, IdValue {
         this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -135,7 +127,7 @@ public class KGPListStationAlternative implements Serializable, IdValue {
         hash = 53 * hash + this._baseInformationId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -159,11 +151,11 @@ public class KGPListStationAlternative implements Serializable, IdValue {
         }
         return Objects.equals(this._alternative, other._alternative);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListStationDepartment[ sdID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

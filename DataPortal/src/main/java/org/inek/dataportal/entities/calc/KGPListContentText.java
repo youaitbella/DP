@@ -7,14 +7,12 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
@@ -33,23 +31,21 @@ public class KGPListContentText implements Serializable, IdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ctID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "ctText")
     private String _text = "";
@@ -62,10 +58,8 @@ public class KGPListContentText implements Serializable, IdValue {
         this._text = text;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ctFirstYear")
     private int _firstYear;
 
@@ -77,10 +71,8 @@ public class KGPListContentText implements Serializable, IdValue {
         this._firstYear = firstYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ctLastYear")
     private int _lastYear;
 
@@ -92,10 +84,8 @@ public class KGPListContentText implements Serializable, IdValue {
         this._lastYear = lastYear;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _decimalCnt">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ctDecimalCnt")
     private int _decimalCnt;
 
@@ -107,10 +97,8 @@ public class KGPListContentText implements Serializable, IdValue {
         this._decimalCnt = decimalCnt;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _seq">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ctSeq")
     private int _seq;
 
@@ -122,7 +110,7 @@ public class KGPListContentText implements Serializable, IdValue {
         this._seq = seq;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _headerTextID">
 //    @JoinColumn(name = "ctHeaderTextID", referencedColumnName = "htID")
 //    @ManyToOne(optional = false)
@@ -137,7 +125,7 @@ public class KGPListContentText implements Serializable, IdValue {
         this._headerTextID = headerTextID;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _diffAsPercent">
     @Column(name = "ctDiffAsPercent")
     private boolean _diffAsPercent;
@@ -150,7 +138,7 @@ public class KGPListContentText implements Serializable, IdValue {
         this._diffAsPercent = diffAsPercent;
     }
     //</editor-fold>
-    
+
     public KGPListContentText() {
     }
 
@@ -183,7 +171,7 @@ public class KGPListContentText implements Serializable, IdValue {
         hash = 29 * hash + this._headerTextID;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -222,11 +210,11 @@ public class KGPListContentText implements Serializable, IdValue {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListContentText[ ctID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

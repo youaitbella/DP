@@ -7,16 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -25,30 +22,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListMedInfra", schema = "calc")
-@XmlRootElement
 public class KGPListMedInfra implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @Column(name = "miID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "miCostTypeID")
     private int _costTypeId;
 
@@ -60,10 +55,8 @@ public class KGPListMedInfra implements Serializable, IdValue {
         this._costTypeId = costTypeId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 20)
     @Column(name = "miCostCenterNumber")
     private String _costCenterNumber = "";
@@ -76,14 +69,12 @@ public class KGPListMedInfra implements Serializable, IdValue {
         this._costCenterNumber = costCenterNumber;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "miCostCenterText")
     private String _costCenterText = "";
-    
+
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -92,10 +83,8 @@ public class KGPListMedInfra implements Serializable, IdValue {
         this._costCenterText = costCenterText;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 50)
     @Column(name = "miKeyUsed")
     private String _keyUsed = "";
@@ -108,10 +97,8 @@ public class KGPListMedInfra implements Serializable, IdValue {
         this._keyUsed = keyUsed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "miAmount")
     private int _amount;
 
@@ -123,7 +110,7 @@ public class KGPListMedInfra implements Serializable, IdValue {
         this._amount = amount;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -172,7 +159,7 @@ public class KGPListMedInfra implements Serializable, IdValue {
         hash = 97 * hash + this._baseInformationId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -208,11 +195,11 @@ public class KGPListMedInfra implements Serializable, IdValue {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListMedInfra[ miID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

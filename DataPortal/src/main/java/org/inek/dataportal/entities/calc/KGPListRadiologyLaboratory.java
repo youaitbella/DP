@@ -7,7 +7,6 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -26,31 +23,28 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListRadiologyLaboratory", schema = "calc")
-@XmlRootElement
 public class KGPListRadiologyLaboratory implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterId">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlCostCenterID")
     private int _costCenterId;
 
@@ -62,10 +56,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._costCenterId = costCenterId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlCostCenterNumber")
     private int _costCenterNumber;
 
@@ -77,10 +69,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._costCenterNumber = costCenterNumber;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 100)
     @Column(name = "rlCostCenterText")
     private String _costCenterText = "";
@@ -93,10 +83,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._costCenterText = costCenterText;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocHome">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocHome")
     private boolean _serviceDocHome;
 
@@ -108,10 +96,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._serviceDocHome = serviceDocHome;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocDKG">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocDKG")
     private boolean _serviceDocDKG;
 
@@ -123,10 +109,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._serviceDocDKG = serviceDocDKG;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocEBM">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocEBM")
     private boolean _serviceDocEBM;
 
@@ -138,10 +122,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._serviceDocEBM = serviceDocEBM;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocGOA">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocGOA")
     private boolean _serviceDocGOA;
 
@@ -153,10 +135,8 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._serviceDocGOA = serviceDocGOA;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocDif">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "rlServiceDocDif")
     private boolean _serviceDocDif;
 
@@ -168,41 +148,60 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._serviceDocDif = serviceDocDif;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocType">
     @Transient
     private int _serviceDocType;
 
     public int getServiceDocType() {
         int result = 0;
-        if (_serviceDocHome) { return 1; }
-        if (_serviceDocDKG) { return 2; }
-        if (_serviceDocEBM) { return 3; }
-        if (_serviceDocGOA) { return 4; }
-        if (_serviceDocDif) { return 5; }
-        
+        if (_serviceDocHome) {
+            return 1;
+        }
+        if (_serviceDocDKG) {
+            return 2;
+        }
+        if (_serviceDocEBM) {
+            return 3;
+        }
+        if (_serviceDocGOA) {
+            return 4;
+        }
+        if (_serviceDocDif) {
+            return 5;
+        }
+
         return result;
     }
 
     public void setServiceDocType(int type) {
         _serviceDocHome = _serviceDocDKG = _serviceDocEBM = _serviceDocGOA = _serviceDocDif = false;
         switch (type) {
-            case 0: break;
-            case 1: _serviceDocHome = true; break;
-            case 2: _serviceDocDKG = true; break;
-            case 3: _serviceDocEBM = true; break;
-            case 4: _serviceDocGOA = true; break;
-            case 5: _serviceDocDif = true; break;
-            default : ;
+            case 0:
+                break;
+            case 1:
+                _serviceDocHome = true;
+                break;
+            case 2:
+                _serviceDocDKG = true;
+                break;
+            case 3:
+                _serviceDocEBM = true;
+                break;
+            case 4:
+                _serviceDocGOA = true;
+                break;
+            case 5:
+                _serviceDocDif = true;
+                break;
+            default: ;
         }
-        
+
         this._serviceDocType = type;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _description">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 2147483647)
     @Column(name = "rlDescription")
     private String _description = "";
@@ -215,7 +214,7 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         this._description = description;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -271,7 +270,7 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         hash = 23 * hash + this._baseInformationId;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -316,11 +315,11 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
         }
         return Objects.equals(this._description, other._description);
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory[ rlID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

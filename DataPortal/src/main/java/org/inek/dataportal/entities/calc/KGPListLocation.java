@@ -7,18 +7,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
@@ -27,30 +22,27 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListLocation", schema = "calc")
-@XmlRootElement
 public class KGPListLocation implements Serializable, IdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "lID")
     private int _id = -1;
-    
+
     @Override
     public int getId() {
         return _id;
     }
-    
+
     @Override
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
     @Column(name = "lBaseInformationID")
     private int _baseInformationId;
@@ -63,10 +55,8 @@ public class KGPListLocation implements Serializable, IdValue {
         this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _location">
-    @Basic(optional = false)
-    @NotNull
     @Size(max = 300)
     @Column(name = "lLocation")
     private String _location = "";
@@ -79,11 +69,8 @@ public class KGPListLocation implements Serializable, IdValue {
         this._location = location;
     }
     //</editor-fold>
-    
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _locationNo">
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "lLocationNo")
     private short _locationNo;
 
@@ -121,7 +108,7 @@ public class KGPListLocation implements Serializable, IdValue {
         hash = 89 * hash + this._locationNo;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -145,11 +132,11 @@ public class KGPListLocation implements Serializable, IdValue {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPListLocation[ lID=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }
