@@ -42,6 +42,7 @@ import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
+import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
@@ -421,6 +422,15 @@ public class CalcFacade extends AbstractDataAccess {
         saveRadioServices(calcBasics);
         saveEndoscopyAmbulant(calcBasics);
         return merge(calcBasics);
+    }
+    
+    private void saveNormalStationDocMinutes(DrgCalcBasics calcBasics) {
+        for(KGLNormalStationServiceDocumentation item : calcBasics.getNormalStationServiceDocumentations()) {
+            if(item.getId() == -1)
+                persist(item);
+            else
+                merge(item);
+        }
     }
     
     private void saveRadioServices(DrgCalcBasics calcBasics) {

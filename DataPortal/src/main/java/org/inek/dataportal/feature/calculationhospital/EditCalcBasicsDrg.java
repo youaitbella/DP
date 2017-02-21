@@ -396,6 +396,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         ensureRadiologyServiceData(calcBasics);
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
+        KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
+        min.setBaseInformationId(calcBasics.getId());
+        calcBasics.getNormalStationServiceDocumentationMinutes().add(min);
         return calcBasics;
     }
 
