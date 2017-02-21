@@ -74,7 +74,7 @@ public class ValueLists {
             stream = stream.filter(c -> c.getIsPsy());
         }
         return stream        
-                .filter(c -> includeTotal || c.getId() > 0)
+                .filter(c -> c.getId() >= (includeTotal ? 0 : 1))
                 .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
                 .collect(Collectors.toList());
     }
@@ -90,7 +90,7 @@ public class ValueLists {
      */
     public List<SelectItem> getCostTypes(boolean includeTotal) {
         return _costTypes.stream()
-                .filter(c -> includeTotal || c.getId() > 0)
+                .filter(c -> c.getId() >= (includeTotal ? 0 : 1))
                 .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
                 .collect(Collectors.toList());
     }
