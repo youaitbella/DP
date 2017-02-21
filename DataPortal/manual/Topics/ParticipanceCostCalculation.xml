@@ -16,8 +16,8 @@
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Teilnahmeerklärung</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Kostengrundlage DRG</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Kostengrundlage PSY</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Klinisches Verteilmodell DRG</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Klinisches Verteilmodell PSY</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Klinisches Verteilungsmodell DRG</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Klinisches Verteillungsmodell PSY</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Zu Ihrer Unterstützung werden die Dialoge stellenweise bereits mit den im InEK aktuell vorliegenden Informationen (in der Regel die Vorjahresdaten) befüllt. Sich selten ändernde Datenfelder, wie beispielsweise Anzahl der Zentral-OPs werden mit den Altdaten befüllt, während bei Feldern wie Kostenvolumen die Vorjahresdaten zu Vergleich und Plausibilisierung eingespielt werden. Dies dient Ihrem Komfort. Bitte prüfen Sie dennoch in jedem Fall, ob sich vorbelegte Datenfelder geändert haben und aktualisieren Sie diese gegebenenfalls, bevor Sie die Daten an das InEK senden. Bei Bedarf ist eine Korrekturlieferung möglich.</text></para>

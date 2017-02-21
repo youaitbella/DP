@@ -190,7 +190,7 @@ public class CalcFacade extends AbstractDataAccess {
         TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
         query.setParameter("ik", ik);
         query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        return query.getResultList().size() == 1;
+        return !query.getResultList().isEmpty();
     }
 
     
@@ -765,6 +765,14 @@ public class CalcFacade extends AbstractDataAccess {
             calcBasics.setOpAn(null);
         }
         remove(calcBasics);
+    }
+    
+    public boolean existActiveCalcBasicsDrg(int ik) {
+        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year and c._statusID < 10";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        return !query.getResultList().isEmpty();
     }
     // </editor-fold>
 

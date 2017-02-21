@@ -32,11 +32,13 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Dynamische Listen</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">An diversen Stellen </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">An diversen Stellen sind gleichartige Daten in variabler Anzahl zu erfassen. An solchen Stellen erfolgt die Datenerfassung in Form einer dynamischen Liste, die bei Bedarf wachsen kann. Je nach Kontext wird die Listeneingabe erst in Abhängigkeit von anderen Daten sichtbar. </text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="CalculationBasicsDrg03.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Besondere Einrichtungen als Beispiel für eine dynamische Liste</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie angeben, dass eine entsprechende Vereinbarung besteht, wird eine Liste zur Erfassung </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie angeben, dass eine entsprechende Vereinbarung besteht, wird eine Liste zur Erfassung der Besonderen Einrichtungen eingeblendet. Mittels Mausklick </text><text styleclass="Button" translate="true">[ Zeile zufügen ]</text><text styleclass="Normal" translate="true"> können Sie jeweils eine weitere leere Zeile zufügen und für die Erfassung weiterer Daten nutzen.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>

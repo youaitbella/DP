@@ -36,6 +36,7 @@ import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
@@ -172,7 +173,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getSpecialUnits().add(specialUnit);
         } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
         // Central focuses
-        
         calcBasics.getCentralFocuses().clear();
         calcBasics.setCentralFocus(_priorCalcBasics.isCentralFocus());
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
@@ -196,9 +196,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());
             df.setContentText(ct);
-            for(DrgDelimitationFact pdf : _priorCalcBasics.getDelimitationFacts()) {
-                if(df.getContentTextId() == pdf.getContentTextId())
+            for (DrgDelimitationFact pdf : _priorCalcBasics.getDelimitationFacts()) {
+                if (df.getContentTextId() == pdf.getContentTextId()) {
                     df.setUsed(pdf.isUsed());
+                }
             }
             calcBasics.getDelimitationFacts().add(df);
         }
@@ -620,7 +621,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
-    
+
     public List<SelectItem> getEndoscopyAmbulantTypes() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(-1, "Bitte wählen..."));
@@ -638,13 +639,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.add(item);
         return result;
     }
-    
+
     public void addEndoscopyAmbulant() {
         KGLListEndoscopyAmbulant a = new KGLListEndoscopyAmbulant();
         a.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getEndoscopyAmbulant().add(a);
     }
-    
+
     public void deleteEndoscopyAmbulant(KGLListEndoscopyAmbulant a) {
         _calcBasics.getEndoscopyAmbulant().remove(a);
     }
@@ -907,6 +908,30 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public boolean isTakeEnabled() {
         return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+    }
+
+    public boolean isCopyForResendAllowed() {
+        if (_calcBasics.getStatusID() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+            return false;
+        }
+        return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
+    }
+
+    public void copyForResend() {
+        if (true) {
+            // todo: remove this condition after implementing this feature
+            Utils.showMessageInBrowser("Diese Funktion wird gerade für Sie programmiert");
+            return;
+        }
+        _calcBasics.setId(-1);
+        _calcBasics.setStatus(WorkflowStatus.New);
+        _calcBasics.setAccountId(_sessionController.getAccountId());
+        for (KGLListCentralFocus item : _calcBasics.getCentralFocuses()) {
+            item.setId(-1);
+            item.setBaseInformationID(-1);
+        }
+        // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
+
     }
 
     /**

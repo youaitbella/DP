@@ -1,6 +1,7 @@
 package org.inek.dataportal.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -67,13 +68,13 @@ public class ValueLists {
 
     public List<SelectItem> getCostCenters(boolean includeTotal, int remunerationDomain) {
         Stream<CostCenter> stream = _costCenters.stream();
-        if (remunerationDomain == 0){
+        if (remunerationDomain == 0) {
             stream = stream.filter(c -> c.getIsDrg());
         }
-        if (remunerationDomain == 1){
+        if (remunerationDomain == 1) {
             stream = stream.filter(c -> c.getIsPsy());
         }
-        return stream        
+        return stream
                 .filter(c -> c.getId() >= (includeTotal ? 0 : 1))
                 .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
                 .collect(Collectors.toList());
@@ -85,12 +86,21 @@ public class ValueLists {
 
     /**
      * get all cost types include or exclude the total ("Randsumme")
+     *
      * @param includeTotal
-     * @return 
+     * @return
      */
     public List<SelectItem> getCostTypes(boolean includeTotal) {
         return _costTypes.stream()
                 .filter(c -> c.getId() >= (includeTotal ? 0 : 1))
+                .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
+                .collect(Collectors.toList());
+    }
+
+    public List<SelectItem> getCostTypesCDM() {
+        List<String> costTypes = Arrays.asList(new String[]{"4b", "5", "6b", "6c", "10"});
+        return _costTypes.stream()
+                .filter(c -> costTypes.contains(c.getCharId()))
                 .map(c -> new SelectItem(c.getId(), c.getCharId() + " " + c.getText()))
                 .collect(Collectors.toList());
     }
