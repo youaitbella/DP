@@ -13,7 +13,7 @@
                   ikList="#{editCalcBasicsPepp.cachedIks}"
                   listener="#{editCalcBasicsPepp.ikChanged}" 
                   readonly="#{editCalcBasicsPepp.readOnly}" 
-                  isFixed="#{editCalcBasicsPepp.calcBasics.id gt 0}">
+                  isFixed="#{editCalcBasicsPepp.calcBasics.id gt 0 and editCalcBasicsPepp.calcBasics.ik gt 0}">
     </inek:MultiIk>
 
     <hr/>

@@ -13,7 +13,7 @@
                   ikList="#{editCalcBasicsDrg.iks}"
                   listener="#{editCalcBasicsDrg.ikChanged}" 
                   readonly="#{editCalcBasicsDrg.readOnly}" 
-                  isFixed="#{editCalcBasicsDrg.calcBasics.id gt 0}">
+                  isFixed="#{editCalcBasicsDrg.calcBasics.id gt 0 and editCalcBasicsDrg.calcBasics.ik gt 0}">
     </inek:MultiIk>
 
     <hr/>

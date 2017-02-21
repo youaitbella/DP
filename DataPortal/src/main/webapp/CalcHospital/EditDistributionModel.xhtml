@@ -25,7 +25,7 @@
                               ikList="#{editDistributionModel.ikItems}"
                               listener="#{editDistributionModel.ikChanged}" 
                               readonly="#{editDistributionModel.readOnly}" 
-                              isFixed="#{editDistributionModel.model.id gt 0}">
+                              isFixed="#{editDistributionModel.model.id gt 0 and editDistributionModel.model.ik gt 0}">
                 </inek:MultiIk>
 
                 <hr/>

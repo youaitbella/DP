@@ -17,7 +17,7 @@
                       ikList="#{editStatementOfParticipance.iks}"
                       listener="#{editStatementOfParticipance.ikChanged}" 
                       readonly="#{editStatementOfParticipance.readOnly}" 
-                      isFixed="#{editStatementOfParticipance.statement.id gt 0}">
+                      isFixed="#{editStatementOfParticipance.statement.id gt 0 and editStatementOfParticipance.statement.ik gt 0}">
         </inek:MultiIk>
 
         <div jsf:rendered="#{editStatementOfParticipance.statement.ik > 0}" class="marginTop01em">
