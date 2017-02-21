@@ -246,6 +246,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // Normal Ward
+        calcBasics.setNormalFreelancing(_priorCalcBasics.isNormalFreelancing());
         calcBasics.getNormalFreelancers().clear();
         for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
             KGLNormalFreelancer nf = new KGLNormalFreelancer();
@@ -314,9 +315,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             add.setBaseInformationID(calcBasics.getId());
             for (KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
                 if (add.getContentTextID() == addPrior.getContentTextID()) {
-                    add.setAlternative(addPrior.getAlternative());
-                    add.setDepartment(addPrior.getDepartment());
-                    add.setDepartmentKey(addPrior.getDepartmentKey());
                     add.setUsed(addPrior.isUsed());
                     break;
                 }

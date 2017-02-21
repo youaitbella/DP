@@ -136,56 +136,54 @@
     
     <h2>Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a</h2>
     
-    <h:dataTable  headerClass="list-header" id="service"
-                  value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" width="100%" rowClasses="row1, row2" 
-                  columnClasses=""
-                  >
-    
-        <h:column>
-            <f:facet name="header">
-                
-            </f:facet>
-            <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining"/>
-            </h:commandLink>
-        </h:column>
-    
-        <h:column>
-            <f:facet name="header">
-                Dokumentation
-            </f:facet>
-            <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">
-                Fachabteilung
-            </f:facet>
-            <h:inputText styleClass="inputwide" value="#{item.department}" disabled="#{item.used}" required="#{!item.used}">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">
-                FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
-            </f:facet>
-            <h:inputText styleClass="inputwide" value="#{item.departmentKey}" disabled="#{item.used}" required="#{!item.used}">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">
-                Alternativverfahren
-            </f:facet>
-            <h:inputText styleClass="inputwide" value="#{item.alternative}" disabled="#{item.used}" required="#{!item.used}">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
-        </h:column>
-    
-    </h:dataTable>
+    <table id="serviceCost">
+        <tr>
+            <th>Dokumentation</th>
+            <th></th>
+        </tr>
+        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" varStatus="loop">
+            <tr>
+            <c:if test="#{item.contentTextID != 85}">
+                <td colspan="2">
+                    <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
+                </td>
+            </c:if>
+            <c:if test="#{item.contentTextID == 85}">
+                <td>
+                    <inek:BooleanRadioButton value="#{item.used}" label="#{item.label.length() == 0 ? editCalcBasicsDrg.getContentText(item.contentTextID) : item.label}" renderElement="@form :logout:remaining" />
+                </td>
+                <td>
+                    <table id="minutesTable">
+                        <tr>
+                            <th>Fachabteilung</th>
+                            <th>FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</th>
+                            <th>Alternativverfahren</th>
+                        </tr>
+                        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}" var="minutes" varStatus="loop2">
+                            <tr>
+                                <td>
+                                    <h:inputText styleClass="inputwide" value="#{minutes.department}" required="#{!item.used}">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}" required="#{!item.used}">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    <h:inputText styleClass="inputwide" value="#{item.alternative}" required="#{!item.used}">
+                                        <f:ajax event="blur" render="@this :logout:remaining" />
+                                    </h:inputText>
+                                </td>
+                            </tr>
+                        </ui:repeat>
+                    </table>
+                </td>
+            </c:if>
+            </tr>
+        </ui:repeat>
+    </table>
     
     <h2>Hochaufwendige Pflegeleistungen</h2>
     <table>

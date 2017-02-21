@@ -54,48 +54,6 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _department">
-    @Size(max = 200)
-    @Column(name = "nssDepartment")
-    private String _department = "";
-
-    public String getDepartment() {
-        return _department;
-    }
-
-    public void setDepartment(String department) {
-        this._department = department;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
-    @Size(max = 4)
-    @Column(name = "nssDepartmentKey")
-    private String _departmentKey = "";
-
-    public String getDepartmentKey() {
-        return _departmentKey;
-    }
-
-    public void setDepartmentKey(String departmentKey) {
-        this._departmentKey = departmentKey;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property _alternative">
-    @Size(max = 200)
-    @Column(name = "nssAlternative")
-    private String _alternative = "";
-
-    public String getAlternative() {
-        return _alternative;
-    }
-
-    public void setAlternative(String alternative) {
-        this._alternative = alternative;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
 //    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -147,9 +105,6 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     public KGLNormalStationServiceDocumentation(int nssID, boolean nssUsed, String nssDepartment, String nssDepartmentKey, String nssAlternative) {
         this._id = nssID;
         this._used = nssUsed;
-        this._department = nssDepartment;
-        this._departmentKey = nssDepartmentKey;
-        this._alternative = nssAlternative;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -161,9 +116,6 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
             return hash;
         }
         hash = 59 * hash + (this._used ? 1 : 0);
-        hash = 59 * hash + Objects.hashCode(this._department);
-        hash = 59 * hash + Objects.hashCode(this._departmentKey);
-        hash = 59 * hash + Objects.hashCode(this._alternative);
         hash = 59 * hash + this._baseInformationID;
         hash = 59 * hash + this._contentTextID;
         return hash;
@@ -194,15 +146,6 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
             return false;
         }
         if (this._contentTextID != other._contentTextID) {
-            return false;
-        }
-        if (!Objects.equals(this._department, other._department)) {
-            return false;
-        }
-        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
-            return false;
-        }
-        if (!Objects.equals(this._alternative, other._alternative)) {
             return false;
         }
         return true;

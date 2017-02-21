@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -965,6 +963,18 @@ public class DrgCalcBasics implements Serializable {
         this._normalStationServiceDocumentations = normalStationServiceDocumentations;
     }
     //</editor-fold>
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "nssdmBaseInformationId", referencedColumnName = "biID")
+    private List<KGLNormalStationServiceDocumentationMinutes> _normalStationServiceDocumentationMinutes = new Vector<>();
+
+    public List<KGLNormalStationServiceDocumentationMinutes> getNormalStationServiceDocumentationMinutes() {
+        return _normalStationServiceDocumentationMinutes;
+    }
+
+    public void setNormalStationServiceDocumentationMinutes(List<KGLNormalStationServiceDocumentationMinutes> _normalStationServiceDocumentationMinutes) {
+        this._normalStationServiceDocumentationMinutes = _normalStationServiceDocumentationMinutes;
+    }    
     
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
