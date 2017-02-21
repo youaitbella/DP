@@ -614,6 +614,17 @@ public class DrgCalcBasics implements Serializable {
         this._pkmsCaseCnt = pkmsCaseCnt;
     }
     //</editor-fold>
+    
+    @Column(name = "biPKMSComplex")
+    private boolean _pkmsComplex;
+
+    public boolean isPkmsComplex() {
+        return _pkmsComplex;
+    }
+
+    public void setPkmsComplex(boolean _pkmsComplex) {
+        this._pkmsComplex = _pkmsComplex;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="PkmsOther">
     @Column(name = "biPKMSOther")

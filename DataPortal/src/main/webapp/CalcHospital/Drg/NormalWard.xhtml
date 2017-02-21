@@ -184,9 +184,23 @@
     </table>
     
     <h2>Hochaufwendige Pflegeleistungen</h2>
+    
+    <div class="inputPart">
+        <inek:BooleanRadioButton label="Es liegen Patienten mit hochaufwendiger Pflege i.S.d. Pflegekomplexmaßnahmen-Scores (PKMS) vor:"
+                                 labelStyle="label" 
+                                 value="#{editCalcBasicsDrg.calcBasics.pkmsComplex}" renderElement="@form" />
+    </div>
+    
+    <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.pkmsComplex}">
+    
+    <div class="inputPart">
+        <span class="label">Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):</span><br/>
+        <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.pkmsCaseCnt}" styleClass="inputMedium"/>
+    </div>
+    
     <table>
         <tr>
-            <th>Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor</th>
+            <th>Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:</th>
         </tr>
         <tr>
             <td>
@@ -249,6 +263,8 @@
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addPkmsService()}"/>
     </h:commandLink>
     
+    </h:panelGroup>   
+        
     <style>
         #tbl {
             margin-top: 20px;
