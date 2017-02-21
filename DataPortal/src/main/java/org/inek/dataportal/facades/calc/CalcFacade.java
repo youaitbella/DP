@@ -37,6 +37,7 @@ import org.inek.dataportal.entities.calc.KGLListEndoscopyAmbulant;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
+import org.inek.dataportal.entities.calc.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
@@ -421,6 +422,8 @@ public class CalcFacade extends AbstractDataAccess {
         saveCostCenterCosts(calcBasics);
         saveRadioServices(calcBasics);
         saveEndoscopyAmbulant(calcBasics);
+        saveNormalStationDocMinutes(calcBasics);
+        saveMedInfra(calcBasics);
         return merge(calcBasics);
     }
     
@@ -430,6 +433,16 @@ public class CalcFacade extends AbstractDataAccess {
                 persist(item);
             else
                 merge(item);
+        }
+    }
+    
+    private void saveMedInfra(DrgCalcBasics calcBasics) {
+        for(KGLListMedInfra medInfra : calcBasics.getMedInfras()) {
+            if(medInfra.getId() == -1)
+                persist(medInfra);
+            else {
+                merge(medInfra);
+            }
         }
     }
     
