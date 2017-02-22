@@ -65,11 +65,11 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Für die ausgelosten Häuser stehen im ersten Jahr zwei Kalkulationsvarianten zur Auswahl, namentlich die</text></para>
     <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">vereinfachte Kalkulation</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Probekalkulation</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">vereinfachte Kalkulation und die </text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Probekalkulation.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kalkulationsart bestimmt, welche weitere Funktionalität zur Verfügung steht</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kalkulationsart bestimmt, welche weitere Funktionalität zur Verfügung steht.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="SoP07.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Auswahl Kalkulationsart</text></para>
