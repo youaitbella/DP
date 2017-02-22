@@ -10,7 +10,8 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import org.inek.dataportal.entities.calc.KGPListCostCenter;
+import java.util.function.BiConsumer;
+import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
 
@@ -46,7 +47,7 @@ public class TherapyDataImporterPepp {
     public String getMessage() {
         return (_totalCount - _errorCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorMsg;
     }
-
+    
     public void tryImportLine(String line) {
         _totalCount++;
         try {
@@ -54,105 +55,114 @@ public class TherapyDataImporterPepp {
                 line = line + " ";
             }
             String[] data = line.split(";");
-            if (data.length != 8) {
+            if (data.length != 16) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
-            KGPListCostCenter item = new KGPListCostCenter();
+            KGPListTherapy item = new KGPListTherapy();
             item.setBaseInformationId(_calcBasics.getId());
-            tryImportCostCenterId(item, data[0]);
-            tryImportCostCenterNumber(item, data[1]);
-            item.setCostCenterText(data[2]);
-            tryImportCostVolume(item, data[3]);
-            tryImportFullVigorCnt(item, data[4]);
-            item.setServiceKey(data[5]);
-            item.setServiceKeyDescription(data[6]);
-            tryImportServiceSum(item, data[7]);
             
+            tryImportInteger(item, data[0], (i,s) -> i.setCostCenterId(s), "Keine zulässige KST-Gruppe (23-26) : ");
+            tryImportString(item, data[1], (i,s) -> i.setCostCenterText(s), "Ungültige Zeichenkette: ");
+            // hier muss ein mapping zwischen Text und id her
+            //tryImport  (item, data[2], (i,s) -> i.setExternalService(s), "Keine zulässige Leistungserbringung: ");
+            
+            tryImportString(item, data[3], (i,s) -> i.setKeyUsed(s), "Kein gültiger Leistungsschlüssel: ");
+            tryImportInteger(item, data[4], (i,s) -> i.setServiceUnitsCt1(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 1: ");
+            tryImportInteger(item, data[5], (i,s) -> i.setPersonalCostCt1(s), "Ungültiger Wert für Personalkosten KoArtGr 1: ");
+            tryImportInteger(item, data[6], (i,s) -> i.setServiceUnitsCt3a(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3a: ");
+            tryImportInteger(item, data[7], (i,s) -> i.setPersonalCostCt3a(s), "Ungültiger Wert für Personalkosten KoArtGr 3a: ");
+            tryImportInteger(item, data[8], (i,s) -> i.setServiceUnitsCt2(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 2: ");
+            tryImportInteger(item, data[9], (i,s) -> i.setPersonalCostCt2(s), "Ungültiger Wert für Personalkosten KoArtGr 2: ");
+            tryImportInteger(item, data[10], (i,s) -> i.setServiceUnitsCt3b(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3b: ");
+            tryImportInteger(item, data[11], (i,s) -> i.setPersonalCostCt3b(s), "Ungültiger Wert für Personalkosten KoArtGr 3b: ");
+            tryImportInteger(item, data[12], (i,s) -> i.setServiceUnitsCt3c(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3c: ");
+            tryImportInteger(item, data[13], (i,s) -> i.setPersonalCostCt3c(s), "Ungültiger Wert für Personalkosten KoArtGr 3c: ");
+            tryImportInteger(item, data[14], (i,s) -> i.setServiceUnitsCt3(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3: ");
+            tryImportInteger(item, data[15], (i,s) -> i.setPersonalCostCt3(s), "Ungültiger Wert für Personalkosten KoArtGr 3: ");
+                        
             if(itemExists(item)) {
                 _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
                 return;
             }
 
-            _calcBasics.getCostCenters().add(item);
+            _calcBasics.getTherapies().add(item);
         } catch (IllegalArgumentException ex) {
             _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + ex.getMessage();
             _errorCount++;
         }
     }
-    private boolean itemExists(KGPListCostCenter item) {
-        for(KGPListCostCenter cc : _calcBasics.getCostCenters()) {
-            if( cc.getAmount() == item.getAmount() &&
-                cc.getCostCenterId() == item.getCostCenterId() &&
-                cc.getCostCenterNumber() == item.getCostCenterNumber() &&
-                cc.getCostCenterText().equals(item.getCostCenterText()) &&
-                cc.getFullVigorCnt() == item.getFullVigorCnt() &&
-                cc.getServiceKey().equals(item.getServiceKey()) &&
-                cc.getServiceKeyDescription().equals(item.getServiceKeyDescription()) &&
-                cc.getServiceSum() == item.getServiceSum())
+    
+    private boolean itemExists(KGPListTherapy item) {
+        for (KGPListTherapy t : _calcBasics.getTherapies()) {
+            if (t.getCostCenterId() == item.getCostCenterId() &&
+                    t.getCostCenterText().equals(t.getCostCenterText()) &&
+                    t.getExternalService() == item.getExternalService() &&
+                    t.getKeyUsed().equals(t.getKeyUsed()) &&
+                    t.getServiceUnitsCt1() == item.getServiceUnitsCt1() &&
+                    t.getPersonalCostCt1()== item.getPersonalCostCt1() &&
+                    t.getServiceUnitsCt3a() == item.getServiceUnitsCt3a() &&
+                    t.getPersonalCostCt3a()== item.getPersonalCostCt3a() &&
+                    t.getServiceUnitsCt2() == item.getServiceUnitsCt2() &&
+                    t.getPersonalCostCt2()== item.getPersonalCostCt2() &&
+                    t.getServiceUnitsCt3b() == item.getServiceUnitsCt3b() &&
+                    t.getPersonalCostCt3b()== item.getPersonalCostCt3b() &&
+                    t.getServiceUnitsCt3c() == item.getServiceUnitsCt3c() &&
+                    t.getPersonalCostCt3c()== item.getPersonalCostCt3c() &&
+                    t.getServiceUnitsCt3() == item.getServiceUnitsCt3() &&
+                    t.getPersonalCostCt3()== item.getPersonalCostCt3() 
+                    ) {
                 return true;
+            }
         }
         return false;
     }
 
-    private void tryImportCostCenterId(KGPListCostCenter item, String dataString) {
-        List<String> allowedValues = Arrays.asList("11", "12", "13");
-        if (allowedValues.contains(dataString)){
-            item.setCostCenterId(Integer.parseInt(dataString));
-        } else{
-            throw new IllegalArgumentException("Keine zulässige Kostenstellengruppe: " + dataString);
+    private void tryImportString(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, String> bind, String errorMsg) {
+        try {
+            bind.accept(item, data);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
         }
     }
-
-    private void tryImportCostCenterNumber(KGPListCostCenter item, String dataString) {
-        try{
+    
+    private void tryImportInteger(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, Integer> bind, String errorMsg) {
+        try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
-            int val = nf.parse(dataString).intValue();
-            item.setCostCenterNumber(val);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Nummer der Kostenstelle] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
-        }
-    }
-
-    private void tryImportCostVolume(KGPListCostCenter item, String dataString) {
-        try{
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(dataString).intValue();
+            int val = nf.parse(data).intValue();
             if (val < 0){
-                 throw new IllegalArgumentException("[Kostenvolumen] Wert darf nicht kleiner 0 sein: " + dataString);
+                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             }
-            item.setAmount(val);
+            bind.accept(item, val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Kostenvolumen] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
-
-    private void tryImportFullVigorCnt(KGPListCostCenter item, String dataString) {
-        try{
+    
+    private void tryImportDouble(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, Double> bind, String errorMsg) {
+        try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
-            double val = nf.parse(dataString).doubleValue();
+            double val = nf.parse(data).doubleValue();
             if (val < 0){
-                 throw new IllegalArgumentException("[Anzahl VK ÄD] Wert darf nicht kleiner 0 sein: " + dataString);
+                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             }
-            item.setFullVigorCnt(val);
+            bind.accept(item, val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Anzahl VK ÄD] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
-
-    private void tryImportServiceSum(KGPListCostCenter item, String dataString) {
-        try{
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(dataString).intValue();
-            if (val < 0){
-                 throw new IllegalArgumentException("[Summe der Leistungseinheiten] Wert darf nicht kleiner 0 sein: " + dataString);
+    
+    private void tryImportBoolean(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, Boolean> bind, String errorMsg) {
+        try {
+            if (data.trim().length() > 1) {
+                throw new IllegalArgumentException(errorMsg + " ist nicht leer, x oder X : " + data);
+            } else if (data.trim().length() == 1 && !data.trim().toLowerCase().equals("x")) {
+                throw new IllegalArgumentException(errorMsg + " ist nicht leer, x oder X : " + data);
             }
-            item.setServiceSum(val);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Summe der Leistungseinheiten] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
+            bind.accept(item, data.trim().toLowerCase().equals("x"));
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
         }
     }
 

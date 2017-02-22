@@ -98,8 +98,6 @@ public class IntensivDataImporter {
         }
     }
 
-    
-    
     private boolean itemExists(KGLListIntensivStroke item) {
         for(KGLListIntensivStroke is : _calcBasics.getIntensivStrokes()) {
             if( is.getIntensiveType() == item.getIntensiveType() &&
