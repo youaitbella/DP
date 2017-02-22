@@ -166,7 +166,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseGroupResult">
     @Column(name = "dmdUseGroupResult")
-    @Documentation(name = "Verteilung über Gruppierung", rank = 150)
+    @Documentation(name = "Verteilung über DRG/PEPP", rank = 150)
     private boolean _useGroupResult;
 
     public boolean isUseGroupResult() {
