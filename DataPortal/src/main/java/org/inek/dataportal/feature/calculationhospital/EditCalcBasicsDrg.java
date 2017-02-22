@@ -245,6 +245,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             rl.setServiceVolumePre(prl.getServiceVolumePre());
             calcBasics.getRadiologyLaboratories().add(rl);
         }
+        
+        // ObstetricsGynecologies
+        calcBasics.getObstetricsGynecologies().clear();
+        for(KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
+            KGLListObstetricsGynecology obst = new KGLListObstetricsGynecology();
+            obst.setBaseInformationID(calcBasics.getId());
+            obst.setCostCenterText(pObst.getCostCenterText());
+            obst.setCostTypeId(pObst.getCostTypeId());
+            calcBasics.getObstetricsGynecologies().add(obst);
+        }
 
         // Normal Ward
         calcBasics.setNormalFreelancing(_priorCalcBasics.isNormalFreelancing());
