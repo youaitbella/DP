@@ -45,6 +45,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
@@ -439,6 +440,26 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
+    public boolean isCopyForResendAllowed() {
+        if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
+            return false;
+        }
+        return !_calcFacade.existActiveCalcBasicsPsy(_calcBasics.getIk());
+    }
+
+    public void copyForResend() {
+        // in a first approch, we do not copy the data
+        // just reset the status to "new"
+        _calcBasics.setStatus(WorkflowStatus.New);
+        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        /*
+        _calcBasics.setId(-1);
+        _calcBasics.setStatus(WorkflowStatus.New);
+        _calcBasics.setAccountId(_sessionController.getAccountId());
+        // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
+*/
+    }
+
     /**
      * This function seals a statement od participance if possible. Sealing is
      * possible, if all mandatory fields are fulfilled. After sealing, the
@@ -460,7 +481,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
+            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_calcBasics));
             return Pages.PrintView.URL();

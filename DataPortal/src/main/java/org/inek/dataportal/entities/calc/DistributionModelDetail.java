@@ -2,9 +2,13 @@ package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.common.CostCenter;
+import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.ValueLists;
 
 /**
  *
@@ -15,6 +19,7 @@ import org.inek.dataportal.utils.Documentation;
 public class DistributionModelDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Inject @Transient private ValueLists _valueLists;
 
     public DistributionModelDetail() {
     }
@@ -68,7 +73,6 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostCenterId">
     @Column(name = "dmdCostCenterId")
-    @Documentation(name = "KstStGr", rank = 105)
     private int _costCenterId = -1;
 
     public int getCostCenterId() {
@@ -78,11 +82,16 @@ public class DistributionModelDetail implements Serializable {
     public void setCostCenterId(int costCenterId) {
         this._costCenterId = costCenterId;
     }
+    
+    @Documentation(name = "KstStGr", rank = 105)
+    public String getCostCenterName(){
+        CostCenter cost = _valueLists.getCostCenter(_costCenterId);
+        return cost.getCharId() + " " + cost.getText();
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property CostTypeId">
     @Column(name = "dmdCostTypeId")
-    @Documentation(name = "KstArtGr", rank = 110)
     private int _costTypeId = -1;
 
     public int getCostTypeId() {
@@ -91,6 +100,12 @@ public class DistributionModelDetail implements Serializable {
 
     public void setCostTypeId(int costTypeId) {
         this._costTypeId = costTypeId;
+    }
+    
+    @Documentation(name = "KstArtGr", rank = 110)
+    public String getCostTypeName(){
+        CostType cost = _valueLists.getCostType(_costTypeId);
+        return cost.getCharId() + " " + cost.getText();
     }
     //</editor-fold>
 
@@ -166,7 +181,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseGroupResult">
     @Column(name = "dmdUseGroupResult")
-    @Documentation(name = "Verteilung über Gruppierung", rank = 150)
+    @Documentation(name = "Verteilung über DRG/PEPP", rank = 150)
     private boolean _useGroupResult;
 
     public boolean isUseGroupResult() {

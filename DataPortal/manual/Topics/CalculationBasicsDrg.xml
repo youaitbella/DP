@@ -39,6 +39,14 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie angeben, dass eine entsprechende Vereinbarung besteht, wird eine Liste zur Erfassung der Besonderen Einrichtungen eingeblendet. Mittels Mausklick </text><text styleclass="Button" translate="true">[ Zeile zufügen ]</text><text styleclass="Normal" translate="true"> können Sie jeweils eine weitere leere Zeile zufügen und für die Erfassung weiterer Daten nutzen.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Abgrenzungstatbestände</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hier handelt es sich um Felder, die, sofern zutreffend, anzukreuzen sind. Die Markierung ist also gleichbedeutend mit &quot;Ja&quot;. Bei Einigen Tatbeständen werden zusätzlich Werte (Kosten) abgefragt. Die entsprechenden Eingabefelder werden ein- bzw. ausgeblendet, sobald sie das betreffende Feld markieren.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalculationBasicsDrg05.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Abgrenzungstatbestände (Auszug)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ob zu einem Abgrenzungstatbestand weitere Daten zu erfassen sind, erkennen Sie vorab anhand der unterschiedlichen Farbgebung. &#160;Sollten die Farben aus technischen oder anderen Gründen für Sie nicht unterscheidbar sein, so lassen sich die erforderlichen Eingaben nach Setzen der Markierung erkennen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>
