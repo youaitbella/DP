@@ -255,6 +255,9 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             if (detail.isUseOtherCode()) {
                 checkField(message, detail.getNoteOtherCode(), "Zeile " + line + ": Verteilung über sonstigen Schlüssel bitte erläutern", "distributionModel:details");
             }
+            if (!detail.isUseProcCode() && !detail.isUseDiagCode() && !detail.isUseGroupResult() && ! detail.isUseOtherCode()){
+                applyMessageValues(message, "Zeile " + line + ": Bitte mindestens einen Schlüssel zur Verteilung angeben.", "distributionModel:details");
+            }
         }
 
         return message;

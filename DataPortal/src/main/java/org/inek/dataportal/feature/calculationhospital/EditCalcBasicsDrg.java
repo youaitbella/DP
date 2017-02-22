@@ -36,7 +36,6 @@ import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgDelimitationFact;
@@ -467,7 +466,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             if (currentOpt.isPresent()) {
                 KGLListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeID(prior.getProvidedTypeID());
-            } else {
+            } else if(!prior.isEmpty()) {
+                // take old entries only, if they contain values!
                 KGLListServiceProvision data = new KGLListServiceProvision();
                 data.setBaseInformationId(calcBasics.getId());
                 data.setServiceProvisionType(prior.getServiceProvisionType());

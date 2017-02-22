@@ -242,4 +242,9 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     }
     //</editor-fold>
 
+    public boolean isEmpty(){
+        return _partitionExternalAssignment.isEmpty() && _note.isEmpty() && _amount <= 0 && _providedTypeId <=0;
+                
+    }
+
 }

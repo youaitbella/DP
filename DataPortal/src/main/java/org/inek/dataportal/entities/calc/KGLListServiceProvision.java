@@ -171,6 +171,10 @@ public class KGLListServiceProvision implements Serializable {
     }
     //</editor-fold>
     
+    public boolean isEmpty(){
+        return _partitionExternalAssignment.isEmpty() && _note.isEmpty() && _amount <= 0 && _providedTypeID <=0;
+                
+    }
     public KGLListServiceProvision() {
     }
 

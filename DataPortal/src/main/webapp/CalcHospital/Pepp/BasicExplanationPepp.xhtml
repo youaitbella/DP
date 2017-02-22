@@ -541,12 +541,12 @@
     </div>
     
     <h2>Weitere Informationen</h2>
-    <h:outputLabel styleClass="label" value="Einzelkosten Arzneimittel" /><br/>
+    <h:outputLabel styleClass="label element100" value="Einzelkosten Arzneimittel" />
     <inek:BooleanRadioButton label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?"  
                                  renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}" labelStyle="label element60"/><br/>
 
 <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?" value="# {editCalcBasicsPepp.calcBasics.medicineCostMapping}"/><br/>-->
-    <h:outputLabel styleClass="label" value="Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung" />
+    <h:outputLabel styleClass="label element100" value="Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung" />
     <inek:BooleanRadioButton label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?"  
                                  renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}" labelStyle="label element60"/>
 <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?" value="# {editCalcBasicsPepp.calcBasics.courtPlacement}"/>-->

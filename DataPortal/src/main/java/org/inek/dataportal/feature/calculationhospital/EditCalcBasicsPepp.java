@@ -296,7 +296,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             if (currentOpt.isPresent()) {
                 KGPListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeId(prior.getProvidedTypeId());
-            } else {
+            } else if(!prior.isEmpty()){
                 KGPListServiceProvision data = new KGPListServiceProvision();
                 data.setBaseInformationId(calcBasics.getId());
                 data.setServiceProvisionType(prior.getServiceProvisionType());
