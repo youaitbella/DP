@@ -85,6 +85,12 @@ public class IntensivDataImporter {
             tryImportInteger(item, data[19], (i,s) -> i.setOverheadMedicalGoods(s), "[Kosten_GK_med_Sachbedarf] ");
             tryImportInteger(item, data[20], (i,s) -> i.setMedicalInfrastructureCost(s), "[Kosten_med_Infra] ");
             tryImportInteger(item, data[21], (i,s) -> i.setNonMedicalInfrastructureCost(s), "[Kosten_nicht_med_Infra] ");
+            
+            if (!itemExists(item)) {
+                _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
+                return;
+            }
+            
             _calcBasics.getIntensivStrokes().add(item);
         } catch (IllegalArgumentException ex) {
             _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + ex.getMessage();
@@ -92,6 +98,40 @@ public class IntensivDataImporter {
         }
     }
 
+    
+    
+    private boolean itemExists(KGLListIntensivStroke item) {
+        for(KGLListIntensivStroke is : _calcBasics.getIntensivStrokes()) {
+            if( is.getIntensiveType() == item.getIntensiveType() &&
+                    is.getCostCenterText().equals(item.getCostCenterText()) &&
+                    is.getDepartmentAssignment().equals(item.getDepartmentAssignment()) &&
+                    is.getBedCnt() == item.getBedCnt() &&
+                    is.getCaseCnt() == item.getCaseCnt() &&
+                    is.getOps8980() == item.getOps8980() &&
+                    is.getOps898f() == item.getOps898f() &&
+                    is.getOps8981() == item.getOps8981() &&
+                    is.getOps898b() == item.getOps898b() &&
+                    is.getMinimumCriteriaPeriod().equals(item.getMinimumCriteriaPeriod()) &&
+                    is.getWeightDescription().equals(item.getWeightDescription()) &&
+                    is.getIntensivHoursWeighted() == item.getIntensivHoursWeighted() &&
+                    is.getIntensivHoursNotweighted() == item.getIntensivHoursNotweighted() &&
+                    is.getWeightMinimum() == item.getWeightMinimum() &&
+                    is.getWeightMaximum() == item.getWeightMaximum() &&
+                    is.getMedicalServiceCnt() == item.getMedicalServiceCnt() &&
+                    is.getNursingServiceCnt() == item.getNursingServiceCnt() &&
+                    is.getFunctionalServiceCnt() == item.getFunctionalServiceCnt() &&
+                    is.getMedicalServiceCost() == item.getMedicalServiceCost() &&
+                    is.getNursingServiceCost() == item.getNursingServiceCost() &&
+                    is.getFunctionalServiceCost() == item.getFunctionalServiceCost() &&
+                    is.getOverheadsMedicine() == item.getOverheadsMedicine() &&
+                    is.getOverheadMedicalGoods() == item.getOverheadMedicalGoods() &&
+                    is.getMedicalInfrastructureCost() == item.getMedicalInfrastructureCost() &&
+                    is.getNonMedicalInfrastructureCost() == item.getNonMedicalInfrastructureCost() )
+                    
+                return true;
+        }
+        return false;
+    }
     
     private void tryImportString(KGLListIntensivStroke item, String data, BiConsumer<KGLListIntensivStroke, String> bind, String errorMsg) {
         try {

@@ -597,8 +597,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _file = file;
     }
 
+    private static final String HeadlineTherapy = "KST-Gruppe;Leistungsinhalt der Kostenstelle;Leistungserbringung;Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten";
+    
+    public void downloadTemplateTherapy() {
+        Utils.downloadText(HeadlineTherapy + "\n", "Therapeutischer_Bereich_.csv");
+    }
     private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
-
     public void downloadTemplate() {
         Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
