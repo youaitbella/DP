@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import com.sun.deploy.uitoolkit.impl.fx.ui.FXUIFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -241,7 +242,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
         checkField(message, model.getIk(), 100000000, 999999999, "lblIK", "distributionModel:ikMulti");
 
-        int line =0;
+        int line = 0;
         for (DistributionModelDetail detail : model.getDetails()) {
             line++;
             checkField(message, detail.getArticle(), "Zeile " + line + ": Bitte Artikel angeben", "distributionModel:details");
@@ -249,13 +250,16 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             checkField(message, detail.getCostTypeId(), 1, 999, "Zeile " + line + ": Bitte Kostenartengruppe wählen", "distributionModel:details");
             if (_model.getType() == 1) {
                 checkField(message, detail.getCountCaredays(), 1, 999999, "Zeile " + line + ": Bitte Anzahl Pflegetage angeben", "distributionModel:details");
+                if (detail.getCountCaredays() > 0 && detail.getCountCaredays() < detail.getCountCases()) {
+                    applyMessageValues(message, "Zeile " + line + ": Die Anzahl Pflegetage kann nicht kleiner als die Fallzahl sein.", "distributionModel:details");
+                }
             }
             checkField(message, detail.getCountCases(), 1, 999999, "Zeile " + line + ": Bitte Fallzahl angeben", "distributionModel:details");
-            checkField(message, detail.getCostVolume(), 1, 999999, "Zeile " + line + ": Bitte Kostenvolumen angeben", "distributionModel:details");
+            checkField(message, detail.getCostVolume(), 1, 999999999, "Zeile " + line + ": Bitte Kostenvolumen angeben", "distributionModel:details");
             if (detail.isUseOtherCode()) {
                 checkField(message, detail.getNoteOtherCode(), "Zeile " + line + ": Verteilung über sonstigen Schlüssel bitte erläutern", "distributionModel:details");
             }
-            if (!detail.isUseProcCode() && !detail.isUseDiagCode() && !detail.isUseGroupResult() && ! detail.isUseOtherCode()){
+            if (!detail.isUseProcCode() && !detail.isUseDiagCode() && !detail.isUseGroupResult() && !detail.isUseOtherCode()) {
                 applyMessageValues(message, "Zeile " + line + ": Bitte mindestens einen Schlüssel zur Verteilung angeben.", "distributionModel:details");
             }
         }
