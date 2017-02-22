@@ -1,5 +1,6 @@
 package org.inek.dataportal.utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +35,7 @@ import org.inek.dataportal.facades.modelintention.AdjustmentTypeFacade;
  */
 @Named
 @Singleton
-public class ValueLists {
+public class ValueLists{
 
     @Inject CostCenterFacade _costCenterFacade;
     @Inject CostTypeFacade _costTypeFacade;
@@ -98,6 +99,10 @@ public class ValueLists {
         return _costCenters.stream().filter(c -> c.getCharId().equals(charId)).mapToInt(c -> c.getId()).findAny().orElse(-1);
     }
 
+    public CostCenter getCostCenter(int id) {
+        return _costCenters.stream().filter(c -> c.getId() == id).findAny().orElse(new CostCenter());
+    }
+
     /**
      * get all cost types include or exclude the total ("Randsumme")
      *
@@ -121,6 +126,10 @@ public class ValueLists {
 
     public int getCostTypeId(String charId) {
         return _costTypes.stream().filter(c -> c.getCharId().equals(charId)).mapToInt(c -> c.getId()).findAny().orElse(-1);
+    }
+
+    public CostType getCostType(int id) {
+        return _costTypes.stream().filter(c -> c.getId() == id).findAny().orElse(new CostType());
     }
 
     List<SelectItem> _adjustmentTypes;

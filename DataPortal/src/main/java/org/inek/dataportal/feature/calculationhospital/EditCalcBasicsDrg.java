@@ -466,7 +466,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             if (currentOpt.isPresent()) {
                 KGLListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeID(prior.getProvidedTypeID());
-            } else if(!prior.isEmpty()) {
+            } else if (!prior.isEmpty()) {
                 // take old entries only, if they contain values!
                 KGLListServiceProvision data = new KGLListServiceProvision();
                 data.setBaseInformationId(calcBasics.getId());
@@ -564,13 +564,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteLaboratory(KGLListRadiologyLaboratory rl) {
         _calcBasics.getRadiologyLaboratories().remove(rl);
     }
-    
+
     public void addNormalStationServiceDocMinutes() {
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
         min.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getNormalStationServiceDocumentationMinutes().add(min);
     }
-    
+
     public void deleteNormalStationServiceDocMinutes(KGLNormalStationServiceDocumentationMinutes item) {
         _calcBasics.getNormalStationServiceDocumentationMinutes().remove(item);
     }
@@ -930,11 +930,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void copyForResend() {
-        if (true) {
-            // todo: remove this condition after implementing this feature
-            Utils.showMessageInBrowser("Diese Funktion wird gerade für Sie programmiert");
-            return;
-        }
+        // in a first approch, we do not copy the data
+        // just reset the status to "new"
+        _calcBasics.setStatus(WorkflowStatus.New);
+        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        /*
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
         _calcBasics.setAccountId(_sessionController.getAccountId());
@@ -943,7 +943,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             item.setBaseInformationID(-1);
         }
         // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
-
+         */
     }
 
     /**
@@ -967,7 +967,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _calcBasics.getId());
+            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_calcBasics));
             return Pages.PrintView.URL();
