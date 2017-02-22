@@ -214,7 +214,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         _model = _distModelFacade.saveDistributionModel(_model);
 
         if (isValidId(_model.getId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _model.getId());
+            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_model));
             return Pages.PrintView.URL();
