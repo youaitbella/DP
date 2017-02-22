@@ -71,7 +71,6 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostCenterId">
     @Column(name = "dmdCostCenterId")
-    @Documentation(name = "KstStGr", rank = 105)
     private int _costCenterId = -1;
 
     public int getCostCenterId() {
@@ -231,7 +230,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteProcCode">
     @Column(name = "dmdNoteProcCode")
-    @Documentation(name = "Anmerkung OPS", rank = 135)
+    @Documentation(name = "Anmerkung OPS", rank = 135, omitOnEmpty = true)
     private String _noteProcCode = "";
 
     @Size(max = 500)
@@ -246,7 +245,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteDiagCode">
     @Column(name = "dmdNoteDiagCode")
-    @Documentation(name = "Anmerkung ICD", rank = 145)
+    @Documentation(name = "Anmerkung ICD", rank = 145, omitOnEmpty = true)
     private String _noteDiagCode = "";
 
     @Size(max = 500)
@@ -261,7 +260,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteGroupResult">
     @Column(name = "dmdNoteGroupResult")
-    @Documentation(name = "Anmerkung Grupierung", rank = 155)
+    @Documentation(name = "Anmerkung Grupierung", rank = 155, omitOnEmpty = true)
     private String _noteGroupResult = "";
 
     @Size(max = 500)
@@ -276,7 +275,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteOtherCode">
     @Column(name = "dmdNoteOtherCode")
-    @Documentation(name = "Anmerkung sonstiger Schlüssel", rank = 165)
+    @Documentation(name = "Anmerkung sonstiger Schlüssel", rank = 165, omitOnEmpty = true)
     private String _noteOtherCode = "";
 
     @Size(max = 500)
@@ -291,7 +290,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ApprovalNote">
     @Column(name = "dmdApprovalNote")
-    @Documentation(name = "Bemerkung InEK", rank = 175)
+    @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)
     private String _approvalNote = "";
 
     @Size(max = 500)
