@@ -107,8 +107,10 @@ public class DocumentationUtil {
     }
 
     private List<KeyValueLevel> getDocForSubObject(Object o) {
-        List<KeyValueLevel> subList = new ArrayList<>();
+        Map<Long, KeyValueLevel> sorter = new TreeMap<>();
+        int position = 0;
         for (Field field : o.getClass().getDeclaredFields()) {
+            position++;
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
                 continue;
@@ -116,7 +118,7 @@ public class DocumentationUtil {
             try {
                 field.setAccessible(true);
                 Object rawValue = field.get(o);
-                addDocToSubList(subList, doc, field.getName(), rawValue);
+                addDocToSubList(sorter, doc, field.getName(), rawValue, position);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
@@ -128,14 +130,19 @@ public class DocumentationUtil {
             try {
                 method.setAccessible(true);
                 Object rawValue = method.invoke(o);
-                addDocToSubList(subList, doc, method.getName(), rawValue);
+                addDocToSubList(sorter, doc, method.getName(), rawValue, position);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
+        }
+        List<KeyValueLevel> subList = new ArrayList<>();
+        for (KeyValueLevel value : sorter.values()) {
+            subList.add(value);
         }
         return subList;
     }
 
-    private void addDocToSubList(List<KeyValueLevel> subList, Documentation doc, String elementName, Object rawValue) {
+    private void addDocToSubList(Map<Long, KeyValueLevel> subList, Documentation doc, String elementName, Object rawValue, int position) {
+        Long sorterKey = 1000L * doc.rank() + position;
         String name = getName(doc, elementName);
         if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
             return;
@@ -147,7 +154,7 @@ public class DocumentationUtil {
             }
         }
         String value = translate(rawValue, doc);
-        subList.add(new KeyValueLevel<>(name, value, 1));
+        subList.put(sorterKey, new KeyValueLevel<>(name, value, 1));
     }
 
     private void addDoc(String name, Object rawValue, Documentation doc, int level) {

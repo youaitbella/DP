@@ -39,7 +39,35 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie angeben, dass eine entsprechende Vereinbarung besteht, wird eine Liste zur Erfassung der Besonderen Einrichtungen eingeblendet. Mittels Mausklick </text><text styleclass="Button" translate="true">[ Zeile zufügen ]</text><text styleclass="Normal" translate="true"> können Sie jeweils eine weitere leere Zeile zufügen und für die Erfassung weiterer Daten nutzen.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Abgrenzungstatbestände</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hier handelt es sich um Felder, die, sofern zutreffend, anzukreuzen sind. Die Markierung ist also gleichbedeutend mit &quot;Ja&quot;. Bei Einigen Tatbeständen werden zusätzlich Werte (Kosten) abgefragt. Die entsprechenden Eingabefelder werden ein- bzw. ausgeblendet, sobald sie das betreffende Feld markieren.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalculationBasicsDrg05.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Abgrenzungstatbestände (Auszug)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ob zu einem Abgrenzungstatbestand weitere Daten zu erfassen sind, erkennen Sie vorab anhand der unterschiedlichen Farbgebung. &#160;Sollten die Farben aus technischen oder anderen Gründen für Sie nicht unterscheidbar sein, so lassen sich die erforderlichen Eingaben nach Setzen der Markierung erkennen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Kostenstellengruppe 11 (Diagnostische Bereiche)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Dynamische Liste mit Upload-Funktion</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dynamische Listen zeichnen sich dadurch aus, dass sie wachsen und potenziell große Datenmengen anfallen können. Soweit sich diese Daten aus anderen Systemen, z.B. einem Krankenhausinformationssystem, ausleiten lassen, kann die Erfassung dadurch beschleunigt werden, dass diese Daten hochgeladen und damit im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> eingelesen werden. Eine manuelle Eingabe entfällt daher. Voraussetzung für eine solche Upload-Funktion sind vorliegende Daten im passenden Format. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> ist in der Lage, Daten im CSV-Format einzulesen. CSV steht für &quot;character separated values&quot;. Als Trennzeichen der einzelnen Datenfelder wird ein Semikolon genutzt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalculationBasicsDrg11-01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Upload-Funktion</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Upload ... ]</text><text styleclass="Normal" translate="true"> öffnet einen Dialog zur Auswahl der hochzuladenden Datei. Nach dem Upload erhalten Sie ein Protokoll, dass im positiven Fall lediglich angibt, wie viele Zeilen übernommen wurden. Im Falle von Fehlern, werden diese aufgelistet. Zugleich erscheint eine weitere Schaltfläche </text><text styleclass="Button" translate="true">[ Upload-Protokoll ]</text><text styleclass="Normal" translate="true"> mit deren Hilfe Sie das Fehlerprotokoll ein- und ausblenden können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Download Musterdatei ]</text><text styleclass="Normal" translate="true"> startet den Download einer &quot;leeren&quot; CSV-Datei als Muster. Diese enthält eine Zeile mit den Feldnamen. Hier können Sie in weiteren Zeilen Ihre Daten anfügen. Sofern Sie die Daten aus einem anderen System ausleiten sind nur die Datenzeilen erforderlich. Die Überschriftenzeile ist optional. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im dargestellten Beispiel hat die Musterdatei diesen Inhalt:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Code Example"><text styleclass="Code Example" translate="true">Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Regelfall entspricht die Datei in ihrem Aufbau einer Datenzeile, wie sie im Dialog angezeigt wird. Hier jedoch ist zusätzlich Feld Kostenstellengruppe erforderlich: Zulässige Werte sind hier 11, 12 und 13. Die Datenerfassung dieser drei Kostenstellen hat den identischen Aufbau und daher können Sie mit einer Datei die Daten dieser Kostenstellen gemeinsam laden. Angezeigt werden sie auf der jeweiligen Seite.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Die Upload Funktion dient Ihrem Komfort und steht für ausgewählte Listen zur Verfügung. Für weitere Listen wird sie in Kürze erstellt. Sollten Sie eine solche Funktion an anderer Stelle vermissen, geben Sie dem InEK gerne entsprechendes Feedback.</text></para>
   </body>
 </topic>

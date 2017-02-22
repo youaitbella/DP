@@ -1,6 +1,8 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,6 +17,7 @@ import org.inek.dataportal.utils.Documentation;
 public class DistributionModelDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    //@Inject @Transient private ValueLists _valueLists;  delivers a null object :(
 
     public DistributionModelDetail() {
     }
@@ -68,7 +71,6 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CostCenterId">
     @Column(name = "dmdCostCenterId")
-    @Documentation(name = "KstStGr", rank = 105)
     private int _costCenterId = -1;
 
     public int getCostCenterId() {
@@ -78,11 +80,17 @@ public class DistributionModelDetail implements Serializable {
     public void setCostCenterId(int costCenterId) {
         this._costCenterId = costCenterId;
     }
+
+    @Documentation(name = "KstStGr", rank = 105)
+    public String getCostCenterName() {
+//        CostCenter cost = _valueLists.getCostCenter(_costCenterId);
+//        return cost.getCharId() + " " + cost.getText();
+        return "" + _costCenterId;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property CostTypeId">
     @Column(name = "dmdCostTypeId")
-    @Documentation(name = "KstArtGr", rank = 110)
     private int _costTypeId = -1;
 
     public int getCostTypeId() {
@@ -91,6 +99,20 @@ public class DistributionModelDetail implements Serializable {
 
     public void setCostTypeId(int costTypeId) {
         this._costTypeId = costTypeId;
+    }
+
+    @Documentation(name = "KstArtGr", rank = 110)
+    public String getCostTypeName() {
+        // todo
+//        CostType cost = _valueLists.getCostType(_costTypeId);
+//        return cost.getCharId() + " " + cost.getText();
+        Map<Integer, String> costTypes = new HashMap<>();
+        costTypes.put(142, "4b");
+        costTypes.put(150, "5");
+        costTypes.put(162, "6b");
+        costTypes.put(163, "6c");
+        costTypes.put(100, "10");
+        return costTypes.get(_costTypeId);
     }
     //</editor-fold>
 
@@ -166,7 +188,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseGroupResult">
     @Column(name = "dmdUseGroupResult")
-    @Documentation(name = "Verteilung über Gruppierung", rank = 150)
+    @Documentation(name = "Verteilung über DRG/PEPP", rank = 150)
     private boolean _useGroupResult;
 
     public boolean isUseGroupResult() {
@@ -208,7 +230,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteProcCode">
     @Column(name = "dmdNoteProcCode")
-    @Documentation(name = "Anmerkung OPS", rank = 135)
+    @Documentation(name = "Anmerkung OPS", rank = 135, omitOnEmpty = true)
     private String _noteProcCode = "";
 
     @Size(max = 500)
@@ -223,7 +245,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteDiagCode">
     @Column(name = "dmdNoteDiagCode")
-    @Documentation(name = "Anmerkung ICD", rank = 145)
+    @Documentation(name = "Anmerkung ICD", rank = 145, omitOnEmpty = true)
     private String _noteDiagCode = "";
 
     @Size(max = 500)
@@ -238,7 +260,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteGroupResult">
     @Column(name = "dmdNoteGroupResult")
-    @Documentation(name = "Anmerkung Grupierung", rank = 155)
+    @Documentation(name = "Anmerkung Grupierung", rank = 155, omitOnEmpty = true)
     private String _noteGroupResult = "";
 
     @Size(max = 500)
@@ -253,7 +275,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteOtherCode">
     @Column(name = "dmdNoteOtherCode")
-    @Documentation(name = "Anmerkung sonstiger Schlüssel", rank = 165)
+    @Documentation(name = "Anmerkung sonstiger Schlüssel", rank = 165, omitOnEmpty = true)
     private String _noteOtherCode = "";
 
     @Size(max = 500)
@@ -268,7 +290,7 @@ public class DistributionModelDetail implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property ApprovalNote">
     @Column(name = "dmdApprovalNote")
-    @Documentation(name = "Bemerkung InEK", rank = 175)
+    @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)
     private String _approvalNote = "";
 
     @Size(max = 500)
