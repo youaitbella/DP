@@ -121,7 +121,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
-
+        
+        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
+        
         for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
             for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
                 if (ppa.getCostTypeID() == pa.getCostTypeID()) {
