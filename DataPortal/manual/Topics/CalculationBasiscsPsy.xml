@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title translate="true">Kalkulationsgrundlage PEPP</title>
+  <title translate="true">Kalkulationsgrundlage PSY</title>
   <body>
     <header>
-      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kalkulationsgrundlage PEPP</text></para>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kalkulationsgrundlage PSY</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für ein Haus eine Teilnahmeerklärung für den Bereich PSY (freiwillige Teilnahme bzw. Probekalkulation) an das InEK gesendet haben, können Sie für dieses Haus mittels </text><text styleclass="Button" translate="true">[ neue Kalk.Grundlage PSY ]</text><text styleclass="Normal" translate="true"> die Kalkulationsgrundlagen PSY erfassen. Haben Sie für das Haus die Kalkulationsgrundlagen bereits in Arbeit oder an das InEK gesendet, können Sie für dieses Haus keine neuen Kalkulationsgrundlagen mehr anlegen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Bedienung der Kalkulationsgrundlage PSY entspricht im Wesentlichen der </text><link displaytype="text" defaultstyle="true" type="topiclink" href="CalculationBasicsDrg" styleclass="Normal" translate="true">Kalkulationsgrundlage DRG</link><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>

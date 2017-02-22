@@ -85,7 +85,7 @@ public class DistributionModelDetail implements Serializable {
     public String getCostCenterName() {
 //        CostCenter cost = _valueLists.getCostCenter(_costCenterId);
 //        return cost.getCharId() + " " + cost.getText();
-        return "" + _costCenterId;
+        return  _costCenterId == 90 ? "OV" : "" + _costCenterId;
     }
     //</editor-fold>
 

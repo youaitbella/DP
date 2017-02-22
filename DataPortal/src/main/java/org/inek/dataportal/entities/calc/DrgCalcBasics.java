@@ -28,6 +28,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -57,6 +58,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "biDataYear")
+    @Documentation(key = "lblYearData")
     private int _dataYear;
 
     public int getDataYear() {
@@ -70,6 +72,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="ik">
     @Column(name = "biIK")
+    @Documentation(key = "lblIK")
     private int _ik;
 
     public int getIk() {
@@ -97,6 +100,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="lastChanged">
     @Column(name = "biLastChanged")
     @Temporal(TemporalType.TIMESTAMP)
+    @Documentation(name = "Stand")
     private Date _lastChanged;
 
     public Date getLastChanged() {
@@ -120,6 +124,7 @@ public class DrgCalcBasics implements Serializable {
         this._statusID = statusID;
     }
 
+    @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusID);
     }
@@ -144,6 +149,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="correctionNote">
     @Column(name = "biCorrectionNote")
+    @Documentation(key = "lblComment")
     private String _correctionNote = "";
 
     @Size(max = 500)
@@ -158,6 +164,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
+    @Documentation(key = "lblSumCalcCost")
     private int _sumCalcCost;
 
     @Min(0)
