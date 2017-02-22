@@ -152,6 +152,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void retrievePriorData(PeppCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
 
+        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
+        
         for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
             for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
                 if (ppa.getCostTypeId() == pa.getCostTypeId()) {
