@@ -85,7 +85,7 @@ public class DistributionModelDetail implements Serializable {
     public String getCostCenterName() {
 //        CostCenter cost = _valueLists.getCostCenter(_costCenterId);
 //        return cost.getCharId() + " " + cost.getText();
-        return "" + _costCenterId;
+        return  _costCenterId == 90 ? "OV" : "" + _costCenterId;
     }
     //</editor-fold>
 
@@ -202,7 +202,7 @@ public class DistributionModelDetail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property UseOtherCode">
     @Column(name = "dmdUseOtherCode")
-    @Documentation(name = "Verteilung anderer Schlüssel", rank = 160)
+    @Documentation(name = "Verteilung über anderen Schlüssel", rank = 160)
     private boolean _useOtherCode;
 
     public boolean isUseOtherCode() {

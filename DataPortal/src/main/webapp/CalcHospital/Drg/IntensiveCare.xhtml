@@ -24,7 +24,9 @@
     <h:outputLabel id="sumIntNotWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}"/>
     <br/>
     <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumWeighted}"/>
-    <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}"/>
+    <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}">
+        <f:convertNumber pattern="#,##0" locale="de" />
+    </h:outputLabel>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.intensiveBed}">
         <h2>Bitte benennen Sie die Intensivstation wie in der Datei Intensiv.csv</h2>

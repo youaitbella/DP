@@ -28,6 +28,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -58,6 +59,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
 
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "biDataYear")
+    @Documentation(key = "lblYearData")
     private int _dataYear;
 
     public int getDataYear() {
@@ -71,6 +73,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
     @Column(name = "biIk")
+    @Documentation(key = "lblIK")
     private int _ik;
 
     public int getIk() {
@@ -98,6 +101,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "biLastChanged")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Documentation(name = "Stand")
     private Date _lastChanged = Calendar.getInstance().getTime();
 
     public Date getLastChanged() {
@@ -121,6 +125,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         _statusId = statusId;
     }
 
+    @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -146,6 +151,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // <editor-fold defaultstate="collapsed" desc="Property _correctionNote">
     @Size(max = 500)
     @Column(name = "biCorrectionNote")
+    @Documentation(key = "lblComment")
     private String _correctionNote = "";
 
     public String getCorrectionNote() {

@@ -229,8 +229,8 @@
       <topicref type="topic" id="427595211098679" build="ALL" modified="2017-01-24T11:34:22.667Z" icon="0" href="CalculationBasicsDrg">
         <caption translate="true">Kalkulationsgrundlage DRG</caption>
       </topicref>
-      <topicref type="topic" id="427595416159886" build="ALL" modified="2017-01-24T11:34:09.999Z" icon="0" href="CalculationBasiscsPsy">
-        <caption translate="true">Kalkulationsgrundlage PEPP</caption>
+      <topicref type="topic" id="427595416159886" build="ALL" modified="2017-02-22T17:15:52.234Z" icon="0" href="CalculationBasiscsPsy">
+        <caption translate="true">Kalkulationsgrundlage PSY</caption>
       </topicref>
       <topicref type="topic" id="427866033856711" build="ALL" modified="2017-02-22T10:29:53.547Z" icon="0" href="ClinicalDistributionModel">
         <caption translate="true">Klinische Verteilungsmodelle (KVM)</caption>
