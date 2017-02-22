@@ -559,7 +559,7 @@
     <ui:repeat value="#{editCalcBasicsPepp.calcBasics.delimitationFacts}" var="x" varStatus="status" id="uival">
 
         <div class="inputPart">
-            <h:outputLabel value="#{x.contentText.text}" styleClass="blockElement" style="width: calc(100% - 22em);" title="#{msg.ttDelimitationfacts}"/> &nbsp;
+            <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);" title="#{msg.ttDelimitationfacts}"/> &nbsp;
             <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                 <f:ajax event="change" render="@form :logout:remaining delimit-content" />
             </h:selectBooleanCheckbox>
@@ -569,7 +569,7 @@
         </div>
 
         <h:dataTable value="#{editCalcBasicsPepp.delimitationFactsSubTitles}" 
-                     rendered="#{x.used}"
+                     rendered="#{x.used and x.requireInputs}"
                      var="data" 
                      width="100%"
                      rowClasses="row1, row2"

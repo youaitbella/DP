@@ -752,7 +752,8 @@ select:active, select:focus{
     font-weight: bold;
 }
 
-.blockElement {
+.blockElement,
+.blockElementLight{
     box-sizing: border-box;
     display: inline-block;
     padding: 0.1em 0.25em;
@@ -761,6 +762,16 @@ select:active, select:focus{
     color: white;
     text-decoration: none;
     font-weight: bold;
+}
+
+.blockElement {
+    background-color: #043358;
+    color: white;
+}
+
+.blockElementLight {
+    background-color: #7F9BAF;
+    color: white;
 }
 
 .areaNarrowLow {

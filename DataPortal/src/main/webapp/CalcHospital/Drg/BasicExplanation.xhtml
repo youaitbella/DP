@@ -447,7 +447,7 @@
     <ui:repeat value="#{editCalcBasicsDrg.calcBasics.delimitationFacts}" var="x" varStatus="status">
 
         <div class="inputPart">
-            <h:outputLabel value="#{x.contentText.text}" styleClass="blockElement" style="width: calc(100% - 22em);"/> &nbsp;
+            <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);"/> &nbsp;
             <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                 <f:ajax event="change" render="@form :logout:remaining delimit-content" />
             </h:selectBooleanCheckbox>
@@ -457,7 +457,7 @@
         </div>
 
         <h:dataTable value="#{editCalcBasicsDrg.delimitationFactsSubTitles}" 
-                     rendered="#{x.used}"
+                     rendered="#{x.used and x.requireInputs}"
                      var="data" 
                      width="100%"
                      rowClasses="row1, row2"
