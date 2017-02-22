@@ -300,13 +300,13 @@ public class KGLListCostCenterCost implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="costTypeID">
 
     @Column(name = "cccCostCenterNumber")
-    private int _costCenterNumber;
+    private String _costCenterNumber;
     
-    public int getCostCenterNumber() {
+    public String getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    public void setCostCenterNumber(int costCenterNumber) {
+    public void setCostCenterNumber(String costCenterNumber) {
         this._costCenterNumber = costCenterNumber;
     }
     // </editor-fold>
@@ -358,7 +358,6 @@ public class KGLListCostCenterCost implements Serializable {
         hash = 59 * hash + this._medicalInfrastructureCost;
         hash = 59 * hash + this._nonMedicalInfrastructureCost;
         hash = 59 * hash + this._baseInformationId;
-        hash = 59 * hash + this._costCenterNumber;
         return hash;
     }
 
@@ -439,7 +438,7 @@ public class KGLListCostCenterCost implements Serializable {
         if (!Objects.equals(this._pprWeight, other._pprWeight)) {
             return false;
         }
-        return this._costCenterNumber == other._costCenterNumber;
+        return this._costCenterNumber.equals(other._costCenterNumber);
     }
 
     @Override

@@ -60,13 +60,13 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "sscCostCenterNumber")
-    private int _costCenterNumber;
+    private String _costCenterNumber;
 
-    public int getCostCenterNumber() {
+    public String getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    public void setCostCenterNumber(int costCenterNumber) {
+    public void setCostCenterNumber(String costCenterNumber) {
         this._costCenterNumber = costCenterNumber;
     }
     //</editor-fold>
@@ -497,7 +497,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         this._id = sscID;
     }
 
-    public KGPListStationServiceCost(int sscID, int sscCostCenterID, int sscCostCenterNumber, String sscStation, int sscBedCnt, boolean sscReceivingStation, int sscRegularCareDays, int sscRegularWeight, int sscIntensiveCareDays, int sscIntensiveWeight, double sscMedicalServiceCnt, double sscNursingServiceCnt, double sscPsychologistCnt, double sscSocialWorkerCnt, double sscSpecialTherapistCnt, double sscFunctionalServiceCnt, int sscMedicalServiceAmount, int sscNursingServiceAmount, int sscPsychologistAmount, int sscSocialWorkerAmount, int sscSpecialTherapistAmount, int sscFunctionalServiceAmount, int sscMedicalInfrastructureAmount, int sscNonMedicalInfrastructureAmount) {
+    public KGPListStationServiceCost(int sscID, int sscCostCenterID, String sscCostCenterNumber, String sscStation, int sscBedCnt, boolean sscReceivingStation, int sscRegularCareDays, int sscRegularWeight, int sscIntensiveCareDays, int sscIntensiveWeight, double sscMedicalServiceCnt, double sscNursingServiceCnt, double sscPsychologistCnt, double sscSocialWorkerCnt, double sscSpecialTherapistCnt, double sscFunctionalServiceCnt, int sscMedicalServiceAmount, int sscNursingServiceAmount, int sscPsychologistAmount, int sscSocialWorkerAmount, int sscSpecialTherapistAmount, int sscFunctionalServiceAmount, int sscMedicalInfrastructureAmount, int sscNonMedicalInfrastructureAmount) {
         this._id = sscID;
         this._costCenterID = sscCostCenterID;
         this._costCenterNumber = sscCostCenterNumber;
@@ -533,7 +533,6 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
             return hash;
         }
         hash = 59 * hash + this._costCenterID;
-        hash = 59 * hash + this._costCenterNumber;
         hash = 59 * hash + Objects.hashCode(this._station);
         hash = 59 * hash + this._bedCnt;
         hash = 59 * hash + (this._receivingStation ? 1 : 0);
