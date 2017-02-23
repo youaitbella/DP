@@ -101,6 +101,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
 
     // todo: retrieve data with status 10 for approval
     private void obtainDrgNodeChildren(RootNode node, Collection<TreeNode> children) {
+        List<Account> accounts = _distributionModelFacade.getInekAgentsForDrg();
 //        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
 //        accountIds = _distributionModelFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
 //        List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);

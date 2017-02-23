@@ -28,7 +28,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     public KGLListCostCenterCost() {
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +47,7 @@ public class KGLListCostCenterCost implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="CostCenter">
     @Column(name = "cccCostCenterID")
     private int _costCenterID;
-    
+
     public int getCostCenter() {
         return _costCenterID;
     }
@@ -298,10 +298,9 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="costTypeID">
-
     @Column(name = "cccCostCenterNumber")
     private String _costCenterNumber;
-    
+
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -310,7 +309,7 @@ public class KGLListCostCenterCost implements Serializable {
         this._costCenterNumber = costCenterNumber;
     }
     // </editor-fold>
-    
+
     @Column(name = "cccPriorID")
     private int _priorId = 0;
 
@@ -321,12 +320,12 @@ public class KGLListCostCenterCost implements Serializable {
     public void setPriorId(int _priorId) {
         this._priorId = _priorId;
     }
-    
+
     @Transient
     private KGLListCostCenterCost _prior;
 
     public KGLListCostCenterCost getPrior() {
-        return _prior;
+        return _prior == null ? new KGLListCostCenterCost() : _prior;
     }
 
     public void setPrior(KGLListCostCenterCost _prior) {
@@ -338,7 +337,9 @@ public class KGLListCostCenterCost implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this._id;
-        if (this._id != -1) return hash;
+        if (this._id != -1) {
+            return hash;
+        }
         hash = 59 * hash + this._costCenterID;
         hash = 59 * hash + Objects.hashCode(this._costCenterText);
         hash = 59 * hash + Objects.hashCode(this._departmentKey);

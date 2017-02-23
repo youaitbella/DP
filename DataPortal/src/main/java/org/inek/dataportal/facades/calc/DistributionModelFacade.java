@@ -6,10 +6,12 @@
 package org.inek.dataportal.facades.calc;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -131,6 +133,23 @@ public class DistributionModelFacade extends AbstractDataAccess {
 
     public void deleteDistributionModel(DistributionModel model) {
         remove(model);
+    }
+
+    public List<Account> getInekAgentsForDrg() {// todo: change to agent
+        /*
+select agId, agFirstName, agLastName, agEMail
+from calc.DistributionModelMaster 
+join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK
+join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId
+join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId
+join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId
+join CallCenterDB.dbo.ccAgent on mcraAgentId = agId
+where dmmStatusId = 10 
+	and agActive = 1 and agDomainId in ('O', 'E')
+	and mcraReportTypeId in (1, 3) --1=DRG, 30PSY
+        
+        */
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
