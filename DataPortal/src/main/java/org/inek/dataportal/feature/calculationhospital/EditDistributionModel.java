@@ -33,7 +33,7 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.calc.DistModelFacade;
+import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -52,7 +52,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
-    @Inject private DistModelFacade _distModelFacade;
+    @Inject private DistributionModelFacade _distModelFacade;
     @Inject ApplicationTools _appTools;
 
     private String _script;

@@ -193,7 +193,7 @@ public class KGLListIntensivStroke implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="MinimumPeriod">
     @Column(name = "isMinimumCriteriaPeriod")
     @Size(max = 100)
-    private String _minimumCriteriaPeriod;
+    private String _minimumCriteriaPeriod = "";
 
     public String getMinimumCriteriaPeriod() {
         return _minimumCriteriaPeriod;

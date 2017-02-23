@@ -22,7 +22,7 @@ import org.inek.dataportal.facades.AbstractDataAccess;
  */
 @RequestScoped
 @Transactional
-public class DistModelFacade extends AbstractDataAccess {
+public class DistributionModelFacade extends AbstractDataAccess {
 
     public DistributionModel findDistributionModel(int id) {
         return findFresh(DistributionModel.class, id);
