@@ -121,16 +121,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
-        
-        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
-        
-        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeID() == pa.getCostTypeID()) {
-                    pa.setPriorCostAmount(ppa.getAmount());
-                }
-            }
-        }
+
         for (KGLListCostCenterCost ccc : _priorCalcBasics.getCostCenterCosts()) {
             calcBasics.getCostCenterCosts().stream()
                     .filter((c) -> (c.getPriorId() == ccc.getPriorId()))
@@ -208,23 +199,23 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         checkRequireInputsForDelimitationFact(calcBasics);
 
         // Personal Accounting
-        calcBasics.getPersonalAccountings().clear();
-        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            KGLPersonalAccounting pa = new KGLPersonalAccounting();
-            pa.setId(-1);
-            pa.setBaseInformationID(calcBasics.getId());
-            pa.setPriorCostAmount(ppa.getAmount());
-            pa.setAmount(0);
-            pa.setCostTypeID(ppa.getCostTypeID());
-            pa.setExpertRating(ppa.isExpertRating());
-            pa.setOther(ppa.isOther());
-            pa.setServiceEvaluation(ppa.isServiceEvaluation());
-            pa.setServiceStatistic(ppa.isServiceStatistic());
-            pa.setStaffEvaluation(ppa.isStaffEvaluation());
-            pa.setStaffRecording(ppa.isStaffRecording());
-            calcBasics.getPersonalAccountings().add(pa);
-        }
+        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
+
         ensurePersonalAccountingData(calcBasics);
+        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+                if (ppa.getCostTypeID() == pa.getCostTypeID()) {
+                    pa.setPriorCostAmount(ppa.getAmount());
+                    pa.setCostTypeID(ppa.getCostTypeID());
+                    pa.setExpertRating(ppa.isExpertRating());
+                    pa.setOther(ppa.isOther());
+                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
+                    pa.setServiceStatistic(ppa.isServiceStatistic());
+                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
+                    pa.setStaffRecording(ppa.isStaffRecording());
+                }
+            }
+        }
 
         // Radiology & Laboratory
         calcBasics.getRadiologyLaboratories().clear();
@@ -247,10 +238,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             rl.setServiceVolumePre(prl.getServiceVolumePre());
             calcBasics.getRadiologyLaboratories().add(rl);
         }
-        
+
         // ObstetricsGynecologies
         calcBasics.getObstetricsGynecologies().clear();
-        for(KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
+        for (KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
             KGLListObstetricsGynecology obst = new KGLListObstetricsGynecology();
             obst.setBaseInformationID(calcBasics.getId());
             obst.setCostCenterText(pObst.getCostCenterText());
@@ -307,11 +298,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
             Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
             if (optDat.isPresent()) {
-                if(optDat.get().getContentText().getHeaderTextId() == 2)
+                if (optDat.get().getContentText().getHeaderTextId() == 2) {
                     optDat.get().setData(new BigDecimal(old.getData().intValue()));
-                else
+                } else {
                     optDat.get().setData(old.getData());
-                
+                }
+
             }
         });
 
@@ -418,10 +410,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private void ensurePersonalAccountingData(DrgCalcBasics calcBasics) {
-        if (calcBasics.getPersonalAccountings().size() == 3) {
-            return;
-        }
-
+        calcBasics.getPersonalAccountings().clear();
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
         calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));

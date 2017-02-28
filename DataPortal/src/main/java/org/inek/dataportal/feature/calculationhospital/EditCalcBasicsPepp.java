@@ -152,15 +152,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void retrievePriorData(PeppCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
 
-        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
-        
-        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
-                    pa.setPriorCostAmount(ppa.getAmount());
-                }
-            }
-        }
+//        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+//            for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+//                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
+//                    pa.setPriorCostAmount(ppa.getAmount());
+//                }
+//            }
+//        }
 
         /*
         for (KGPListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
@@ -173,7 +171,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             nrl.setDescription(rl.getDescription());
             calcBasics.getRadiologyLaboratories().add(nrl);
         }
-*/
+         */
     }
 
     public void ikChanged() {
@@ -196,15 +194,21 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
 
         // Personal Accounting
-        calcBasics.getPersonalAccountings().clear();
-        for (KGPPersonalAccounting pa : _priorCalcBasics.getPersonalAccountings()) {
-            pa.setId(-1);
-            pa.setBaseInformationId(calcBasics.getId());
-            pa.setPriorCostAmount(pa.getAmount());
-            pa.setAmount(0);
-            calcBasics.getPersonalAccountings().add(pa);
-        }
+        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
         ensurePersonalAccountingData(calcBasics);
+        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
+                    pa.setPriorCostAmount(ppa.getAmount());
+                    pa.setExpertRating(ppa.isExpertRating());
+                    pa.setOther(ppa.isOther());
+                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
+                    pa.setServiceStatistic(ppa.isServiceStatistic());
+                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
+                    pa.setStaffRecording(ppa.isStaffRecording());
+                }
+            }
+        }
 
         preloadServiceProvision(calcBasics);
 
@@ -247,10 +251,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
-        if (calcBasics.getPersonalAccountings().size() == 6) {
-            return;
-        }
-
+        calcBasics.getPersonalAccountings().clear();
         calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(110, 0));
         calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(120, 0));
         calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(130, 0));
@@ -299,7 +300,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             if (currentOpt.isPresent()) {
                 KGPListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeId(prior.getProvidedTypeId());
-            } else if(!prior.isEmpty()){
+            } else if (!prior.isEmpty()) {
                 KGPListServiceProvision data = new KGPListServiceProvision();
                 data.setBaseInformationId(calcBasics.getId());
                 data.setServiceProvisionType(prior.getServiceProvisionType());
@@ -319,25 +320,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
             calcBasics.getDelimitationFacts().add(df);
         }
-
-        // Personal Accounting
-        calcBasics.getPersonalAccountings().clear();
-        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            KGPPersonalAccounting pa = new KGPPersonalAccounting();
-            pa.setId(-1);
-            pa.setBaseInformationId(calcBasics.getId());
-            pa.setPriorCostAmount(ppa.getAmount());
-            pa.setAmount(0);
-            pa.setCostTypeId(ppa.getCostTypeId());
-            pa.setExpertRating(ppa.isExpertRating());
-            pa.setOther(ppa.isOther());
-            pa.setServiceEvaluation(ppa.isServiceEvaluation());
-            pa.setServiceStatistic(ppa.isServiceStatistic());
-            pa.setStaffEvaluation(ppa.isStaffEvaluation());
-            pa.setStaffRecording(ppa.isStaffRecording());
-            calcBasics.getPersonalAccountings().add(pa);
-        }
-        ensurePersonalAccountingData(calcBasics);
 
     }
 
@@ -399,7 +381,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
-        
+
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -461,7 +443,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.setStatus(WorkflowStatus.New);
         _calcBasics.setAccountId(_sessionController.getAccountId());
         // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
-*/
+         */
     }
 
     /**
@@ -602,11 +584,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private static final String HeadlineTherapy = "KST-Gruppe;Leistungsinhalt der Kostenstelle;Leistungserbringung;Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten";
-    
+
     public void downloadTemplateTherapy() {
         Utils.downloadText(HeadlineTherapy + "\n", "Therapeutischer_Bereich_.csv");
     }
     private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+
     public void downloadTemplate() {
         Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
     }

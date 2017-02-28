@@ -60,7 +60,7 @@ public class KGLListCostCenterCost implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Size(max = 100)
     @Column(name = "cccCostCenterText")
-    private String _costCenterText;
+    private String _costCenterText = "";
 
     public String getCostCenterText() {
         return _costCenterText;

@@ -479,6 +479,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
 //        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
 //    }
 //    //</editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
     @Size(max = 2147483647)
     @Column(name = "biOtherMethodMedInfra")
