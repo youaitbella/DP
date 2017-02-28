@@ -171,11 +171,11 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public boolean isAnonymousData() {
-        return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
+        return _drgProposal.isAnonymousData() == null ? false : _drgProposal.isAnonymousData();
     }
 
     public void setAnonymousData(boolean value) {
-        getDrgProposal().setAnonymousData(value);
+        _drgProposal.setAnonymousData(value);
     }
 
     // </editor-fold>
@@ -213,7 +213,7 @@ public class EditDrgProposal extends AbstractEditController {
         _changeMethodItems.add(new SelectItem(null, Utils.getMessage("lblChooseMethodEntry")));
         for (DrgProposalChangeMethod pcm : DrgProposalChangeMethod.values()) {
 
-            if (getDrgProposal().getCategory() == DrgProposalCategory.CCL) {
+            if (_drgProposal.getCategory() == DrgProposalCategory.CCL) {
                 if ((pcm != DrgProposalChangeMethod.UNKNOWN) && (pcm.toString().contains("CCL"))) {
                     SelectItem item = new SelectItem(pcm.name(), Utils.getMessage("DrgChangeMethod." + pcm.name()));
                     _changeMethodItems.add(item);
@@ -279,17 +279,17 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public boolean isSystem() {
-        return getDrgProposal().getCategory() == DrgProposalCategory.SYSTEM;
+        return _drgProposal.getCategory() == DrgProposalCategory.SYSTEM;
     }
 
     public String getCcl() {
         //return "display: inline-block; width: 49%;";
-        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ? "display: none;" : "display: inline-block; width: 49%;";
+        return _drgProposal.getCategory() == DrgProposalCategory.CCL ? "display: none;" : "display: inline-block; width: 49%;";
     }
 
     public String getCcl2() {
         //return "display: inline-block; width: 49%;";
-        return getDrgProposal().getCategory() == DrgProposalCategory.CCL ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
+        return _drgProposal.getCategory() == DrgProposalCategory.CCL ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
     }
 
     // </editor-fold>
@@ -316,23 +316,23 @@ public class EditDrgProposal extends AbstractEditController {
 
     @Override
     public void addProcedure(String code) {
-        String procCodes = getDrgProposal().getProcs();
+        String procCodes = _drgProposal.getProcs();
         procCodes = (procCodes == null || procCodes.length() == 0) ? code : procCodes + "\r\n" + code;
-        getDrgProposal().setProcs(procCodes);
+        _drgProposal.setProcs(procCodes);
     }
 
     @Override
     public void addDiagnosis(String code) {
-        String diagCodes = getDrgProposal().getDiagCodes();
+        String diagCodes = _drgProposal.getDiagCodes();
         diagCodes = (diagCodes == null || diagCodes.length() == 0) ? code : diagCodes + "\r\n" + code;
-        getDrgProposal().setDiagCodes(diagCodes);
+        _drgProposal.setDiagCodes(diagCodes);
     }
 
     @Override
     public void addDrg(String code) {
-        String drgCodes = getDrgProposal().getDrg();
+        String drgCodes = _drgProposal.getDrg();
         drgCodes = (drgCodes == null || drgCodes.length() == 0) ? code : drgCodes + "\r\n" + code;
-        getDrgProposal().setDrg(drgCodes);
+        _drgProposal.setDrg(drgCodes);
     }
 
     public void checkDiagnosisCodes(FacesContext context, UIComponent component, Object value) {
@@ -360,7 +360,7 @@ public class EditDrgProposal extends AbstractEditController {
 //    public void keyUp(AjaxBehaviorEvent event) {
 //        HtmlInputText t = (HtmlInputText) event.getSource();
 //        String currentId = t.getClientId();
-//        List<ProcedureInfo> procedures = getDrgProposal().getProcedures();
+//        List<ProcedureInfo> procedures = _drgProposal.getProcedures();
 //        if (ensureEmptyEntry(procedures)) {
 //            _script = "setCaretPosition('" + currentId + "', -1);";
 //        } else {
@@ -371,25 +371,25 @@ public class EditDrgProposal extends AbstractEditController {
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Tab Documents">
 //    public boolean isAnonymousData() {
-//        return getDrgProposal().isAnonymousData() == null ? false : getDrgProposal().isAnonymousData();
+//        return _drgProposal.isAnonymousData() == null ? false : _drgProposal.isAnonymousData();
 //    }
 //    public void setAnonymousData(boolean value) {
-//        getDrgProposal().setAnonymousData(value);
+//        _drgProposal.setAnonymousData(value);
 //    }
     public boolean isDocumentAvailable() {
-        return !getDrgProposal().getDocuments().isEmpty() || !getDrgProposal().getDocumentsOffline().isEmpty();
+        return !_drgProposal.getDocuments().isEmpty() || !_drgProposal.getDocumentsOffline().isEmpty();
     }
     // </editor-fold>
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.DRG_PROPOSAL, getDrgProposal().getStatus(), getDrgProposal().getAccountId());
+        return _cooperationTools.isReadOnly(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
     public String save() {
         setModifiedInfo();
-        _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
+        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
 
-        if (isValidId(getDrgProposal().getId())) {
+        if (_drgProposal != null && isValidId(_drgProposal.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -495,9 +495,9 @@ public class EditDrgProposal extends AbstractEditController {
         for (DrgProposalDocument doc : ppController.getDocuments()) {
             DrgProposalDocument existingDoc = findByName(doc.getName());
             if (existingDoc != null) {
-                getDrgProposal().getDocuments().remove(existingDoc);
+                _drgProposal.getDocuments().remove(existingDoc);
             }
-            getDrgProposal().getDocuments().add(doc);
+            _drgProposal.getDocuments().add(doc);
         }
         ppController.getDocuments().clear();
 
@@ -505,7 +505,7 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String deleteDocument(String name) {
-        for (Iterator<DrgProposalDocument> itr = getDrgProposal().getDocuments().iterator(); itr.hasNext();) {
+        for (Iterator<DrgProposalDocument> itr = _drgProposal.getDocuments().iterator(); itr.hasNext();) {
             DrgProposalDocument document = itr.next();
             if (document.getName().equals(name)) {
                 itr.remove();
@@ -536,7 +536,7 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     private DrgProposalDocument findByName(String name) {
-        for (DrgProposalDocument drgProposal : getDrgProposal().getDocuments()) {
+        for (DrgProposalDocument drgProposal : _drgProposal.getDocuments()) {
             if (drgProposal.getName().equals(name)) {
                 return drgProposal;
             }
@@ -551,7 +551,7 @@ public class EditDrgProposal extends AbstractEditController {
     private boolean drgProposalIsComplete() {
         _msg = "";
         String newTopic = "";
-        DrgProposal drgProposal = getDrgProposal();
+        DrgProposal drgProposal = _drgProposal;
         newTopic = checkField(newTopic, drgProposal.getName(), "lblAppellation", "form:name", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getCategory() == null || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getInstitute(), "lblDrgProposalingInstitute", "form:institute", DrgProposalTabs.tabPPAddress);
@@ -615,7 +615,7 @@ public class EditDrgProposal extends AbstractEditController {
     public String requestCorrection() {
         if (!isReadOnly()) {
             setModifiedInfo();
-            _drgProposal = _drgProposalFacade.saveDrgProposal(getDrgProposal());
+            _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
         }
         return Pages.DrgProposalRequestCorrection.URL();
     }
