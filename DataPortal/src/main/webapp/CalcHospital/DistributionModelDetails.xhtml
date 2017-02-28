@@ -123,12 +123,12 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="genehmigt" title="Das InEK hat die geplante Kostenverteilung geprüft und genehmigt"/></f:facet>
-                <inek:Checkbox value="#{item.approved}" readonly="#{editDistributionModel.readOnly or not sessionController.isInekUser('CALCULATION_HOSPITAL')}" styleClass="col03em"/>
+                <inek:Checkbox value="#{item.approved}" readonly="#{not editDistributionModel.requestCorrectionEnabled}" styleClass="col03em"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Bemerkung" title="Bemerkung (vom InEK)"/></f:facet>
-                <inek:InputTextWithMessage value="#{item.approvalNote}" readonly="#{editDistributionModel.readOnly or not sessionController.isInekUser('CALCULATION_HOSPITAL')}"/>
+                <inek:InputTextWithMessage value="#{item.approvalNote}" readonly="#{not editDistributionModel.requestCorrectionEnabled}"/>
             </h:column>
 
         </h:dataTable>

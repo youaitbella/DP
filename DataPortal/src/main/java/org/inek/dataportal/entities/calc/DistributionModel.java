@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -123,6 +124,21 @@ public class DistributionModel implements Serializable {
         _statusId = status.getValue();
     }
     //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ApprovalNote">
+    @Column(name = "dmmNoteInek")
+    @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)
+    private String _noteInek = "";
+
+    public String getNoteInek() {
+        return _noteInek;
+    }
+
+    public void setNoteInek(String noteInek) {
+        _noteInek = noteInek;
+    }
+    // </editor-fold>
+
     
     //<editor-fold defaultstate="collapsed" desc="Property List Details">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

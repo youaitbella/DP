@@ -851,6 +851,15 @@ select:active, select:focus{
     max-height: 10em;
 }
 
+.area70High {
+    min-width: 70%;
+    width: 70%;
+    max-width: 70%;
+    min-height: 3em;
+    height: 8em;
+    max-height: 25em;
+}
+
 .areaWideHigh {
     min-width: 100%;
     width: 100%;

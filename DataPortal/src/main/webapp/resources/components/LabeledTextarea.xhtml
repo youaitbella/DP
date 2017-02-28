@@ -12,14 +12,16 @@
         <cc:attribute name="value"/>
         <cc:attribute name="required" default="false"/>
         <cc:attribute name="readonly" default="false"/>
+        <cc:attribute name="styleClassLabel" default="label30 alignTop"/>
+        <cc:attribute name="styleClassText" default="area70Low alignTop"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
-            <h:outputLabel styleClass="label30 alignTop" value="#{cc.attrs.label}:" />
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" />
             <h:inputTextarea id="idText" 
-                             styleClass="area70Low alignTop #{cc.attrs.required ? ' required ' : ''}" 
+                             styleClass="#{cc.attrs.styleClassText} #{cc.attrs.required ? ' required ' : ''}" 
                              readonly="#{cc.attrs.readonly}"
                              value="#{cc.attrs.value}" 
                              required="#{cc.attrs.required}" 

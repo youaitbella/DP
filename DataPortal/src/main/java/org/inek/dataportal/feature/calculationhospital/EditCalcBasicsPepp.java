@@ -439,7 +439,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return false;
+        // todo: do not allow consultant
+        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isCopyForResendAllowed() {

@@ -12,11 +12,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -135,21 +137,55 @@ public class DistributionModelFacade extends AbstractDataAccess {
         remove(model);
     }
 
-    public List<Account> getInekAgentsForDrg() {// todo: change to agent
-        /*
-select agId, agFirstName, agLastName, agEMail
-from calc.DistributionModelMaster 
-join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK
-join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId
-join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId
-join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId
-join CallCenterDB.dbo.ccAgent on mcraAgentId = agId
-where dmmStatusId = 10 
-	and agActive = 1 and agDomainId in ('O', 'E')
-	and mcraReportTypeId in (1, 3) --1=DRG, 30PSY
-        
-        */
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Account> getInekAccounts() {
+        String sql = "select distinct account.*\n"
+                //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
+                + "from calc.DistributionModelMaster \n"
+                + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "left join dbo.Account on agEMail = acMail\n"
+                + "where dmmStatusId = 10 \n"
+                + "	and agActive = 1 and agDomainId in ('O', 'E')\n"
+                + "	and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        return result;
+    }
+
+    public List<DistributionModel> getDistributionModelsForAccountAndType(Account account) {
+        String sql = "select DistributionModelMaster.*\n"
+                + "from calc.DistributionModelMaster \n"
+                + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "where dmmStatusId = 10 \n"
+                + "	and agEMail = '" + account.getEmail() + "'\n"
+                + "	and mcraReportTypeId in (1, 3)";
+        Query query = getEntityManager().createNativeQuery(sql, DistributionModel.class);
+        @SuppressWarnings("unchecked") List<DistributionModel> result = query.getResultList();
+        return result;
+    }
+
+    public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account) {
+        String sql = "select distinct dmmId as Id, 3 + dmmType as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
+                + "from calc.DistributionModelMaster \n"
+                + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "where dmmStatusId = 10 \n"
+                + "	and agEMail = '" + account.getEmail() + "'\n"
+                + "	and mcraReportTypeId in (1, 3)";
+        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
+        @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();
+        return result;
     }
 
 }

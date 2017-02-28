@@ -8,7 +8,8 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
-                >
+                    
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
 
@@ -31,13 +32,21 @@
                 <hr/>
 
                 <ui:include src="DistributionModelDetails.xhtml"/>
+                
+                <div jsf:rendered="#{editDistributionModel.requestCorrectionEnabled or not empty editDistributionModel.model.noteInek}" class="marginTop01em">
+                    <inek:LabeledTextarea label="Bemerkung InEK" 
+                                          value="#{editDistributionModel.model.noteInek}" 
+                                          styleClassLabel="label10 alignTop"
+                                          styleClassText="area70High alignTop"
+                                          readonly="#{not editDistributionModel.requestCorrectionEnabled}"/>
+                </div>
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editDistributionModel.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editDistributionModel.readOnly}">
+                                   rendered="#{!editDistributionModel.readOnly or editDistributionModel.requestCorrectionEnabled}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
@@ -65,6 +74,14 @@
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
 
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editDistributionModel.requestCorrection}"
+                                   value="#{msg.btnRequestCorrection}"
+                                   immediate="true"
+                                   rendered="#{editDistributionModel.requestCorrectionEnabled}">
+                    </h:commandLink>
+
+                    
                     <a href="/DataPortal/resources/manual/#{editDistributionModel.model.type == 0 ? 'Anlage 10 (DRG).pdf' : 'Anlage 10 (PSY).pdf'}" target="blank"  title="Anlage 10" class="bigButton">
                         #{editDistributionModel.model.type == 0 ? 'Anlage 10 (DRG)' : 'Anlage 10 (PSY)'} ansehen              
                     </a>                

@@ -15,29 +15,20 @@
         <h1>#{msg.lblCalculationParticipance}</h1>
 
         #{calcHospitalTreeHandler.refreshNodes()}
+        #{distributionModellTreeHandler.refreshNodes()}
 
         <h:form id="form">
 
             <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="accountNode" >
-                <div style="margin-left:16px;">
-                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this proposalEdit :logout:remaining"/>
-                    </h:commandLink>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
-
-                    <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Kalkulationsdaten zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <calc:CalcHospitalNode parentNode="#{accountNode}" isSealed="false" 
-                                               showSelectBox="false"
-                                               showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                               rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
-                    </div>
-                </div>
+                <calc:AccountNode accountNode="#{accountNode}"/>
             </ui:repeat>
 
+            <div jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
+                <h2>Klinische Verteilungsmodelle - Bearbeitung durch InEK</h2>
+                <ui:repeat value="#{distributionModellTreeHandler.rootNode.children}" var="accountNode" >
+                    <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
+                </ui:repeat>
+            </div>
 
             <ui:include src="ButtonsCalculationHospital.xhtml"/>
 
@@ -54,22 +45,7 @@
                 </p>
                 <div jsf:id="NubYear">
                     <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
-                        <div style="margin-left:16px;">
-                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
-                                <f:ajax render="@this proposalShow :logout:remaining"/>
-                            </h:commandLink>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
-                            <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <calc:CalcHospitalNode parentNode="#{accountNode}" 
-                                                       isSealed="true" 
-                                                       showSelectBox="false"
-                                                       showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                                       rendered="#{accountNode.expanded}"/>
-                            </div>
-                        </div>
+                        <calc:AccountNode accountNode="#{accountNode}" isSealed="true"/>
                     </ui:repeat>
                 </div>
             </ui:repeat>

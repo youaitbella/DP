@@ -26,6 +26,7 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -33,10 +34,13 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -110,11 +114,14 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         return new DistributionModel();
     }
 
-    private boolean hasSufficientRights(DistributionModel calcBasics) {
-        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+    private boolean hasSufficientRights(DistributionModel model) {
+        if (_sessionController.isMyAccount(model.getAccountId(), false)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+        if (isInekEditable(model)) {
+            return true;
+        }
+        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
     }
 
     private DistributionModel newDistributionModel(String type) {
@@ -140,8 +147,8 @@ public class EditDistributionModel extends AbstractEditController implements Ser
                 || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 
-    public boolean isInekEditable() {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && _model != null && (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided);
+    private boolean isInekEditable(DistributionModel model) {
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && (model.getStatus() == WorkflowStatus.Provided || model.getStatus() == WorkflowStatus.ReProvided);
     }
 
     @Override
@@ -151,6 +158,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     public String save() {
         removeEmptyCenters();
+        setAppovedIfPossible();
         setModifiedInfo();
         _model = _distModelFacade.saveDistributionModel(_model);
         addDetailIfMissing();
@@ -159,9 +167,22 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
+            if (_model.getStatus() == WorkflowStatus.Taken) {
+                return Pages.CalculationHospitalSummary.URL();
+            }
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    private void setAppovedIfPossible() {
+        if (!isInekEditable(_model)) {
+            return;
+        }
+        boolean completelyApproved = _model.getDetails().stream().allMatch(d -> d.isApproved());
+        if (completelyApproved) {
+            _model.setStatus(WorkflowStatus.Taken);
+        }
     }
 
     private void setModifiedInfo() {
@@ -190,11 +211,42 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true);
+    }
+
+    public String requestCorrection() {
+        if (!isRequestCorrectionEnabled()) {
+            return "";
+        }
+        removeEmptyCenters();
+        setModifiedInfo();
+        _model.setStatus(WorkflowStatus.New);
+        _model = _distModelFacade.saveDistributionModel(_model);
+        sendMessage();
+
+        return Pages.CalculationHospitalSummary.URL();
+    }
+
+    @Inject AccountFacade _accountFacade;
+    @Inject private Mailer _mailer;
+
+    private void sendMessage() {
+        Account sender = _sessionController.getAccount();
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? 13 : _model.getAccountId());
+        MailTemplate template = _mailer.getMailTemplate("KVM Konkretisierung");
+        String subject = template.getSubject()
+                .replace("{type}", _model.getType() == 0 ? "DRG" : "PSY")
+                .replace("{ik}", "" + _model.getIk());
+        String body = template.getBody()
+                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
+                .replace("{note}", _model.getNoteInek());
+        _mailer.sendMailFrom(sender.getEmail(), receiver.getEmail(), "", "", subject, body);
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        return false;
+        // todo: do not allow consultant
+        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
     }
 
     /**

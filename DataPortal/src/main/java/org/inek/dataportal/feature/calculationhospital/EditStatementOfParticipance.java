@@ -270,11 +270,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return false;
+        // todo: do not allow consultant
+        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
+     * This function seals a statement of participance if possible. Sealing is
      * possible, if all mandatory fields are fulfilled. After sealing, the
      * statement od participance can not be edited anymore and is available for
      * the InEK.
