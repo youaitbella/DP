@@ -151,14 +151,14 @@ public class KGLListObstetricsGynecology implements Serializable {
 //    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "ogBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
@@ -197,7 +197,7 @@ public class KGLListObstetricsGynecology implements Serializable {
         hash = 19 * hash + (int) (Double.doubleToLongBits(this._functionalServiceCnt) ^ (Double.doubleToLongBits(this._functionalServiceCnt) >>> 32));
         hash = 19 * hash + (int) (Double.doubleToLongBits(this._midwifeCnt) ^ (Double.doubleToLongBits(this._midwifeCnt) >>> 32));
         hash = 19 * hash + (int) (Double.doubleToLongBits(this._attendingMidwifeCnt) ^ (Double.doubleToLongBits(this._attendingMidwifeCnt) >>> 32));
-        hash = 19 * hash + this._baseInformationID;
+        hash = 19 * hash + this._baseInformationId;
         return hash;
     }
 
@@ -239,7 +239,7 @@ public class KGLListObstetricsGynecology implements Serializable {
         if (Double.doubleToLongBits(this._attendingMidwifeCnt) != Double.doubleToLongBits(other._attendingMidwifeCnt)) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         return Objects.equals(this._costCenterText, other._costCenterText);

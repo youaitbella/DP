@@ -253,6 +253,7 @@ public class KGPListTherapy implements Serializable, IdValue {
     }
 
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "thBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)

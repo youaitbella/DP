@@ -114,23 +114,23 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="statusID">
     @Column(name = "biStatusID")
-    private int _statusID;
+    private int _statusId;
 
-    public int getStatusID() {
-        return _statusID;
+    public int getStatusId() {
+        return _statusId;
     }
 
-    public void setStatusID(int statusID) {
-        this._statusID = statusID;
+    public void setStatusId(int statusId) {
+        this._statusId = statusId;
     }
 
     @Documentation(key = "lblWorkstate", rank = 10)
     public WorkflowStatus getStatus() {
-        return WorkflowStatus.fromValue(_statusID);
+        return WorkflowStatus.fromValue(_statusId);
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusID = status.getValue();
+        _statusId = status.getValue();
     }
     //</editor-fold>
     
@@ -843,11 +843,11 @@ public class DrgCalcBasics implements Serializable {
     }
 
     private void ensureTopListCostCenter(int costCenterId, int count) {
-        if (_kstTop.stream().filter(e -> e.getKtCostCenterID() == costCenterId).count() == 0) {
+        if (_kstTop.stream().filter(e -> e.getKtCostCenterId() == costCenterId).count() == 0) {
             for (int i = 0; i < count; i++) {
                 KGLListKstTop item = new KGLListKstTop();
-                item.setBaseInformationID(_id);
-                item.setKtCostCenterID(costCenterId);
+                item.setBaseInformationId(_id);
+                item.setKtCostCenterId(costCenterId);
                 _kstTop.add(item);
             }
         }

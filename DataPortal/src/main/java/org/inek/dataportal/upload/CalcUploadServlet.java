@@ -36,7 +36,7 @@ public class CalcUploadServlet extends AbstractUploadServlet {
         if (document == null) {
             document = new KGLDocument();
             document.setName(filename);
-            document.setCalcBasicsId(editCalcBasics.getCalcBasics().getId());
+            document.setBaseInformationId(editCalcBasics.getCalcBasics().getId());
             document.setSheetId(19);
             documents.add(document);
         }

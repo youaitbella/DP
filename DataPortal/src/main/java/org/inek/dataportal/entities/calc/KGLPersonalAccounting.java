@@ -41,16 +41,16 @@ public class KGLPersonalAccounting implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
+    //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Column(name = "paCostTypeID")
-    private int _costTypeID;
+    private int _costTypeId;
 
-    public int getCostTypeID() {
-        return _costTypeID;
+    public int getCostTypeId() {
+        return _costTypeId;
     }
 
-    public void setCostTypeID(int costTypeID) {
-        this._costTypeID = costTypeID;
+    public void setCostTypeId(int costTypeId) {
+        this._costTypeId = costTypeId;
     }
     //</editor-fold>
 
@@ -145,18 +145,18 @@ public class KGLPersonalAccounting implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "paBaseInformationID")
-    private int _baseInformationID = -1;
+    private int _baseInformationId = -1;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
     
@@ -176,13 +176,13 @@ public class KGLPersonalAccounting implements Serializable {
     }
     
     public KGLPersonalAccounting(int costTypeId, int prior) {
-        this._costTypeID = costTypeId;
+        this._costTypeId = costTypeId;
         this.priorCostAmount = prior;
     }
 
     public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
         this._id = paID;
-        this._costTypeID = paCostTypeID;
+        this._costTypeId = paCostTypeID;
         this._staffRecording = paStaffRecording;
         this._staffEvaluation = paStaffEvaluation;
         this._serviceEvaluation = paServiceEvaluation;
@@ -197,7 +197,7 @@ public class KGLPersonalAccounting implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 97 * hash + this._id;
-        hash = 97 * hash + this._costTypeID;
+        hash = 97 * hash + this._costTypeId;
         hash = 97 * hash + (this._staffRecording ? 1 : 0);
         hash = 97 * hash + (this._staffEvaluation ? 1 : 0);
         hash = 97 * hash + (this._serviceEvaluation ? 1 : 0);
@@ -205,7 +205,7 @@ public class KGLPersonalAccounting implements Serializable {
         hash = 97 * hash + (this._expertRating ? 1 : 0);
         hash = 97 * hash + (this._other ? 1 : 0);
         hash = 97 * hash + this._amount;
-        hash = 97 * hash + this._baseInformationID;
+        hash = 97 * hash + this._baseInformationId;
         return hash;
     }
 
@@ -224,7 +224,7 @@ public class KGLPersonalAccounting implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._costTypeID != other._costTypeID) {
+        if (this._costTypeId != other._costTypeId) {
             return false;
         }
         if (this._staffRecording != other._staffRecording) {
@@ -248,7 +248,7 @@ public class KGLPersonalAccounting implements Serializable {
         if (this._amount != other._amount) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         return true;

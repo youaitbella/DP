@@ -41,16 +41,16 @@ public class KGLListMedInfra implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
+    //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Column(name = "miCostTypeID")
-    private int _costTypeID;
+    private int _costTypeId;
 
-    public int getCostTypeID() {
-        return _costTypeID;
+    public int getCostTypeId() {
+        return _costTypeId;
     }
 
-    public void setCostTypeID(int costTypeID) {
-        this._costTypeID = costTypeID;
+    public void setCostTypeId(int costTypeId) {
+        this._costTypeId = costTypeId;
     }
     //</editor-fold>
 
@@ -110,16 +110,16 @@ public class KGLListMedInfra implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
     @Column(name = "miBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -132,12 +132,12 @@ public class KGLListMedInfra implements Serializable {
 
     public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, int miAmount, int baseInfo) {
         this._id = miID;
-        this._costTypeID = miCostTypeID;
+        this._costTypeId = miCostTypeID;
         this._costCenterNumber = miCostCenter;
         this._costCenterText = miCostCenterText;
         this._keyUsed = miKeyUsed;
         this._amount = miAmount;
-        this._baseInformationID = baseInfo;
+        this._baseInformationId = baseInfo;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -150,12 +150,12 @@ public class KGLListMedInfra implements Serializable {
             return hash;
         }
 
-        hash = 29 * hash + this._costTypeID;
+        hash = 29 * hash + this._costTypeId;
         hash = 29 * hash + Objects.hashCode(this._costCenterNumber);
         hash = 29 * hash + Objects.hashCode(this._costCenterText);
         hash = 29 * hash + Objects.hashCode(this._keyUsed);
         hash = 29 * hash + this._amount;
-        hash = 29 * hash + this._baseInformationID;
+        hash = 29 * hash + this._baseInformationId;
         return hash;
     }
 
@@ -179,13 +179,13 @@ public class KGLListMedInfra implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._costTypeID != other._costTypeID) {
+        if (this._costTypeId != other._costTypeId) {
             return false;
         }
         if (this._amount != other._amount) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (!Objects.equals(this._costCenterNumber, other._costCenterNumber)) {

@@ -43,27 +43,27 @@ public class KGLListKstTop implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property baseInformationID">
     @Column(name = "ktBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property ktCostCenterID">
     @Column(name = "ktCostCenterID")
-    private int _ktCostCenterID;
+    private int _ktCostCenterId;
 
-    public int getKtCostCenterID() {
-        return _ktCostCenterID;
+    public int getKtCostCenterId() {
+        return _ktCostCenterId;
     }
 
-    public void setKtCostCenterID(int ktCostCenterID) {
-        this._ktCostCenterID = ktCostCenterID;
+    public void setKtCostCenterId(int ktCostCenterId) {
+        this._ktCostCenterId = ktCostCenterId;
     }
     //</editor-fold>
 
@@ -141,7 +141,7 @@ public class KGLListKstTop implements Serializable {
 
     public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, int ktAmount, int ktDelimitationAmount, int ktRank) {
         this._id = ktID;
-        this._ktCostCenterID = ktCostCenterID;
+        this._ktCostCenterId = ktCostCenterID;
         this._text = ktText;
         this._caseCount = ktCaseCnt;
         this._amount = ktAmount;
@@ -156,8 +156,8 @@ public class KGLListKstTop implements Serializable {
         
         if (this._id != -1) return hash;
         
-        hash = 23 * hash + this._baseInformationID;
-        hash = 23 * hash + this._ktCostCenterID;
+        hash = 23 * hash + this._baseInformationId;
+        hash = 23 * hash + this._ktCostCenterId;
         hash = 23 * hash + Objects.hashCode(this._text);
         hash = 23 * hash + this._caseCount;
         hash = 23 * hash + this._amount;
@@ -184,10 +184,10 @@ public class KGLListKstTop implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
-        if (this._ktCostCenterID != other._ktCostCenterID) {
+        if (this._ktCostCenterId != other._ktCostCenterId) {
             return false;
         }
         if (this._caseCount != other._caseCount) {

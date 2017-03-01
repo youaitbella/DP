@@ -108,18 +108,18 @@ public class KGLRadiologyService implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property rsBaseInformationID">
-//    @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
+    //<editor-fold defaultstate="collapsed" desc="Property rsBaseInformationId">
+//    @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "rsBaseInformationID")
-    private int rsBaseInformationID;
+    private int rsBaseInformationId;
 
-    public int getRsBaseInformationID() {
-        return rsBaseInformationID;
+    public int getRsBaseInformationId() {
+        return rsBaseInformationId;
     }
 
-    public void setRsBaseInformationID(int rsBaseInformationID) {
-        this.rsBaseInformationID = rsBaseInformationID;
+    public void setRsBaseInformationId(int rsBaseInformationId) {
+        this.rsBaseInformationId = rsBaseInformationId;
     }
     //</editor-fold>
 
@@ -167,7 +167,7 @@ public class KGLRadiologyService implements Serializable {
         hash = 71 * hash + this._caseCntStationary;
         hash = 71 * hash + this._caseCntAmbulant;
         hash = 71 * hash + this._ambulantAmount;
-        hash = 71 * hash + this.rsBaseInformationID;
+        hash = 71 * hash + this.rsBaseInformationId;
         hash = 71 * hash + this.rsContentTextID;
         return hash;
     }
@@ -202,7 +202,7 @@ public class KGLRadiologyService implements Serializable {
         if (Double.doubleToLongBits(this._ambulantAmount) != Double.doubleToLongBits(other._ambulantAmount)) {
             return false;
         }
-        if (this.rsBaseInformationID != other.rsBaseInformationID) {
+        if (this.rsBaseInformationId != other.rsBaseInformationId) {
             return false;
         }
         if (this.rsContentTextID != other.rsContentTextID) {

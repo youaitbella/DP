@@ -69,6 +69,7 @@ public class KGLListIntensivStroke implements Serializable {
 //        this._costCenterID = costCenterID;
 //    }
 //    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Size(max = 50)
     @Column(name = "isCostCenterText")
@@ -98,6 +99,7 @@ public class KGLListIntensivStroke implements Serializable {
 //        this._departmentKey = departmentKey;
 //    }
 //    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
     @Size(max = 50)
     @Column(name = "isDepartmentAssignment")

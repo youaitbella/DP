@@ -171,7 +171,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
             KGLListCentralFocus cf = new KGLListCentralFocus();
             cf.setId(-1);
-            cf.setBaseInformationID(calcBasics.getId());
+            cf.setBaseInformationId(calcBasics.getId());
             cf.setCaseCnt(0);
             cf.setInfraCost(0);
             cf.setMaterialcost(0);
@@ -204,9 +204,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         ensurePersonalAccountingData(calcBasics);
         for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
             for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeID() == pa.getCostTypeID()) {
+                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
                     pa.setPriorCostAmount(ppa.getAmount());
-                    pa.setCostTypeID(ppa.getCostTypeID());
+                    pa.setCostTypeId(ppa.getCostTypeId());
                     pa.setExpertRating(ppa.isExpertRating());
                     pa.setOther(ppa.isOther());
                     pa.setServiceEvaluation(ppa.isServiceEvaluation());
@@ -222,10 +222,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (KGLListRadiologyLaboratory prl : _priorCalcBasics.getRadiologyLaboratories()) {
             KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
             rl.setId(-1);
-            rl.setBaseInformationID(calcBasics.getId());
+            rl.setBaseInformationId(calcBasics.getId());
             rl.setAmountPost(prl.getAmountPost());
             rl.setAmountPre(prl.getAmountPre());
-            rl.setCostCenterID(prl.getCostCenterID());
+            rl.setCostCenterId(prl.getCostCenterId());
             rl.setCostCenterNumber(prl.getCostCenterNumber());
             rl.setCostCenterText(prl.getCostCenterText());
             rl.setDescription(prl.getDescription());
@@ -243,7 +243,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.getObstetricsGynecologies().clear();
         for (KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
             KGLListObstetricsGynecology obst = new KGLListObstetricsGynecology();
-            obst.setBaseInformationID(calcBasics.getId());
+            obst.setBaseInformationId(calcBasics.getId());
             obst.setCostCenterText(pObst.getCostCenterText());
             obst.setCostTypeId(pObst.getCostTypeId());
             calcBasics.getObstetricsGynecologies().add(obst);
@@ -267,7 +267,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (KGLNormalFeeContract pfc : _priorCalcBasics.getNormalFeeContracts()) {
             KGLNormalFeeContract fc = new KGLNormalFeeContract();
             fc.setId(-1);
-            fc.setBaseInformationID(calcBasics.getId());
+            fc.setBaseInformationId(calcBasics.getId());
             fc.setCaseCnt(pfc.getCaseCnt());
             fc.setDivision(pfc.getDivision());
             fc.setDepartmentKey(pfc.getDepartmentKey());
@@ -320,15 +320,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.getNormalStationServiceDocumentations().clear();
         for (DrgContentText ct : getNormalWardServiceDocHeaders()) {
             KGLNormalStationServiceDocumentation add = new KGLNormalStationServiceDocumentation();
-            add.setContentTextID(ct.getId());
-            add.setBaseInformationID(calcBasics.getId());
+            add.setContentTextId(ct.getId());
+            add.setBaseInformationId(calcBasics.getId());
             for (KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
-                if (add.getContentTextID() == addPrior.getContentTextID()) {
+                if (add.getContentTextId() == addPrior.getContentTextId()) {
                     add.setUsed(addPrior.isUsed());
                     break;
                 }
             }
-            add.setLabel(_calcFacade.findCalcContentText(add.getContentTextID()).getText());
+            add.setLabel(_calcFacade.findCalcContentText(add.getContentTextId()).getText());
             calcBasics.getNormalStationServiceDocumentations().add(add);
         }
         calcBasics.getCostCenterCosts().clear();
@@ -371,7 +371,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<KGLListRadiologyLaboratory> getLaboratories() {
         List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
         for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if (rl.getCostCenterID() == 10) {
+            if (rl.getCostCenterId() == 10) {
                 rls.add(rl);
             }
         }
@@ -381,7 +381,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<KGLListRadiologyLaboratory> getRadiologies() {
         List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
         for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if (rl.getCostCenterID() == 9) {
+            if (rl.getCostCenterId() == 9) {
                 rls.add(rl);
             }
         }
@@ -420,7 +420,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (DrgContentText ct : _calcFacade.findAllCalcContentTexts()) {
             if (ct.getHeaderTextId() == 12) {
                 KGLRadiologyService rs = new KGLRadiologyService();
-                rs.setRsBaseInformationID(calcBasics.getId());
+                rs.setRsBaseInformationId(calcBasics.getId());
                 rs.setRsContentTextID(ct.getId());
                 KGLListContentTextOps ops = _calcFacade.findOpsCodeByContentTextId(ct.getId());
                 if (ops != null) {
@@ -444,7 +444,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             DrgNeonatData data = new DrgNeonatData();
             data.setContentTextId(contentText.getId());
             data.setContentText(contentText);
-            data.setCalcBasicsId(calcBasics.getId());
+            data.setBaseInformationId(calcBasics.getId());
             calcBasics.getNeonateData().add(data);
         }
     }
@@ -460,24 +460,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             KGLListServiceProvision data = new KGLListServiceProvision();
             data.setBaseInformationId(calcBasics.getId());
             data.setServiceProvisionType(provisionType);
-            data.setServiceProvisionTypeID(provisionType.getId());
+            data.setServiceProvisionTypeId(provisionType.getId());
             data.setSequence(++seq);
             calcBasics.getServiceProvisions().add(data);
         }
 
         // get prior values and additional entries
         for (KGLListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
-            Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeID() == prior.getServiceProvisionTypeID()).findAny();
+            Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
             if (currentOpt.isPresent()) {
                 KGLListServiceProvision current = currentOpt.get();
-                current.setProvidedTypeID(prior.getProvidedTypeID());
+                current.setProvidedTypeId(prior.getProvidedTypeId());
             } else if (!prior.isEmpty()) {
                 // take old entries only, if they contain values!
                 KGLListServiceProvision data = new KGLListServiceProvision();
                 data.setBaseInformationId(calcBasics.getId());
                 data.setServiceProvisionType(prior.getServiceProvisionType());
-                data.setServiceProvisionTypeID(prior.getServiceProvisionTypeID());
-                data.setProvidedTypeID(prior.getProvidedTypeID());
+                data.setServiceProvisionTypeId(prior.getServiceProvisionTypeId());
+                data.setProvidedTypeId(prior.getProvidedTypeId());
                 data.setSequence(++seq);
                 calcBasics.getServiceProvisions().add(data);
             }
@@ -544,7 +544,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addCentralFocus() {
         KGLListCentralFocus cf = new KGLListCentralFocus();
-        cf.setBaseInformationID(_calcBasics.getId());
+        cf.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getCentralFocuses().add(cf);
     }
 
@@ -554,15 +554,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addLaboratory() {
         KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
-        rl.setBaseInformationID(_calcBasics.getId());
-        rl.setCostCenterID(10);
+        rl.setBaseInformationId(_calcBasics.getId());
+        rl.setCostCenterId(10);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
 
     public void addRadiology() {
         KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
-        rl.setBaseInformationID(_calcBasics.getId());
-        rl.setCostCenterID(9);
+        rl.setBaseInformationId(_calcBasics.getId());
+        rl.setCostCenterId(9);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
 
@@ -582,8 +582,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addMedInfra(int costType) {
         KGLListMedInfra mif = new KGLListMedInfra();
-        mif.setBaseInformationID(_calcBasics.getId());
-        mif.setCostTypeID(costType);
+        mif.setBaseInformationId(_calcBasics.getId());
+        mif.setCostTypeId(costType);
         _calcBasics.getMedInfras().add(mif);
     }
 
@@ -599,13 +599,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addFeeContract() {
         KGLNormalFeeContract fc = new KGLNormalFeeContract();
-        fc.setBaseInformationID(_calcBasics.getId());
+        fc.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getNormalFeeContracts().add(fc);
     }
 
     public void addPkmsService() {
         KGLPKMSAlternative pkmsAlt = new KGLPKMSAlternative();
-        pkmsAlt.setBaseInformationID(_calcBasics.getId());
+        pkmsAlt.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getPkmsAlternatives().add(pkmsAlt);
     }
 
@@ -619,7 +619,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public List<KGLListMedInfra> getMedInfra(int costType) {
         List<KGLListMedInfra> tmp = new ArrayList<>();
-        _calcBasics.getMedInfras().stream().filter((mi) -> (mi.getCostTypeID() == costType)).forEachOrdered((mi) -> {
+        _calcBasics.getMedInfras().stream().filter((mi) -> (mi.getCostTypeId() == costType)).forEachOrdered((mi) -> {
             tmp.add(mi);
         });
         return tmp;
@@ -930,7 +930,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_calcBasics.getStatusID() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
         return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
@@ -1039,7 +1039,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
-        Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeID() == current.getServiceProvisionTypeID()).findAny();
+        Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
         if (prior.isPresent()) {
             return prior.get().getAmount();
         }
@@ -1050,7 +1050,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getSequence()).max().orElse(0);
         KGLListServiceProvision data = new KGLListServiceProvision();
         data.setBaseInformationId(_calcBasics.getId());
-        data.setServiceProvisionTypeID(-1);
+        data.setServiceProvisionTypeId(-1);
         data.setSequence(++seq);
         _calcBasics.getServiceProvisions().add(data);
     }
@@ -1212,7 +1212,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void addObstreticsGynecology() {
         //int seq = (int) _calcBasics.getObstetricsGynecologies().stream().mapToInt(i -> i.getId()).max().orElse(0);
         KGLListObstetricsGynecology item = new KGLListObstetricsGynecology();
-        item.setBaseInformationID(_calcBasics.getId());
+        item.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getObstetricsGynecologies().add(item);
     }
 
@@ -1254,7 +1254,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public int getMedInfraSum(int type) {
         int sumAmount = 0;
         for (KGLListMedInfra m : _calcBasics.getMedInfras()) {
-            if (m.getCostTypeID() == type) {
+            if (m.getCostTypeId() == type) {
                 sumAmount += m.getAmount();
             }
         }

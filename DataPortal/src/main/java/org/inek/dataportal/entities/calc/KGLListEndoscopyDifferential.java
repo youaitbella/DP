@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KGLListEndoscopyDifferential implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

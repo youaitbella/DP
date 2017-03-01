@@ -84,18 +84,18 @@ public class KGLPKMSAlternative implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "paBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -124,7 +124,7 @@ public class KGLPKMSAlternative implements Serializable {
         hash = 61 * hash + Objects.hashCode(this._department);
         hash = 61 * hash + Objects.hashCode(this._departmentKey);
         hash = 61 * hash + Objects.hashCode(this._alternative);
-        hash = 61 * hash + this._baseInformationID;
+        hash = 61 * hash + this._baseInformationId;
         return hash;
     }
 
@@ -146,7 +146,7 @@ public class KGLPKMSAlternative implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (!Objects.equals(this._department, other._department)) {

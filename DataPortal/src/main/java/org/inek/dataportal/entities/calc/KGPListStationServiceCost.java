@@ -346,18 +346,18 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "sscBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -554,7 +554,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         hash = 59 * hash + this._functionalServiceAmount;
         hash = 59 * hash + this._medicalInfrastructureAmount;
         hash = 59 * hash + this._nonMedicalInfrastructureAmount;
-        hash = 59 * hash + this._baseInformationID;
+        hash = 59 * hash + this._baseInformationId;
         hash = 59 * hash + (this._generalMapping ? 1 : 0);
         hash = 59 * hash + (this._addictionMapping ? 1 : 0);
         hash = 59 * hash + (this._gerontoPsyMapping ? 1 : 0);
@@ -644,7 +644,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
         if (this._nonMedicalInfrastructureAmount != other._nonMedicalInfrastructureAmount) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (this._generalMapping != other._generalMapping) {

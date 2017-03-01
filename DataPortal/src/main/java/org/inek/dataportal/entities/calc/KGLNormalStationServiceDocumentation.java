@@ -54,33 +54,33 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "nssBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _contentTextID">
+    //<editor-fold defaultstate="collapsed" desc="Property _contentTextId">
 //    @JoinColumn(name = "nssContentTextID", referencedColumnName = "ctID")
 //    @ManyToOne(optional = false)
     @Column(name = "nssContentTextID")
-    private int _contentTextID;
+    private int _contentTextId;
 
-    public int getContentTextID() {
-        return _contentTextID;
+    public int getContentTextId() {
+        return _contentTextId;
     }
 
-    public void setContentTextID(int contentTextID) {
-        this._contentTextID = contentTextID;
+    public void setContentTextId(int contentTextId) {
+        this._contentTextId = contentTextId;
     }
     //</editor-fold>
 
@@ -116,8 +116,8 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
             return hash;
         }
         hash = 59 * hash + (this._used ? 1 : 0);
-        hash = 59 * hash + this._baseInformationID;
-        hash = 59 * hash + this._contentTextID;
+        hash = 59 * hash + this._baseInformationId;
+        hash = 59 * hash + this._contentTextId;
         return hash;
     }
 
@@ -142,10 +142,10 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         if (this._used != other._used) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
-        if (this._contentTextID != other._contentTextID) {
+        if (this._contentTextId != other._contentTextId) {
             return false;
         }
         return true;

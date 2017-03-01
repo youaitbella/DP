@@ -43,14 +43,14 @@ public class KGLDocument implements Serializable, Document{
 
     // <editor-fold defaultstate="collapsed" desc="Property CalcBasicsId">
     @Column(name = "doBaseInformationID")
-    private int _calcBasicsId;
+    private int _baseInformationId;
 
-    public int getCalcBasicsId() {
-        return _calcBasicsId;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setCalcBasicsId(int calcBasicsId) {
-        _calcBasicsId = calcBasicsId;
+    public void setBaseInformationId(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
@@ -103,7 +103,7 @@ public class KGLDocument implements Serializable, Document{
         int hash = 7;
         hash = 53 * hash + this._id;
         if (this._id != -1) return hash;
-        hash = 53 * hash + this._calcBasicsId;
+        hash = 53 * hash + this._baseInformationId;
         hash = 53 * hash + this._sheetId;
         return hash;
     }
@@ -126,7 +126,7 @@ public class KGLDocument implements Serializable, Document{
         if (this._id != other._id) {
             return false;
         }
-        if (this._calcBasicsId != other._calcBasicsId) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         return this._sheetId == other._sheetId;

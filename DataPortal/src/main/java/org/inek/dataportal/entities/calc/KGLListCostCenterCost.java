@@ -46,14 +46,14 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenter">
     @Column(name = "cccCostCenterID")
-    private int _costCenterID;
+    private int _costCenterId;
 
     public int getCostCenter() {
-        return _costCenterID;
+        return _costCenterId;
     }
 
-    public void setCostCenter(int costCenterID) {
-        this._costCenterID = costCenterID;
+    public void setCostCenter(int costCenterId) {
+        this._costCenterId = costCenterId;
     }
     // </editor-fold>
 
@@ -340,7 +340,7 @@ public class KGLListCostCenterCost implements Serializable {
         if (this._id != -1) {
             return hash;
         }
-        hash = 59 * hash + this._costCenterID;
+        hash = 59 * hash + this._costCenterId;
         hash = 59 * hash + Objects.hashCode(this._costCenterText);
         hash = 59 * hash + Objects.hashCode(this._departmentKey);
         hash = 59 * hash + Objects.hashCode(this._departmentAssignment);
@@ -382,7 +382,7 @@ public class KGLListCostCenterCost implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._costCenterID != other._costCenterID) {
+        if (this._costCenterId != other._costCenterId) {
             return false;
         }
         if (this._bedCnt != other._bedCnt) {

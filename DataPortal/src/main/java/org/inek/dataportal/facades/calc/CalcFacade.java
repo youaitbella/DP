@@ -495,7 +495,7 @@ public class CalcFacade extends AbstractDataAccess {
 
     private void prepareServiceProvisionTypes(List<KGLListServiceProvision> serviceProvisions) {
         for (KGLListServiceProvision serviceProvision : serviceProvisions) {
-            if (serviceProvision.getServiceProvisionTypeID() == -1 && !serviceProvision.getDomain().trim().isEmpty()) {
+            if (serviceProvision.getServiceProvisionTypeId() == -1 && !serviceProvision.getDomain().trim().isEmpty()) {
                 // this is a provision type the user entered. Check, whether such an entry exists and create one if needed
                 KGLListServiceProvisionType provisionType;
                 try {
@@ -505,7 +505,7 @@ public class CalcFacade extends AbstractDataAccess {
                     persist(provisionType);
                 }
                 serviceProvision.setServiceProvisionType(provisionType);
-                serviceProvision.setServiceProvisionTypeID(provisionType.getId());
+                serviceProvision.setServiceProvisionTypeId(provisionType.getId());
             }
         }
     }

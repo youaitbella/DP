@@ -273,7 +273,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             DrgNeonatData data = new DrgNeonatData();
             data.setContentTextId(contentText.getId());
             data.setContentText(contentText);
-            data.setCalcBasicsId(calcBasics.getId());
+            data.setBaseInformationId(calcBasics.getId());
             calcBasics.getNeonateData().add(data);
         }
     }
@@ -755,7 +755,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void addStationServiceCost() {
         KGPListStationServiceCost sc = new KGPListStationServiceCost();
-        sc.setBaseInformationID(_calcBasics.getId());
+        sc.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getStationServiceCosts().add(sc);
     }
 

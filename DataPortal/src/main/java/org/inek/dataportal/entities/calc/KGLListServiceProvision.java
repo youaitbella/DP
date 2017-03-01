@@ -118,14 +118,14 @@ public class KGLListServiceProvision implements Serializable {
 //    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
 //    @ManyToOne(optional = false)
     @Column(name = "spProvidedTypeID")
-    private int _providedTypeID;
+    private int _providedTypeId;
 
-    public int getProvidedTypeID() {
-        return _providedTypeID;
+    public int getProvidedTypeId() {
+        return _providedTypeId;
     }
 
-    public void setProvidedTypeID(int providedTypeID) {
-        this._providedTypeID = providedTypeID;
+    public void setProvidedTypeId(int providedTypeId) {
+        this._providedTypeId = providedTypeId;
     }
     // </editor-fold>
 
@@ -133,14 +133,14 @@ public class KGLListServiceProvision implements Serializable {
 //    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
     @Column(name = "spServiceProvisionTypeID")
-    private int _serviceProvisionTypeID;
+    private int _serviceProvisionTypeId;
 
-    public int getServiceProvisionTypeID() {
-        return _serviceProvisionTypeID;
+    public int getServiceProvisionTypeId() {
+        return _serviceProvisionTypeId;
     }
 
-    public void setServiceProvisionTypeID(int serviceProvisionTypeID) {
-        this._serviceProvisionTypeID = serviceProvisionTypeID;
+    public void setServiceProvisionTypeId(int serviceProvisionTypeId) {
+        this._serviceProvisionTypeId = serviceProvisionTypeId;
     }
     // </editor-fold>
 
@@ -172,7 +172,7 @@ public class KGLListServiceProvision implements Serializable {
     //</editor-fold>
     
     public boolean isEmpty(){
-        return _partitionExternalAssignment.isEmpty() && _note.isEmpty() && _amount <= 0 && _providedTypeID <=0;
+        return _partitionExternalAssignment.isEmpty() && _note.isEmpty() && _amount <= 0 && _providedTypeId <=0;
                 
     }
     public KGLListServiceProvision() {
@@ -194,8 +194,8 @@ public class KGLListServiceProvision implements Serializable {
         hash = 37 * hash + Objects.hashCode(this._note);
         hash = 37 * hash + this._amount;
         hash = 37 * hash + this._baseInformationId;
-        hash = 37 * hash + this._providedTypeID;
-        hash = 37 * hash + this._serviceProvisionTypeID;
+        hash = 37 * hash + this._providedTypeId;
+        hash = 37 * hash + this._serviceProvisionTypeId;
         hash = 37 * hash + Objects.hashCode(this._domain);
         return hash;
     }
@@ -227,10 +227,10 @@ public class KGLListServiceProvision implements Serializable {
         if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
-        if (this._providedTypeID != other._providedTypeID) {
+        if (this._providedTypeId != other._providedTypeId) {
             return false;
         }
-        if (this._serviceProvisionTypeID != other._serviceProvisionTypeID) {
+        if (this._serviceProvisionTypeId != other._serviceProvisionTypeId) {
             return false;
         }
         if (!Objects.equals(this._partitionExternalAssignment, other._partitionExternalAssignment)) {

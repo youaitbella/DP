@@ -44,14 +44,14 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="baseInformationID">
     @Column(name = "cfBaseInformationID")
-    private int _baseInformationID = -1;
+    private int _baseInformationId = -1;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -157,7 +157,7 @@ public class KGLListCentralFocus implements Serializable {
 
     public KGLListCentralFocus(int cfID, int baseInformationID, String cfText, int cfCaseCnt, int cfPersonalCost, int cfMaterialcost, int cfInfraCost, int cfRemunerationAmount, String cfRemunerationKey) {
         this._id = cfID;
-        this._baseInformationID = baseInformationID;
+        this._baseInformationId = baseInformationID;
         this._text = cfText;
         this._caseCnt = cfCaseCnt;
         this._personalCost = cfPersonalCost;
@@ -175,7 +175,7 @@ public class KGLListCentralFocus implements Serializable {
         if (this._id != -1) {
             return hash;
         }
-        hash = 41 * hash + this._baseInformationID;
+        hash = 41 * hash + this._baseInformationId;
         hash = 41 * hash + Objects.hashCode(this._text);
         hash = 41 * hash + this._caseCnt;
         hash = 41 * hash + this._personalCost;
@@ -204,7 +204,7 @@ public class KGLListCentralFocus implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (this._caseCnt != other._caseCnt) {

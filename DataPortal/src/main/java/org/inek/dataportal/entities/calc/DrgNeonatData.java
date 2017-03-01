@@ -44,14 +44,14 @@ public class DrgNeonatData implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CalcBasicsId">
     @Column(name = "ndBaseInformationID")
-    private int _calcBasicsId;
+    private int _baseInformationId;
 
-    public int getCalcBasicsId() {
-        return _calcBasicsId;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setCalcBasicsId(int calcBasicsId) {
-        _calcBasicsId = calcBasicsId;
+    public void setBaseInformationId(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
@@ -100,7 +100,7 @@ public class DrgNeonatData implements Serializable {
         int hash = 7;
         hash = 53 * hash + this._id;
         if (this._id != -1) return hash;
-        hash = 53 * hash + this._calcBasicsId;
+        hash = 53 * hash + this._baseInformationId;
         hash = 53 * hash + this._contentTextId;
         hash = 53 * hash + Objects.hashCode(this._contentText);
         return hash;
@@ -124,7 +124,7 @@ public class DrgNeonatData implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        if (this._calcBasicsId != other._calcBasicsId) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (this._contentTextId != other._contentTextId) {

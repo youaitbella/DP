@@ -94,18 +94,18 @@ public class KGLNormalFeeContract implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "nfcBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -136,7 +136,7 @@ public class KGLNormalFeeContract implements Serializable {
         hash = 31 * hash + Objects.hashCode(this._departmentKey);
         hash = 31 * hash + this._caseCnt;
         hash = 31 * hash + this._amount;
-        hash = 31 * hash + this._baseInformationID;
+        hash = 31 * hash + this._baseInformationId;
         return hash;
     }
 
@@ -164,7 +164,7 @@ public class KGLNormalFeeContract implements Serializable {
         if (this._amount != other._amount) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (!Objects.equals(this._division, other._division)) {

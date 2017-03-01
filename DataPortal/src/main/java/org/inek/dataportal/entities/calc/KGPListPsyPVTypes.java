@@ -43,17 +43,17 @@ public class KGPListPsyPVTypes implements Serializable, IdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _charID">
+    //<editor-fold defaultstate="collapsed" desc="Property _charId">
     @Size(max = 5)
     @Column(name = "pptCharID")
-    private String _charID = "";
+    private String _charId = "";
 
-    public String getCharID() {
-        return _charID;
+    public String getCharId() {
+        return _charId;
     }
 
-    public void setCharID(String charID) {
-        this._charID = charID;
+    public void setCharId(String charId) {
+        this._charId = charId;
     }
     //</editor-fold>
 
@@ -82,7 +82,7 @@ public class KGPListPsyPVTypes implements Serializable, IdValue {
 
     public KGPListPsyPVTypes(int pptID, String pptCharID, String pptText) {
         this._id = pptID;
-        this._charID = pptCharID;
+        this._charId = pptCharID;
         this._text = pptText;
     }
 
@@ -94,7 +94,7 @@ public class KGPListPsyPVTypes implements Serializable, IdValue {
         if (this._id != -1) {
             return hash;
         }
-        hash = 41 * hash + Objects.hashCode(this._charID);
+        hash = 41 * hash + Objects.hashCode(this._charId);
         hash = 41 * hash + Objects.hashCode(this._text);
         return hash;
     }
@@ -114,7 +114,7 @@ public class KGPListPsyPVTypes implements Serializable, IdValue {
         if (this._id != other._id) {
             return false;
         }
-        if (!Objects.equals(this._charID, other._charID)) {
+        if (!Objects.equals(this._charId, other._charId)) {
             return false;
         }
         if (!Objects.equals(this._text, other._text)) {

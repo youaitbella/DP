@@ -86,7 +86,7 @@ public class KGPListStationAlternative implements Serializable, IdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
+    //<editor-fold defaultstate="collapsed" desc="Property DepartmentKey">
 //    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "saDepartmentKey")
