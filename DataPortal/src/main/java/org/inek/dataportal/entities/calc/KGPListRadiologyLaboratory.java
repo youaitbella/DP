@@ -216,9 +216,9 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "rlBaseInformationID")
+    @Column(name = "rlBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

@@ -85,9 +85,9 @@ public class KGLPKMSAlternative implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "paBaseInformationID")
+    @Column(name = "paBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

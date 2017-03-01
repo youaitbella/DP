@@ -55,9 +55,9 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "nssBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "nssBaseInformationID")
+    @Column(name = "nssBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

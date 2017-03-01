@@ -24,7 +24,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Id
-    @Column(name = "oaBaseInformationID")
+    @Column(name = "oaBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {
@@ -378,7 +378,7 @@ public class KGLOpAn implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGLOpAn[ oaBaseInformationID=" + _baseInformationId + " ]";
+        return "org.inek.dataportal.entities.calc.KGLOpAn[ oaBaseInformationId=" + _baseInformationId + " ]";
     }
 
 }

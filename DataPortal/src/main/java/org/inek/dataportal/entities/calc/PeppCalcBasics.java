@@ -534,7 +534,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
 
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpMedInfraList">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
     private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
 
     public List<KGPListMedInfra> getKgpMedInfraList() {
@@ -561,9 +561,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _personalAccountings">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new Vector<>();
 
@@ -577,9 +577,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _serviceProvisions">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_sequence")
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
@@ -593,9 +593,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _costCenters">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
     private List<KGPListCostCenter> _costCenters = new Vector<>();
 
     public List<KGPListCostCenter> getCostCenters() {
@@ -608,9 +608,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _stationServiceCosts">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "sscBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "sscBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "sscBaseInformationId", referencedColumnName = "biID")
     private List<KGPListStationServiceCost> _stationServiceCosts = new Vector<>();
 
     public List<KGPListStationServiceCost> getStationServiceCosts() {
@@ -623,9 +623,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _therapies">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "thBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "thBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "thBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "thBaseInformationId", referencedColumnName = "biID")
     private List<KGPListTherapy> _therapies = new Vector<>();
 
     public List<KGPListTherapy> getTherapies() {
@@ -638,9 +638,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpStationDepartmentList">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "saBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "saBaseInformationId", referencedColumnName = "biID")
     private List<KGPListStationAlternative> _kgpStationDepartmentList = new Vector<>();
 
     public List<KGPListStationAlternative> getKgpStationDepartmentList() {
@@ -653,9 +653,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _radiologyLaboratories">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
     private List<KGPListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories() {
@@ -668,9 +668,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpDelimitationFactList">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "dfBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "dfBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dfBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_contentTextId")
     private List<KGPListDelimitationFact> _delimitationFacts = new Vector<>();
 
@@ -684,9 +684,9 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpDocumentsList">
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "doBaseInformationID")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "doBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "doBaseInformationId", referencedColumnName = "biID")
     private List<KGPDocuments> _kgpDocumentsList = new Vector<>();
 
     public List<KGPDocuments> getKgpDocumentsList() {
@@ -700,7 +700,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property List locations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "lBaseInformationId", referencedColumnName = "biID")
     private List<KGPListLocation> _locations = new Vector<>();
 
     public List<KGPListLocation> getLocations() {

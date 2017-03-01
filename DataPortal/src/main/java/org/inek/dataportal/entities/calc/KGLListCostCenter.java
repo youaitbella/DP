@@ -171,9 +171,9 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
-//    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "ccBaseInformationID")
+    @Column(name = "ccBaseInformationId")
     private int _baseInformationId;
 
     @Override

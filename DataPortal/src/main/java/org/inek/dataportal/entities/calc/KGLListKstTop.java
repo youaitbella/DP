@@ -42,7 +42,7 @@ public class KGLListKstTop implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property baseInformationID">
-    @Column(name = "ktBaseInformationID")
+    @Column(name = "ktBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

@@ -43,17 +43,17 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
-//    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "rlBaseInformationID")
+    @Column(name = "rlBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
-    public void setBaseInformationId(int rlBaseInformationID) {
-        this._baseInformationId = rlBaseInformationID;
+    public void setBaseInformationId(int rlBaseInformationId) {
+        this._baseInformationId = rlBaseInformationId;
     }
     // </editor-fold>
 

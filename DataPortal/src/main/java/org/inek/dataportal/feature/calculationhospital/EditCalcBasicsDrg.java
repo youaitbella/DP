@@ -947,7 +947,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.setAccountId(_sessionController.getAccountId());
         for (KGLListCentralFocus item : _calcBasics.getCentralFocuses()) {
             item.setId(-1);
-            item.setBaseInformationID(-1);
+            item.setBaseInformationId(-1);
         }
         // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
          */

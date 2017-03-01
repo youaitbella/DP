@@ -111,7 +111,7 @@ public class KGLRadiologyService implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property rsBaseInformationId">
 //    @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "rsBaseInformationID")
+    @Column(name = "rsBaseInformationId")
     private int rsBaseInformationId;
 
     public int getRsBaseInformationId() {

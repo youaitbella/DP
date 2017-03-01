@@ -71,9 +71,9 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
-//    @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "edBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "edBaseInformationID")
+    @Column(name = "edBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

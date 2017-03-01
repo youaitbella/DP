@@ -44,7 +44,7 @@ public class KGPListLocation implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="BaseInformationId">
-    @Column(name = "lBaseInformationID")
+    @Column(name = "lBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

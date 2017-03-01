@@ -100,9 +100,9 @@ public class KGLListServiceProvision implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
-//    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "spBaseInformationID")
+    @Column(name = "spBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

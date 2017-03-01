@@ -88,9 +88,9 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "spBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "spBaseInformationID")
+    @Column(name = "spBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

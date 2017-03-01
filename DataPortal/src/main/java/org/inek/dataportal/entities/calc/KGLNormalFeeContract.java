@@ -95,9 +95,9 @@ public class KGLNormalFeeContract implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "nfcBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "nfcBaseInformationID")
+    @Column(name = "nfcBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

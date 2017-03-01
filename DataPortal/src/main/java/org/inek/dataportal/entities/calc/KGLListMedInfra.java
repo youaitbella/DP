@@ -111,7 +111,7 @@ public class KGLListMedInfra implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-    @Column(name = "miBaseInformationID")
+    @Column(name = "miBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

@@ -112,9 +112,9 @@ public class KGPListMedInfra implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "miBaseInformationID")
+    @Column(name = "miBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

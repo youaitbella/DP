@@ -422,9 +422,9 @@ public class KGLListIntensivStroke implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
-//    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "isBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "isBaseInformationID")
+    @Column(name = "isBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

@@ -347,9 +347,9 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "sscBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "sscBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "sscBaseInformationID")
+    @Column(name = "sscBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

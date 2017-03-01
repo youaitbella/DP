@@ -96,7 +96,7 @@ public class KGPListDelimitationFact implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property baseInformationId">
-    @Column(name = "dfBaseInformationID")
+    @Column(name = "dfBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

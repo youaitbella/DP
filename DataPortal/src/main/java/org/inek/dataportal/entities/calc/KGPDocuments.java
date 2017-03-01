@@ -75,9 +75,9 @@ public class KGPDocuments implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _aseInformationId">
-//    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "doBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "doBaseInformationID")
+    @Column(name = "doBaseInformationId")
     //private PeppCalcBasics _aseInformationId;
     private int _aseInformationId;
 

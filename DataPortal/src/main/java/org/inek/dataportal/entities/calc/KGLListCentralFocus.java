@@ -43,7 +43,7 @@ public class KGLListCentralFocus implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="baseInformationID">
-    @Column(name = "cfBaseInformationID")
+    @Column(name = "cfBaseInformationId")
     private int _baseInformationId = -1;
 
     public int getBaseInformationId() {

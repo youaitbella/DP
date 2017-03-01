@@ -107,9 +107,9 @@ public class KGLNormalFreelancer implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "nfBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "nfBaseInformationID")
+    @Column(name = "nfBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

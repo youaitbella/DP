@@ -72,9 +72,9 @@ public class KGPListStationAlternative implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-//    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "seBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "saBaseInformationID")
+    @Column(name = "saBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {
@@ -87,7 +87,7 @@ public class KGPListStationAlternative implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property DepartmentKey">
-//    @JoinColumn(name = "seBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "seBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "saDepartmentKey")
     private int _departmentKey;

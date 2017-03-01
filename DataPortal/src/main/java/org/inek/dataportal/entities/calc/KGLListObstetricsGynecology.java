@@ -148,9 +148,9 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogBaseInformationId">
-//    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
+//    @JoinColumn(name = "ogBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
-    @Column(name = "ogBaseInformationID")
+    @Column(name = "ogBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {

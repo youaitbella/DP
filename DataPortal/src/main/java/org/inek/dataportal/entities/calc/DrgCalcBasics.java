@@ -728,7 +728,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property List CostCenters">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ccBaseInformationID", referencedColumnName = "biId")
+    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biId")
     private List<KGLListCostCenter> _costCenters = new Vector<>();
 
     
@@ -743,7 +743,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
     private List<KGLListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     
@@ -758,7 +758,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ogBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "ogBaseInformationId", referencedColumnName = "biID")
     private List<KGLListObstetricsGynecology> _obstetricsGynecologies  = new Vector<>();
     
     
@@ -773,7 +773,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rsBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
     private List<KGLRadiologyService> _radiologyServices = new Vector<>();
 
     
@@ -788,7 +788,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property OpAn">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationID")
+    @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationId")
     private KGLOpAn _opAn;
 
     public KGLOpAn getOpAn() {
@@ -821,7 +821,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List KstTop">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ktBaseInformationID", referencedColumnName = "biId")
+    @JoinColumn(name = "ktBaseInformationId", referencedColumnName = "biId")
     private List<KGLListKstTop> _kstTop = new Vector<>();
     
     
@@ -857,7 +857,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "edBaseInformationID", referencedColumnName = "biId")
+    @JoinColumn(name = "edBaseInformationId", referencedColumnName = "biId")
     private List<KGLListEndoscopyDifferential> _endoscopyDifferentials = new Vector<>();
     
     
@@ -884,7 +884,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List normalFeeContracts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nfcBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "nfcBaseInformationId", referencedColumnName = "biID")
     private List<KGLNormalFeeContract> _normalFeeContracts = new Vector<>();
     
     
@@ -899,7 +899,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List NormalFreelancers">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "nfBaseInformationId", referencedColumnName = "biID")
     private List<KGLNormalFreelancer> _normalFreelancers = new Vector<>();
     
     public List<KGLNormalFreelancer> getNormalFreelancers() {
@@ -913,7 +913,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "isBaseInformationId", referencedColumnName = "biID")
     private List<KGLListIntensivStroke> _intensivStrokes = new Vector<>();
     
     public List<KGLListIntensivStroke> getIntensivStrokes() {
@@ -927,7 +927,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "miBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
     private List<KGLListMedInfra> _medInfras = new Vector<>();
     
     public List<KGLListMedInfra> getMedInfras() {
@@ -941,7 +941,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeID")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
     
@@ -956,7 +956,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ndBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "ndBaseInformationId", referencedColumnName = "biID")
     private List<DrgNeonatData> _neonateData = new Vector<>();
 
     public List<DrgNeonatData> getNeonateData() {
@@ -970,8 +970,8 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List NormalStationServiceDocumentations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nssBaseInformationID", referencedColumnName = "biID")
-    @OrderBy(value = "_contentTextID")
+    @JoinColumn(name = "nssBaseInformationId", referencedColumnName = "biID")
+    @OrderBy(value = "_contentTextId")
     private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations = new Vector<>();
     
     public List<KGLNormalStationServiceDocumentation> getNormalStationServiceDocumentations() {
@@ -997,7 +997,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cccBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "cccBaseInformationId", referencedColumnName = "biID")
     private List<KGLListCostCenterCost> _costCenterCosts = new Vector<>();
     
     public List<KGLListCostCenterCost> getCostCenterCosts() {
@@ -1011,7 +1011,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List pkmsAlternatives">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     private List<KGLPKMSAlternative> _pkmsAlternatives = new Vector<>();
     
     public List<KGLPKMSAlternative> getPkmsAlternatives() {
@@ -1025,7 +1025,7 @@ public class DrgCalcBasics implements Serializable {
               
     // <editor-fold defaultstate="collapsed" desc="Property Documents">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "doBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "doBaseInformationId", referencedColumnName = "biID")
     private List<KGLDocument> _documents = new Vector<>();
 
     public List<KGLDocument> getDocuments() {
@@ -1039,7 +1039,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List centralFocuses">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cfBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "cfBaseInformationId", referencedColumnName = "biID")
     private List<KGLListCentralFocus> _centralFocuses = new Vector<>();
 
     public List<KGLListCentralFocus> getCentralFocuses() {
@@ -1053,7 +1053,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property List locations">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "lBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_locationNo")
     private List<KGLListLocation> _locations = new Vector<>();
 
@@ -1068,7 +1068,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "suBaseInformationID", referencedColumnName = "biID")
+    @JoinColumn(name = "suBaseInformationId", referencedColumnName = "biID")
     private List<KGLListSpecialUnit> _specialUnits = new Vector<>();
 
     public List<KGLListSpecialUnit> getSpecialUnits() {

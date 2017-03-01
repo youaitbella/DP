@@ -42,7 +42,7 @@ public class KGLDocument implements Serializable, Document{
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property BaseInformationId">
-    @Column(name = "doBaseInformationID")
+    @Column(name = "doBaseInformationId")
     private int _baseInformationId;
 
     public int getBaseInformationId() {
