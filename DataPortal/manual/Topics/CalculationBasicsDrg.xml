@@ -60,6 +60,9 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Upload ... ]</text><text styleclass="Normal" translate="true"> öffnet einen Dialog zur Auswahl der hochzuladenden Datei. Nach dem Upload erhalten Sie ein Protokoll, dass im positiven Fall lediglich angibt, wie viele Zeilen übernommen wurden. Im Falle von Fehlern werden diese aufgelistet. Zugleich erscheint eine weitere Schaltfläche </text><text styleclass="Button" translate="true">[ Upload-Protokoll ]</text><text styleclass="Normal" translate="true"> mit deren Hilfe Sie das Fehlerprotokoll ein- und ausblenden können.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalculationBasicsDrg11-02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Geöffnetes Upload-Protokoll</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Download Musterdatei ]</text><text styleclass="Normal" translate="true"> startet den Download einer &quot;leeren&quot; CSV-Datei als Muster. Diese enthält eine Zeile mit den Feldnamen. Hier können Sie in weiteren Zeilen Ihre Daten anfügen. Sofern Sie die Daten aus einem anderen System ausleiten, sind nur die Datenzeilen erforderlich. Die Überschriftenzeile ist optional. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Im dargestellten Beispiel hat die Musterdatei diesen Inhalt:</text></para>
