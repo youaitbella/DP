@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -84,6 +85,7 @@ public class DrgNeonatData implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Data">
     @Column(name = "ndData", precision=10, scale=1)
+    @Documentation(name = "Wert")
     private BigDecimal _data = new BigDecimal(0);  
     public BigDecimal getData() {
         return _data;

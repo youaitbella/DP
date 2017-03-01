@@ -166,6 +166,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="caseInStationCnt">
     @Column(name = "biCaseInStationCnt")
+    @Documentation(name = "Fälle vollstationär")
     private int _caseInStationCnt;
 
     @Min(0)
@@ -180,6 +181,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
     @Column(name = "biCasePartialStationCnt")
+    @Documentation(name = "Fälle teilstationär")
     private int _casePartialStationCnt;
 
     @Min(0)
@@ -194,6 +196,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="daysPartialStation">
     @Column(name = "biDaysPartialStation")
+    @Documentation(name = "Berechnungstage teilstationär")
     private int _daysPartialStation;
 
     @Min(0)
@@ -208,6 +211,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="patientEscort">
     @Column(name = "biPatientEscort")
+    @Documentation(name = "Begleitpersonen")
     private int _patientEscort;
 
     @Min(0)
@@ -222,6 +226,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="preStation">
     @Column(name = "biPreStation")
+    @Documentation(name = "Fälle rein vorstationär")
     private int _preStation;
 
     @Min(0)
@@ -236,6 +241,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="beds">
     @Column(name = "biBeds")
+    @Documentation(name = "Anzahl Betten (DRG)")
     private int _beds;
 
     @Min(0)
@@ -250,6 +256,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="partialCnt">
     @Column(name = "biPartialCnt")
+    @Documentation(name = "Anzahl teilstationäre Plätze (DRG)")
     private int _partialCnt;
 
     @Min(0)
@@ -264,6 +271,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="locationCnt">
     @Column(name = "biLocationCnt")
+    @Documentation(name = "Anzahl Standorte")
     private int _locationCnt;
 
     @Min(0)
@@ -278,6 +286,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="difLocationSupply">
     @Column(name = "biDifLocationSupply")
+    @Documentation(name = "Differenzierter Versorgungsauftrag")
     private boolean _difLocationSupply;
 
     public boolean isDifLocationSupply() {
@@ -291,6 +300,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="specialUnit">
     @Column(name = "biSpecialUnit")
+    @Documentation(name = "Besondere Einrichtung")
     private boolean _specialUnit;
 
     public boolean isSpecialUnit() {
@@ -304,6 +314,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="centralFocus">
     @Column(name = "biCentralFocus")
+    @Documentation(name = "Zentren und Schwerpunkte")
     private boolean _centralFocus;
 
     public boolean isCentralFocus() {
@@ -312,19 +323,6 @@ public class DrgCalcBasics implements Serializable {
 
     public void setCentralFocus(boolean centralFocus) {
         this._centralFocus = centralFocus;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="neonatLvl">
-    @Column(name = "biNeonatLvl")
-    private int _neonatLvl;
-
-    public int getNeonatLvl() {
-        return _neonatLvl;
-    }
-
-    public void setNeonatLvl(int neonatLvl) {
-        this._neonatLvl = neonatLvl;
     }
     //</editor-fold>
 
@@ -941,9 +939,24 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="neonatLvl">
+    @Column(name = "biNeonatLvl")
+    @Documentation(name = "Versorgungsstufe des Perinatalzentrums")
+    private int _neonatLvl;
+
+    public int getNeonatLvl() {
+        return _neonatLvl;
+    }
+
+    public void setNeonatLvl(int neonatLvl) {
+        this._neonatLvl = neonatLvl;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationId", referencedColumnName = "biID")
+    //@Documentation(name = "Neonat")
     private List<DrgNeonatData> _neonateData = new Vector<>();
 
     public List<DrgNeonatData> getNeonateData() {
