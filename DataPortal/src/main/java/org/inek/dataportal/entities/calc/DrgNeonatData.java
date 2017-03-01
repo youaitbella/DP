@@ -42,7 +42,7 @@ public class DrgNeonatData implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CalcBasicsId">
+    // <editor-fold defaultstate="collapsed" desc="Property BaseInformationId">
     @Column(name = "ndBaseInformationID")
     private int _baseInformationId;
 

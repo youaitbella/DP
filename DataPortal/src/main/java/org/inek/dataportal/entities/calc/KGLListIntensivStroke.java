@@ -421,7 +421,7 @@ public class KGLListIntensivStroke implements Serializable {
         return (int) ((double) _nursingServiceCost / _nursingServiceCnt);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
+    // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
 //    @JoinColumn(name = "isBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "isBaseInformationID")

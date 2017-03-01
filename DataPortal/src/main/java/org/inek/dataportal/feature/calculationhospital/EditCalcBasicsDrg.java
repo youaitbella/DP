@@ -255,7 +255,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
             KGLNormalFreelancer nf = new KGLNormalFreelancer();
             nf.setId(-1);
-            nf.setBaseInformationID(calcBasics.getId());
+            nf.setBaseInformationId(calcBasics.getId());
             nf.setAmount(pnf.getAmount());
             nf.setCostType1(pnf.isCostType1());
             nf.setCostType6c(pnf.isCostType6c());
@@ -589,7 +589,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addFreelancer() {
         KGLNormalFreelancer nf = new KGLNormalFreelancer();
-        nf.setBaseInformationID(_calcBasics.getId());
+        nf.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getNormalFreelancers().add(nf);
     }
 

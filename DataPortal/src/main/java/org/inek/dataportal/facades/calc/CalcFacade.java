@@ -401,7 +401,7 @@ public class CalcFacade extends AbstractDataAccess {
             KGLOpAn opAn = calcBasics.getOpAn();
             calcBasics.setOpAn(null); // can not persist otherwise :(
             persist(calcBasics);
-            opAn.setBaseInformationID(calcBasics.getId());
+            opAn.setBaseInformationId(calcBasics.getId());
             persist(opAn);
             calcBasics.setOpAn(opAn);
             return calcBasics;

@@ -40,7 +40,7 @@ public class KGLListLocation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="BaseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="BaseInformationId">
     @Column(name = "lBaseInformationID")
     private int _baseInformationId;
 

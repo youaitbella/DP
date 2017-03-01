@@ -106,18 +106,18 @@ public class KGLNormalFreelancer implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationID">
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "nfBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "nfBaseInformationID")
-    private int _baseInformationID;
+    private int _baseInformationId;
 
-    public int getBaseInformationID() {
-        return _baseInformationID;
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setBaseInformationID(int baseInformationID) {
-        this._baseInformationID = baseInformationID;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -150,7 +150,7 @@ public class KGLNormalFreelancer implements Serializable {
         hash = 67 * hash + this._amount;
         hash = 67 * hash + (this._costType1 ? 1 : 0);
         hash = 67 * hash + (this._costType6c ? 1 : 0);
-        hash = 67 * hash + this._baseInformationID;
+        hash = 67 * hash + this._baseInformationId;
         return hash;
     }
 
@@ -184,7 +184,7 @@ public class KGLNormalFreelancer implements Serializable {
         if (this._costType6c != other._costType6c) {
             return false;
         }
-        if (this._baseInformationID != other._baseInformationID) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (!Objects.equals(this._division, other._division)) {

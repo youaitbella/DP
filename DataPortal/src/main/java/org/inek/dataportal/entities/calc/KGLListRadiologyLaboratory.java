@@ -42,7 +42,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="BaseInformationID">
+    // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
 //    @JoinColumn(name = "rlBaseInformationID", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "rlBaseInformationID")
