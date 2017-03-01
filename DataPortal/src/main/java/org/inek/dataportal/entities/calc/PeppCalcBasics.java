@@ -135,19 +135,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _deliveryType">
-    @Column(name = "biDeliveryType")
-    private short _deliveryType;
-
-    public short getDeliveryType() {
-        return _deliveryType;
-    }
-
-    public void setDeliveryType(short deliveryType) {
-        this._deliveryType = deliveryType;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property _correctionNote">
     @Size(max = 500)
     @Column(name = "biCorrectionNote")
