@@ -114,10 +114,10 @@ public class KGLListServiceProvision implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="ProvidedTypeID">
-//    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
+    // <editor-fold defaultstate="collapsed" desc="ProvidedTypeId">
+//    @JoinColumn(name = "spProvidedTypeId", referencedColumnName = "ptID")
 //    @ManyToOne(optional = false)
-    @Column(name = "spProvidedTypeID")
+    @Column(name = "spProvidedTypeId")
     private int _providedTypeId;
 
     public int getProvidedTypeId() {
@@ -129,10 +129,10 @@ public class KGLListServiceProvision implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="ServiceProvisionTypeID">
-//    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
+    // <editor-fold defaultstate="collapsed" desc="ServiceProvisionTypeId">
+//    @JoinColumn(name = "spServiceProvisionTypeId", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
-    @Column(name = "spServiceProvisionTypeID")
+    @Column(name = "spServiceProvisionTypeId")
     private int _serviceProvisionTypeId;
 
     public int getServiceProvisionTypeId() {
@@ -146,7 +146,7 @@ public class KGLListServiceProvision implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property KGLListServiceProvisionType">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "spServiceProvisionTypeID")
+    @PrimaryKeyJoinColumn(name = "spServiceProvisionTypeId")
     private KGLListServiceProvisionType _serviceProvisionType;
 
     public KGLListServiceProvisionType getServiceProvisionType() {

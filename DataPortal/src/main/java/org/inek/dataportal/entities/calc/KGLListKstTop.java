@@ -54,8 +54,8 @@ public class KGLListKstTop implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ktCostCenterID">
-    @Column(name = "ktCostCenterID")
+    //<editor-fold defaultstate="collapsed" desc="Property ktCostCenterId">
+    @Column(name = "ktCostCenterId")
     private int _ktCostCenterId;
 
     public int getKtCostCenterId() {
@@ -139,9 +139,9 @@ public class KGLListKstTop implements Serializable {
         this._id = ktID;
     }
 
-    public KGLListKstTop(Integer ktID, int ktCostCenterID, String ktText, int ktCaseCnt, int ktAmount, int ktDelimitationAmount, int ktRank) {
+    public KGLListKstTop(Integer ktID, int ktCostCenterId, String ktText, int ktCaseCnt, int ktAmount, int ktDelimitationAmount, int ktRank) {
         this._id = ktID;
-        this._ktCostCenterId = ktCostCenterID;
+        this._ktCostCenterId = ktCostCenterId;
         this._text = ktText;
         this._caseCount = ktCaseCnt;
         this._amount = ktAmount;

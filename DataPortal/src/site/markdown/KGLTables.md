@@ -73,7 +73,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle FD/MTD (AN)||oaFunctionalServiceAmountAN|
 ||||||
 |Leistungsdokumentation (OP + Kreißsaal)|Top 3 ambulante Leistungen / Top 5 Geburtshilfen||KGLListKstTop||
-|||Kostenstelle||ktCostCenterID|
+|||Kostenstelle||ktCostCenterId|
 |||Bezeichnung||ktText|
 |||Fallzahl||ktCaseCnt|
 |||Erlösvolumen||ktAmount|

@@ -103,9 +103,9 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _providedTypeId">
-//    @JoinColumn(name = "spProvidedTypeID", referencedColumnName = "ptID")
+//    @JoinColumn(name = "spProvidedTypeId", referencedColumnName = "ptID")
 //    @ManyToOne(optional = false)
-    @Column(name = "spProvidedTypeID")
+    @Column(name = "spProvidedTypeId")
     private int _providedTypeId;
 
     public int getProvidedTypeId() {
@@ -118,9 +118,9 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceProvisionTypeId">
-//    @JoinColumn(name = "spServiceProvisionTypeID", referencedColumnName = "sptID")
+//    @JoinColumn(name = "spServiceProvisionTypeId", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
-    @Column(name = "spServiceProvisionTypeID")
+    @Column(name = "spServiceProvisionTypeId")
     private int _serviceProvisionTypeId;
 
     public int getServiceProvisionTypeId() {
@@ -134,7 +134,7 @@ public class KGPListServiceProvision implements Serializable, IdValue {
 
     // <editor-fold defaultstate="collapsed" desc="Property KGLListServiceProvisionType">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "spServiceProvisionTypeID")
+    @PrimaryKeyJoinColumn(name = "spServiceProvisionTypeId")
     private KGPListServiceProvisionType _serviceProvisionType;
 
     public KGPListServiceProvisionType getServiceProvisionType() {

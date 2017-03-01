@@ -83,7 +83,7 @@ public class KGPListProvidedType implements Serializable, IdValue {
     }
     //</editor-fold>
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spProvidedTypeID")
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spProvidedTypeId")
 //    private List<KGPListServiceProvision> kGPListServiceProvisionList;
     public KGPListProvidedType() {
     }

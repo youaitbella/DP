@@ -942,7 +942,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
-    @OrderBy(value = "_costTypeID")
+    @OrderBy(value = "_costTypeId")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
     
     public List<KGLPersonalAccounting> getPersonalAccountings() {

@@ -182,7 +182,7 @@
 
         <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
 
-        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item"
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 4).toList()}" var="item"
                      columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
             <h:column>
                 <f:facet name="header">#{msg.lblNotation}</f:facet>
@@ -202,10 +202,10 @@
             </h:column>
         </h:dataTable>
 
-        <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).count() > 0}">
+        <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 4).count() > 0}">
             <h3>#{editCalcBasicsDrg.calcBasics.dataYear - 1}</h3>
 
-            <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterID == 4).toList()}" var="item"
+            <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 4).toList()}" var="item"
                          columnClasses="colValue, col14 number, col14 number, col14 number" rowClasses="row1, row2">
                 <h:column>
                     <f:facet name="header">#{msg.lblNotation}</f:facet>

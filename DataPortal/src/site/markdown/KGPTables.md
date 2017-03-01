@@ -34,8 +34,8 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGP\Anpass
 |||Infrastrukturkosten||dfInfraCost|
 ||||||
 |Leistungsdokumentation|(Externe) Leistungserbringung||KGPListServiceProvision||
-|||Bereiche||spServiceProvisionTypeID|
-|||wird nicht erbracht / keine Fremdvergabe / vollständige Fremdvergabe / teilweise Fremdvergabe||spProvidedTypeID|
+|||Bereiche||spServiceProvisionTypeId|
+|||wird nicht erbracht / keine Fremdvergabe / vollständige Fremdvergabe / teilweise Fremdvergabe||spProvidedTypeId|
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|

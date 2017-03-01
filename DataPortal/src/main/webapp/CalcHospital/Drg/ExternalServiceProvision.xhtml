@@ -31,9 +31,9 @@
 
         <h:column>
             <f:facet name="header">Bereich</f:facet>
-            <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeID ge 0}"/>
+            <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeId ge 0}"/>
             <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                       value="#{item.domain}" rendered="#{item.serviceProvisionTypeID lt 0}"/>
+                                       value="#{item.domain}" rendered="#{item.serviceProvisionTypeId lt 0}"/>
         </h:column>
 
         <h:column>
@@ -41,7 +41,7 @@
             <h:selectOneMenu id="externalProvision"
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{item.providedTypeID}" 
+                             value="#{item.providedTypeId}" 
                              hideNoSelectionOption="true" >
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}"/>
@@ -54,7 +54,7 @@
 
         <h:column>
             <f:facet name="header">Fremdvergebene Teilbereiche</f:facet>
-            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeID ne 3}"/>
+            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeId ne 3}"/>
         </h:column>
 
         <h:column>
