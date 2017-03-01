@@ -131,6 +131,19 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property ReportViaPortal">
+    @Column(name = "acAutoSave")
+    private boolean _autoSave;
+
+    public boolean isAutoSave() {
+        return _autoSave;
+    }
+
+    public void setAutoSave(boolean autoSave) {
+        _autoSave = autoSave;
+    }
+    // </editor-fold>
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")

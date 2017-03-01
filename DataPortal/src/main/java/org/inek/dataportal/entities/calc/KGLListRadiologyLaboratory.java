@@ -258,10 +258,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
         this._id = rlID;
     }
 
-    public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeID, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, int serviceVolumePre, int amountPre, int serviceVolumePost, int amountPost) {
+    public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeId, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, int serviceVolumePre, int amountPre, int serviceVolumePost, int amountPost) {
         this._id = id;
         this._baseInformationId = baseInformationID;
-        this._costCenterId = costTypeID;
+        this._costCenterId = costTypeId;
         this._costCenterNumber = costCenterID;
         this._serviceDocHome = serviceDocHome;
         this._serviceDocDKG = serviceDocDKG;

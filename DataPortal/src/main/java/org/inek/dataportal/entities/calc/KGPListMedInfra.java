@@ -43,7 +43,7 @@ public class KGPListMedInfra implements Serializable, IdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costTypeID">
+    //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Column(name = "miCostTypeID")
     private int _costTypeId;
 

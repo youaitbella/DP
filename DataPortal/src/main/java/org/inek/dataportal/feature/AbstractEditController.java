@@ -51,10 +51,12 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
 
     public void setActiveTopic(String topic) {
         _topics.setActive(topic);
+        topicChanged();
     }
 
     public void setActiveTopic(Topic topic) {
         _topics.setActive(topic);
+        topicChanged();
     }
 
     public String getActiveTopicKey() {
@@ -63,6 +65,7 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
 
     public void setActiveTopicKey(String key) {
         _topics.setActive(key);
+        topicChanged();
         //Utils.navigate(getActiveTopic().getOutcome());
     }
 
@@ -76,10 +79,12 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
     
     public void activatePriorTopic(){
         _topics.activatePriorTopic();
+        topicChanged();
     }
     
     public void activateNextTopic(){
         _topics.activateNextTopic();
+        topicChanged();
     }
     
     public String refrehPage(){
@@ -139,6 +144,9 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
 
     @Override
     public void addDept(String code) {
+    }
+
+    protected void topicChanged() {
     }
 
 }

@@ -58,10 +58,10 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Size(max = 100)
     @Column(name = "cccCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 100)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -72,10 +72,10 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
-    @Size(max = 4)
     @Column(name = "cccDepartmentKey")
     private String _departmentKey;
 
+    @Size(max = 4)
     public String getDepartmentKey() {
         return _departmentKey;
     }
@@ -86,10 +86,10 @@ public class KGLListCostCenterCost implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
-    @Size(max = 4)
     @Column(name = "cccDepartmentAssignment")
     private String _departmentAssignment = "";
 
+    @Size(max = 4)
     public String getDepartmentAssignment() {
         return _departmentAssignment;
     }
@@ -297,7 +297,7 @@ public class KGLListCostCenterCost implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="costTypeID">
+    // <editor-fold defaultstate="collapsed" desc="costTypeId">
     @Column(name = "cccCostCenterNumber")
     private String _costCenterNumber;
 

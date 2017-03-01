@@ -5,20 +5,10 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -39,16 +29,12 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
-import org.inek.dataportal.entities.calc.KGLListCentralFocus;
-import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
-import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
@@ -62,7 +48,6 @@ import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.common.CostType;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -378,9 +363,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
     }
 
+    @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave()) {
+            saveData();
+        }
+    }
+
     public String save() {
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        saveData();
 
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
@@ -389,6 +380,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    public void saveData() {
+        setModifiedInfo();
+        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
     }
 
     private void setModifiedInfo() {
@@ -461,8 +457,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        saveData();
 
         CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
 
@@ -493,8 +488,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return null;
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        saveData();
         return "";
     }
 
@@ -503,8 +497,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return Pages.Error.URL();
         }
         _calcBasics.setAccountId(_sessionController.getAccountId());
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        saveData();
         return "";
     }
     // </editor-fold>

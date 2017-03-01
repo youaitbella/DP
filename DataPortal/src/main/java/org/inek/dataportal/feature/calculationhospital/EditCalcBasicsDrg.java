@@ -880,10 +880,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
     }
 
+    @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave()) {
+            saveData();
+        }
+    }
+
     public String save() {
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
-        checkRequireInputsForDelimitationFact(_calcBasics);
+        saveData();
 
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
@@ -892,6 +897,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    public void saveData() {
+        setModifiedInfo();
+        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        checkRequireInputsForDelimitationFact(_calcBasics);
     }
 
     private void setModifiedInfo() {

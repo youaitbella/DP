@@ -460,6 +460,7 @@ public class EditUserMaintenance extends AbstractEditController {
                 && original.isNubConfirmation() == copy.isNubConfirmation()
                 && original.isMessageCopy() == copy.isMessageCopy()
                 && original.isReportViaPortal()== copy.isReportViaPortal()
+                && original.isAutoSave()== copy.isAutoSave()
                 && original.getDropBoxHoldTime() == copy.getDropBoxHoldTime();
         return !isEqual;
     }
@@ -486,6 +487,7 @@ public class EditUserMaintenance extends AbstractEditController {
         original.setNubConfirmation(copy.isNubConfirmation());
         original.setMessageCopy(copy.isMessageCopy());
         original.setReportViaPortal(copy.isReportViaPortal());
+        original.setAutoSave(copy.isAutoSave());
         original.setDropBoxHoldTime(copy.getDropBoxHoldTime());
     }
 
