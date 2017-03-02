@@ -233,12 +233,16 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public void saveStatementOfParticipanceForIcmt(StatementOfParticipance participance){
+        //Hospitals
         performInsertStatementOfParticipance(participance.getIk(), 1, "Drg");
         performInsertStatementOfParticipance(participance.getIk(), 3, "Psy");
         performInsertStatementOfParticipance(participance.getIk(), 4, "Inv");
         performInsertStatementOfParticipance(participance.getIk(), 5, "Tpg");
         performInsertStatementOfParticipance(participance.getIk(), 6, "Obligatory");
         performInsertStatementOfParticipance(participance.getIk(), 7, "Obd");
+        //Contacts
+        performInsertUpdateContactRoleICMT(participance.getIk(), "Drg", 3);
+        performInsertUpdateContactRoleICMT(participance.getIk(), "Psy", 12);
     }
     
     private void performInsertStatementOfParticipance(int ik, int calcType, String column){
@@ -250,6 +254,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +     "left join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
                 +     "where 1=1 \n"
                 +     "and sopIs" + column + " = 1 \n"
+                +     "and sopStatusId = 10 \n" //send to InEK
                 +     "and caHasAgreement is null \n"
                 +     "and sopIk = " + ik + "\n\n"
                 //insert CalcInformation - Teilnahme
@@ -261,7 +266,8 @@ public class CalcFacade extends AbstractDataAccess {
                 +    "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId \n"
                 +    "where 1=1 \n"
                 +    "and sopIs" + column + " = 1 \n"
-                +    "and caHasAgreement = 1 \n" 
+                +    "and caHasAgreement = 1 \n"
+                +    "and sopStatusId = 10 \n" //send to InEK
                 +    "and sopIk = " + ik + "\n"
                 +    "and ciCalcAgreementId is null \n\n"
                 //update if participation is already set
@@ -270,8 +276,9 @@ public class CalcFacade extends AbstractDataAccess {
                 +    "from calc.StatementOfParticipance \n"
                 +    "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 +    "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
-                +    "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId \n"
+                +    "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 +    "where 1=1 \n"
+                +    "and sopStatusId = 10 \n" //send to InEK
                 +    "and caHasAgreement = 1 \n"
                 +    "and sopIk = " + ik + "\n\n"
                 //insert KVM
@@ -281,7 +288,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +    "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
                 +    "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 3 \n"
                 +    "where 1=1 \n"
-                +    "and sopIs" + column + " \n"
+                +    "and sopIs" + column + " = 1 \n"
                 +    "and sopStatusId = 10 \n" //send to InEK
                 +    "and sopIk = " + ik + "\n"
                 +    "and ctpCalcInformationId is null \n"
@@ -299,7 +306,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +    "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
                 +    "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 6 \n"
                 +    "where 1=1 \n"
-                +    "and sopIs" + column + " \n"
+                +    "and sopIs" + column + " = 1 \n"
                 +    "and sopStatusId = 10 \n" //send to InEK
                 +    "and sopIk = " + ik + "\n"
                 +    "and ctpCalcInformationId is null \n"
@@ -318,40 +325,68 @@ public class CalcFacade extends AbstractDataAccess {
                 +    "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ctpCalcInformationId = ciId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 +    "join DataPortal.calc.StatementOfParticipance on cuik = sopIk and sopDataYear = ciDataYear \n"
                 +    "where 1=1 \n"
-                +    "and sopIs" + column + " \n"
+                +    "and sopIs" + column + " = 1 \n"
                 +    "and sopStatusId = 10 \n"  //send zo InEK
                 +    "and sopIk = " + ik + "\n"
                 +    "and caCalcTypeId in (1, 3, 6) \n";
         
         Query query = getEntityManager().createNativeQuery(sql);
-        query.executeUpdate();
+        //query.executeUpdate();
     }
-
-    public void saveStatementOfParticipanceContactsIcmt(StatementOfParticipance participance) {
-        performInsertUpdateContactRoleICMT(participance.getIk(), participance.getContacts(), "Drg", 1, 3);
-    }
-    
-    private void performInsertUpdateContactRoleICMT(int ik, List<CalcContact> contact, String column, int calcType, int roleID){
+  
+    private void performInsertUpdateContactRoleICMT(int ik, String column, int roleID){
         String sql = ""
-                //Rolle für Kontakte löschen
-                +  "delete x \n"
-                +  "from CallCenterDB.dbo.mapContactRole x \n"
-                +  "left join CallCenterDB.dbo.ccContact a on x.mcrContactId = a.coId \n"
-                +  "join CallCenterDB.dbo.ccCustomer b on a.coCustomerId = b.cuId and b.cuIK = " + ik + "\n"
-                +  "left join CallCenterDB.dbo.listRole c on x.mcrRoleId = c.roId \n"
-                +  "where coIsMain = 0 \n"
-                +  "and mcrRoleId = "  + roleID + "\n\n"
-                //Rolle anhand DP neu setzen
-                +  "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId)"
-                +  ""
-                +  "";
-        
-        for(CalcContact con: contact){
-
-        }
-        
-        Query query = getEntityManager().createNativeQuery(sql);
-        query.executeUpdate();
+            //temp Tabelle mit Kontaktinfos anlegen
+                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone \n"
+                +  "into #tmp \n"
+                +  "from DataPortal.calc.Contact a \n"
+                +  "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
+                +  "join CallCenterDB.dbo.ccCustomer c on sopik = cuik \n"
+                +  "left join (select coid, coCustomerId customerID, coFirstName firstName, coLastName lastName \n"
+                +  "			from CallCenterDB.dbo.ccContact a \n"
+                +  "			join CallCenterDB.dbo.mapContactRole b on a.coId = b.mcrContactId \n"
+                +  "			join CallCenterDB.dbo.listRole c on b.mcrRoleId = c.roId \n"
+                +  "			where coIsMain = 0 \n"
+                +  "			and mcrRoleId = " + roleID + "\n"
+                +  ")cr on cuid = customerId and a.coFirstName = cr.firstName and a.coLastName = cr.lastName \n"
+                +  "where sopIs"+ column + " = 1 \n"
+                +  "and sopIk = " + ik + "\n"
+                +  "and sopStatusId = 10 \n"
+                +  "and a.coIs"+ column + " = 1 \n"
+                +  "\n\n"
+            //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
+                + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver) \n"
+                +  "select cuid, gender, title, firstName, lastName, 0, 1, 1 \n"
+                +  "from #tmp \n"
+                +  "where coid is null \n"
+                +  "\n\n"
+            //Kontaktdetails einfügen nachdem neuer Kontakt vorhanden
+                +  "insert into CallCenterDB.dbo.ccContactDetails (cdContactId, cdDetails, cdContactDetailTypeId) \n"
+                +  "select b.coId, phone, 'T' \n"
+                +  "from #tmp a \n"
+                +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
+                +  "where a.coid is null \n"
+                +  "union \n"
+                +  "select b.coId, mail, 'E' \n"
+                +  "from #tmp a \n"
+                +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
+                +  "where a.coid is null \n"
+                +  "\n\n"    
+            //Rolle für Kontakt löschen
+                +  "delete a \n"
+                +  "from CallCenterDB.dbo.mapContactRole a \n"
+                +  "join #tmp on mcrContactId = coId \n"
+                +  "left join CallCenterDB.dbo.listRole c on mcrRoleId = c.roId \n"
+                +  "where mcrRoleId = "  + roleID + "\n"
+                +  "\n\n"
+            //Rolle anhand DP neu setzen
+                +  "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId) \n"
+                +  "select coid, " + roleID +" \n"
+                +  "from #tmp \n"
+                +  "where coid is not null \n"
+                +  "\n\n";
+            Query query = getEntityManager().createNativeQuery(sql);
+            query.executeUpdate();
     }
     
     
