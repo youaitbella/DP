@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import jdk.nashorn.internal.objects.NativeArray;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.CalcContact;
@@ -232,15 +233,15 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public void saveStatementOfParticipanceForIcmt(StatementOfParticipance participance){
-        performInsertStatementOfParticipance(participance.getIk(), participance.isDrgCalc(), 1, "Drg");
-        performInsertStatementOfParticipance(participance.getIk(), participance.isPsyCalc(), 3, "Psy");
-        performInsertStatementOfParticipance(participance.getIk(), participance.isInvCalc(), 4, "Inv");
-        performInsertStatementOfParticipance(participance.getIk(), participance.isTpgCalc(), 5, "Tpg");
-        performInsertStatementOfParticipance(participance.getIk(), participance.isObligatory(), 6, "Obligatory");
-        performInsertStatementOfParticipance(participance.getIk(), participance.isObdCalc(), 7, "Obd");
-    }   
+        performInsertStatementOfParticipance(participance.getIk(), 1, "Drg");
+        performInsertStatementOfParticipance(participance.getIk(), 3, "Psy");
+        performInsertStatementOfParticipance(participance.getIk(), 4, "Inv");
+        performInsertStatementOfParticipance(participance.getIk(), 5, "Tpg");
+        performInsertStatementOfParticipance(participance.getIk(), 6, "Obligatory");
+        performInsertStatementOfParticipance(participance.getIk(), 7, "Obd");
+    }
     
-    private void performInsertStatementOfParticipance(int ik, boolean value, int calcType, String field){
+    private void performInsertStatementOfParticipance(int ik, int calcType, String column){
                 //insert CalcAgreement - Vereinbarung
         String sql = "insert into CallCenterDB.dbo.ccCalcAgreement (caCustomerId, caHasAgreement, caIsInactive, caCalcTypeId) \n"
                 +     "select distinct cuid, 1 agr, 0 inactive, 1 calctype \n"
@@ -248,35 +249,111 @@ public class CalcFacade extends AbstractDataAccess {
                 +     "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 +     "left join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
                 +     "where 1=1 \n"
-                +     "and sopIs" + field + " = 1 \n"
+                +     "and sopIs" + column + " = 1 \n"
                 +     "and caHasAgreement is null \n"
                 +     "and sopIk = " + ik + "\n\n"
                 //insert CalcInformation - Teilnahme
                 +    "insert into CallCenterDB.dbo.ccCalcInformation (ciCalcAgreementId, ciDataYear, ciParticipation) \n"
-                +    "select caID, (select max(dyDataYear) from CallCenterDB.dbo.ccDataYear) datayear, 1 parti \n"
+                +    "select caID, (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) datayear, 1 parti \n"
                 +    "from calc.StatementOfParticipance \n"
                 +    "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 +    "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
                 +    "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId \n"
                 +    "where 1=1 \n"
-                +    "and sopIs" + field + " = 1 \n"
+                +    "and sopIs" + column + " = 1 \n"
                 +    "and caHasAgreement = 1 \n" 
                 +    "and sopIk = " + ik + "\n"
                 +    "and ciCalcAgreementId is null \n\n"
                 //update if participation is already set
                 +    "update a \n"
-                +    "set ciParticipation = sopIs" + field + " \n"
+                +    "set ciParticipation = sopIs" + column + " \n"
                 +    "from calc.StatementOfParticipance \n"
                 +    "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 +    "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
                 +    "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId \n"
                 +    "where 1=1 \n"
                 +    "and caHasAgreement = 1 \n"
-                +    "and sopIk = " + ik;
+                +    "and sopIk = " + ik + "\n\n"
+                //insert KVM
+                +    "insert into ccCustomerCalcTypeProperty (ctpCalcInformationId, ctpPropertyId, ctpValue) \n"
+                +    "select ciId, 3 kvm, case when sopCdmDrg = 1 then 'True' else 'False' end \n"
+                +    "from DataPortal.calc.StatementOfParticipance \n"
+                +    "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
+                +    "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 3 \n"
+                +    "where 1=1 \n"
+                +    "and sopIs" + column + " \n"
+                +    "and sopStatusId = 10 \n" //send to InEK
+                +    "and sopIk = " + ik + "\n"
+                +    "and ctpCalcInformationId is null \n"
+                +    "and caCalcTypeId in (1, 3, 6) \n"
+                +    "\n \n"
+                //insert Überlieger
+                +    "insert into ccCustomerCalcTypeProperty (ctpCalcInformationId, ctpPropertyId, ctpValue) \n"
+                +    "select ciId, 6 ueb, case when sopMultiyearDrg = 1 then '1 - gesamter Zeitraum' \n"
+                +    "                         when sopMultiyearDrg = 2 then '2 - Zeitausschnitt' \n"
+                +    "                         when sopMultiyearDrg = 3 then '3 - nicht enthalten' \n"
+                +    "                         when sopMultiyearDrg = 4 then '4 - Alternatives Vorgehen' \n"
+                +    "                         else '3 - nicht enthalten' \n"
+                +    "end \n"
+                +    "from DataPortal.calc.StatementOfParticipance \n"
+                +    "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
+                +    "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 6 \n"
+                +    "where 1=1 \n"
+                +    "and sopIs" + column + " \n"
+                +    "and sopStatusId = 10 \n" //send to InEK
+                +    "and sopIk = " + ik + "\n"
+                +    "and ctpCalcInformationId is null \n"
+                +    "and caCalcTypeId in (1, 3, 6) \n"
+                +    "\n \n"        
+                //update kvm/überlieger
+                +    "update a \n"
+                +    "set ctpValue = case when ctpPropertyId = 3 then case when sopCdmDrg = 1 then 'True' else 'False' end \n"
+                +    "                    when ctpPropertyId = 6 then case when sopMultiyearDrg = 1 then '1 - gesamter Zeitraum' \n"
+                +    "                                                     when sopMultiyearDrg = 2 then '2 - Zeitausschnitt' \n"
+                +    "                                                     when sopMultiyearDrg = 3 then '3 - nicht enthalten' \n"
+                +    "                                                     when sopMultiyearDrg = 4 then '4 - Alternatives Vorgehen' \n"
+                +    "                                                     else '3 - nicht enthalten' end \n"
+                +    "               end \n"
+                +    "from CallCenterDB.dbo.ccCustomerCalcTypeProperty a \n"
+                +    "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ctpCalcInformationId = ciId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
+                +    "join DataPortal.calc.StatementOfParticipance on cuik = sopIk and sopDataYear = ciDataYear \n"
+                +    "where 1=1 \n"
+                +    "and sopIs" + column + " \n"
+                +    "and sopStatusId = 10 \n"  //send zo InEK
+                +    "and sopIk = " + ik + "\n"
+                +    "and caCalcTypeId in (1, 3, 6) \n";
         
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
     }
+
+    public void saveStatementOfParticipanceContactsIcmt(StatementOfParticipance participance) {
+        performInsertUpdateContactRoleICMT(participance.getIk(), participance.getContacts(), "Drg", 1, 3);
+    }
+    
+    private void performInsertUpdateContactRoleICMT(int ik, List<CalcContact> contact, String column, int calcType, int roleID){
+        String sql = ""
+                //Rolle für Kontakte löschen
+                +  "delete x \n"
+                +  "from CallCenterDB.dbo.mapContactRole x \n"
+                +  "left join CallCenterDB.dbo.ccContact a on x.mcrContactId = a.coId \n"
+                +  "join CallCenterDB.dbo.ccCustomer b on a.coCustomerId = b.cuId and b.cuIK = " + ik + "\n"
+                +  "left join CallCenterDB.dbo.listRole c on x.mcrRoleId = c.roId \n"
+                +  "where coIsMain = 0 \n"
+                +  "and mcrRoleId = "  + roleID + "\n\n"
+                //Rolle anhand DP neu setzen
+                +  "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId)"
+                +  ""
+                +  "";
+        
+        for(CalcContact con: contact){
+
+        }
+        
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
+    
     
     /**
      * Check, whether the customers assigned to the account iks have an
