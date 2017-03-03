@@ -44,10 +44,10 @@ public class KGPListProvidedType implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Size(max = 200)
     @Column(name = "ptText")
     private String _text = "";
 
+    @Size(max = 200)
     public String getText() {
         return _text;
     }

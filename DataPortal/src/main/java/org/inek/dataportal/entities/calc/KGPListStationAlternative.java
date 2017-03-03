@@ -44,10 +44,10 @@ public class KGPListStationAlternative implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _departmentName">
-    @Size(max = 50)
     @Column(name = "saDepartmentName")
     private String _departmentName = "";
 
+    @Size(max = 50)
     public String getDepartmentName() {
         return _departmentName;
     }
@@ -58,10 +58,10 @@ public class KGPListStationAlternative implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _alternative">
-    @Size(max = 300)
     @Column(name = "saAlternative")
     private String _alternative = "";
 
+    @Size(max = 300)
     public String getAlternative() {
         return _alternative;
     }

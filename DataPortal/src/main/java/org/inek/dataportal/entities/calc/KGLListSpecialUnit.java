@@ -56,10 +56,10 @@ public class KGLListSpecialUnit implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="type">
-    @Size(max = 300)
     @Column(name = "suType")
     private String _type = "";
 
+    @Size(max = 300)
     public String getType() {
         return _type;
     }

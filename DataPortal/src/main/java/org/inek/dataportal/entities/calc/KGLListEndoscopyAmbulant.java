@@ -50,9 +50,9 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaAmbulantService")
-    @Size(max = 255)
     private String _ambulantService = "";
 
+    @Size(max = 255)
     public String getAmbulantService() {
         return _ambulantService;
     }
@@ -128,9 +128,9 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaMiscText")
-    @Size(max = 255)
     private String _miscText = "";
 
+    @Size(max = 255)
     public String getMiscText() {
         return _miscText;
     }

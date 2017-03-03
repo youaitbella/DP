@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -22,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLListEndoscopyDifferential", schema = "calc")
-@XmlRootElement
 public class KGLListEndoscopyDifferential implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,10 +41,10 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Division">
-    @Size(max = 100)
     @Column(name = "edDivision")
     private String _division = "";
 
+    @Size(max = 100)
     public String getDivision() {
         return _division;
     }
@@ -57,10 +55,10 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ActivityKey">
-    @Size(max = 20)
     @Column(name = "edActivityKey")
     private String _activityKey = "";
 
+    @Size(max = 20)
     public String getActivityKey() {
         return _activityKey;
     }
@@ -71,8 +69,6 @@ public class KGLListEndoscopyDifferential implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
-//    @JoinColumn(name = "edBaseInformationId", referencedColumnName = "biID")
-//    @ManyToOne(optional = false)
     @Column(name = "edBaseInformationId")
     private int _baseInformationId;
 

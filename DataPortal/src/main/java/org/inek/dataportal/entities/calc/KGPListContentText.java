@@ -46,10 +46,10 @@ public class KGPListContentText implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Size(max = 300)
     @Column(name = "ctText")
     private String _text = "";
 
+    @Size(max = 300)
     public String getText() {
         return _text;
     }

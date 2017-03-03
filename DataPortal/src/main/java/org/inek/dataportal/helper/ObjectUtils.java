@@ -6,8 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,12 +15,12 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.inek.dataportal.helper.structures.FieldValues;
-import org.inek.dataportal.helper.structures.Triple;
 
 /**
  *
  * @author muellermi
  */
+@SuppressWarnings("unchecked") 
 public class ObjectUtils {
 
     private static final Logger logger = Logger.getLogger("ObjectUtils");
@@ -39,7 +37,6 @@ public class ObjectUtils {
             return copyObject(original);
         }
 
-        T clone = null;
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             try (ObjectOutputStream out = new ObjectOutputStream(bos)) {
@@ -48,12 +45,12 @@ public class ObjectUtils {
             }
             ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
             try (ObjectInputStream ois = new ObjectInputStream(bis)) {
-                clone = (T) ois.readObject();
+                @SuppressWarnings("unchecked") T clone = (T) ois.readObject();
+                return clone;
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new IllegalStateException("error during copy", e);
         }
-        return clone;
     }
 
     /**

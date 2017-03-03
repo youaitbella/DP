@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +35,7 @@ import org.inek.dataportal.mail.Mailer;
  */
 @Named
 @FeatureScoped(name = "Certification")
-public class CertGrouperResults {
+public class CertGrouperResults implements Serializable{
 
     private static final Logger _logger = Logger.getLogger("CertGrouperResults");
     private Grouper _grouper;

@@ -57,10 +57,10 @@ public class KGPListLocation implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _location">
-    @Size(max = 300)
     @Column(name = "lLocation")
     private String _location = "";
 
+    @Size(max = 300)
     public String getLocation() {
         return _location;
     }

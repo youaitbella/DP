@@ -136,11 +136,11 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _correctionNote">
-    @Size(max = 500)
     @Column(name = "biCorrectionNote")
     @Documentation(key = "lblComment")
     private String _correctionNote = "";
 
+    @Size(max = 500)
     public String getCorrectionNote() {
         return _correctionNote;
     }
@@ -413,7 +413,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveExceptionalPermission">
-    @Size(max = 2147483647)
     @Column(name = "biIntensiveExceptionalPermission")
     private String _intensiveExceptionalPermission = "";
 
@@ -427,7 +426,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveCriteriaBullets">
-    @Size(max = 2147483647)
     @Column(name = "biIntensiveCriteriaBullets")
     private String _intensiveCriteriaBullets = "";
 
@@ -441,7 +439,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveMethodBullets">
-    @Size(max = 2147483647)
     @Column(name = "biIntensiveMethodBullets")
     private String _intensiveMethodBullets = "";
 
@@ -466,24 +463,8 @@ public class PeppCalcBasics implements Serializable, IdValue {
         this._iblvMethodMedInfra = iblvMethodMedInfra;
     }
     //</editor-fold>
-
-//    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodNonMedInfra">
-//    
-//    
-//    @Column(name = "biIBLVMethodNonMedInfra")
-//    private int _iblvMethodNonMedInfra;
-//
-//    public int getIblvMethodNonMedInfra() {
-//        return _iblvMethodNonMedInfra;
-//    }
-//
-//    public void setIblvMethodNonMedInfra(int iblvMethodNonMedInfra) {
-//        this._iblvMethodNonMedInfra = iblvMethodNonMedInfra;
-//    }
-//    //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
-    @Size(max = 2147483647)
     @Column(name = "biOtherMethodMedInfra")
     private String _otherMethodMedInfra = "";
 
@@ -509,18 +490,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     }
     //</editor-fold>
 
-//    // <editor-fold defaultstate="collapsed" desc="Property _otherMethodNonMedInfra">
-//    @Column(name = "biOtherMethodNonMedInfra")
-//    private String _otherMethodNonMedInfra = "";
-//
-//    public String getOtherMethodNonMedInfra() {
-//        return _otherMethodNonMedInfra;
-//    }
-//
-//    public void setOtherMethodNonMedInfra(String otherMethodNonMedInfra) {
-//        this._otherMethodNonMedInfra = otherMethodNonMedInfra;
-//    }
-//    // </editor-fold>
     //<editor-fold defaultstate="collapsed" desc="otherMethodNonMedInfraDesc">
     @Transient
     private boolean _hasDescNonMedicalInfra = false;
@@ -549,7 +518,6 @@ public class PeppCalcBasics implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _personalAccountingDescription">
-    @Size(max = 2147483647)
     @Column(name = "biPersonalAccountingDescription")
     private String _personalAccountingDescription = "";
 

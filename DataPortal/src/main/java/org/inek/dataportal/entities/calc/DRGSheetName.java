@@ -8,7 +8,6 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,54 +29,50 @@ import javax.xml.bind.annotation.XmlTransient;
 public class DRGSheetName implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property ID">
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sID")
     private int _id = -1;
-    
+
     public int getID() {
         return _id;
     }
-    
+
     public void setID(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property Sheet">
-    @Basic(optional = false)
-    @NotNull
-    @Size(max = 100)
     @Column(name = "sSheet")
     private String _sheet = "";
-    
+
+    @Size(max = 100)
     public String getSheet() {
         return _sheet;
     }
-    
+
     public void setSheet(String sheet) {
         this._sheet = sheet;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property DrgHeaderText">
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "htSheetId", referencedColumnName = "sId")
     private List<DrgHeaderText> _drgHeaderTextList;
-    
+
     @XmlTransient
     public List<DrgHeaderText> getDrgHeaderTextList() {
         return _drgHeaderTextList;
     }
-    
+
     public void setDrgHeaderTextList(List<DrgHeaderText> drgHeaderTextList) {
         this._drgHeaderTextList = drgHeaderTextList;
     }
     //</editor-fold>
-    
+
     public DRGSheetName() {
     }
 
@@ -95,7 +89,9 @@ public class DRGSheetName implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 73 * hash + this._id;
-        if (this._id != -1) return hash;
+        if (this._id != -1) {
+            return hash;
+        }
         hash = 73 * hash + Objects.hashCode(this._sheet);
         return hash;
     }
@@ -115,12 +111,12 @@ public class DRGSheetName implements Serializable {
         if (_id != other._id) {
             return false;
         }
-        return Objects.equals(this._sheet, other._sheet);        
+        return Objects.equals(this._sheet, other._sheet);
     }
 
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListSheet[ sID=" + _id + " sSheet=" + _sheet + " ]";
     }
-    
+
 }

@@ -71,10 +71,10 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Size(max = 100)
     @Column(name = "rlCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 100)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -202,7 +202,6 @@ public class KGPListRadiologyLaboratory implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _description">
-    @Size(max = 2147483647)
     @Column(name = "rlDescription")
     private String _description = "";
 

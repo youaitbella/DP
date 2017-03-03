@@ -56,9 +56,9 @@ public class KGLListMedInfra implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenter">
     @Column(name = "miCostCenterNumber")
-    @Size(max = 20)
     private String _costCenterNumber = "";
 
+    @Size(max = 20)
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -70,9 +70,9 @@ public class KGLListMedInfra implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Column(name = "miCostCenterText")
-    @Size(max = 100)
     private String _costCenterText = "";
 
+    @Size(max = 100)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -84,9 +84,9 @@ public class KGLListMedInfra implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
     @Column(name = "miKeyUsed")
-    @Size(max = 50)
     private String _keyUsed = "";
 
+    @Size(max = 50)
     public String getKeyUsed() {
         return _keyUsed;
     }

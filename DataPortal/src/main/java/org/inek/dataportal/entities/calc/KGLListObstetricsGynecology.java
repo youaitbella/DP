@@ -43,10 +43,10 @@ public class KGLListObstetricsGynecology implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ogCostCenterText">
-    @Size(max = 100)
     @Column(name = "ogCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 100)
     public String getCostCenterText() {
         return _costCenterText;
     }

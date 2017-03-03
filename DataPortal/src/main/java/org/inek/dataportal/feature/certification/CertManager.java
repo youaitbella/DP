@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.certification;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +41,7 @@ import org.inek.dataportal.utils.DateUtils;
  */
 @Named
 @FeatureScoped(name = "Certification")
-public class CertManager {
+public class CertManager implements Serializable{
 
     private static final Logger _logger = Logger.getLogger("CertManager");
 
