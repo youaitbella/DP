@@ -30,6 +30,8 @@ import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
+import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.utils.Crypt;
@@ -49,6 +51,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     @Inject private AccountRequestFacade _accountRequestFacade;
     @Inject private AccountChangeMailFacade _accountChangeMailFacade;
     @Inject private PasswordRequestFacade _pwdRequestFacade;
+    @Inject private ConfigFacade _configFacade;
 
     public AccountFacade() {
         super(Account.class);
@@ -231,6 +234,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         accountPwd.setPasswordHash(Crypt.hashPassword(password, salt));
         _accountPwdFacade.save(accountPwd);
         _accountRequestFacade.remove(accountRequest);
+        TransferFileCreator.createEmailTransferFile(_configFacade, account.getEmail());
         return true;
     }
 
@@ -261,6 +265,9 @@ public class AccountFacade extends AbstractFacade<Account> {
         account.setEmail(mail);
         merge(account);
         _accountChangeMailFacade.remove(changeMail);
+
+        TransferFileCreator.createEmailTransferFile(_configFacade, account.getEmail());
+        
         return true;
     }
 

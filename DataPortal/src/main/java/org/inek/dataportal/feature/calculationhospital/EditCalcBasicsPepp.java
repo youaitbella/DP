@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import org.inek.dataportal.helper.TransferFileCreator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -438,7 +439,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.setStatus(WorkflowStatus.Provided);
         saveData();
 
-        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
+        TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

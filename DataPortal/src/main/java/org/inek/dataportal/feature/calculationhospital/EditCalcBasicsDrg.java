@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import org.inek.dataportal.helper.TransferFileCreator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -984,7 +985,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
-        CalcHospitalUtils.createTransferFile(_sessionController, _calcBasics);
+        TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.calculationhospital;
+package org.inek.dataportal.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -30,9 +30,9 @@ import org.inek.dataportal.helper.StreamHelper;
  *
  * @author muellermi
  */
-public class CalcHospitalUtils {
+public class TransferFileCreator {
     
-    public static void createTransferFile(SessionController sessionController, Object calcBasics) {
+    public static void createCalcBasicsTransferFile(SessionController sessionController, Object calcBasics) {
         String type;
         int ik;
         if (calcBasics instanceof DrgCalcBasics) {
