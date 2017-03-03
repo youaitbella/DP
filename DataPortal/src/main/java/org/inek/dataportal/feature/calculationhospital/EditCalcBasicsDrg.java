@@ -134,10 +134,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void ikChanged() {
-        _logger.info("start ikChanged");
         retrievePriorData(_calcBasics);
         preloadData(_calcBasics);
-        _logger.info("end ikChanged");
     }
 
     private void preloadData(DrgCalcBasics calcBasics) {

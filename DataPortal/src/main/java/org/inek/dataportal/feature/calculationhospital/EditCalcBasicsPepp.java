@@ -137,34 +137,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
-
-//        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-//            for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-//                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
-//                    pa.setPriorCostAmount(ppa.getAmount());
-//                }
-//            }
-//        }
-
-        /*
-        for (KGPListRadiologyLaboratory rl : _priorCalcBasics.getRadiologyLaboratories()) {
-            KGPListRadiologyLaboratory nrl = new KGPListRadiologyLaboratory(-1);
-            nrl.setBaseInformationId(calcBasics.getId());
-            nrl.setCostCenterId(rl.getCostCenterId());
-            nrl.setCostCenterNumber(rl.getCostCenterNumber());
-            nrl.setCostCenterText(rl.getCostCenterText());
-            nrl.setServiceDocType(rl.getServiceDocType());
-            nrl.setDescription(rl.getDescription());
-            calcBasics.getRadiologyLaboratories().add(nrl);
-        }
-         */
     }
 
     public void ikChanged() {
-        _logger.info("start ikChanged");
         retrievePriorData(_calcBasics);
         preloadData(_calcBasics);
-        _logger.info("end ikChanged");
     }
 
     private void preloadData(PeppCalcBasics calcBasics) {

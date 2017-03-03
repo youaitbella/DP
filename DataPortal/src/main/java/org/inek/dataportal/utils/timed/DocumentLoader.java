@@ -40,14 +40,18 @@ public class DocumentLoader {
     @Inject private Mailer _mailer;
 
     private int _waitCounter = 0;
+
     @Asynchronous
     public void monitorDocumentRoot() {
-        if (_waitCounter > 0){
+        if (_waitCounter > 0) {
             _waitCounter--;
             return;
         }
         _waitCounter = 30;
-        File baseDir = new File(_config.read(ConfigKey.DocumentScanBase));
+        File baseDir = new File(_config.read(ConfigKey.FolderRoot), _config.read(ConfigKey.FolderDocumentScanBase));
+        if (!baseDir.exists()) {
+            baseDir.mkdirs();
+        }
         for (File dir : baseDir.listFiles()) {
             if (dir.isDirectory()) {
                 _logger.log(Level.INFO, "Check document folder ({0})", dir);
