@@ -47,10 +47,10 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _partitionExternalAssignment">
-    @Size(max = 200)
     @Column(name = "spPartitionExternalAssignment")
     private String _partitionExternalAssignment = "";
 
+    @Size(max = 200)
     public String getPartitionExternalAssignment() {
         return _partitionExternalAssignment;
     }
@@ -61,7 +61,6 @@ public class KGPListServiceProvision implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _note">
-    @Size(max = 2147483647)
     @Column(name = "spNote")
     private String _note = "";
 

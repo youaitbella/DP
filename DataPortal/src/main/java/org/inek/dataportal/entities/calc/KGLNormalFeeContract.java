@@ -41,10 +41,10 @@ public class KGLNormalFeeContract implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _division">
-    @Size(max = 300)
     @Column(name = "nfcDivision")
     private String _division = "";
 
+    @Size(max = 300)
     public String getDivision() {
         return _division;
     }
@@ -55,10 +55,10 @@ public class KGLNormalFeeContract implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
-    @Size(max = 4)
     @Column(name = "nfcDepartmentKey")
     private String _departmentKey = "";
 
+    @Size(max = 4)
     public String getDepartmentKey() {
         return _departmentKey;
     }

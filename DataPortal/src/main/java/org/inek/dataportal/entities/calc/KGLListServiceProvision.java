@@ -59,10 +59,10 @@ public class KGLListServiceProvision implements Serializable {
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="PartitionExternalAssignment">
-    @Size(max = 200)
     @Column(name = "spPartitionExternalAssignment")
     private String _partitionExternalAssignment = "";
 
+    @Size(max = 200)
     public String getPartitionExternalAssignment() {
         return _partitionExternalAssignment;
     }
@@ -73,7 +73,6 @@ public class KGLListServiceProvision implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Note">
-    @Size(max = 2147483647)
     @Column(name = "spNote")
     private String _note = "";
 

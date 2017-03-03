@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.documents;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,7 +43,7 @@ import org.inek.dataportal.mail.Mailer;
  */
 @Named
 @FeatureScoped(name = "DocumentUpload")
-public class DocumentUpload {
+public class DocumentUpload implements Serializable{
     
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;

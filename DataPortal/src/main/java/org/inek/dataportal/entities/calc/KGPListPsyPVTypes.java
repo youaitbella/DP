@@ -44,10 +44,10 @@ public class KGPListPsyPVTypes implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _charId">
-    @Size(max = 5)
     @Column(name = "pptCharID")
     private String _charId = "";
 
+    @Size(max = 5)
     public String getCharId() {
         return _charId;
     }
@@ -58,10 +58,10 @@ public class KGPListPsyPVTypes implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Size(max = 50)
     @Column(name = "pptText")
     private String _text = "";
 
+    @Size(max = 50)
     public String getText() {
         return _text;
     }

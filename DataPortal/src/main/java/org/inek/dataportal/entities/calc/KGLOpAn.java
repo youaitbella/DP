@@ -117,7 +117,6 @@ public class KGLOpAn implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzOP">    
-    @Size(max = 2147483647)
     @Column(name = "oaDescriptionSnzOP")
     private String _descriptionSnzOP = "";
 
@@ -157,7 +156,6 @@ public class KGLOpAn implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="descriptionRzOP">    
-    @Size(max = 2147483647)
     @Column(name = "oaDescriptionRzOP")
     private String _descriptionRzOP = "";
 
@@ -249,7 +247,6 @@ public class KGLOpAn implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzAN">    
-    @Size(max = 2147483647)
     @Column(name = "oaDescriptionSnzAN")
     private String _descriptionSnzAN = "";
 
@@ -289,7 +286,6 @@ public class KGLOpAn implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="descriptionRzAN">    
-    @Size(max = 2147483647)
     @Column(name = "oaDescriptionRzAN")
     private String _descriptionRzAN = "";
 

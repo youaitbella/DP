@@ -48,9 +48,9 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
     
     @Column(name = "nssdmDepartment")
-    @Size(max = 50)
     private String _department = "";
 
+    @Size(max = 50)
     public String getDepartment() {
         return _department;
     }
@@ -60,9 +60,9 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
     
     @Column(name = "nssdmDepartmentKey")
-    @Size(max = 50)
     private String _departmentKey = "";
 
+    @Size(max = 50)
     public String getDepartmentKey() {
         return _departmentKey;
     }
@@ -72,9 +72,9 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
     
     @Column(name = "nssdmAlternative")
-    @Size(max = 50)
     private String _alternative = "";
 
+    @Size(max = 50)
     public String getAlternative() {
         return _alternative;
     }

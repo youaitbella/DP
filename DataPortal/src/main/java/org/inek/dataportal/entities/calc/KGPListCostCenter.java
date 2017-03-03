@@ -75,11 +75,11 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, IdValue 
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Size(max = 50)
     @Column(name = "ccCostCenterText")
     private String _costCenterText = "";
 
     @Override
+    @Size(max = 50)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -121,11 +121,11 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, IdValue 
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceKey">
-    @Size(max = 50)
     @Column(name = "ccServiceKey")
     private String _serviceKey = "";
 
     @Override
+    @Size(max = 50)
     public String getServiceKey() {
         return _serviceKey;
     }
@@ -137,7 +137,6 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, IdValue 
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceKeyDescription">
-    @Size(max = 2147483647)
     @Column(name = "ccServiceKeyDescription")
     private String _serviceKeyDescription = "";
 

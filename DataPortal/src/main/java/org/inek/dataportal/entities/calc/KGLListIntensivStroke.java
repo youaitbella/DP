@@ -71,10 +71,10 @@ public class KGLListIntensivStroke implements Serializable {
 //    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Size(max = 50)
     @Column(name = "isCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 50)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -83,28 +83,12 @@ public class KGLListIntensivStroke implements Serializable {
         this._costCenterText = costCenterText;
     }
     // </editor-fold>
-
-//    // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
-//    
-//    
-//    @Size(max = 4)
-//    @Column(name = "isDepartmentKey")
-//    private String _departmentKey = "";
-//    
-//    public String getDepartmentKey() {
-//        return _departmentKey;
-//    }
-//
-//    public void setDepartmentKey(String departmentKey) {
-//        this._departmentKey = departmentKey;
-//    }
-//    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
-    @Size(max = 50)
     @Column(name = "isDepartmentAssignment")
     private String _departmentAssignment = "";
 
+    @Size(max = 50)
     public String getDepartmentAssignment() {
         return _departmentAssignment;
     }
@@ -194,9 +178,9 @@ public class KGLListIntensivStroke implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="MinimumPeriod">
     @Column(name = "isMinimumCriteriaPeriod")
-    @Size(max = 100)
     private String _minimumCriteriaPeriod = "";
 
+    @Size(max = 100)
     public String getMinimumCriteriaPeriod() {
         return _minimumCriteriaPeriod;
     }
@@ -259,10 +243,10 @@ public class KGLListIntensivStroke implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="WeightDescription">
-    @Size(max = 300)
     @Column(name = "isWeightDescription")
     private String _weightDescription = "";
 
+    @Size(max = 300)
     public String getWeightDescription() {
         return _weightDescription;
     }
