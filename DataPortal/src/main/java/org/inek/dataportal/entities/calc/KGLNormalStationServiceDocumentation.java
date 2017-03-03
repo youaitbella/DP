@@ -97,7 +97,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
 
     public void setContentText(DrgContentText contentText) {
         _contentText = contentText;
-        if (contentText.getId() > 0 && _contentTextId == 0) {
+        if (contentText != null) {
             _contentTextId = contentText.getId();
         }
     }
