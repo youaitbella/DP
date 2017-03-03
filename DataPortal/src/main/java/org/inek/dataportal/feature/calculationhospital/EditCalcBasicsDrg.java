@@ -1108,6 +1108,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void downloadTemplate() {
         Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
+    
+    public void downloadNormalStationTemplate() {
+        Utils.downloadText(normalHeadLine + "\n", "Normalstation.csv");
+    }
 
     private String _importMessage = "";
 
@@ -1147,6 +1151,82 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         } catch (IOException | NoSuchElementException e) {
         }
+    }
+    
+    private String normalHeadLine = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
+                    + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
+                    + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
+                    + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
+                    + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
+                    + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle";
+    public void uploadNormalWard() {
+        try {
+            int headlineLength = normalHeadLine.split(";").length;
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                String alertText = "";
+                int lineNum = 0;
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    lineNum++;
+                    if (!line.equals(normalHeadLine)) {
+                        String[] values = line.split(";");
+                        if(values.length != headlineLength) {
+                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                            continue;
+                        }
+                        KGLListCostCenterCost ccc = new KGLListCostCenterCost();
+                        ccc.setBaseInformationId(_calcBasics.getId());
+                        ccc.setCostCenterNumber(values[0]);
+                        ccc.setCostCenterText(values[1]);
+                        ccc.setDepartmentKey(values[2]);
+                        ccc.setDepartmentAssignment(values[3]);
+                        try { ccc.setBedCnt(Integer.parseInt(values[4])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setCareDays(Integer.parseInt(values[5])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 5: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setPprMinutes(Integer.parseInt(values[6])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 6: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setPprWeight(Integer.parseInt(values[7])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 7: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setMedicalServiceCnt(Double.parseDouble(values[8])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 8: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setNursingServiceCnt(Double.parseDouble(values[9])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 9: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setFunctionalServiceCnt(Double.parseDouble(values[10])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 10: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setMedicalServiceAmount(Integer.parseInt(values[11])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 11: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setNursingServiceAmount(Integer.parseInt(values[12])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 12: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setFunctionalServiceAmount(Integer.parseInt(values[13])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 13: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setOverheadsMedicine(Integer.parseInt(values[14])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 14: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 15: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 16: Zahl erwartet.\\n"; continue; }
+                        try { ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 17: Zahl erwartet.\\n"; continue; }
+                        if(checkCostCenterCostRedundantEntry(ccc)) {
+                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+                            continue;
+                        }
+                        _calcBasics.getCostCenterCosts().add(ccc);
+                    }
+                }
+                if(alertText.length() > 0)
+                    _sessionController.alertClient(alertText);
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+    
+    private boolean checkCostCenterCostRedundantEntry(KGLListCostCenterCost ccc) {
+        for(KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
+            if(c.equals(ccc))
+                return true;
+        }
+        return false;
     }
 
     public void toggleJournal() {

@@ -544,10 +544,19 @@
             </tr>
             <tr>
                 <td colspan="20">
-            <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
-            </h:commandLink>
-            </td>
+                    <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
+                    </h:commandLink>
+                    <div class="uploadFile inlineBlock marginRight">
+                        <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
+                            <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
+                        </h:inputFile>
+                        <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+                    </div>
+                    <div class="inlineBlock">
+                        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
