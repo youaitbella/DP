@@ -331,27 +331,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         addTopic("lblCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
         addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
         addTopic("lblCalcStaffCost", Pages.CalcPeppStaffCost.URL());
-
-//        addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
-//        //addTopic("lblCalcOperation", Pages.CalcDrgOperation.URL());
-//        //addTopic("lblCalcAnaestesia", Pages.CalcDrgAnaestesia.URL());
-//        addTopic("lblCalcOpAn", Pages.CalcDrgOperation.URL());
-//        addTopic("lblCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
-//        addTopic("lblCalcCardiology", Pages.CalcDrgCardiology.URL());
-//        addTopic("lblCalcEndoscopy", Pages.CalcDrgEndoscopy.URL());
-//        addTopic("lblCalcRadiology", Pages.CalcDrgRadiology.URL());
-//        addTopic("lblCalcLaboratory", Pages.CalcDrgLaboratory.URL());
-//        addTopic("lblCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
-//        addTopic("lblCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
-//        addTopic("lblCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
-//        addTopic("lblCalcNormalWard", Pages.CalcrgNormalWard.URL());
-//        addTopic("lblCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
-//        addTopic("lblCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
-//        addTopic("lblCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
-//        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
-//        addTopic("lblCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-//        addTopic("lblCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
-//        addTopic("lblCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -360,7 +339,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     @Override

@@ -26,11 +26,13 @@ public enum FeatureScopedContextHolder {
      * @param type
      * @return
      */
+    @SuppressWarnings("unchecked") 
     public <T> T getBean(Class<T> type) {
         String key = getScopeKey(type);
         return (T) getFeatureScopedMap().get(key).getInstance();
     }
 
+    @SuppressWarnings("unchecked") 
     public <T> T getBean(Class<T> type, Map<String, FeatureScopedInstance> featureBeans) {
         String key = getScopeKey(type);
         return (T) featureBeans.get(key).getInstance();
@@ -53,6 +55,7 @@ public enum FeatureScopedContextHolder {
      * @param creationalContext
      * @return
      */
+    @SuppressWarnings("unchecked") 
     public <T> T get(Contextual<T> contextual, CreationalContext<T> creationalContext) {
         Bean bean = (Bean) contextual;
         String key = getScopeKey(bean);
@@ -73,12 +76,14 @@ public enum FeatureScopedContextHolder {
         Bean bean = (Bean) contextual;
         String key = getScopeKey(bean);
         if (getFeatureScopedMap().containsKey(key)) {
-            return (T) getBean(bean.getBeanClass());
+            @SuppressWarnings("unchecked") T instance = (T) getBean(bean.getBeanClass());
+            return instance;
         } else {
             return null;
         }
     }
 
+    @SuppressWarnings("unchecked") 
     private Map<String, FeatureScopedInstance> getFeatureScopedMap() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
@@ -98,12 +103,13 @@ public enum FeatureScopedContextHolder {
 
     private String getScopeKey(Class type) {
         String className = type.getSimpleName(); // named beans will be accessed by their simple name. Thus, this is sufficient.
-        FeatureScoped scope = (FeatureScoped) type.getAnnotation(FeatureScoped.class);
+        @SuppressWarnings("unchecked") FeatureScoped scope = (FeatureScoped) type.getAnnotation(FeatureScoped.class);
         String scopeName = scope.name().isEmpty() ? className : scope.name();
         String key = scopeName + "|" + className;
         return key;
     }
 
+    @SuppressWarnings("unchecked") 
     public void destroyBeansOfScope(String scopeNameToDestroy) {
         Map<String, FeatureScopedInstance> featureMap = getFeatureScopedMap();
         Set<String> keys = new HashSet<>(featureMap.keySet());  // need a copy to avoid concurrent changes!
@@ -119,6 +125,7 @@ public enum FeatureScopedContextHolder {
         destroyAllBeansExcept(featureMap, scopeNameToKeep);
     }
 
+    @SuppressWarnings("unchecked") 
     public void destroyAllBeansExcept(Map<String, FeatureScopedInstance> featureMap, String scopeNameToKeep) {
         if (featureMap == null || featureMap.isEmpty()) {
             return;
@@ -134,7 +141,7 @@ public enum FeatureScopedContextHolder {
     private String getScopeName(FeatureScopedInstance inst) {
         Class type = inst.getBean().getBeanClass();
         String className = type.getSimpleName();
-        FeatureScoped scope = (FeatureScoped) type.getAnnotation(FeatureScoped.class);
+        @SuppressWarnings("unchecked") FeatureScoped scope = (FeatureScoped) type.getAnnotation(FeatureScoped.class);
         String scopeName = scope.name().isEmpty() ? className : scope.name();
         return scopeName;
     }
