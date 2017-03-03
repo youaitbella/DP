@@ -337,7 +337,7 @@ public class CalcFacade extends AbstractDataAccess {
     private void performInsertUpdateContactRoleICMT(int ik, String column, int roleID){
         String sql = ""
             //temp Tabelle mit Kontaktinfos anlegen
-                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone \n"
+                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, ROW_NUMBER() OVER (order by a.coid) rw \n"
                 +  "into #tmp \n"
                 +  "from DataPortal.calc.Contact a \n"
                 +  "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
@@ -404,9 +404,27 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "select coid, " + roleID +" \n"
                 +  "from #tmp \n"
                 +  "where coid is not null \n"
+                +  "\n\n"
+            //Prio setzen
+                +  "update a \n"
+                +  "set coPrio = case when b.coid is not null then rw else 99 end \n"
+                +  "from CallCenterDB.dbo.ccContact a \n"
+                +  "left join #tmp b on a.coId = b.coId \n"
+                +  "where a.coCustomerId = (select distinct cuid from #tmp) \n"
+                +  "and coIsMain = 0 \n"
+                +  "\n\n"
+            //Kontakte deaktivieren die keine Rollen besitzen
+                +  "update a \n"
+                +  "set coIsActive = 0 \n"
+                +  "from CallCenterDB.dbo.ccContact a \n"
+                +  "join CallCenterDB.dbo.ccCustomer b on a.coCustomerId = b.cuid \n"
+                +  "left join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
+                +  "where 1=1 \n"
+                +  "and cuik = " + ik + "\n"
+                +  "and mcrContactId is null \n"
+                +  "and coIsMain = 0"
                 +  "\n\n";
-        
-        
+            
             Query query = getEntityManager().createNativeQuery(sql);
             query.executeUpdate();
     }
