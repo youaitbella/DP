@@ -159,7 +159,7 @@ public class KGLListServiceProvision implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
     @Transient
-    private String _domain;
+    private String _domain = "";
     
     public String getDomain() {
         return _domain;
