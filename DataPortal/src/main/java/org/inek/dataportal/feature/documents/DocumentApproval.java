@@ -2,6 +2,7 @@ package org.inek.dataportal.feature.documents;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +39,6 @@ import org.inek.dataportal.helper.structures.Pair;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.portallib.structures.KeyValue;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
@@ -50,7 +50,7 @@ import org.inek.portallib.util.Helper;
  */
 @Named
 @FeatureScoped(name = "DocumentUpload")
-public class DocumentApproval implements TreeNodeObserver {
+public class DocumentApproval implements TreeNodeObserver, Serializable {
 
     private static final Logger _logger = Logger.getLogger("DocumentApproval");
 

@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.admin;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -27,7 +28,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped(name = "AdminTask")
-public class AdminIkSupervisor {
+public class AdminIkSupervisor implements Serializable{
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;

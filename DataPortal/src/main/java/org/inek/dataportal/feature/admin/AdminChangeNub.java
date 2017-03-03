@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.admin;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped(name = "AdminTask")
-public class AdminChangeNub {
+public class AdminChangeNub implements Serializable{
 
     @Inject private SessionController _sessionController;
     @Inject AccountFacade _accountFacade;

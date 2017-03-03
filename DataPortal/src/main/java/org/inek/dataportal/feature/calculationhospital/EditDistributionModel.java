@@ -232,7 +232,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     private void sendMessage() {
         Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? 13 : _model.getAccountId());
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _model.getAccountId());
         MailTemplate template = _mailer.getMailTemplate("KVM Konkretisierung");
         String subject = template.getSubject()
                 .replace("{type}", _model.getType() == 0 ? "DRG" : "PSY")

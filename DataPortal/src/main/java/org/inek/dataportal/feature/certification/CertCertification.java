@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +43,7 @@ import org.inek.portallib.util.Helper;
  */
 @Named
 @FeatureScoped(name = "Certification")
-public class CertCertification {
+public class CertCertification implements Serializable{
 
     private static final Logger _logger = Logger.getLogger("CertCertification");
 
