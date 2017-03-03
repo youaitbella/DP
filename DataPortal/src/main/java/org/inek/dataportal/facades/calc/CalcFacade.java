@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -335,10 +336,11 @@ public class CalcFacade extends AbstractDataAccess {
     }
   
     private void performInsertUpdateContactRoleICMT(int ik, String column, int roleID){
+        String tablename = "_temp" + UUID.randomUUID().toString().replace("-", "");
         String sql = ""
             //temp Tabelle mit Kontaktinfos anlegen
                 +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, ROW_NUMBER() OVER (order by a.coid) rw \n"
-                +  "into #tmp \n"
+                +  "into " + tablename + "\n"
                 +  "from DataPortal.calc.Contact a \n"
                 +  "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
                 +  "join CallCenterDB.dbo.ccCustomer c on sopik = cuik \n"
@@ -357,60 +359,60 @@ public class CalcFacade extends AbstractDataAccess {
             //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
                 + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver) \n"
                 +  "select cuid, gender, title, firstName, lastName, 0, 1, 1 \n"
-                +  "from #tmp \n"
+                +  "from " + tablename + "\n"
                 +  "where coid is null \n"
                 +  "\n\n"
             //Kontaktdetails einfügen nachdem neuer Kontakt vorhanden
                 +  "insert into CallCenterDB.dbo.ccContactDetails (cdContactId, cdDetails, cdContactDetailTypeId) \n"
                 +  "select b.coId, phone, 'T' \n"
-                +  "from #tmp a \n"
+                +  "from " + tablename + " a \n"
                 +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 +  "where a.coid is null \n"
                 +  "union \n"
                 +  "select b.coId, mail, 'E' \n"
-                +  "from #tmp a \n"
+                +  "from " + tablename + " a \n"
                 +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 +  "where a.coid is null \n"
                 +  "\n\n"    
             //Telefon aus DP übernehmen
                 +  "update b \n"
                 +  "set cdDetails = phone \n"
-                +  "from #tmp a \n"
+                +  "from " + tablename + " a \n"
                 +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'T' \n"
                 +  "\n\n"
             //Unterschiedliche Mail (DP - ICMT) als Atlernativmail speichern
                 +  "insert into CallCenterDB.dbo.ccContactDetails (cdContactId, cdDetails, cdContactDetailTypeId) \n"
                 +  "select coid, cdDetails, 'A' \n"
-                +  "from #tmp a \n"
+                +  "from " + tablename + " a \n"
                 +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
                 +  "where cdDetails != mail \n"
                 +  "\n\n"
             //Mail aus DP setzen
                 +  "update b \n"
                 +  "set cdDetails = mail \n"
-                +  "from #tmp a \n"
+                +  "from " + tablename + " a \n"
                 +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
                 +  "where cdDetails != mail \n"
                 +  "\n\n"
             //Rolle für Kontakt löschen
                 +  "delete a \n"
                 +  "from CallCenterDB.dbo.mapContactRole a \n"
-                +  "join #tmp on mcrContactId = coId \n"
+                +  "join " + tablename + " on mcrContactId = coId \n"
                 +  "left join CallCenterDB.dbo.listRole c on mcrRoleId = c.roId \n"
                 +  "where mcrRoleId = "  + roleID + "\n"
                 +  "\n\n"
             //Rolle anhand DP neu setzen
                 +  "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId) \n"
                 +  "select coid, " + roleID +" \n"
-                +  "from #tmp \n"
+                +  "from " + tablename + " \n"
                 +  "where coid is not null \n"
                 +  "\n\n"
             //Prio setzen
                 +  "update a \n"
                 +  "set coPrio = case when b.coid is not null then rw else 99 end \n"
                 +  "from CallCenterDB.dbo.ccContact a \n"
-                +  "left join #tmp b on a.coId = b.coId \n"
-                +  "where a.coCustomerId = (select distinct cuid from #tmp) \n"
+                +  "left join " + tablename + " b on a.coId = b.coId \n"
+                +  "where a.coCustomerId = (select distinct cuid from " + tablename + ") \n"
                 +  "and coIsMain = 0 \n"
                 +  "\n\n"
             //Kontakte deaktivieren die keine Rollen besitzen
@@ -423,8 +425,11 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "and cuik = " + ik + "\n"
                 +  "and mcrContactId is null \n"
                 +  "and coIsMain = 0"
-                +  "\n\n";
-            
+                +  "\n\n"
+            //Temp Tabelle löschen
+                +  "drop table " + tablename + " \n";
+                        
+                        
             Query query = getEntityManager().createNativeQuery(sql);
             query.executeUpdate();
     }
