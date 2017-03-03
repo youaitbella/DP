@@ -372,6 +372,26 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 +  "where a.coid is null \n"
                 +  "\n\n"    
+            //Telefon aus DP übernehmen
+                +  "update b \n"
+                +  "set cdDetails = phone \n"
+                +  "from #tmp a \n"
+                +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'T' \n"
+                +  "\n\n"
+            //Unterschiedliche Mail (DP - ICMT) als Atlernativmail speichern
+                +  "insert into CallCenterDB.dbo.ccContactDetails (cdContactId, cdDetails, cdContactDetailTypeId) \n"
+                +  "select coid, cdDetails, 'A' \n"
+                +  "from #tmp a \n"
+                +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
+                +  "where cdDetails != mail \n"
+                +  "\n\n"
+            //Mail aus DP setzen
+                +  "update b \n"
+                +  "set cdDetails = mail \n"
+                +  "from #tmp a \n"
+                +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
+                +  "where cdDetails != mail \n"
+                +  "\n\n"
             //Rolle für Kontakt löschen
                 +  "delete a \n"
                 +  "from CallCenterDB.dbo.mapContactRole a \n"
@@ -385,6 +405,8 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "from #tmp \n"
                 +  "where coid is not null \n"
                 +  "\n\n";
+        
+        
             Query query = getEntityManager().createNativeQuery(sql);
             query.executeUpdate();
     }
