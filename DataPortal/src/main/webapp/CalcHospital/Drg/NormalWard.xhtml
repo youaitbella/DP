@@ -548,10 +548,12 @@
                         <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
                     </h:commandLink>
                     <div class="uploadFile inlineBlock marginRight">
-                        <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
+                        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
                             <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
                         </h:inputFile>
-                        <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+                        <div class="fakeFile">
+                            <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+                        </div>
                     </div>
                     <div class="inlineBlock">
                         <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
