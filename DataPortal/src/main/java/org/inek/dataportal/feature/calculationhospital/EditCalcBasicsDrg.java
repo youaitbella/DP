@@ -319,7 +319,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.getNormalStationServiceDocumentations().clear();
         for (DrgContentText ct : getNormalWardServiceDocHeaders()) {
             KGLNormalStationServiceDocumentation add = new KGLNormalStationServiceDocumentation();
-            add.setContentTextId(ct.getId());
+            add.setContentText(ct);
             add.setBaseInformationId(calcBasics.getId());
             for (KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
                 if (add.getContentTextId() == addPrior.getContentTextId()) {
@@ -327,7 +327,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     break;
                 }
             }
-            add.setLabel(_calcFacade.findCalcContentText(add.getContentTextId()).getText());
             calcBasics.getNormalStationServiceDocumentations().add(add);
         }
         calcBasics.getCostCenterCosts().clear();

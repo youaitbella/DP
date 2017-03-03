@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -84,16 +86,22 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     }
     //</editor-fold>
 
-    @Transient
-    private String _label;
+    // <editor-fold defaultstate="collapsed" desc="Property ContentText">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "nssContentTextID")
+    private DrgContentText _contentText;
 
-    public String getLabel() {
-        return _label;
+    public DrgContentText getContentText() {
+        return _contentText;
     }
 
-    public void setLabel(String _label) {
-        this._label = _label;
+    public void setContentText(DrgContentText contentText) {
+        _contentText = contentText;
+        if (contentText.getId() > 0 && _contentTextId == 0) {
+            _contentTextId = contentText.getId();
+        }
     }
+    // </editor-fold>
 
     public KGLNormalStationServiceDocumentation() {
     }
