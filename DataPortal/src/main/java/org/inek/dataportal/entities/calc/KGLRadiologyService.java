@@ -43,10 +43,10 @@ public class KGLRadiologyService implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _opsCode">
-    @Size(max = 10)
     @Column(name = "rsOpsCode")
     private String _opsCode = "";
 
+    @Size(max = 10)
     public String getOpsCode() {
         return _opsCode;
     }

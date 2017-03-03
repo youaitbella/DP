@@ -41,10 +41,10 @@ public class KGLNormalFreelancer implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _division">
-    @Size(max = 300)
     @Column(name = "nfDivision")
     private String _division = "";
 
+    @Size(max = 300)
     public String getDivision() {
         return _division;
     }

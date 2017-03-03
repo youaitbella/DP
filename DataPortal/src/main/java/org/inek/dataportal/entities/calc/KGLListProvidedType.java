@@ -43,10 +43,10 @@ public class KGLListProvidedType implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="text">
-    @Size(max = 200)
     @Column(name = "ptText")
     private String _text = "";
 
+    @Size(max = 200)
     public String getText() {
         return _text;
     }

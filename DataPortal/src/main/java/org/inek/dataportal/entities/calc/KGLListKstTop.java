@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "KGLListKstTop", schema = "calc")
-@XmlRootElement
 public class KGLListKstTop implements Serializable {
 
     private static final long serialVersionUID = 1L;

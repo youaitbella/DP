@@ -43,10 +43,10 @@ public class KGLPKMSAlternative implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _department">
-    @Size(max = 200)
     @Column(name = "paDepartment")
     private String _department = "";
 
+    @Size(max = 200)
     public String getDepartment() {
         return _department;
     }
@@ -57,10 +57,10 @@ public class KGLPKMSAlternative implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
-    @Size(max = 4)
     @Column(name = "paDepartmentKey")
     private String _departmentKey = "";
 
+    @Size(max = 4)
     public String getDepartmentKey() {
         return _departmentKey;
     }
@@ -71,10 +71,10 @@ public class KGLPKMSAlternative implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _alternative">
-    @Size(max = 200)
     @Column(name = "paAlternative")
     private String _alternative = "";
 
+    @Size(max = 200)
     public String getAlternative() {
         return _alternative;
     }

@@ -47,10 +47,10 @@ public class KGPDocuments implements Serializable, IdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property _name">
-    @Size(max = 250)
     @Column(name = "doName")
     private String _name = "";
 
+    @Size(max = 250)
     public String getName() {
         return _name;
     }

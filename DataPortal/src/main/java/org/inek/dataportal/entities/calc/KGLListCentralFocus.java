@@ -56,10 +56,10 @@ public class KGLListCentralFocus implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="text">
-    @Size(max = 300)
     @Column(name = "cfText")
     private String _text = "";
 
+    @Size(max = 300)
     public String getText() {
         return _text;
     }
@@ -135,10 +135,10 @@ public class KGLListCentralFocus implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="_remunerationKey">
-    @Size(max = 8)
     @Column(name = "cfRemunerationKey")
     private String _remunerationKey = "";
 
+    @Size(max = 8)
     public String getRemunerationKey() {
         return _remunerationKey;
     }

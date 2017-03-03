@@ -57,10 +57,10 @@ public class KGPListMedInfra implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
-    @Size(max = 20)
     @Column(name = "miCostCenterNumber")
     private String _costCenterNumber = "";
 
+    @Size(max = 20)
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -71,10 +71,10 @@ public class KGPListMedInfra implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Size(max = 100)
     @Column(name = "miCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 100)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -85,10 +85,10 @@ public class KGPListMedInfra implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
-    @Size(max = 50)
     @Column(name = "miKeyUsed")
     private String _keyUsed = "";
 
+    @Size(max = 50)
     public String getKeyUsed() {
         return _keyUsed;
     }

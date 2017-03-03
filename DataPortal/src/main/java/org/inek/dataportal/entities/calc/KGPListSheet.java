@@ -44,10 +44,10 @@ public class KGPListSheet implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _sheet">
-    @Size(max = 100)
     @Column(name = "sSheet")
     private String _sheet = "";
 
+    @Size(max = 100)
     public String getSheet() {
         return _sheet;
     }

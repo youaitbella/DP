@@ -57,10 +57,10 @@ public class KGPListTherapy implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
-    @Size(max = 100)
     @Column(name = "thCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 100)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -84,10 +84,10 @@ public class KGPListTherapy implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
-    @Size(max = 50)
     @Column(name = "thKeyUsed")
     private String _keyUsed = "";
 
+    @Size(max = 50)
     public String getKeyUsed() {
         return _keyUsed;
     }

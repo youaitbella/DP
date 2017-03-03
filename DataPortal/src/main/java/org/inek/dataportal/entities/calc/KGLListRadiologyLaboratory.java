@@ -84,10 +84,10 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
-    @Size(max = 200)
     @Column(name = "rlCostCenterText")
     private String _costCenterText = "";
 
+    @Size(max = 200)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -163,7 +163,6 @@ public class KGLListRadiologyLaboratory implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Description">
-    @Size(max = 2147483647)
     @Column(name = "rlDescription")
     private String _description = "";
 

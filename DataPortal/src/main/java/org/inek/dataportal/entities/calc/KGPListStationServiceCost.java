@@ -72,10 +72,10 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _station">
-    @Size(max = 200)
     @Column(name = "sscStation")
     private String _station = "";
 
+    @Size(max = 200)
     public String getStation() {
         return _station;
     }
