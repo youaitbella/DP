@@ -16,11 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import javax.inject.Inject;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
@@ -32,6 +33,8 @@ import org.inek.dataportal.facades.admin.ConfigFacade;
  * @author muellermi
  */
 public class TransferFileCreator {
+
+    protected static final Logger _logger = Logger.getLogger("TransferFileCreator");
 
     public static void createCalcBasicsTransferFile(SessionController sessionController, Object calcBasics) {
         String type;
@@ -93,37 +96,48 @@ public class TransferFileCreator {
     }
 
     public static void createEmailTransferFile(ConfigFacade configFacade, String email) {
-        File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), configFacade.read(ConfigKey.FolderUpload));
-        File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
-        File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
+        try {
+            File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), configFacade.read(ConfigKey.FolderUpload));
+            if (!workingDir.exists()) {
+                workingDir.mkdirs();
+            }
+            File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
+            if (!targetDir.exists()) {
+                targetDir.mkdirs();
+            }
+            
+            File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
 
-        Date ts = Calendar.getInstance().getTime();
-        String emailInfo = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
+            Date ts = Calendar.getInstance().getTime();
+            String emailInfo = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
 
-        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
-                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
-                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+            try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+                    CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+                    ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
 
-            compressedOut.putNextEntry(new ZipEntry(emailInfo));
+                compressedOut.putNextEntry(new ZipEntry(emailInfo));
 
-            String content = "Accept=Dataportal\r\n"
-                    + "From=" + email + "\r\n"
-                    + "Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts) + "\r\n"
-                    + "Subject=EmailActivation\r\n";
+                String content = "Accept=Dataportal\r\n"
+                        + "From=" + email + "\r\n"
+                        + "Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts) + "\r\n"
+                        + "Subject=EmailActivation\r\n";
 
-            ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            StreamHelper.copyStream(is, compressedOut);
+                ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
+                StreamHelper.copyStream(is, compressedOut);
 
-            compressedOut.flush();
+                compressedOut.flush();
+            }
+            File file;
+            do {
+                ts = Calendar.getInstance().getTime();
+                file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".zip");
+            } while (file.exists());
+            zipFile.renameTo(file);
         } catch (IOException ex) {
-            throw new IllegalStateException(ex);
+            // any problem whilst creating the transfer file shall not hamper the user
+            // we just log for further investigation and ignore the execption
+            _logger.log(Level.WARNING, ex.getMessage());
         }
-        File file;
-        do {
-            ts = Calendar.getInstance().getTime();
-            file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".zip");
-        } while (file.exists());
-        zipFile.renameTo(file);
 
     }
 }

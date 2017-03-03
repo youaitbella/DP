@@ -270,7 +270,7 @@ public class ObjectUtils {
     }
 
     public static <T> Map<String, FieldValues> getDifferences(T obj1, T obj2) {
-        return getDifferences(obj1, obj2, Collections.EMPTY_LIST);
+        return getDifferences(obj1, obj2, Collections.emptyList());
     }
 
     public static <T> Map<String, FieldValues> getDifferences(T obj1, T obj2, List<Class> excludedTypes) {

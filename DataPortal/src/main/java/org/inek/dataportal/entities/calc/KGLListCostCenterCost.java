@@ -325,7 +325,7 @@ public class KGLListCostCenterCost implements Serializable {
     private KGLListCostCenterCost _prior;
 
     public KGLListCostCenterCost getPrior() {
-        return _prior == null ? new KGLListCostCenterCost() : _prior;
+        return _prior;
     }
 
     public void setPrior(KGLListCostCenterCost _prior) {

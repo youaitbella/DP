@@ -93,7 +93,7 @@ public class ApplicationData {
             return reader.lines().skip(1).map(line -> line.split(";")).collect(Collectors.toList());
         } catch (Exception ex) {
             Logger.getLogger(ApplicationData.class.getName()).log(Level.SEVERE, null, ex);
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
     // </editor-fold>
