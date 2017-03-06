@@ -242,6 +242,7 @@ public class CalcFacade extends AbstractDataAccess {
         //Contacts
         performInsertUpdateContactRoleICMT(participance.getIk(), "Drg", 3);
         performInsertUpdateContactRoleICMT(participance.getIk(), "Psy", 12);
+        performInsertUpdateContactRoleICMT(participance.getIk(), "Consultant", 14);
     }
     
     private void performInsertStatementOfParticipance(int ik, int calcType, String column){
