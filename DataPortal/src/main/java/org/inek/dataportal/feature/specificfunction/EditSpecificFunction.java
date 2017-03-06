@@ -25,8 +25,10 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
+import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -235,8 +237,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
 
         for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
-            checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
-            checkField(message, center.getSpecialFunction(), "Bitte besondere Aufgaben angeben", "");
+            checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
+            checkField(message, center.getSpecificFunction(), "Bitte besondere Aufgaben angeben", "");
             checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
             checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Bitte besondere Aufgaben angeben", "");
         }
@@ -367,4 +369,13 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             addAgreedCenter();
         }
     }
+    
+     public List<CenterName> getCenterNames(){
+       return _specificFunctionFacade.getCenterNames();
+   } 
+    
+     public List<SpecificFunction> getSpecificFunctions(){
+       return _specificFunctionFacade.getSpecificFunctions();
+   } 
+    
 }

@@ -1,7 +1,9 @@
 package org.inek.dataportal.entities.specificfunction;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -51,18 +53,47 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Center">
-    @Column(name = "rpcCenter")
+    // <editor-fold defaultstate="collapsed" desc="Property CenterId">
+    @Column(name = "rpcCenterId")
     @Documentation(name = "Art des Zentrums")
-    private String _center = "";
+    private int _centerId;
 
-    @Size(max = 250)
-    public String getCenter() {
-        return _center;
+    public int getCenterId() {
+        return _centerId;
     }
 
-    public void setCenter(String center) {
-        _center = center;
+    public void setCenterId(int value) {
+        _centerId = value;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CenterName">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "cnId")
+    private CenterName _centerName;
+
+    public CenterName getContentText() {
+        return _centerName;
+    }
+
+    public void setContentText(CenterName value) {
+        _centerName = value;
+    }
+    // </editor-fold>
+
+    
+    // <editor-fold defaultstate="collapsed" desc="Property OtherCenterName">
+    @Column(name = "rpcOtherCenterName")
+    @Documentation(name = "Art des Zentrums")
+    private String _otherCenterName = "";
+
+    @Size(max = 250)
+    public String getOtherCenterName() {
+        return _otherCenterName;
+    }
+
+    public void setOtherCenterName(String otherCenterName) {
+        _otherCenterName = otherCenterName;
     }
     // </editor-fold>
 
@@ -81,18 +112,31 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property SpecialFunction">
-    @Column(name = "rpcSpecialFunction")
+    // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
     @Documentation(name = "Besondere Aufgaben")
-    private String _specialFunction = "";
+    private List<Integer> _specificFunctions = new Vector<>();
 
-    @Size(max = 500)
-    public String getSpecialFunction() {
-        return _specialFunction;
+    public List<Integer> getSpecificFunctions() {
+        return _specificFunctions;
     }
 
-    public void setSpecialFunction(String specialFunction) {
-        _specialFunction = specialFunction;
+    public void setSpecificFunction(List<Integer> specificFunctions) {
+        _specificFunctions = specificFunctions;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
+    @Column(name = "rpcSpecificFunction")
+    @Documentation(name = "Besondere Aufgaben")
+    private String _specificFunction = "";
+
+    @Size(max = 500)
+    public String getSpecificFunction() {
+        return _specificFunction;
+    }
+
+    public void setSpecificFunction(String specificFunction) {
+        _specificFunction = specificFunction;
     }
     // </editor-fold>
 
@@ -134,9 +178,9 @@ public class RequestProjectedCenter implements Serializable {
         int hash = 7;
         hash = 97 * hash + this._id;
         hash = 97 * hash + this._requestMasterId;
-        hash = 97 * hash + Objects.hashCode(this._center);
+        hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
-        hash = 97 * hash + Objects.hashCode(this._specialFunction);
+        hash = 97 * hash + Objects.hashCode(this._specificFunction);
         hash = 97 * hash + this._typeId;
         hash = 97 * hash + this._estimatedPatientCount;
         return hash;
@@ -167,13 +211,13 @@ public class RequestProjectedCenter implements Serializable {
         if (this._estimatedPatientCount != other._estimatedPatientCount) {
             return false;
         }
-        if (!Objects.equals(this._center, other._center)) {
+        if (!Objects.equals(this._otherCenterName, other._otherCenterName)) {
             return false;
         }
         if (!Objects.equals(this._location, other._location)) {
             return false;
         }
-        if (!Objects.equals(this._specialFunction, other._specialFunction)) {
+        if (!Objects.equals(this._specificFunction, other._specificFunction)) {
             return false;
         }
         return true;
@@ -186,7 +230,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <=0 && _center.isEmpty() && _location.isEmpty() && _specialFunction.isEmpty() && _typeId == 0 && _estimatedPatientCount == 0;
+        return _id <=0 && _otherCenterName.isEmpty() && _location.isEmpty() && _specificFunction.isEmpty() && _typeId == 0 && _estimatedPatientCount == 0;
     }
     
 }
