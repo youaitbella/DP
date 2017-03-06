@@ -584,33 +584,32 @@
         </table>
     </div>
 
-<!--
-        <h:panelGroup rendered="# {!editCalcBasicsPepp.readOnly}" class="inputPart">
+        <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
 
             <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile styleClass="hiddenFile" id="file" value="# {editCalcBasicsPepp.fileTherapyPepp}" >
-                    <f:ajax listener="# {editCalcBasicsPepp.uploadNoticesTherapy()}" render="@all"/>
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsPepp.fileTherapyPepp}" >
+                    <f:ajax listener="#{editCalcBasicsPepp.uploadNoticesTherapy()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Therapeutischer Bereich"/>
                 </div>
             </div>
             
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="# {editCalcBasicsPepp.downloadTemplateTherapy()}" immediate="true"/>
+            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsPepp.downloadTemplateTherapy()}" immediate="true"/>
 
-            <h:commandLink rendered="# {editCalcBasicsPepp.importMessageTherapy.length() gt 0}" 
+            <h:commandLink rendered="#{editCalcBasicsPepp.importMessageTherapy.length() gt 0}" 
                            styleClass="button"
-                           value="# {msg.btnJournal} &nbsp; # {editCalcBasicsPepp.showJournal ? '˄' : '˅'}" 
-                           actionListener="# {editCalcBasicsPepp.toggleJournal}">
-                <f:ajax render="journal :logout:remaining"/>
+                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsPepp.showJournalTherapy ? '˄' : '˅'}" 
+                           actionListener="#{editCalcBasicsPepp.toggleJournalTherapy}">
+                <f:ajax render="@this :pnlProtokoll :logout:remaining"/>
             </h:commandLink>
 
-            <h:inputTextarea id="journal" rendered="# {editCalcBasicsPepp.importMessageTherapy.length() gt 0 and editCalcBasicsPepp.showJournal}" 
-                             value="# {editCalcBasicsPepp.importMessageTherapy}"
+            <h:inputTextarea id="journalTherapy" rendered="#{editCalcBasicsPepp.importMessageTherapy.length() gt 0 and editCalcBasicsPepp.showJournalTherapy}" 
+                             value="#{editCalcBasicsPepp.importMessageTherapy}"
                              readonly="true"
-                             styleClass="element100 # {editCalcBasicsPepp.importMessageTherapy.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
+                             styleClass="element100 #{editCalcBasicsPepp.importMessageTherapy.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
         </h:panelGroup>
--->
+
 
 </ui:composition>
 

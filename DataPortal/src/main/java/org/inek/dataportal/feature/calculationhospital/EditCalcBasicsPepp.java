@@ -533,6 +533,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _file = file;
     }
 
+    private Part _fileTherapyPepp;
+
+    public Part getFileTherapyPepp() {
+        return _fileTherapyPepp;
+    }
+
+    public void setFileTherapyPepp(Part file) {
+        _fileTherapyPepp = file;
+    }
+
     private static final String HeadlineTherapy = "KST-Gruppe;Leistungsinhalt der Kostenstelle;Leistungserbringung;Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten";
 
     public void downloadTemplateTherapy() {
@@ -550,7 +560,46 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return _importMessage;
     }
 
+    private String _importMessageTherapy = "";
+
+    public String getImportMessageTherapy() {
+        return _importMessageTherapy;
+    }
+
     @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
+    @Inject private Instance<TherapyDataImporterPepp> _importProviderTherapyPepp;
+
+    public void uploadNoticesTherapy() {
+        try {
+            if (_fileTherapyPepp != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_fileTherapyPepp.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                TherapyDataImporterPepp itemImporter = _importProviderTherapyPepp.get();
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.equals(HeadlineTherapy)) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                _importMessageTherapy = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessageTherapy);
+                _showJournalTherapy = _importMessageTherapy.contains("Fehler");
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
 
     public void uploadNotices() {
         try {
@@ -596,6 +645,20 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void setShowJournal(boolean showJournal) {
         this._showJournal = showJournal;
+    }
+
+    public void toggleJournalTherapy() {
+        _showJournalTherapy = !_showJournalTherapy;
+    }
+
+    private boolean _showJournalTherapy = false;
+
+    public boolean isShowJournalTherapy() {
+        return _showJournalTherapy;
+    }
+
+    public void setShowJournalTherapy(boolean showJournal) {
+        this._showJournalTherapy = showJournal;
     }
     //</editor-fold>
 

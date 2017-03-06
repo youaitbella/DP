@@ -63,8 +63,7 @@ public class TherapyDataImporterPepp {
             
             tryImportInteger(item, data[0], (i,s) -> i.setCostCenterId(s), "Keine zulässige KST-Gruppe (23-26) : ");
             tryImportString(item, data[1], (i,s) -> i.setCostCenterText(s), "Ungültige Zeichenkette: ");
-            // hier muss ein mapping zwischen Text und id her
-            //tryImport  (item, data[2], (i,s) -> i.setExternalService(s), "Keine zulässige Leistungserbringung: ");
+            tryImportFremdvergabe(item, data[2], (i,s) -> i.setExternalService(s), "Keine zulässige Leistungserbringung 'Keine, Teilweise, Vollständige Fremdvergabe' : ");
             
             tryImportString(item, data[3], (i,s) -> i.setKeyUsed(s), "Kein gültiger Leistungsschlüssel: ");
             tryImportInteger(item, data[4], (i,s) -> i.setServiceUnitsCt1(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 1: ");
@@ -166,4 +165,16 @@ public class TherapyDataImporterPepp {
         }
     }
 
+    private void tryImportFremdvergabe(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, Integer> bind, String errorMsg) {
+        String lowerData = data.trim().toLowerCase();
+        if (lowerData.startsWith("keine")) {
+            bind.accept(item, 0);
+        } else if (lowerData.startsWith("teilweise")) {
+            bind.accept(item, 1);
+        } else if (lowerData.startsWith("vollständig")) {
+            bind.accept(item, 2);
+        } else {
+            throw new IllegalArgumentException(errorMsg + " " + data);
+        }
+    }
 }
