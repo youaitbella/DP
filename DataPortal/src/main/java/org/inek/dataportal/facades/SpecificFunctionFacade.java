@@ -8,10 +8,13 @@ package org.inek.dataportal.facades;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.inek.dataportal.entities.specificfunction.CenterName;
+import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -90,6 +93,18 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         //todo: save lists
         
         return merge(request);
+    }
+
+    public List<CenterName> getCenterNames() {
+        return findAll(CenterName.class)
+                .stream()
+                .filter(n -> n.getId() > 0)
+                .sorted((n1, n2) -> n1.getName().compareTo(n2.getName()))
+                .collect(Collectors.toList());
+    }
+  
+    public List<SpecificFunction> getSpecificFunctions() {
+        return findAll(SpecificFunction.class);
     }
   
 }

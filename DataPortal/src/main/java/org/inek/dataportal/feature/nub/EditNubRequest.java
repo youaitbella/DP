@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -518,6 +519,14 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isTakeEnabled() {
+        if (_cooperationTools == null){
+            _logger.log(Level.WARNING, "Unxepected null value: _cooperationTools");
+            return false;
+        }
+        if (_nubRequest == null){
+            _logger.log(Level.WARNING, "Unxepected null value: _nubRequest");
+            return false;
+        }
         return _cooperationTools.isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 

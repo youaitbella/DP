@@ -26,26 +26,66 @@
                 </h:commandLink>
             </div>
 
-            <inek:LabeledText label="Zentrumszuschlag für" 
-                              title="Zentrumszuschlag für (Art des Zentrums)"
-                              value="#{center.center}" 
-                              required="true"
-                              styleClassLabel="label element12em" 
-                              styleClass="element100-12em"
-                              singleLine="true"/>
+            <div class="inputPart">
+                <h:outputLabel for="centerName" 
+                               value="Zentrumszuschlag für" 
+                               title="Zentrumszuschlag für (Art des Zentrums)"
+                               styleClass="label element12em" />
+
+                <h:selectOneMenu id="centerName"
+                                 styleClass="element25em"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{center.centerId}"
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{editSpecificFunction.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
+                    <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
+                </h:selectOneMenu>
+                <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
+                <h:inputText id="otherName" 
+                             styleClass="element100-37em"
+                             rendered="#{center.centerId eq -1}"
+                             title="Bezeichung eines sonstigen Zentrums"
+                             value="#{center.otherCenterName}" 
+                             required="true"/>
+            </div>
+
             <inek:LabeledText label="Standort"
                               title="Angabe des Standortes bei nach Standorten differenziertem Versorgungsauftrag gemäß Krankenhausplan des Landes; sobald verfügbar (spätestens ab 01.01.2020) Angabe des Standort-Kennzeichens nach § 293 Absatz 6 SGB V." 
                               value="#{center.location}" 
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
                               singleLine="true"/>
-            <inek:LabeledText label="Besondere Aufgaben"
+
+            <div class="inputPart">
+                <h:outputLabel for="specificFunction" 
+                               value="Besondere Aufgaben" 
+                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                               styleClass="label element12em alignTop" />
+
+                <div class="container10em element100-13em">
+                    <h:selectManyCheckbox id="specificFunction"
+                                          layout="pageDirection"
+                                          required="true"
+                                          requiredMessage="#{msg.msgValueNeeded}"
+                                          value="#{center.specificFunctions}">
+                        <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function.id}" itemLabel="#{function.text}"/>
+                        <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
+                    </h:selectManyCheckbox>
+                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage"/>
+                </div>
+            </div>
+            
+            <!--inek:LabeledText label="Besondere Aufgaben"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                              value="#{center.specialFunction}" 
+                              value="# {center.specificFunction}" 
                               required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
-                              singleLine="true"/>
+                              singleLine="true"/-->
+            
             <inek:LabeledText label="Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
