@@ -392,12 +392,11 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
                 +  "where cdDetails != mail \n"
                 +  "\n\n"
-            //Rolle für Kontakt löschen
+            //Rolle für alle Kontakte löschen
                 +  "delete a \n"
                 +  "from CallCenterDB.dbo.mapContactRole a \n"
-                +  "join " + tablename + " on mcrContactId = coId \n"
-                +  "left join CallCenterDB.dbo.listRole c on mcrRoleId = c.roId \n"
                 +  "where mcrRoleId = "  + roleID + "\n"
+                +  "and mcrContactId in (select coid from ccContact where coCustomerId in (select cuid from " + tablename + "))"
                 +  "\n\n"
             //Rolle anhand DP neu setzen
                 +  "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId) \n"
