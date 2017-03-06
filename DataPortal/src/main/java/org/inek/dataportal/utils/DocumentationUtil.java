@@ -195,9 +195,20 @@ public class DocumentationUtil {
         }
 
         String value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');
-        if (doc.translateValue().length() == 0) {
-            return value;
+
+        if (doc.translateValue().matches("[a-zA-Z]\\w*\\[(][)])")) {
+            return translateByFunction(doc, value);
+        } else if (doc.translateValue().length() > 0) {
+            return translateByLiteral(doc, value);
         }
+        return value;
+    }
+
+    private String translateByFunction(Documentation doc, String value) {
+        return "";
+    }
+
+    public String translateByLiteral(Documentation doc, String value) {
         String[] pairs = doc.translateValue().split(";");
         for (String pair : pairs) {
             int pos = pair.indexOf("=");

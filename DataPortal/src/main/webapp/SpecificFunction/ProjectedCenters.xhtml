@@ -72,20 +72,21 @@
                                           requiredMessage="#{msg.msgValueNeeded}"
                                           value="#{center.specificFunctions}">
                         <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function.id}" itemLabel="#{function.text}"/>
-                        <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
+                        <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                        <f:ajax event="blur" render="@form :logout:remaining msgSpecificFunction"/>
                     </h:selectManyCheckbox>
                     <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage"/>
                 </div>
             </div>
-            
-            <!--inek:LabeledText label="Besondere Aufgaben"
+            <inek:LabeledText label="Sonstige Aufgaben"
+                              rendered="#{center.specificFunctions.stream().anyMatch(f -> f == -1)}"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                              value="# {center.specificFunction}" 
+                              value="#{center.specificFunction}" 
                               required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
-                              singleLine="true"/-->
-            
+                              singleLine="true"/>
+
             <inek:LabeledText label="Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
