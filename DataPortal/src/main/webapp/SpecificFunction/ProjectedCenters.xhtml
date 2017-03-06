@@ -33,6 +33,7 @@
                                styleClass="label element12em" />
 
                 <h:selectOneMenu id="centerName"
+                                 styleClass="element25em"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{center.centerId}"
@@ -44,6 +45,7 @@
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
                 <h:inputText id="otherName" 
+                             styleClass="element100-37em"
                              rendered="#{center.centerId eq -1}"
                              title="Bezeichung eines sonstigen Zentrums"
                              value="#{center.otherCenterName}" 
@@ -76,13 +78,14 @@
                 </div>
             </div>
             
-            <inek:LabeledText label="Besondere Aufgaben"
+            <!--inek:LabeledText label="Besondere Aufgaben"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                              value="#{center.specificFunction}" 
+                              value="# {center.specificFunction}" 
                               required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
-                              singleLine="true"/>
+                              singleLine="true"/-->
+            
             <inek:LabeledText label="Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
