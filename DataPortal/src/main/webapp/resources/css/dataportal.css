@@ -19,7 +19,6 @@ body {
 .container10em,
 .container { 
     border: 2px solid #7F9BAF; 
-    width: 100%; 
     overflow: auto;
 }
 
@@ -574,9 +573,12 @@ div#wrapper {
 
 .element12em,
 .element100-12em,
+.element100-13em,
+.element100-37em,
 .element15,
 .element20,
 .element25,
+.element25em,
 .element30,
 .element33,
 .element40,
@@ -594,8 +596,20 @@ div#wrapper {
     width: 12em;
 }
 
+.element25em{
+    width: 25em;
+}
+
 .element100-12em{
     width: calc(100% - 12em);
+}
+
+.element100-13em{
+    width: calc(100% - 13em);
+}
+
+.element100-37em{
+    width: calc(100% - 37em);
 }
 
 .element15 {

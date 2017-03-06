@@ -21,8 +21,8 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "listCenterNames", schema = "spf")
-public class CenterNames implements Serializable {
+@Table(name = "listCenterName", schema = "spf")
+public class CenterName implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -76,7 +76,7 @@ public class CenterNames implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CenterNames other = (CenterNames) obj;
+        final CenterName other = (CenterName) obj;
         if (this._id != other._id) {
             return false;
         }

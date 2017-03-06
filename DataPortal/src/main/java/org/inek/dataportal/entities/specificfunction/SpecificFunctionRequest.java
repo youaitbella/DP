@@ -1,9 +1,11 @@
 package org.inek.dataportal.entities.specificfunction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import javax.faces.model.SelectItem;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -16,6 +18,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "RequestMaster", schema = "spf")
 public class SpecificFunctionRequest implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -46,7 +49,7 @@ public class SpecificFunctionRequest implements Serializable {
         this._dataYear = dataYear;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "rmName")
     private String _name = "";
@@ -139,14 +142,15 @@ public class SpecificFunctionRequest implements Serializable {
         _statusId = status.getValue();
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "rmGender")
+    
     @Documentation(key = "lblSalutation", omitOnValues = "0", translateValue = "1=salutationFemale;2=salutationMale")
     private int _gender = 0;
 
     public int getGender() {
-        return  _gender; 
+        return _gender;
     }
 
     public void setGender(int gender) {
@@ -184,7 +188,7 @@ public class SpecificFunctionRequest implements Serializable {
         _firstName = firstName == null ? "" : firstName;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Column(name = "rmLastName")
     @Documentation(key = "lblLastName")
@@ -262,9 +266,8 @@ public class SpecificFunctionRequest implements Serializable {
     @Documentation(name = "geplante Vereinbarung")
     private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
-    
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
-        if (_requestProjectedCenters.isEmpty()){
+        if (_requestProjectedCenters.isEmpty()) {
             _requestProjectedCenters.add(new RequestProjectedCenter(_id));
         }
         return _requestProjectedCenters;
@@ -274,16 +277,15 @@ public class SpecificFunctionRequest implements Serializable {
         this._requestProjectedCenters = requestProjectedCenters;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
     @Documentation(name = "vorliegende Vereinbarung")
     private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
 
-    
     public List<RequestAgreedCenter> getRequestAgreedCenters() {
-        if (_requestAgreedCenters.isEmpty()){
+        if (_requestAgreedCenters.isEmpty()) {
             _requestAgreedCenters.add(new RequestAgreedCenter(_id));
         }
         return _requestAgreedCenters;
@@ -293,7 +295,7 @@ public class SpecificFunctionRequest implements Serializable {
         this._requestAgreedCenters = requestAgreedCenters;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -306,7 +308,7 @@ public class SpecificFunctionRequest implements Serializable {
             return false;
         }
         SpecificFunctionRequest other = (SpecificFunctionRequest) object;
-        
+
         return _id == other._id;
     }
 
@@ -315,5 +317,5 @@ public class SpecificFunctionRequest implements Serializable {
         return "RequestMaster[id=" + _id + "]";
     }
     // </editor-fold>
-    
+
 }
