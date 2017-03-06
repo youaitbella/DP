@@ -69,7 +69,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "cnId")
+    @PrimaryKeyJoinColumn(name = "rpcCenterId")
     private CenterName _centerName;
 
     public CenterName getContentText() {
@@ -114,13 +114,14 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
     @Documentation(name = "Besondere Aufgaben")
+    @Transient
     private List<Integer> _specificFunctions = new Vector<>();
 
     public List<Integer> getSpecificFunctions() {
         return _specificFunctions;
     }
 
-    public void setSpecificFunction(List<Integer> specificFunctions) {
+    public void setSpecificFunctions(List<Integer> specificFunctions) {
         _specificFunctions = specificFunctions;
     }
     // </editor-fold>
