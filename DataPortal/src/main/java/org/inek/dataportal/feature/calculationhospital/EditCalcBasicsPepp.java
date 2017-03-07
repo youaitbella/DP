@@ -722,6 +722,65 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getKgpMedInfraList().remove(mif);
     }
 
+    @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
+
+    private static final String HeadlineMedInfra = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
+
+    public void downloadTemplateHeadlineMedInfra() {
+        Utils.downloadText(HeadlineMedInfra + "\n", "Med_Infra.csv");
+    }
+
+    private String _importMessageMedInfra = "";
+
+    public String getImportMessageMedInfra() {
+        return _importMessageMedInfra;
+    }
+
+    private String _importMessageNonMedInfra = "";
+
+    public String getImportMessageNonMedInfra() {
+        return _importMessageNonMedInfra;
+    }
+
+    public void uploadNoticesMedInfra(int costType) {
+        try {
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                MedInfraDataImporterPepp itemImporter = _importMedInfraPepp.get();
+                itemImporter.setCostTypeId(costType);
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.equals(HeadlineMedInfra)) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                if (costType == 170) {
+                    _importMessageMedInfra = itemImporter.getMessage();
+                    _sessionController.alertClient(_importMessageMedInfra);
+                } else {
+                    _importMessageNonMedInfra = itemImporter.getMessage();
+                    _sessionController.alertClient(_importMessageNonMedInfra);
+                }
+                _showJournal = itemImporter.containsError();
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    
     public boolean renderPersonalAccountingDescription() {
         for (KGPPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
