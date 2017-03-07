@@ -1,11 +1,9 @@
 package org.inek.dataportal.entities.specificfunction;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import javax.faces.model.SelectItem;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -285,9 +283,6 @@ public class SpecificFunctionRequest implements Serializable {
     private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
 
     public List<RequestAgreedCenter> getRequestAgreedCenters() {
-        if (_requestAgreedCenters.isEmpty()) {
-            _requestAgreedCenters.add(new RequestAgreedCenter(_id));
-        }
         return _requestAgreedCenters;
     }
 

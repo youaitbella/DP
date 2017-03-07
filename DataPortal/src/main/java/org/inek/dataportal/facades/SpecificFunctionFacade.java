@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.specificfunction.CenterName;
+import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
+import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.Feature;
@@ -91,6 +93,20 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         }
         
         //todo: save lists
+        for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+        for (RequestAgreedCenter item : request.getRequestAgreedCenters()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
         
         return merge(request);
     }
@@ -104,7 +120,10 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
   
     public List<SpecificFunction> getSpecificFunctions() {
-        return findAll(SpecificFunction.class);
+        return findAll(SpecificFunction.class)
+                .stream()
+                .filter(n -> n.getId() > 0)
+                .collect(Collectors.toList());
     }
   
 }

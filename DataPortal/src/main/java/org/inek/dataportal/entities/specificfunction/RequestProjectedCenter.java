@@ -16,6 +16,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "RequestProjectedCenter", schema = "spf")
 public class RequestProjectedCenter implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     public RequestProjectedCenter() {
@@ -25,7 +26,6 @@ public class RequestProjectedCenter implements Serializable {
         _requestMasterId = masterId;
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,7 @@ public class RequestProjectedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
     @Column(name = "rpcRequestMasterId")
     private int _requestMasterId = -1;
+
     public int getRequestMasterId() {
         return _requestMasterId;
     }
@@ -69,7 +70,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "cnId")
+    @PrimaryKeyJoinColumn(name = "rpcCenterId")
     private CenterName _centerName;
 
     public CenterName getContentText() {
@@ -81,7 +82,6 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    
     // <editor-fold defaultstate="collapsed" desc="Property OtherCenterName">
     @Column(name = "rpcOtherCenterName")
     @Documentation(name = "Art des Zentrums")
@@ -112,36 +112,59 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
+    // <editor-fold defaultstate="collapsed" desc="Property SpecificFunctionIds">
     @Documentation(name = "Besondere Aufgaben")
-    private List<Integer> _specificFunctions = new Vector<>();
+    @Transient
+    private List<Integer> _specificFunctionIds = new Vector<>();
 
-    public List<Integer> getSpecificFunctions() {
-        return _specificFunctions;
+    public List<Integer> getSpecificFunctionIds() {
+        return _specificFunctionIds;
     }
 
-    public void setSpecificFunction(List<Integer> specificFunctions) {
-        _specificFunctions = specificFunctions;
+    public void setSpecificFunctionIds(List<Integer> specificFunctionIds) {
+        _specificFunctionIds = specificFunctionIds;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
-    @Column(name = "rpcSpecificFunction")
-    @Documentation(name = "Besondere Aufgaben")
-    private String _specificFunction = "";
+    @OneToMany
+    @JoinTable(
+            name = "mapProjectedCenterSpecificFunction",
+            schema = "spf",
+            joinColumns = {
+                @JoinColumn(name = "pcsfProjectedCenterId", referencedColumnName = "rpcId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
+    )
+    private List<SpecificFunction> _specificFunctions = new Vector<>();
 
-    @Size(max = 500)
-    public String getSpecificFunction() {
-        return _specificFunction;
+    public List<SpecificFunction> getSpecificFunctions() {
+        return _specificFunctions;
     }
 
-    public void setSpecificFunction(String specificFunction) {
-        _specificFunction = specificFunction;
+    public void setSpecificFunctions(List<SpecificFunction> specificFunctions) {
+        _specificFunctions = specificFunctions;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property OtherSpecificFunction">
+    @Column(name = "rpcOtherSpecificFunction")
+    @Documentation(name = "Sonstige Besondere Aufgaben")
+    private String _otherSpecificFunction = "";
+
+    @Size(max = 500)
+    public String getOtherSpecificFunction() {
+        return _otherSpecificFunction;
+    }
+
+    public void setOtherSpecificFunction(String otherSpecificFunction) {
+        _otherSpecificFunction = otherSpecificFunction;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property TypeId">
     @Column(name = "rpcTypeId")
+    
     @Documentation(name = "Ausweisung und Festsetzung", translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
     private int _typeId;
 
@@ -172,7 +195,7 @@ public class RequestProjectedCenter implements Serializable {
 
     @Override
     public int hashCode() {
-        if (_id > 0){
+        if (_id > 0) {
             return _id;
         }
         int hash = 7;
@@ -180,7 +203,7 @@ public class RequestProjectedCenter implements Serializable {
         hash = 97 * hash + this._requestMasterId;
         hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
-        hash = 97 * hash + Objects.hashCode(this._specificFunction);
+        hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
         hash = 97 * hash + this._typeId;
         hash = 97 * hash + this._estimatedPatientCount;
         return hash;
@@ -199,7 +222,7 @@ public class RequestProjectedCenter implements Serializable {
             return false;
         }
         final RequestProjectedCenter other = (RequestProjectedCenter) obj;
-        if (_id > 0 || other._id > 0){
+        if (_id > 0 || other._id > 0) {
             return _id == other._id;
         }
         if (this._requestMasterId != other._requestMasterId) {
@@ -217,7 +240,7 @@ public class RequestProjectedCenter implements Serializable {
         if (!Objects.equals(this._location, other._location)) {
             return false;
         }
-        if (!Objects.equals(this._specificFunction, other._specificFunction)) {
+        if (!Objects.equals(this._otherSpecificFunction, other._otherSpecificFunction)) {
             return false;
         }
         return true;
@@ -230,9 +253,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <=0 && _otherCenterName.isEmpty() && _location.isEmpty() && _specificFunction.isEmpty() && _typeId == 0 && _estimatedPatientCount == 0;
+        return _id <= 0 && _otherCenterName.isEmpty() && _location.isEmpty() && _otherSpecificFunction.isEmpty() && _typeId == 0 && _estimatedPatientCount == 0;
     }
-    
+
 }
-
-
