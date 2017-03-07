@@ -74,6 +74,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         String id = "" + params.get("id");
         if (id.equals("new")) {
             _request = newSpecificFunctionRequest();
+            addCentersIfMissing();
         } else if (Utils.isInteger(id)) {
             SpecificFunctionRequest request = loadSpecificFunctionRequest(id);
             if (request.getId() == -1) {
@@ -81,6 +82,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
                 return;
             }
             _request = request;
+            addCentersIfMissing();
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
@@ -238,7 +240,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
         for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
             checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
-            checkField(message, center.getSpecificFunction(), "Bitte besondere Aufgaben angeben", "");
+            checkField(message, center.getOtherSpecificFunction(), "Bitte besondere Aufgaben angeben", "");
             checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
             checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Bitte besondere Aufgaben angeben", "");
         }
