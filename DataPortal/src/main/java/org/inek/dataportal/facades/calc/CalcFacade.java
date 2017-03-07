@@ -337,9 +337,9 @@ public class CalcFacade extends AbstractDataAccess {
     private void performInsertUpdateContactRoleICMT(int ik, String column, String calcTypes, int roleID){
         String sql = ""
             //temp Tabelle mit Kontaktinfos anlegen
-                +  "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, rw) \n"
+                +  "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
                 +  "select *, ROW_NUMBER() OVER (order by a.coid) rw from ("
-                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone \n"
+                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, b.sopConsultantCompany \n"
                 +  "from DataPortal.calc.Contact a \n"
                 +  "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
                 +  "join CallCenterDB.dbo.ccCustomer c on sopik = cuik \n"
@@ -356,8 +356,8 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "and a.coIs"+ column + " = 1)a \n"
                 +  "\n\n"
             //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
-                + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver) \n"
-                +  "select cuid, gender, title, firstName, lastName, 0, 1, 1 \n"
+                + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver, coInfo) \n"
+                +  "select cuid, gender, title, firstName, lastName, 0, 1, 1, consultantCompany \n"
                 +  "from tmp.dpContacts \n"
                 +  "where coid is null \n"
                 +  "\n\n"
