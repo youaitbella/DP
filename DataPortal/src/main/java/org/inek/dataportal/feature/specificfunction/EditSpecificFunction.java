@@ -67,7 +67,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         this._request = request;
     }
     // </editor-fold>
-    
+
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -103,7 +103,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         }
         return _cooperationTools.isAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
     }
-    
+
     private SpecificFunctionRequest newSpecificFunctionRequest() {
         Account account = _sessionController.getAccount();
         SpecificFunctionRequest request = new SpecificFunctionRequest();
@@ -118,14 +118,13 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return request;
     }
 
-    public List<SelectItem> getTypeItems(){
-       List<SelectItem> items = new ArrayList<>();
-       items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
-       items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
-       return items;
-   } 
+    public List<SelectItem> getTypeItems() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
+        items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
+        return items;
+    }
 
-    
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
         return _sessionController.isMyAccount(_request.getAccountId(), false);
@@ -145,7 +144,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         setModifiedInfo();
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
         addCentersIfMissing();
-        
+
         if (isValidId(_request.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -198,7 +197,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
      */
     public String seal() {
         if (!requestIsComplete()) {
-            return getActiveTopic().getOutcome();
+            return null;
         }
         removeEmptyCenters();
         _request.setStatus(WorkflowStatus.Provided);
@@ -206,8 +205,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
 
         if (isValidId(_request.getId())) {
-            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL") + " " + _request.getId());
-            Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
+            Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
+            Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_request));
             return Pages.PrintView.URL();
         }
@@ -239,18 +238,31 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
 
         for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
-            checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
-            checkField(message, center.getOtherSpecificFunction(), "Bitte besondere Aufgaben angeben", "");
+            if (center.isEmpty()) {
+                continue;
+            }
+            if (center.getCenterId() == -1) {
+                checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
+            }
+            if (center.getSpecificFunctions().isEmpty()) {
+                applyMessageValues(message, "Bitte mindestens eine besondere Aufgabe auswählen oder angeben", "");
+            }
+            if (center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
+                checkField(message, center.getOtherSpecificFunction(), "Bitte sonstige besondere Aufgaben angeben", "");
+            }
             checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
             checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Bitte besondere Aufgaben angeben", "");
         }
-        
+
         for (RequestAgreedCenter center : request.getRequestAgreedCenters()) {
+            if (center.isEmpty()) {
+                continue;
+            }
             checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
             checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
             checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag angeben", "");
         }
-                
+
         return message;
     }
 
@@ -295,7 +307,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
         return "";
     }
-    
+
     public void ikChanged() {
         // dummy listener, used by component MultiIk - do not delete
     }
@@ -306,8 +318,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             iks.add(_request.getIk());
         }
         Account account = _sessionController.getAccount();
-        if (account.getIK() > 0){
-        iks.add(account.getIK());
+        if (account.getIK() > 0) {
+            iks.add(account.getIK());
         }
         for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
             iks.add(additionalIK.getIK());
@@ -318,22 +330,22 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         }
         return items;
     }
-    
-    public void addProjectedCenter(){
+
+    public void addProjectedCenter() {
         RequestProjectedCenter center = new RequestProjectedCenter(_request.getId());
         _request.getRequestProjectedCenters().add(center);
     }
-    
-    public void deleteProjectedCenter(RequestProjectedCenter center){
+
+    public void deleteProjectedCenter(RequestProjectedCenter center) {
         _request.getRequestProjectedCenters().remove(center);
     }
-    
-    public void addAgreedCenter(){
+
+    public void addAgreedCenter() {
         RequestAgreedCenter center = new RequestAgreedCenter(_request.getId());
         _request.getRequestAgreedCenters().add(center);
     }
-    
-    public void deleteAgreedCenter(RequestAgreedCenter center){
+
+    public void deleteAgreedCenter(RequestAgreedCenter center) {
         _request.getRequestAgreedCenters().remove(center);
     }
     // </editor-fold>
@@ -345,39 +357,41 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     private void removeEmptyProjectedCenters() {
         Iterator<RequestProjectedCenter> iter = _request.getRequestProjectedCenters().iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             RequestProjectedCenter center = iter.next();
-            if (center.isEmpty()){
+            if (center.isEmpty()) {
                 iter.remove();
+            } else if (!center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
+                center.setOtherSpecificFunction("");
             }
         }
     }
 
     private void removeEmptyAgreedCenters() {
         Iterator<RequestAgreedCenter> iter = _request.getRequestAgreedCenters().iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             RequestAgreedCenter center = iter.next();
-            if (center.isEmpty()){
+            if (center.isEmpty()) {
                 iter.remove();
             }
         }
     }
 
     private void addCentersIfMissing() {
-        if (_request.getRequestProjectedCenters().isEmpty()){
+        if (_request.getRequestProjectedCenters().isEmpty()) {
             addProjectedCenter();
         }
-        if (_request.getRequestAgreedCenters().isEmpty()){
+        if (_request.getRequestAgreedCenters().isEmpty()) {
             addAgreedCenter();
         }
     }
-    
-     public List<CenterName> getCenterNames(){
-       return _specificFunctionFacade.getCenterNames();
-   } 
-    
-     public List<SpecificFunction> getSpecificFunctions(){
-       return _specificFunctionFacade.getSpecificFunctions();
-   } 
-    
+
+    public List<CenterName> getCenterNames() {
+        return _specificFunctionFacade.getCenterNames();
+    }
+
+    public List<SpecificFunction> getSpecificFunctions() {
+        return _specificFunctionFacade.getSpecificFunctions();
+    }
+
 }
