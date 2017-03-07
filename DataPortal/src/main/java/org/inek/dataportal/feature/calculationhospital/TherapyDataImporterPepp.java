@@ -112,9 +112,9 @@ public class TherapyDataImporterPepp {
     private boolean itemExists(KGPListTherapy item) {
         for (KGPListTherapy t : _calcBasics.getTherapies()) {
             if (t.getCostCenterId() == item.getCostCenterId() &&
-                    t.getCostCenterText().equals(t.getCostCenterText()) &&
+                    t.getCostCenterText().equals(item.getCostCenterText()) &&
                     t.getExternalService() == item.getExternalService() &&
-                    t.getKeyUsed().equals(t.getKeyUsed())) {
+                    t.getKeyUsed().equals(item.getKeyUsed())) {
                 
                 boolean valueChanged = false;
 
