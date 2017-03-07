@@ -112,7 +112,7 @@ public class MedInfraDataImporterPepp {
                     _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden. Spalte aktualisiert : alt " + infra.getAmount() + " neu " + item.getAmount();
                     infra.setAmount(item.getAmount());
                 } else {
-                    _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";                    
+                    _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
                 }
                 return true;
             }

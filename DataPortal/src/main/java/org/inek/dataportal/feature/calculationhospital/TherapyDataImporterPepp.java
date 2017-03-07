@@ -28,10 +28,16 @@ public class TherapyDataImporterPepp {
         return _totalCount;
     }
 
-    private int _errorCount = 0;
+    private int _errorRowCount = 0;
 
-    public int getErrorCount() {
-        return _errorCount;
+    public int getErrorRowCount() {
+        return _errorRowCount;
+    }
+
+    private int _errorColumnCount = 0;
+
+    public int getErrorColumnCount() {
+        return _errorColumnCount;
     }
 
     private PeppCalcBasics _calcBasics;
@@ -45,7 +51,7 @@ public class TherapyDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorMsg;
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorMsg;
     }
     
     public void tryImportLine(String line) {
@@ -80,15 +86,27 @@ public class TherapyDataImporterPepp {
             tryImportInteger(item, data[15], (i,s) -> i.setPersonalCostCt3(s), "Ungültiger Wert für Personalkosten KoArtGr 3: ");
                         
             if(itemExists(item)) {
-                _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
                 return;
             }
 
             _calcBasics.getTherapies().add(item);
         } catch (IllegalArgumentException ex) {
-            _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + ex.getMessage();
-            _errorCount++;
+            addRowErrorMsg(ex.getMessage());
         }
+    }
+    
+    private void addRowErrorMsg(String message) {
+        _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
+        _errorRowCount++;
+    }
+    
+    private void addColumnErrorMsg(String message) {
+        _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
+        _errorColumnCount++;
+    }
+    
+    private void addChangeColumn(int oldVal, int newVal) {
+        _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden. Spalte aktualisiert : alt " + oldVal + " neu " + newVal;
     }
     
     private boolean itemExists(KGPListTherapy item) {
@@ -96,20 +114,73 @@ public class TherapyDataImporterPepp {
             if (t.getCostCenterId() == item.getCostCenterId() &&
                     t.getCostCenterText().equals(t.getCostCenterText()) &&
                     t.getExternalService() == item.getExternalService() &&
-                    t.getKeyUsed().equals(t.getKeyUsed()) &&
-                    t.getServiceUnitsCt1() == item.getServiceUnitsCt1() &&
-                    t.getPersonalCostCt1()== item.getPersonalCostCt1() &&
-                    t.getServiceUnitsCt3a() == item.getServiceUnitsCt3a() &&
-                    t.getPersonalCostCt3a()== item.getPersonalCostCt3a() &&
-                    t.getServiceUnitsCt2() == item.getServiceUnitsCt2() &&
-                    t.getPersonalCostCt2()== item.getPersonalCostCt2() &&
-                    t.getServiceUnitsCt3b() == item.getServiceUnitsCt3b() &&
-                    t.getPersonalCostCt3b()== item.getPersonalCostCt3b() &&
-                    t.getServiceUnitsCt3c() == item.getServiceUnitsCt3c() &&
-                    t.getPersonalCostCt3c()== item.getPersonalCostCt3c() &&
-                    t.getServiceUnitsCt3() == item.getServiceUnitsCt3() &&
-                    t.getPersonalCostCt3()== item.getPersonalCostCt3() 
-                    ) {
+                    t.getKeyUsed().equals(t.getKeyUsed())) {
+                
+                boolean valueChanged = false;
+
+                if (t.getServiceUnitsCt1() != item.getServiceUnitsCt1()) {
+                    addChangeColumn(t.getServiceUnitsCt1(), item.getServiceUnitsCt1());
+                    t.setServiceUnitsCt1(item.getServiceUnitsCt1());
+                    valueChanged = true;
+                }
+                if (t.getPersonalCostCt1() != item.getPersonalCostCt1()) {
+                    addChangeColumn(t.getPersonalCostCt1(), item.getPersonalCostCt1());
+                    t.setPersonalCostCt1(item.getPersonalCostCt1());
+                    valueChanged = true;
+                }
+                if (t.getServiceUnitsCt3a() != item.getServiceUnitsCt3a()) {
+                    addChangeColumn(t.getServiceUnitsCt3a(), item.getServiceUnitsCt3a());
+                    t.setServiceUnitsCt3a(item.getServiceUnitsCt3a());
+                    valueChanged = true;
+                }
+                if (t.getPersonalCostCt3a() != item.getPersonalCostCt3a()) {
+                    addChangeColumn(t.getPersonalCostCt3a(), item.getPersonalCostCt3a());
+                    t.setPersonalCostCt3a(item.getPersonalCostCt3a());
+                    valueChanged = true;
+                }
+                if (t.getServiceUnitsCt2() != item.getServiceUnitsCt2()) {
+                    addChangeColumn(t.getServiceUnitsCt2(), item.getServiceUnitsCt2());
+                    t.setServiceUnitsCt2(item.getServiceUnitsCt2());
+                    valueChanged = true;
+                }
+                if (t.getPersonalCostCt2() != item.getPersonalCostCt2()) {
+                    addChangeColumn(t.getPersonalCostCt2(), item.getPersonalCostCt2());
+                    t.setPersonalCostCt2(item.getPersonalCostCt2());
+                    valueChanged = true;
+                }
+                if (t.getServiceUnitsCt3b() != item.getServiceUnitsCt3b()) {
+                    addChangeColumn(t.getServiceUnitsCt3b(), item.getServiceUnitsCt3b());
+                    t.setServiceUnitsCt3b(item.getServiceUnitsCt3b());
+                    valueChanged = true;
+                }
+                if (t.getPersonalCostCt3b() != item.getPersonalCostCt3b()) {
+                    addChangeColumn(t.getPersonalCostCt3b(), item.getPersonalCostCt3b());
+                    t.setPersonalCostCt3b(item.getPersonalCostCt3b());
+                    valueChanged = true;
+                }
+                if (t.getServiceUnitsCt3c() != item.getServiceUnitsCt3c()) {
+                    addChangeColumn(t.getServiceUnitsCt3c(), item.getServiceUnitsCt3c());
+                    t.setServiceUnitsCt3c(item.getServiceUnitsCt3c());
+                    valueChanged = true;
+                }
+                if (t.getPersonalCostCt3c() != item.getPersonalCostCt3c()) {
+                    addChangeColumn(t.getPersonalCostCt3c(), item.getPersonalCostCt3c());
+                    t.setPersonalCostCt3c(item.getPersonalCostCt3c());
+                    valueChanged = true;
+                }
+                if (t.getServiceUnitsCt3() != item.getServiceUnitsCt3()) {
+                    addChangeColumn(t.getServiceUnitsCt3(), item.getServiceUnitsCt3());
+                    t.setServiceUnitsCt3(item.getServiceUnitsCt3());
+                    valueChanged = true;
+                }
+                if (t.getPersonalCostCt3() != item.getPersonalCostCt3()) {
+                    addChangeColumn(t.getPersonalCostCt3(), item.getPersonalCostCt3());
+                    t.setPersonalCostCt3(item.getPersonalCostCt3());
+                    valueChanged = true;
+                }
+                if (!valueChanged) {
+                    _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
+                }
                 return true;
             }
         }
@@ -130,11 +201,14 @@ public class TherapyDataImporterPepp {
             nf.setParseIntegerOnly(true);
             int val = nf.parse(data).intValue();
             if (val < 0){
-                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+                bind.accept(item, 0);
+                addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            } else {
+                bind.accept(item, val);
             }
-            bind.accept(item, val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            bind.accept(item, 0);
+            addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
     
@@ -174,7 +248,8 @@ public class TherapyDataImporterPepp {
         } else if (lowerData.startsWith("vollständig")) {
             bind.accept(item, 2);
         } else {
-            throw new IllegalArgumentException(errorMsg + " " + data);
+            bind.accept(item, 0);
+            addColumnErrorMsg(errorMsg + " " + data);
         }
     }
 }
