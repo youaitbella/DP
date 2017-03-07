@@ -25,22 +25,30 @@ import org.inek.dataportal.utils.Documentation;
 public class SpecificFunction implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public SpecificFunction() {
+    }
+    
+    public SpecificFunction(int id, String text) {
+        _id = id;
+        _text = text;
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "sfId")
     private int _id;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Center">
     @Column(name = "sfText")
     @Documentation(key = "lblNotation")
@@ -64,7 +72,7 @@ public class SpecificFunction implements Serializable {
         hash = 97 * hash + Objects.hashCode(this._text);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -85,11 +93,11 @@ public class SpecificFunction implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.specificfunction.SpecificFunction[ id=" + _id + " ]";
     }
     //</editor-fold>
-    
+
 }

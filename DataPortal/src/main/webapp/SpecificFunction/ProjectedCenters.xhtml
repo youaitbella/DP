@@ -15,7 +15,7 @@
                           value="#{editSpecificFunction.request.willNegotiate}"
                           renderElement="@form"/>
 
-    <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center"
+    <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 
                rendered="#{editSpecificFunction.request.willNegotiate}">
         <div class="rectangle">
             <div class="inputPart">
@@ -50,7 +50,6 @@
                              title="Bezeichung eines sonstigen Zentrums"
                              value="#{center.otherCenterName}" 
                              required="true">
-                    <f:ajax/>
                 </h:inputText>
             </div>
 
@@ -68,26 +67,39 @@
                                styleClass="label element12em alignTop" />
 
                 <div class="container10em element100-13em">
+
                     <h:selectManyCheckbox id="specificFunction"
                                           layout="pageDirection"
                                           required="true"
                                           requiredMessage="#{msg.msgValueNeeded}"
                                           value="#{center.specificFunctions}">
                         <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
-                        <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{null}"/>
-                        <f:ajax event="blur" render="@form :logout:remaining msgSpecificFunction"/>
+                        <f:converter converterId="SpecificFunctionConverter"/>
+                        <f:ajax event="change" render=":logout:remaining"/>
                     </h:selectManyCheckbox>
-                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage"/>
                 </div>
             </div>
-            <inek:LabeledText label="Sonstige Aufgaben"
-                              rendered="#{center.specificFunctionIds.stream().anyMatch(f -> f == -1)}"
+            
+            <div class="inputPart">
+                <h:outputLabel id="lblOtherSpecificFunction" value="Sonstige Aufgaben" styleClass="label element12em" for="otherSpecificFunction"/>
+                <h:inputText id="otherSpecificFunction" 
+                             styleClass="element100-12em"
+                             readonly="#{not center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                             required="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                             title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)"
+                             value="#{center.otherSpecificFunction}" >
+                    <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining"/>
+                </h:inputText>
+            </div>
+
+            <!--inek:LabeledText label="Sonstige Aufgaben"
+                              rendered="# {center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                              value="#{center.otherSpecificFunction}" 
+                              value="# {center.otherSpecificFunction}" 
                               required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
-                              singleLine="true"/>
+                              singleLine="true"/-->
 
             <inek:LabeledText label="Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 

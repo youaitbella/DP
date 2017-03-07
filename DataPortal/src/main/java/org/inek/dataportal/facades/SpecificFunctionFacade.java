@@ -122,7 +122,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     public List<SpecificFunction> getSpecificFunctions() {
         return findAll(SpecificFunction.class)
                 .stream()
-                .filter(n -> n.getId() > 0)
+                .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()) )
                 .collect(Collectors.toList());
     }
   
