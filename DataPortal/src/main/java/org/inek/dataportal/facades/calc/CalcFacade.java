@@ -372,7 +372,14 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "from tmp.dpContacts  a \n"
                 +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 +  "where a.coid is null \n"
-                +  "\n\n"    
+                +  "\n\n" 
+            //Temp Kontakte aktualisieren
+                +  "update a \n"
+                +  "set a.coid = b.coid \n"
+                +  "from tmp.dpContacts a \n"
+                +  "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
+                +  "where a.coid is null \n"
+                +  "\n\n"
             //Telefon aus DP übernehmen
                 +  "update b \n"
                 +  "set cdDetails = phone \n"
