@@ -265,9 +265,6 @@ public class SpecificFunctionRequest implements Serializable {
     private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
-        if (_requestProjectedCenters.isEmpty()) {
-            _requestProjectedCenters.add(new RequestProjectedCenter(_id));
-        }
         return _requestProjectedCenters;
     }
 

@@ -49,7 +49,7 @@ public class SpecificFunction implements Serializable {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Center">
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
     @Column(name = "sfText")
     @Documentation(key = "lblNotation")
     private String _text = "";

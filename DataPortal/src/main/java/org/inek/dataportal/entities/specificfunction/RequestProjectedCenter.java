@@ -71,6 +71,7 @@ public class RequestProjectedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "rpcCenterId")
+    @Documentation(name = "Zentrum")
     private CenterName _centerName;
 
     public CenterName getContentText() {
@@ -84,7 +85,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherCenterName">
     @Column(name = "rpcOtherCenterName")
-    @Documentation(name = "Art des Zentrums")
+    @Documentation(name = "Sonstige Art des Zentrums")
     private String _otherCenterName = "";
 
     @Size(max = 250)
@@ -112,20 +113,6 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property SpecificFunctionIds">
-    @Documentation(name = "Besondere Aufgaben")
-    @Transient
-    private List<Integer> _specificFunctionIds = new Vector<>();
-
-    public List<Integer> getSpecificFunctionIds() {
-        return _specificFunctionIds;
-    }
-
-    public void setSpecificFunctionIds(List<Integer> specificFunctionIds) {
-        _specificFunctionIds = specificFunctionIds;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
     @OneToMany
     @JoinTable(
@@ -136,6 +123,7 @@ public class RequestProjectedCenter implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
     )
+    @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
 
     public List<SpecificFunction> getSpecificFunctions() {
@@ -253,7 +241,14 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <= 0 && _otherCenterName.isEmpty() && _location.isEmpty() && _otherSpecificFunction.isEmpty() && _typeId == 0 && _estimatedPatientCount == 0;
+        return _id <= 0 
+                && _centerId == 0
+                && _otherCenterName.isEmpty() 
+                && _location.isEmpty() 
+                && _specificFunctions.isEmpty()
+                && _otherSpecificFunction.isEmpty() 
+                && _typeId == 0 
+                && _estimatedPatientCount == 0;
     }
 
 }

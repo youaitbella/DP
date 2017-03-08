@@ -27,7 +27,6 @@
                                            ? editSpecificFunction.request.code 
                                            : msg.lblNotGrantedYet}" />
                 <inek:LabeledText rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}" 
-                                  readonly="#{not sessionController.isInekUser('SPECIFIC_FUNCTION')}"
                                   singleLine="true"
                                   displayAsLabel="true"
                                   label="#{msg.lblContractKey}" 
