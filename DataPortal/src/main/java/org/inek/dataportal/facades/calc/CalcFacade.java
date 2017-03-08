@@ -411,7 +411,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "from tmp.dpContacts a \n"
                 +  "join CallCenterDB.dbo.ivMapCustomerID b on a.cuId = b.cuId and caCalcTypeId in (" + calcTypes + ") and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 +  "left join CallCenterDB.dbo.mapCustomerCalcContact on a.coId = mcccContactId and ciId = mcccCalcInformationId \n"
-                +  "where mcccContactId is null \n"
+                +  "where mcccContactId is null and a.coid is not null\n"
                 +  "\n\n"
             //Prio setzen
                 +  "update a \n"
