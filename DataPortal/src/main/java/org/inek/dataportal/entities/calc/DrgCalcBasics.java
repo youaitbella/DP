@@ -962,7 +962,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "Perinatalzentrum")
+    @Documentation(name = "Neonatologische Versorgung")
     private List<DrgNeonatData> _neonateData = new Vector<>();
 
     public List<DrgNeonatData> getNeonateData() {

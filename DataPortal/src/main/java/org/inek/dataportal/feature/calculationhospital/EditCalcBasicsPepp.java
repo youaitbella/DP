@@ -59,6 +59,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -409,7 +410,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
      */
     public String seal() {
         populateDefaultsForUnreachableFields();
-        if (!statementIsComplete()) {
+        if (!calcBasicsIsComplete()) {
             return getActiveTopic().getOutcome();
         }
 
@@ -435,13 +436,22 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         // todo
     }
 
-    private boolean statementIsComplete() {
-        // todo
-        return true;
+    private boolean calcBasicsIsComplete() {
+        MessageContainer message = CalcBasicsPsyValidator.composeMissingFieldsMessage(_calcBasics);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            setActiveTopic(message.getTopic());
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
     }
 
     public String requestApproval() {
-        if (!statementIsComplete()) {
+        if (!calcBasicsIsComplete()) {
             return null;
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
