@@ -80,33 +80,34 @@
                                           value="#{center.specificFunctions}">
                         <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
                         <f:converter converterId="SpecificFunctionConverter"/>
-                        <f:ajax event="change" render=":logout:remaining"/>
+                        <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
                     </h:selectManyCheckbox>
                 </div>
+                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage inputright"/>
             </div>
 
-            <div class="inputPart">
+            <!--div class="inputPart">
                 <h:outputLabel id="lblOtherSpecificFunction" value="Sonstige Aufgaben" styleClass="label element12em" for="otherSpecificFunction"/>
                 <h:inputText id="otherSpecificFunction" 
                              styleClass="element100-12em"
-                             readonly="#{not center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                             required="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                             readonly="# not center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                             required="# {center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
                              title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)"
-                             value="#{center.otherSpecificFunction}" >
+                             value="# {center.otherSpecificFunction}" >
                     <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/>
-                    <!--f:ajax event="change" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/ second event causes an error if agent is edited :( -->
+                    <f:ajax event="change" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/ second event causes an error if agent is edited :(>
                 </h:inputText>
                 <h:message id="msgOtherSpecificFunction" for="otherSpecificFunction" styleClass="errorMessage right"/>
-            </div>
+            </div-->
 
-            <!--inek:LabeledText label="Sonstige Aufgaben"
-                              rendered="# {center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+            <inek:LabeledText label="Sonstige Aufgaben"
+                              rendered="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                              value="# {center.otherSpecificFunction}" 
+                              value="#{center.otherSpecificFunction}" 
                               required="true"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
-                              singleLine="true"/-->
+                              singleLine="true"/>
 
             <inek:LabeledText label="Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 

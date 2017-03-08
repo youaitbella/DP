@@ -337,7 +337,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             iks.add(_request.getIk());
         }
         Account account = _sessionController.getAccount();
-        if (account.getIK() > 0) {
+        if (account.getIK() != null && account.getIK() > 0) {
             iks.add(account.getIK());
         }
         for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {

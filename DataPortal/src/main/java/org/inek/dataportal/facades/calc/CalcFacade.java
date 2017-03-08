@@ -983,7 +983,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
     
     public boolean existActiveCalcBasicsDrg(int ik) {
-        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year and c._statusID < 10";
+        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
         TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
         query.setParameter("ik", ik);
         query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
