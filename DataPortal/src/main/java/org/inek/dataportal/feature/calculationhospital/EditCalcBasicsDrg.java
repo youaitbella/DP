@@ -727,6 +727,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void downloadTemplateIntensiv() {
         Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
     }
+    
+    private static final String _headLineRadiology = "KostenstelleNummer;KostenstelleName;"
+            + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
+            + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
+    
+    public void downloadRadiologyTemplate() {
+        Utils.downloadText(_headLineRadiology+ "\n", "Radiology.csv");
+    }
+    
+    private static final String _headLineMedInfra = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
+    
+    public void downloadMedInfraTemplate() {
+        Utils.downloadText(_headLineMedInfra + "\n", "MedInfra.csv");
+    }
 
     private String _importMessageIntensiv = "";
 
@@ -1216,6 +1230,139 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         } catch (IOException | NoSuchElementException e) {
         }
+    }
+    
+    public void uploadRadiology() {
+        try {
+            int headlineLength = _headLineRadiology.split(";").length;
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                String alertText = "";
+                int lineNum = 0;
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    lineNum++;
+                    if (!line.equals(_headLineRadiology)) {
+                        String[] values = line.split(";");
+                        if(values.length != headlineLength) {
+                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                            continue;
+                        }
+                        KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
+                        radio.setBaseInformationId(_calcBasics.getId());
+                        radio.setCostCenterId(9);
+                        try { radio.setCostCenterNumber(Integer.parseInt(values[0])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 1: Zahl erwartet.\\n"; continue; }
+                        radio.setCostCenterText(values[1]);
+                        String service = values[2].toLowerCase();
+                        if(service.equals("hauskatalog"))
+                            radio.setServiceDocHome(true);
+                        else if(service.equals("dkg-nt"))
+                            radio.setServiceDocDKG(true);
+                        else if(service.equals("ebm"))
+                            radio.setServiceDocEBM(true);
+                        else if(service.equals("goä"))
+                            radio.setServiceDocGOA(true);
+                        else if(service.equals("sonstige"))
+                            radio.setServiceDocDif(true);
+                        radio.setDescription(values[3]);
+                        try { radio.setServiceVolumePre(Integer.parseInt(values[4])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
+                        try { radio.setAmountPre(Integer.parseInt(values[5])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 5: Zahl erwartet.\\n"; continue; }
+                        try { radio.setServiceVolumePost(Integer.parseInt(values[6])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 6: Zahl erwartet.\\n"; continue; }
+                        try { radio.setAmountPost(Integer.parseInt(values[7])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 7: Zahl erwartet.\\n"; continue; }
+                        if(checkRadiologyRedundantEntry(radio)) {
+                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+                            continue;
+                        }
+                        _calcBasics.getRadiologyLaboratories().add(radio);
+                    }
+                }
+                if(alertText.length() > 0)
+                    _sessionController.alertClient(alertText);
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+    
+    private boolean checkRadiologyRedundantEntry(KGLListRadiologyLaboratory radio) {
+        for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if(rl.getCostCenterId() == 9) {
+                if(rl.equals(radio)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void uploadMedInfra(int costType) {
+        try {
+            int headlineLength = _headLineMedInfra.split(";").length;
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                String alertText = "";
+                int lineNum = 0;
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    lineNum++;
+                    if (!line.equals(_headLineMedInfra)) {
+                        String[] values = line.split(";");
+                        if(values.length != headlineLength) {
+                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                            continue;
+                        }
+                        KGLListMedInfra medInfra = new KGLListMedInfra();
+                        medInfra.setBaseInformationId(_calcBasics.getId());
+                        medInfra.setCostTypeId(costType);
+                        medInfra.setCostCenterNumber(values[0]);
+                        medInfra.setCostCenterText(values[1]);
+                        medInfra.setKeyUsed(values[2]);
+                        try { medInfra.setAmount(Integer.parseInt(values[3])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
+                        if(checkMedInfraRedundantEntry(medInfra)) {
+                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+                            continue;
+                        }
+                        _calcBasics.getMedInfras().add(medInfra);
+                    }
+                }
+                if(alertText.length() > 0)
+                    _sessionController.alertClient(alertText);
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+    
+    private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
+        for(KGLListMedInfra mi : _calcBasics.getMedInfras()) {
+            if(mi.getCostTypeId() == medInfra.getCostTypeId()) {
+                if(mi.equals(medInfra))
+                    return true;
+            }
+        }
+        return false;
     }
     
     private boolean checkCostCenterCostRedundantEntry(KGLListCostCenterCost ccc) {
