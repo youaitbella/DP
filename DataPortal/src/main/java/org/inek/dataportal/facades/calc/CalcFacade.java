@@ -242,7 +242,7 @@ public class CalcFacade extends AbstractDataAccess {
         //Contacts
         performInsertUpdateContactRoleICMT(participance.getIk(), "Drg", "1", 3);
         performInsertUpdateContactRoleICMT(participance.getIk(), "Psy", "3", 12);
-        performInsertUpdateContactRoleICMT(participance.getIk(), "Consultant", "1,3", 14);
+        performInsertUpdateContactRoleICMT(participance.getIk(), "Consultant", "1, 3, 14", 14);
     }
     
     private void performInsertStatementOfParticipance(int ik, int calcType, String column){
@@ -335,6 +335,10 @@ public class CalcFacade extends AbstractDataAccess {
     }
   
     private void performInsertUpdateContactRoleICMT(int ik, String column, String calcTypes, int roleID){
+        String columnCons = column;
+        if(roleID == 14){
+            columnCons = "WithConsultant";
+        }
         String sql = ""
             //temp Tabelle mit Kontaktinfos anlegen
                 +  "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
@@ -350,7 +354,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "			where coIsMain = 0 \n"
                 +  "			and mcrRoleId = " + roleID + "\n"
                 +  ")cr on cuid = customerId and a.coFirstName = cr.firstName and a.coLastName = cr.lastName \n"
-                +  "where sopIs"+ column + " = 1 \n"
+                +  "where sopIs"+ columnCons + " = 1 \n"
                 +  "and sopIk = " + ik + "\n"
                 +  "and sopStatusId = 10 \n"
                 +  "and a.coIs"+ column + " = 1)a \n"
