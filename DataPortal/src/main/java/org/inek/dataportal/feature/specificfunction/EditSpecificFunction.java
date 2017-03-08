@@ -237,6 +237,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
 
+        if (!request.isHasAgreement() && !request.isHasAgreement()){
+            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
+        }
         boolean hasCenters = false;
         for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
             if (center.isEmpty()) {
@@ -259,6 +262,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
         }
 
+        hasCenters = false;
         for (RequestAgreedCenter center : request.getRequestAgreedCenters()) {
             if (center.isEmpty()) {
                 continue;
@@ -266,6 +270,10 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
             checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
             checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag angeben", "");
+            hasCenters = true;
+        }
+        if (request.isHasAgreement()&& !hasCenters){
+            applyMessageValues(message, "Sie haben 'vorliegende Vereinbarung' markiert, jedoch keine Vereinbarung angegeben.", "");
         }
 
         return message;

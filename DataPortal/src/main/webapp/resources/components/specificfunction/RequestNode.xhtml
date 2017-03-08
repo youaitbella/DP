@@ -44,7 +44,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{specificFunctionRequestList.delete(node.specificFunctionRequest)}" immediate="true" rendered="#{cc.attrs.showDelete and node.specificFunctionRequest.status.value le 9}"> 
+                <h:commandLink action="#{specificFunctionRequestList.delete(node.specificFunctionRequest)}" immediate="true" rendered="#{cc.attrs.showDelete}"> 
                     <h:graphicImage alt="löschen" name="Icon/small/#{node.specificFunctionRequest.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                     title="#{node.specificFunctionRequest.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     <cb:confirmDelete/>

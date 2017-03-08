@@ -31,9 +31,9 @@
 
                     <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <spf:RequestNode parentNode="#{specificFunctionRequestTreeHandler.accountNode}" isSealed="false" 
+                        <spf:RequestNode parentNode="#{accountNode}" isSealed="false" 
                                          showDelete="true" showSelectBox="false"
-                                         rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
+                                         rendered="#{accountNode.children.size() gt 0}"/>
                     </div>
                 </div>
             </ui:repeat>
@@ -70,9 +70,9 @@
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
                             <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
                             <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <spf:RequestNode parentNode="#{specificFunctionRequestTreeHandler.accountNode}" isSealed="false" 
+                                <spf:RequestNode parentNode="#{accountNode}" isSealed="false" 
                                                  showDelete="true" showSelectBox="false"
-                                                 rendered="#{specificFunctionRequestTreeHandler.accountNode.children.size() gt 0}"/>
+                                                 rendered="#{accountNode.children.size() gt 0}"/>
                             </div>
                         </div>
                     </ui:repeat>
