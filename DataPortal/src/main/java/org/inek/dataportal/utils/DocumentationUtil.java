@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -62,27 +63,27 @@ public class DocumentationUtil {
         return fieldValues;
     }
 
-    private void documentObject(Object o) {
-        for (Field field : o.getClass().getDeclaredFields()) {
+    private void documentObject(Object obj) {
+        for (Field field : obj.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
                 continue;
             }
             try {
                 field.setAccessible(true);
-                Object rawValue = field.get(o);
+                Object rawValue = field.get(obj);
                 docElement(doc, field.getName(), rawValue);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
-        for (Method method : o.getClass().getMethods()) {
+        for (Method method : obj.getClass().getMethods()) {
             Documentation doc = method.getAnnotation(Documentation.class);
             if (doc == null) {
                 continue;
             }
             try {
                 method.setAccessible(true);
-                Object rawValue = method.invoke(o);
+                Object rawValue = method.invoke(obj);
                 docElement(doc, method.getName(), rawValue);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
@@ -106,10 +107,10 @@ public class DocumentationUtil {
         }
     }
 
-    private List<KeyValueLevel> getDocForSubObject(Object o) {
+    private List<KeyValueLevel> getDocForSubObject(Object subObj) {
         Map<Long, KeyValueLevel> sorter = new TreeMap<>();
         int position = 0;
-        for (Field field : o.getClass().getDeclaredFields()) {
+        for (Field field : subObj.getClass().getDeclaredFields()) {
             position++;
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -117,19 +118,19 @@ public class DocumentationUtil {
             }
             try {
                 field.setAccessible(true);
-                Object rawValue = field.get(o);
+                Object rawValue = field.get(subObj);
                 addDocToSubList(sorter, doc, field.getName(), rawValue, position);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
-        for (Method method : o.getClass().getMethods()) {
+        for (Method method : subObj.getClass().getMethods()) {
             Documentation doc = method.getAnnotation(Documentation.class);
             if (doc == null) {
                 continue;
             }
             try {
                 method.setAccessible(true);
-                Object rawValue = method.invoke(o);
+                Object rawValue = method.invoke(subObj);
                 addDocToSubList(sorter, doc, method.getName(), rawValue, position);
             } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException ex) {
             }
@@ -142,11 +143,21 @@ public class DocumentationUtil {
     }
 
     private void addDocToSubList(Map<Long, KeyValueLevel> subList, Documentation doc, String elementName, Object rawValue, int position) {
-        Long sorterKey = 1000L * doc.rank() + position;
-        String name = getName(doc, elementName);
-        if ((rawValue == null || rawValue.toString().length() == 0 )&& doc.omitOnEmpty() || doc.omitAlways()) {
+        boolean isEmpty = rawValue == null || rawValue instanceof Collection && ((Collection) rawValue).isEmpty() || rawValue.toString().length() == 0;
+        if (isEmpty && doc.omitOnEmpty() || doc.omitAlways()) {
             return;
         }
+        
+        Long sorterKey = 1000L * doc.rank() + position;
+        String name = getName(doc, elementName);
+        
+        if (rawValue instanceof Collection) {
+            String value = "";
+            value = (String) ((Collection) rawValue).stream().map(o -> "" + o).collect(Collectors.joining(", "));
+            subList.put(sorterKey, new KeyValueLevel<>(name, value, 1));
+            return;
+        }   
+        
         if (rawValue != null && !doc.omitOnValues().isEmpty()) {
             List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
             if (values.contains(rawValue.toString())) {

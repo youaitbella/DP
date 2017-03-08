@@ -56,7 +56,6 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterId">
     @Column(name = "rpcCenterId")
-    @Documentation(name = "Art des Zentrums")
     private int _centerId;
 
     public int getCenterId() {
@@ -85,7 +84,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherCenterName">
     @Column(name = "rpcOtherCenterName")
-    @Documentation(name = "Sonstige Art des Zentrums")
+    @Documentation(name = "Sonstige Art des Zentrums", omitOnEmpty = true)
     private String _otherCenterName = "";
 
     @Size(max = 250)
@@ -100,7 +99,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Location">
     @Column(name = "rpcLocation")
-    @Documentation(name = "Standort")
+    @Documentation(name = "Standort", omitOnEmpty = true)
     private String _location = "";
 
     @Size(max = 250)
@@ -137,7 +136,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherSpecificFunction">
     @Column(name = "rpcOtherSpecificFunction")
-    @Documentation(name = "Sonstige Besondere Aufgaben")
+    @Documentation(name = "Sonstige Besondere Aufgaben", omitOnEmpty = true)
     private String _otherSpecificFunction = "";
 
     @Size(max = 500)

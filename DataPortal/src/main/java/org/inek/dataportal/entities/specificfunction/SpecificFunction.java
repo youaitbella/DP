@@ -96,7 +96,7 @@ public class SpecificFunction implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.specificfunction.SpecificFunction[ id=" + _id + " ]";
+        return _text;
     }
     //</editor-fold>
 

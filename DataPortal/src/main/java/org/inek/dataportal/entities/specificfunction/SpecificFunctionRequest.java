@@ -261,7 +261,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property RequestProjectedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "rmId")
-    @Documentation(name = "geplante Vereinbarung")
+    @Documentation(name = "geplante Vereinbarung", omitOnEmpty = true)
     private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
@@ -276,7 +276,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
-    @Documentation(name = "vorliegende Vereinbarung")
+    @Documentation(name = "vorliegende Vereinbarung", omitOnEmpty = true)
     private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
 
     public List<RequestAgreedCenter> getRequestAgreedCenters() {
