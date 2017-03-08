@@ -15,8 +15,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -115,6 +117,10 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         request.setPhone(account.getPhone());
         request.setMail(account.getEmail());
         request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        List<SelectItem> iks = getIks();
+        if (iks.size() == 1){
+            request.setIk((int) iks.get(0).getValue());
+        }
         return request;
     }
 
@@ -237,7 +243,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
 
-        if (!request.isHasAgreement() && !request.isHasAgreement()){
+        if (!request.isWillNegotiate() && !request.isHasAgreement()){
             applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
         }
         boolean hasCenters = false;
@@ -255,7 +261,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
                 checkField(message, center.getOtherSpecificFunction(), "Bitte sonstige besondere Aufgaben angeben", "");
             }
             checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
-            checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Bitte besondere Aufgaben angeben", "");
+            checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Anzahl der Patienten muss größer 0 sein.", "");
             hasCenters = true;
         }
         if (request.isWillNegotiate() && !hasCenters){

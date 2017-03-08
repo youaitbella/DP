@@ -115,7 +115,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return findAll(CenterName.class)
                 .stream()
                 .filter(n -> n.getId() > 0)
-                .sorted((n1, n2) -> n1.getName().compareTo(n2.getName()))
+                .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.getName())))
                 .collect(Collectors.toList());
     }
   

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
 <topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title translate="true">Besondere Aufgaben</title>
+  <title translate="true">Besondere Aufgaben / Zentrum</title>
   <body>
     <header>
-      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Besondere Aufgaben</text></para>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Besondere Aufgaben / Zentrum</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Vereinbarung gemäß § 9 Absatz 1a Nummer 2 KHEntgG zur Konkretisierung der besonderen Aufgaben nach § 2 Absatz 2 Satz 2 Nummer 4 KHEntgG (Zentrumsvereinbarung) heißt es:</text></para>
     <para styleclass="Normal"></para>
@@ -24,7 +24,7 @@
     <para style="text-align:justify; text-indent:-47px; margin-left:47px; line-height:1.07;"></para>
     <para style="text-align:justify; text-indent:-47px; margin-left:47px; line-height:1.07;"><text styleclass="Font Style" style="font-family:Calibri; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">(Zitat Ende)</text></para>
     <para style="text-align:justify; text-indent:-47px; margin-left:47px; line-height:1.07;"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">In Abstimmung mit den Selbstverwaltungspartnern hat das InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> den Bereich </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besondere Aufgaben</text><text styleclass="Normal" translate="true"> erstellt. Hier können seitens der Krankenhäuser die entsprechenden Meldungen übermittelt und nach Vergabe des Vertragskennzeichens sowie &#160;der Genehmigung des Zuschlags die entsprechenden Informationen seitens der Krankenkassen erfasst werden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In Abstimmung mit den Selbstverwaltungspartnern hat das InEK im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> den Bereich </text><text styleclass="Normal" style="font-style:italic;" translate="true">Besondere Aufgaben / Zentrum</text><text styleclass="Normal" translate="true"> erstellt. Hier können seitens der Krankenhäuser die entsprechenden Meldungen übermittelt und nach Vergabe des Vertragskennzeichens sowie &#160;der Genehmigung des Zuschlags die entsprechenden Informationen seitens der Krankenkassen erfasst werden.</text></para>
     <para styleclass="Normal"></para>
   </body>
 </topic>

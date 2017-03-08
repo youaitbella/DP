@@ -144,10 +144,10 @@ public class DocumentationUtil {
     private void addDocToSubList(Map<Long, KeyValueLevel> subList, Documentation doc, String elementName, Object rawValue, int position) {
         Long sorterKey = 1000L * doc.rank() + position;
         String name = getName(doc, elementName);
-        if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
+        if ((rawValue == null || rawValue.toString().length() == 0 )&& doc.omitOnEmpty() || doc.omitAlways()) {
             return;
         }
-        if (!doc.omitOnValues().isEmpty()) {
+        if (rawValue != null && !doc.omitOnValues().isEmpty()) {
             List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
             if (values.contains(rawValue.toString())) {
                 return;
@@ -178,6 +178,9 @@ public class DocumentationUtil {
     }
 
     private String translate(Object rawValue, Documentation doc) {
+        if (rawValue == null){
+            return "";
+        }
         if (rawValue instanceof Boolean) {
             return (boolean) rawValue ? "Ja" : "Nein"; // todo: replace by localized message
         }

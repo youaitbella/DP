@@ -44,13 +44,18 @@
                     <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
-                <h:inputText id="otherName" 
-                             styleClass="element100-37em"
-                             rendered="#{center.centerId eq -1}"
-                             title="Bezeichung eines sonstigen Zentrums"
-                             value="#{center.otherCenterName}" 
-                             required="true">
-                </h:inputText>
+                <h:panelGroup id="otherName" 
+                              styleClass="element100-37em"
+                              rendered="#{center.centerId eq -1}">
+                    <h:inputText id="txtCenterOtherName"
+                                 title="Bezeichung eines sonstigen Zentrums"
+                                 styleClass="element100"
+                                 value="#{center.otherCenterName}" 
+                                 required="true">
+                        <f:ajax rendered=":logout:remaining msgCenterOtherName"/>
+                    </h:inputText>
+                    <h:message for="txtCenterOtherName" id="msgCenterOtherName" styleClass="errorMessage"/>
+                </h:panelGroup>
             </div>
 
             <inek:LabeledText label="Standort"
@@ -79,7 +84,7 @@
                     </h:selectManyCheckbox>
                 </div>
             </div>
-            
+
             <div class="inputPart">
                 <h:outputLabel id="lblOtherSpecificFunction" value="Sonstige Aufgaben" styleClass="label element12em" for="otherSpecificFunction"/>
                 <h:inputText id="otherSpecificFunction" 
@@ -88,8 +93,10 @@
                              required="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
                              title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)"
                              value="#{center.otherSpecificFunction}" >
-                    <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining"/>
+                    <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/>
+                    <!--f:ajax event="change" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/ second event causes an error if agent is edited :( -->
                 </h:inputText>
+                <h:message id="msgOtherSpecificFunction" for="otherSpecificFunction" styleClass="errorMessage right"/>
             </div>
 
             <!--inek:LabeledText label="Sonstige Aufgaben"
