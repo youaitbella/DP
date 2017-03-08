@@ -357,7 +357,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "\n\n"
             //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
                 + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver, coInfo) \n"
-                +  "select cuid, gender, title, firstName, lastName, 0, 1, 1, consultantCompany \n"
+                +  "select cuid, case when gender = 1 then 'F' when gender = 2 then 'H' else 'U' end gender, title, firstName, lastName, 0, 1, 1, consultantCompany \n"
                 +  "from tmp.dpContacts \n"
                 +  "where coid is null \n"
                 +  "\n\n"
