@@ -307,5 +307,31 @@
         </tr>
     </table>
 
+    <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
+
+        <div class="uploadFile inlineBlock marginRight">
+            <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsPepp.fileStation}" >
+                <f:ajax listener="#{editCalcBasicsPepp.uploadNoticesStation()}" render="@all"/>
+            </h:inputFile>
+            <div class="fakeFile">
+                <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Stationärer Bereich"/>
+            </div>
+        </div>
+
+        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsPepp.getDownloadTemplateStation()}" immediate="true"/>
+
+        <h:commandLink rendered="#{editCalcBasicsPepp.importMessageStation.length() gt 0}" 
+                       styleClass="button"
+                       value="#{msg.btnJournal} &nbsp; #{editCalcBasicsPepp.showJournalStation ? '˄' : '˅'}" 
+                       actionListener="#{editCalcBasicsPepp.toggleJournalStation}">
+            <f:ajax render="@this :pnlProtokoll :logout:remaining"/>
+        </h:commandLink>
+
+        <h:inputTextarea id="journalStation" rendered="#{editCalcBasicsPepp.importMessageStation.length() gt 0 and editCalcBasicsPepp.showJournalStation}" 
+                         value="#{editCalcBasicsPepp.importMessageStation}"
+                         readonly="true"
+                         styleClass="element100 #{editCalcBasicsPepp.importMessageStation.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
+    </h:panelGroup>
+
 </ui:composition>
 
