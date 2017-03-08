@@ -74,6 +74,7 @@ public class DrgNeonatData implements Serializable {
     @PrimaryKeyJoinColumn(name = "ndContentTextId")
     private DrgContentText _contentText;
 
+    @Documentation(name = "Bereich")
     public DrgContentText getContentText() {
         return _contentText;
     }
