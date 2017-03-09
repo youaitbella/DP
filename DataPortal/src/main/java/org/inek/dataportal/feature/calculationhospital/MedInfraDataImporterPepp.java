@@ -30,6 +30,7 @@ public class MedInfraDataImporterPepp {
 
     private int _errorRowCount = 0;
     private int _errorColumnCount = 0;
+    private int _infoColumnCount = 0;
 
     public int getErrorRowCount() {
         return _errorRowCount;
@@ -58,7 +59,9 @@ public class MedInfraDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen " + _errorMsg;
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
+                + _infoColumnCount + " nicht angegebene Werte\n\n" + _errorMsg;
     }
     
     public void tryImportLine(String line) {
@@ -103,6 +106,11 @@ public class MedInfraDataImporterPepp {
         _errorColumnCount++;
     }
     
+    private void addColumnInfoMsg(String message) {
+        _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
+        _infoColumnCount++;
+    }
+    
     private boolean itemExists(KGPListMedInfra item) {
         for (KGPListMedInfra infra : _calcBasics.getKgpMedInfraList()) {
             if (infra.getCostCenterNumber().equals(item.getCostCenterNumber()) &&
@@ -142,7 +150,11 @@ public class MedInfraDataImporterPepp {
             }
         } catch (ParseException ex) {
             bind.accept(item, 0);
-            addColumnErrorMsg(errorMsg + "Wert ist keine gültige Zahl: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            if (data.isEmpty()) {
+                addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
         }
     }
     
