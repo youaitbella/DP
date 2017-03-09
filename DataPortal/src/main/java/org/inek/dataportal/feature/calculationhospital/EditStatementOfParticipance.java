@@ -395,7 +395,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
+        if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled) || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
             return false;
         }
         return !_calcFacade.existActiveStatementOfParticipance(_statement.getIk());
