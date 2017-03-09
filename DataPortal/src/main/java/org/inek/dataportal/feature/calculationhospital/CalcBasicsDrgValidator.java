@@ -161,7 +161,7 @@ public class CalcBasicsDrgValidator {
     }
 
     private static void applyMessageValues(MessageContainer message, String msgKey, Pages page, String elementId) {
-        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
             String topicName = page == null ? "" : page.URL();
             message.setTopic(topicName);

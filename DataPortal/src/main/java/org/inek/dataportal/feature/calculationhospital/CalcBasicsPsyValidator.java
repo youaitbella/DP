@@ -50,7 +50,7 @@ public class CalcBasicsPsyValidator {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="checkOpAn">
+    //<editor-fold defaultstate="collapsed" desc="checkTherapeuticScope">
     private static void checkTherapeuticScope(PeppCalcBasics calcBasics, MessageContainer message) {
     }
     //</editor-fold>
@@ -105,7 +105,7 @@ public class CalcBasicsPsyValidator {
     }
 
     private static void applyMessageValues(MessageContainer message, String msgKey, Pages page, String elementId) {
-        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
             String topicName = page == null ? "" : page.URL();
             message.setTopic(topicName);
