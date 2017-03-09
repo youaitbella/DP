@@ -6,6 +6,8 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.KGLOpAn;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 
@@ -42,7 +44,7 @@ public class CalcBasicsDrgValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
    private static void checkBasics(DrgCalcBasics calcBasics, MessageContainer message) {
-       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "form:ikMulti", "todo:page");
+       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "calcBasics:ikMulti", Pages.CalcDrgBasics);
    }
     //</editor-fold>
     
@@ -58,6 +60,19 @@ public class CalcBasicsDrgValidator {
     
     //<editor-fold defaultstate="collapsed" desc="checkOpAn">
     private static void checkOpAn(DrgCalcBasics calcBasics, MessageContainer message) {
+       KGLOpAn opAn = calcBasics.getOpAn();
+       if (!opAn.isCentralOP()){
+           // if there is no OperationRoom, remove any entry
+           KGLOpAn emptyOpAN = new KGLOpAn();
+           emptyOpAN.setBaseInformationId(calcBasics.getId());
+           calcBasics.setOpAn(emptyOpAN);
+           return;
+       }
+       checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", Pages.CalcDrgOperation);
+       checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", Pages.CalcDrgOperation);
+       checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", Pages.CalcDrgOperation);
+       checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", Pages.CalcDrgOperation);
+       checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", Pages.CalcDrgOperation);
     }
     //</editor-fold>
     
@@ -131,23 +146,24 @@ public class CalcBasicsDrgValidator {
     }
     //</editor-fold>
     
-    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, String topicName) {
+    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, Pages page) {
         if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, topicName, elementId);
+            applyMessageValues(message, msgKey, page, elementId);
         }
     }
 
-    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, String topicName) {
+    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, Pages page) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, topicName, elementId);
+            applyMessageValues(message, msgKey, page, elementId);
         }
     }
 
-    private static void applyMessageValues(MessageContainer message, String msgKey, String topicName, String elementId) {
+    private static void applyMessageValues(MessageContainer message, String msgKey, Pages page, String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
         if (message.getTopic().isEmpty()) {
+            String topicName = page == null ? "" : page.URL();
             message.setTopic(topicName);
             message.setElementId(elementId);
         }

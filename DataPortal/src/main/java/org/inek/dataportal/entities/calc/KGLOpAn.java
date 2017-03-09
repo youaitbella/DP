@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -38,6 +38,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="centralOPCnt">    
     @Column(name = "oaCentralOPCnt")
+    @Documentation(name = "Anzahl Zentral-OPs", omitOnValues = "0")
     private int _centralOPCnt;
 
     public int getCentralOPCnt() {
@@ -50,6 +51,7 @@ public class KGLOpAn implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="centralOP">    
+    @Documentation(name = "Zentral OPs vorhanden")
     public boolean isCentralOP() {
         return _centralOPCnt > 0;
     }
@@ -66,6 +68,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsOP">    
     @Column(name = "oaStaffBindingMsOP")
+    @Documentation(name = "Personalbindungszeit OP ÄD")
     private boolean _staffBindingMsOP;
 
     public boolean getStaffBindingMsOP() {

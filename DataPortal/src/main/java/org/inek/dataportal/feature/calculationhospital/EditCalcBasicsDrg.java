@@ -33,7 +33,6 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
@@ -102,6 +101,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private DrgCalcBasics _priorCalcBasics;
 
     // </editor-fold>
+    
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -863,8 +863,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
         addTopic("lblBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
         addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
-        //addTopic("lblCalcOperation", Pages.CalcDrgOperation.URL());
-        //addTopic("lblCalcAnaestesia", Pages.CalcDrgAnaestesia.URL());
         addTopic("lblCalcOpAn", Pages.CalcDrgOperation.URL());
         addTopic("lblCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
         addTopic("lblCalcCardiology", Pages.CalcDrgCardiology.URL());

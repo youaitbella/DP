@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
+import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 
@@ -35,7 +36,7 @@ public class CalcBasicsPsyValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
    private static void checkBasics(PeppCalcBasics calcBasics, MessageContainer message) {
-       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "form:ikMulti", "todo:page");
+       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "form:ikMulti", Pages.CalcPeppBasics);
    }
     //</editor-fold>
     
@@ -89,23 +90,24 @@ public class CalcBasicsPsyValidator {
     }
     //</editor-fold>
     
-    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, String topicName) {
+    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, Pages page) {
         if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, topicName, elementId);
+            applyMessageValues(message, msgKey, page, elementId);
         }
     }
 
-    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, String topicName) {
+    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, Pages page) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, topicName, elementId);
+            applyMessageValues(message, msgKey, page, elementId);
         }
     }
 
-    private static void applyMessageValues(MessageContainer message, String msgKey, String topicName, String elementId) {
+    private static void applyMessageValues(MessageContainer message, String msgKey, Pages page, String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
         if (message.getTopic().isEmpty()) {
+            String topicName = page == null ? "" : page.URL();
             message.setTopic(topicName);
             message.setElementId(elementId);
         }

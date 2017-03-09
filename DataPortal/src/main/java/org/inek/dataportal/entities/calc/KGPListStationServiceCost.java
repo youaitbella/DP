@@ -60,7 +60,7 @@ public class KGPListStationServiceCost implements Serializable, IdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "sscCostCenterNumber")
-    private String _costCenterNumber;
+    private String _costCenterNumber = "";
 
     public String getCostCenterNumber() {
         return _costCenterNumber;
