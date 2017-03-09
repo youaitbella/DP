@@ -7,7 +7,6 @@ package org.inek.dataportal.feature.calculationhospital;
 
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.KGLOpAn;
-import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 

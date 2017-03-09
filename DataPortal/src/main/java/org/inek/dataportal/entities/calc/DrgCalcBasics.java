@@ -124,7 +124,7 @@ public class DrgCalcBasics implements Serializable {
         this._statusId = statusId;
     }
 
-    @Documentation(key = "lblWorkstate", rank = 10)
+    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckfunktion steht Ihnen in Kürze zur Verfügung.")
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
