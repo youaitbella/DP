@@ -8,6 +8,8 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -90,6 +92,7 @@ public class StationDataImporterPepp {
 
     private int _errorRowCount = 0;
     private int _errorColumnCount = 0;
+    private int _infoColumnCount = 0;
 
     public int getErrorRowCount() {
         return _errorRowCount;
@@ -110,17 +113,16 @@ public class StationDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen " + _errorMsg;
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
+                + _infoColumnCount + " nicht angegebene Werte\n\n" + _errorMsg;
     }
     
     public void tryImportLine(String line) {
         _totalCount++;
         try {
-            if (line.endsWith(";")) {
-                line = line + " ";
-            }
-            String[] data = line.split(";");
-            if (data.length != _columnCnt) {
+            List<String> data = splitAtUnquotedSemicolon(line);
+            if (data.size() != _columnCnt) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
             KGPListStationServiceCost item = new KGPListStationServiceCost();
@@ -150,29 +152,29 @@ public class StationDataImporterPepp {
 //            Kosten med. Infrastruktur;
 //            Kosten nicht med. Infrastruktur
 
-            tryImportString(item, data[0], (i,s) -> i.setCostCenterNumber(s), "Nummer der Kostenstelle ungültig: ");
-            tryImportString(item, data[1], (i,s) -> i.setStation(s), "Name der Station ungültig: ");
-            tryImportString(item, data[2], (i,s) -> i.setPsyPvMapping(s), "Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P) ungültig: ");
-            tryImportInteger(item, data[3], (i,s) -> i.setBedCnt(s), "Anzahl Betten ungültig: ");
-            tryImportBoolean(item, data[4], (i,s) -> i.setReceivingStation(s), "bettenführende Aufnahmestation (bitte ankreuzen) ungültig: ");
-            tryImportInteger(item, data[5], (i,s) -> i.setRegularCareDays(s), "Summe Pflegetage Regelbehandlung ungültig: ");
-            tryImportInteger(item, data[6], (i,s) -> i.setRegularWeight(s), "Summe Gewichtungspunkte** Regelbehandlung ungültig: ");
-            tryImportInteger(item, data[7], (i,s) -> i.setIntensiveCareDays(s), "Summe Pflegetage Intensivbehandlung ungültig: ");
-            tryImportInteger(item, data[8], (i,s) -> i.setIntensiveWeight(s), "Summe Gewichtungspunkte** Intensivbehandlung ungültig: ");
-            tryImportDouble(item, data[9], (i,s) -> i.setMedicalServiceCnt(s), "VK Ärztlicher Dienst ungültig: ");
-            tryImportDouble(item, data[10], (i,s) -> i.setNursingServiceCnt(s), "VK Pflegedienst/Erziehungsdienst ungültig: ");
-            tryImportDouble(item, data[11], (i,s) -> i.setPsychologistCnt(s), "VK Psychologen ungültig: ");
-            tryImportDouble(item, data[12], (i,s) -> i.setSocialWorkerCnt(s), "VK Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
-            tryImportDouble(item, data[13], (i,s) -> i.setSpecialTherapistCnt(s), "VK Spezialtherapeuten ungültig: ");
-            tryImportDouble(item, data[14], (i,s) -> i.setFunctionalServiceCnt(s), "VK med.-techn. Dienst/Funktionsdienst ungültig: ");
-            tryImportInteger(item, data[15], (i,s) -> i.setMedicalServiceAmount(s), "Kosten Ärztlicher Dienst ungültig: ");
-            tryImportInteger(item, data[16], (i,s) -> i.setNursingServiceAmount(s), "Kosten Pflegedienst/Erziehungsdienst ungültig: ");
-            tryImportInteger(item, data[17], (i,s) -> i.setPsychologistAmount(s), "Kosten Psychologen ungültig: ");
-            tryImportInteger(item, data[18], (i,s) -> i.setSocialWorkerAmount(s), "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
-            tryImportInteger(item, data[19], (i,s) -> i.setSpecialTherapistAmount(s), "Kosten Spezialtherapeuten ungültig: ");
-            tryImportInteger(item, data[20], (i,s) -> i.setFunctionalServiceAmount(s), "Kosten med.-techn. Dienst/Funktionsdienst ungültig: ");
-            tryImportInteger(item, data[21], (i,s) -> i.setMedicalInfrastructureAmount(s), "Kosten med. Infrastruktur ungültig: ");
-            tryImportInteger(item, data[22], (i,s) -> i.setNonMedicalInfrastructureAmount(s), "Kosten nicht med. Infrastruktur ungültig: ");
+            tryImportString(item, data.get(0), (i,s) -> i.setCostCenterNumber(s), "Nummer der Kostenstelle ungültig: ");
+            tryImportString(item, data.get(1), (i,s) -> i.setStation(s), "Name der Station ungültig: ");
+            tryImportString(item, data.get(2), (i,s) -> i.setPsyPvMapping(s), "Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P) ungültig: ");
+            tryImportInteger(item, data.get(3), (i,s) -> i.setBedCnt(s), "Anzahl Betten ungültig: ");
+            tryImportBoolean(item, data.get(4), (i,s) -> i.setReceivingStation(s), "bettenführende Aufnahmestation (bitte ankreuzen) ungültig: ");
+            tryImportInteger(item, data.get(5), (i,s) -> i.setRegularCareDays(s), "Summe Pflegetage Regelbehandlung ungültig: ");
+            tryImportInteger(item, data.get(6), (i,s) -> i.setRegularWeight(s), "Summe Gewichtungspunkte** Regelbehandlung ungültig: ");
+            tryImportInteger(item, data.get(7), (i,s) -> i.setIntensiveCareDays(s), "Summe Pflegetage Intensivbehandlung ungültig: ");
+            tryImportInteger(item, data.get(8), (i,s) -> i.setIntensiveWeight(s), "Summe Gewichtungspunkte** Intensivbehandlung ungültig: ");
+            tryImportDouble(item, data.get(9), (i,s) -> i.setMedicalServiceCnt(s), "VK Ärztlicher Dienst ungültig: ");
+            tryImportDouble(item, data.get(10), (i,s) -> i.setNursingServiceCnt(s), "VK Pflegedienst/Erziehungsdienst ungültig: ");
+            tryImportDouble(item, data.get(11), (i,s) -> i.setPsychologistCnt(s), "VK Psychologen ungültig: ");
+            tryImportDouble(item, data.get(12), (i,s) -> i.setSocialWorkerCnt(s), "VK Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
+            tryImportDouble(item, data.get(13), (i,s) -> i.setSpecialTherapistCnt(s), "VK Spezialtherapeuten ungültig: ");
+            tryImportDouble(item, data.get(14), (i,s) -> i.setFunctionalServiceCnt(s), "VK med.-techn. Dienst/Funktionsdienst ungültig: ");
+            tryImportInteger(item, data.get(15), (i,s) -> i.setMedicalServiceAmount(s), "Kosten Ärztlicher Dienst ungültig: ");
+            tryImportInteger(item, data.get(16), (i,s) -> i.setNursingServiceAmount(s), "Kosten Pflegedienst/Erziehungsdienst ungültig: ");
+            tryImportInteger(item, data.get(17), (i,s) -> i.setPsychologistAmount(s), "Kosten Psychologen ungültig: ");
+            tryImportInteger(item, data.get(18), (i,s) -> i.setSocialWorkerAmount(s), "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
+            tryImportInteger(item, data.get(19), (i,s) -> i.setSpecialTherapistAmount(s), "Kosten Spezialtherapeuten ungültig: ");
+            tryImportInteger(item, data.get(20), (i,s) -> i.setFunctionalServiceAmount(s), "Kosten med.-techn. Dienst/Funktionsdienst ungültig: ");
+            tryImportInteger(item, data.get(21), (i,s) -> i.setMedicalInfrastructureAmount(s), "Kosten med. Infrastruktur ungültig: ");
+            tryImportInteger(item, data.get(22), (i,s) -> i.setNonMedicalInfrastructureAmount(s), "Kosten nicht med. Infrastruktur ungültig: ");
                         
             if(itemExists(item)) {
                 return;
@@ -183,6 +185,42 @@ public class StationDataImporterPepp {
             addRowErrorMsg(ex.getMessage());
         }
     }
+
+    private List<String> splitAtUnquotedSemicolon(String line) {
+        if (line.endsWith(";")) {
+            line = line + " ";
+        }
+
+        int start = 0;
+        List<String> toks = new ArrayList<>();
+        boolean withinQuote = false;
+        for (int end = 0; end < line.length(); end++) {
+            char c = line.charAt(end);
+            switch (c) {
+                case ';':
+                    if (!withinQuote) {
+                        toks.add(line.substring(start, end));
+                        start = end + 1;
+                    }
+                    break;
+                case '\"':
+                    withinQuote = !withinQuote;
+                    break;
+            }
+        }
+        if (start < line.length()) {
+            toks.add(line.substring(start));
+        }
+
+        for (int i = 0; i < toks.size(); i++) {
+            String trimmedTok = toks.get(i).trim();
+            if (trimmedTok.startsWith("\"") && trimmedTok.endsWith("\"")) {
+                toks.set(i, trimmedTok.substring(1, trimmedTok.length()-1));
+            }
+        }
+        
+        return toks;
+    }
     
     private void addRowErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
@@ -192,6 +230,11 @@ public class StationDataImporterPepp {
     private void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
+    }
+    
+    private void addColumnInfoMsg(String message) {
+        _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
+        _infoColumnCount++;
     }
     
     private void addChangeColumn(String oldVal, String newVal) {
@@ -351,7 +394,11 @@ public class StationDataImporterPepp {
             }
         } catch (ParseException ex) {
             bind.accept(item, 0);
-            addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            if (data.isEmpty()) {
+                addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
         }
     }
     
@@ -368,7 +415,11 @@ public class StationDataImporterPepp {
             }
         } catch (ParseException ex) {
             bind.accept(item, 0.0);
-            addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            if (data.isEmpty()) {
+                addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
         }
     }
     
