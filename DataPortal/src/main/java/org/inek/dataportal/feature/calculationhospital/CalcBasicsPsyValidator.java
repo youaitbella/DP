@@ -36,7 +36,7 @@ public class CalcBasicsPsyValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
    private static void checkBasics(PeppCalcBasics calcBasics, MessageContainer message) {
-       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "form:ikMulti", Pages.CalcPeppBasics);
+       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "form:ikMulti", "lblFrontPage");
    }
     //</editor-fold>
     
@@ -90,25 +90,24 @@ public class CalcBasicsPsyValidator {
     }
     //</editor-fold>
     
-    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, Pages page) {
+    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, String topicKey) {
         if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, page, elementId);
+            applyMessageValues(message, msgKey, topicKey, elementId);
         }
     }
 
-    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, Pages page) {
+    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, String topicKey) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, page, elementId);
+            applyMessageValues(message, msgKey, topicKey, elementId);
         }
     }
 
-    private static void applyMessageValues(MessageContainer message, String msgKey, Pages page, String elementId) {
+    private static void applyMessageValues(MessageContainer message, String msgKey, String topicKey, String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
-            String topicName = page == null ? "" : page.URL();
-            message.setTopic(topicName);
+            message.setTopic(topicKey);
             message.setElementId(elementId);
         }
     }

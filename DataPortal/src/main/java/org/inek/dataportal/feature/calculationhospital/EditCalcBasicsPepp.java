@@ -409,10 +409,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
      * @return
      */
     public String seal() {
-        populateDefaultsForUnreachableFields();
         if (!calcBasicsIsComplete()) {
             return getActiveTopic().getOutcome();
         }
+        CalcBasicsPsyValueCleaner.clearUnusedFields(_calcBasics);
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
         saveData();
@@ -428,19 +428,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return "";
     }
 
-    private void populateDefaultsForUnreachableFields() {
-        // Some input fields can't be reached depending on other fields.
-        // But they might contain elder values, which became obsolte by setting the other field 
-        // Such fields will be populated with default values
-
-        // todo
-    }
-
     private boolean calcBasicsIsComplete() {
         MessageContainer message = CalcBasicsPsyValidator.composeMissingFieldsMessage(_calcBasics);
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
-            setActiveTopic(message.getTopic());
+            if (!message.getTopic().isEmpty()) {
+                setActiveTopic(message.getTopic());
+            }
             String script = "alert ('" + message.getMessage() + "');";
             if (!message.getElementId().isEmpty()) {
                 script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
