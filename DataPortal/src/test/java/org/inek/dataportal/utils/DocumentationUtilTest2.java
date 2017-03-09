@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 public class DocumentationUtilTest2 {
     
-    @Test
+    //@Test
     public void testTranslation0() {
         System.out.println("testTranslation1");
         TranslateEntity entity = new TranslateEntity();

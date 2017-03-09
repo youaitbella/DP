@@ -36,22 +36,8 @@ public class KGLOpAn implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="centralOPCnt">    
-    @Column(name = "oaCentralOPCnt")
-    @Documentation(name = "Anzahl Zentral-OPs", omitOnValues = "0")
-    private int _centralOPCnt;
-
-    public int getCentralOPCnt() {
-        return _centralOPCnt;
-    }
-
-    public void setCentralOPCnt(int centralOPCnt) {
-        this._centralOPCnt = centralOPCnt;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="centralOP">    
-    @Documentation(name = "Zentral OPs vorhanden")
+    @Documentation(name = "Zentral OPs vorhanden", rank = 3000)
     public boolean isCentralOP() {
         return _centralOPCnt > 0;
     }
@@ -66,9 +52,23 @@ public class KGLOpAn implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="centralOPCnt">    
+    @Column(name = "oaCentralOPCnt")
+    @Documentation(name = "Anzahl Zentral-OPs", omitOnValues = "0", rank = 3001, headline = "OP-Bereich und Anästhesie")
+    private int _centralOPCnt;
+
+    public int getCentralOPCnt() {
+        return _centralOPCnt;
+    }
+
+    public void setCentralOPCnt(int centralOPCnt) {
+        this._centralOPCnt = centralOPCnt;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsOP">    
     @Column(name = "oaStaffBindingMsOP")
-    @Documentation(name = "Personalbindungszeit OP ÄD")
+    @Documentation(name = "Personalbindungszeit OP ÄD", rank = 3010)
     private boolean _staffBindingMsOP;
 
     public boolean getStaffBindingMsOP() {
@@ -82,6 +82,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingFsOP">    
     @Column(name = "oaStaffBindingFsOP")
+    @Documentation(name = "Personalbindungszeit OP FD/MTD", rank = 3010)
     private boolean _staffBindingFsOP;
 
     public boolean getStaffBindingFsOP() {
@@ -95,6 +96,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzOP">    
     @Column(name = "oaMedicalServiceSnzOP")
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010)
     private int _medicalServiceSnzOP;
 
     public int getMedicalServiceSnzOP() {
@@ -108,6 +110,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzOP">    
     @Column(name = "oaFunctionalServiceSnzOP")
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=")
     private int _functionalServiceSnzOP;
 
     public int getFunctionalServiceSnzOP() {
@@ -121,6 +124,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzOP">    
     @Column(name = "oaDescriptionSnzOP")
+    @Documentation(name = "SNZ Alternative OP", rank = 3010)
     private String _descriptionSnzOP = "";
 
     public String getDescriptionSnzOP() {

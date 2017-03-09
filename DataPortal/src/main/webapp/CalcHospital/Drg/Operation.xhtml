@@ -68,19 +68,27 @@
 
         <div class="inputPart">
             <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP}" styleClass="element20"
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax render="@form :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}" styleClass="element20"
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax render="@form :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN}" styleClass="element20"
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}" styleClass="element20">
+            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}" styleClass="element20"
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="change" render="@form :logout:remaining"/>
             </h:selectOneMenu>

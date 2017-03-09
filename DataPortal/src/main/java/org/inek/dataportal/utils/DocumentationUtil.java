@@ -64,6 +64,9 @@ public class DocumentationUtil {
     }
 
     private void documentObject(Object obj) {
+        if (obj == null) {
+            return;
+        }
         for (Field field : obj.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -72,7 +75,11 @@ public class DocumentationUtil {
             try {
                 field.setAccessible(true);
                 Object rawValue = field.get(obj);
-                docElement(doc, field.getName(), rawValue);
+                if (doc.include()) {
+                    documentObject(rawValue);
+                } else {
+                    docElement(doc, field.getName(), rawValue);
+                }
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
@@ -95,6 +102,9 @@ public class DocumentationUtil {
         if (rawValue instanceof Collection) {
             documentCollection(doc, name, (Collection) rawValue);
         } else {
+            if(!doc.headline().isEmpty()){
+                addDoc("", doc.headline(), doc, 0);
+            }
             addDoc(name, rawValue, doc, 0);
         }
     }
@@ -148,17 +158,17 @@ public class DocumentationUtil {
         if (isEmpty && doc.omitOnEmpty() || doc.omitAlways()) {
             return;
         }
-        
+
         Long sorterKey = 1000L * doc.rank() + position;
         String name = getName(doc, elementName);
-        
+
         if (rawValue instanceof Collection) {
             String value = "";
             value = (String) ((Collection) rawValue).stream().map(o -> "" + o).collect(Collectors.joining(", "));
             subList.put(sorterKey, new KeyValueLevel<>(name, value, 1));
             return;
-        }   
-        
+        }
+
         if (rawValue != null && !doc.omitOnValues().isEmpty()) {
             List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
             if (values.contains(rawValue.toString())) {
@@ -190,7 +200,7 @@ public class DocumentationUtil {
     }
 
     private String translate(Object rawValue, Documentation doc) {
-        if (rawValue == null){
+        if (rawValue == null) {
             return "";
         }
         if (rawValue instanceof Boolean) {

@@ -37,6 +37,8 @@ public @interface Documentation {
      */
     public String key() default "";
 
+    public String headline() default "";
+
     /**
      * Translates values which are given as a list of pairs, separated by semicolon:
      * original=translation[;original=translation]...
@@ -82,4 +84,11 @@ public @interface Documentation {
      * @return
      */
     public boolean isMoneyFormat() default false;
+    
+    /**
+     * Includes documentation of this object onto top level.
+     * Use this for documentation of OneToOne joined objects
+     * @return 
+     */
+    public boolean include() default false;
 }
