@@ -328,6 +328,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
+    @Documentation(name = "Leistungen im Bereich der Gynäkologie")
     private boolean _gynecology;
 
     public boolean isGynecology() {
@@ -341,6 +342,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="obstetrical">
     @Column(name = "biObstetrical")
+    @Documentation(name = "Leistungen im Bereich Geburtshilfe")
     private boolean _obstetrical;
 
     public boolean isObstetrical() {
@@ -354,6 +356,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomHours">
     @Column(name = "biDeliveryRoomHours")
+    @Documentation(name = "Aufenthaltszeit der Patientin im Kreißsaal (Std.)", omitOnEmpty = true)
     private double _deliveryRoomHours;
 
     public double getDeliveryRoomHours() {
@@ -367,6 +370,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomPreBirthHabitationCnt">
     @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
+    @Documentation(name = "davon für vorgeburtliche Kreißsaalaufenthalte", omitOnEmpty = true)
     private int _deliveryRoomPreBirthHabitationCnt;
 
     @Min(0)
@@ -381,6 +385,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomInstationBirthCnt">
     @Column(name = "biDeliveryRoomInstationBirthCnt")
+    @Documentation(name = "Anzahl vollstationär geborener Kinder", omitOnEmpty = true)
     private int _deliveryRoomInstationBirthCnt;
 
     @Min(0)
@@ -395,6 +400,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
     @Column(name = "biNoDeliveryRoomHabitation")
+    @Documentation(name = "Bei vorgeburtlichen Fällen keine Aufenthaltszeiten der Patientin im Kreißsaal", omitOnEmpty = true)
     private boolean _noDeliveryRoomHabitation;
 
     public boolean isNoDeliveryRoomHabitation() {
@@ -956,7 +962,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationId", referencedColumnName = "biID")
-    //@Documentation(name = "Neonat")
+    @Documentation(name = "Neonatologische Versorgung")
     private List<DrgNeonatData> _neonateData = new Vector<>();
 
     public List<DrgNeonatData> getNeonateData() {
