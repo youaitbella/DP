@@ -102,7 +102,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private DrgCalcBasics _priorCalcBasics;
 
     // </editor-fold>
-    
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -729,17 +728,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void downloadTemplateIntensiv() {
         Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
     }
-    
+
     private static final String _headLineRadiology = "KostenstelleNummer;KostenstelleName;"
             + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
             + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
-    
+
     public void downloadRadiologyTemplate() {
-        Utils.downloadText(_headLineRadiology+ "\n", "Radiology.csv");
+        Utils.downloadText(_headLineRadiology + "\n", "Radiology.csv");
     }
-    
+
     private static final String _headLineMedInfra = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
-    
+
     public void downloadMedInfraTemplate() {
         Utils.downloadText(_headLineMedInfra + "\n", "MedInfra.csv");
     }
@@ -987,10 +986,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
      * @return
      */
     public String seal() {
-        populateDefaultsForUnreachableFields();
         if (!calcBasicsIsComplete()) {
-            return getActiveTopic().getOutcome();
+            return "";
         }
+        CalcBasicsDrgValueCleaner.clearUnusedFields(_calcBasics);
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
@@ -1007,19 +1006,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return "";
     }
 
-    private void populateDefaultsForUnreachableFields() {
-        // Some input fields can't be reached depending on other fields.
-        // But they might contain elder values, which became obsolte by setting the other field 
-        // Such fields will be populated with default values
-
-        // todo
-    }
-
     private boolean calcBasicsIsComplete() {
         MessageContainer message = CalcBasicsDrgValidator.composeMissingFieldsMessage(_calcBasics);
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
-            setActiveTopic(message.getTopic());
+            if (!message.getTopic().isEmpty()) {
+                setActiveTopic(message.getTopic());
+            }
             String script = "alert ('" + message.getMessage() + "');";
             if (!message.getElementId().isEmpty()) {
                 script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
@@ -1069,7 +1062,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _ikItems;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
@@ -1128,7 +1121,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void downloadTemplate() {
         Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
-    
+
     public void downloadNormalStationTemplate() {
         Utils.downloadText(normalHeadLine + "\n", "Normalstation.csv");
     }
@@ -1172,13 +1165,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
     private String normalHeadLine = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
-                    + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
-                    + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
-                    + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
-                    + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
-                    + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle";
+            + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
+            + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
+            + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
+            + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
+            + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle";
+
     public void uploadNormalWard() {
         try {
             int headlineLength = normalHeadLine.split(";").length;
@@ -1203,8 +1197,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     lineNum++;
                     if (!line.equals(normalHeadLine)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+values.length+" gefunden) \\n";
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
@@ -1213,34 +1207,105 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         ccc.setCostCenterText(values[1]);
                         ccc.setDepartmentKey(values[2]);
                         ccc.setDepartmentAssignment(values[3]);
-                        try { ccc.setBedCnt(Integer.parseInt(values[4])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setCareDays(Integer.parseInt(values[5])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 5: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setPprMinutes(Integer.parseInt(values[6])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 6: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setPprWeight(Integer.parseInt(values[7])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 7: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setMedicalServiceCnt(Double.parseDouble(values[8])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 8: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setNursingServiceCnt(Double.parseDouble(values[9])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 9: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setFunctionalServiceCnt(Double.parseDouble(values[10])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 10: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setMedicalServiceAmount(Integer.parseInt(values[11])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 11: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setNursingServiceAmount(Integer.parseInt(values[12])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 12: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setFunctionalServiceAmount(Integer.parseInt(values[13])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 13: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setOverheadsMedicine(Integer.parseInt(values[14])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 14: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 15: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 16: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 17: Zahl erwartet.\\n"; continue; }
-                        if(checkCostCenterCostRedundantEntry(ccc)) {
-                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+                        try {
+                            ccc.setBedCnt(Integer.parseInt(values[4]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setCareDays(Integer.parseInt(values[5]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setPprMinutes(Integer.parseInt(values[6]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setPprWeight(Integer.parseInt(values[7]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setMedicalServiceCnt(Double.parseDouble(values[8]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setNursingServiceCnt(Double.parseDouble(values[9]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setFunctionalServiceCnt(Double.parseDouble(values[10]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setNursingServiceAmount(Integer.parseInt(values[12]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setFunctionalServiceAmount(Integer.parseInt(values[13]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setOverheadsMedicine(Integer.parseInt(values[14]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        if (checkCostCenterCostRedundantEntry(ccc)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
                         _calcBasics.getCostCenterCosts().add(ccc);
                     }
                 }
-                if(alertText.length() > 0)
+                if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
+                }
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
     public void uploadRadiology() {
         try {
             int headlineLength = _headLineRadiology.split(";").length;
@@ -1265,56 +1330,83 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     lineNum++;
                     if (!line.equals(_headLineRadiology)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+values.length+" gefunden) \\n";
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
                         radio.setBaseInformationId(_calcBasics.getId());
                         radio.setCostCenterId(9);
-                        try { radio.setCostCenterNumber(Integer.parseInt(values[0])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 1: Zahl erwartet.\\n"; continue; }
+                        try {
+                            radio.setCostCenterNumber(Integer.parseInt(values[0]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: Zahl erwartet.\\n";
+                            continue;
+                        }
                         radio.setCostCenterText(values[1]);
                         String service = values[2].toLowerCase();
-                        if(service.equals("hauskatalog"))
+                        if (service.equals("hauskatalog")) {
                             radio.setServiceDocHome(true);
-                        else if(service.equals("dkg-nt"))
+                        } else if (service.equals("dkg-nt")) {
                             radio.setServiceDocDKG(true);
-                        else if(service.equals("ebm"))
+                        } else if (service.equals("ebm")) {
                             radio.setServiceDocEBM(true);
-                        else if(service.equals("goä"))
+                        } else if (service.equals("goä")) {
                             radio.setServiceDocGOA(true);
-                        else if(service.equals("sonstige"))
+                        } else if (service.equals("sonstige")) {
                             radio.setServiceDocDif(true);
+                        }
                         radio.setDescription(values[3]);
-                        try { radio.setServiceVolumePre(Integer.parseInt(values[4])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
-                        try { radio.setAmountPre(Integer.parseInt(values[5])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 5: Zahl erwartet.\\n"; continue; }
-                        try { radio.setServiceVolumePost(Integer.parseInt(values[6])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 6: Zahl erwartet.\\n"; continue; }
-                        try { radio.setAmountPost(Integer.parseInt(values[7])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 7: Zahl erwartet.\\n"; continue; }
-                        if(checkRadiologyRedundantEntry(radio)) {
-                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+                        try {
+                            radio.setServiceVolumePre(Integer.parseInt(values[4]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setAmountPre(Integer.parseInt(values[5]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setServiceVolumePost(Integer.parseInt(values[6]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setAmountPost(Integer.parseInt(values[7]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        if (checkRadiologyRedundantEntry(radio)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
                         _calcBasics.getRadiologyLaboratories().add(radio);
                     }
                 }
-                if(alertText.length() > 0)
+                if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
+                }
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
     private boolean checkRadiologyRedundantEntry(KGLListRadiologyLaboratory radio) {
-        for(KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if(rl.getCostCenterId() == 9) {
-                if(rl.equals(radio)) {
+        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if (rl.getCostCenterId() == 9) {
+                if (rl.equals(radio)) {
                     return true;
                 }
             }
         }
         return false;
     }
-    
+
     public void uploadMedInfra(int costType) {
         try {
             int headlineLength = _headLineMedInfra.split(";").length;
@@ -1339,8 +1431,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     lineNum++;
                     if (!line.equals(_headLineMedInfra)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+values.length+" gefunden) \\n";
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListMedInfra medInfra = new KGLListMedInfra();
@@ -1349,35 +1441,43 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         medInfra.setCostCenterNumber(values[0]);
                         medInfra.setCostCenterText(values[1]);
                         medInfra.setKeyUsed(values[2]);
-                        try { medInfra.setAmount(Integer.parseInt(values[3])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
-                        if(checkMedInfraRedundantEntry(medInfra)) {
-                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+                        try {
+                            medInfra.setAmount(Integer.parseInt(values[3]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        if (checkMedInfraRedundantEntry(medInfra)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
                         _calcBasics.getMedInfras().add(medInfra);
                     }
                 }
-                if(alertText.length() > 0)
+                if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
+                }
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
     private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
-        for(KGLListMedInfra mi : _calcBasics.getMedInfras()) {
-            if(mi.getCostTypeId() == medInfra.getCostTypeId()) {
-                if(mi.equals(medInfra))
+        for (KGLListMedInfra mi : _calcBasics.getMedInfras()) {
+            if (mi.getCostTypeId() == medInfra.getCostTypeId()) {
+                if (mi.equals(medInfra)) {
                     return true;
+                }
             }
         }
         return false;
     }
-    
+
     private boolean checkCostCenterCostRedundantEntry(KGLListCostCenterCost ccc) {
-        for(KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
-            if(c.equals(ccc))
+        for (KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
+            if (c.equals(ccc)) {
                 return true;
+            }
         }
         return false;
     }

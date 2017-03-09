@@ -44,7 +44,7 @@ public class CalcBasicsDrgValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
    private static void checkBasics(DrgCalcBasics calcBasics, MessageContainer message) {
-       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "calcBasics:ikMulti", Pages.CalcDrgBasics);
+       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "calcBasics:ikMulti", "lblFrontPage");
    }
     //</editor-fold>
     
@@ -68,11 +68,11 @@ public class CalcBasicsDrgValidator {
            calcBasics.setOpAn(emptyOpAN);
            return;
        }
-       checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", Pages.CalcDrgOperation);
-       checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", Pages.CalcDrgOperation);
-       checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", Pages.CalcDrgOperation);
-       checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", Pages.CalcDrgOperation);
-       checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", Pages.CalcDrgOperation);
+       checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", "lblCalcOpAn");
+       checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", "lblCalcOpAn");
+       checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", "lblCalcOpAn");
+       checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", "lblCalcOpAn");
+       checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", "lblCalcOpAn");
     }
     //</editor-fold>
     
@@ -146,25 +146,24 @@ public class CalcBasicsDrgValidator {
     }
     //</editor-fold>
     
-    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, Pages page) {
+    private static void checkField(MessageContainer message, String value, String msgKey, String elementId, String topicKey) {
         if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, page, elementId);
+            applyMessageValues(message, msgKey, topicKey, elementId);
         }
     }
 
-    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, Pages page) {
+    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, String topicKey) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, page, elementId);
+            applyMessageValues(message, msgKey, topicKey, elementId);
         }
     }
 
-    private static void applyMessageValues(MessageContainer message, String msgKey, Pages page, String elementId) {
+    private static void applyMessageValues(MessageContainer message, String msgKey, String topicKey, String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
-            String topicName = page == null ? "" : page.URL();
-            message.setTopic(topicName);
+            message.setTopic(topicKey);
             message.setElementId(elementId);
         }
     }
