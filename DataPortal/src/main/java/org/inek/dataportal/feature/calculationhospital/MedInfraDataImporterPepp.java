@@ -12,6 +12,7 @@ import java.util.function.BiConsumer;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -69,7 +70,7 @@ public class MedInfraDataImporterPepp {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 4) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }

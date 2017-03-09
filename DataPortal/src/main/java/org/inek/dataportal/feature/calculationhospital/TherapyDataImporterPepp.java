@@ -14,6 +14,7 @@ import java.util.function.BiConsumer;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -60,7 +61,7 @@ public class TherapyDataImporterPepp {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 16) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }

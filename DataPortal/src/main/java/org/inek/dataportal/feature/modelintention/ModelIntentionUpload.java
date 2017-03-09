@@ -13,6 +13,7 @@ import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.utils.StringUtil;
 import org.inek.dataportal.utils.ValueLists;
 
 @Named
@@ -68,7 +69,7 @@ public class ModelIntentionUpload {
     }
 
     public boolean tryAddCost(String line) {
-        String[] tokens = line.split(";");
+        String[] tokens = StringUtil.splitAtUnquotedSemicolon(line);
         if (tokens.length == 5) {
             Cost cost = new Cost();
             try {
@@ -111,7 +112,7 @@ public class ModelIntentionUpload {
 
     private boolean tryAddContact(String line) {
         // todo: compose and show message to user
-        String[] tokens = line.split(";");
+        String[] tokens = StringUtil.splitAtUnquotedSemicolon(line);
         if (tokens.length == 10) {
             ModelIntentionContact contact = new ModelIntentionContact();
             try {

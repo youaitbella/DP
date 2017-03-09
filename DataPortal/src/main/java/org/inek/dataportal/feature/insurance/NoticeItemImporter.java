@@ -19,6 +19,7 @@ import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -62,7 +63,7 @@ public class NoticeItemImporter {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 9) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }

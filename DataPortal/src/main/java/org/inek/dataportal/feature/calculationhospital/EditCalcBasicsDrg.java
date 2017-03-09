@@ -77,6 +77,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -1201,9 +1202,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
                     if (!line.equals(normalHeadLine)) {
-                        String[] values = line.split(";");
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+values.length+" gefunden) \\n";
                             continue;
                         }
                         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
@@ -1263,9 +1264,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
                     if (!line.equals(_headLineRadiology)) {
-                        String[] values = line.split(";");
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+values.length+" gefunden) \\n";
                             continue;
                         }
                         KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
@@ -1337,9 +1338,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
                     if (!line.equals(_headLineMedInfra)) {
-                        String[] values = line.split(";");
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+values.length+" gefunden) \\n";
                             continue;
                         }
                         KGLListMedInfra medInfra = new KGLListMedInfra();
