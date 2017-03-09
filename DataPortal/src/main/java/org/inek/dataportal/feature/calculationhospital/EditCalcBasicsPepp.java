@@ -780,6 +780,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         Utils.downloadText(HeadlineMedInfra + "\n", "Med_Infra.csv");
     }
 
+    public void downloadTemplateHeadlineNonMedInfra() {
+        Utils.downloadText(HeadlineMedInfra + "\n", "Nicht_Med_Infra.csv");
+    }
+
     private String _importMessageMedInfra = "";
 
     public String getImportMessageMedInfra() {
