@@ -70,10 +70,10 @@
         .col-border-bottom {
             border-bottom: solid 1px #56748a;
         }
-
-        input[type=checkbox] {
-            float: right;
-            margin-right: 30px;
+        
+        .col-fixed {
+            width: 1px;
+            padding: 0 4px 0 4px;
         }
     </style>
     
@@ -87,8 +87,8 @@
         </tr>
         <tr>
             <td></td>
-            <td class="centered col-border-right col-border-bottom">Nummer der Kostenstelle</td>
-            <td class="centered col-border-right col-border-bottom">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Nummer der Kostenstelle</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
             <td class="centered col-border-right col-border-bottom">Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P)</td>
             <td class="centered col-border-right col-border-bottom">Anzahl Betten</td>
             <td class="centered col-border-right col-border-bottom">bettenführende Aufnahmestation (bitte ankreuzen)</td>
@@ -143,7 +143,7 @@
             <td>
             <inek:InputNumberWithMessage value="#{item.bedCnt}" isInt="true" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
-            <td>
+            <td style="text-align: center;">
             <h:selectBooleanCheckbox value="#{item.receivingStation}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox>            
@@ -160,7 +160,7 @@
             <td>
             <inek:InputNumberWithMessage value="#{item.intensiveWeight}" renderElement="@this"/>                
             </td>
-            <td>
+            <td style="text-align: right;">
             <h:outputLabel id="utilization" value="#{item.getUtilization()}" />                
             </td>
             </tr>
@@ -185,14 +185,14 @@
         </tr>
         <tr>
             <td></td>
-            <td class="centered col-border-right col-border-bottom">Nummer der Kostenstelle</td>
-            <td class="centered col-border-right col-border-bottom">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
-            <td class="centered col-border-right col-border-bottom">Ärztlicher Dienst</td>
-            <td class="centered col-border-right col-border-bottom">Pflegedienst/Erziehungsdienst</td>
-            <td class="centered col-border-right col-border-bottom">Psychologen</td>
-            <td class="centered col-border-right col-border-bottom">Sozialarbeiter/Sozial-/Heil-pädagogen</td>
-            <td class="centered col-border-right col-border-bottom">Spezialtherapeuten</td>
-            <td class="centered col-border-right col-border-bottom">med.-techn. Dienst/Funktionsdienst</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Nummer der Kostenstelle</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Ärztlicher Dienst</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Pflegedienst / Erziehungsdienst</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Psychologen</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Sozialarbeiter / Sozial-/Heil-pädagogen</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Spezialtherapeuten</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">med.-techn. Dienst / Funktionsdienst</td>
         </tr>
         <ui:repeat id="tblNormInt2" value="#{editCalcBasicsPepp.calcBasics.stationServiceCosts}" var="item" varStatus="loop">
             <tr>
@@ -247,16 +247,16 @@
         </tr>
         <tr>
             <td></td>
-            <td class="centered col-border-right col-border-bottom">Nummer der Kostenstelle</td>
-            <td class="centered col-border-right col-border-bottom">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
-            <td class="centered col-border-right col-border-bottom">Ärztlicher Dienst</td>
-            <td class="centered col-border-right col-border-bottom">Pflegedienst/Erziehungsdienst</td>
-            <td class="centered col-border-right col-border-bottom">Psychologen</td>
-            <td class="centered col-border-right col-border-bottom">Sozialarbeiter/Sozial-/Heil-pädagogen</td>
-            <td class="centered col-border-right col-border-bottom">Spezialtherapeuten</td>
-            <td class="centered col-border-right col-border-bottom">med.-techn. Dienst/Funktionsdienst</td>
-            <td class="centered col-border-right col-border-bottom">med. Infrastruktur</td>
-            <td class="centered col-border-right col-border-bottom">nicht med. Infrastruktur</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Nummer der Kostenstelle</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Ärztlicher Dienst</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Pflegedienst / Erziehungsdienst</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Psychologen</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Sozialarbeiter / Sozial-/Heil-pädagogen</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">Spezialtherapeuten</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">med.-techn. Dienst / Funktionsdienst</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">med. Infrastruktur</td>
+            <td class="centered col-border-right col-border-bottom col-fixed">nicht med. Infrastruktur</td>
         </tr>
         <ui:repeat id="tblNormInt3" value="#{editCalcBasicsPepp.calcBasics.stationServiceCosts}" var="item" varStatus="loop">
             <tr>
