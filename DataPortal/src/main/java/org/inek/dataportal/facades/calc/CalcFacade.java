@@ -563,12 +563,6 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<DrgCalcBasics>> violations = validator.validate(calcBasics);
-        for (ConstraintViolation<DrgCalcBasics> violation : violations) {
-            System.out.println(violation.getMessage());
-        }
-
         prepareServiceProvisionTypes(calcBasics.getServiceProvisions());
 
         if (calcBasics.getId() == -1) {

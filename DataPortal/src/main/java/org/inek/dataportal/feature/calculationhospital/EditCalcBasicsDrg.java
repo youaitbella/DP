@@ -31,6 +31,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -1207,6 +1210,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         ccc.setCostCenterText(values[1]);
                         ccc.setDepartmentKey(values[2]);
                         ccc.setDepartmentAssignment(values[3]);
+
+                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+                        Set<ConstraintViolation<KGLListCostCenterCost>> violations = validator.validate(ccc);
+                        for (ConstraintViolation<KGLListCostCenterCost> violation : violations) {
+                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
+                        }
+                        if (!violations.isEmpty()){
+                            continue;
+                        }
+
                         try {
                             ccc.setBedCnt(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
@@ -1441,6 +1454,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         medInfra.setCostCenterNumber(values[0]);
                         medInfra.setCostCenterText(values[1]);
                         medInfra.setKeyUsed(values[2]);
+
+                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+                        Set<ConstraintViolation<KGLListMedInfra>> violations = validator.validate(medInfra);
+                        for (ConstraintViolation<KGLListMedInfra> violation : violations) {
+                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
+                        }
+                        if (!violations.isEmpty()){
+                            continue;
+                        }
                         try {
                             medInfra.setAmount(Integer.parseInt(values[3]));
                         } catch (NumberFormatException ex) {

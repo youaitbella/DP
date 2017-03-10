@@ -214,19 +214,19 @@
                      columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
             <h:column>
                 <f:facet name="header">#{msg.lblNotation}</f:facet>
-                <inek:InputTextWithMessage value="#{item.text}" required="true"/>
+                <inek:InputTextWithMessage value="#{item.text}" required="#{!item.isEmpty()}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.caseCount}" required="true"/>
+                <inek:InputNumberWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.delimitationAmount}" required="true"/>
+                <inek:InputNumberWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.amount}" required="true"/>
+                <inek:InputNumberWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
             </h:column>
         </h:dataTable>
 

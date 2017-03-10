@@ -96,7 +96,7 @@ public class CalcBasicsDrgValidator {
         for (KGLListKstTop top : calcBasics.getKstTopOp()) {
             line++;
             if (top.isEmpty()) {
-                applyMessageValues(message, "Top 3 Leistung, Zeile " + line + ": Bitte angeben", "lblCalcOpAn", "");
+                //applyMessageValues(message, "Top 3 Leistung, Zeile " + line + ": Bitte angeben", "lblCalcOpAn", "");
             } else {
                 checkField(message, top.getText(), "Top 3 Leistung, Zeile " + line + ": Bitte Bezeichnung angeben", "", "lblCalcOpAn");
                 checkField(message, top.getCaseCount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Fallzahl angeben", "", "lblCalcOpAn");
