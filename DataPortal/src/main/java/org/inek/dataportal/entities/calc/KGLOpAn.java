@@ -138,6 +138,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzOP">    
     @Column(name = "oaMedicalServiceRzOP")
+    @Documentation(name = "Rüstzeit OP ÄD", rank = 3010)
     private int _medicalServiceRzOP;
 
     public int getMedicalServiceRzOP() {
@@ -151,6 +152,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzOP">    
     @Column(name = "oaFunctionalServiceRzOP")
+    @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010)
     private int _functionalServiceRzOP;
 
     public int getFunctionalServiceRzOP() {
@@ -164,6 +166,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionRzOP">    
     @Column(name = "oaDescriptionRzOP")
+    @Documentation(name = "Rüstzeit Alternative OP", rank = 3010)
     private String _descriptionRzOP = "";
 
     public String getDescriptionRzOP() {
@@ -177,6 +180,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountOP">    
     @Column(name = "oaMedicalServiceAmountOP")
+    @Documentation(name = "Leistungsminuten OP ÄD")
     private int _medicalServiceAmountOP;
 
     public int getMedicalServiceAmountOP() {
@@ -190,6 +194,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountOP">    
     @Column(name = "oaFunctionalServiceAmountOP")
+    @Documentation(name = "Leistungsminuten OP FD/MTD")
     private int _functionalServiceAmountOP;
 
     public int getFunctionalServiceAmountOP() {
@@ -203,6 +208,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsAN">    
     @Column(name = "oaStaffBindingMsAN")
+    @Documentation(name = "Personalbindungszeit AN ÄD", rank = 3010)
     private boolean _staffBindingMsAN;
 
     public boolean getStaffBindingMsAN() {
@@ -216,6 +222,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingFsAN">    
     @Column(name = "oaStaffBindingFsAN")
+    @Documentation(name = "Personalbindungszeit AN FD/MTD", rank = 3010)
     private boolean _staffBindingFsAN;
 
     public boolean getStaffBindingFsAN() {
@@ -229,6 +236,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzAN">    
     @Column(name = "oaMedicalServiceSnzAN")
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, translateValue = "1=")
     private int _medicalServiceSnzAN;
 
     public int getMedicalServiceSnzAN() {
@@ -242,6 +250,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzAN">    
     @Column(name = "oaFunctionalServiceSnzAN")
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=")
     private int _functionalServiceSnzAN;
 
     public int getFunctionalServiceSnzAN() {
@@ -255,6 +264,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzAN">    
     @Column(name = "oaDescriptionSnzAN")
+    @Documentation(name = "SNZ Alternative AN", rank = 3010)
     private String _descriptionSnzAN = "";
 
     public String getDescriptionSnzAN() {
@@ -268,6 +278,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzAN">    
     @Column(name = "oaMedicalServiceRzAN")
+    @Documentation(name = "Rüstzeit AN ÄD", rank = 3010)
     private int _medicalServiceRzAN;
 
     public int getMedicalServiceRzAN() {
@@ -281,6 +292,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzAN">    
     @Column(name = "oaFunctionalServiceRzAN")
+    @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010)
     private int _functionalServiceRzAN;
 
     public int getFunctionalServiceRzAN() {
@@ -294,6 +306,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionRzAN">    
     @Column(name = "oaDescriptionRzAN")
+    @Documentation(name = "Rüstzeit Alternative AN", rank = 3010)
     private String _descriptionRzAN = "";
 
     public String getDescriptionRzAN() {
@@ -307,6 +320,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountAN">    
     @Column(name = "oaMedicalServiceAmountAN")
+    @Documentation(name = "Leistungsminuten AN ÄD", rank = 3010)
     private int _medicalServiceAmountAN;
 
     public int getMedicalServiceAmountAN() {
@@ -320,6 +334,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountAN">    
     @Column(name = "oaFunctionalServiceAmountAN")
+    @Documentation(name = "Leistungsminuten AN FD/MTD", rank = 3010)
     private int _functionalServiceAmountAN;
 
     public int getFunctionalServiceAmountAN() {

@@ -15,9 +15,10 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 public class CalcBasicsDrgValueCleaner {
 
     /**
-     * clears or defaults unused fields
-     * e.g. if there is no laboratory, clear any 
-     * @param calcBasics 
+     * clears or defaults unused fields e.g. if there is no laboratory, clear
+     * any
+     *
+     * @param calcBasics
      */
     public static void clearUnusedFields(DrgCalcBasics calcBasics) {
         cleanBasics(calcBasics);
@@ -58,13 +59,25 @@ public class CalcBasicsDrgValueCleaner {
     //<editor-fold defaultstate="collapsed" desc="cleanOpAn">
     private static void cleanOpAn(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = calcBasics.getOpAn();
-        if (opAn.isCentralOP()) {
+        if (!opAn.isCentralOP()) {
+            // if there is no OperationRoom, remove any entry
+            KGLOpAn emptyOpAn = new KGLOpAn();
+            emptyOpAn.setBaseInformationId(calcBasics.getId());
+            calcBasics.setOpAn(emptyOpAn);
             return;
         }
-        // if there is no OperationRoom, remove any entry
-        KGLOpAn emptyOpAN = new KGLOpAn();
-        emptyOpAN.setBaseInformationId(calcBasics.getId());
-        calcBasics.setOpAn(emptyOpAN);
+        if (opAn.getMedicalServiceSnzOP() != 4 && opAn.getFunctionalServiceSnzOP() != 4) {
+            opAn.setDescriptionSnzOP("");
+        }
+        if (opAn.getMedicalServiceSnzAN() != 4 && opAn.getFunctionalServiceSnzAN() != 4) {
+            opAn.setDescriptionSnzAN("");
+        }
+        if (opAn.getMedicalServiceRzOP() != 4 && opAn.getFunctionalServiceRzOP() != 4) {
+            opAn.setDescriptionRzOP("");
+        }
+        if (opAn.getMedicalServiceRzAN() != 4 && opAn.getFunctionalServiceRzAN() != 4) {
+            opAn.setDescriptionRzAN("");
+        }
     }
     //</editor-fold>
 

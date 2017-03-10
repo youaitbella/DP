@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -825,6 +826,12 @@ public class DrgCalcBasics implements Serializable {
     
     public void setKstTop(List<KGLListKstTop> kstTop) {
         this._kstTop = kstTop;
+    }
+    
+    @Documentation(name = "TOP 3 Leistungen", rank = 3100)
+    public List<KGLListKstTop> getKstTopOp() {
+        ensureTopList();
+        return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 4).collect(Collectors.toList());
     }
     
     private void ensureTopList() {

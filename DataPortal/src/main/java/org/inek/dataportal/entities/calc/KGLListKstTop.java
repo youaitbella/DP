@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -68,6 +68,7 @@ public class KGLListKstTop implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property text">
     @Column(name = "ktText")
+    @Documentation(key = "lblNotation")
     private String _text = "";
 
     public String getText() {
@@ -81,6 +82,7 @@ public class KGLListKstTop implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property caseCount">
     @Column(name = "ktCaseCnt")
+    @Documentation(key = "lblCaseCount")
     private int _caseCount;
 
     public int getCaseCount() {
@@ -94,6 +96,7 @@ public class KGLListKstTop implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property amount">
     @Column(name = "ktAmount")
+    @Documentation(name = "Erlösvolumen")
     private int _amount;
 
     public int getAmount() {
@@ -107,6 +110,7 @@ public class KGLListKstTop implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property delimitationAmount">
     @Column(name = "ktDelimitationAmount")
+    @Documentation(name = "abgegr. Kostenvolumen")
     private int _delimitationAmount;
 
     public int getDelimitationAmount() {
@@ -207,11 +211,12 @@ public class KGLListKstTop implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListKstTop[ ktID=" + _id + " ]";
     }
 
+    public boolean isEmpty(){
+        return _text.isEmpty() && _caseCount <= 0 && _amount <= 0 && _delimitationAmount <= 0;
+    }
 }
