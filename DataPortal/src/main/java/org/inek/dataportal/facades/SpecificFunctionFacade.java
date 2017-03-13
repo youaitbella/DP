@@ -60,16 +60,17 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String jpql = "select s from SpecificFunctionRequest s where s._ik = :ik and s._dataYear = :year and s._statusId < 10";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("ik", ik);
-        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        query.setParameter("year", Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         return query.getResultList().size() == 1;
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh";
+        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
         query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("accountIds", accountIds);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
