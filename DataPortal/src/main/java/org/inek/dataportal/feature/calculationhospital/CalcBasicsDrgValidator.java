@@ -5,10 +5,16 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
+import org.inek.dataportal.entities.calc.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.helper.structures.MessageContainer;
 
 /**
@@ -64,6 +70,13 @@ public class CalcBasicsDrgValidator {
         if (!opAn.isCentralOP()) {
             return;
         }
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<KGLOpAn>> violations = validator.validate(opAn, Seal.class);
+        for (ConstraintViolation<KGLOpAn> violation : violations) {
+            applyMessageValues(message, "Fehler bei der Datenvalidierung " + violation.getMessage(), "lblCalcOpAn", "");
+        }
+
         checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", "lblCalcOpAn");
 
         checkField(message, opAn.getMedicalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP ÄD wählen", "", "lblCalcOpAn");

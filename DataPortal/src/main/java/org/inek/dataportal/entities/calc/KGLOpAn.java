@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -183,6 +185,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten OP ÄD")
     private int _medicalServiceAmountOP;
 
+    @Min.List ({@Min(value = 0),
+                @Min(value = 1, groups = {Seal.class})})
     public int getMedicalServiceAmountOP() {
         return _medicalServiceAmountOP;
     }
