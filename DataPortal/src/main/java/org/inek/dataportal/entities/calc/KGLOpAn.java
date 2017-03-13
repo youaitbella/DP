@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.helper.groupinterface.TopicCalcOpAn;
 import org.inek.dataportal.helper.groupinterface.Seal;
@@ -102,6 +103,9 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010)
     private int _medicalServiceSnzOP;
 
+    @Min.List ({@Min(value = 0),
+                @Min(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)})
+    @Max(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)
     public int getMedicalServiceSnzOP() {
         return _medicalServiceSnzOP;
     }
@@ -187,7 +191,7 @@ public class KGLOpAn implements Serializable {
     private int _medicalServiceAmountOP;
 
     @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP ÄD angeben")})
+                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP ÄD angeben", payload = TopicCalcOpAn.class)})
     public int getMedicalServiceAmountOP() {
         return _medicalServiceAmountOP;
     }
@@ -330,6 +334,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten AN ÄD", rank = 3010)
     private int _medicalServiceAmountAN;
 
+    @Min.List ({@Min(value = 0),
+                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN ÄD angeben", payload = TopicCalcOpAn.class)})
     public int getMedicalServiceAmountAN() {
         return _medicalServiceAmountAN;
     }
@@ -344,6 +350,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten AN FD/MTD", rank = 3010)
     private int _functionalServiceAmountAN;
 
+    @Min.List ({@Min(value = 0),
+                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN FD/MTD angeben", payload = TopicCalcOpAn.class)})
     public int getFunctionalServiceAmountAN() {
         return _functionalServiceAmountAN;
     }

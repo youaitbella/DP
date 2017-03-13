@@ -75,6 +75,8 @@ public class CalcBasicsDrgValidator {
             return;
         }
 
+        checkField(message, opAn.getCentralOPCnt(), 0, 99, "Die Anzahl der OPs ist umplausibel", "opCount", "TopicCalcOpAn");
+        
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<KGLOpAn>> violations = validator.validate(opAn, Seal.class, Default.class);
         for (ConstraintViolation<KGLOpAn> violation : violations) {
@@ -86,8 +88,6 @@ public class CalcBasicsDrgValidator {
             }
             applyMessageValues(message, violation.getMessage(), topic, "");
         }
-
-        checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", "TopicCalcOpAn");
 
         checkField(message, opAn.getMedicalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP ÄD wählen", "", "TopicCalcOpAn");
         checkField(message, opAn.getFunctionalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP FD/MTD wählen", "", "TopicCalcOpAn");
@@ -110,10 +110,10 @@ public class CalcBasicsDrgValidator {
             checkField(message, opAn.getDescriptionRzAN(), "Bitte Rüstzeit Alternative OP angeben", "", "TopicCalcOpAn");
         }
 
-        checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", "TopicCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", "TopicCalcOpAn");
-        checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", "TopicCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", "TopicCalcOpAn");
+//        checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", "TopicCalcOpAn");
+//        checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", "TopicCalcOpAn");
+//        checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", "TopicCalcOpAn");
+//        checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", "TopicCalcOpAn");
 
         int line = 0;
         for (KGLListKstTop top : calcBasics.getKstTopOp()) {
