@@ -222,7 +222,7 @@ public class TherapyDataImporterPepp {
             }
         } catch (ParseException ex) {
             bind.accept(item, 0);
-            if (data.isEmpty()) {
+            if (data.trim().isEmpty()) {
                 addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
             } else {
                 addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);

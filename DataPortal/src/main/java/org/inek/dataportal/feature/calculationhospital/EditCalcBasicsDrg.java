@@ -11,9 +11,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -1223,85 +1228,85 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             ccc.setBedCnt(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setCareDays(Integer.parseInt(values[5]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setPprMinutes(Integer.parseInt(values[6]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setPprWeight(Integer.parseInt(values[7]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
-                            ccc.setMedicalServiceCnt(Double.parseDouble(values[8]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: Zahl erwartet.\\n";
-                            continue;
-                        }
-                        try {
-                            ccc.setNursingServiceCnt(Double.parseDouble(values[9]));
+                            ccc.setMedicalServiceCnt(parseLocalizedDouble(values[8]));
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: Zahl erwartet.\\n";
                             continue;
                         }
                         try {
-                            ccc.setFunctionalServiceCnt(Double.parseDouble(values[10]));
+                            ccc.setNursingServiceCnt(parseLocalizedDouble(values[9]));
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: Zahl erwartet.\\n";
                             continue;
                         }
                         try {
-                            ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
+                            ccc.setFunctionalServiceCnt(parseLocalizedDouble(values[10]));
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: Zahl erwartet.\\n";
                             continue;
                         }
                         try {
+                            ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
                             ccc.setNursingServiceAmount(Integer.parseInt(values[12]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setFunctionalServiceAmount(Integer.parseInt(values[13]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setOverheadsMedicine(Integer.parseInt(values[14]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         try {
                             ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: Ganzzahl erwartet.\\n";
                             continue;
                         }
                         if (checkCostCenterCostRedundantEntry(ccc)) {
@@ -1747,4 +1752,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 //
 //        return result;
 //    }
+    private double parseLocalizedDouble(String input) {
+        try {
+            NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
+            Number n = nf.parse(input);
+            return n.doubleValue();
+        } catch(ParseException e) {
+            throw new NumberFormatException();
+        }
+    }
 }
