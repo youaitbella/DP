@@ -297,19 +297,19 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Override
     protected void addTopics() {
-        addTopic("lblFrontPage", Pages.CalcPeppBasics.URL());
-        addTopic("lblBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
-        addTopic("lblCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
+        addTopic("TopicFrontPage", Pages.CalcPeppBasics.URL());
+        addTopic("TopicBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
+        addTopic("TopicCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
         addTopic("lblCalcTherapyScope", Pages.CalcPeppTherapyScope.URL());
-        addTopic("lblCalcRadiology", Pages.CalcPeppRadiology.URL());
-        addTopic("lblCalcLaboratory", Pages.CalcPeppLaboratory.URL());
-        addTopic("lblCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
-        addTopic("lblCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
-        addTopic("lblCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
+        addTopic("TopicCalcRadiology", Pages.CalcPeppRadiology.URL());
+        addTopic("TopicCalcLaboratory", Pages.CalcPeppLaboratory.URL());
+        addTopic("TopicCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
+        addTopic("TopicCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
+        addTopic("TopicCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
         addTopic("lblCalcStation", Pages.CalcPeppStation.URL());
-        addTopic("lblCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
-        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
-        addTopic("lblCalcStaffCost", Pages.CalcPeppStaffCost.URL());
+        addTopic("TopicCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
+        addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
+        addTopic("TopicCalcStaffCost", Pages.CalcPeppStaffCost.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

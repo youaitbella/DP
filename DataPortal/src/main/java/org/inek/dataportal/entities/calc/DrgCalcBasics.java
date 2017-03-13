@@ -25,10 +25,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.eclipse.persistence.annotations.PrivateOwned;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -784,6 +784,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToOne
     @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationId")
     @Documentation(include = true)
+    @Valid
     private KGLOpAn _opAn;
 
     public KGLOpAn getOpAn() {

@@ -87,7 +87,7 @@ public class RequestAgreedCenter implements Serializable {
     @Documentation(name = "Betrag")
     private int _amount;
 
-    @Min(1)
+    @Min(0)
     public int getAmount() {
         return _amount;
     }

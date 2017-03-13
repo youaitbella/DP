@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import org.inek.dataportal.helper.groupinterface.TopicCalcOpAn;
 import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.utils.Documentation;
 
@@ -186,7 +187,7 @@ public class KGLOpAn implements Serializable {
     private int _medicalServiceAmountOP;
 
     @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class})})
+                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP ÄD angeben")})
     public int getMedicalServiceAmountOP() {
         return _medicalServiceAmountOP;
     }
@@ -201,6 +202,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten OP FD/MTD")
     private int _functionalServiceAmountOP;
 
+    @Min.List ({@Min(value = 0),
+                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP FD/MTD angeben", payload = TopicCalcOpAn.class)})
     public int getFunctionalServiceAmountOP() {
         return _functionalServiceAmountOP;
     }

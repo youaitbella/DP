@@ -868,26 +868,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Override
     protected void addTopics() {
-        addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
-        addTopic("lblBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
-        addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
-        addTopic("lblCalcOpAn", Pages.CalcDrgOperation.URL());
-        addTopic("lblCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
-        addTopic("lblCalcCardiology", Pages.CalcDrgCardiology.URL());
-        addTopic("lblCalcEndoscopy", Pages.CalcDrgEndoscopy.URL());
-        addTopic("lblCalcRadiology", Pages.CalcDrgRadiology.URL());
-        addTopic("lblCalcLaboratory", Pages.CalcDrgLaboratory.URL());
-        addTopic("lblCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
-        addTopic("lblCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
-        addTopic("lblCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
-        addTopic("lblCalcNormalWard", Pages.CalcrgNormalWard.URL());
-        addTopic("lblCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
-        addTopic("lblCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
-        addTopic("lblCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
-        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
-        addTopic("lblCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-        addTopic("lblCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
-        addTopic("lblCalcNeonatology", Pages.CalcDrgNeonatology.URL());
+        addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
+        addTopic("TopicBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
+        addTopic("TopicCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
+        addTopic("TopicCalcOpAn", Pages.CalcDrgOperation.URL());
+        addTopic("TopicCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
+        addTopic("TopicCalcCardiology", Pages.CalcDrgCardiology.URL());
+        addTopic("TopicCalcEndoscopy", Pages.CalcDrgEndoscopy.URL());
+        addTopic("TopicCalcRadiology", Pages.CalcDrgRadiology.URL());
+        addTopic("TopicCalcLaboratory", Pages.CalcDrgLaboratory.URL());
+        addTopic("TopicCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
+        addTopic("TopicCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
+        addTopic("TopicCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
+        addTopic("ToipicCalcNormalWard", Pages.CalcrgNormalWard.URL());
+        addTopic("TopicCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
+        addTopic("TopicCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
+        addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
+        addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
+        addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
+        addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
+        addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

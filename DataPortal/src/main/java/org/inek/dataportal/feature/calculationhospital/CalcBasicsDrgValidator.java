@@ -5,13 +5,17 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
+import javax.validation.Payload;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.groups.Default;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
-import org.inek.dataportal.entities.calc.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.groupinterface.Seal;
@@ -50,7 +54,7 @@ public class CalcBasicsDrgValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
     private static void checkBasics(DrgCalcBasics calcBasics, MessageContainer message) {
-        checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "calcBasics:ikMulti", "lblFrontPage");
+        checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "calcBasics:ikMulti", "TopicFrontPage");
     }
     //</editor-fold>
 
@@ -72,49 +76,55 @@ public class CalcBasicsDrgValidator {
         }
 
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<KGLOpAn>> violations = validator.validate(opAn, Seal.class);
+        Set<ConstraintViolation<KGLOpAn>> violations = validator.validate(opAn, Seal.class, Default.class);
         for (ConstraintViolation<KGLOpAn> violation : violations) {
-            applyMessageValues(message, "Fehler bei der Datenvalidierung " + violation.getMessage(), "lblCalcOpAn", "");
+            //applyMessageValues(message, violation.getMessage(), "TopicCalcOpAn", "");
+            Set<Class<? extends Payload>> payloads = violation.getConstraintDescriptor().getPayload();
+            String topic = payloads.stream().map(p -> p.getSimpleName()).collect(Collectors.joining(""));
+            if (topic.isEmpty()){
+                topic = "TopicFrontPage";
+            }
+            applyMessageValues(message, violation.getMessage(), topic, "");
         }
 
-        checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", "lblCalcOpAn");
+        checkField(message, opAn.getCentralOPCnt(), 1, 99, "Die Anzahl der OPs ist umplausibel", "", "TopicCalcOpAn");
 
-        checkField(message, opAn.getMedicalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP ÄD wählen", "", "lblCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP FD/MTD wählen", "", "lblCalcOpAn");
+        checkField(message, opAn.getMedicalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP ÄD wählen", "", "TopicCalcOpAn");
+        checkField(message, opAn.getFunctionalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP FD/MTD wählen", "", "TopicCalcOpAn");
         if (opAn.getMedicalServiceSnzOP() == 4 || opAn.getFunctionalServiceSnzOP() == 4) {
-            checkField(message, opAn.getDescriptionSnzOP(), "Bitte SNZ Alternative OP angeben", "", "lblCalcOpAn");
+            checkField(message, opAn.getDescriptionSnzOP(), "Bitte SNZ Alternative OP angeben", "", "TopicCalcOpAn");
         }
-        checkField(message, opAn.getMedicalServiceRzOP(), 1, 4, "Bitte Rüstzeit OP ÄD wählen", "", "lblCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceRzOP(), 1, 4, "Bitte Rüstzeit OP FD/MTD wählen", "", "lblCalcOpAn");
+        checkField(message, opAn.getMedicalServiceRzOP(), 1, 4, "Bitte Rüstzeit OP ÄD wählen", "", "TopicCalcOpAn");
+        checkField(message, opAn.getFunctionalServiceRzOP(), 1, 4, "Bitte Rüstzeit OP FD/MTD wählen", "", "TopicCalcOpAn");
         if (opAn.getMedicalServiceRzOP() == 4 || opAn.getFunctionalServiceRzOP() == 4) {
-            checkField(message, opAn.getDescriptionRzOP(), "Bitte Rüstzeit Alternative OP angeben", "", "lblCalcOpAn");
+            checkField(message, opAn.getDescriptionRzOP(), "Bitte Rüstzeit Alternative OP angeben", "", "TopicCalcOpAn");
         }
-        checkField(message, opAn.getMedicalServiceSnzAN(), 1, 4, "Bitte Schnitt-Naht-Zeit AN ÄD wählen", "", "lblCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceSnzAN(), 1, 4, "Bitte Schnitt-Naht-Zeit AN FD/MTD wählen", "", "lblCalcOpAn");
+        checkField(message, opAn.getMedicalServiceSnzAN(), 1, 4, "Bitte Schnitt-Naht-Zeit AN ÄD wählen", "", "TopicCalcOpAn");
+        checkField(message, opAn.getFunctionalServiceSnzAN(), 1, 4, "Bitte Schnitt-Naht-Zeit AN FD/MTD wählen", "", "TopicCalcOpAn");
         if (opAn.getMedicalServiceSnzAN() == 4 || opAn.getFunctionalServiceSnzAN() == 4) {
-            checkField(message, opAn.getDescriptionSnzAN(), "Bitte SNZ Alternative AN angeben", "", "lblCalcOpAn");
+            checkField(message, opAn.getDescriptionSnzAN(), "Bitte SNZ Alternative AN angeben", "", "TopicCalcOpAn");
         }
-        checkField(message, opAn.getMedicalServiceRzAN(), 1, 4, "Bitte Rüstzeit ANÄD wählen", "", "lblCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceRzAN(), 1, 4, "Bitte Rüstzeit AN FD/MTD wählen", "", "lblCalcOpAn");
+        checkField(message, opAn.getMedicalServiceRzAN(), 1, 4, "Bitte Rüstzeit ANÄD wählen", "", "TopicCalcOpAn");
+        checkField(message, opAn.getFunctionalServiceRzAN(), 1, 4, "Bitte Rüstzeit AN FD/MTD wählen", "", "TopicCalcOpAn");
         if (opAn.getMedicalServiceRzAN() == 4 || opAn.getFunctionalServiceRzAN() == 4) {
-            checkField(message, opAn.getDescriptionRzAN(), "Bitte Rüstzeit Alternative OP angeben", "", "lblCalcOpAn");
+            checkField(message, opAn.getDescriptionRzAN(), "Bitte Rüstzeit Alternative OP angeben", "", "TopicCalcOpAn");
         }
 
-        checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", "lblCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", "lblCalcOpAn");
-        checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", "lblCalcOpAn");
-        checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", "lblCalcOpAn");
+        checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", "TopicCalcOpAn");
+        checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", "TopicCalcOpAn");
+        checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", "TopicCalcOpAn");
+        checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", "TopicCalcOpAn");
 
         int line = 0;
         for (KGLListKstTop top : calcBasics.getKstTopOp()) {
             line++;
             if (top.isEmpty()) {
-                //applyMessageValues(message, "Top 3 Leistung, Zeile " + line + ": Bitte angeben", "lblCalcOpAn", "");
+                //applyMessageValues(message, "Top 3 Leistung, Zeile " + line + ": Bitte angeben", "TopicCalcOpAn", "");
             } else {
-                checkField(message, top.getText(), "Top 3 Leistung, Zeile " + line + ": Bitte Bezeichnung angeben", "", "lblCalcOpAn");
-                checkField(message, top.getCaseCount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Fallzahl angeben", "", "lblCalcOpAn");
-                checkField(message, top.getAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Erlösvolumen angeben", "", "lblCalcOpAn");
-                checkField(message, top.getDelimitationAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte abgegr. Kostenvolumen angeben", "", "lblCalcOpAn");
+                checkField(message, top.getText(), "Top 3 Leistung, Zeile " + line + ": Bitte Bezeichnung angeben", "", "TopicCalcOpAn");
+                checkField(message, top.getCaseCount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Fallzahl angeben", "", "TopicCalcOpAn");
+                checkField(message, top.getAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Erlösvolumen angeben", "", "TopicCalcOpAn");
+                checkField(message, top.getDelimitationAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte abgegr. Kostenvolumen angeben", "", "TopicCalcOpAn");
             }
         }
     }

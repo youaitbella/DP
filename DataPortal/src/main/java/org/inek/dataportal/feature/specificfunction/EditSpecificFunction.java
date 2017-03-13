@@ -142,7 +142,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     @Override
     protected void addTopics() {
-        addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
+        addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
 
     public String save() {
