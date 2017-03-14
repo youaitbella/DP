@@ -13,6 +13,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
@@ -126,5 +127,39 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()) )
                 .collect(Collectors.toList());
     }
-  
+
+    public List<Account> getInekAccounts() {
+        String sql = "select distinct account.*\n"
+                //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
+                + "from spf.RequestMaster\n"
+                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "left join dbo.Account on agEMail = acMail\n"
+                + "where agActive = 1 and agDomainId in ('O', 'E')\n"
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        return result;
+    }
+
+    public List<SpecificFunctionRequest> getCalcBasicsForAccount(Account account) {
+        String sql = "select distinct RequestMaster.*\n"
+                + "from spf.RequestMaster\n"
+                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "where agEMail = '" + account.getEmail() + "'\n"
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+        Query query = getEntityManager().createNativeQuery(sql, SpecificFunction.class);
+        @SuppressWarnings("unchecked") List<SpecificFunctionRequest> result = query.getResultList();
+        return result;
+    }
+    
 }

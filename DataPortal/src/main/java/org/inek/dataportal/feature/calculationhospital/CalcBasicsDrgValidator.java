@@ -76,16 +76,7 @@ public class CalcBasicsDrgValidator {
             return;
         }
 
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<KGLOpAn>> violations = validator.validate(opAn, Seal.class, Default.class);
-        for (ConstraintViolation<KGLOpAn> violation : violations) {
-            Set<Class<? extends Payload>> payloads = violation.getConstraintDescriptor().getPayload();
-            String topic = payloads.stream().map(p -> p.getSimpleName()).collect(Collectors.joining(""));
-            if (topic.isEmpty()){
-                topic = "TopicFrontPage";
-            }
-            applyMessageValues(message, violation.getMessage(), topic, "");
-        }
+        validate(opAn, message);
 
         checkField(message, opAn.getMedicalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP ÄD wählen", "", "TopicCalcOpAn");
         checkField(message, opAn.getFunctionalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP FD/MTD wählen", "", "TopicCalcOpAn");
@@ -128,6 +119,19 @@ public class CalcBasicsDrgValidator {
         }
     }
     //</editor-fold>
+
+    public static <T> void validate(T object, MessageContainer message) {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<T>> violations = validator.validate(object, Seal.class, Default.class);
+        for (ConstraintViolation<T> violation : violations) {
+            Set<Class<? extends Payload>> payloads = violation.getConstraintDescriptor().getPayload();
+            String topic = payloads.stream().map(p -> p.getSimpleName()).collect(Collectors.joining(""));
+            if (topic.isEmpty()){
+                topic = "TopicFrontPage";
+            }
+            applyMessageValues(message, violation.getMessage(), topic, "");
+        }
+    }
 
     
     //<editor-fold defaultstate="collapsed" desc="checkMaternityRoom">
