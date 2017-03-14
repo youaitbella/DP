@@ -8,12 +8,17 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.inek.dataportal.entities.calc.iface.IdValue;
+import org.inek.dataportal.entities.common.CostType;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -54,6 +59,28 @@ public class KGPPersonalAccounting implements Serializable, IdValue {
         this._costTypeId = costTypeId;
     }
     //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CostType">
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn(name = "paCostTypeID")
+    private CostType _costType;
+
+    public CostType getCostType() {
+        return _costType;
+    }
+
+    public void setCostType(CostType costType) {
+        _costType = costType;
+    }
+
+    @Documentation(name = "Kostenartengruppe", rank = 1)
+    public String getCostTypeText() {
+        if (_costType == null) {
+            return "";
+        }
+        return _costType.getText();
+    }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _staffRecording">
     @Column(name = "paStaffRecording")

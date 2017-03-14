@@ -1641,14 +1641,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return sumAmount;
     }
 
-    public String getCostTypeText(int costTypeId) {
-        CostType ct = _costTypeFacade.find(costTypeId);
-        if (ct != null) {
-            return ct.getText();
-        }
-        return "Unbekannte Kostenartengruppe";
-    }
-
     public boolean renderPersonalAccountingDescription() {
         for (KGLPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {

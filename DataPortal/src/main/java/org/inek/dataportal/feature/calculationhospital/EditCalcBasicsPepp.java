@@ -738,14 +738,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return "" + Math.round(nominator * 100d / denominator) / 100d;
     }
 
-    public String getCostTypeText(int costTypeId) {
-        CostType ct = _costTypeFacade.find(costTypeId);
-        if (ct != null) {
-            return ct.getText();
-        }
-        return "Unbekannte Kostenartengruppe";
-    }
-
     public KGPListDelimitationFact getPriorDelimitationFact(int contentTextId) {
         for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             if (df.getContentTextId() == contentTextId) {

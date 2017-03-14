@@ -63,7 +63,7 @@
            <f:facet name="header" class="centered">
                 <h:outputText value="Kostenartengruppe"/>
             </f:facet>
-            <h:outputLabel value="#{editCalcBasicsPepp.getCostTypeText(item.costTypeId)}" />
+            <h:outputLabel value="#{item.costType.text}" />
         </h:column>
 
         <h:column>
