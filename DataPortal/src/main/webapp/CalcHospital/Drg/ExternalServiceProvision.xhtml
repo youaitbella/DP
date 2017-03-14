@@ -54,7 +54,11 @@
 
         <h:column>
             <f:facet name="header">Fremdvergebene Teilbereiche</f:facet>
-            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeId ne 3}"/>
+            <inek:InputTextWithMessage id="partition" 
+                                       value="#{item.partitionExternalAssignment}" 
+                                       required="#{item.providedTypeId eq 3}"
+                                       styleClass="inputwide" 
+                                       disabled="#{item.providedTypeId ne 3}"/>
         </h:column>
 
         <h:column>
@@ -64,7 +68,7 @@
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear}</f:facet>
-            <inek:InputNumberWithMessage value="#{item.amount}" styleClassComponent="col05em" renderElement="@form"/>
+            <inek:InputNumberWithMessage value="#{item.amount}" styleClassComponent="col05em" renderElement="@form" required="#{item.providedTypeId gt 0}"/>
         </h:column>
 
         <h:column>

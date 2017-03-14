@@ -137,6 +137,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isReadOnly() {
+        if (_request == null || _cooperationTools == null){
+            return true;
+        }
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId(), _request.getIk());
     }
 

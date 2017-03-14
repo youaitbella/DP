@@ -47,20 +47,22 @@ public class KGLOpAn implements Serializable {
     }
 
     public void setCentralOP(boolean centralOP) {
-        if (centralOP && _centralOPCnt < 1){
+        if (centralOP && _centralOPCnt < 1) {
             _centralOPCnt = 1;
         }
-        if (!centralOP){
+        if (!centralOP) {
             _centralOPCnt = 0;
         }
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="centralOPCnt">    
-    @Column(name = "oaCentralOPCnt")
     @Documentation(name = "Anzahl Zentral-OPs", omitOnValues = "0", rank = 3001, headline = "OP-Bereich und Anästhesie")
+    @Column(name = "oaCentralOPCnt")
     private int _centralOPCnt;
 
+    @Min(value = 0, groups = {Seal.class}, message = "Die Anzahl der OPs darf nicht negativ sein", payload = TopicCalcOpAn.class)
+    @Max(value = 99, groups = {Seal.class}, message = "Die Anzahl der OPs ist unplausibel hoch", payload = TopicCalcOpAn.class)
     public int getCentralOPCnt() {
         return _centralOPCnt;
     }
@@ -100,11 +102,11 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzOP">    
     @Column(name = "oaMedicalServiceSnzOP")
-    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010)
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzOP;
 
-    @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)})
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)})
     @Max(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)
     public int getMedicalServiceSnzOP() {
         return _medicalServiceSnzOP;
@@ -117,7 +119,8 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzOP">    
     @Column(name = "oaFunctionalServiceSnzOP")
-    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=")
+    
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzOP;
 
     public int getFunctionalServiceSnzOP() {
@@ -145,7 +148,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzOP">    
     @Column(name = "oaMedicalServiceRzOP")
-    @Documentation(name = "Rüstzeit OP ÄD", rank = 3010)
+    @Documentation(name = "Rüstzeit OP ÄD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzOP;
 
     public int getMedicalServiceRzOP() {
@@ -159,7 +162,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzOP">    
     @Column(name = "oaFunctionalServiceRzOP")
-    @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010)
+    @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzOP;
 
     public int getFunctionalServiceRzOP() {
@@ -190,8 +193,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten OP ÄD")
     private int _medicalServiceAmountOP;
 
-    @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP ÄD angeben", payload = TopicCalcOpAn.class)})
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP ÄD angeben", payload = TopicCalcOpAn.class)})
     public int getMedicalServiceAmountOP() {
         return _medicalServiceAmountOP;
     }
@@ -206,8 +209,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten OP FD/MTD")
     private int _functionalServiceAmountOP;
 
-    @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP FD/MTD angeben", payload = TopicCalcOpAn.class)})
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP FD/MTD angeben", payload = TopicCalcOpAn.class)})
     public int getFunctionalServiceAmountOP() {
         return _functionalServiceAmountOP;
     }
@@ -247,7 +250,8 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzAN">    
     @Column(name = "oaMedicalServiceSnzAN")
-    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, translateValue = "1=")
+    
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzAN;
 
     public int getMedicalServiceSnzAN() {
@@ -261,7 +265,8 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzAN">    
     @Column(name = "oaFunctionalServiceSnzAN")
-    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=")
+    
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzAN;
 
     public int getFunctionalServiceSnzAN() {
@@ -289,7 +294,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzAN">    
     @Column(name = "oaMedicalServiceRzAN")
-    @Documentation(name = "Rüstzeit AN ÄD", rank = 3010)
+    @Documentation(name = "Rüstzeit AN ÄD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzAN;
 
     public int getMedicalServiceRzAN() {
@@ -303,7 +308,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzAN">    
     @Column(name = "oaFunctionalServiceRzAN")
-    @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010)
+    @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzAN;
 
     public int getFunctionalServiceRzAN() {
@@ -334,8 +339,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten AN ÄD", rank = 3010)
     private int _medicalServiceAmountAN;
 
-    @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN ÄD angeben", payload = TopicCalcOpAn.class)})
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN ÄD angeben", payload = TopicCalcOpAn.class)})
     public int getMedicalServiceAmountAN() {
         return _medicalServiceAmountAN;
     }
@@ -350,8 +355,8 @@ public class KGLOpAn implements Serializable {
     @Documentation(name = "Leistungsminuten AN FD/MTD", rank = 3010)
     private int _functionalServiceAmountAN;
 
-    @Min.List ({@Min(value = 0),
-                @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN FD/MTD angeben", payload = TopicCalcOpAn.class)})
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN FD/MTD angeben", payload = TopicCalcOpAn.class)})
     public int getFunctionalServiceAmountAN() {
         return _functionalServiceAmountAN;
     }

@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -75,12 +76,9 @@ public class CalcBasicsDrgValidator {
             return;
         }
 
-        checkField(message, opAn.getCentralOPCnt(), 0, 99, "Die Anzahl der OPs ist umplausibel", "opCount", "TopicCalcOpAn");
-        
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<KGLOpAn>> violations = validator.validate(opAn, Seal.class, Default.class);
         for (ConstraintViolation<KGLOpAn> violation : violations) {
-            //applyMessageValues(message, violation.getMessage(), "TopicCalcOpAn", "");
             Set<Class<? extends Payload>> payloads = violation.getConstraintDescriptor().getPayload();
             String topic = payloads.stream().map(p -> p.getSimpleName()).collect(Collectors.joining(""));
             if (topic.isEmpty()){
@@ -91,6 +89,7 @@ public class CalcBasicsDrgValidator {
 
         checkField(message, opAn.getMedicalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP ÄD wählen", "", "TopicCalcOpAn");
         checkField(message, opAn.getFunctionalServiceSnzOP(), 1, 4, "Bitte Schnitt-Naht-Zeit OP FD/MTD wählen", "", "TopicCalcOpAn");
+        
         if (opAn.getMedicalServiceSnzOP() == 4 || opAn.getFunctionalServiceSnzOP() == 4) {
             checkField(message, opAn.getDescriptionSnzOP(), "Bitte SNZ Alternative OP angeben", "", "TopicCalcOpAn");
         }
@@ -130,6 +129,7 @@ public class CalcBasicsDrgValidator {
     }
     //</editor-fold>
 
+    
     //<editor-fold defaultstate="collapsed" desc="checkMaternityRoom">
     private static void checkMaternityRoom(DrgCalcBasics calcBasics, MessageContainer message) {
     }
@@ -221,5 +221,6 @@ public class CalcBasicsDrgValidator {
             message.setElementId(elementId);
         }
     }
+
 
 }
