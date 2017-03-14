@@ -220,11 +220,11 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
         Stream<CalcHospitalTreeNode> sorted;
         switch (treeNode.getSortCriteria().toLowerCase()) {
-            case "id":
+            case "ik":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getId(), n1.getCalcHospitalInfo().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getId(), n2.getCalcHospitalInfo().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
                 }
                 break;
             case "name":

@@ -14,7 +14,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.facades.calc.DistributionModelFacade;
+import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.portallib.tree.RootNode;
@@ -26,16 +26,15 @@ import org.inek.portallib.tree.TreeNodeObserver;
  * @author muellermi
  */
 @Named @SessionScoped
-public class DistributionModellTreeHandler implements Serializable, TreeNodeObserver {
+public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("DistributionModellTreeHandler");
+    private static final Logger _logger = Logger.getLogger("CalcBasicsTreeHandler");
     private static final long serialVersionUID = 1L;
 
-    @Inject private DistributionModelFacade _distributionModelFacade;
+    @Inject private CalcFacade _calcFacade;
     @Inject private SessionController _sessionController;
 
     private final RootNode _rootNode = RootNode.create(0, this);
-    private AccountTreeNode _accountNode;
 
     public RootNode getRootNode() {
         if (!_rootNode.isExpanded()){
@@ -59,7 +58,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _distributionModelFacade.getInekAccounts();
+        List<Account> accounts = _calcFacade.getInekAccounts();
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -80,7 +79,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
 
 
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsForAccount(accountTreeNode.getAccount());
+        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsForAccount(accountTreeNode.getAccount());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));

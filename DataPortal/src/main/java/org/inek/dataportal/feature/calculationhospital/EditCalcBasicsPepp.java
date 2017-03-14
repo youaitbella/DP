@@ -77,7 +77,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
-    @Inject private CustomerFacade _customerFacade;
     @Inject private CostTypeFacade _costTypeFacade;
 
     private String _script;
@@ -190,6 +189,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+            return true;
+        }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
@@ -318,12 +320,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isReadOnly() {
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return true;
+        }
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave()) {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
             saveData();
         }
     }
@@ -382,6 +387,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public boolean isCopyForResendAllowed() {
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
+            return false;
+        }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
             return false;
         }
         return !_calcFacade.existActiveCalcBasicsPsy(_calcBasics.getIk());

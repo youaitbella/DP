@@ -16,6 +16,7 @@
 
         #{calcHospitalTreeHandler.refreshNodes()}
         #{distributionModellTreeHandler.refreshNodes()}
+        #{calcBasicsTreeHandler.refreshNodes()}
 
         <h:form id="form">
 
@@ -26,6 +27,13 @@
             <div jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
                 <h2>Klinische Verteilungsmodelle - Bearbeitung durch InEK</h2>
                 <ui:repeat value="#{distributionModellTreeHandler.rootNode.children}" var="accountNode" >
+                    <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
+                </ui:repeat>
+            </div>
+
+            <div jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
+                <h2>An das InEK gesendete Kalkulationsgrundlagen</h2>
+                <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="accountNode" >
                     <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
                 </ui:repeat>
             </div>

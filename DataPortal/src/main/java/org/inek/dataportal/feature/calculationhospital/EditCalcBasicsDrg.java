@@ -11,10 +11,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -366,6 +364,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+            return true;
+        }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
@@ -896,6 +897,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isReadOnly() {
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return true;
+        }
         // todo apply rights depending on ik?
         //return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
@@ -903,7 +907,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave()) {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
             saveData();
         }
     }
@@ -963,6 +967,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public boolean isCopyForResendAllowed() {
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+            return false;
+        }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
             return false;
         }
         return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
