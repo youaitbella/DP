@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -424,24 +425,27 @@ public class Account implements Serializable, Person {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this._id);
         return hash;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Account)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Account other = (Account) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return true;
+        final Account other = (Account) obj;
+        return Objects.equals(this._id, other._id);
     }
 
     @Override

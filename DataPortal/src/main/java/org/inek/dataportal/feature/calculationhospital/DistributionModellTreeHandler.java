@@ -27,27 +27,27 @@ import org.inek.portallib.tree.TreeNodeObserver;
  */
 @Named @SessionScoped
 public class DistributionModellTreeHandler implements Serializable, TreeNodeObserver {
-
+    
     private static final Logger _logger = Logger.getLogger("DistributionModellTreeHandler");
     private static final long serialVersionUID = 1L;
-
+    
     @Inject private DistributionModelFacade _distributionModelFacade;
     @Inject private SessionController _sessionController;
-
+    
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
-
+    
     public RootNode getRootNode() {
-        if (!_rootNode.isExpanded()){
+        if (!_rootNode.isExpanded()) {
             _rootNode.expand();
         }
         return _rootNode;
     }
-
+    
     public void refreshNodes() {
         _rootNode.refresh();
     }
-
+    
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {
@@ -57,7 +57,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
         }
     }
-
+    
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
         List<Account> accounts = _distributionModelFacade.getInekAccounts();
         Account currentUser = _sessionController.getAccount();
@@ -74,11 +74,12 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            childNode.expand();  // auto-expand all edit nodes by default
+            if (currentUser.equals(account)) {
+                childNode.expand();  // auto-expand own node
+            }
         }
     }
-
-
+    
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
         List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsForAccount(accountTreeNode.getAccount());
         accountTreeNode.getChildren().clear();
@@ -86,7 +87,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
         }
     }
-
+    
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
@@ -94,7 +95,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
         }
         return children;
     }
-
+    
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
         Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
         Stream<CalcHospitalTreeNode> sorted;

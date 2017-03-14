@@ -73,7 +73,9 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
             AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            childNode.expand();  // auto-expand all edit nodes by default
+            if (currentUser.equals(account)) {
+                childNode.expand();  // auto-expand own node
+            }
         }
     }
 
