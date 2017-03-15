@@ -42,7 +42,7 @@
 
                 <h:selectOneMenu  value="#{item.costCenterId}" 
                                   styleClass="fullWidth"
-                                  readonly="#{editDistributionModel.readOnly}" 
+                                  disabled="#{editDistributionModel.readOnly}" 
                                   required="true"
                                   hideNoSelectionOption="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
@@ -56,7 +56,7 @@
 
                 <h:selectOneMenu  value="#{item.costTypeId}" 
                                   styleClass="fullWidth"
-                                  readonly="#{editDistributionModel.readOnly}" 
+                                  disabled="#{editDistributionModel.readOnly}" 
                                   required="true"
                                   hideNoSelectionOption="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>

@@ -474,6 +474,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopy">
     @Column(name = "biEndoscopy")
+    @Documentation(name = "Leistungen im Bereich der Endoskopie", rank = 6000, headline = "Kostenstellengruppe 8 (Endoskopie)" )
     private boolean _endoscopy;
 
     public boolean isEndoscopy() {
@@ -487,6 +488,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyRoomCnt">
     @Column(name = "biEndoscopyRoomCnt")
+    @Documentation(name = "Anzahl endoskopischer Eingriffsräume", rank = 6010)
     private int _endoscopyRoomCnt;
 
     @Min(0)
@@ -501,6 +503,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyCaseCnt">
     @Column(name = "biEndoscopyCaseCnt")
+    @Documentation(name = "Anzahl kalkulationsrelevanter endoskopischer Fälle", rank = 6010)
     private int _endoscopyCaseCnt;
 
     @Min(0)
@@ -515,6 +518,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
     @Column(name = "biMinimalValvularIntervention")
+    @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000, headline = "Ergänzende Angaben zur minimalinvasiven Herzklappeninterventionen")
     private boolean _minimalValvularIntervention;
 
     public boolean isMinimalValvularIntervention() {
@@ -541,6 +545,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="mviGuidelineAspired">
     @Column(name = "biMviGuidelineAspired")
+    @Documentation(name = "Das KH wird im kommenden Datenjahr die notwendigen Anforderungen erfüllen", rank = 17010)
     private boolean _mviGuidelineAspired;
 
     public boolean isMviGuidelineAspired() {
