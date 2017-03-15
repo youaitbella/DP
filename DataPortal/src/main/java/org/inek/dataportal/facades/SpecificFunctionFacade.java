@@ -148,7 +148,22 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public List<SpecificFunctionRequest> getCalcBasicsForAccount(Account account) {
-        String sql = "select distinct RequestMaster.*\n"
+        // sadly following approach results in primary key error ("must not be null" even though it contains a value)
+//        String sql = "select distinct RequestMaster.*\n"
+//                + "from spf.RequestMaster\n"
+//                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
+//                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+//                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+//                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+//                + "where agEMail = '" + account.getEmail() + "'\n"
+//                + "     and rmStatusId = 10 \n"
+//                + "	and mcraReportTypeId in (1, 3) \n"
+//                + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+//        Query query = getEntityManager().createNativeQuery(sql, SpecificFunction.class);
+//        @SuppressWarnings("unchecked") List<SpecificFunctionRequest> result = query.getResultList();
+    // thus, we use two sequential qeuries
+        String sql = "select rmId\n"
                 + "from spf.RequestMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
@@ -159,8 +174,12 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 + "     and rmStatusId = 10 \n"
                 + "	and mcraReportTypeId in (1, 3) \n"
                 + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
-        Query query = getEntityManager().createNativeQuery(sql, SpecificFunction.class);
-        @SuppressWarnings("unchecked") List<SpecificFunctionRequest> result = query.getResultList();
+        Query idQuery = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") List<Integer> ids = idQuery.getResultList();
+        String jpql = "select spf from SpecificFunctionRequest spf where spf._id in :ids";
+        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
+        query.setParameter("ids", ids);
+        List<SpecificFunctionRequest> result = query.getResultList();
         return result;
     }
     

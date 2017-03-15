@@ -16,7 +16,6 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.facades.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
-import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -98,21 +97,21 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
-        Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
-        Stream<CalcHospitalTreeNode> sorted;
+        Stream<SpecificFunctionRequestTreeNode> stream = children.stream().map(n -> (SpecificFunctionRequestTreeNode) n);
+        Stream<SpecificFunctionRequestTreeNode> sorted;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getIk(), n1.getSpecificFunctionRequest().getIk()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getIk(), n2.getSpecificFunctionRequest().getIk()));
                 }
                 break;
             case "name":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getName().compareTo(n1.getCalcHospitalInfo().getName()));
+                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getName().compareTo(n1.getSpecificFunctionRequest().getName()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
+                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getName().compareTo(n2.getSpecificFunctionRequest().getName()));
                 }
                 break;
             case "status":

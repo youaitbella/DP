@@ -15,10 +15,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -103,6 +101,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
+        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)){
+            return true;
+        }
         return _cooperationTools.isAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
@@ -118,7 +119,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         request.setMail(account.getEmail());
         request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         List<SelectItem> iks = getIks();
-        if (iks.size() == 1){
+        if (iks.size() == 1) {
             request.setIk((int) iks.get(0).getValue());
         }
         return request;
@@ -137,10 +138,13 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isReadOnly() {
-        if (_request == null || _cooperationTools == null){
+        if (_request == null) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId(), _request.getIk());
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return true;
+        }
+        return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
     }
 
     @Override
@@ -175,25 +179,34 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());
+        if (_request == null) {
+            return false;
+        }
+        return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());
+        if (_request == null) {
+            return false;
+        }
+        return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());
+        if (_request == null) {
+            return false;
+        }
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _request.getStatus(), _request.getAccountId());
+        return _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     /**
@@ -246,7 +259,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
 
-        if (!request.isWillNegotiate() && !request.isHasAgreement()){
+        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
             applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
         }
         boolean hasCenters = false;
@@ -267,7 +280,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Anzahl der Patienten muss größer 0 sein.", "");
             hasCenters = true;
         }
-        if (request.isWillNegotiate() && !hasCenters){
+        if (request.isWillNegotiate() && !hasCenters) {
             applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
         }
 
@@ -281,7 +294,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag angeben", "");
             hasCenters = true;
         }
-        if (request.isHasAgreement()&& !hasCenters){
+        if (request.isHasAgreement() && !hasCenters) {
             applyMessageValues(message, "Sie haben 'vorliegende Vereinbarung' markiert, jedoch keine Vereinbarung angegeben.", "");
         }
 
