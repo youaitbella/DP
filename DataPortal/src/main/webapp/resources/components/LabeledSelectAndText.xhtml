@@ -8,28 +8,32 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="label"/>
+        <cc:attribute name="label" default="???"/>
         <cc:attribute name="selectElement"/>
         <cc:attribute name="selectItems"/>
-        <cc:attribute name="threshold" default="#{cc.attrs.SelectItems.stream().map(item -> item.value).max().orElse(-1)}"/>
+        <cc:attribute name="threshold" default="#{cc.attrs.selectItems.stream().map(item -> item.value).max().orElse(-1)}"/>
         <cc:attribute name="value"/>
         <cc:attribute name="readonly" default="false"/>
+        <cc:editableValueHolder name="comboBox"/>
+        <cc:editableValueHolder name="inputText"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
-            <h:outputLabel styleClass="label30" value="#{cc.attrs.Label}:" />
-            <h:selectOneMenu value="#{cc.attrs.selectElement}"
+            <h:outputLabel styleClass="label30" value="#{cc.attrs.label}:" />
+            <h:selectOneMenu id="comboBox" value="#{cc.attrs.selectElement}"
                              readonly="#{cc.attrs.readonly}">
                 <f:selectItems value="#{cc.attrs.selectItems}" />
-                <f:ajax event="change" render="@this :logout:remaining idText msgText" />
+                <f:ajax event="change" render="@this :logout:remaining inputText msgText" />
             </h:selectOneMenu>
-            <h:message for="idText" id="msgText" styleClass="errorMessage"/>
-            <h:inputTextarea styleClass="areaRight70Low #{cc.attrs.selectElement ge cc.attrs.threshold ? 'required' : ''}" id="idText" 
+            <h:message for="inputText" id="msgText" styleClass="errorMessage"/>
+            <h:inputTextarea id="inputText" 
+                             styleClass="areaRight70Low #{cc.attrs.selectElement ge cc.attrs.threshold ? 'required' : ''}" 
                              value="#{cc.attrs.selectElement ge cc.attrs.threshold ? cc.attrs.value : ''}" 
                              readonly="#{cc.attrs.readonly or cc.attrs.selectElement lt cc.attrs.threshold}"
-                             required="#{cc.attrs.selectElement ge cc.attrs.threshold}" requiredMessage="#{msg.msgValueNeeded}" >
+                             required="#{cc.attrs.selectElement ge cc.attrs.threshold}" 
+                             requiredMessage="#{msg.msgValueNeeded}" >
                 <f:ajax event="blur" render="@this :logout:remaining msgText" />
             </h:inputTextarea>
         </div>

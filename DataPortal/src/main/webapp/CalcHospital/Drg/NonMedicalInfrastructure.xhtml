@@ -85,7 +85,17 @@
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra(180)}"/>
     </h:commandLink>
     
-    
+    <div class="uploadFile inlineBlock marginRight">
+        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
+            <f:ajax  render="@all" listener="#{editCalcBasicsDrg.uploadMedInfra(180)}"/>
+        </h:inputFile>
+        <div class="fakeFile">
+            <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+        </div>
+    </div>
+    <div class="inlineBlock">
+        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadMedInfraTemplate}" immediate="true"/>
+    </div>
     
         
 </ui:composition>

@@ -12,7 +12,7 @@
 
 <!--
     
-    <h2 title="#{msg.titleMedicalInfrastructure}">#{msg. lblCalcMedicalInfrastructure}</h2>
+    <h2 title="#{msg.titleMedicalInfrastructure}">#{msg. TopicCalcMedicalInfrastructure}</h2>
 -->
 
   <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
@@ -88,6 +88,17 @@
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra(170)}"/>
     </h:commandLink> 
 
+    <div class="uploadFile inlineBlock marginRight">
+        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
+            <f:ajax  render="@all" listener="#{editCalcBasicsDrg.uploadMedInfra(170)}"/>
+        </h:inputFile>
+        <div class="fakeFile">
+            <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+        </div>
+    </div>
+    <div class="inlineBlock">
+        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadMedInfraTemplate}" immediate="true"/>
+    </div>
 
 </ui:composition>
 

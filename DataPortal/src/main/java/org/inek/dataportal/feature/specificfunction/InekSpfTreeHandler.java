@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.calculationhospital;
+package org.inek.dataportal.feature.specificfunction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,10 +13,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.facades.calc.DistributionModelFacade;
+import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.facades.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
-import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
+import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
@@ -26,28 +26,27 @@ import org.inek.portallib.tree.TreeNodeObserver;
  * @author muellermi
  */
 @Named @SessionScoped
-public class DistributionModellTreeHandler implements Serializable, TreeNodeObserver {
-    
-    private static final Logger _logger = Logger.getLogger("DistributionModellTreeHandler");
+public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
+
+    private static final Logger _logger = Logger.getLogger("InekSpfTreeHandler");
     private static final long serialVersionUID = 1L;
-    
-    @Inject private DistributionModelFacade _distributionModelFacade;
+
+    @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;
-    
+
     private final RootNode _rootNode = RootNode.create(0, this);
-    private AccountTreeNode _accountNode;
-    
+
     public RootNode getRootNode() {
-        if (!_rootNode.isExpanded()) {
+        if (!_rootNode.isExpanded()){
             _rootNode.expand();
         }
         return _rootNode;
     }
-    
+
     public void refreshNodes() {
         _rootNode.refresh();
     }
-    
+
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {
@@ -57,9 +56,9 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
         }
     }
-    
+
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _distributionModelFacade.getInekAccounts();
+        List<Account> accounts = _specificFunctionFacade.getInekAccounts();
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -79,15 +78,16 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             }
         }
     }
-    
+
+
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsForAccount(accountTreeNode.getAccount());
+        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getCalcBasicsForAccount(accountTreeNode.getAccount());
         accountTreeNode.getChildren().clear();
-        for (CalcHospitalInfo info : infos) {
-            accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
+        for (SpecificFunctionRequest info : infos) {
+            accountTreeNode.getChildren().add(SpecificFunctionRequestTreeNode.create(accountTreeNode, info, this));
         }
     }
-    
+
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
@@ -95,23 +95,23 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
         }
         return children;
     }
-    
+
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
-        Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
-        Stream<CalcHospitalTreeNode> sorted;
+        Stream<SpecificFunctionRequestTreeNode> stream = children.stream().map(n -> (SpecificFunctionRequestTreeNode) n);
+        Stream<SpecificFunctionRequestTreeNode> sorted;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getIk(), n1.getSpecificFunctionRequest().getIk()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getIk(), n2.getSpecificFunctionRequest().getIk()));
                 }
                 break;
             case "name":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getName().compareTo(n1.getCalcHospitalInfo().getName()));
+                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getName().compareTo(n1.getSpecificFunctionRequest().getName()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
+                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getName().compareTo(n2.getSpecificFunctionRequest().getName()));
                 }
                 break;
             case "status":

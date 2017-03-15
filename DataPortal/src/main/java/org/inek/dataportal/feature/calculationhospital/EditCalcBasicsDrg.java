@@ -11,9 +11,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -31,9 +34,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
@@ -76,7 +81,9 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -357,6 +364,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+            return true;
+        }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
@@ -728,6 +738,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
     }
 
+    private static final String _headLineRadiology = "KostenstelleNummer;KostenstelleName;"
+            + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
+            + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
+
+    public void downloadRadiologyTemplate() {
+        Utils.downloadText(_headLineRadiology + "\n", "Radiology.csv");
+    }
+
+    private static final String _headLineMedInfra = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
+
+    public void downloadMedInfraTemplate() {
+        Utils.downloadText(_headLineMedInfra + "\n", "MedInfra.csv");
+    }
+
     private String _importMessageIntensiv = "";
 
     public String getImportMessageIntensiv() {
@@ -845,28 +869,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Override
     protected void addTopics() {
-        addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
-        addTopic("lblBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
-        addTopic("lblCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
-        //addTopic("lblCalcOperation", Pages.CalcDrgOperation.URL());
-        //addTopic("lblCalcAnaestesia", Pages.CalcDrgAnaestesia.URL());
-        addTopic("lblCalcOpAn", Pages.CalcDrgOperation.URL());
-        addTopic("lblCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
-        addTopic("lblCalcCardiology", Pages.CalcDrgCardiology.URL());
-        addTopic("lblCalcEndoscopy", Pages.CalcDrgEndoscopy.URL());
-        addTopic("lblCalcRadiology", Pages.CalcDrgRadiology.URL());
-        addTopic("lblCalcLaboratory", Pages.CalcDrgLaboratory.URL());
-        addTopic("lblCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
-        addTopic("lblCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
-        addTopic("lblCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
-        addTopic("lblCalcNormalWard", Pages.CalcrgNormalWard.URL());
-        addTopic("lblCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
-        addTopic("lblCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
-        addTopic("lblCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
-        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
-        addTopic("lblCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-        addTopic("lblCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
-        addTopic("lblCalcNeonatology", Pages.CalcDrgNeonatology.URL());
+        addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
+        addTopic("TopicBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
+        addTopic("TopicCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
+        addTopic("TopicCalcOpAn", Pages.CalcDrgOperation.URL());
+        addTopic("TopicCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
+        addTopic("TopicCalcCardiology", Pages.CalcDrgCardiology.URL());
+        addTopic("TopicCalcEndoscopy", Pages.CalcDrgEndoscopy.URL());
+        addTopic("TopicCalcRadiology", Pages.CalcDrgRadiology.URL());
+        addTopic("TopicCalcLaboratory", Pages.CalcDrgLaboratory.URL());
+        addTopic("TopicCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
+        addTopic("TopicCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
+        addTopic("TopicCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
+        addTopic("ToipicCalcNormalWard", Pages.CalcrgNormalWard.URL());
+        addTopic("TopicCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
+        addTopic("TopicCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
+        addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
+        addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
+        addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
+        addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
+        addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -875,6 +897,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isReadOnly() {
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return true;
+        }
         // todo apply rights depending on ik?
         //return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
@@ -882,7 +907,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave()) {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
             saveData();
         }
     }
@@ -944,6 +969,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return false;
+        }
         return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
     }
 
@@ -973,10 +1001,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
      * @return
      */
     public String seal() {
-        populateDefaultsForUnreachableFields();
-        if (!statementIsComplete()) {
-            return getActiveTopic().getOutcome();
+        if (!calcBasicsIsComplete()) {
+            return "";
         }
+        CalcBasicsDrgValueCleaner.clearUnusedFields(_calcBasics);
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
@@ -993,21 +1021,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return "";
     }
 
-    private void populateDefaultsForUnreachableFields() {
-        // Some input fields can't be reached depending on other fields.
-        // But they might contain elder values, which became obsolte by setting the other field 
-        // Such fields will be populated with default values
-
-        // todo
-    }
-
-    private boolean statementIsComplete() {
-        // todo
-        return true;
+    private boolean calcBasicsIsComplete() {
+        MessageContainer message = CalcBasicsDrgValidator.composeMissingFieldsMessage(_calcBasics);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            if (!message.getTopic().isEmpty()) {
+                setActiveTopic(message.getTopic());
+            }
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
     }
 
     public String requestApproval() {
-        if (!statementIsComplete()) {
+        if (!calcBasicsIsComplete()) {
             return null;
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
@@ -1045,8 +1076,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _ikItems;
     }
-
     // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
@@ -1105,7 +1136,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void downloadTemplate() {
         Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
-    
+
     public void downloadNormalStationTemplate() {
         Utils.downloadText(normalHeadLine + "\n", "Normalstation.csv");
     }
@@ -1149,13 +1180,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
     private String normalHeadLine = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
-                    + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
-                    + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
-                    + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
-                    + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
-                    + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle";
+            + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
+            + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
+            + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
+            + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
+            + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle";
+
     public void uploadNormalWard() {
         try {
             int headlineLength = normalHeadLine.split(";").length;
@@ -1179,9 +1211,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
                     if (!line.equals(normalHeadLine)) {
-                        String[] values = line.split(";");
-                        if(values.length != headlineLength) {
-                            alertText += "Zeile "+lineNum+": Fehlerhafte Anzahl Spalten. ("+headlineLength+" erwartet, "+line.split(";").length+" gefunden) \\n";
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
@@ -1190,38 +1222,296 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         ccc.setCostCenterText(values[1]);
                         ccc.setDepartmentKey(values[2]);
                         ccc.setDepartmentAssignment(values[3]);
-                        try { ccc.setBedCnt(Integer.parseInt(values[4])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 4: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setCareDays(Integer.parseInt(values[5])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 5: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setPprMinutes(Integer.parseInt(values[6])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 6: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setPprWeight(Integer.parseInt(values[7])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 7: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setMedicalServiceCnt(Double.parseDouble(values[8])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 8: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setNursingServiceCnt(Double.parseDouble(values[9])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 9: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setFunctionalServiceCnt(Double.parseDouble(values[10])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 10: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setMedicalServiceAmount(Integer.parseInt(values[11])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 11: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setNursingServiceAmount(Integer.parseInt(values[12])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 12: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setFunctionalServiceAmount(Integer.parseInt(values[13])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 13: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setOverheadsMedicine(Integer.parseInt(values[14])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 14: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 15: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 16: Zahl erwartet.\\n"; continue; }
-                        try { ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17])); } catch(NumberFormatException ex) { alertText += "Fehler: Zeile "+lineNum+", Spalte 17: Zahl erwartet.\\n"; continue; }
-                        if(checkCostCenterCostRedundantEntry(ccc)) {
-                            alertText += "Hinweis: Zeile "+lineNum+" wurde bereits hinzugefügt.";
+
+                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+                        Set<ConstraintViolation<KGLListCostCenterCost>> violations = validator.validate(ccc);
+                        for (ConstraintViolation<KGLListCostCenterCost> violation : violations) {
+                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
+                        }
+                        if (!violations.isEmpty()){
+                            continue;
+                        }
+
+                        try {
+                            ccc.setBedCnt(Integer.parseInt(values[4]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setCareDays(Integer.parseInt(values[5]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setPprMinutes(Integer.parseInt(values[6]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setPprWeight(Integer.parseInt(values[7]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setMedicalServiceCnt(parseLocalizedDouble(values[8]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setNursingServiceCnt(parseLocalizedDouble(values[9]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setFunctionalServiceCnt(parseLocalizedDouble(values[10]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setNursingServiceAmount(Integer.parseInt(values[12]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setFunctionalServiceAmount(Integer.parseInt(values[13]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setOverheadsMedicine(Integer.parseInt(values[14]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: Ganzzahl erwartet.\\n";
+                            continue;
+                        }
+                        if (checkCostCenterCostRedundantEntry(ccc)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
                         _calcBasics.getCostCenterCosts().add(ccc);
                     }
                 }
-                if(alertText.length() > 0)
+                if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
+                }
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
+    public void uploadRadiology() {
+        try {
+            int headlineLength = _headLineRadiology.split(";").length;
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                String alertText = "";
+                int lineNum = 0;
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    lineNum++;
+                    if (!line.equals(_headLineRadiology)) {
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
+                            continue;
+                        }
+                        KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
+                        radio.setBaseInformationId(_calcBasics.getId());
+                        radio.setCostCenterId(9);
+                        try {
+                            radio.setCostCenterNumber(Integer.parseInt(values[0]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        radio.setCostCenterText(values[1]);
+                        String service = values[2].toLowerCase();
+                        if (service.equals("hauskatalog")) {
+                            radio.setServiceDocHome(true);
+                        } else if (service.equals("dkg-nt")) {
+                            radio.setServiceDocDKG(true);
+                        } else if (service.equals("ebm")) {
+                            radio.setServiceDocEBM(true);
+                        } else if (service.equals("goä")) {
+                            radio.setServiceDocGOA(true);
+                        } else if (service.equals("sonstige")) {
+                            radio.setServiceDocDif(true);
+                        }
+                        radio.setDescription(values[3]);
+                        try {
+                            radio.setServiceVolumePre(Integer.parseInt(values[4]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setAmountPre(Integer.parseInt(values[5]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setServiceVolumePost(Integer.parseInt(values[6]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setAmountPost(Integer.parseInt(values[7]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        if (checkRadiologyRedundantEntry(radio)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
+                            continue;
+                        }
+                        _calcBasics.getRadiologyLaboratories().add(radio);
+                    }
+                }
+                if (alertText.length() > 0) {
+                    _sessionController.alertClient(alertText);
+                }
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    private boolean checkRadiologyRedundantEntry(KGLListRadiologyLaboratory radio) {
+        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if (rl.getCostCenterId() == 9) {
+                if (rl.equals(radio)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void uploadMedInfra(int costType) {
+        try {
+            int headlineLength = _headLineMedInfra.split(";").length;
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                String alertText = "";
+                int lineNum = 0;
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    lineNum++;
+                    if (!line.equals(_headLineMedInfra)) {
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
+                            continue;
+                        }
+                        KGLListMedInfra medInfra = new KGLListMedInfra();
+                        medInfra.setBaseInformationId(_calcBasics.getId());
+                        medInfra.setCostTypeId(costType);
+                        medInfra.setCostCenterNumber(values[0]);
+                        medInfra.setCostCenterText(values[1]);
+                        medInfra.setKeyUsed(values[2]);
+
+                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+                        Set<ConstraintViolation<KGLListMedInfra>> violations = validator.validate(medInfra);
+                        for (ConstraintViolation<KGLListMedInfra> violation : violations) {
+                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
+                        }
+                        if (!violations.isEmpty()){
+                            continue;
+                        }
+                        try {
+                            medInfra.setAmount(Integer.parseInt(values[3]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            continue;
+                        }
+                        if (checkMedInfraRedundantEntry(medInfra)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
+                            continue;
+                        }
+                        _calcBasics.getMedInfras().add(medInfra);
+                    }
+                }
+                if (alertText.length() > 0) {
+                    _sessionController.alertClient(alertText);
+                }
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
+        for (KGLListMedInfra mi : _calcBasics.getMedInfras()) {
+            if (mi.getCostTypeId() == medInfra.getCostTypeId()) {
+                if (mi.equals(medInfra)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private boolean checkCostCenterCostRedundantEntry(KGLListCostCenterCost ccc) {
-        for(KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
-            if(c.equals(ccc))
+        for (KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
+            if (c.equals(ccc)) {
                 return true;
+            }
         }
         return false;
     }
@@ -1351,14 +1641,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return sumAmount;
     }
 
-    public String getCostTypeText(int costTypeId) {
-        CostType ct = _costTypeFacade.find(costTypeId);
-        if (ct != null) {
-            return ct.getText();
-        }
-        return "Unbekannte Kostenartengruppe";
-    }
-
     public boolean renderPersonalAccountingDescription() {
         for (KGLPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
@@ -1469,4 +1751,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 //
 //        return result;
 //    }
+    private double parseLocalizedDouble(String input) {
+        try {
+            NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
+            Number n = nf.parse(input);
+            return n.doubleValue();
+        } catch(ParseException e) {
+            throw new NumberFormatException();
+        }
+    }
 }

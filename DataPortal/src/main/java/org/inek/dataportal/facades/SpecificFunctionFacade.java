@@ -13,6 +13,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
@@ -60,16 +61,17 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String jpql = "select s from SpecificFunctionRequest s where s._ik = :ik and s._dataYear = :year and s._statusId < 10";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("ik", ik);
-        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        query.setParameter("year", Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         return query.getResultList().size() == 1;
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh";
+        String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getValue());
         query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("accountIds", accountIds);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
@@ -115,7 +117,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return findAll(CenterName.class)
                 .stream()
                 .filter(n -> n.getId() > 0)
-                .sorted((n1, n2) -> n1.getName().compareTo(n2.getName()))
+                .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.getName())))
                 .collect(Collectors.toList());
     }
   
@@ -125,5 +127,60 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()) )
                 .collect(Collectors.toList());
     }
-  
+
+    public List<Account> getInekAccounts() {
+        String sql = "select distinct account.*\n"
+                //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
+                + "from spf.RequestMaster\n"
+                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "left join dbo.Account on agEMail = acMail\n"
+                + "where agActive = 1 and agDomainId in ('O', 'E')\n"
+                + "     and rmStatusId = 10 \n"
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        return result;
+    }
+
+    public List<SpecificFunctionRequest> getCalcBasicsForAccount(Account account) {
+        // sadly following approach results in primary key error ("must not be null" even though it contains a value)
+//        String sql = "select distinct RequestMaster.*\n"
+//                + "from spf.RequestMaster\n"
+//                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
+//                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+//                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+//                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+//                + "where agEMail = '" + account.getEmail() + "'\n"
+//                + "     and rmStatusId = 10 \n"
+//                + "	and mcraReportTypeId in (1, 3) \n"
+//                + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+//        Query query = getEntityManager().createNativeQuery(sql, SpecificFunction.class);
+//        @SuppressWarnings("unchecked") List<SpecificFunctionRequest> result = query.getResultList();
+    // thus, we use two sequential qeuries
+        String sql = "select rmId\n"
+                + "from spf.RequestMaster\n"
+                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "where agEMail = '" + account.getEmail() + "'\n"
+                + "     and rmStatusId = 10 \n"
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+        Query idQuery = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") List<Integer> ids = idQuery.getResultList();
+        String jpql = "select spf from SpecificFunctionRequest spf where spf._id in :ids";
+        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
+        query.setParameter("ids", ids);
+        List<SpecificFunctionRequest> result = query.getResultList();
+        return result;
+    }
+    
 }

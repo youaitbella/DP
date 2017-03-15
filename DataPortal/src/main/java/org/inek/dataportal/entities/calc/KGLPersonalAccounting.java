@@ -8,12 +8,17 @@ package org.inek.dataportal.entities.calc;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.common.CostType;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -54,8 +59,31 @@ public class KGLPersonalAccounting implements Serializable {
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property CostType">
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn(name = "paCostTypeID")
+    private CostType _costType;
+
+    public CostType getCostType() {
+        return _costType;
+    }
+
+    public void setCostType(CostType costType) {
+        _costType = costType;
+    }
+
+    @Documentation(name = "Kostenartengruppe", rank = 1)
+    public String getCostTypeText() {
+        if (_costType == null) {
+            return "";
+        }
+        return _costType.getText();
+    }
+    // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property _staffRecording">
     @Column(name = "paStaffRecording")
+    @Documentation(name = "mitarbeiterbezogene Zeiterfassung")
     private boolean _staffRecording;
 
     public boolean isStaffRecording() {
@@ -69,6 +97,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _staffEvaluation">
     @Column(name = "paStaffEvaluation")
+    @Documentation(name = "Stellenplanauswertung")
     private boolean _staffEvaluation;
 
     public boolean isStaffEvaluation() {
@@ -82,6 +111,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceEvaluation">
     @Column(name = "paServiceEvaluation")
+    @Documentation(name = "Dienstplanauswertung")
     private boolean _serviceEvaluation;
 
     public boolean isServiceEvaluation() {
@@ -95,6 +125,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceStatistic">
     @Column(name = "paServiceStatistic")
+    @Documentation(name = "Leistungsstatistiken")
     private boolean _serviceStatistic;
 
     public boolean isServiceStatistic() {
@@ -108,6 +139,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _expertRating">
     @Column(name = "paExpertRating")
+    @Documentation(name = "Expertenschätzung")
     private boolean _expertRating;
 
     public boolean isExpertRating() {
@@ -121,6 +153,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _other">
     @Column(name = "paOther")
+    @Documentation(name = "Sonstiges")
     private boolean _other;
 
     public boolean isOther() {
@@ -134,6 +167,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Column(name = "paAmount")
+    @Documentation(name = "Kostenvolumen")
     private int _amount;
 
     public int getAmount() {
@@ -159,7 +193,7 @@ public class KGLPersonalAccounting implements Serializable {
         this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
-    
+
     @Transient
     private int priorCostAmount;
 
@@ -170,11 +204,10 @@ public class KGLPersonalAccounting implements Serializable {
     public void setPriorCostAmount(int priorCostAmount) {
         this.priorCostAmount = priorCostAmount;
     }
-    
 
     public KGLPersonalAccounting() {
     }
-    
+
     public KGLPersonalAccounting(int costTypeId, int prior) {
         this._costTypeId = costTypeId;
         this.priorCostAmount = prior;

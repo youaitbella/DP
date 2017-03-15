@@ -88,7 +88,7 @@ public class CenterName implements Serializable {
     
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.specificfunction.CenterNames[ id=" + _id + " ]";
+        return _name;
     }
     //</editor-fold>
     

@@ -125,7 +125,7 @@ public class PeppCalcBasics implements Serializable, IdValue {
         _statusId = statusId;
     }
 
-    @Documentation(key = "lblWorkstate", rank = 10)
+    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckfunktion steht Ihnen in Kürze zur Verfügung.")
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }

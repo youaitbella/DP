@@ -168,7 +168,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     public void setTitle(String title) {
         // When loading from ICMT a string might be null. Thus we check every string value here and replace null by an empty string.
-        _title = title == null ? "" : title;
+        _title = title;
     }
     // </editor-fold>
 
@@ -183,7 +183,7 @@ public class SpecificFunctionRequest implements Serializable {
     }
 
     public void setFirstName(String firstName) {
-        _firstName = firstName == null ? "" : firstName;
+        _firstName = firstName;
     }
     // </editor-fold>
 
@@ -198,7 +198,7 @@ public class SpecificFunctionRequest implements Serializable {
     }
 
     public void setLastName(String lastName) {
-        _lastName = lastName == null ? "" : lastName;
+        _lastName = lastName;
     }
     // </editor-fold>
 
@@ -213,7 +213,7 @@ public class SpecificFunctionRequest implements Serializable {
     }
 
     public void setPhone(String phone) {
-        _phone = phone == null ? "" : phone;
+        _phone = phone;
     }
     // </editor-fold>
 
@@ -228,7 +228,7 @@ public class SpecificFunctionRequest implements Serializable {
     }
 
     public void setMail(String mail) {
-        _mail = mail == null ? "" : mail;
+        _mail = mail;
     }
     // </editor-fold>
 
@@ -261,7 +261,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property RequestProjectedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "rmId")
-    @Documentation(name = "geplante Vereinbarung")
+    @Documentation(name = "geplante Vereinbarung", omitOnEmpty = true)
     private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
@@ -276,7 +276,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
-    @Documentation(name = "vorliegende Vereinbarung")
+    @Documentation(name = "vorliegende Vereinbarung", omitOnEmpty = true)
     private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
 
     public List<RequestAgreedCenter> getRequestAgreedCenters() {

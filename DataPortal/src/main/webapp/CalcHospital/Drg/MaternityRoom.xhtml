@@ -9,7 +9,7 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h2 title="#{msg.titleMaternityRoom}">#{msg.lblCalcMaternityRoom}</h2>
+    <h2 title="#{msg.titleMaternityRoom}">#{msg.TopicCalcMaternityRoom}</h2>
 
     <inek:LabeledCheckbox label="#{msg.lblHasGynecology}" 
                           styleClassLabel="label60"
@@ -261,8 +261,60 @@
                 </h:dataTable>
             </h:panelGroup>
         </h:panelGroup>
-    </div>
+        
+        
+        <h2>TOP 5 ambulante geburtshilfliche Leistungen</h2>
 
+        <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
+
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item"
+                     columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
+            <h:column>
+                <f:facet name="header">#{msg.lblNotation}</f:facet>
+                <inek:InputTextWithMessage value="#{item.text}" required="#{!item.isEmpty()}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                <inek:InputNumberWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+            </h:column>
+        </h:dataTable>
+
+        <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).filter(i -> !i.text.isEmpty()).count() > 0}">
+            <h3>#{editCalcBasicsDrg.calcBasics.dataYear - 1}</h3>
+
+            <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item"
+                         columnClasses="colValue, col14 number, col14 number, col14 number" rowClasses="row1, row2">
+                <h:column>
+                    <f:facet name="header">#{msg.lblNotation}</f:facet>
+                    <h:outputLabel value="#{item.text}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg.lblCaseCount}</f:facet>
+                    <h:outputLabel value="#{item.caseCount}"><f:convertNumber/></h:outputLabel>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
+                    <h:outputLabel value="#{item.delimitationAmount}"><f:convertNumber/></h:outputLabel>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                    <h:outputLabel value="#{item.amount}"><f:convertNumber/></h:outputLabel>
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
+        
+    </div>
 
 </ui:composition>
 

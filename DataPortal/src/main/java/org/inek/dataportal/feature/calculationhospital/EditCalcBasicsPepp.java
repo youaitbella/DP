@@ -59,6 +59,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -76,7 +77,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
-    @Inject private CustomerFacade _customerFacade;
     @Inject private CostTypeFacade _costTypeFacade;
 
     private String _script;
@@ -191,6 +191,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
+            return true;
+        }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
@@ -296,19 +299,19 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Override
     protected void addTopics() {
-        addTopic("lblFrontPage", Pages.CalcPeppBasics.URL());
-        addTopic("lblBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
-        addTopic("lblCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
+        addTopic("TopicFrontPage", Pages.CalcPeppBasics.URL());
+        addTopic("TopicBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
+        addTopic("TopicCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
         addTopic("lblCalcTherapyScope", Pages.CalcPeppTherapyScope.URL());
-        addTopic("lblCalcRadiology", Pages.CalcPeppRadiology.URL());
-        addTopic("lblCalcLaboratory", Pages.CalcPeppLaboratory.URL());
-        addTopic("lblCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
-        addTopic("lblCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
-        addTopic("lblCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
+        addTopic("TopicCalcRadiology", Pages.CalcPeppRadiology.URL());
+        addTopic("TopicCalcLaboratory", Pages.CalcPeppLaboratory.URL());
+        addTopic("TopicCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
+        addTopic("TopicCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
+        addTopic("TopicCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
         addTopic("lblCalcStation", Pages.CalcPeppStation.URL());
-        addTopic("lblCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
-        addTopic("lblCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
-        addTopic("lblCalcStaffCost", Pages.CalcPeppStaffCost.URL());
+        addTopic("TopicCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
+        addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
+        addTopic("TopicCalcStaffCost", Pages.CalcPeppStaffCost.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -317,12 +320,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isReadOnly() {
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return true;
+        }
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave()) {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
             saveData();
         }
     }
@@ -383,6 +389,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
+            return false;
+        }
         return !_calcFacade.existActiveCalcBasicsPsy(_calcBasics.getIk());
     }
 
@@ -408,10 +417,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
      * @return
      */
     public String seal() {
-        populateDefaultsForUnreachableFields();
-        if (!statementIsComplete()) {
+        if (!calcBasicsIsComplete()) {
             return getActiveTopic().getOutcome();
         }
+        CalcBasicsPsyValueCleaner.clearUnusedFields(_calcBasics);
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
         saveData();
@@ -427,21 +436,24 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return "";
     }
 
-    private void populateDefaultsForUnreachableFields() {
-        // Some input fields can't be reached depending on other fields.
-        // But they might contain elder values, which became obsolte by setting the other field 
-        // Such fields will be populated with default values
-
-        // todo
-    }
-
-    private boolean statementIsComplete() {
-        // todo
-        return true;
+    private boolean calcBasicsIsComplete() {
+        MessageContainer message = CalcBasicsPsyValidator.composeMissingFieldsMessage(_calcBasics);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            if (!message.getTopic().isEmpty()) {
+                setActiveTopic(message.getTopic());
+            }
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
     }
 
     public String requestApproval() {
-        if (!statementIsComplete()) {
+        if (!calcBasicsIsComplete()) {
             return null;
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
@@ -568,6 +580,56 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
     @Inject private Instance<TherapyDataImporterPepp> _importProviderTherapyPepp;
+    @Inject private Instance<StationDataImporterPepp> _stationProviderPepp;
+
+    private Part _fileStation;
+
+    public Part getFileStation() {
+        return _fileStation;
+    }
+
+    public void setFileStation(Part fileStation) {
+        this._fileStation = fileStation;
+    }
+        
+    private String _importMessageStation;
+
+    public String getImportMessageStation() {
+        return _importMessageStation;
+    }
+
+    public void setImportMessageStation(String importMessageStation) {
+        this._importMessageStation = importMessageStation;
+    }
+    
+    private boolean _showJournalStation;
+
+    public boolean isShowJournalStation() {
+        return _showJournalStation;
+    }
+
+    public void setShowJournalStation(boolean showJournalStation) {
+        this._showJournalStation = showJournalStation;
+    }
+    
+    public void toggleJournalStation() {
+        this._showJournalStation = !this._showJournalStation;
+    }
+            
+    public void getDownloadTemplateStation() {
+        StationDataImporterPepp stationProvider = _stationProviderPepp.get();
+        stationProvider.downloadTemplate();
+    }
+    
+    public void uploadNoticesStation() {
+        StationDataImporterPepp stationProvider = _stationProviderPepp.get();
+        stationProvider.setFile(_fileStation);
+        stationProvider.setCalcBasics(_calcBasics);
+        stationProvider.uploadNotices();
+        _importMessageStation = stationProvider.getMessage();
+        _sessionController.alertClient(_importMessageStation);
+        _showJournalStation = _importMessageStation.contains("Fehler");
+    }
 
     public void uploadNoticesTherapy() {
         try {
@@ -676,14 +738,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return "" + Math.round(nominator * 100d / denominator) / 100d;
     }
 
-    public String getCostTypeText(int costTypeId) {
-        CostType ct = _costTypeFacade.find(costTypeId);
-        if (ct != null) {
-            return ct.getText();
-        }
-        return "Unbekannte Kostenartengruppe";
-    }
-
     public KGPListDelimitationFact getPriorDelimitationFact(int contentTextId) {
         for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
             if (df.getContentTextId() == contentTextId) {
@@ -728,6 +782,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void downloadTemplateHeadlineMedInfra() {
         Utils.downloadText(HeadlineMedInfra + "\n", "Med_Infra.csv");
+    }
+
+    public void downloadTemplateHeadlineNonMedInfra() {
+        Utils.downloadText(HeadlineMedInfra + "\n", "Nicht_Med_Infra.csv");
     }
 
     private String _importMessageMedInfra = "";

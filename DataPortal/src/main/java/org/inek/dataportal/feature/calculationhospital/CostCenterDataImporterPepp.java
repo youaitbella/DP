@@ -13,6 +13,7 @@ import java.util.Locale;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -53,7 +54,7 @@ public class CostCenterDataImporterPepp {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 8) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }

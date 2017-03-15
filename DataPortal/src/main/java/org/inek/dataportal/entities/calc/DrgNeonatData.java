@@ -74,6 +74,7 @@ public class DrgNeonatData implements Serializable {
     @PrimaryKeyJoinColumn(name = "ndContentTextId")
     private DrgContentText _contentText;
 
+    @Documentation(name = "Bereich")
     public DrgContentText getContentText() {
         return _contentText;
     }
@@ -85,7 +86,7 @@ public class DrgNeonatData implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Data">
     @Column(name = "ndData", precision=10, scale=1)
-    @Documentation(name = "Wert")
+    @Documentation(name = "Wert", rank = 200)
     private BigDecimal _data = new BigDecimal(0);  
     public BigDecimal getData() {
         return _data;

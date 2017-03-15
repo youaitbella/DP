@@ -153,7 +153,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     @Override
     protected void addTopics() {
-        addTopic("lblFrontPage", Pages.CalcDrgBasics.URL());
+        addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
 
     public String save() {

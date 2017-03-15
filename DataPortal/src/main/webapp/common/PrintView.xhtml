@@ -26,11 +26,12 @@
                 </f:facet>
                 <h:outputLabel value="#{p.key}"/>
             </h:column>
+            
             <h:column id="colValue">
                 <f:facet name="header">
                     <h:outputText  value="#{msg.lblValue}"/>
                 </f:facet>
-                <h:outputLabel value="#{p.value}" rendered="#{p.level == 0}"/>
+                <h:outputLabel value="#{p.value}" rendered="#{p.level == 0}" styleClass="#{empty p.key ? 'inlineBlock label marginTop' : ''}"/>
                 <h:dataTable id="tblPrintSub" value="#{p.value}" var="sub" rendered="#{p.level > 0}" columnClasses="col30, colValue" width="100%">
                     <h:column id="colSubKey">
                         <h:outputLabel value="#{sub.key}"/>

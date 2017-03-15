@@ -184,17 +184,17 @@ public class SessionController implements Serializable {
             int minutes = 30;
             conversation.setTimeout(minutes * 60000);
             conversation.begin(UUID.randomUUID().toString());
-            _logger.log(Level.WARNING, "Conversation started: {0}", conversation.getId());
+            _logger.log(Level.INFO, "Conversation started: {0}", conversation.getId());
             return conversation.getId();
         } else {
-            _logger.log(Level.WARNING, "Conversation still running: {0}", conversation.getId());
+            _logger.log(Level.INFO, "Conversation still running: {0}", conversation.getId());
             return conversation.getId();
         }
     }
 
     public void endConversation(Conversation conversation) {
         if (!conversation.isTransient()) {
-            _logger.log(Level.WARNING, "Conversation stopping: {0}", conversation.getId());
+            _logger.log(Level.INFO, "Conversation stopping: {0}", conversation.getId());
             conversation.end();
         }
     }
@@ -239,11 +239,11 @@ public class SessionController implements Serializable {
         String sessionId = retrieveSessionId();
         if (sessionId.length() > 0) {
             try {
-                _logger.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
+                //_logger.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                 FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 sessionId = retrieveSessionId();
-                _logger.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
+                //_logger.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
             } catch (Exception ex) {
                 _logger.log(Level.WARNING, "Exception during invalidatesesion");
             }
@@ -278,7 +278,6 @@ public class SessionController implements Serializable {
      */
     public boolean loginAndSetTopics(String mailOrUser, String password) {
         String sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
-        System.out.println("loginAndSetTopics: new session " + sessionId);
         //invalidateSession();
         login(mailOrUser, password);
         setTopics();

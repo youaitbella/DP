@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.CalcContact;
@@ -564,12 +565,6 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<DrgCalcBasics>> violations = validator.validate(calcBasics);
-        for (ConstraintViolation<DrgCalcBasics> violation : violations) {
-            System.out.println(violation.getMessage());
-        }
-
         prepareServiceProvisionTypes(calcBasics.getServiceProvisions());
 
         if (calcBasics.getId() == -1) {
@@ -984,7 +979,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
     
     public boolean existActiveCalcBasicsDrg(int ik) {
-        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year and c._statusID < 10";
+        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
         TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
         query.setParameter("ik", ik);
         query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
@@ -1070,4 +1065,40 @@ public class CalcFacade extends AbstractDataAccess {
     }
     // </editor-fold>
 
+    public List<Account> getInekAccounts() {
+        String sql = "select distinct account.*\n"
+                //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
+                + "from (select biIk from calc.KGLBaseInformation where biStatusID = 10 and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + "\n"
+                + "union select biIk from calc.KGPBaseInformation where biStatusID = 10 and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " ) base\n"
+                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "left join dbo.Account on agEMail = acMail\n"
+                + "where agActive = 1 and agDomainId in ('O', 'E')\n"
+                + "	and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        return result;
+    }
+
+    public List<CalcHospitalInfo> getCalcBasicsForAccount(Account account) {
+        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
+                + "Name, biLastChanged as LastChanged\n"
+                + "from (select biId, biIk, 1 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID = 10 "
+                + "union select biId, biIk, 2 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID = 10) base \n"
+                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "where agEMail = '" + account.getEmail() + "'\n"
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
+        @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();
+        return result;
+    }
+    
 }

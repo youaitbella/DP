@@ -10,7 +10,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import org.inek.dataportal.helper.groupinterface.TopicCalcOpAn;
+import org.inek.dataportal.helper.groupinterface.Seal;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -36,10 +40,29 @@ public class KGLOpAn implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="centralOP">    
+    @Documentation(name = "Zentral OPs vorhanden", rank = 3000)
+    public boolean isCentralOP() {
+        return _centralOPCnt > 0;
+    }
+
+    public void setCentralOP(boolean centralOP) {
+        if (centralOP && _centralOPCnt < 1) {
+            _centralOPCnt = 1;
+        }
+        if (!centralOP) {
+            _centralOPCnt = 0;
+        }
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="centralOPCnt">    
+    @Documentation(name = "Anzahl Zentral-OPs", omitOnValues = "0", rank = 3001, headline = "OP-Bereich und Anästhesie")
     @Column(name = "oaCentralOPCnt")
     private int _centralOPCnt;
 
+    @Min(value = 0, groups = {Seal.class}, message = "Die Anzahl der OPs darf nicht negativ sein", payload = TopicCalcOpAn.class)
+    @Max(value = 99, groups = {Seal.class}, message = "Die Anzahl der OPs ist unplausibel hoch", payload = TopicCalcOpAn.class)
     public int getCentralOPCnt() {
         return _centralOPCnt;
     }
@@ -49,23 +72,9 @@ public class KGLOpAn implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="centralOP">    
-    public boolean isCentralOP() {
-        return _centralOPCnt > 0;
-    }
-
-    public void setCentralOP(boolean centralOP) {
-        if (centralOP && _centralOPCnt < 1){
-            _centralOPCnt = 1;
-        }
-        if (!centralOP){
-            _centralOPCnt = 0;
-        }
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsOP">    
     @Column(name = "oaStaffBindingMsOP")
+    @Documentation(name = "Personalbindungszeit OP ÄD", rank = 3010)
     private boolean _staffBindingMsOP;
 
     public boolean getStaffBindingMsOP() {
@@ -79,6 +88,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingFsOP">    
     @Column(name = "oaStaffBindingFsOP")
+    @Documentation(name = "Personalbindungszeit OP FD/MTD", rank = 3010)
     private boolean _staffBindingFsOP;
 
     public boolean getStaffBindingFsOP() {
@@ -92,8 +102,12 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzOP">    
     @Column(name = "oaMedicalServiceSnzOP")
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzOP;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)})
+    @Max(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)
     public int getMedicalServiceSnzOP() {
         return _medicalServiceSnzOP;
     }
@@ -105,6 +119,8 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzOP">    
     @Column(name = "oaFunctionalServiceSnzOP")
+    
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzOP;
 
     public int getFunctionalServiceSnzOP() {
@@ -118,6 +134,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzOP">    
     @Column(name = "oaDescriptionSnzOP")
+    @Documentation(name = "SNZ Alternative OP", rank = 3010)
     private String _descriptionSnzOP = "";
 
     public String getDescriptionSnzOP() {
@@ -131,6 +148,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzOP">    
     @Column(name = "oaMedicalServiceRzOP")
+    @Documentation(name = "Rüstzeit OP ÄD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzOP;
 
     public int getMedicalServiceRzOP() {
@@ -144,6 +162,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzOP">    
     @Column(name = "oaFunctionalServiceRzOP")
+    @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzOP;
 
     public int getFunctionalServiceRzOP() {
@@ -157,6 +176,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionRzOP">    
     @Column(name = "oaDescriptionRzOP")
+    @Documentation(name = "Rüstzeit Alternative OP", rank = 3010)
     private String _descriptionRzOP = "";
 
     public String getDescriptionRzOP() {
@@ -170,8 +190,11 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountOP">    
     @Column(name = "oaMedicalServiceAmountOP")
+    @Documentation(name = "Leistungsminuten OP ÄD")
     private int _medicalServiceAmountOP;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP ÄD angeben", payload = TopicCalcOpAn.class)})
     public int getMedicalServiceAmountOP() {
         return _medicalServiceAmountOP;
     }
@@ -183,8 +206,11 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountOP">    
     @Column(name = "oaFunctionalServiceAmountOP")
+    @Documentation(name = "Leistungsminuten OP FD/MTD")
     private int _functionalServiceAmountOP;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten OP FD/MTD angeben", payload = TopicCalcOpAn.class)})
     public int getFunctionalServiceAmountOP() {
         return _functionalServiceAmountOP;
     }
@@ -196,6 +222,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingMsAN">    
     @Column(name = "oaStaffBindingMsAN")
+    @Documentation(name = "Personalbindungszeit AN ÄD", rank = 3010)
     private boolean _staffBindingMsAN;
 
     public boolean getStaffBindingMsAN() {
@@ -209,6 +236,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="staffBindingFsAN">    
     @Column(name = "oaStaffBindingFsAN")
+    @Documentation(name = "Personalbindungszeit AN FD/MTD", rank = 3010)
     private boolean _staffBindingFsAN;
 
     public boolean getStaffBindingFsAN() {
@@ -222,6 +250,8 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzAN">    
     @Column(name = "oaMedicalServiceSnzAN")
+    
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzAN;
 
     public int getMedicalServiceSnzAN() {
@@ -235,6 +265,8 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzAN">    
     @Column(name = "oaFunctionalServiceSnzAN")
+    
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzAN;
 
     public int getFunctionalServiceSnzAN() {
@@ -248,6 +280,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionSnzAN">    
     @Column(name = "oaDescriptionSnzAN")
+    @Documentation(name = "SNZ Alternative AN", rank = 3010)
     private String _descriptionSnzAN = "";
 
     public String getDescriptionSnzAN() {
@@ -261,6 +294,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzAN">    
     @Column(name = "oaMedicalServiceRzAN")
+    @Documentation(name = "Rüstzeit AN ÄD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzAN;
 
     public int getMedicalServiceRzAN() {
@@ -274,6 +308,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzAN">    
     @Column(name = "oaFunctionalServiceRzAN")
+    @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010, translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzAN;
 
     public int getFunctionalServiceRzAN() {
@@ -287,6 +322,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="descriptionRzAN">    
     @Column(name = "oaDescriptionRzAN")
+    @Documentation(name = "Rüstzeit Alternative AN", rank = 3010)
     private String _descriptionRzAN = "";
 
     public String getDescriptionRzAN() {
@@ -300,8 +336,11 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceAmountAN">    
     @Column(name = "oaMedicalServiceAmountAN")
+    @Documentation(name = "Leistungsminuten AN ÄD", rank = 3010)
     private int _medicalServiceAmountAN;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN ÄD angeben", payload = TopicCalcOpAn.class)})
     public int getMedicalServiceAmountAN() {
         return _medicalServiceAmountAN;
     }
@@ -313,8 +352,11 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceAmountAN">    
     @Column(name = "oaFunctionalServiceAmountAN")
+    @Documentation(name = "Leistungsminuten AN FD/MTD", rank = 3010)
     private int _functionalServiceAmountAN;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte Leistungsminuten AN FD/MTD angeben", payload = TopicCalcOpAn.class)})
     public int getFunctionalServiceAmountAN() {
         return _functionalServiceAmountAN;
     }

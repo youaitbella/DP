@@ -43,6 +43,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -275,6 +276,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
+    @Inject private Mailer _mailer;
+
     /**
      * This function seals a statement of participance if possible. Sealing is
      * possible, if all mandatory fields are fulfilled. After sealing, the
@@ -324,6 +327,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
             _calcFacade.saveStatementOfParticipanceForIcmt(_statement);
         }
 
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
+            _mailer.sendMail("DSAnfragen@inek-drg.de", "Teilnahmeerklärung", "" + _statement.getIk());
+        }
         //createTransferFile(_statement);
         if (isValidId(_statement.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
@@ -395,6 +401,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isCopyForResendAllowed() {
+        //if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled) || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
         if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
@@ -402,6 +409,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public void copyForResend() {
+        if (_statement.getStatusId() == 10 && !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
+            _sessionController.setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
+            return;
+        }
         _statement.setId(-1);
         _statement.setStatus(WorkflowStatus.New);
         _statement.setAccountId(_sessionController.getAccountId());

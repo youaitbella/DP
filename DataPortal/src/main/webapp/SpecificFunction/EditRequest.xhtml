@@ -34,7 +34,7 @@
 
                 <h2 style="margin-bottom: 1em;"></h2>
 
-                <inek:LabeledText label="#{msg.lblNotation}" value="#{editSpecificFunction.request.name}" singleLine="true" styleClassLabel="label10" styleClass="element80"/>
+                <inek:LabeledText label="#{msg.lblNotation}" value="#{editSpecificFunction.request.name}" singleLine="true" styleClassLabel="label10" styleClass="element80" required="true"/>
 
                 <inek:MultiIk id="ikMulti" value="#{editSpecificFunction.request.ik}" 
                               ikList="#{editSpecificFunction.iks}"
@@ -63,6 +63,8 @@
 
                     <ui:include src="ProjectedCenters.xhtml"/>
                     <ui:include src="AgreedCenters.xhtml"/>
+                    
+                    <h:messages showDetail="true" globalOnly="true"/>
                 </div>
 
 
@@ -86,7 +88,7 @@
                                    action="#{editSpecificFunction.seal}"
                                    value="#{msg.btnSaveAndClose}"
                                    rendered="#{editSpecificFunction.sealEnabled}"
-                                   immediate="true"
+                                   immediate="false"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>

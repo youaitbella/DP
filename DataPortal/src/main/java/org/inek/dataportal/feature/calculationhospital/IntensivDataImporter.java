@@ -16,6 +16,7 @@ import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -56,7 +57,7 @@ public class IntensivDataImporter {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 22) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }

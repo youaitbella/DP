@@ -14,6 +14,7 @@ import java.util.function.BiConsumer;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -40,6 +41,12 @@ public class TherapyDataImporterPepp {
         return _errorColumnCount;
     }
 
+    private int _infoColumnCount = 0;
+
+    public int getInfoColumnCount() {
+        return _errorColumnCount;
+    }
+
     private PeppCalcBasics _calcBasics;
 
     void setCalcBasics(PeppCalcBasics notice) {
@@ -51,7 +58,9 @@ public class TherapyDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorMsg;
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
+                + _infoColumnCount + " nicht angegebene Werte\n\n" + _errorMsg;
     }
     
     public void tryImportLine(String line) {
@@ -60,7 +69,7 @@ public class TherapyDataImporterPepp {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 16) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
@@ -103,6 +112,11 @@ public class TherapyDataImporterPepp {
     private void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
+    }
+    
+    private void addColumnInfoMsg(String message) {
+        _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
+        _infoColumnCount++;
     }
     
     private void addChangeColumn(int oldVal, int newVal) {
@@ -208,7 +222,11 @@ public class TherapyDataImporterPepp {
             }
         } catch (ParseException ex) {
             bind.accept(item, 0);
-            addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            if (data.trim().isEmpty()) {
+                addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
         }
     }
     

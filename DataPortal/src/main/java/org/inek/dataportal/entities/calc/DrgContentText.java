@@ -185,7 +185,7 @@ public class DrgContentText implements Serializable {
 
     @Override
     public String toString() {
-        return "DrgContentText[ id=" + _id + " ]";
+        return _text;
     }
     // </editor-fold>
 }

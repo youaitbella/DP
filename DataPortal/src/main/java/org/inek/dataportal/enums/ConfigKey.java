@@ -19,6 +19,7 @@ public enum ConfigKey {
     IsCalculationBasicsDrgCreateEnabled(false),
     IsCalculationBasicsPsyCreateEnabled(false),
     IsStatemenOfParticipanceSendEnabled(false),
+    IsStatemenOfParticipanceResendEnabled(true),
     IsCalculationBasicsDrgSendEnabled(false),
     IsCalculationBasicsPsySendEnabled(false),
     IsSpecificFunctionRequestCreateEnabled(false),

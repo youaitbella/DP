@@ -2,15 +2,15 @@ package org.inek.dataportal.facades.account;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.WeakPassword;
+import org.inek.dataportal.entities.admin.Log;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.admin.ConfigFacade;
+import org.inek.dataportal.facades.admin.LogFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.Crypt;
 
@@ -20,10 +20,10 @@ import org.inek.dataportal.utils.Crypt;
  */
 @Stateless
 public class AccountPwdFacade extends AbstractDataAccess {
-    
-    @Inject
-    private ConfigFacade _config;
-    
+
+    @Inject private ConfigFacade _config;
+    @Inject private LogFacade _logFacade;
+
     public AccountPwd find(int accountId) {
         return find(AccountPwd.class, accountId);
     }
@@ -38,14 +38,16 @@ public class AccountPwdFacade extends AbstractDataAccess {
     }
 
     public boolean isCorrectPassword(int accountId, final String password) {
-        if(_config.readBool(ConfigKey.TestMode) && password.equals("InekEdv")) {
+        if (_config.readBool(ConfigKey.TestMode) && password.equals("InekEdv")) {
             return true;
         }
-        String dat = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE); 
-        if(isInternalClient() && password.equals("InekEdv" + dat)) {
+        String dat = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
+        if (isInternalClient() && password.equals("InekEdv" + dat)) {
+            Log log = new Log(accountId, "internal", "internal user access from " + Utils.getClientIP());
+            _logFacade.save(log);
             return true;
         }
-                
+
         AccountPwd accountPwd = findFresh(AccountPwd.class, accountId);
         if (accountPwd.getSalt().isEmpty()) {
             // old format. todo: remove once most users have their password stored in new format. Apx. mid 2017
@@ -59,7 +61,7 @@ public class AccountPwdFacade extends AbstractDataAccess {
                 || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
                 || Utils.getClientIP().startsWith("192.168.0");
     }
-    
+
     private boolean checkAndUpdatedOldPasswordFormat(AccountPwd accountPwd, final String password, int accountId) {
         if (!accountPwd.getPasswordHash().equals(Crypt.getPasswordHash(password, accountId))) {
             return false;
@@ -82,8 +84,8 @@ public class AccountPwdFacade extends AbstractDataAccess {
     public boolean isWeakPassword(String password) {
         return find(WeakPassword.class, password) != null;
     }
-    
-    public void delete (AccountPwd accountPwd){
+
+    public void delete(AccountPwd accountPwd) {
         remove(accountPwd);
     }
 }

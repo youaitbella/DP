@@ -12,6 +12,7 @@ import java.util.function.BiConsumer;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -29,6 +30,7 @@ public class MedInfraDataImporterPepp {
 
     private int _errorRowCount = 0;
     private int _errorColumnCount = 0;
+    private int _infoColumnCount = 0;
 
     public int getErrorRowCount() {
         return _errorRowCount;
@@ -57,7 +59,9 @@ public class MedInfraDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen " + _errorMsg;
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
+                + _infoColumnCount + " nicht angegebene Werte\n\n" + _errorMsg;
     }
     
     public void tryImportLine(String line) {
@@ -69,7 +73,7 @@ public class MedInfraDataImporterPepp {
             if (line.endsWith(";")) {
                 line = line + " ";
             }
-            String[] data = line.split(";");
+            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 4) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
@@ -100,6 +104,11 @@ public class MedInfraDataImporterPepp {
     private void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
+    }
+    
+    private void addColumnInfoMsg(String message) {
+        _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
+        _infoColumnCount++;
     }
     
     private boolean itemExists(KGPListMedInfra item) {
@@ -141,7 +150,11 @@ public class MedInfraDataImporterPepp {
             }
         } catch (ParseException ex) {
             bind.accept(item, 0);
-            addColumnErrorMsg(errorMsg + "Wert ist keine gültige Zahl: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            if (data.isEmpty()) {
+                addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
         }
     }
     

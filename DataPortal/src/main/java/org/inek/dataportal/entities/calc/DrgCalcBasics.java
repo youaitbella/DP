@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -70,6 +72,21 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="lastChanged">
+    @Column(name = "biLastChanged")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Documentation(name = "Stand")
+    private Date _lastChanged;
+
+    public Date getLastChanged() {
+        return _lastChanged;
+    }
+
+    public void setLastChanged(Date lastChanged) {
+        this._lastChanged = lastChanged;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="ik">
     @Column(name = "biIK")
     @Documentation(key = "lblIK")
@@ -97,21 +114,6 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="lastChanged">
-    @Column(name = "biLastChanged")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Documentation(name = "Stand")
-    private Date _lastChanged;
-
-    public Date getLastChanged() {
-        return _lastChanged;
-    }
-
-    public void setLastChanged(Date lastChanged) {
-        this._lastChanged = lastChanged;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="statusID">
     @Column(name = "biStatusID")
     private int _statusId;
@@ -124,7 +126,7 @@ public class DrgCalcBasics implements Serializable {
         this._statusId = statusId;
     }
 
-    @Documentation(key = "lblWorkstate", rank = 10)
+    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckfunktion steht Ihnen in Kürze zur Verfügung.")
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
@@ -151,7 +153,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="sumCalcCost">
     @Column(name = "biSumCalcCost")
-    @Documentation(key = "lblSumCalcCost")
+    @Documentation(key = "lblSumCalcCost", headline = "Erklärung zur Kalkulationsgrundlage", rank = 1000)
     private int _sumCalcCost;
 
     @Min(0)
@@ -166,7 +168,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="caseInStationCnt">
     @Column(name = "biCaseInStationCnt")
-    @Documentation(name = "Fälle vollstationär")
+    @Documentation(name = "Fälle vollstationär", rank = 1000)
     private int _caseInStationCnt;
 
     @Min(0)
@@ -181,7 +183,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
     @Column(name = "biCasePartialStationCnt")
-    @Documentation(name = "Fälle teilstationär")
+    @Documentation(name = "Fälle teilstationär", rank = 1000)
     private int _casePartialStationCnt;
 
     @Min(0)
@@ -196,7 +198,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="daysPartialStation">
     @Column(name = "biDaysPartialStation")
-    @Documentation(name = "Berechnungstage teilstationär")
+    @Documentation(name = "Berechnungstage teilstationär", rank = 1000)
     private int _daysPartialStation;
 
     @Min(0)
@@ -211,7 +213,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="patientEscort">
     @Column(name = "biPatientEscort")
-    @Documentation(name = "Begleitpersonen")
+    @Documentation(name = "Begleitpersonen", rank = 1000)
     private int _patientEscort;
 
     @Min(0)
@@ -226,7 +228,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="preStation">
     @Column(name = "biPreStation")
-    @Documentation(name = "Fälle rein vorstationär")
+    @Documentation(name = "Fälle rein vorstationär", rank = 1000)
     private int _preStation;
 
     @Min(0)
@@ -241,7 +243,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="beds">
     @Column(name = "biBeds")
-    @Documentation(name = "Anzahl Betten (DRG)")
+    @Documentation(name = "Anzahl Betten (DRG)", rank = 1000)
     private int _beds;
 
     @Min(0)
@@ -256,7 +258,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="partialCnt">
     @Column(name = "biPartialCnt")
-    @Documentation(name = "Anzahl teilstationäre Plätze (DRG)")
+    @Documentation(name = "Anzahl teilstationäre Plätze (DRG)", rank = 1000)
     private int _partialCnt;
 
     @Min(0)
@@ -271,7 +273,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="locationCnt">
     @Column(name = "biLocationCnt")
-    @Documentation(name = "Anzahl Standorte")
+    @Documentation(name = "Anzahl Standorte", rank = 1000)
     private int _locationCnt;
 
     @Min(0)
@@ -286,7 +288,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="difLocationSupply">
     @Column(name = "biDifLocationSupply")
-    @Documentation(name = "Differenzierter Versorgungsauftrag")
+    @Documentation(name = "Differenzierter Versorgungsauftrag", rank = 1000)
     private boolean _difLocationSupply;
 
     public boolean isDifLocationSupply() {
@@ -300,7 +302,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="specialUnit">
     @Column(name = "biSpecialUnit")
-    @Documentation(name = "Besondere Einrichtung")
+    @Documentation(name = "Besondere Einrichtung", rank = 1050)
     private boolean _specialUnit;
 
     public boolean isSpecialUnit() {
@@ -314,7 +316,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="centralFocus">
     @Column(name = "biCentralFocus")
-    @Documentation(name = "Zentren und Schwerpunkte")
+    @Documentation(name = "Zentren und Schwerpunkte", rank = 1100)
     private boolean _centralFocus;
 
     public boolean isCentralFocus() {
@@ -328,6 +330,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
+    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kreißsaal", rank = 4000)
     private boolean _gynecology;
 
     public boolean isGynecology() {
@@ -341,6 +344,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="obstetrical">
     @Column(name = "biObstetrical")
+    @Documentation(name = "Leistungen im Bereich Geburtshilfe", rank = 4000)
     private boolean _obstetrical;
 
     public boolean isObstetrical() {
@@ -354,6 +358,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomHours">
     @Column(name = "biDeliveryRoomHours")
+    @Documentation(name = "Aufenthaltszeit der Patientin im Kreißsaal (Std.)", omitOnEmpty = true, rank = 4000)
     private double _deliveryRoomHours;
 
     public double getDeliveryRoomHours() {
@@ -367,6 +372,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomPreBirthHabitationCnt">
     @Column(name = "biDeliveryRoomPreBirthHabitationCnt")
+    @Documentation(name = "davon für vorgeburtliche Kreißsaalaufenthalte", omitOnEmpty = true, rank = 4000)
     private int _deliveryRoomPreBirthHabitationCnt;
 
     @Min(0)
@@ -381,6 +387,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomInstationBirthCnt">
     @Column(name = "biDeliveryRoomInstationBirthCnt")
+    @Documentation(name = "Anzahl vollstationär geborener Kinder", omitOnEmpty = true, rank = 4000)
     private int _deliveryRoomInstationBirthCnt;
 
     @Min(0)
@@ -395,6 +402,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
     @Column(name = "biNoDeliveryRoomHabitation")
+    @Documentation(name = "Bei vorgeburtlichen Fällen keine Aufenthaltszeiten der Patientin im Kreißsaal", omitOnEmpty = true, rank = 4000)
     private boolean _noDeliveryRoomHabitation;
 
     public boolean isNoDeliveryRoomHabitation() {
@@ -408,6 +416,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="deliveryRoomOrganizationalStructure">
     @Column(name = "biDeliveryRoomOrganizationalStructure")
+    @Documentation(name = "Organisationsstrukturen", omitOnEmpty = true, rank = 4000)
     private String _deliveryRoomOrganizationalStructure = "";
 
     public String getDeliveryRoomOrganizationalStructure() {
@@ -421,6 +430,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="cardiology">
     @Column(name = "biCardiology")
+    @Documentation(name = "KH erbringt Leistungen in Kardiologie", rank = 5000, headline = "Kostenstellengruppe 7 (Kardiologie)")
     private boolean _cardiology;
 
     public boolean isCardiology() {
@@ -432,22 +442,9 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="personalAccountingDescription">
-
-    @Column(name = "biPersonalAccountingDescription")
-    private String _personalAccountingDescription = "";
-
-    public String getPersonalAccountingDescription() {
-        return _personalAccountingDescription;
-    }
-
-    public void setPersonalAccountingDescription(String personalAccountingDescription) {
-        this._personalAccountingDescription = personalAccountingDescription;
-    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="cardiologyRoomCnt">
     @Column(name = "biCardiologyRoomCnt")
+    @Documentation(name = "Kardiologische Eingriffsräume", rank = 5000, omitOnValues = "0")
     private int _cardiologyRoomCnt;
 
     @Min(0)
@@ -462,6 +459,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="cardiologyCaseCnt">
     @Column(name = "biCardiologyCaseCnt")
+    @Documentation(name = "Anzahl kalkulationsrelevante Fälle Kardiologie", rank = 5000, omitOnValues = "0")
     private int _cardiologyCaseCnt;
 
     @Min(0)
@@ -774,6 +772,8 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property OpAn">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationId")
+    @Documentation(include = true)
+    @Valid
     private KGLOpAn _opAn;
 
     public KGLOpAn getOpAn() {
@@ -817,6 +817,12 @@ public class DrgCalcBasics implements Serializable {
     
     public void setKstTop(List<KGLListKstTop> kstTop) {
         this._kstTop = kstTop;
+    }
+    
+    @Documentation(name = "TOP 3 Leistungen", rank = 3100)
+    public List<KGLListKstTop> getKstTopOp() {
+        ensureTopList();
+        return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 4).collect(Collectors.toList());
     }
     
     private void ensureTopList() {
@@ -928,6 +934,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeId")
+    @Documentation(name = "Verfahren Personalkostenverrechnung", rank = 17000, headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
     
     public List<KGLPersonalAccounting> getPersonalAccountings() {
@@ -939,9 +946,23 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="personalAccountingDescription">
+    @Column(name = "biPersonalAccountingDescription")
+    @Documentation(name = "Erläuterung Personalkostenverrechnung", rank = 17010)
+    private String _personalAccountingDescription = "";
+
+    public String getPersonalAccountingDescription() {
+        return _personalAccountingDescription;
+    }
+
+    public void setPersonalAccountingDescription(String personalAccountingDescription) {
+        this._personalAccountingDescription = personalAccountingDescription;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Column(name = "biNeonatLvl")
-    @Documentation(name = "Versorgungsstufe des Perinatalzentrums")
+    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", headline = "Neonatologische Versorgung", rank = 19000)
     private int _neonatLvl;
 
     public int getNeonatLvl() {
@@ -956,7 +977,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List NeonateDatas">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ndBaseInformationId", referencedColumnName = "biID")
-    //@Documentation(name = "Neonat")
+    @Documentation(name = "Neonatologische Versorgung", rank = 19000)
     private List<DrgNeonatData> _neonateData = new Vector<>();
 
     public List<DrgNeonatData> getNeonateData() {
