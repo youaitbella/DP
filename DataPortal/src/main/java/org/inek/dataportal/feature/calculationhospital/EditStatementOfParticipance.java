@@ -123,17 +123,11 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     private StatementOfParticipance retrievePriorData(int ik, int year) {
-        /* 
-        This code might be used, if we load the data from a former StatementOfParticipance
-        Although we did this in a first approach, we decided to load the data from ICMT, at least for the first time (2017).
-        If we load it from ICMT in 2018, then get the code of the pre 20170118 version.
-         */
-
         StatementOfParticipance statement = new StatementOfParticipance();
         statement.setIk(ik);
         statement.setDataYear(year);
         statement.setAccountId(_sessionController.getAccountId());
-        List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(ik);
+        List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(ik, year - 1);
         if (currentData.size() == 1) {
             Object[] obj = currentData.get(0);
             String domain = (String) obj[0];
@@ -162,7 +156,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     + "Bevor Sie die Daten an das InEK senden, überprüfen Sie diese bitte auf eventuelle Änderungen.');");
         }
 
-        statement.setContacts(_calcFacade.retrieveCurrentContacts(ik));
+        statement.setContacts(_calcFacade.retrieveCurrentContacts(ik, year - 1));
         return statement;
     }
 
@@ -342,7 +336,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private void updateObligatorySetting(StatementOfParticipance statement) {
         if (statement.isObligatory()) {
-            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(statement.getIk());
+            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(statement.getIk(), statement.getDataYear());
             if (currentData.size() == 1) {
                 Object[] obj = currentData.get(0);
                 String domain = (String) obj[0];

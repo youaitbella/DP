@@ -17,7 +17,11 @@
                               styleClassComponent="marginTop02em"
                               styleClassLabel="label inlineBlock col20em"
                               value="#{editCalcBasicsDrg.calcBasics.opAn.centralOP}"
-                              renderElement="@form"/>
+                              renderElement="@this">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.opAn.centralOP)}"/>
+        </inek:LabeledCheckbox>
 
 
         <div jsf:id="opInfo" jsf:rendered="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt gt 0}">

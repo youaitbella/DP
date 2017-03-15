@@ -486,7 +486,7 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik) {
+    public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik, int dataYear) {
         String sql = "select dbo.concatenate(case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end) as domain, \n"
                 + "    max(isnull(left(dk.ctpValue, 1), 'F')) as DrgKvm,\n"
                 + "    max(isnull(left(dm.ctpValue, 1), '0')) as DrgMultiyear,\n"
@@ -501,13 +501,14 @@ public class CalcFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pk on ciId = pk.ctpCalcInformationId and pk.ctpPropertyId = 3 and caCalcTypeId = 3\n"
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pm on ciId = pm.ctpCalcInformationId and pm.ctpPropertyId = 6 and caCalcTypeId = 3\n"
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
+                + "      and ciDataYear = " + dataYear + "\n"
                 + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") List<Object[]> result = query.getResultList();
         return result;
     }
 
-    public List<CalcContact> retrieveCurrentContacts(int ik) {
+    public List<CalcContact> retrieveCurrentContacts(int ik, int dataYear) {
         String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, "
                 + "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, "
                 + "    dbo.concatenate(case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end) as domain\n"
@@ -520,6 +521,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n"
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and coIsActive = 1 and cuIk = " + ik + "\n"
                 + "and not exists (select 1 from CallCenterDB.dbo.mapContactRole where mcrRoleId = 14 and mcrContactId = coId)\n"
+                + "      and ciDataYear = " + dataYear + "\n"
                 + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         List<CalcContact> contacts = new Vector<>();
@@ -1068,16 +1070,17 @@ public class CalcFacade extends AbstractDataAccess {
     public List<Account> getInekAccounts() {
         String sql = "select distinct account.*\n"
                 //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
-                + "from (select biIk from calc.KGLBaseInformation where biStatusID = 10 and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + "\n"
-                + "union select biIk from calc.KGPBaseInformation where biStatusID = 10 and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " ) base\n"
+                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID = 10 \n"
+                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID = 10 ) base\n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "left join dbo.Account on agEMail = acMail\n"
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
-                + "	and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
@@ -1090,7 +1093,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "union select biId, biIk, 2 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID = 10) base \n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "where agEMail = '" + account.getEmail() + "'\n"

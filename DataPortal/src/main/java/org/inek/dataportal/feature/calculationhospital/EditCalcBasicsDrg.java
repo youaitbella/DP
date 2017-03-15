@@ -70,7 +70,6 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
-import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -143,6 +142,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void ikChanged() {
         retrievePriorData(_calcBasics);
         preloadData(_calcBasics);
+    }
+
+    public void hideData(boolean enabled) {
+        if (!enabled) {
+            String msg = "Sie haben gerade einen Bereich, der möglicherweise Daten enthält, ausgeblendet. "
+                    + "Sofern dieser Daten enthält, bleiben diese vorerst erhalten, so dass diese zur Verfügung stehen, wenn Sie den Bereich wieder aktivieren. "
+                    + "Sobald Sie die Daten an das InEK senden, werden diese bereinigt.";
+            //Utils.showMessageInBrowser(msg);
+            _sessionController.setScript("alert('" + msg + "');");
+        }
     }
 
     private void preloadData(DrgCalcBasics calcBasics) {
@@ -366,7 +375,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)) {
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
@@ -897,7 +906,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isReadOnly() {
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
         // todo apply rights depending on ik?
@@ -969,7 +978,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return false;
         }
         return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
@@ -1228,7 +1237,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         for (ConstraintViolation<KGLListCostCenterCost> violation : violations) {
                             alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
                         }
-                        if (!violations.isEmpty()){
+                        if (!violations.isEmpty()) {
                             continue;
                         }
 
@@ -1472,7 +1481,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         for (ConstraintViolation<KGLListMedInfra> violation : violations) {
                             alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
                         }
-                        if (!violations.isEmpty()){
+                        if (!violations.isEmpty()) {
                             continue;
                         }
                         try {
@@ -1756,7 +1765,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
             Number n = nf.parse(input);
             return n.doubleValue();
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             throw new NumberFormatException();
         }
     }
