@@ -359,6 +359,13 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "and sopStatusId = 10 \n"
                 +  "and a.coIs"+ column + " = 1)a \n"
                 +  "\n\n"
+            //Temp Kontakte aktualisieren
+                +  "update a \n"
+                +  "set a.coid = b.coid \n"
+                +  "from tmp.dpContacts a \n"
+                +  "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
+                +  "where a.coid is null \n"
+                +  "\n\n"            
             //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
                 + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver, coInfo) \n"
                 +  "select cuid, case when gender = 1 then 'F' when gender = 2 then 'H' else 'U' end gender, title, firstName, lastName, 0, 1, 1, consultantCompany \n"
@@ -377,13 +384,7 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 +  "where a.coid is null \n"
                 +  "\n\n" 
-            //Temp Kontakte aktualisieren
-                +  "update a \n"
-                +  "set a.coid = b.coid \n"
-                +  "from tmp.dpContacts a \n"
-                +  "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
-                +  "where a.coid is null \n"
-                +  "\n\n"
+
             //Telefon aus DP übernehmen
                 +  "update b \n"
                 +  "set cdDetails = phone \n"
@@ -412,9 +413,9 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "\n\n"
             //Rolle anhand DP neu setzen
                 +  "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId) \n"
-                +  "select coid, " + roleID +" \n"
+                +  "select distinct coid, " + roleID +" \n"
                 +  "from tmp.dpContacts \n"
-                +  "where coid is not null \n"
+                +  "--where coid is not null \n"
                 +  "\n\n"
             //Calc Report AP zuordnen
                 +  "insert into CallCenterDB.dbo.mapCustomerCalcContact (mcccCalcInformationId, mcccContactId) \n"
