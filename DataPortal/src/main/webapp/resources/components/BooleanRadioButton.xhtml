@@ -12,6 +12,9 @@
         <cc:attribute name="value"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="renderElement" default="@this"/>
+        <cc:editableValueHolder name="radio"/>
+        <cc:actionSource name="radio"/>
+        <cc:clientBehavior name="clientChange" targets="radio" event="valueChange"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
