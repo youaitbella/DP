@@ -83,7 +83,7 @@ public class DocumentationUtil {
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
-        for (Method method : obj.getClass().getMethods()) {
+        for (Method method : obj.getClass().getDeclaredMethods()) {
             Documentation doc = method.getAnnotation(Documentation.class);
             if (doc == null) {
                 continue;

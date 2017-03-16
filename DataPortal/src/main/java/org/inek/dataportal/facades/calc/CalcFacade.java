@@ -37,6 +37,7 @@ import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyAmbulant;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
+import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListMedInfra;
@@ -596,6 +597,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveEndoscopyAmbulant(calcBasics);
         saveNormalStationDocMinutes(calcBasics);
         saveMedInfra(calcBasics);
+        saveIntensiveStroke(calcBasics);
         return merge(calcBasics);
     }
     
@@ -614,6 +616,16 @@ public class CalcFacade extends AbstractDataAccess {
                 persist(medInfra);
             else {
                 merge(medInfra);
+            }
+        }
+    }
+    
+    private void saveIntensiveStroke(DrgCalcBasics calcBasics) {
+        for(KGLListIntensivStroke item : calcBasics.getIntensivStrokes()) {
+            if(item.getId() == -1)
+                persist(item);
+            else {
+                merge(item);
             }
         }
     }

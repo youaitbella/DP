@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
+import javax.faces.model.SelectItem;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -42,7 +44,7 @@ import org.inek.dataportal.utils.Documentation;
 public class DrgCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -488,7 +490,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyRoomCnt">
     @Column(name = "biEndoscopyRoomCnt")
-    @Documentation(name = "Anzahl endoskopischer Eingriffsräume", rank = 6010)
+    @Documentation(name = "Anzahl endoskopischer Eingriffsräume", rank = 6010, omitOnValues = "0")
     private int _endoscopyRoomCnt;
 
     @Min(0)
@@ -503,7 +505,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyCaseCnt">
     @Column(name = "biEndoscopyCaseCnt")
-    @Documentation(name = "Anzahl kalkulationsrelevanter endoskopischer Fälle", rank = 6010)
+    @Documentation(name = "Anzahl kalkulationsrelevanter endoskopischer Fälle", rank = 6010, omitOnValues = "0")
     private int _endoscopyCaseCnt;
 
     @Min(0)
@@ -532,6 +534,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="mviFulfilled">
     @Column(name = "biMviFulfilled")
+    @Documentation(translateValue = "xxx()")
     private int _mviFulfilled;
 
     public int getMviFulfilled() {
@@ -541,11 +544,20 @@ public class DrgCalcBasics implements Serializable {
     public void setMviFulfilled(int mviFulfilled) {
         this._mviFulfilled = mviFulfilled;
     }
+    
+    @Documentation(name = "Erfüllung der Anforderungen", rank = 17010, omitOnEmpty = true)
+    private String getMviFulfilledText(){
+        return CalcBasicsStaticData.getMviFulfillmentItems()
+                .stream()
+                .filter(i -> (int)i.getValue() == _mviFulfilled)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="mviGuidelineAspired">
     @Column(name = "biMviGuidelineAspired")
-    @Documentation(name = "Das KH wird im kommenden Datenjahr die notwendigen Anforderungen erfüllen", rank = 17010)
+    @Documentation(name = "Das KH wird im kommenden Datenjahr die notwendigen Anforderungen erfüllen", rank = 17020)
     private boolean _mviGuidelineAspired;
 
     public boolean isMviGuidelineAspired() {
@@ -828,6 +840,12 @@ public class DrgCalcBasics implements Serializable {
     public List<KGLListKstTop> getKstTopOp() {
         ensureTopList();
         return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 4).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "TOP 5 Leistungen", rank = 4100)
+    public List<KGLListKstTop> getKstTopMaternityRoom() {
+        ensureTopList();
+        return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 6).collect(Collectors.toList());
     }
     
     private void ensureTopList() {

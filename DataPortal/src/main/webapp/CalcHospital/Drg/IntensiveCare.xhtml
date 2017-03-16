@@ -37,7 +37,7 @@
         </h:outputLabel>
 
         <h2>Bitte benennen Sie die Intensivstation wie in der Datei Intensiv.csv</h2>
-        <calc:IntensivStroke id="intStroke" isIntensiv="#{true}" backingBean="#{editCalcBasicsDrg}"/>
+        <calc:IntensivStroke id="intStroke" intensiveType="1"/>
 
         <h:panelGroup rendered="#{!editCalcBasicsDrg.readOnly}" class="inputPart">
 

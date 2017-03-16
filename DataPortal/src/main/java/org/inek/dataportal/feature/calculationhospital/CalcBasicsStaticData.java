@@ -25,7 +25,7 @@ import org.inek.dataportal.helper.Utils;
 public class CalcBasicsStaticData {
        // todo (low priority): get texts from property file or database
 
-    public List<SelectItem> getNeonatFulfillmentItems(){
+    public static List<SelectItem> getNeonatFulfillmentItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(0, "nicht erfüllt"));
        items.add(new SelectItem(13, "ganzjährig"));
@@ -44,7 +44,7 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
-    public List<SelectItem> getNeonatLevelItems(){
+    public static List<SelectItem> getNeonatLevelItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(0, Utils.getMessage("lblNotAvailable")));
        items.add(new SelectItem(1, "Level 1: Versorgungsstufe I: Perinatalzentrum"));
@@ -54,7 +54,7 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
-    public List<SelectItem> getMviFulfillmentItems(){
+    public static List<SelectItem> getMviFulfillmentItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "Das Krankenhaus erfüllt in diesem Datenjahr uneingeschränkt die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen"));
        items.add(new SelectItem(2, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen gemäß der Übergangsregelung nach §9 der Richtlinie sowie nach dem Stichtag (30.Juni 2016) uneingeschränkt"));
@@ -63,7 +63,7 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
-    public List<SelectItem> getInternalCostAllocationItems(){
+    public static List<SelectItem> getInternalCostAllocationItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "Gleichungsverfahren"));
        items.add(new SelectItem(2, "Stufenleiterverfahren"));
@@ -72,7 +72,7 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
-    public List<SelectItem> getExternalServiceProvisionItems(){
+    public static List<SelectItem> getExternalServiceProvisionItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "wird nicht erbracht"));
        items.add(new SelectItem(2, "Keine Fremdvergabe"));
@@ -81,7 +81,7 @@ public class CalcBasicsStaticData {
        return items;
    } 
 			
-     public List<SelectItem> getTimeRecordingTypeItemsSNZ(){
+     public static List<SelectItem> getTimeRecordingTypeItemsSNZ(){
        List<SelectItem> items = new ArrayList<>();
        //items.add(new SelectItem(0, "nicht dokumentiert"));
        items.add(new SelectItem(1, "mit fallindividuellem Gleichzeitigkeitsfaktor"));
@@ -90,7 +90,7 @@ public class CalcBasicsStaticData {
        return items;
    } 
 
-    public List<SelectItem> getTimeRecordingTypeItemsRZ(){
+    public static List<SelectItem> getTimeRecordingTypeItemsRZ(){
        List<SelectItem> items = new ArrayList<>();
        //items.add(new SelectItem(0, "nicht dokumentiert"));
        items.add(new SelectItem(1, "als fallindividuell erfasster Wert je Mitarbeiter(in)"));
@@ -100,14 +100,14 @@ public class CalcBasicsStaticData {
        return items;
    } 
     
-    public List<SelectItem> getCalculationTypeItems(){
+    public static List<SelectItem> getCalculationTypeItems(){
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "vereinfachte Kalkulation"));
        items.add(new SelectItem(2, "Probekalkulation"));
        return items;
    } 
 
-    public List<SelectItem> getIbvlTypeItem() {
+    public static List<SelectItem> getIbvlTypeItem() {
        List<SelectItem> items = new ArrayList<>();
        items.add(new SelectItem(1, "Gleichungsverfahren"));
        items.add(new SelectItem(2, "Stufenleiterverfahren"));

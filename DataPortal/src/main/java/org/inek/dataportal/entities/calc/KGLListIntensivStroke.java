@@ -430,32 +430,9 @@ public class KGLListIntensivStroke implements Serializable {
     public KGLListIntensivStroke() {
     }
 
-    public KGLListIntensivStroke(int isID) {
-        this._id = isID;
-    }
-
-    public KGLListIntensivStroke(int intensiveType, int bedCnt, int caseCnt, boolean ops8980, boolean ops898f, boolean ops8981, boolean ops898b, String minimumCriteriaPeriod, int intensivHoursWeighted, int intensivHoursNotweighted, double weightMinimum, double weightMaximum, int medicalServiceCost, int nursingServiceCost, int functionalServiceCost, int overheadsMedicine, int overheadMedicalGoods, int medicalInfrastructureCost, int nonMedicalInfrastructureCost, int baseInformationId) {
-        this._intensiveType = intensiveType;
-        //this._costCenterID = costCenterID;
-        this._bedCnt = bedCnt;
-        this._caseCnt = caseCnt;
-        this._ops8980 = ops8980;
-        this._ops898f = ops898f;
-        this._ops8981 = ops8981;
-        this._ops898b = ops898b;
-        this._minimumCriteriaPeriod = minimumCriteriaPeriod;
-        this._intensivHoursWeighted = intensivHoursWeighted;
-        this._intensivHoursNotweighted = intensivHoursNotweighted;
-        this._weightMinimum = weightMinimum;
-        this._weightMaximum = weightMaximum;
-        this._medicalServiceCost = medicalServiceCost;
-        this._nursingServiceCost = nursingServiceCost;
-        this._functionalServiceCost = functionalServiceCost;
-        this._overheadsMedicine = overheadsMedicine;
-        this._overheadMedicalGoods = overheadMedicalGoods;
-        this._medicalInfrastructureCost = medicalInfrastructureCost;
-        this._nonMedicalInfrastructureCost = nonMedicalInfrastructureCost;
+    public KGLListIntensivStroke(int baseInformationId, int intensiveType) {
         this._baseInformationId = baseInformationId;
+        this._intensiveType = intensiveType;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -469,9 +446,7 @@ public class KGLListIntensivStroke implements Serializable {
         }
 
         hash = 79 * hash + this._intensiveType;
-//        hash = 79 * hash + this._costCenterID;
         hash = 79 * hash + Objects.hashCode(this._costCenterText);
-//        hash = 79 * hash + Objects.hashCode(this._departmentKey);
         hash = 79 * hash + Objects.hashCode(this._departmentAssignment);
         hash = 79 * hash + this._bedCnt;
         hash = 79 * hash + this._caseCnt;
@@ -509,13 +484,10 @@ public class KGLListIntensivStroke implements Serializable {
         }
         final KGLListIntensivStroke other = (KGLListIntensivStroke) obj;
 
-        if (this._id != -1 && this._id == other._id) {
-            return true;
+        if (this._id >= 0) {
+            return this._id == other._id;
         }
 
-        if (this._id != other._id) {
-            return false;
-        }
         if (this._intensiveType != other._intensiveType) {
             return false;
         }
@@ -576,9 +548,6 @@ public class KGLListIntensivStroke implements Serializable {
         if (!Objects.equals(this._costCenterText, other._costCenterText)) {
             return false;
         }
-//        if (!Objects.equals(this._departmentKey, other._departmentKey)) {
-//            return false;
-//        }
         if (!Objects.equals(this._departmentAssignment, other._departmentAssignment)) {
             return false;
         }
