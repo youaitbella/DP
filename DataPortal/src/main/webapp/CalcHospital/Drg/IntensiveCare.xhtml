@@ -16,19 +16,26 @@
 
     <inek:BooleanRadioButton label="#{msg.lblHospitalHasIntensiveBeds}" 
                              value="#{editCalcBasicsDrg.calcBasics.intensiveBed}"
-                             labelStyle="label40"
-                             renderElement="@form :logout:remaining">
+                             labelStyle="label element25em">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.intensiveBed)}"/>
     </inek:BooleanRadioButton>
     <br/>
-    <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
-    <h:outputLabel id="sumIntNotWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}"/>
-    <br/>
-    <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumWeighted}"/>
-    <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}">
-        <f:convertNumber pattern="#,##0" locale="de" />
-    </h:outputLabel>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.intensiveBed}">
+        <h:outputLabel styleClass="label element25em" value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
+        <h:outputLabel id="sumIntNotWeighted" styleClass="label element08em number" 
+                       value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}">
+            <f:convertNumber pattern="#,##0" locale="de" />
+        </h:outputLabel>
+        <br/>
+        <h:outputLabel styleClass="label element25em" value="#{msg.lblIntensivStrokeSumWeighted}"/>
+        <h:outputLabel id="sumIntWeighted" styleClass="label element08em number" 
+                       value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}">
+            <f:convertNumber pattern="#,##0" locale="de" />
+        </h:outputLabel>
+
         <h2>Bitte benennen Sie die Intensivstation wie in der Datei Intensiv.csv</h2>
         <calc:IntensivStroke id="intStroke" isIntensiv="#{true}" backingBean="#{editCalcBasicsDrg}"/>
 
@@ -42,7 +49,7 @@
                     <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Intensiv"/>
                 </div>
             </div>
-            
+
             <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadTemplateIntensiv()}" immediate="true"/>
 
             <h:commandLink rendered="#{editCalcBasicsDrg.importMessageIntensiv.length() gt 0}" 
@@ -59,7 +66,7 @@
         </h:panelGroup>
 
     </div>
-        
+
 
     <br/>
 

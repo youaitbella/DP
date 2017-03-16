@@ -571,6 +571,7 @@ div#wrapper {
     width: 60%;
 }
 
+.element08em,
 .element12em,
 .element100-12em,
 .element100-13em,
@@ -590,6 +591,10 @@ div#wrapper {
 .elementRight70{
     box-sizing: border-box;
     display:inline-block;
+}
+
+.element08em{
+    width: 8em;
 }
 
 .element12em{

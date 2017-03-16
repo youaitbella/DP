@@ -143,8 +143,11 @@
         <c:forEach items="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" varStatus="loop">
             <tr>
                 <td>
-            <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}" 
-                                     renderElement="@form :logout:remaining :script" />
+            <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{editCalcBasicsDrg.hideData(not item.used or item.contentTextId ne 85)}"/>
+            </inek:BooleanRadioButton> 
             <h:panelGroup id="ServiceDocumentationMinutes" rendered="#{!item.used and item.contentTextId == 85}">
                 <h:dataTable value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}"
                              var="minutes"
