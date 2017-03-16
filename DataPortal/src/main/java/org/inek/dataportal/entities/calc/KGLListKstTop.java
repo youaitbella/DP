@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -216,6 +217,7 @@ public class KGLListKstTop implements Serializable {
         return "org.inek.dataportal.entities.calc.KGLListKstTop[ ktID=" + _id + " ]";
     }
 
+    @JsonIgnore
     public boolean isEmpty(){
         return _text.isEmpty() && _caseCount <= 0 && _amount <= 0 && _delimitationAmount <= 0;
     }

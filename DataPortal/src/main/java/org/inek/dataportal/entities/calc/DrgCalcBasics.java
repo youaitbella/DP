@@ -332,7 +332,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
-    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kreißsaal", rank = 4000)
+    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Kreißsaal)", rank = 4000)
     private boolean _gynecology;
 
     public boolean isGynecology() {
@@ -985,7 +985,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Column(name = "biNeonatLvl")
-    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", headline = "Neonatologische Versorgung", rank = 19000)
+    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", headline = "Ergänzende Angaben zur Neonatologischen Versorgung", rank = 19000)
     private int _neonatLvl;
 
     public int getNeonatLvl() {

@@ -59,7 +59,7 @@ public class IntensivDataImporter {
             }
             String[] data = StringUtil.splitAtUnquotedSemicolon(line);
             if (data.length != 22) {
-                throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
+                throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount") + " Erwartet: 22, gefunden: " + data.length);
             }
             KGLListIntensivStroke item = new KGLListIntensivStroke();
             item.setBaseInformationId(_calcBasics.getId());
@@ -87,7 +87,7 @@ public class IntensivDataImporter {
             tryImportInteger(item, data[20], (i,s) -> i.setMedicalInfrastructureCost(s), "[Kosten_med_Infra] ");
             tryImportInteger(item, data[21], (i,s) -> i.setNonMedicalInfrastructureCost(s), "[Kosten_nicht_med_Infra] ");
             
-            if (!itemExists(item)) {
+            if (itemExists(item)) {
                 _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
                 return;
             }
@@ -104,6 +104,7 @@ public class IntensivDataImporter {
             if( is.getIntensiveType() == item.getIntensiveType() &&
                     is.getCostCenterText().equals(item.getCostCenterText()) &&
                     is.getDepartmentAssignment().equals(item.getDepartmentAssignment()) &&
+                    is.getIntensiveType()== item.getIntensiveType() &&
                     is.getBedCnt() == item.getBedCnt() &&
                     is.getCaseCnt() == item.getCaseCnt() &&
                     is.getOps8980() == item.getOps8980() &&
