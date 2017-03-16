@@ -13,9 +13,12 @@
 
     <inek:LabeledCheckbox label="#{msg.lblHasEndoscopy}" 
                           styleClassLabel="label40"
-                          value="#{editCalcBasicsDrg.calcBasics.endoscopy}"
-                          renderElement="@form"/>
-
+                          value="#{editCalcBasicsDrg.calcBasics.endoscopy}">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.endoscopy)}"/>
+    </inek:LabeledCheckbox>
+    
     <div jsf:id="cardiology" jsf:rendered="#{editCalcBasicsDrg.calcBasics.endoscopy}">
         <inek:LabeledText label="#{msg.lblEndoscopyRoomCount}" 
                           styleClassLabel="label40"
