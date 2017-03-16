@@ -312,7 +312,7 @@
                                  renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.specialUnit}" labelStyle="label">
             <f:ajax event="clientChange"  
                     render="@form :script"
-                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.specialUnit)}"/>
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.specialUnit)}"/>
         </inek:BooleanRadioButton>
     </div>
 
@@ -370,7 +370,7 @@
                                  renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.centralFocus}" labelStyle="label">
             <f:ajax event="clientChange"  
                     render="@form :script"
-                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.centralFocus)}"/>
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.centralFocus)}"/>
         </inek:BooleanRadioButton>
     </div>
 
@@ -460,7 +460,7 @@
             <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);"/> &nbsp;
             <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                 <f:ajax event="change" render="@form :logout:remaining delimit-content :script" 
-                        listener="#{editCalcBasicsDrg.hideData(x.used or !x.requireInputs)}"/>
+                        listener="#{sessionController.hideData(x.used or !x.requireInputs)}"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
             <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>

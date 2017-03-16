@@ -144,16 +144,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         preloadData(_calcBasics);
     }
 
-    public void hideData(boolean enabled) {
-        if (!enabled) {
-            String msg = "Sie haben gerade einen Bereich, der möglicherweise Daten enthält, ausgeblendet. "
-                    + "Sofern dieser Daten enthält, bleiben diese vorerst erhalten, so dass diese zur Verfügung stehen, wenn Sie den Bereich wieder aktivieren. "
-                    + "Sobald Sie die Daten an das InEK senden, werden diese bereinigt.";
-            //Utils.showMessageInBrowser(msg);
-            _sessionController.setScript("alert('" + msg + "');");
-        }
-    }
-
     private void preloadData(DrgCalcBasics calcBasics) {
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);

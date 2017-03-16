@@ -561,7 +561,9 @@
         <div class="inputPart">
             <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);" title="#{msg.ttDelimitationfacts}"/> &nbsp;
             <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
-                <f:ajax event="change" render="@form :logout:remaining delimit-content" />
+                <f:ajax event="change" render="@form :logout:remaining :script" 
+                         listener="#{sessionController.hideData(x.used or !x.requireInputs)}"/>
+                
             </h:selectBooleanCheckbox>
             <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
             <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>

@@ -23,7 +23,8 @@
                          hideNoSelectionOption="true" >
             <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
             <f:selectItems value="#{calcBasicsStaticData.neonatLevelItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-            <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+            <f:ajax event="change" render="@form :logout:remaining msgLevel :script"
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.neonatLvl gt 0)}"/>
         </h:selectOneMenu>
         <h:message for="level" id="msgLevel" styleClass="errorMessage"/>
     </div>

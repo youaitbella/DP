@@ -44,8 +44,10 @@
     <h2 title="#{msg.titleCalcValvularIntervention}">#{msg.headCalcValvularIntervention}</h2>
 
     <inek:BooleanRadioButton label="#{msg.lblCalcPerformsValvularIntervention}" 
-                             value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}"
-                             renderElement="@form :logout:remaining">
+                             value="#{editCalcBasicsDrg.calcBasics.minimalValvularIntervention}">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.minimalValvularIntervention)}"/>
     </inek:BooleanRadioButton>
     <br/>
 

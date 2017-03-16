@@ -16,7 +16,7 @@
                           value="#{editCalcBasicsDrg.calcBasics.cardiology}">
             <f:ajax event="clientChange"  
                     render="@form :script"
-                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.cardiology)}"/>
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.cardiology)}"/>
     </inek:LabeledCheckbox>
 
     <div jsf:id="cardiology" jsf:rendered="#{editCalcBasicsDrg.calcBasics.cardiology}">

@@ -16,14 +16,14 @@
                           value="#{editCalcBasicsDrg.calcBasics.gynecology}">
             <f:ajax event="clientChange"  
                     render="@form :script"
-                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
     </inek:LabeledCheckbox>
     <inek:LabeledCheckbox label="#{msg.lblHasObstetrical}" 
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.obstetrical}">
             <f:ajax event="clientChange"  
                     render="@form :script"
-                    listener="#{editCalcBasicsDrg.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
     </inek:LabeledCheckbox>
 
     <div jsf:id="maternity" jsf:rendered="#{editCalcBasicsDrg.calcBasics.gynecology 
