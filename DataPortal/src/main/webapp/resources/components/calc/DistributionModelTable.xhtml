@@ -2,26 +2,136 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="value"/>
-        <cc:attribute name="required" default="false"/>
-        <cc:attribute name="styleClass" default="fullWidth"/>
-        <cc:attribute name="readonly" default="false"/>
-        <cc:attribute name="renderElement" default="@this"/>
+        <cc:attribute name="model" type="org.inek.dataportal.entities.calc.DistributionModel"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <cc:editableValueHolder name="#{cc.id}" targets="box"/>
-        <h:selectBooleanCheckbox id="box" 
-                                 value="#{cc.attrs.value}" 
-                                 styleClass="#{cc.attrs.styleClass}"  
-                                 disabled="#{cc.attrs.readonly}">
-            <f:ajax render="#{cc.attrs.renderElement} :logout:remaining"/>
-        </h:selectBooleanCheckbox>
+        <div class="container element100">
+
+            <h:dataTable id="details"
+                         value="#{cc.attrs.model.details}" var="item"
+                         styleClass="marginTop" style="width: #{editDistributionModel.showWide ? '200em' : '100%'};"
+                         rowClasses="row1, row2"
+                         columnClasses="colIcon, colValue, col05em, col05em, #{cc.attrs.model.type eq 1 ? 'col4em, ' : ''} col04em, col04em, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue">
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:graphicImage alt="" name="Icon/small/information.png" title="Platzieren Sie den Mauszeiger auf eine Spaltenüberschrift, um zusätzliche Informationen zu erhalten."/>
+                    </f:facet>
+                    <h:commandLink action="#{editDistributionModel.deleteDetail(item)}" immediate="true" rendered="#{!editDistributionModel.readOnly}">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Artikel" title="Artikel"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.article}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoStGrp" title="Kostenstellengruppe"/></f:facet>
+
+                    <h:selectOneMenu  value="#{item.costCenterId}" 
+                                      styleClass="fullWidth"
+                                      disabled="#{editDistributionModel.readOnly}" 
+                                      required="true"
+                                      hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersCDM(cc.attrs.model.type)}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoArtGrp" title="Kostenartengruppe"/></f:facet>
+
+                    <h:selectOneMenu  value="#{item.costTypeId}" 
+                                      styleClass="fullWidth"
+                                      disabled="#{editDistributionModel.readOnly}" 
+                                      required="true"
+                                      hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.costTypesCDM}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+
+                <h:column rendered="#{cc.attrs.model.type eq 1}">
+                    <f:facet name="header"><h:outputLabel value="Pflegetage" title="Anzahl Pflegetage"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.countCaredays}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+                </h:column>
+
+                <h:column class="col4em">
+                    <f:facet name="header"><h:outputLabel value="Fallzahl" title="Anzahl Fälle"/></f:facet>
+                    <inek:InputNumberWithMessage value="#{item.countCases}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+                </h:column>
+
+                <h:column class="col4em">
+                    <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen (€)"/></f:facet>
+                    <inek:InputNumberWithMessage value="#{item.costVolume}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="OPS" title="Verteilung basiert auf Prozedurencode (OPS)"/></f:facet>
+                    <inek:Checkbox value="#{item.useProcCode}" readonly="#{editDistributionModel.readOnly}" renderElement="@form"/>
+                </h:column>
+
+                <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseProcCode())}">
+                    <f:facet name="header"><h:outputLabel value="Erläuterung OPS" title="Optionale Erläuterung zur Verteilung via Prozeduren, z.B. Angabe des oder der OPS Codes"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.noteProcCode}" disabled="#{editDistributionModel.readOnly or not item.useProcCode}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="ICD" title="Verteilung basiert auf Diagnosencode (ICD)"/></f:facet>
+                    <inek:Checkbox value="#{item.useDiagCode}" readonly="#{editDistributionModel.readOnly}" renderElement="@form" styleClass="col03em"/>
+                </h:column>
+
+                <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseDiagCode())}">
+                    <f:facet name="header"><h:outputLabel value="Erläuterung ICD" title="Optionale Erläuterung zur Verteilung via Diagnosen, z.B. Angabe des oder der ICD Codes"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.noteDiagCode}" disabled="#{editDistributionModel.readOnly or not item.useDiagCode}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="#{cc.attrs.model.type eq 0 ? 'DRG' : 'PEPP'}" 
+                                                          title="Verteilung basiert auf Fallgruppierung (#{cc.attrs.model.type eq 0 ? 'DRG' : 'PEPP'})"/></f:facet>
+                    <inek:Checkbox value="#{item.useGroupResult}" readonly="#{editDistributionModel.readOnly}" renderElement="@form" styleClass="col03em"/>
+                </h:column>
+
+                <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseGroupResult())}">
+                    <f:facet name="header"><h:outputLabel value="Erläuterung #{cc.attrs.model.type eq 0 ? 'DRG' : 'PEPP'}" title="Optionale Erläuterung zur Verteilung via Fallgruppierung"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.noteGroupResult}" disabled="#{editDistributionModel.readOnly or not item.useGroupResult}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="sonstiger Schlüssel" title="Verteilung basiert auf einem sonstigen Schlüssel - bitte erläutern"/></f:facet>
+                    <inek:Checkbox value="#{item.useOtherCode}" readonly="#{editDistributionModel.readOnly}" renderElement="@form" styleClass="col03em"/>
+                </h:column>
+
+                <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseOtherCode())}">
+                    <f:facet name="header"><h:outputLabel value="Erläuterung sonstiger Schlüssel" title="Erläuterung zur Verteilung via sonstigem Schlüssel"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.noteOtherCode}" disabled="#{editDistributionModel.readOnly or not item.useOtherCode}" required="#{not editDistributionModel.readOnly and item.useOtherCode}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="genehmigt" title="Das InEK hat die geplante Kostenverteilung geprüft und genehmigt"/></f:facet>
+                    <inek:Checkbox value="#{item.approved}" readonly="#{not editDistributionModel.requestCorrectionEnabled or cc.attrs.model.statusId ne 10}" styleClass="col03em"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Bemerkung" title="Bemerkung (vom InEK)"/></f:facet>
+                    <inek:InputTextWithMessage value="#{item.approvalNote}" readonly="#{not editDistributionModel.requestCorrectionEnabled or cc.attrs.model.statusId ne 10}"/>
+                </h:column>
+
+            </h:dataTable>
+        </div>
     </cc:implementation>
 </html>

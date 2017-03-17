@@ -67,6 +67,15 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         this._model = model;
     }
 
+    private DistributionModel _priorModel;
+    public DistributionModel getPriorModel() {
+        return _priorModel;
+    }
+
+    public void setPriorModel(DistributionModel model) {
+        this._priorModel = model;
+    }
+
     private boolean _showWide = false;
 
     public boolean isShowWide() {
@@ -96,6 +105,9 @@ public class EditDistributionModel extends AbstractEditController implements Ser
                 return;
             }
             _model = model;
+            if (isRequestCorrectionEnabled()){
+                //todo: load prior model
+            }
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
