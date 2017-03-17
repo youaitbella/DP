@@ -79,7 +79,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     private String _costCenterText = "";
 
     @Override
-    @Size(max = 50)
+    @Size(max = 200, message = "Für Bezeichnung sind max. {max} Zeichen zulässig.")
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -128,7 +128,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     private String _serviceKey = "";
 
     @Override
-    @Size(max = 50)
+    @Size(max = 100, message = "Für Leistungsschlüssel sind max. {max} Zeichen zulässig.")
     public String getServiceKey() {
         return _serviceKey;
     }

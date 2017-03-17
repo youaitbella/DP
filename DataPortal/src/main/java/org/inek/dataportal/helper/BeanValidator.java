@@ -28,7 +28,7 @@ public class BeanValidator {
             if (lineNum > 0) {
                 alertText += "Zeile " + lineNum + ": ";
             }
-            alertText += "Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
+            alertText += violation.getMessage() + "\\n";
         }
         return alertText;
     }

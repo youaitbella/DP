@@ -55,26 +55,11 @@ public class KGLListIntensivStroke implements Serializable {
     }
     // </editor-fold>
 
-//    // <editor-fold defaultstate="collapsed" desc="CostCenterID">
-//    
-//    
-//    @Column(name = "isCostCenterID")
-//    private int _costCenterID;
-//    
-//    public int getCostCenterID() {
-//        return _costCenterID;
-//    }
-//
-//    public void setCostCenterID(int costCenterID) {
-//        this._costCenterID = costCenterID;
-//    }
-//    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "isCostCenterText")
     private String _costCenterText = "";
 
-    @Size(max = 50)
+    @Size(max = 300, message = "Für Bezeichnung Intensivstation sind max. {max} Zeichen zulässig.")
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -88,7 +73,7 @@ public class KGLListIntensivStroke implements Serializable {
     @Column(name = "isDepartmentAssignment")
     private String _departmentAssignment = "";
 
-    @Size(max = 50)
+    @Size(max = 200, message = "Für FAB sind max. {max} Zeichen zulässig.")
     public String getDepartmentAssignment() {
         return _departmentAssignment;
     }
@@ -180,7 +165,7 @@ public class KGLListIntensivStroke implements Serializable {
     @Column(name = "isMinimumCriteriaPeriod")
     private String _minimumCriteriaPeriod = "";
 
-    @Size(max = 100)
+    @Size(max = 300, message = "Für Mindestmerkmale sind max. {max} Zeichen zulässig.")
     public String getMinimumCriteriaPeriod() {
         return _minimumCriteriaPeriod;
     }

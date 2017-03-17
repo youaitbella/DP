@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.Document;
 
 /**
@@ -70,7 +71,9 @@ public class KGLDocument implements Serializable, Document{
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "doName")
     private String _name;
+    
     @Override
+    @Size(max = 250, message = "Für Name sind max. {max} Zeichen zulässig.")
     public String getName() {
         return _name;
     }

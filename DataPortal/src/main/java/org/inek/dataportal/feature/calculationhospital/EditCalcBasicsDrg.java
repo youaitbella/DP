@@ -34,9 +34,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -1215,12 +1212,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         ccc.setDepartmentKey(values[2]);
                         ccc.setDepartmentAssignment(values[3]);
 
-                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                        Set<ConstraintViolation<KGLListCostCenterCost>> violations = validator.validate(ccc);
-                        for (ConstraintViolation<KGLListCostCenterCost> violation : violations) {
-                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
-                        }
-                        if (!violations.isEmpty()) {
+                        String validateText = BeanValidator.validateData(ccc, lineNum);
+                        if (!validateText.isEmpty()){
+                            alertText += validateText;
                             continue;
                         }
 

@@ -61,7 +61,7 @@ public class KGLListCostCenterCost implements Serializable {
     @Column(name = "cccCostCenterText")
     private String _costCenterText = "";
 
-    @Size(max = 100)
+    @Size(max = 200, message = "Für Kostenstellenbezeichnung sind max. {max} Zeichen zulässig.")
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -75,7 +75,7 @@ public class KGLListCostCenterCost implements Serializable {
     @Column(name = "cccDepartmentKey")
     private String _departmentKey = "";
 
-    @Size(max = 4)
+    @Size(max = 4, message = "Für FAB-Schlüssel sind max. {max} Zeichen zulässig.")
     public String getDepartmentKey() {
         return _departmentKey;
     }
@@ -89,7 +89,7 @@ public class KGLListCostCenterCost implements Serializable {
     @Column(name = "cccDepartmentAssignment")
     private String _departmentAssignment = "";
 
-    @Size(max = 4)
+    @Size(max = 100, message = "Für Belegung/FAB sind max. {max} Zeichen zulässig.")
     public String getDepartmentAssignment() {
         return _departmentAssignment;
     }
@@ -301,6 +301,7 @@ public class KGLListCostCenterCost implements Serializable {
     @Column(name = "cccCostCenterNumber")
     private String _costCenterNumber;
 
+    @Size(max = 20, message = "Für Kostenstellennummer sind max. {max} Zeichen zulässig.")
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
