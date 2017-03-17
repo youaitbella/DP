@@ -17,6 +17,12 @@
 
     <calc:DistributionModelTable model="#{editDistributionModel.model}"/>
 
+    <h:panelGroup rendered="#{editDistributionModel.priorModel ne null}">
+        <br/>
+        <h3>Vorversion</h3>
+        <calc:DistributionModelTable model="#{editDistributionModel.priorModel}" />
+    </h:panelGroup>
+
     <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
                    rendered="#{!editDistributionModel.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editDistributionModel.addDetail()}"/>

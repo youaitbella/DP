@@ -106,7 +106,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             }
             _model = model;
             if (isRequestCorrectionEnabled()){
-                //todo: load prior model
+                _priorModel = _distModelFacade.findPriorDistributionModel(_model);
             }
         } else {
             Utils.navigate(Pages.Error.RedirectURL());

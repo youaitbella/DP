@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
@@ -186,6 +187,19 @@ public class DistributionModelFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();
         return result;
+    }
+
+    public DistributionModel findPriorDistributionModel(DistributionModel model) {
+        String jpql = "select d from DistributionModel d where d._dataYear = :dataYear and d._ik = :ik and d._statusId = :statusId order by d._id desc";
+        TypedQuery<DistributionModel> query = getEntityManager().createQuery(jpql, DistributionModel.class);
+        query.setParameter("dataYear", model.getDataYear());
+        query.setParameter("ik", model.getIk());
+        query.setParameter("statusId", 200);
+        List<DistributionModel> resultList = query.getResultList();
+        if (resultList.isEmpty()){
+            return null;
+        }
+        return resultList.get(0);
     }
 
 }
