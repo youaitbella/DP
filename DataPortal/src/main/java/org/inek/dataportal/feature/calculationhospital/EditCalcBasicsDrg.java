@@ -79,6 +79,7 @@ import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -1401,6 +1402,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
+                        
                         _calcBasics.getRadiologyLaboratories().add(radio);
                     }
                 }
@@ -1458,12 +1460,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         medInfra.setCostCenterText(values[1]);
                         medInfra.setKeyUsed(values[2]);
 
-                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                        Set<ConstraintViolation<KGLListMedInfra>> violations = validator.validate(medInfra);
-                        for (ConstraintViolation<KGLListMedInfra> violation : violations) {
-                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
-                        }
-                        if (!violations.isEmpty()) {
+                        String validateText = BeanValidator.validateData(medInfra, lineNum);
+                        if (!validateText.isEmpty()){
+                            alertText += validateText;
                             continue;
                         }
                         try {
@@ -1486,6 +1485,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
+
 
     private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
         for (KGLListMedInfra mi : _calcBasics.getMedInfras()) {

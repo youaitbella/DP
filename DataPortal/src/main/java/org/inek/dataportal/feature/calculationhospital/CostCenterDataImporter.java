@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.KGLListCostCenter;
+import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 
@@ -68,6 +69,11 @@ public class CostCenterDataImporter {
             item.setServiceKey(data[5]);
             item.setServiceKeyDescription(data[6]);
             tryImportServiceSum(item, data[7]);
+            
+            String validateText = BeanValidator.validateData(item);
+            if (!validateText.isEmpty()) {
+                throw new IllegalArgumentException(validateText);
+            }
             
             if(itemExists(item)) {
                 _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";

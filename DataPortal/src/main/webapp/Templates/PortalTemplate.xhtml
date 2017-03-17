@@ -143,6 +143,12 @@
             <h:form id="script">
                 <script type="text/javascript">
                     #{sessionController.script}
+                    
+                    <!-- prevent browser back button -->
+                    history.pushState(null, null, document.URL);
+                    window.addEventListener('popstate', function () {
+                        history.pushState(null, null, document.URL);
+                    });
                 </script>
             </h:form>
 

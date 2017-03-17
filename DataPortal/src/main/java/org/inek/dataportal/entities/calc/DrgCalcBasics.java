@@ -547,7 +547,7 @@ public class DrgCalcBasics implements Serializable {
     
     @Documentation(name = "Erfüllung der Anforderungen", rank = 17010, omitOnEmpty = true)
     private String getMviFulfilledText(){
-        return CalcBasicsStaticData.getMviFulfillmentItems()
+        return CalcBasicsStaticData.staticGetMviFulfillmentItems()
                 .stream()
                 .filter(i -> (int)i.getValue() == _mviFulfilled)
                 .findAny().orElse(new SelectItem(-1, ""))

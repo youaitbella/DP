@@ -5,11 +5,9 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXUIFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +38,6 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -220,13 +217,23 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         }
         removeEmptyCenters();
         setModifiedInfo();
+        // set as retired
+        _model.setStatus(WorkflowStatus.Retired);
+        _distModelFacade.saveDistributionModel(_model);
+        
+        // create copy to edit (persist detached object with default Ids)
         _model.setStatus(WorkflowStatus.New);
-        _model = _distModelFacade.saveDistributionModel(_model);
+        _model.setId(-1);
+        for (DistributionModelDetail detail : _model.getDetails()) {
+            detail.setId(-1);
+            detail.setMasterId(-1);
+        }
+        _distModelFacade.saveDistributionModel(_model);
         sendMessage();
 
         return Pages.CalculationHospitalSummary.URL();
     }
-
+    
     @Inject AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
 

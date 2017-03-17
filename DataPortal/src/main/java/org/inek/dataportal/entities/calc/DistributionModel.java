@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -138,12 +137,11 @@ public class DistributionModel implements Serializable {
         _noteInek = noteInek;
     }
     // </editor-fold>
-
     
     //<editor-fold defaultstate="collapsed" desc="Property List Details">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dmdMasterId", referencedColumnName = "dmmID")
-    @OrderBy(value = "_id")
+    @OrderBy(value = "_article, _costCenterId, _costTypeId")
     @Documentation(name = "Verteilungsmodell")
     private List<DistributionModelDetail> _details = new Vector<>();
 
@@ -155,8 +153,7 @@ public class DistributionModel implements Serializable {
         this._details = details;
     }
     //</editor-fold>
-    
-    
+        
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
