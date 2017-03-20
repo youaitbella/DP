@@ -155,6 +155,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
 |||Erfassung PKMS Normalstation und KIS-Integration/Manuell||biPKMSRecording|
 |||Sonstiges||biPKMSOther|
+|||Kalkulierte Fälle mit PKMS||biPKMComplex|
 |Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGLPKMSAlternative||
 |||Fachabteilung||paDepartment|
 |||FAB Schlüssel 301||paDepartmentKey|
@@ -199,8 +200,8 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
 |||Erläuterung Sonstige Vorgehensweise||biOtherMethodMedInfra|
 |Nicht Med Infra|Gewähltes Verfahren||KGLBaseInformation||
-|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodNonMedInfra|
-|||Erläuterung Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
+|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
+|||Erläuterung Sonstige Vorgehensweise||biOtherMethodMedInfra|
 |Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGLListMedInfra||
 |||Kostenartengruppe||miCostTypeID|
 |||Nummer der Kostenstelle||miCostCenter|
