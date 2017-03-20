@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -61,6 +62,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterNumber">
     @Column(name = "ccCostCenterNumber")
+    @Documentation (name = "Nummer der Kostenstelle", rank = 10)
     private int _costCenterNumber;
 
     @Override
@@ -76,6 +78,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "ccCostCenterText")
+    @Documentation (name = "Name der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
     @Override
@@ -125,6 +128,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKey">
     @Column(name = "ccServiceKey")
+    @Documentation (name = "Verwendeter Schlüssel", rank = 30)
     private String _serviceKey = "";
 
     @Override
