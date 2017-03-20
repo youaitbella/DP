@@ -16,7 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.IdValue;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -24,7 +24,7 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListStationServiceCost", schema = "calc")
-public class KGPListStationServiceCost implements Serializable, IdValue {
+public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 

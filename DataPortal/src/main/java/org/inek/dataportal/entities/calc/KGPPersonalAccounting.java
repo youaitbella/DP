@@ -16,9 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -26,7 +26,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGPPersonalAccounting", schema = "calc")
-public class KGPPersonalAccounting implements Serializable, IdValue {
+public class KGPPersonalAccounting implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 

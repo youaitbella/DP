@@ -16,7 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.inek.dataportal.entities.calc.iface.IdValue;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -25,7 +25,7 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
 @Entity
 @Table(name = "KGPDocuments", schema = "calc")
 @XmlRootElement
-public class KGPDocuments implements Serializable, IdValue {
+public class KGPDocuments implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -74,19 +74,21 @@ public class KGPDocuments implements Serializable, IdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _aseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "doBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "doBaseInformationId")
-    //private PeppCalcBasics _aseInformationId;
-    private int _aseInformationId;
+    //private PeppCalcBasics _baseInformationId;
+    private int _baseInformationId;
 
-    public int getAseInformationId() {
-        return _aseInformationId;
+    @Override
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setAseInformationId(int aseInformationId) {
-        this._aseInformationId = aseInformationId;
+    @Override
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
@@ -109,7 +111,7 @@ public class KGPDocuments implements Serializable, IdValue {
     public KGPDocuments() {
     }
 
-//<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
+    //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
         int hash = 3;
@@ -118,7 +120,7 @@ public class KGPDocuments implements Serializable, IdValue {
             return hash;
         }
         hash = 73 * hash + Objects.hashCode(this._name);
-        hash = 73 * hash + this._aseInformationId;
+        hash = 73 * hash + this._baseInformationId;
         hash = 73 * hash + this._sheetId;
         return hash;
     }
@@ -138,7 +140,7 @@ public class KGPDocuments implements Serializable, IdValue {
         if (this._id != other._id) {
             return false;
         }
-        if (this._aseInformationId != other._aseInformationId) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (this._sheetId != other._sheetId) {
@@ -154,6 +156,6 @@ public class KGPDocuments implements Serializable, IdValue {
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGPDocuments[ _ID=" + _id + " ]";
     }
-//</editor-fold>
+    //</editor-fold>
 
 }

@@ -9,7 +9,9 @@ package org.inek.dataportal.entities.calc.iface;
  *
  * @author kunkelan
  */
-public interface IdValue {
+public interface BaseIdValue {
     int getId();
     void setId(int id);
+    int getBaseInformationId();
+    void setBaseInformationId(int id);
 }

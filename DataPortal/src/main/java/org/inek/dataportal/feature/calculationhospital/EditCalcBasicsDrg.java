@@ -187,7 +187,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // Delimitation facts
         calcBasics.getDelimitationFacts().clear();
-        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
             DrgDelimitationFact df = new DrgDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());

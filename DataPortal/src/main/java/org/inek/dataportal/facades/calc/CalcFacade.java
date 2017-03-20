@@ -29,6 +29,7 @@ import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListContentTextOps;
@@ -53,13 +54,13 @@ import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
-import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -581,6 +582,7 @@ public class CalcFacade extends AbstractDataAccess {
 
         merge(calcBasics.getOpAn());
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
+        saveDelimitationFacts(calcBasics);
         saveTopItems(calcBasics);
         saveServiceProvisions(calcBasics);
         saveEndoscopyDifferentials(calcBasics);
@@ -602,6 +604,15 @@ public class CalcFacade extends AbstractDataAccess {
     
     private void saveNormalStationDocMinutes(DrgCalcBasics calcBasics) {
         for(KGLNormalStationServiceDocumentation item : calcBasics.getNormalStationServiceDocumentations()) {
+            if(item.getId() == -1)
+                persist(item);
+            else
+                merge(item);
+        }
+    }
+    
+    private void saveDelimitationFacts(DrgCalcBasics calcBasics) {
+        for(DrgDelimitationFact item : calcBasics.getDelimitationFacts()) {
             if(item.getId() == -1)
                 persist(item);
             else
@@ -1032,6 +1043,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
         
         saveIdList(calcBasics.getLocations());
+        saveIdList(calcBasics.getDelimitationFacts());
         saveIdList(calcBasics.getServiceProvisions());
         saveIdList(calcBasics.getTherapies());
         saveIdList(calcBasics.getCostCenters());
@@ -1054,8 +1066,8 @@ public class CalcFacade extends AbstractDataAccess {
         return merged;
     }
     
-    private void saveIdList(List<? extends IdValue> list) {
-        for (IdValue item : list) {
+    private void saveIdList(List<? extends BaseIdValue> list) {
+        for (BaseIdValue item : list) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
