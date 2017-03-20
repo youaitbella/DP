@@ -658,6 +658,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
+    @Documentation(name = "Das Krankenhaus hat Intensivbetten", rank = 13000,translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Intensivstation")
     private int _iblvMethodMedInfra;
 
     public int getIblvMethodMedInfra() {
@@ -697,6 +698,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
+    
     private boolean _intensiveBed;
 
     public boolean isIntensiveBed() {
@@ -710,6 +712,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="strokeBed">
     @Column(name = "biStrokeBed")
+    @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls", rank = 14000,translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Stroke Unit")
     private boolean _strokeBed;
 
     public boolean isStrokeBed() {
@@ -938,6 +941,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "isBaseInformationId", referencedColumnName = "biID")
+    @Documentation (name = "Intensiv", rank = 13010)
     private List<KGLListIntensivStroke> _intensivStrokes = new Vector<>();
     
     public List<KGLListIntensivStroke> getIntensivStrokes() {
@@ -952,6 +956,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
+    //@Documentation (name = "Personal Intensiv", rank = 13020)
     private List<KGLListMedInfra> _medInfras = new Vector<>();
     
     public List<KGLListMedInfra> getMedInfras() {
