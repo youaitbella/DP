@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -45,6 +43,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _used">
     @Column(name = "nssUsed")
+    @Documentation(name = "Wert", rank = 2)
     private boolean _used;
 
     public boolean isUsed() {
@@ -100,6 +99,11 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
         if (contentText != null) {
             _contentTextId = contentText.getId();
         }
+    }
+
+    @Documentation(name = "Bereich", rank = 1)
+    public String getContentTextText() {
+        return _contentText.getText();
     }
     // </editor-fold>
 

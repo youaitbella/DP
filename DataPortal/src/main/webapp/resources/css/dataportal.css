@@ -582,6 +582,7 @@ div#wrapper {
 .element25em,
 .element30,
 .element33,
+.element37em,
 .element40,
 .element50,
 .element60,
@@ -603,6 +604,10 @@ div#wrapper {
 
 .element25em{
     width: 25em;
+}
+
+.element37em{
+    width: 37em;
 }
 
 .element100-12em{

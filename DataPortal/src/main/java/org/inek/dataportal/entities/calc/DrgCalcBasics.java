@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -534,7 +535,6 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="mviFulfilled">
     @Column(name = "biMviFulfilled")
-    @Documentation(translateValue = "xxx()")
     private int _mviFulfilled;
 
     public int getMviFulfilled() {
@@ -546,6 +546,7 @@ public class DrgCalcBasics implements Serializable {
     }
     
     @Documentation(name = "Erfüllung der Anforderungen", rank = 17010, omitOnEmpty = true)
+    @JsonIgnore
     private String getMviFulfilledText(){
         return CalcBasicsStaticData.staticGetMviFulfillmentItems()
                 .stream()
@@ -571,6 +572,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="normalFreelancing">
     @Column(name = "biNormalFreelancing")
+    @Documentation(name = "Ärzte freie Mitarbeit", rank = 12000, headline = "Ergänzende Angaben zur Normalstation")
     private boolean _normalFreelancing;
 
     public boolean isNormalFreelancing() {
@@ -584,6 +586,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="feeContract">
     @Column(name = "biFeeContract")
+    @Documentation(name = "Honorarverträge", rank = 12000)
     private boolean _feeContract;
 
     public boolean isFeeContract() {
@@ -595,21 +598,23 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
-    @Column(name = "biPKMSRecording")
-    private int _pkmsRecording;
+    //<editor-fold defaultstate="collapsed" desc="PKMSComplex">
+    @Column(name = "biPKMSComplex")
+    @Documentation(name = "Es liegen Patienten mit PKMS vor", rank = 12050)
+    private boolean _pkmsComplex;
 
-    public int getPkmsRecording() {
-        return _pkmsRecording;
+    public boolean isPkmsComplex() {
+        return _pkmsComplex;
     }
 
-    public void setPkmsRecording(int pkmsRecording) {
-        this._pkmsRecording = pkmsRecording;
+    public void setPkmsComplex(boolean _pkmsComplex) {
+        this._pkmsComplex = _pkmsComplex;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="pkmsCaseCnt">
     @Column(name = "biPKMSCaseCnt")
+    @Documentation(name = "Anzahl der kalkulierten Fälle mit PKMS", rank = 12050)
     private int _pkmsCaseCnt;
 
     @Min(0)
@@ -622,19 +627,24 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    @Column(name = "biPKMSComplex")
-    private boolean _pkmsComplex;
+    //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
+    @Column(name = "biPKMSRecording")
+    @Documentation(name = "Erfassung des PKMS liegt in allen relevanten Normalstationen", rank = 12050, 
+            translateValue = "0=Nein;1=Ja;2=KIS-integriert;3=Manuell;4=Sonstiges")
+    private int _pkmsRecording;
 
-    public boolean isPkmsComplex() {
-        return _pkmsComplex;
+    public int getPkmsRecording() {
+        return _pkmsRecording;
     }
 
-    public void setPkmsComplex(boolean _pkmsComplex) {
-        this._pkmsComplex = _pkmsComplex;
+    public void setPkmsRecording(int pkmsRecording) {
+        this._pkmsRecording = pkmsRecording;
     }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PkmsOther">
     @Column(name = "biPKMSOther")
+    @Documentation(name = "Erläuterung PKMS sonstiges", rank = 12050)
     private String _pkmsOther = "";
 
     public String getPkmsOther() {
@@ -1016,6 +1026,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_contentTextId")
+    @Documentation(name = "Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a", rank = 12020)
     private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations = new Vector<>();
     
     public List<KGLNormalStationServiceDocumentation> getNormalStationServiceDocumentations() {
@@ -1029,6 +1040,7 @@ public class DrgCalcBasics implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssdmBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Minutenwerte gem. PPR / Alternativverfahren", rank = 12020)
     private List<KGLNormalStationServiceDocumentationMinutes> _normalStationServiceDocumentationMinutes = new Vector<>();
 
     public List<KGLNormalStationServiceDocumentationMinutes> getNormalStationServiceDocumentationMinutes() {

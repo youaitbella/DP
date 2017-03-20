@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -48,6 +49,7 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
     
     @Column(name = "nssdmDepartment")
+    @Documentation(name = "Fachabteilung")
     private String _department = "";
 
     @Size(max = 50)
@@ -60,9 +62,10 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
     
     @Column(name = "nssdmDepartmentKey")
+    @Documentation(name = "FAB-Schlüssel")
     private String _departmentKey = "";
 
-    @Size(max = 50)
+    @Size(max = 4)
     public String getDepartmentKey() {
         return _departmentKey;
     }
@@ -72,6 +75,7 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
     
     @Column(name = "nssdmAlternative")
+    @Documentation(name = "Alternativverfahren")
     private String _alternative = "";
 
     @Size(max = 50)
