@@ -870,7 +870,7 @@ public class DrgCalcBasics implements Serializable {
         this._kstTop = kstTop;
     }
     
-    @Documentation(name = "TOP 3 Leistungen", rank = 3100)
+    @Documentation(name = "TOP 3 Leistungen", rank = 3100, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
     public List<KGLListKstTop> getKstTopOp() {
         ensureTopList();
         return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 4).collect(Collectors.toList());
