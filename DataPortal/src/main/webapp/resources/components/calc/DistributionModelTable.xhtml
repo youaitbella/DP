@@ -20,7 +20,7 @@
                          value="#{cc.attrs.model.details}" var="item"
                          styleClass="marginTop" style="width: #{editDistributionModel.showWide ? '200em' : '100%'};"
                          rowClasses="row1, row2"
-                         columnClasses="colIcon, colValue, col05em, col05em, #{cc.attrs.model.type eq 1 ? 'col4em, ' : ''} col04em, col04em, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue">
+                         columnClasses="colIcon, colValue, col05em, col05em, #{cc.attrs.model.type eq 1 ? 'col4em, ' : ''} col04em, col04em, col04em, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue, col03em, colValue">
 
                 <h:column>
                     <f:facet name="header">
@@ -77,7 +77,18 @@
 
                 <h:column class="col4em">
                     <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen (€)"/></f:facet>
-                    <inek:InputNumberWithMessage value="#{item.costVolume}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+                    <inek:InputNumberWithMessage value="#{item.costVolume}" 
+                                                 readonly="#{editDistributionModel.readOnly}" 
+                                                 required="true"
+                                                 renderElement="@form"/>
+                </h:column>
+
+                <h:column class="col4em">
+                    <f:facet name="header"><h:outputLabel value="Kostvol/Fall" title="Durchschnittliche Kostenvolumen je Fall"/></f:facet>
+                    <h:outputText value="#{item.countCases eq 0 ? null : item.costVolume/((0.1 + item.countCases) -0.1)}" 
+                                  styleClass="inlineBlock fullWidth number">
+                        <f:convertNumber pattern="#,##0.00"/>
+                    </h:outputText>
                 </h:column>
 
                 <h:column>
